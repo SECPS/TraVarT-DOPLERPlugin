@@ -62,6 +62,7 @@ import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import de.vill.model.Group;
 import de.vill.model.Group.GroupType;
+import de.vill.model.constraint.Constraint;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class DecisionModeltoFeatureModelTransformer implements IModelTransformer<IDecisionModel> {
@@ -462,12 +463,12 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 		}
 	}
 
-	private void addConstraintIfEligible(final IConstraint constraint) {
+	private void addConstraintIfEligible(final Constraint constraint) {
 		if (constraint == null || TraVarTUtils.isInItSelfConstraint(constraint)) {
 			return;
 		}
-		for (IConstraint constr : FeatureUtils.getConstraints(fm)) {
-			if (constr.getNode().equals(constraint.getNode())) {
+		for (Constraint constr : fm.getConstraints()) {
+			if (constr.equals(constraint)) {
 				return;
 			}
 		}
