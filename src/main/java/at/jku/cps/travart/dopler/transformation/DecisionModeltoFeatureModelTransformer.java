@@ -212,6 +212,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 						String parentFName = retriveFeatureName(parentD);
 						Feature parentF = fm.getFeatureMap().get(parentFName);
 						if (parentF != feature) {
+							//TODO check here how groups need to be handled
 							FeatureUtils.addChild(parentF, feature);
 						}
 					}
@@ -245,7 +246,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 				// information
 				if (DecisionModelUtils.isComplexVisibilityCondition(decision.getVisiblity())
 						&& !DecisionModelUtils.isMandatoryVisibilityCondition(decision.getVisiblity())) {
-					IFeature feature = fm.getFeature(retriveFeatureName(decision));
+					Feature feature = fm.getFeatureMap().get(retriveFeatureName(decision));
 					// add visibility as property for restoring them later if necessary
 					feature.getCustomProperties().set(
 							DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY,
@@ -272,8 +273,8 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			NumberDecision numberDecision = (NumberDecision) decision;
 			ABinaryCondition binCondition = (ABinaryCondition) condition;
 			ARangeValue<Double> conditionValue = (ARangeValue<Double>) binCondition.getRight();
-			IFeature disAllowFeature = fm.getFeature(((DisAllowAction) action).getValue().toString());
-			Literal disAllowLiteral = Prop4JUtils.createLiteral(disAllowFeature);
+			Feature disAllowFeature = fm.getFeatureMap().get(((DisAllowAction) action).getValue().toString());
+			Literal disAllowLiteral = new Literal(disAllowFeature.getFeatureName());
 			if (condition instanceof Equals) {
 				createExcludesConstraint(numberDecision, disAllowLiteral, conditionValue);
 			} else if (condition instanceof Greater) {
@@ -306,10 +307,10 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 
 	private void createExcludesConstraint(final NumberDecision numberDecision, final Literal disAllowLiteral,
 			final ARangeValue<Double> value) {
-		IFeature valueFeature = fm.getFeature(
+		Feature valueFeature = fm.getFeatureMap().get(
 				numberDecision.getId() + DefaultDecisionModelTransformationProperties.CONFIGURATION_VALUE_SEPERATOR
 						+ value.getValue().toString());
-		Literal valueLiteral = Prop4JUtils.createLiteral(valueFeature);
+		Literal valueLiteral = new Literal(valueFeature.getFeatureName();
 		IConstraint constraint = factory.createConstraint(fm,
 				Prop4JUtils.createImplies(valueLiteral, Prop4JUtils.createNot(disAllowLiteral)));
 		addConstraintIfEligible(constraint);
@@ -323,11 +324,11 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			IsSelectedFunction isSelected = (IsSelectedFunction) condition;
 			ADecision conditionDecision = (ADecision) isSelected.getParameters().get(0);
 			String conditionFeatureName = retriveFeatureName(conditionDecision);
-			IFeature conditionFeature = fm.getFeature(conditionFeatureName);
+			Feature conditionFeature = fm.getFeatureMap().get(conditionFeatureName);
 			ADecision variableDecision = (ADecision) action.getVariable();
 			String variableFeatureName = retriveFeatureName(variableDecision);
-			IFeature variableFeature = fm.getFeature(variableFeatureName);
-			if (FeatureUtils.getParent(variableFeature) != conditionFeature
+			Feature variableFeature = fm.getFeatureMap().get(variableFeatureName);
+			if (getParent(fm,variableFeature) != conditionFeature
 					|| !FeatureUtils.isMandatorySet(variableFeature)) {
 				IConstraint constraint = factory.createConstraint(fm,
 						Prop4JUtils.createImplies(conditionNode, Prop4JUtils.createLiteral(variableFeature)));
@@ -339,7 +340,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 				&& action.getValue().equals(BooleanValue.getFalse())) {
 			ADecision variableDecision = (ADecision) action.getVariable();
 			String featureName = retriveFeatureName(variableDecision);
-			IFeature feature = fm.getFeature(featureName);
+			Feature feature = fm.getFeatureMap().get(featureName);
 			IConstraint constraint = factory.createConstraint(fm, Prop4JUtils.createImplies(conditionNode,
 					Prop4JUtils.createNot(Prop4JUtils.createLiteral(feature))));
 			addConstraintIfEligible(constraint);
@@ -350,7 +351,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			ADecision variableDecision = (ADecision) action.getVariable();
 			String featureName = retriveFeatureName(variableDecision);
 			// set cardinality of variable feature
-			IFeature varFeature = fm.getFeature(featureName);
+			Feature varFeature = fm.getFeatureMap().get(featureName);
 			IConstraint constraint = factory.createConstraint(fm, Prop4JUtils.createImplies(conditionNode,
 					Prop4JUtils.createNot(Prop4JUtils.createLiteral(varFeature))));
 			addConstraintIfEligible(constraint);
@@ -362,8 +363,8 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			String conditionFeatureName = retriveFeatureName(decision);
 			ADecision variableDecision = (ADecision) action.getVariable();
 			String variableDecisionFeatureName = retriveFeatureName(variableDecision);
-			IFeature conditionFeature = fm.getFeature(conditionFeatureName);
-			IFeature variableFeature = fm.getFeature(variableDecisionFeatureName);
+			Feature conditionFeature = fm.getFeatureMap().get(conditionFeatureName);
+			Feature variableFeature = fm.getFeatureMap().get(variableDecisionFeatureName);
 			IConstraint constraint = factory.createConstraint(fm, Prop4JUtils.createImplies(
 					Prop4JUtils.createLiteral(conditionFeature), Prop4JUtils.createLiteral(variableFeature)));
 			addConstraintIfEligible(constraint);
@@ -380,13 +381,13 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			// feature name
 			String variableDecisionFeatureName = retriveFeatureName(variableDecision);
 			// set cardinality of variable feature
-			IFeature variableFeature = fm.getFeature(variableDecisionFeatureName);
+			Feature variableFeature = fm.getFeatureMap().get(variableDecisionFeatureName);
 			if (DecisionModelUtils.isNoneAction(action)) {
 				IConstraint constraint = factory.createConstraint(fm,
 						Prop4JUtils.createImplies(conditionNode, Prop4JUtils.createLiteral(variableFeature)));
 				addConstraintIfEligible(constraint);
 			} else {
-				IFeature valueFeature = fm.getFeature(action.getValue().toString());
+				Feature valueFeature = fm.getFeatureMap().get(action.getValue().toString());
 				// if it was not found, then create it
 				if (valueFeature == null) {// && !isNoneAction(action)) {
 					valueFeature = factory.createFeature(fm,
@@ -395,7 +396,8 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 									+ action.getValue());
 					// add value feature as part of the feature model and as child to the variable
 					// feature if it was created
-					FeatureUtils.addFeature(fm, valueFeature);
+					fm.getFeatureMap().put(valueFeature.getFeatureName(), valueFeature);
+					//TODO check grouptype issue
 					FeatureUtils.addChild(variableFeature, valueFeature);
 				}
 				if (variableDecision instanceof EnumDecision) {
@@ -424,7 +426,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			List<Literal> conditionLiterals = new ArrayList<>(conditionDecisions.size());
 			for (IDecision conditionDecision : conditionDecisions) {
 				String conditionFeatureName = retriveFeatureName(conditionDecision);
-				IFeature conditionFeature = fm.getFeature(conditionFeatureName);
+				Feature conditionFeature = fm.getFeatureMap().get(conditionFeatureName);
 				conditionLiterals.add(Prop4JUtils.createLiteral(conditionFeature));
 			}
 			if (Prop4JUtils.isAnd(conditionNode)) {
@@ -442,7 +444,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			}
 			ADecision variableDecision = (ADecision) action.getVariable();
 			String variableDecisionFeatureName = retriveFeatureName(variableDecision);
-			IFeature variableFeature = fm.getFeature(variableDecisionFeatureName);
+			Feature variableFeature = fm.getFeatureMap().get(variableDecisionFeatureName);
 			Literal variableLiteral = Prop4JUtils.createLiteral(variableFeature);
 			IConstraint constraint;
 			if (DecisionModelUtils.isNotCondition(condition)) {
@@ -479,7 +481,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 		}
 		if (condition instanceof DecisionValueCondition) {
 			ARangeValue value = ((DecisionValueCondition) condition).getValue();
-			IFeature feature = fm.getFeature(value.toString());
+			Feature feature = fm.getFeatureMap().get(value.toString());
 			return Prop4JUtils.createLiteral(feature);
 		}
 		if (DecisionModelUtils.isNot(condition)) {
@@ -490,7 +492,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 				IsSelectedFunction isSelected = (IsSelectedFunction) operand;
 				ADecision d = (ADecision) isSelected.getParameters().get(0);
 				String featureName = retriveFeatureName(d);
-				IFeature feature = fm.getFeature(featureName);
+				Feature feature = fm.getFeatureMap().get(featureName);
 				literal = Prop4JUtils.createLiteral(feature);
 			} else {
 				literal = Prop4JUtils.createLiteral(operand);
@@ -502,7 +504,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			IsSelectedFunction isSelected = (IsSelectedFunction) condition;
 			ADecision d = (ADecision) isSelected.getParameters().get(0);
 			String featureName = retriveFeatureName(d);
-			IFeature feature = fm.getFeature(featureName);
+			Feature feature = fm.getFeatureMap().get(featureName);
 			return Prop4JUtils.createLiteral(feature);
 
 		}
@@ -541,7 +543,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 		}
 		if (node instanceof IsSelectedFunction) {
 			IDecision decision = ((IsSelectedFunction) node).getParameters().get(0);
-			IFeature feature = fm.getFeature(decision.getId());
+			Feature feature = fm.getFeatureMap().get(decision.getId());
 			return Prop4JUtils.createLiteral(feature);
 		}
 		if (node instanceof AFunction) {
