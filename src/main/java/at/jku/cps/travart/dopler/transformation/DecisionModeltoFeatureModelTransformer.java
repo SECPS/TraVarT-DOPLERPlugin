@@ -2,6 +2,7 @@ package at.jku.cps.travart.dopler.transformation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,7 @@ import at.jku.cps.travart.core.common.Prop4JUtils;
 import at.jku.cps.travart.core.common.TraVarTUtils;
 import at.jku.cps.travart.core.common.exc.ConditionCreationException;
 import at.jku.cps.travart.core.common.exc.NotSupportedVariablityTypeException;
+import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import at.jku.cps.travart.dopler.common.DecisionModelUtils;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.exc.CircleInConditionException;
@@ -55,49 +57,57 @@ import de.ovgu.featureide.fm.core.base.impl.DefaultFeatureModelFactory;
 import de.ovgu.featureide.fm.core.base.impl.FMFactoryManager;
 import de.ovgu.featureide.fm.core.init.FMCoreLibrary;
 import de.ovgu.featureide.fm.core.init.LibraryManager;
+import de.vill.main.UVLModelFactory;
+import de.vill.model.Feature;
+import de.vill.model.FeatureModel;
+import de.vill.model.Group;
+import de.vill.model.Group.GroupType;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
-public class DecisionModeltoFeatureModelTransformer implements IModelTransformer<IDecisionModel, IFeatureModel> {
+public class DecisionModeltoFeatureModelTransformer implements IModelTransformer<IDecisionModel> {
 
 	static {
 		LibraryManager.registerLibrary(FMCoreLibrary.getInstance());
 	}
 
-	private IFeatureModelFactory factory;
-	private IFeatureModel fm;
+	private FeatureModel fm;
 	private IDecisionModel dm;
 
-	@Override
-	public IFeatureModel transform(final IDecisionModel dm, final String modelName)
-			throws NotSupportedVariablityTypeException {
+	public FeatureModel transform(IDecisionModel arg0, String arg1) throws NotSupportedVariabilityTypeException {
 		this.dm = dm;
+		this.fm = new FeatureModel();
 		try {
-			factory = FMFactoryManager.getInstance().getFactory(DefaultFeatureModelFactory.ID);
-			fm = factory.create();
 			createFeatures();
 			createFeatureTree();
 			createConstraints();
 			TraVarTUtils.deriveFeatureModelRoot(factory, fm, true);
 			return fm;
-		} catch (NoSuchExtensionException | CircleInConditionException | ConditionCreationException e) {
+		} catch (NoSuchExtensionException | CircleInConditionExaception | ConditionCreationException e) {
 			throw new NotSupportedVariablityTypeException(e);
 		}
+		return null;
 	}
 
-	private void createFeatures() throws CircleInConditionException, ConditionCreationException {
+	public IDecisionModel transform(FeatureModel arg0, String arg1) throws NotSupportedVariabilityTypeException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private void createFeatures() throws CircleInConditionException {
 		// first add all Boolean decisions
 		for (BooleanDecision decision : DecisionModelUtils.getBooleanDecisions(dm)) {
 			String featureName = retriveFeatureName(decision);
-			IFeature feature = factory.createFeature(fm, featureName);
+			Feature feature = new Feature(featureName);
 			// Features are optional by default
-			FeatureUtils.addFeature(fm, feature);
+			fm.getFeatureMap().put(featureName, feature);
 		}
 		// second add all Number decisions
 		for (NumberDecision decision : DecisionModelUtils.getNumberDecisions(dm)) {
 			String featureName = retriveFeatureName(decision);
-			IFeature feature = factory.createFeature(fm, featureName);
+			Feature feature = new Feature(featureName);
+			Group alternativeGroup = null;
 			if (!decision.getRange().isEmpty()) {
-				FeatureUtils.setAlternative(feature);
+				alternativeGroup = new Group(GroupType.ALTERNATIVE);
 			}
 			for (Object o : decision.getRange()) {
 				IValue value = (IValue) o;
@@ -106,70 +116,67 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 						+ value.getValue().toString();
 				// first check if you can find a feature with the same name as the value
 				// if so use it, otherwise create it
-				IFeature child = fm.getFeature(childName);
+				Feature child = fm.getFeatureMap().get(childName);
 				if (child != null) {
-					FeatureUtils.addChild(feature, child);
+					alternativeGroup.getFeatures().add(child);
 				} else {
-					child = factory.createFeature(fm, childName);
-					FeatureUtils.addFeature(fm, child);
-					FeatureUtils.addChild(feature, child);
+					child = new Feature(childName);
+					fm.getFeatureMap().put(childName, child);
+					alternativeGroup.getFeatures().add(child);
 				}
 			}
-			// Features are optional by default
-			FeatureUtils.addFeature(fm, feature);
+			feature.addChildren(alternativeGroup);
 		}
 		// third add all String decisions
 		for (StringDecision decision : DecisionModelUtils.getStringDecisions(dm)) {
 			String featureName = retriveFeatureName(decision);
-			IFeature feature = factory.createFeature(fm, featureName);
+			Feature feature = new Feature(featureName);
 			// Features are optional by default
-			FeatureUtils.addFeature(fm, feature);
+			fm.getFeatureMap().put(featureName, feature);
 		}
 		// finally build enumeration decisions from exiting features
 		for (EnumDecision decision : DecisionModelUtils.getEnumDecisions(dm)) {
 			if (!DecisionModelUtils.isEnumDecisionConstraint(decision)) {
 				String featureName = retriveFeatureName(decision);
-				IFeature feature = fm.getFeature(featureName);
+				Feature feature = fm.getFeatureMap().get(featureName);
 				if (feature == null) {
-					feature = factory.createFeature(fm, featureName);
-					FeatureUtils.addFeature(fm, feature);
+					feature = new Feature(featureName);
+					fm.getFeatureMap().put(featureName, feature);
 				}
 				Cardinality cardinality = decision.getCardinality();
+				Group enumGroup;
 				if (cardinality.isAlternative()) {
-					FeatureUtils.setAlternative(feature);
+					enumGroup = new Group(GroupType.ALTERNATIVE);
 				} else if (cardinality.isOr()) {
-					FeatureUtils.setOr(feature);
+					enumGroup = new Group(GroupType.OR);
 				}
-//				if (cardinality.getMin() == 1) {
-//					FeatureUtils.setMandatory(feature, true);
-//				}
 				for (Object o : decision.getRange()) {
 					IValue value = (IValue) o;
 					String childName = value.getValue().toString();
 					// first check if you can find a feature with the same name as the value
 					// if so use it, otherwise create it
-					IFeature child = fm.getFeature(childName);
+					Feature child = fm.getFeatureMap().get(childName);
 					if (child != null) {
-						FeatureUtils.addChild(feature, child);
+						fm.getFeatureMap().put(childName, child);
+						enumGroup.getFeatures().add(child);
 					}
 					// If None value is read, don't add it, as it is special added for optional
 					// groups
 					else if (!DecisionModelUtils.isEnumNoneOption(decision, value)) {
-						child = factory.createFeature(fm, childName);
-						FeatureUtils.addFeature(fm, child);
-						FeatureUtils.addChild(feature, child);
+						child = new Feature(childName);
+						fm.getFeatureMap().put(childName, child);
+						enumGroup.getFeatures().add(child);
 					}
 				}
 				// Features are optional by default
-				FeatureUtils.addFeature(fm, feature);
+				feature.addChildren(enumGroup);
 			} else {
 				// TODO: return transformation if it contains at least 2 # in decision id, then
-				// it is a constraint --> build constraint based on cardinaltiy and setdecision
+				// it is a constraint --> build constraint based on cardinality and setdecision
 				// actions in rules
-				List<IFeature> features = new ArrayList<>(decision.getRange().size());
-				decision.getRange().forEach(val -> {
-					features.add(FeatureUtils.getFeature(fm, val.getValue()));
-				});
+				List<Feature> features = new ArrayList<>(decision.getRange().size());
+				decision.getRange()
+						.forEach(val -> features.add(fm.getFeatureMap().get(String.valueOf(val.getValue()))));
 				IConstraint constraint = null;
 				if (decision.getCardinality().isOr()) {
 					Node ruleCondition = TraVarTUtils.consumeToBinaryCondition(features, org.prop4j.Or.class, false);
@@ -186,20 +193,24 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 	private void createFeatureTree() {
 		for (IDecision decision : dm.getDecisions()) {
 			if (!DecisionModelUtils.isEnumDecisionConstraint(decision)) {
-				IFeature feature = fm.getFeature(retriveFeatureName(decision));
-				if (FeatureUtils.getParent(feature) == null) {
+				Feature feature = fm.getFeatureMap().get(retriveFeatureName(decision));
+				if (getParent(fm,feature) == null) {
 					ICondition visiblity = decision.getVisiblity();
 					if (DecisionModelUtils.isMandatoryVisibilityCondition(visiblity)) {
-						FeatureUtils.setMandatory(feature, true);
+//						FeatureUtils.setMandatory(feature, true);
 						IDecision parentD = DecisionModelUtils.retriveMandatoryVisibilityCondition(visiblity);
 						String parentFName = retriveFeatureName(parentD);
-						IFeature parentF = fm.getFeature(parentFName);
-						FeatureUtils.addChild(parentF, feature);
+						Feature parentF = fm.getFeatureMap().get(parentFName);
+						if(!parentF.getChildren().stream().anyMatch(g->g.GROUPTYPE.equals(GroupType.MANDATORY))) {
+							parentF.getChildren().add(new Group(GroupType.MANDATORY));
+						}
+						Group mandatoryGroup=parentF.getChildren().stream().filter(g->g.GROUPTYPE.equals(GroupType.MANDATORY)).findFirst().get();
+						mandatoryGroup.getFeatures().add(feature);
 					} else if (visiblity instanceof IsSelectedFunction) {
 						IsSelectedFunction isSelected = (IsSelectedFunction) visiblity;
 						ADecision parentD = (ADecision) isSelected.getParameters().get(0);
 						String parentFName = retriveFeatureName(parentD);
-						IFeature parentF = fm.getFeature(parentFName);
+						Feature parentF = fm.getFeatureMap().get(parentFName);
 						if (parentF != feature) {
 							FeatureUtils.addChild(parentF, feature);
 						}
@@ -207,6 +218,20 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 				}
 			}
 		}
+	}
+
+	/**
+	 * Gets the parent of a feature by iterating the featuremap and checking the children for all features.
+	 * May take a long time for large models, use with care.
+	 * @param fm		the feature model containing the feature
+	 * @param feat		the feature whose parent is desired
+	 * @return			the parent feature
+	 */
+	private static Feature getParent(FeatureModel fm, Feature feat) {
+		Optional<Feature> parent = fm.getFeatureMap().values().stream().filter(f -> f.getChildren().stream()
+				.flatMap(g -> g.getFeatures().stream()).anyMatch(c -> c.getFeatureName().equals(feat.getFeatureName())))
+				.findFirst();
+		return parent.isPresent() ? parent.get() : null;
 	}
 
 	private String retriveFeatureName(final IDecision decision) {
@@ -524,4 +549,5 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 		}
 		return Prop4JUtils.createLiteral(node);
 	}
+
 }
