@@ -62,7 +62,12 @@ import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import de.vill.model.Group;
 import de.vill.model.Group.GroupType;
+import de.vill.model.constraint.AndConstraint;
 import de.vill.model.constraint.Constraint;
+import de.vill.model.constraint.ImplicationConstraint;
+import de.vill.model.constraint.LiteralConstraint;
+import de.vill.model.constraint.NotConstraint;
+import de.vill.model.constraint.OrConstraint;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class DecisionModeltoFeatureModelTransformer implements IModelTransformer<IDecisionModel> {
@@ -311,14 +316,13 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 		Feature valueFeature = fm.getFeatureMap().get(
 				numberDecision.getId() + DefaultDecisionModelTransformationProperties.CONFIGURATION_VALUE_SEPERATOR
 						+ value.getValue().toString());
-		Literal valueLiteral = new Literal(valueFeature.getFeatureName();
-		IConstraint constraint = factory.createConstraint(fm,
-				Prop4JUtils.createImplies(valueLiteral, Prop4JUtils.createNot(disAllowLiteral)));
+		Literal valueLiteral = new Literal(valueFeature.getFeatureName());
+		Constraint constraint = new ImplicationConstraint(new LiteralConstraint(valueLiteral.toString()), new NotConstraint(new LiteralConstraint(disAllowLiteral.toString())));
 		addConstraintIfEligible(constraint);
 	}
 
 	private void deriveConstraint(final IDecision decision, final ICondition condition, final IAction action) {
-		Node conditionNode = deriveConditionNode(decision, condition);
+		Constraint conditionNode = deriveConditionNode(decision, condition);
 		// case: if decision is selected another one has to be selected as well: implies
 		if (condition instanceof IsSelectedFunction && action.getVariable() instanceof ADecision
 				&& action.getValue().equals(BooleanValue.getTrue())) {
@@ -331,8 +335,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			Feature variableFeature = fm.getFeatureMap().get(variableFeatureName);
 			if (getParent(fm,variableFeature) != conditionFeature
 					|| !FeatureUtils.isMandatorySet(variableFeature)) {
-				IConstraint constraint = factory.createConstraint(fm,
-						Prop4JUtils.createImplies(conditionNode, Prop4JUtils.createLiteral(variableFeature)));
+				Constraint constraint = new ImplicationConstraint(conditionNode, new LiteralConstraint(variableFeature.getFeatureName())));
 				addConstraintIfEligible(constraint);
 			}
 		}
@@ -342,8 +345,8 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			ADecision variableDecision = (ADecision) action.getVariable();
 			String featureName = retriveFeatureName(variableDecision);
 			Feature feature = fm.getFeatureMap().get(featureName);
-			IConstraint constraint = factory.createConstraint(fm, Prop4JUtils.createImplies(conditionNode,
-					Prop4JUtils.createNot(Prop4JUtils.createLiteral(feature))));
+			Constraint constraint = new ImplicationConstraint(conditionNode,
+					new NotConstraint(new LiteralConstraint(feature.getFeatureName())));
 			addConstraintIfEligible(constraint);
 		}
 		// case: if the action allows or disallows/sets a decision to a None value
@@ -353,8 +356,8 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			String featureName = retriveFeatureName(variableDecision);
 			// set cardinality of variable feature
 			Feature varFeature = fm.getFeatureMap().get(featureName);
-			IConstraint constraint = factory.createConstraint(fm, Prop4JUtils.createImplies(conditionNode,
-					Prop4JUtils.createNot(Prop4JUtils.createLiteral(varFeature))));
+			Constraint constraint = new ImplicationConstraint(conditionNode,
+					new NotConstraint(new LiteralConstraint(varFeature.getFeatureName())));
 			addConstraintIfEligible(constraint);
 		}
 		// case: condition is negated: if both bool then it is an or constraint,
@@ -366,8 +369,8 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			String variableDecisionFeatureName = retriveFeatureName(variableDecision);
 			Feature conditionFeature = fm.getFeatureMap().get(conditionFeatureName);
 			Feature variableFeature = fm.getFeatureMap().get(variableDecisionFeatureName);
-			IConstraint constraint = factory.createConstraint(fm, Prop4JUtils.createImplies(
-					Prop4JUtils.createLiteral(conditionFeature), Prop4JUtils.createLiteral(variableFeature)));
+			Constraint constraint = new ImplicationConstraint(
+					new LiteralConstraint(conditionFeature.getFeatureName()),new LiteralConstraint(variableFeature.getFeatureName()));
 			addConstraintIfEligible(constraint);
 		}
 		// case: if the condition is a enum value and sets the value of a different
@@ -384,15 +387,13 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			// set cardinality of variable feature
 			Feature variableFeature = fm.getFeatureMap().get(variableDecisionFeatureName);
 			if (DecisionModelUtils.isNoneAction(action)) {
-				IConstraint constraint = factory.createConstraint(fm,
-						Prop4JUtils.createImplies(conditionNode, Prop4JUtils.createLiteral(variableFeature)));
+				Constraint constraint = new ImplicationConstraint(conditionNode, new LiteralConstraint(variableFeature.getFeatureName())));
 				addConstraintIfEligible(constraint);
 			} else {
 				Feature valueFeature = fm.getFeatureMap().get(action.getValue().toString());
 				// if it was not found, then create it
 				if (valueFeature == null) {// && !isNoneAction(action)) {
-					valueFeature = factory.createFeature(fm,
-							variableDecisionFeatureName
+					valueFeature = new Feature(variableDecisionFeatureName
 									+ DefaultDecisionModelTransformationProperties.CONFIGURATION_VALUE_SEPERATOR
 									+ action.getValue());
 					// add value feature as part of the feature model and as child to the variable
@@ -411,26 +412,25 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 				}
 				// create and add constraint for setting the condition to set, if is no value
 				// condition
-				IConstraint constraint = null;
+				Constraint constraint = null;
 				if (action instanceof DisAllowAction) {
-					constraint = factory.createConstraint(fm, Prop4JUtils.createImplies(conditionNode,
-							Prop4JUtils.createNot(Prop4JUtils.createLiteral(valueFeature))));
+					constraint = new ImplicationConstraint(conditionNode,
+							new NotConstraint(new LiteralConstraint(valueFeature.getFeatureName())));
 				} else {
-					constraint = factory.createConstraint(fm,
-							Prop4JUtils.createImplies(conditionNode, Prop4JUtils.createLiteral(valueFeature)));
+					constraint = new ImplicationConstraint(conditionNode, new LiteralConstraint(valueFeature.getFeatureName()));
 				}
 				addConstraintIfEligible(constraint);
 			}
 		} else if (DecisionModelUtils.isComplexCondition(condition)
 				&& (action instanceof SelectDecisionAction || action instanceof DeSelectDecisionAction)) {
 			Set<IDecision> conditionDecisions = DecisionModelUtils.retriveConditionDecisions(condition);
-			List<Literal> conditionLiterals = new ArrayList<>(conditionDecisions.size());
+			List<LiteralConstraint> conditionLiterals = new ArrayList<>(conditionDecisions.size());
 			for (IDecision conditionDecision : conditionDecisions) {
 				String conditionFeatureName = retriveFeatureName(conditionDecision);
 				Feature conditionFeature = fm.getFeatureMap().get(conditionFeatureName);
-				conditionLiterals.add(Prop4JUtils.createLiteral(conditionFeature));
+				conditionLiterals.add(new LiteralConstraint(conditionFeature.getFeatureName()));
 			}
-			if (Prop4JUtils.isAnd(conditionNode)) {
+			if (conditionNode instanceof AndConstraint) {
 //				if () {
 //					conditionNode = Prop4JUtils.consumeToOrGroup(conditionLiterals, true);
 //				} else {
@@ -446,18 +446,18 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			ADecision variableDecision = (ADecision) action.getVariable();
 			String variableDecisionFeatureName = retriveFeatureName(variableDecision);
 			Feature variableFeature = fm.getFeatureMap().get(variableDecisionFeatureName);
-			Literal variableLiteral = Prop4JUtils.createLiteral(variableFeature);
-			IConstraint constraint;
+			LiteralConstraint variableLiteral =new LiteralConstraint(variableFeature.getFeatureName());
+			Constraint constraint;
 			if (DecisionModelUtils.isNotCondition(condition)) {
-				constraint = factory.createConstraint(fm, Prop4JUtils.createOr(conditionNode, variableLiteral));
+				constraint = new OrConstraint(new LiteralConstraint(conditionNode.toString()), new LiteralConstraint(variableLiteral.toString())));
 			} else if (action instanceof SelectDecisionAction) {
-				constraint = factory.createConstraint(fm, Prop4JUtils.createImplies(conditionNode, variableLiteral));
+				constraint = new ImplicationConstraint(conditionNode, variableLiteral);
 			} else if (action instanceof DeSelectDecisionAction) {
-				variableLiteral.positive = false;
-				constraint = factory.createConstraint(fm, Prop4JUtils.createImplies(conditionNode, variableLiteral));
+//				variableLiteral.positive = false;
+				constraint = new ImplicationConstraint(conditionNode, new NotConstraint(variableLiteral));
 			} else {
-				variableLiteral.positive = false;
-				constraint = factory.createConstraint(fm, Prop4JUtils.createOr(conditionNode, variableLiteral));
+//				variableLiteral.positive = false;
+				constraint = new OrConstraint(conditionNode, new NotConstraint(variableLiteral));
 			}
 			addConstraintIfEligible(constraint);
 		}
@@ -472,29 +472,29 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 				return;
 			}
 		}
-		FeatureUtils.addConstraint(fm, constraint);
+		fm.getConstraints().add(constraint);
 	}
 
-	private Node deriveConditionNode(final IDecision decision, final ICondition condition) {
+	private Constraint deriveConditionNode(final IDecision decision, final ICondition condition) {
 		if (DecisionModelUtils.isBinaryCondition(condition)) {
 			ABinaryCondition binCondition = (ABinaryCondition) condition;
-			return deriveConditionNodeRecursive(binCondition.getLeft(), binCondition.getRight(), condition);
+			return deriveConstraintRecursive(binCondition.getLeft(), binCondition.getRight(), condition);
 		}
 		if (condition instanceof DecisionValueCondition) {
 			ARangeValue value = ((DecisionValueCondition) condition).getValue();
 			Feature feature = fm.getFeatureMap().get(value.toString());
-			return Prop4JUtils.createLiteral(feature);
+			return new LiteralConstraint(feature.getFeatureName());
 		}
 		if (DecisionModelUtils.isNot(condition)) {
 			Not notNode = (Not) condition;
 			ICondition operand = notNode.getOperand();
-			Literal literal;
+			LiteralConstraint literal;
 			if (operand instanceof IsSelectedFunction) {
 				IsSelectedFunction isSelected = (IsSelectedFunction) operand;
 				ADecision d = (ADecision) isSelected.getParameters().get(0);
 				String featureName = retriveFeatureName(d);
 				Feature feature = fm.getFeatureMap().get(featureName);
-				literal = Prop4JUtils.createLiteral(feature);
+				literal = new LiteralConstraint(feature.getFeatureName());
 			} else {
 				literal = Prop4JUtils.createLiteral(operand);
 			}
@@ -506,51 +506,55 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			ADecision d = (ADecision) isSelected.getParameters().get(0);
 			String featureName = retriveFeatureName(d);
 			Feature feature = fm.getFeatureMap().get(featureName);
-			return Prop4JUtils.createLiteral(feature);
+			return new LiteralConstraint(feature.getFeatureName());
 
 		}
 		if (condition instanceof StringValue) {
-			return Prop4JUtils.createLiteral(((StringValue) condition).getValue());
+			return new LiteralConstraint(((StringValue) condition).getValue());
 		}
-		return Prop4JUtils.createLiteral(condition);
+		return new LiteralConstraint(condition.toString());
 	}
 
-	private Node deriveConditionNodeRecursive(final ICondition left, final ICondition right,
+	private Constraint deriveConstraintRecursive(final ICondition left, final ICondition right,
 			final ICondition condition) {
-		Node cLeft = deriveNode(left);
-		Node cRight = deriveNode(right);
+		Constraint cLeft = deriveConstraint(left);
+		Constraint cRight = deriveConstraint(right);
 		if (cLeft == null && cRight != null) {
-			return cRight;
+			return new LiteralConstraint(cRight.toString());
 		}
 		if (cLeft != null && cRight == null) {
-			return cLeft;
+			return new LiteralConstraint(cLeft.toString());
 		}
 		if (condition instanceof And) {
-			return Prop4JUtils.createAnd(cLeft, cRight);
+			return new AndConstraint(new LiteralConstraint(cLeft.toString()), new LiteralConstraint(cRight.toString()));
 		}
-		return Prop4JUtils.createAnd(Prop4JUtils.createNot(cLeft), Prop4JUtils.createNot(cRight));
+		return new AndConstraint(new NotConstraint(new LiteralConstraint(cLeft.toString())), new NotConstraint(new LiteralConstraint(cRight.toString())));
 	}
 
-	private Node deriveNode(final ICondition node) {
+	private Constraint deriveConstraint(final ICondition node) {
 		if (DecisionModelUtils.isBinaryCondition(node)) {
 			ABinaryCondition binVis = (ABinaryCondition) node;
-			return deriveConditionNodeRecursive(binVis.getLeft(), binVis.getRight(), binVis);
+			return deriveConstraintRecursive(binVis.getLeft(), binVis.getRight(), binVis);
 		}
 		if (node instanceof Not) {
 			Not notNode = (Not) node;
-			Literal literal = Prop4JUtils.createLiteral(notNode.getOperand());
-			literal.positive = false;
-			return literal;
+			LiteralConstraint literalC = new LiteralConstraint(notNode.getOperand().toString());
+			NotConstraint notC= new NotConstraint(literalC);
+			return notC;
 		}
 		if (node instanceof IsSelectedFunction) {
 			IDecision decision = ((IsSelectedFunction) node).getParameters().get(0);
 			Feature feature = fm.getFeatureMap().get(decision.getId());
-			return Prop4JUtils.createLiteral(feature);
+			return new LiteralConstraint(feature.getFeatureName());
 		}
 		if (node instanceof AFunction) {
 			return null;
 		}
-		return Prop4JUtils.createLiteral(node);
+		return new LiteralConstraint(node.toString());
+	}
+	
+	private void addChild(Feature parent, Feature child) {
+		
 	}
 
 }
