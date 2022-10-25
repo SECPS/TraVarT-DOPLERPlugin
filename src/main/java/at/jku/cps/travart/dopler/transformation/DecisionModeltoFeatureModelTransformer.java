@@ -58,6 +58,7 @@ import de.ovgu.featureide.fm.core.base.impl.FMFactoryManager;
 import de.ovgu.featureide.fm.core.init.FMCoreLibrary;
 import de.ovgu.featureide.fm.core.init.LibraryManager;
 import de.vill.main.UVLModelFactory;
+import de.vill.model.Attribute;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import de.vill.model.Group;
@@ -150,7 +151,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 					fm.getFeatureMap().put(featureName, feature);
 				}
 				Cardinality cardinality = decision.getCardinality();
-				Group enumGroup;
+				Group enumGroup=null;
 				if (cardinality.isAlternative()) {
 					enumGroup = new Group(GroupType.ALTERNATIVE);
 				} else if (cardinality.isOr()) {
@@ -183,34 +184,64 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 				List<Feature> features = new ArrayList<>(decision.getRange().size());
 				decision.getRange()
 						.forEach(val -> features.add(fm.getFeatureMap().get(String.valueOf(val.getValue()))));
-				IConstraint constraint = null;
+				Constraint constraint = null;
 				if (decision.getCardinality().isOr()) {
-					Node ruleCondition = TraVarTUtils.consumeToBinaryCondition(features, org.prop4j.Or.class, false);
-					constraint = factory.createConstraint(fm, ruleCondition);
+					constraint= consumeToBinaryCondition(features, new OrConstraint(null,null), false);
 				} else if (decision.getCardinality().isAnd()) {
-					Node ruleCondition = TraVarTUtils.consumeToBinaryCondition(features, org.prop4j.And.class, false);
-					constraint = factory.createConstraint(fm, ruleCondition);
+					constraint = consumeToBinaryCondition(features, new AndConstraint(null,null), false);
 				}
 				addConstraintIfEligible(constraint);
 			}
 		}
 	}
 
+	/**
+	 * recursively consumes a list of features into a constraint of Literals.
+	 * @param features
+	 * @param c
+	 * @param negated
+	 * @return
+	 */
+	private Constraint consumeToBinaryCondition(List<Feature> features, Constraint c, boolean negated) {
+		if (features.isEmpty())
+			throw new IllegalArgumentException("Set of decisions is empty.");
+		if (features.stream().anyMatch(d -> d == null))
+			throw new IllegalArgumentException("Set of decisions contains Null.");
+		if (features.size() == 1)
+			return negated ? new LiteralConstraint(features.remove(0).getFeatureName())
+					: new NotConstraint(new LiteralConstraint(features.remove(0).getFeatureName()));
+		if(c instanceof OrConstraint) {
+			if(negated) {
+				return new OrConstraint(new NotConstraint(new LiteralConstraint(features.remove(0).getFeatureName())),consumeToBinaryCondition(features,c,negated));
+			}else {
+				return new OrConstraint(new LiteralConstraint(features.remove(0).getFeatureName()),consumeToBinaryCondition(features,c,negated));
+			}
+		}else if(c instanceof AndConstraint) {
+			if(negated) {
+				return new AndConstraint(new NotConstraint(new LiteralConstraint(features.remove(0).getFeatureName())),consumeToBinaryCondition(features,c,negated));
+			}else {
+				return new AndConstraint(new LiteralConstraint(features.remove(0).getFeatureName()),consumeToBinaryCondition(features,c,negated));
+			}
+		}
+		return c;
+	}
+
 	private void createFeatureTree() {
 		for (IDecision decision : dm.getDecisions()) {
 			if (!DecisionModelUtils.isEnumDecisionConstraint(decision)) {
 				Feature feature = fm.getFeatureMap().get(retriveFeatureName(decision));
-				if (getParent(fm,feature) == null) {
+				if (getParent(fm, feature) == null) {
 					ICondition visiblity = decision.getVisiblity();
 					if (DecisionModelUtils.isMandatoryVisibilityCondition(visiblity)) {
 //						FeatureUtils.setMandatory(feature, true);
 						IDecision parentD = DecisionModelUtils.retriveMandatoryVisibilityCondition(visiblity);
 						String parentFName = retriveFeatureName(parentD);
 						Feature parentF = fm.getFeatureMap().get(parentFName);
-						if(!parentF.getChildren().stream().anyMatch(g->g.GROUPTYPE.equals(GroupType.MANDATORY))) {
+						if (!parentF.getChildren().stream().anyMatch(g -> g.GROUPTYPE.equals(GroupType.MANDATORY))) {
 							parentF.getChildren().add(new Group(GroupType.MANDATORY));
 						}
-						Group mandatoryGroup=parentF.getChildren().stream().filter(g->g.GROUPTYPE.equals(GroupType.MANDATORY)).findFirst().get();
+						Group mandatoryGroup = parentF.getChildren().stream()
+								.filter(g -> g.GROUPTYPE.equals(GroupType.MANDATORY)).findFirst().get();
 						mandatoryGroup.getFeatures().add(feature);
 					} else if (visiblity instanceof IsSelectedFunction) {
 						IsSelectedFunction isSelected = (IsSelectedFunction) visiblity;
@@ -218,7 +249,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 						String parentFName = retriveFeatureName(parentD);
 						Feature parentF = fm.getFeatureMap().get(parentFName);
 						if (parentF != feature) {
-							//TODO check here how groups need to be handled
+							// TODO check here how groups need to be handled
 							FeatureUtils.addChild(parentF, feature);
 						}
 					}
@@ -228,11 +259,13 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 	}
 
 	/**
-	 * Gets the parent of a feature by iterating the featuremap and checking the children for all features.
-	 * May take a long time for large models, use with care.
-	 * @param fm		the feature model containing the feature
-	 * @param feat		the feature whose parent is desired
-	 * @return			the parent feature
+	 * Gets the parent of a feature by iterating the featuremap and checking the
+	 * children for all features. May take a long time for large models, use with
+	 * care.
+	 * 
+	 * @param fm   the feature model containing the feature
+	 * @param feat the feature whose parent is desired
+	 * @return the parent feature
 	 */
 	private static Feature getParent(FeatureModel fm, Feature feat) {
 		Optional<Feature> parent = fm.getFeatureMap().values().stream().filter(f -> f.getChildren().stream()
@@ -254,10 +287,8 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 						&& !DecisionModelUtils.isMandatoryVisibilityCondition(decision.getVisiblity())) {
 					Feature feature = fm.getFeatureMap().get(retriveFeatureName(decision));
 					// add visibility as property for restoring them later if necessary
-					feature.getCustomProperties().set(
-							DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY,
-							DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY_TYPE,
-							decision.getVisiblity().toString());
+					feature.getAttributes().put(DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY
+							,new Attribute<String>(DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY_TYPE,decision.getVisiblity().toString()));
 				}
 				// second transform constraints from the rules
 				for (Object o : decision.getRules()) {
@@ -313,11 +344,12 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 
 	private void createExcludesConstraint(final NumberDecision numberDecision, final Literal disAllowLiteral,
 			final ARangeValue<Double> value) {
-		Feature valueFeature = fm.getFeatureMap().get(
-				numberDecision.getId() + DefaultDecisionModelTransformationProperties.CONFIGURATION_VALUE_SEPERATOR
+		Feature valueFeature = fm.getFeatureMap()
+				.get(numberDecision.getId() + DefaultDecisionModelTransformationProperties.CONFIGURATION_VALUE_SEPERATOR
 						+ value.getValue().toString());
 		Literal valueLiteral = new Literal(valueFeature.getFeatureName());
-		Constraint constraint = new ImplicationConstraint(new LiteralConstraint(valueLiteral.toString()), new NotConstraint(new LiteralConstraint(disAllowLiteral.toString())));
+		Constraint constraint = new ImplicationConstraint(new LiteralConstraint(valueLiteral.toString()),
+				new NotConstraint(new LiteralConstraint(disAllowLiteral.toString())));
 		addConstraintIfEligible(constraint);
 	}
 
@@ -528,7 +560,8 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 		if (condition instanceof And) {
 			return new AndConstraint(new LiteralConstraint(cLeft.toString()), new LiteralConstraint(cRight.toString()));
 		}
-		return new AndConstraint(new NotConstraint(new LiteralConstraint(cLeft.toString())), new NotConstraint(new LiteralConstraint(cRight.toString())));
+		return new AndConstraint(new NotConstraint(new LiteralConstraint(cLeft.toString())),
+				new NotConstraint(new LiteralConstraint(cRight.toString())));
 	}
 
 	private Constraint deriveConstraint(final ICondition node) {
@@ -539,7 +572,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 		if (node instanceof Not) {
 			Not notNode = (Not) node;
 			LiteralConstraint literalC = new LiteralConstraint(notNode.getOperand().toString());
-			NotConstraint notC= new NotConstraint(literalC);
+			NotConstraint notC = new NotConstraint(literalC);
 			return notC;
 		}
 		if (node instanceof IsSelectedFunction) {
@@ -552,9 +585,9 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 		}
 		return new LiteralConstraint(node.toString());
 	}
-	
+
 	private void addChild(Feature parent, Feature child) {
-		
+
 	}
 
 }
