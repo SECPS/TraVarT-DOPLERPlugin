@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
 
@@ -12,10 +13,9 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
 import at.jku.cps.travart.core.common.IReader;
-import at.jku.cps.travart.core.common.TraVarTUtils;
-import at.jku.cps.travart.core.common.exc.NotSupportedVariablityTypeException;
 import at.jku.cps.travart.dopler.common.DecisionModelUtils;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
+import at.jku.cps.travart.dopler.decision.exc.NotSupportedVariablityTypeException;
 import at.jku.cps.travart.dopler.decision.factory.impl.DecisionModelFactory;
 import at.jku.cps.travart.dopler.decision.impl.DMCSVHeader;
 import at.jku.cps.travart.dopler.decision.impl.DecisionModel;
@@ -72,11 +72,13 @@ public class DecisionModelReader implements IReader<IDecisionModel> {
 				String range = record.get(DMCSVHeader.RANGE);
 				if (!range.isBlank()) {
 					if (decision.getType() == DecisionType.NUMBER) {
-						String[] ranges = TraVarTUtils.splitString(range, "-");
+						String[] ranges = Arrays.stream(range.split( "-")).map(String::trim).filter(s -> !s.isEmpty() && !s.isBlank())
+								.toArray(String[]::new);
 						Range<Double> valueRange = factory.createNumberValueRange(ranges);
 						decision.setRange(valueRange);
 					} else {
-						String[] options = TraVarTUtils.splitString(range, "\\|");
+						String[] options = Arrays.stream(range.split( "\\|")).map(String::trim).filter(s -> !s.isEmpty() && !s.isBlank())
+								.toArray(String[]::new);
 						Range<String> valueOptions = factory.createEnumValueOptions(options);
 						decision.setRange(valueOptions);
 					}
@@ -84,7 +86,8 @@ public class DecisionModelReader implements IReader<IDecisionModel> {
 
 				String cardinality = record.get(DMCSVHeader.CARDINALITY).trim();
 				if (!cardinality.isEmpty()) {
-					String[] values = TraVarTUtils.splitString(cardinality, ":");
+					String[] values =Arrays.stream(cardinality.split( ":")).map(String::trim).filter(s -> !s.isEmpty() && !s.isBlank())
+							.toArray(String[]::new);
 					if (!(decision instanceof EnumDecision) || !(values.length == 2)) {
 						throw new NotSupportedVariablityTypeException(String.format(CARDINALITY_NOT_SUPPORTED_ERROR,
 								cardinality, decision.getClass().getCanonicalName()));
@@ -109,7 +112,8 @@ public class DecisionModelReader implements IReader<IDecisionModel> {
 				if (!csvRules.isEmpty()) {
 					// TODO: Find better way to spit the string of rules (decision names may have
 					// "if" as part of their names)
-					String[] CSVruleSplit = TraVarTUtils.splitString(csvRules, "if");
+					String[] CSVruleSplit = Arrays.stream(csvRules.split( "if")).map(String::trim).filter(s -> !s.isEmpty() && !s.isBlank())
+							.toArray(String[]::new);
 					Set<Rule> rules = rParser.parse(decision, CSVruleSplit);
 					decision.addRules(rules);
 				}

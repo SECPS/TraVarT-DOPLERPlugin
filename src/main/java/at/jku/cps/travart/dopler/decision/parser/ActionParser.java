@@ -1,10 +1,10 @@
 package at.jku.cps.travart.dopler.decision.parser;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Queue;
 
-import at.jku.cps.travart.core.common.TraVarTUtils;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.exc.InvalidActionException;
 import at.jku.cps.travart.dopler.decision.exc.ParserException;
@@ -51,7 +51,8 @@ public class ActionParser {
 	public IAction parse(final String str) throws ParserException {
 		Objects.requireNonNull(str);
 		index = 0;
-		input = TraVarTUtils.splitString(str, REGEX);
+		input = Arrays.stream(str.split(REGEX)).map(String::trim).filter(s -> !s.isEmpty() && !s.isBlank())
+				.toArray(String[]::new);
 		if (input.length > 0) {
 			return parseAction();
 		}

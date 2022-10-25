@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 import at.jku.cps.travart.core.common.IConfigurable;
 import at.jku.cps.travart.core.common.ISampler;
-import at.jku.cps.travart.core.common.exc.NotSupportedVariablityTypeException;
 import at.jku.cps.travart.dopler.common.DecisionModelUtils;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.exc.ActionExecutionException;

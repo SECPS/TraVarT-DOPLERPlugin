@@ -1,10 +1,10 @@
 package at.jku.cps.travart.dopler.decision.parser;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import at.jku.cps.travart.core.common.TraVarTUtils;
 import at.jku.cps.travart.dopler.common.DecisionModelUtils;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.exc.NoActionInRuleException;
@@ -55,7 +55,8 @@ public class RulesParser {
 		assert csvRuleSplit != null && csvRuleSplit.length > 0;
 		for (String csvRule : csvRuleSplit) {
 			// Split to condition and actions
-			String[] ruleParts = TraVarTUtils.splitString(csvRule, "\\{");
+			String[] ruleParts = Arrays.stream(csvRule.split("\\{")).map(String::trim)
+					.filter(s -> !s.isEmpty() && !s.isBlank()).toArray(String[]::new);
 			if (ruleParts.length < 2) {
 				throw new NoActionInRuleException(NO_ACTION_IN_RULE);
 			}
@@ -63,7 +64,8 @@ public class RulesParser {
 			ConditionParser conditionParser = new ConditionParser(decisions);
 			ICondition condition = conditionParser.parse(ruleParts[0]);
 			// derive actions from the second part
-			String[] csvActions = TraVarTUtils.splitString(ruleParts[1], ";|}");
+			String[] csvActions = Arrays.stream(ruleParts[1].split(";|}")).map(String::trim)
+					.filter(s -> !s.isEmpty() && !s.isBlank()).toArray(String[]::new);
 			Set<IAction> actions = new HashSet<>();
 			for (String csvAction : csvActions) {
 				ActionParser actionParser = new ActionParser(decisions);
