@@ -1,6 +1,7 @@
 package at.jku.cps.travart.dopler.transformation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -10,10 +11,6 @@ import org.prop4j.Literal;
 import org.prop4j.Node;
 
 import at.jku.cps.travart.core.common.IModelTransformer;
-import at.jku.cps.travart.core.common.Prop4JUtils;
-import at.jku.cps.travart.core.common.TraVarTUtils;
-import at.jku.cps.travart.core.common.exc.ConditionCreationException;
-import at.jku.cps.travart.core.common.exc.NotSupportedVariablityTypeException;
 import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import at.jku.cps.travart.dopler.common.DecisionModelUtils;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
@@ -81,7 +78,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 	private IDecisionModel dm;
 
 	public FeatureModel transform(IDecisionModel arg0, String arg1) throws NotSupportedVariabilityTypeException {
-		this.dm = dm;
+		this.dm = arg0;
 		this.fm = new FeatureModel();
 		try {
 			createFeatures();
@@ -225,6 +222,29 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 		}
 		return c;
 	}
+	
+	private Constraint consumeToGroup(List<LiteralConstraint> conditionLiterals,boolean or, boolean negated) {
+		if (conditionLiterals.isEmpty())
+			throw new IllegalArgumentException("Set of decisions is empty.");
+		if (conditionLiterals.stream().anyMatch(d -> d == null))
+			throw new IllegalArgumentException("Set of decisions contains Null.");
+		if (conditionLiterals.size() == 1)
+			return negated ? new LiteralConstraint(conditionLiterals.remove(0).getLiteral())
+					: new NotConstraint(new LiteralConstraint(conditionLiterals.remove(0).getLiteral()));
+		if(or) {
+			if(negated) {
+				return new OrConstraint(new NotConstraint(new LiteralConstraint(conditionLiterals.remove(0).getLiteral())),consumeToGroup(conditionLiterals,or,negated));
+			}else {
+				return new OrConstraint(new LiteralConstraint(conditionLiterals.remove(0).getLiteral()),consumeToGroup(conditionLiterals,or,negated));
+			}
+		}else {
+			if(negated) {
+				return new AndConstraint(new NotConstraint(new LiteralConstraint(conditionLiterals.remove(0).getLiteral())),consumeToGroup(conditionLiterals,or,negated));
+			}else {
+				return new AndConstraint(new LiteralConstraint(conditionLiterals.remove(0).getLiteral()),consumeToGroup(conditionLiterals,or,negated));
+			}
+		}
+	}
 
 	private void createFeatureTree() {
 		for (IDecision decision : dm.getDecisions()) {
@@ -367,7 +387,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			Feature variableFeature = fm.getFeatureMap().get(variableFeatureName);
 			if (getParent(fm,variableFeature) != conditionFeature
 					|| !FeatureUtils.isMandatorySet(variableFeature)) {
-				Constraint constraint = new ImplicationConstraint(conditionNode, new LiteralConstraint(variableFeature.getFeatureName())));
+				Constraint constraint = new ImplicationConstraint(conditionNode, new LiteralConstraint(variableFeature.getFeatureName()));
 				addConstraintIfEligible(constraint);
 			}
 		}
@@ -419,9 +439,26 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			// set cardinality of variable feature
 			Feature variableFeature = fm.getFeatureMap().get(variableDecisionFeatureName);
 			if (DecisionModelUtils.isNoneAction(action)) {
-				Constraint constraint = new ImplicationConstraint(conditionNode, new LiteralConstraint(variableFeature.getFeatureName())));
+				Constraint constraint = new ImplicationConstraint(conditionNode, new LiteralConstraint(variableFeature.getFeatureName()));
 				addConstraintIfEligible(constraint);
 			} else {
+				Group featuregroup=null;
+				if (variableDecision instanceof EnumDecision) {
+					Cardinality cardinality = ((EnumDecision) variableDecision).getCardinality();
+					if (cardinality.isAlternative()) {
+						featuregroup=variableFeature.getChildren().stream().filter(g->g.GROUPTYPE.equals(GroupType.ALTERNATIVE)).findFirst().get();
+						if(featuregroup==null) {
+							featuregroup= new Group(GroupType.ALTERNATIVE);
+							variableFeature.getChildren().add(featuregroup);
+						}
+					} else if (cardinality.isOr()) {
+						featuregroup=variableFeature.getChildren().stream().filter(g->g.GROUPTYPE.equals(GroupType.OR)).findFirst().get();
+						if(featuregroup==null) {
+							featuregroup= new Group(GroupType.OR);
+							variableFeature.getChildren().add(featuregroup);
+						}
+					}
+				}
 				Feature valueFeature = fm.getFeatureMap().get(action.getValue().toString());
 				// if it was not found, then create it
 				if (valueFeature == null) {// && !isNoneAction(action)) {
@@ -432,16 +469,10 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 					// feature if it was created
 					fm.getFeatureMap().put(valueFeature.getFeatureName(), valueFeature);
 					//TODO check grouptype issue
-					FeatureUtils.addChild(variableFeature, valueFeature);
+					variableFeature.getChildren().stream().filter(g->g.GROUPTYPE.equals(featuregroup.GROUPTYPE)).findFirst().get().getFeatures().add(valueFeature);
+//					FeatureUtils.addChild(variableFeature, valueFeature);
 				}
-				if (variableDecision instanceof EnumDecision) {
-					Cardinality cardinality = ((EnumDecision) variableDecision).getCardinality();
-					if (cardinality.isAlternative()) {
-						FeatureUtils.setAlternative(variableFeature);
-					} else if (cardinality.isOr()) {
-						FeatureUtils.setOr(variableFeature);
-					}
-				}
+				
 				// create and add constraint for setting the condition to set, if is no value
 				// condition
 				Constraint constraint = null;
@@ -466,14 +497,14 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 //				if () {
 //					conditionNode = Prop4JUtils.consumeToOrGroup(conditionLiterals, true);
 //				} else {
-				conditionNode = Prop4JUtils.consumeToAndGroup(conditionLiterals,
-						Prop4JUtils.hasNegativeLiteral(conditionNode));
+				conditionNode = consumeToGroup(conditionLiterals,false,
+						hasNegativeLiteral(conditionNode));
 				// }
 //			} else if (Prop4JUtils.hasNegativeLiteral(conditionNode)) {
 //				conditionNode = Prop4JUtils.consumeToAndGroup(conditionLiterals, true);
 			} else {
-				conditionNode = Prop4JUtils.consumeToOrGroup(conditionLiterals,
-						!Prop4JUtils.hasNegativeLiteral(conditionNode));
+				conditionNode = consumeToGroup(conditionLiterals,true,
+						!hasNegativeLiteral(conditionNode));
 			}
 			ADecision variableDecision = (ADecision) action.getVariable();
 			String variableDecisionFeatureName = retriveFeatureName(variableDecision);
@@ -481,7 +512,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			LiteralConstraint variableLiteral =new LiteralConstraint(variableFeature.getFeatureName());
 			Constraint constraint;
 			if (DecisionModelUtils.isNotCondition(condition)) {
-				constraint = new OrConstraint(new LiteralConstraint(conditionNode.toString()), new LiteralConstraint(variableLiteral.toString())));
+				constraint = new OrConstraint(new LiteralConstraint(conditionNode.toString()), new LiteralConstraint(variableLiteral.toString()));
 			} else if (action instanceof SelectDecisionAction) {
 				constraint = new ImplicationConstraint(conditionNode, variableLiteral);
 			} else if (action instanceof DeSelectDecisionAction) {
@@ -494,9 +525,26 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			addConstraintIfEligible(constraint);
 		}
 	}
+	
+	private boolean hasNegativeLiteral(Constraint constraint) {
+		boolean subConstraintLiteral=false;
+		for(Constraint subconstraint:constraint.getConstraintSubParts()) {
+			if(subconstraint instanceof LiteralConstraint) subConstraintLiteral=true;
+		}
+		if((constraint instanceof NotConstraint) && subConstraintLiteral) {
+			return true;
+		}else {
+			boolean anyNegative=false;
+			for(Constraint subconstraint:constraint.getConstraintSubParts()) {
+				anyNegative |= hasNegativeLiteral(subconstraint);
+			}
+			return anyNegative;
+		}
+	}
 
 	private void addConstraintIfEligible(final Constraint constraint) {
-		if (constraint == null || TraVarTUtils.isInItSelfConstraint(constraint)) {
+		
+		if (constraint == null || isInItSelfConstraint(constraint)) {
 			return;
 		}
 		for (Constraint constr : fm.getConstraints()) {
@@ -504,7 +552,20 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 				return;
 			}
 		}
+		Arrays.asList();
 		fm.getConstraints().add(constraint);
+	}
+	
+	private boolean isInItSelfConstraint(Constraint constraint) {
+		if(constraint instanceof LiteralConstraint) {
+			return false;
+		}
+		for(Constraint c:constraint.getConstraintSubParts()) {
+			if(!(c instanceof LiteralConstraint)) {
+				return false;
+			}
+		}
+		return constraint.getConstraintSubParts().get(0).equals(constraint.getConstraintSubParts().get(1));
 	}
 
 	private Constraint deriveConditionNode(final IDecision decision, final ICondition condition) {
@@ -520,7 +581,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 		if (DecisionModelUtils.isNot(condition)) {
 			Not notNode = (Not) condition;
 			ICondition operand = notNode.getOperand();
-			LiteralConstraint literal;
+			Constraint literal;
 			if (operand instanceof IsSelectedFunction) {
 				IsSelectedFunction isSelected = (IsSelectedFunction) operand;
 				ADecision d = (ADecision) isSelected.getParameters().get(0);
@@ -528,9 +589,9 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 				Feature feature = fm.getFeatureMap().get(featureName);
 				literal = new LiteralConstraint(feature.getFeatureName());
 			} else {
-				literal = Prop4JUtils.createLiteral(operand);
+				literal = new LiteralConstraint(operand.toString());
 			}
-			literal.positive = false;
+			literal=new NotConstraint(literal);
 			return literal;
 		}
 		if (condition instanceof IsSelectedFunction) {

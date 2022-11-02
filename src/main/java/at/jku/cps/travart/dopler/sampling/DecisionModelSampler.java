@@ -15,6 +15,7 @@ import at.jku.cps.travart.core.common.ISampler;
 import at.jku.cps.travart.dopler.common.DecisionModelUtils;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.exc.ActionExecutionException;
+import at.jku.cps.travart.dopler.decision.exc.NotSupportedVariablityTypeException;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
 import at.jku.cps.travart.dopler.decision.exc.UnsatisfiedCardinalityException;
 import at.jku.cps.travart.dopler.decision.model.ADecision;
