@@ -13,9 +13,9 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
 import at.jku.cps.travart.core.common.IReader;
+import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import at.jku.cps.travart.dopler.common.DecisionModelUtils;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
-import at.jku.cps.travart.dopler.decision.exc.NotSupportedVariablityTypeException;
 import at.jku.cps.travart.dopler.decision.factory.impl.DecisionModelFactory;
 import at.jku.cps.travart.dopler.decision.impl.DMCSVHeader;
 import at.jku.cps.travart.dopler.decision.impl.DecisionModel;
@@ -41,7 +41,7 @@ public class DecisionModelReader implements IReader<IDecisionModel> {
 	}
 
 	@Override
-	public IDecisionModel read(final Path path) throws IOException, NotSupportedVariablityTypeException {
+	public IDecisionModel read(final Path path) throws IOException, NotSupportedVariabilityTypeException {
 		Objects.requireNonNull(path);
 		DecisionModel dm = factory.create();
 		dm.setName(path.getFileName().toString());
@@ -63,7 +63,7 @@ public class DecisionModelReader implements IReader<IDecisionModel> {
 				} else if (DecisionType.STRING.equalString(typeString)) {
 					decision = factory.createStringDecision(id);
 				} else {
-					throw new NotSupportedVariablityTypeException(typeString);
+					throw new NotSupportedVariabilityTypeException(typeString);
 				}
 
 				assert decision != null;
@@ -89,7 +89,7 @@ public class DecisionModelReader implements IReader<IDecisionModel> {
 					String[] values =Arrays.stream(cardinality.split( ":")).map(String::trim).filter(s -> !s.isEmpty() && !s.isBlank())
 							.toArray(String[]::new);
 					if (!(decision instanceof EnumDecision) || !(values.length == 2)) {
-						throw new NotSupportedVariablityTypeException(String.format(CARDINALITY_NOT_SUPPORTED_ERROR,
+						throw new NotSupportedVariabilityTypeException(String.format(CARDINALITY_NOT_SUPPORTED_ERROR,
 								cardinality, decision.getClass().getCanonicalName()));
 					}
 					Cardinality c = factory.createCardinality(Integer.parseInt(values[0]), Integer.parseInt(values[1]));

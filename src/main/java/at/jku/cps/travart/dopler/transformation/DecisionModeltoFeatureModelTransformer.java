@@ -10,15 +10,18 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.prop4j.Literal;
+import org.logicng.formulas.FormulaFactory;
 import org.prop4j.Constraint;
 
 import at.jku.cps.travart.core.common.IModelTransformer;
+import at.jku.cps.travart.core.exception.ConditionCreationException;
 import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import at.jku.cps.travart.core.helpers.TraVarTUtils;
 import at.jku.cps.travart.core.transformation.DefaultModelTransformationProperties;
 import at.jku.cps.travart.dopler.common.DecisionModelUtils;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.exc.CircleInConditionException;
+import at.jku.cps.travart.dopler.decision.exc.NotSupportedVariablityTypeException;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
 import at.jku.cps.travart.dopler.decision.factory.impl.DecisionModelFactory;
 import at.jku.cps.travart.dopler.decision.model.ABinaryCondition;
@@ -95,9 +98,9 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			createFeatures();
 			createFeatureTree();
 			createConstraints();
-			TraVarTUtils.deriveFeatureModelRoot(fm, true);
+			TraVarTUtils.deriveFeatureModelRoot(fm.getFeatureMap(), "VirtualRoot");
 			return fm;
-		} catch (NoSuchExtensionException | CircleInConditionExaception | ConditionCreationException e) {
+		} catch (CircleInConditionException | ConditionCreationException e) {
 			throw new NotSupportedVariablityTypeException(e);
 		}
 		return null;
@@ -150,6 +153,9 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 					alternativeGroup.getFeatures().add(child);
 				}
 			}
+			// TODO check all instances of newly created features that there in the actual
+			// tree as well, not just the
+			// map.
 			feature.addChildren(alternativeGroup);
 		}
 		// third add all String decisions
@@ -305,12 +311,12 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 //							FeatureUtils.addChild(parentF, feature);
 							Optional<Group> mandGroup = parentF.getChildren().stream()
 									.filter(e -> e.GROUPTYPE.equals(GroupType.OPTIONAL)).findFirst();
-							Group targetGroup=null;
+							Group targetGroup = null;
 							if (!mandGroup.isPresent()) {
 								targetGroup = new Group(GroupType.OPTIONAL);
 								parentF.addChildren(targetGroup);
-							}else {
-								targetGroup=mandGroup.get();
+							} else {
+								targetGroup = mandGroup.get();
 							}
 							targetGroup.getFeatures().add(feature);
 						}
@@ -413,7 +419,8 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			ADecision variableDecision = (ADecision) action.getVariable();
 			String variableFeatureName = retriveFeatureName(variableDecision);
 			Feature variableFeature = fm.getFeatureMap().get(variableFeatureName);
-			if (variableFeature.getParentFeature() != conditionFeature || !variableFeature.getParentGroup().GROUPTYPE.equals(GroupType.MANDATORY)) {
+			if (variableFeature.getParentFeature() != conditionFeature
+					|| !variableFeature.getParentGroup().GROUPTYPE.equals(GroupType.MANDATORY)) {
 				Constraint constraint = new ImplicationConstraint(conditionConstraint,
 						new LiteralConstraint(variableFeature.getFeatureName()));
 				addConstraintIfEligible(constraint);
@@ -500,9 +507,9 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 					// feature if it was created
 					fm.getFeatureMap().put(valueFeature.getFeatureName(), valueFeature);
 					// TODO check grouptype issue
-					final GroupType gt=featuregroup.GROUPTYPE;
-					variableFeature.getChildren().stream().filter(g -> g.GROUPTYPE.equals(gt))
-							.findFirst().get().getFeatures().add(valueFeature);
+					final GroupType gt = featuregroup.GROUPTYPE;
+					variableFeature.getChildren().stream().filter(g -> g.GROUPTYPE.equals(gt)).findFirst().get()
+							.getFeatures().add(valueFeature);
 //					FeatureUtils.addChild(variableFeature, valueFeature);
 				}
 
@@ -680,7 +687,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 		}
 		return new LiteralConstraint(node.toString());
 	}
-	
+
 	private void convertFeature(final Feature feature) throws NotSupportedVariablityTypeException {
 		if (!feature.getFeatureName().equals(DefaultModelTransformationProperties.ARTIFICIAL_MODEL_NAME)) {
 			BooleanDecision decision = factory.createBooleanDecision(feature.getFeatureName());
@@ -689,11 +696,11 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			if (TraVarTUtils.isEnumerationType(feature)) {
 				createEnumDecisions(feature);
 			}
-			if (feature.getParentFeature()==null) {
+			if (feature.getParentFeature() == null) {
 				decision.setVisibility(ICondition.TRUE);
 			} else if (isEnumSubFeature(feature) && !hasVirtualParent(feature)) {
 				decision.setVisibility(ICondition.FALSE);
-			} else if (FeatureUtils.isMandatorySet(feature) && !hasVirtualParent(feature)) {
+			} else if (feature.getParentGroup().GROUPTYPE.equals(GroupType.MANDATORY) && !hasVirtualParent(feature)) {
 				String parentName = feature.getParentFeature().getFeatureName();
 				// as tree traversal, the parent should be dealt with already
 				IDecision parent = dm.get(parentName);
@@ -711,7 +718,8 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 				decision.setVisibility(ICondition.TRUE);
 			}
 		}
-		for (Feature child : FeatureUtils.getChildren(feature)) {
+		for (Feature child : feature.getChildren().stream().flatMap(g -> g.getFeatures().stream())
+				.collect(Collectors.toList())) {
 			if (feature.getFeatureName().equals(DefaultModelTransformationProperties.ARTIFICIAL_MODEL_NAME)
 					|| !isEnumSubFeature(child)) {
 				convertFeature(child);
@@ -741,8 +749,9 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 //		Rule rule = new Rule(new IsSelectedFunction(parent), new SelectDecisionAction(enumDecision));
 //		parent.addRule(rule);
 //		updateRules(parent, rule);
-		//TODO check how to handle Groups here
-		for (Feature optionFeature : FeatureUtils.getChildren(feature)) {
+		// TODO check how to handle Groups here
+		for (Feature optionFeature : feature.getChildren().stream().flatMap(g -> g.getFeatures().stream())
+				.collect(Collectors.toList())) {
 			convertFeature(optionFeature);
 			BooleanDecision optionDecision = (BooleanDecision) dm.get(optionFeature.getFeatureName());
 			ARangeValue optionValue = enumDecision.getRangeValue(optionFeature.getFeatureName());
@@ -754,7 +763,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			updateRules(enumDecision, rule);
 		}
 		// create rule for optional parent features
-		if (!(feature.getParentFeature()==null) && !feature.getParentGroup().GROUPTYPE.equals(GroupType.MANDATORY)) {
+		if (!(feature.getParentFeature() == null) && !feature.getParentGroup().GROUPTYPE.equals(GroupType.MANDATORY)) {
 			Rule rule = new Rule(new Not(new IsSelectedFunction(parent)),
 					new SetValueAction(enumDecision, enumDecision.getNoneOption()));
 			parent.addRule(rule);
@@ -762,34 +771,35 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 		}
 	}
 
-	private void convertConstraints(final List<IConstraint> constraints)
+	private void convertConstraints(final List<Constraint> constraints)
 			throws CircleInConditionException, ConditionCreationException {
-		for (IConstraint constraint : constraints) {
-			convertConstraintConstraintRec(constraint.getConstraint());
+		for (Constraint constraint : constraints) {
+			convertConstraintRec(constraint);
 		}
 	}
 
-	private void convertConstraintConstraintRec(final Constraint node)
+	private void convertConstraintRec(final Constraint node)
 			throws CircleInConditionException, ConditionCreationException {
 		// create a CNF from nodes enables separating the concerns how to transform the
 		// different groups.
 		// A requires B <=> CNF: Not(A) or B
 		// A excludes B <=> CNF: Not(A) or Not(B)
-		Constraint cnfConstraint = node.toCNF();
-		// TODO how to get transformation capabilities for new constraint implementation?
+
+		Constraint cnfConstraint = TraVarTUtils
+				.buildConstraintFromFormula(TraVarTUtils.buildFormulaFromConstraint(node, new FormulaFactory()).cnf());
 		if (TraVarTUtils.isComplexConstraint(cnfConstraint)) {
-			for (Constraint child : cnfConstraint.getChildren()) {
-				convertConstraintConstraintRec(child);
+			for (Constraint child : cnfConstraint.getConstraintSubParts()) {
+				convertConstraintRec(child);
 			}
 		} else {
-			convertConstraintConstraint(cnfConstraint);
+			convertConstraint(cnfConstraint);
 		}
 	}
 
 	private void deriveUnidirectionalRules(final Constraint cnfConstraint)
 			throws CircleInConditionException, ConditionCreationException {
 		Constraint negative = TraVarTUtils.getFirstNegativeLiteral(cnfConstraint);
-		String feature = ((LiteralConstraint)negative).getLiteral();
+		String feature = ((LiteralConstraint) negative).getLiteral();
 		IDecision decision = dm.get(feature);
 		if (decision.getType() == ADecision.DecisionType.BOOLEAN) {
 			BooleanDecision target = (BooleanDecision) decision;
@@ -810,19 +820,22 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			throws CircleInConditionException, ConditionCreationException {
 		if (TraVarTUtils.isSingleFeatureRequires(cnfConstraint)) {
 			// mandatory from root - requires rule
-			Feature root = FeatureUtils.getRoot(fm);
+			Feature root = fm.getFeatureMap()
+					.get(TraVarTUtils.deriveFeatureModelRoot(fm.getFeatureMap(), "virtual root"));
 			Constraint targetLiteral = TraVarTUtils.getFirstPositiveLiteral(cnfConstraint);
-			String targetFeature = ((LiteralConstraint)targetLiteral).getLiteral();
+			String targetFeature = ((LiteralConstraint) targetLiteral).getLiteral();
 			IDecision source = dm.get(root.getFeatureName());
 			IDecision target = dm.get(targetFeature);
+			Rule rule = new Rule(new IsSelectedFunction(source), new SelectDecisionAction((BooleanDecision) target));
 			source.addRule(rule);
 			updateRules(source, rule);
 		} else if (TraVarTUtils.isSingleFeatureExcludes(cnfConstraint)) {
 			// excludes from root - dead feature - excludes rule
-			Feature root = FeatureUtils.getRoot(fm);
+			Feature root = fm.getFeatureMap()
+					.get(TraVarTUtils.deriveFeatureModelRoot(fm.getFeatureMap(), "virtual root"));
 			Constraint targetLiteral = TraVarTUtils.getFirstNegativeLiteral(cnfConstraint);
-			String targetFeature = TraVarTUtils.getLiteralName((Literal) targetLiteral);
-			IDecision source = dm.get(FeatureUtils.getName(root));
+			String targetFeature = ((LiteralConstraint) targetLiteral).getLiteral();
+			IDecision source = dm.get(root.getFeatureName());
 			IDecision target = dm.get(targetFeature);
 			Rule rule = new Rule(new IsSelectedFunction(source), new DeSelectDecisionAction((BooleanDecision) target));
 			source.addRule(rule);
@@ -837,32 +850,10 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 		} else if (TraVarTUtils.countLiterals(cnfConstraint) > 1 && TraVarTUtils.hasNegativeLiteral(cnfConstraint)
 				&& TraVarTUtils.countNegativeLiterals(cnfConstraint) == 1) {
 			deriveUnidirectionalRules(cnfConstraint);
-		} else if (TraVarTUtils.countLiterals(cnfConstraint) == 2 && TraVarTUtils.hasPositiveLiteral(cnfConstraint)
-				&& TraVarTUtils.countPositiveLiterals(cnfConstraint) == 1) {
-			// TODO this path may be identical with the one in line 194.
-			// better double check before deleting this though, that functionality is not
-			// impaired.
-			Constraint positive = TraVarTUtils.getFirstPositiveLiteral(cnfConstraint);
-			String feature = TraVarTUtils.getLiteralName((Literal) positive);
-			IDecision decision = dm.get(feature);
-			if (decision.getType() == ADecision.DecisionType.BOOLEAN) {
-				BooleanDecision target = (BooleanDecision) decision;
-				Set<Constraint> negativeLiterals = TraVarTUtils.getNegativeLiterals(cnfConstraint);
-				List<IDecision> conditionDecisions = findDecisionsForLiterals(negativeLiterals);
-				List<IDecision> ruleDecisions = findDecisionsForLiterals(negativeLiterals);
-				ICondition ruleCondition = DecisionModelUtils.consumeToBinaryCondition(conditionDecisions, And.class,
-						false);
-				Rule rule = new Rule(ruleCondition, new SelectDecisionAction(target));
-				// add new rule to all rule decisions
-				for (IDecision source : ruleDecisions) {
-					source.addRule(rule);
-					updateRules(source, rule);
-				}
-			}
 		} else if (TraVarTUtils.countLiterals(cnfConstraint) > 1 && TraVarTUtils.hasPositiveLiteral(cnfConstraint)
 				&& TraVarTUtils.countPositiveLiterals(cnfConstraint) == 1) {
 			Constraint positive = TraVarTUtils.getFirstPositiveLiteral(cnfConstraint);
-			String feature = TraVarTUtils.getLiteralName((Literal) positive);
+			String feature = ((LiteralConstraint) positive).getLiteral();
 			IDecision decision = dm.get(feature);
 			if (decision.getType() == ADecision.DecisionType.BOOLEAN) {
 				BooleanDecision target = (BooleanDecision) decision;
@@ -880,7 +871,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			}
 		} else if (TraVarTUtils.countLiterals(cnfConstraint) > 1
 				&& TraVarTUtils.countLiterals(cnfConstraint) == TraVarTUtils.countPositiveLiterals(cnfConstraint)
-				&& TraVarTUtils.isOr(cnfConstraint)) {
+				&& cnfConstraint instanceof OrConstraint) {
 			Set<Constraint> literals = TraVarTUtils.getLiterals(cnfConstraint);
 			List<IDecision> literalDecisions = findDecisionsForLiterals(literals);
 			EnumDecision enumDecision = factory
@@ -889,7 +880,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			enumDecision.setQuestion("Which features should be added? Pick at least one!");
 			enumDecision.setCardinality(new Cardinality(1, literalDecisions.size()));
 			enumDecision.setRange(new Range<>());
-			IDecision rootDecision = dm.get(FeatureUtils.getName(FeatureUtils.getRoot(fm)));
+			IDecision rootDecision = dm.get(fm.getRootFeature().getFeatureName());
 			enumDecision.setVisibility(rootDecision != null ? new IsSelectedFunction(rootDecision) : ICondition.TRUE);
 			for (IDecision literalDecision : literalDecisions) {
 				StringValue option = new StringValue(literalDecision.getId());
@@ -902,7 +893,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			}
 		} else if (TraVarTUtils.countLiterals(cnfConstraint) > 1
 				&& TraVarTUtils.countLiterals(cnfConstraint) == TraVarTUtils.countPositiveLiterals(cnfConstraint)
-				&& TraVarTUtils.isAnd(cnfConstraint)) {
+				&& cnfConstraint instanceof AndConstraint) {
 			Set<Constraint> literals = TraVarTUtils.getLiterals(cnfConstraint);
 			List<IDecision> literalDecisions = findDecisionsForLiterals(literals);
 			EnumDecision enumDecision = factory
@@ -911,7 +902,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			enumDecision.setQuestion("Which features should be added? Pick at least one!");
 			enumDecision.setCardinality(new Cardinality(literalDecisions.size(), literalDecisions.size()));
 			enumDecision.setRange(new Range<>());
-			IDecision rootDecision = dm.get(FeatureUtils.getName(FeatureUtils.getRoot(fm)));
+			IDecision rootDecision = dm.get(fm.getRootFeature().getFeatureName());
 			enumDecision.setVisibility(rootDecision != null ? new IsSelectedFunction(rootDecision) : ICondition.TRUE);
 			for (IDecision literalDecision : literalDecisions) {
 				StringValue option = new StringValue(literalDecision.getId());
@@ -924,7 +915,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			}
 		} else if (TraVarTUtils.countLiterals(cnfConstraint) == 1 && TraVarTUtils.isLiteral(cnfConstraint)) {
 			if (TraVarTUtils.hasPositiveLiteral(cnfConstraint)) {
-				String feature = TraVarTUtils.getLiteralName((Literal) cnfConstraint);
+				String feature = ((LiteralConstraint) cnfConstraint).getLiteral();
 				IDecision decision = dm.get(feature);
 				if (decision.getType() == ADecision.DecisionType.BOOLEAN) {
 					BooleanDecision boolDecision = (BooleanDecision) decision;
@@ -941,7 +932,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 					}
 				}
 			} else {
-				String feature = TraVarTUtils.getLiteralName((Literal) cnfConstraint);
+				String feature = ((LiteralConstraint) cnfConstraint).getLiteral();
 				IDecision decision = dm.get(feature);
 				if (decision.getType() == ADecision.DecisionType.BOOLEAN) {
 					BooleanDecision boolDecision = (BooleanDecision) decision;
@@ -956,7 +947,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			// create demorgen condition node 1:1
 			ICondition condition = deriveConditionFromConstraint(cnfConstraint);
 			// create implies with root decision to set to false
-			BooleanDecision rootDecision = (BooleanDecision) dm.get(FeatureUtils.getName(FeatureUtils.getRoot(fm)));
+			BooleanDecision rootDecision = (BooleanDecision) dm.get(fm.getRootFeature().getFeatureName());
 			Rule rule = new Rule(new Not(condition), new DeSelectDecisionAction(rootDecision));
 			rootDecision.addRule(rule);
 			updateRules(rootDecision, rule);
@@ -967,8 +958,8 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 		Constraint sourceLiteral = TraVarTUtils.getFirstNegativeLiteral(cnfConstraint);
 		Constraint targetLiteral = TraVarTUtils.getFirstPositiveLiteral(cnfConstraint);
 		if (TraVarTUtils.isLiteral(sourceLiteral) && TraVarTUtils.isLiteral(targetLiteral)) {
-			String sourceFeature = TraVarTUtils.getLiteralName((Literal) sourceLiteral);
-			String targetFeature = TraVarTUtils.getLiteralName((Literal) targetLiteral);
+			String sourceFeature = ((LiteralConstraint) sourceLiteral).getLiteral();
+			String targetFeature = ((LiteralConstraint) targetLiteral).getLiteral();
 			IDecision source = dm.get(sourceFeature);
 			IDecision target = dm.get(targetFeature);
 			if (isEnumFeature(source) && !isEnumFeature(target)) {
@@ -1018,11 +1009,11 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			return false;
 		}
 		Feature parent = feature.getParentFeature();
-		while (parent != null && !FeatureUtils.isRoot(feature)) {
-			if (!FeatureUtils.isMandatorySet(parent)) {
+		while (parent != null && parent.getParentFeature() != null) {
+			if (!parent.getParentGroup().GROUPTYPE.equals(GroupType.MANDATORY)) {
 				return true;
 			}
-			parent = FeatureUtils.getParent(parent);
+			parent = parent.getParentFeature();
 		}
 		return false;
 	}
@@ -1040,8 +1031,8 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 		Constraint sourceLiteral = TraVarTUtils.getLeftConstraint(cnfConstraint);
 		Constraint targetLiteral = TraVarTUtils.getRightConstraint(cnfConstraint);
 		if (TraVarTUtils.isLiteral(sourceLiteral) && TraVarTUtils.isLiteral(targetLiteral)) {
-			String sourceFeature = TraVarTUtils.getLiteralName((Literal) sourceLiteral);
-			String targetFeature = TraVarTUtils.getLiteralName((Literal) targetLiteral);
+			String sourceFeature = ((LiteralConstraint) sourceLiteral).getLiteral();
+			String targetFeature = ((LiteralConstraint) targetLiteral).getLiteral();
 			IDecision source = dm.get(sourceFeature);
 			IDecision target = dm.get(targetFeature);
 			if (isEnumSubFeature(source) && !isEnumSubFeature(target)) {
@@ -1091,9 +1082,9 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 	}
 
 	private ICondition deriveConditionFromConstraint(final Constraint node) throws ConditionCreationException {
-		if (TraVarTUtils.isAnd(node)) {
+		if (node instanceof AndConstraint) {
 			List<Constraint> nodes = new ArrayList<Constraint>();
-			nodes.addAll(Arrays.asList(node.getChildren()));
+			nodes.addAll(node.getConstraintSubParts());
 			ICondition first = deriveConditionFromConstraint(nodes.remove(0));
 			ICondition second = deriveConditionFromConstraint(nodes.remove(0));
 			And and = new And(first, second);
@@ -1103,9 +1094,9 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			}
 			return and;
 		}
-		if (TraVarTUtils.isOr(node)) {
+		if (node instanceof OrConstraint) {
 			List<Constraint> nodes = new ArrayList<Constraint>();
-			nodes.addAll(Arrays.asList(node.getChildren()));
+			nodes.addAll(node.getConstraintSubParts());
 			ICondition first = deriveConditionFromConstraint(nodes.remove(0));
 			ICondition second = deriveConditionFromConstraint(nodes.remove(0));
 			Or or = new Or(first, second);
@@ -1116,7 +1107,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			return or;
 		}
 		if (TraVarTUtils.isLiteral(node)) {
-			IDecision decision = dm.get(TraVarTUtils.getLiteralName((Literal) node));
+			IDecision decision = dm.get(((LiteralConstraint) node).getLiteral());
 			IsSelectedFunction function = new IsSelectedFunction(decision);
 			return TraVarTUtils.isNegativeLiteral(node) ? new Not(function) : function;
 		}
@@ -1148,7 +1139,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 	private List<IDecision> findDecisionsForLiterals(final Set<Constraint> literals) {
 		List<IDecision> literalDecisions = new ArrayList<>();
 		for (Constraint positive : literals) {
-			String name = ((LiteralConstraint)positive).getLiteral();
+			String name = ((LiteralConstraint) positive).getLiteral();
 			IDecision d = dm.get(name);
 			if (d != null) {
 				literalDecisions.add(d);
@@ -1219,11 +1210,13 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 	private void defineCardinality(final EnumDecision decision, final Feature feature) {
 		Cardinality cardinality = null;
 		if (FeatureUtils.isOr(feature)) {
-			cardinality = new Cardinality(1, FeatureUtils.getChildrenCount(feature));
+			cardinality = new Cardinality(1, feature.getChildren().stream().flatMap(g -> g.getFeatures().stream())
+					.collect(Collectors.toList()).size());
 		} else if (FeatureUtils.isAlternative(feature)) {
 			cardinality = new Cardinality(1, 1);
 		} else {
-			cardinality = new Cardinality(0, FeatureUtils.getChildrenCount(feature));
+			cardinality = new Cardinality(0, feature.getChildren().stream().flatMap(g -> g.getFeatures().stream())
+					.collect(Collectors.toList()).size());
 		}
 		decision.setCardinality(cardinality);
 	}
@@ -1232,13 +1225,14 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			throws NotSupportedVariablityTypeException {
 		Range<String> range = new Range<>();
 		// TODO Groups?
-		for (Feature optionFeature : FeatureUtils.getChildren(feature)) {
-			StringValue option = new StringValue(optionFeature.getName());
+		for (Feature optionFeature : feature.getChildren().stream().flatMap(g -> g.getFeatures().stream())
+				.collect(Collectors.toList())) {
+			StringValue option = new StringValue(optionFeature.getFeatureName());
 			range.add(option);
 		}
 		decision.setRange(range);
 		// add non option if it comes from a enum decision
-		if (!FeatureUtils.isMandatorySet(feature) || isEnumSubFeature(feature)) {
+		if (!feature.getParentGroup().GROUPTYPE.equals(GroupType.MANDATORY) || isEnumSubFeature(feature)) {
 			ARangeValue noneOption = decision.getNoneOption();
 			noneOption.enable();
 			decision.getRange().add(noneOption);
@@ -1259,7 +1253,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 						DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY,
 						DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY_TYPE);
 				ICondition visiblity = conditionParser.parse(visbility);
-				IDecision decision = dm.get(feature.getName());
+				IDecision decision = dm.get(feature.getFeatureName());
 				decision.setVisibility(visiblity);
 			}
 		}

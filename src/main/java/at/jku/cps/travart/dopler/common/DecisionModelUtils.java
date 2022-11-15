@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVFormat.Builder;
 
-import at.jku.cps.travart.core.common.exc.ConditionCreationException;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
+import at.jku.cps.travart.dopler.decision.exc.ConditionCreationException;
 import at.jku.cps.travart.dopler.decision.impl.DMCSVHeader;
 import at.jku.cps.travart.dopler.decision.model.ABinaryCondition;
 import at.jku.cps.travart.dopler.decision.model.ADecision;

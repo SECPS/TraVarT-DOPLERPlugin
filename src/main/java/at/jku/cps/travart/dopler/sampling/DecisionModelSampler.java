@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 
 import at.jku.cps.travart.core.common.IConfigurable;
 import at.jku.cps.travart.core.common.ISampler;
+import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import at.jku.cps.travart.dopler.common.DecisionModelUtils;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.exc.ActionExecutionException;
-import at.jku.cps.travart.dopler.decision.exc.NotSupportedVariablityTypeException;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
 import at.jku.cps.travart.dopler.decision.exc.UnsatisfiedCardinalityException;
 import at.jku.cps.travart.dopler.decision.model.ADecision;
@@ -56,7 +56,7 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 
 	@Override
 	public Set<Map<IConfigurable, Boolean>> sampleValidConfigurations(final IDecisionModel dm)
-			throws NotSupportedVariablityTypeException {
+			throws NotSupportedVariabilityTypeException {
 		if (lastDm == null || lastDm != dm) {
 			sample(dm);
 		}
@@ -65,7 +65,7 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 
 	@Override
 	public Set<Map<IConfigurable, Boolean>> sampleValidConfigurations(final IDecisionModel dm, final long maxNumber)
-			throws NotSupportedVariablityTypeException {
+			throws NotSupportedVariabilityTypeException {
 		if (lastDm == null || lastDm != dm) {
 			sample(dm);
 		}
@@ -75,7 +75,7 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 
 	@Override
 	public Set<Map<IConfigurable, Boolean>> sampleInvalidConfigurations(final IDecisionModel dm)
-			throws NotSupportedVariablityTypeException {
+			throws NotSupportedVariabilityTypeException {
 		if (lastDm == null || lastDm != dm) {
 			sample(dm);
 		}
@@ -84,7 +84,7 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 
 	@Override
 	public Set<Map<IConfigurable, Boolean>> sampleInvalidConfigurations(final IDecisionModel dm, final long maxNumber)
-			throws NotSupportedVariablityTypeException {
+			throws NotSupportedVariabilityTypeException {
 		if (lastDm == null || lastDm != dm) {
 			sample(dm);
 		}
@@ -92,7 +92,7 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 				: invalidConfigs;
 	}
 
-	private void sample(final IDecisionModel dm) throws NotSupportedVariablityTypeException {
+	private void sample(final IDecisionModel dm) throws NotSupportedVariabilityTypeException {
 		try {
 			lastDm = dm;
 			configcounter = 0;
@@ -101,14 +101,14 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 			createConfigurations(dm, DecisionModelUtils.getSelectableDecisions(dm));
 //			createConfigurations(dm, DecisionModelUtils.getVisibleDecisions(dm));
 			System.out.println("Configurations generated: " + configcounter);
-		} catch (NotSupportedVariablityTypeException | RangeValueException | ActionExecutionException
+		} catch (NotSupportedVariabilityTypeException | RangeValueException | ActionExecutionException
 				| UnsatisfiedCardinalityException e) {
-			throw new NotSupportedVariablityTypeException(e);
+			throw new NotSupportedVariabilityTypeException(e);
 		}
 	}
 
 	private void createConfigurations(final IDecisionModel dm, final Set<IDecision> decisions)
-			throws NotSupportedVariablityTypeException, RangeValueException, ActionExecutionException,
+			throws NotSupportedVariabilityTypeException, RangeValueException, ActionExecutionException,
 			UnsatisfiedCardinalityException {
 		// cancel if max number of valid configurations is reached
 		if (validConfigs.size() >= maxNumberOfValidConfigs) {
@@ -162,7 +162,7 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 	}
 
 	private void deriveInvalidConfigs(final Map<IConfigurable, Boolean> config)
-			throws NotSupportedVariablityTypeException {
+			throws NotSupportedVariabilityTypeException {
 		Random rand = new Random();
 		for (int count = 0; count < 10; count++) {
 			int decisionSwitch = rand.nextInt(config.size());
@@ -270,7 +270,7 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 
 	@Override
 	public boolean verifySampleAs(final IDecisionModel dm, final Map<IConfigurable, Boolean> sample)
-			throws NotSupportedVariablityTypeException {
+			throws NotSupportedVariabilityTypeException {
 		try {
 			dm.reset();
 			for (Entry<IConfigurable, Boolean> entry : sample.entrySet()) {
@@ -305,12 +305,12 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 			boolean valid = dm.isValid();
 			return valid;
 		} catch (RangeValueException | UnsatisfiedCardinalityException e) {
-			throw new NotSupportedVariablityTypeException(e);
+			throw new NotSupportedVariabilityTypeException(e);
 		}
 	}
 
 	public static void configureDmWithSamples(final IDecisionModel dm, final Map<IConfigurable, Boolean> sample)
-			throws NotSupportedVariablityTypeException {
+			throws at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException {
 		try {
 			dm.reset();
 			for (Entry<IConfigurable, Boolean> entry : sample.entrySet()) {
@@ -336,7 +336,7 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 			}
 			dm.executeRules();
 		} catch (RangeValueException | ActionExecutionException | UnsatisfiedCardinalityException e) {
-			throw new NotSupportedVariablityTypeException(e);
+			throw new NotSupportedVariabilityTypeException(e);
 		}
 	}
 
