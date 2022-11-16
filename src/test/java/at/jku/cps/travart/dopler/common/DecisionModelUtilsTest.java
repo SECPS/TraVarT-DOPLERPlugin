@@ -15,8 +15,8 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import at.jku.cps.travart.core.common.exc.ConditionCreationException;
 import at.jku.cps.travart.dopler.decision.exc.CircleInConditionException;
+import at.jku.cps.travart.dopler.decision.exc.ConditionCreationException;
 import at.jku.cps.travart.dopler.decision.factory.impl.DecisionModelFactory;
 import at.jku.cps.travart.dopler.decision.impl.DecisionModel;
 import at.jku.cps.travart.dopler.decision.model.ADecision;

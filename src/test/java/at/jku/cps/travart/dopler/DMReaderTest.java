@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 
 import org.junit.Test;
 
-import at.jku.cps.travart.core.common.exc.NotSupportedVariablityTypeException;
+import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.io.DecisionModelReader;
 
@@ -24,7 +24,7 @@ public class DMReaderTest {
 		} catch (IOException e) {
 			fail("IO Exception occured while reading Decision Model");
 			e.printStackTrace();
-		} catch (NotSupportedVariablityTypeException e) {
+		} catch (NotSupportedVariabilityTypeException e) {
 			fail("Variability type was not supported while reading Decision Model");
 			e.printStackTrace();
 		} catch (URISyntaxException e) {

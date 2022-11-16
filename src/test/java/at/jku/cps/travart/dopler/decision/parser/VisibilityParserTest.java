@@ -16,7 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
 
-import at.jku.cps.travart.core.common.exc.NotSupportedVariablityTypeException;
+import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import at.jku.cps.travart.dopler.common.DecisionModelUtils;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.impl.DMCSVHeader;
@@ -36,7 +36,7 @@ public class VisibilityParserTest {
 		try {
 			dm = reader.read(toRead);
 			vp = new ConditionParser(dm);
-		} catch (IOException | NotSupportedVariablityTypeException e) {
+		} catch (IOException | NotSupportedVariabilityTypeException e) {
 			e.printStackTrace();
 		}
 

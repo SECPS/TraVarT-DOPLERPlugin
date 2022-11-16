@@ -10,8 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
 
-import at.jku.cps.travart.core.common.TraVarTUtils;
-import at.jku.cps.travart.core.common.exc.NotSupportedVariablityTypeException;
+import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
+import at.jku.cps.travart.core.helpers.TraVarTUtils;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.exc.ParserException;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
@@ -26,11 +26,10 @@ public class RulesParserTest {
 	public void setUp() throws Exception {
 		Path toRead = Paths
 				.get(new RulesParserTest().getClass().getClassLoader().getResource("DOPLERToolsDM.csv").toURI());
-		DecisionModelReader reader = new DecisionModelReader();
 		try {
 			dm = reader.read(toRead);
 			rp = new RulesParser(dm);
-		} catch (IOException | NotSupportedVariablityTypeException e) {
+		} catch (IOException | NotSupportedVariabilityTypeException e) {
 			e.printStackTrace();
 		}
 

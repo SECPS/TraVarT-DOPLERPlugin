@@ -14,8 +14,8 @@ import org.apache.commons.csv.CSVRecord;
 import org.junit.Before;
 import org.junit.Test;
 
-import at.jku.cps.travart.core.common.TraVarTUtils;
-import at.jku.cps.travart.core.common.exc.NotSupportedVariablityTypeException;
+import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
+import at.jku.cps.travart.core.helpers.TraVarTUtils;
 import at.jku.cps.travart.dopler.common.DecisionModelUtils;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.impl.DMCSVHeader;
@@ -49,7 +49,7 @@ public class RulesParserTest {
 		} catch (IOException e) {
 			fail("IO Exception occured while reading Decision Model");
 			e.printStackTrace();
-		} catch (NotSupportedVariablityTypeException e) {
+		} catch (NotSupportedVariabilityTypeException e) {
 			fail("Variability type was not supported while reading Decision Model");
 			e.printStackTrace();
 		}
@@ -64,7 +64,7 @@ public class RulesParserTest {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
-	public void rulesNotEmpty() throws IOException, NotSupportedVariablityTypeException {
+	public void rulesNotEmpty() throws IOException, NotSupportedVariabilityTypeException {
 		IDecisionModel dm = getDecisionModel();
 		RulesParser rp = new RulesParser(dm);
 		Reader secondIn = new FileReader(filePath.toFile());
@@ -84,7 +84,7 @@ public class RulesParserTest {
 				} else if (DecisionType.STRING.equalString(typeString)) {
 					decision = new StringDecision("");
 				} else {
-					throw new NotSupportedVariablityTypeException(typeString);
+					throw new NotSupportedVariabilityTypeException(typeString);
 				}
 				String range = c.get(DMCSVHeader.RANGE);
 				String[] options = TraVarTUtils.splitString(range, "\\|");
