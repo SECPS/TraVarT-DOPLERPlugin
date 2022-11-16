@@ -9,21 +9,19 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.prop4j.Literal;
 import org.logicng.formulas.FormulaFactory;
-import org.prop4j.Constraint;
 
 import at.jku.cps.travart.core.common.IModelTransformer;
-import at.jku.cps.travart.core.exception.ConditionCreationException;
 import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import at.jku.cps.travart.core.helpers.TraVarTUtils;
 import at.jku.cps.travart.core.transformation.DefaultModelTransformationProperties;
 import at.jku.cps.travart.dopler.common.DecisionModelUtils;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.exc.CircleInConditionException;
-import at.jku.cps.travart.dopler.decision.exc.NotSupportedVariablityTypeException;
+import at.jku.cps.travart.dopler.decision.exc.ConditionCreationException;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
 import at.jku.cps.travart.dopler.decision.factory.impl.DecisionModelFactory;
+import at.jku.cps.travart.dopler.decision.impl.DecisionModel;
 import at.jku.cps.travart.dopler.decision.model.ABinaryCondition;
 import at.jku.cps.travart.dopler.decision.model.ADecision;
 import at.jku.cps.travart.dopler.decision.model.AFunction;
@@ -60,9 +58,6 @@ import at.jku.cps.travart.dopler.decision.parser.ConditionParser;
 import de.ovgu.featureide.fm.core.ExtensionManager.NoSuchExtensionException;
 import de.ovgu.featureide.fm.core.base.FeatureUtils;
 import de.ovgu.featureide.fm.core.base.IConstraint;
-import de.ovgu.featureide.fm.core.base.Feature;
-import de.ovgu.featureide.fm.core.base.FeatureModel;
-import de.ovgu.featureide.fm.core.base.FeatureModelFactory;
 import de.ovgu.featureide.fm.core.base.impl.DefaultFeatureModelFactory;
 import de.ovgu.featureide.fm.core.base.impl.FMFactoryManager;
 import de.ovgu.featureide.fm.core.init.FMCoreLibrary;
@@ -81,7 +76,7 @@ import de.vill.model.constraint.NotConstraint;
 import de.vill.model.constraint.OrConstraint;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
-public class DecisionModeltoFeatureModelTransformer implements IModelTransformer<IDecisionModel> {
+public class DecisionModelTransformer implements IModelTransformer<IDecisionModel> {
 
 	static {
 		LibraryManager.registerLibrary(FMCoreLibrary.getInstance());
@@ -100,10 +95,9 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			createConstraints();
 			TraVarTUtils.deriveFeatureModelRoot(fm.getFeatureMap(), "VirtualRoot");
 			return fm;
-		} catch (CircleInConditionException | ConditionCreationException e) {
-			throw new NotSupportedVariablityTypeException(e);
+		} catch (CircleInConditionException e) {
+			throw new NotSupportedVariabilityTypeException(e);
 		}
-		return null;
 	}
 
 	public IDecisionModel transform(FeatureModel arg0, String arg1) throws NotSupportedVariabilityTypeException {
@@ -114,10 +108,10 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			dm.setName(fm.getRootFeature().getFeatureName());
 			convertFeature(fm.getRootFeature());
 			convertConstraints(fm.getConstraints());
-			convertVisibilityCustomProperties(fm.getFeatureMap());
+			convertVisibilityCustomProperties(fm.getFeatureMap().values());
 			return dm;
 		} catch (CircleInConditionException | ConditionCreationException e) {
-			throw new NotSupportedVariablityTypeException(e);
+			throw new NotSupportedVariabilityTypeException(e);
 		}
 	}
 
@@ -365,7 +359,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			ABinaryCondition binCondition = (ABinaryCondition) condition;
 			ARangeValue<Double> conditionValue = (ARangeValue<Double>) binCondition.getRight();
 			Feature disAllowFeature = fm.getFeatureMap().get(((DisAllowAction) action).getValue().toString());
-			Literal disAllowLiteral = new Literal(disAllowFeature.getFeatureName());
+			LiteralConstraint disAllowLiteral = new LiteralConstraint(disAllowFeature.getFeatureName());
 			if (condition instanceof Equals) {
 				createExcludesConstraint(numberDecision, disAllowLiteral, conditionValue);
 			} else if (condition instanceof Greater) {
@@ -396,12 +390,12 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 		}
 	}
 
-	private void createExcludesConstraint(final NumberDecision numberDecision, final Literal disAllowLiteral,
+	private void createExcludesConstraint(final NumberDecision numberDecision, final LiteralConstraint disAllowLiteral,
 			final ARangeValue<Double> value) {
 		Feature valueFeature = fm.getFeatureMap()
 				.get(numberDecision.getId() + DefaultDecisionModelTransformationProperties.CONFIGURATION_VALUE_SEPERATOR
 						+ value.getValue().toString());
-		Literal valueLiteral = new Literal(valueFeature.getFeatureName());
+		LiteralConstraint valueLiteral = new LiteralConstraint(valueFeature.getFeatureName());
 		Constraint constraint = new ImplicationConstraint(new LiteralConstraint(valueLiteral.toString()),
 				new NotConstraint(new LiteralConstraint(disAllowLiteral.toString())));
 		addConstraintIfEligible(constraint);
@@ -688,7 +682,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 		return new LiteralConstraint(node.toString());
 	}
 
-	private void convertFeature(final Feature feature) throws NotSupportedVariablityTypeException {
+	private void convertFeature(final Feature feature) throws NotSupportedVariabilityTypeException {
 		if (!feature.getFeatureName().equals(DefaultModelTransformationProperties.ARTIFICIAL_MODEL_NAME)) {
 			BooleanDecision decision = factory.createBooleanDecision(feature.getFeatureName());
 			dm.add(decision);
@@ -735,7 +729,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 		return false;
 	}
 
-	private void createEnumDecisions(final Feature feature) throws NotSupportedVariablityTypeException {
+	private void createEnumDecisions(final Feature feature) throws NotSupportedVariabilityTypeException {
 		// in FeatureIDE only one feature group is possible per feature
 		EnumDecision enumDecision = factory.createEnumDecision(feature.getFeatureName() + "#0");
 		dm.add(enumDecision);
@@ -817,7 +811,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 	}
 
 	private void convertConstraint(final Constraint cnfConstraint)
-			throws CircleInConditionException, ConditionCreationException {
+			throws CircleInConditionException, ConditionCreationException, at.jku.cps.travart.dopler.decision.exc.ConditionCreationException {
 		if (TraVarTUtils.isSingleFeatureRequires(cnfConstraint)) {
 			// mandatory from root - requires rule
 			Feature root = fm.getFeatureMap()
@@ -1119,7 +1113,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 		// other way around
 		// TODO: in another model as it is right now (Ubuntu_14_1)
 		// TODO: which is the best way to find out
-		List<EnumDecision> decisions = dm.findWithVisibility(decision).stream()
+		List<EnumDecision> decisions = ((DecisionModel)dm).findWithVisibility(decision).stream()
 				.filter(d -> (d.getType() == ADecision.DecisionType.ENUM)).map(d -> (EnumDecision) d)
 				.collect(Collectors.toList());
 		if (!decisions.isEmpty()) {
@@ -1129,7 +1123,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 	}
 
 	private EnumDecision findEnumDecisionByRangeValue(final IDecision decision) {
-		List<EnumDecision> decisions = new ArrayList<>(dm.findWithRangeValue(decision));
+		List<EnumDecision> decisions = new ArrayList<>(((DecisionModel)dm).findWithRangeValue(decision));
 		if (!decisions.isEmpty()) {
 			return decisions.remove(0);
 		}
@@ -1209,10 +1203,11 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 
 	private void defineCardinality(final EnumDecision decision, final Feature feature) {
 		Cardinality cardinality = null;
-		if (FeatureUtils.isOr(feature)) {
+		//TODO probably needs larger refactor due to group cardinalities
+		if (feature.getChildren().stream().anyMatch(g->g.GROUPTYPE.equals(GroupType.OR))) {
 			cardinality = new Cardinality(1, feature.getChildren().stream().flatMap(g -> g.getFeatures().stream())
 					.collect(Collectors.toList()).size());
-		} else if (FeatureUtils.isAlternative(feature)) {
+		} else if (feature.getChildren().stream().anyMatch(g->g.GROUPTYPE.equals(GroupType.ALTERNATIVE))) {
 			cardinality = new Cardinality(1, 1);
 		} else {
 			cardinality = new Cardinality(0, feature.getChildren().stream().flatMap(g -> g.getFeatures().stream())
@@ -1222,7 +1217,7 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 	}
 
 	private void defineRange(final EnumDecision decision, final Feature feature)
-			throws NotSupportedVariablityTypeException {
+			throws NotSupportedVariabilityTypeException {
 		Range<String> range = new Range<>();
 		// TODO Groups?
 		for (Feature optionFeature : feature.getChildren().stream().flatMap(g -> g.getFeatures().stream())
@@ -1239,19 +1234,17 @@ public class DecisionModeltoFeatureModelTransformer implements IModelTransformer
 			try {
 				decision.setValue((String) noneOption.getValue());
 			} catch (RangeValueException e) {
-				throw new NotSupportedVariablityTypeException(e);
+				throw new NotSupportedVariabilityTypeException(e);
 			}
 		}
 	}
 
 	private void convertVisibilityCustomProperties(final Collection<Feature> features) {
 		for (Feature feature : features) {
-			if (feature.getCustomProperties().has(DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY,
-					DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY_TYPE)) {
+			if (feature.getAttributes().containsKey(DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY)){//,DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY_TYPE)) {
 				ConditionParser conditionParser = new ConditionParser(dm);
-				String visbility = feature.getCustomProperties().get(
-						DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY,
-						DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY_TYPE);
+				String visbility = feature.getAttributes().get(
+						DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY).toString();//,DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY_TYPE);
 				ICondition visiblity = conditionParser.parse(visbility);
 				IDecision decision = dm.get(feature.getFeatureName());
 				decision.setVisibility(visiblity);

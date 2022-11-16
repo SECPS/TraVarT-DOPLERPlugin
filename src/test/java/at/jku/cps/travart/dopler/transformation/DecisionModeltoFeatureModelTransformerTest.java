@@ -61,7 +61,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		ed1.getRange().add(sv3);
 		ed1.setCardinality(new Cardinality(1, 3));
 		dm.add(ed1);
-		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
+		DecisionModelTransformer conv = new DecisionModelTransformer();
 
 		IFeatureModel fm = conv.transform(dm);
 		Collection<IFeature> f = fm.getFeatures();
@@ -82,7 +82,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		ed1.getRange().add(sv3);
 		ed1.setCardinality(new Cardinality(1, 1));
 		dm.add(ed1);
-		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
+		DecisionModelTransformer conv = new DecisionModelTransformer();
 
 		IFeatureModel controlModel = new FeatureModel("TestModel");
 
@@ -120,7 +120,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		ed1.getRange().add(sv3);
 		ed1.setCardinality(new Cardinality(1, 3));
 		dm.add(ed1);
-		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
+		DecisionModelTransformer conv = new DecisionModelTransformer();
 
 		IFeatureModel controlModel = new FeatureModel("TestModel");
 
@@ -160,7 +160,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		ed1.setCardinality(new Cardinality(1, 3));
 		dm.add(ed1);
 		dm.add(ed2);
-		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
+		DecisionModelTransformer conv = new DecisionModelTransformer();
 
 		IFeatureModel controlModel = new FeatureModel("TestModel");
 		// more than one decision requires virtual root
@@ -203,7 +203,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		IFeature cmbd1 = new Feature(controlModel, "bd1");
 		FeatureUtils.addFeature(controlModel, cmbd1);
 
-		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
+		DecisionModelTransformer conv = new DecisionModelTransformer();
 
 		IFeatureModel fm = conv.transform(dm);
 		assertTrue(areFMEqual(controlModel, fm));
@@ -238,7 +238,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		// Numberdecisions are always alternative
 		FeatureUtils.setAlternative(cmbd1);
 
-		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
+		DecisionModelTransformer conv = new DecisionModelTransformer();
 
 		IFeatureModel fm = conv.transform(dm);
 		assertTrue(areFMEqual(controlModel, fm));
@@ -252,7 +252,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		IFeature cmsd1 = new Feature(controlModel, sd1.getName());
 		FeatureUtils.addFeature(controlModel, cmsd1);
 
-		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
+		DecisionModelTransformer conv = new DecisionModelTransformer();
 
 		IFeatureModel fm = conv.transform(dm);
 		assertTrue(areFMEqual(controlModel, fm));
@@ -276,7 +276,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		ed1.setVisibility(a);
 		dm.add(ed1);
 		dm.add(ed2);
-		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
+		DecisionModelTransformer conv = new DecisionModelTransformer();
 
 		IFeatureModel controlModel = new FeatureModel("TestModel");
 		IFeature cmed1 = new Feature(controlModel, ed1.getName());
@@ -323,7 +323,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		dm.add(ed1);
 		dm.add(ed2);
 		dm.add(bd1);
-		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
+		DecisionModelTransformer conv = new DecisionModelTransformer();
 
 		IFeatureModel controlModel = new FeatureModel("TestModel");
 		IFeature vr = new Feature(controlModel, "VIRTUAL_ROOT");
@@ -377,7 +377,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 				ed1.getVisiblity().toString());
 		FeatureUtils.addFeature(controlModel, cmed1);
 
-		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
+		DecisionModelTransformer conv = new DecisionModelTransformer();
 		IFeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
@@ -742,7 +742,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 				Prop4JUtils.createLiteral(cmbd1), Prop4JUtils.createNot(Prop4JUtils.createLiteral(cmsv1))));
 		FeatureUtils.addConstraint(controlModel, constr);
 
-		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
+		DecisionModelTransformer conv = new DecisionModelTransformer();
 		IFeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
@@ -775,7 +775,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 				Prop4JUtils.createImplies(Prop4JUtils.createLiteral(cmbd1), Prop4JUtils.createLiteral(cmbd2)));
 		FeatureUtils.addConstraint(controlModel, constr);
 
-		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
+		DecisionModelTransformer conv = new DecisionModelTransformer();
 		IFeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
@@ -809,7 +809,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 				Prop4JUtils.createLiteral(cmbd1), Prop4JUtils.createNot(Prop4JUtils.createLiteral(cmbd2))));
 		FeatureUtils.addConstraint(controlModel, constr);
 
-		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
+		DecisionModelTransformer conv = new DecisionModelTransformer();
 		IFeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
@@ -853,7 +853,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 				Prop4JUtils.createLiteral(cmbd1), Prop4JUtils.createNot(Prop4JUtils.createLiteral(cmed1))));
 		FeatureUtils.addConstraint(controlModel, constr);
 
-		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
+		DecisionModelTransformer conv = new DecisionModelTransformer();
 		IFeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
@@ -901,7 +901,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 				Prop4JUtils.createImplies(Prop4JUtils.createLiteral(cmed1), Prop4JUtils.createLiteral(cmbd1)));
 		FeatureUtils.addConstraint(controlModel, constr);
 
-		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
+		DecisionModelTransformer conv = new DecisionModelTransformer();
 		IFeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
@@ -955,7 +955,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 				Prop4JUtils.createLiteral(cmsv1), Prop4JUtils.createNot(Prop4JUtils.createLiteral(cmed2))));
 		FeatureUtils.addConstraint(controlModel, constr);
 
-		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
+		DecisionModelTransformer conv = new DecisionModelTransformer();
 		IFeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
@@ -1004,7 +1004,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 				Prop4JUtils.createNot(Prop4JUtils.createLiteral(cmbd1)), Prop4JUtils.createLiteral(cmbd2)));
 		FeatureUtils.addConstraint(controlModel, constr);
 
-		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
+		DecisionModelTransformer conv = new DecisionModelTransformer();
 		IFeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
@@ -1060,7 +1060,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 						Prop4JUtils.createLiteral(cmbd2)));
 		FeatureUtils.addConstraint(controlModel, constr);
 
-		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
+		DecisionModelTransformer conv = new DecisionModelTransformer();
 		IFeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
@@ -1113,7 +1113,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 						Prop4JUtils.createLiteral(cmbd2)));
 		FeatureUtils.addConstraint(controlModel, constr);
 
-		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
+		DecisionModelTransformer conv = new DecisionModelTransformer();
 		IFeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
