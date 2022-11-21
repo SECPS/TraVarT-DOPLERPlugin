@@ -10,8 +10,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import at.jku.cps.travart.core.common.Prop4JUtils;
-import at.jku.cps.travart.core.common.exc.NotSupportedVariablityTypeException;
+import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import at.jku.cps.travart.dopler.decision.factory.impl.DecisionModelFactory;
 import at.jku.cps.travart.dopler.decision.impl.DecisionModel;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
@@ -31,15 +30,10 @@ import at.jku.cps.travart.dopler.decision.model.impl.SelectDecisionAction;
 import at.jku.cps.travart.dopler.decision.model.impl.SetValueAction;
 import at.jku.cps.travart.dopler.decision.model.impl.StringDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.StringValue;
-import de.ovgu.featureide.fm.core.base.FeatureUtils;
-import de.ovgu.featureide.fm.core.base.IConstraint;
-import de.ovgu.featureide.fm.core.base.IFeature;
-import de.ovgu.featureide.fm.core.base.IFeatureModel;
-import de.ovgu.featureide.fm.core.base.impl.DefaultFeatureModelFactory;
-import de.ovgu.featureide.fm.core.base.impl.Feature;
-import de.ovgu.featureide.fm.core.base.impl.FeatureModel;
+import de.vill.model.Feature;
+import de.vill.model.FeatureModel;
 
-public class DecisionModeltoFeatureModelTransformerTest {
+public class DecisionModelTransformerTest {
 	private DecisionModelFactory factory;
 	private DecisionModel dm;
 
@@ -51,7 +45,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 	}
 
 	@Test
-	public void testTransformOrDecision() throws NotSupportedVariablityTypeException {
+	public void testTransformOrDecision() throws NotSupportedVariabilityTypeException {
 		EnumDecision ed1 = new EnumDecision("ed1");
 		StringValue sv1 = new StringValue("sv1");
 		StringValue sv2 = new StringValue("sv2");
@@ -63,16 +57,16 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		dm.add(ed1);
 		DecisionModelTransformer conv = new DecisionModelTransformer();
 
-		IFeatureModel fm = conv.transform(dm);
-		Collection<IFeature> f = fm.getFeatures();
-		IFeature theFeature = f.stream().filter(e -> e.getName().equals(ed1.getId().substring(2))).findAny().get();
+		FeatureModel fm = conv.transform(dm);
+		Collection<Feature> f = fm.getFeatures();
+		Feature theFeature = f.stream().filter(e -> e.getName().equals(ed1.getId().substring(2))).findAny().get();
 		assertTrue("Multiple selections should be allowed for Or.", theFeature.getStructure().isMultiple());
 		assertFalse("And should not be set for Or connection", theFeature.getStructure().isAnd());
 		assertTrue(theFeature.getStructure().getChildren().size() == 3);
 	}
 
 	@Test
-	public void testTransformAlternative() throws NotSupportedVariablityTypeException {
+	public void testTransformAlternative() throws NotSupportedVariabilityTypeException {
 		EnumDecision ed1 = new EnumDecision("ed1");
 		StringValue sv1 = new StringValue("sv1");
 		StringValue sv2 = new StringValue("sv2");
@@ -84,14 +78,14 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		dm.add(ed1);
 		DecisionModelTransformer conv = new DecisionModelTransformer();
 
-		IFeatureModel controlModel = new FeatureModel("TestModel");
+		FeatureModel controlModel = new FeatureModel("TestModel");
 
-		IFeature cmed1 = new Feature(controlModel, ed1.getName());
+		Feature cmed1 = new Feature(controlModel, ed1.getName());
 		FeatureUtils.setRoot(controlModel, cmed1);
 		FeatureUtils.setAlternative(cmed1);
-		IFeature cmsv1 = new Feature(controlModel, sv1.getValue());
-		IFeature cmsv2 = new Feature(controlModel, sv2.getValue());
-		IFeature cmsv3 = new Feature(controlModel, sv3.getValue());
+		Feature cmsv1 = new Feature(controlModel, sv1.getValue());
+		Feature cmsv2 = new Feature(controlModel, sv2.getValue());
+		Feature cmsv3 = new Feature(controlModel, sv3.getValue());
 
 		FeatureUtils.addChild(cmed1, cmsv1);
 		FeatureUtils.addChild(cmed1, cmsv2);
@@ -101,7 +95,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		FeatureUtils.addFeature(controlModel, cmsv1);
 		FeatureUtils.addFeature(controlModel, cmsv2);
 		FeatureUtils.addFeature(controlModel, cmsv3);
-		IFeatureModel fm = conv.transform(dm);
+		FeatureModel fm = conv.transform(dm);
 		System.out.println("fm Id: " + fm.getId());
 		System.out.println("controlModel Id: " + controlModel.getId());
 
@@ -110,7 +104,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 	}
 
 	@Test
-	public void testTransformOrFullModelCheck() throws NotSupportedVariablityTypeException {
+	public void testTransformOrFullModelCheck() throws NotSupportedVariabilityTypeException {
 		EnumDecision ed1 = new EnumDecision("ed1");
 		StringValue sv1 = new StringValue("sv1");
 		StringValue sv2 = new StringValue("sv2");
@@ -122,13 +116,13 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		dm.add(ed1);
 		DecisionModelTransformer conv = new DecisionModelTransformer();
 
-		IFeatureModel controlModel = new FeatureModel("TestModel");
+		FeatureModel controlModel = new FeatureModel("TestModel");
 
-		IFeature cmed1 = new Feature(controlModel, ed1.getName());
+		Feature cmed1 = new Feature(controlModel, ed1.getName());
 		FeatureUtils.setRoot(controlModel, cmed1);
-		IFeature cmsv1 = new Feature(controlModel, sv1.getValue());
-		IFeature cmsv2 = new Feature(controlModel, sv2.getValue());
-		IFeature cmsv3 = new Feature(controlModel, sv3.getValue());
+		Feature cmsv1 = new Feature(controlModel, sv1.getValue());
+		Feature cmsv2 = new Feature(controlModel, sv2.getValue());
+		Feature cmsv3 = new Feature(controlModel, sv3.getValue());
 
 		FeatureUtils.addChild(cmed1, cmsv1);
 		FeatureUtils.addChild(cmed1, cmsv2);
@@ -139,13 +133,13 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		FeatureUtils.addFeature(controlModel, cmsv2);
 		FeatureUtils.addFeature(controlModel, cmsv3);
 		FeatureUtils.setOr(cmed1);
-		IFeatureModel fm = conv.transform(dm);
+		FeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
 	}
 
 	@Test
-	public void testTransformOrFullModelCheck2Enums() throws NotSupportedVariablityTypeException {
+	public void testTransformOrFullModelCheck2Enums() throws NotSupportedVariabilityTypeException {
 		EnumDecision ed1 = new EnumDecision("ed1");
 		EnumDecision ed2 = new EnumDecision("ed2");
 
@@ -162,16 +156,16 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		dm.add(ed2);
 		DecisionModelTransformer conv = new DecisionModelTransformer();
 
-		IFeatureModel controlModel = new FeatureModel("TestModel");
+		FeatureModel controlModel = new FeatureModel("TestModel");
 		// more than one decision requires virtual root
-		IFeature vr = new Feature(controlModel, "VIRTUAL_ROOT");
+		Feature vr = new Feature(controlModel, "VIRTUAL_ROOT");
 		FeatureUtils.setOr(vr);
-		IFeature cmed1 = new Feature(controlModel, ed1.getName());
-		IFeature cmed2 = new Feature(controlModel, ed2.getName());
+		Feature cmed1 = new Feature(controlModel, ed1.getName());
+		Feature cmed2 = new Feature(controlModel, ed2.getName());
 		FeatureUtils.setRoot(controlModel, vr);
-		IFeature cmsv1 = new Feature(controlModel, sv1.getValue());
-		IFeature cmsv2 = new Feature(controlModel, sv2.getValue());
-		IFeature cmsv3 = new Feature(controlModel, sv3.getValue());
+		Feature cmsv1 = new Feature(controlModel, sv1.getValue());
+		Feature cmsv2 = new Feature(controlModel, sv2.getValue());
+		Feature cmsv3 = new Feature(controlModel, sv3.getValue());
 
 		FeatureUtils.addChild(vr, cmed1);
 		FeatureUtils.addChild(vr, cmed2);
@@ -189,29 +183,29 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		FeatureUtils.addFeature(controlModel, cmsv2);
 		FeatureUtils.addFeature(controlModel, cmsv3);
 		FeatureUtils.setOr(cmed1);
-		IFeatureModel fm = conv.transform(dm);
+		FeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
 	}
 
 	@Test
-	public void testTransformBooleanDecision() throws NotSupportedVariablityTypeException {
-		IFeatureModel controlModel = new FeatureModel("TestModel");
+	public void testTransformBooleanDecision() throws NotSupportedVariabilityTypeException {
+		FeatureModel controlModel = new FeatureModel("TestModel");
 		BooleanDecision bd1 = new BooleanDecision("bd1");
 		dm.add(bd1);
 
-		IFeature cmbd1 = new Feature(controlModel, "bd1");
+		Feature cmbd1 = new Feature(controlModel, "bd1");
 		FeatureUtils.addFeature(controlModel, cmbd1);
 
 		DecisionModelTransformer conv = new DecisionModelTransformer();
 
-		IFeatureModel fm = conv.transform(dm);
+		FeatureModel fm = conv.transform(dm);
 		assertTrue(areFMEqual(controlModel, fm));
 	}
 
 	@Test
-	public void testTransformNumberDecision() throws NotSupportedVariablityTypeException {
-		IFeatureModel controlModel = new FeatureModel("TestModel");
+	public void testTransformNumberDecision() throws NotSupportedVariabilityTypeException {
+		FeatureModel controlModel = new FeatureModel("TestModel");
 		NumberDecision nd1 = new NumberDecision("nd1");
 		DoubleValue dv1 = new DoubleValue(1);
 		DoubleValue dv2 = new DoubleValue(2);
@@ -221,11 +215,11 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		nd1.getRange().add(dv3);
 		dm.add(nd1);
 
-		IFeature cmbd1 = new Feature(controlModel, nd1.getName());
+		Feature cmbd1 = new Feature(controlModel, nd1.getName());
 
-		IFeature cmdv1 = new Feature(controlModel, nd1.getName() + "_" + dv1.getValue().toString());
-		IFeature cmdv2 = new Feature(controlModel, nd1.getName() + "_" + dv2.getValue().toString());
-		IFeature cmdv3 = new Feature(controlModel, nd1.getName() + "_" + dv3.getValue().toString());
+		Feature cmdv1 = new Feature(controlModel, nd1.getName() + "_" + dv1.getValue().toString());
+		Feature cmdv2 = new Feature(controlModel, nd1.getName() + "_" + dv2.getValue().toString());
+		Feature cmdv3 = new Feature(controlModel, nd1.getName() + "_" + dv3.getValue().toString());
 
 		FeatureUtils.addChild(cmbd1, cmdv1);
 		FeatureUtils.addChild(cmbd1, cmdv2);
@@ -240,26 +234,26 @@ public class DecisionModeltoFeatureModelTransformerTest {
 
 		DecisionModelTransformer conv = new DecisionModelTransformer();
 
-		IFeatureModel fm = conv.transform(dm);
+		FeatureModel fm = conv.transform(dm);
 		assertTrue(areFMEqual(controlModel, fm));
 	}
 
 	@Test
-	public void testTransformStringDecision() throws NotSupportedVariablityTypeException {
-		IFeatureModel controlModel = new FeatureModel("TestModel");
+	public void testTransformStringDecision() throws NotSupportedVariabilityTypeException {
+		FeatureModel controlModel = new FeatureModel("TestModel");
 		StringDecision sd1 = new StringDecision("sd1");
 		dm.add(sd1);
-		IFeature cmsd1 = new Feature(controlModel, sd1.getName());
+		Feature cmsd1 = new Feature(controlModel, sd1.getName());
 		FeatureUtils.addFeature(controlModel, cmsd1);
 
 		DecisionModelTransformer conv = new DecisionModelTransformer();
 
-		IFeatureModel fm = conv.transform(dm);
+		FeatureModel fm = conv.transform(dm);
 		assertTrue(areFMEqual(controlModel, fm));
 	}
 
 	@Test
-	public void testTransformMandatoryVisibilityCondition() throws NotSupportedVariablityTypeException {
+	public void testTransformMandatoryVisibilityCondition() throws NotSupportedVariabilityTypeException {
 		EnumDecision ed1 = new EnumDecision("ed1");
 		EnumDecision ed2 = new EnumDecision("ed2");
 
@@ -278,12 +272,12 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		dm.add(ed2);
 		DecisionModelTransformer conv = new DecisionModelTransformer();
 
-		IFeatureModel controlModel = new FeatureModel("TestModel");
-		IFeature cmed1 = new Feature(controlModel, ed1.getName());
-		IFeature cmed2 = new Feature(controlModel, ed2.getName());
-		IFeature cmsv1 = new Feature(controlModel, sv1.getValue());
-		IFeature cmsv2 = new Feature(controlModel, sv2.getValue());
-		IFeature cmsv3 = new Feature(controlModel, sv3.getValue());
+		FeatureModel controlModel = new FeatureModel("TestModel");
+		Feature cmed1 = new Feature(controlModel, ed1.getName());
+		Feature cmed2 = new Feature(controlModel, ed2.getName());
+		Feature cmsv1 = new Feature(controlModel, sv1.getValue());
+		Feature cmsv2 = new Feature(controlModel, sv2.getValue());
+		Feature cmsv3 = new Feature(controlModel, sv3.getValue());
 
 		FeatureUtils.setMandatory(cmed1, true);
 
@@ -299,13 +293,13 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		FeatureUtils.addFeature(controlModel, cmsv2);
 		FeatureUtils.addFeature(controlModel, cmsv3);
 		FeatureUtils.setOr(cmed1);
-		IFeatureModel fm = conv.transform(dm);
+		FeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
 	}
 
 	@Test
-	public void testTransformDecisionVisibilityCondition() throws NotSupportedVariablityTypeException {
+	public void testTransformDecisionVisibilityCondition() throws NotSupportedVariabilityTypeException {
 		EnumDecision ed1 = new EnumDecision("ed1");
 		EnumDecision ed2 = new EnumDecision("ed2");
 		BooleanDecision bd1 = new BooleanDecision("bd1");
@@ -325,16 +319,16 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		dm.add(bd1);
 		DecisionModelTransformer conv = new DecisionModelTransformer();
 
-		IFeatureModel controlModel = new FeatureModel("TestModel");
-		IFeature vr = new Feature(controlModel, "VIRTUAL_ROOT");
+		FeatureModel controlModel = new FeatureModel("TestModel");
+		Feature vr = new Feature(controlModel, "VIRTUAL_ROOT");
 		FeatureUtils.setOr(vr);
 
-		IFeature cmed1 = new Feature(controlModel, ed1.getName());
-		IFeature cmed2 = new Feature(controlModel, ed2.getName());
-		IFeature cmbd1 = new Feature(controlModel, bd1.getName());
-		IFeature cmsv1 = new Feature(controlModel, sv1.getValue());
-		IFeature cmsv2 = new Feature(controlModel, sv2.getValue());
-		IFeature cmsv3 = new Feature(controlModel, sv3.getValue());
+		Feature cmed1 = new Feature(controlModel, ed1.getName());
+		Feature cmed2 = new Feature(controlModel, ed2.getName());
+		Feature cmbd1 = new Feature(controlModel, bd1.getName());
+		Feature cmsv1 = new Feature(controlModel, sv1.getValue());
+		Feature cmsv2 = new Feature(controlModel, sv2.getValue());
+		Feature cmsv3 = new Feature(controlModel, sv3.getValue());
 
 		FeatureUtils.setRoot(controlModel, vr);
 		FeatureUtils.addChild(vr, cmed1);
@@ -357,20 +351,20 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		FeatureUtils.addFeature(controlModel, cmsv2);
 		FeatureUtils.addFeature(controlModel, cmsv3);
 		FeatureUtils.setOr(cmed1);
-		IFeatureModel fm = conv.transform(dm);
+		FeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
 	}
 
 	@Test
-	public void testTransformMandatoryConstraint() throws NotSupportedVariablityTypeException {
+	public void testTransformMandatoryConstraint() throws NotSupportedVariabilityTypeException {
 		EnumDecision ed1 = new EnumDecision("ed1");
 		And a = new And(ICondition.FALSE, ICondition.FALSE);
 		ed1.setVisibility(a);
 		dm.add(ed1);
 
-		IFeatureModel controlModel = new FeatureModel("TestModel");
-		IFeature cmed1 = new Feature(controlModel, "ed1");
+		FeatureModel controlModel = new FeatureModel("TestModel");
+		Feature cmed1 = new Feature(controlModel, "ed1");
 		FeatureUtils.setMandatory(cmed1, true);
 		cmed1.getCustomProperties().set(DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY,
 				DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY_TYPE,
@@ -378,7 +372,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		FeatureUtils.addFeature(controlModel, cmed1);
 
 		DecisionModelTransformer conv = new DecisionModelTransformer();
-		IFeatureModel fm = conv.transform(dm);
+		FeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
 	}
@@ -395,7 +389,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 //	// ambiguity
 //	@Test // TODO not sure if controlModel constraint is right. might need a fix
 //	public void testTransformRulesCompareEqualDisAllow()
-//			throws NotSupportedVariablityTypeException, RangeValueException {
+//			throws NotSupportedVariabilityTypeException, RangeValueException {
 //		EnumDecision ed1 = new EnumDecision("ed1");
 //		StringValue sv1 = new StringValue("sv1");
 //		ed1.getRange().add(sv1);
@@ -414,20 +408,20 @@ public class DecisionModeltoFeatureModelTransformerTest {
 //		dm.add(nd1);
 //		dm.add(nd2);
 //
-//		IFeatureModel controlModel = new FeatureModel("TestModel");
-//		IFeature vr = new Feature(controlModel, "VIRTUAL_ROOT");
+//		FeatureModel controlModel = new FeatureModel("TestModel");
+//		Feature vr = new Feature(controlModel, "VIRTUAL_ROOT");
 //		FeatureUtils.setRoot(controlModel, vr);
 //		FeatureUtils.setOr(vr);
-//		IFeature cmed1 = new Feature(controlModel, ed1.getName());
-//		IFeature cmsv1 = new Feature(controlModel, sv1.getValue());
-//		IFeature cmnd1 = new Feature(controlModel, nd1.getName());
-//		IFeature cmnd2 = new Feature(controlModel, nd2.getName());
-//		IFeature cmdv1 = new Feature(controlModel, nd1.getName() + "_" + dv1[0].getValue());
-//		IFeature cmdv2 = new Feature(controlModel, nd1.getName() + "_" + dv1[1].getValue());
-//		IFeature cmdv3 = new Feature(controlModel, nd1.getName() + "_" + dv1[2].getValue());
-//		IFeature cmdv4 = new Feature(controlModel, nd2.getName() + "_" + dv2[0].getValue());
-//		IFeature cmdv5 = new Feature(controlModel, nd2.getName() + "_" + dv2[1].getValue());
-//		IFeature cmdv6 = new Feature(controlModel, nd2.getName() + "_" + dv2[2].getValue());
+//		Feature cmed1 = new Feature(controlModel, ed1.getName());
+//		Feature cmsv1 = new Feature(controlModel, sv1.getValue());
+//		Feature cmnd1 = new Feature(controlModel, nd1.getName());
+//		Feature cmnd2 = new Feature(controlModel, nd2.getName());
+//		Feature cmdv1 = new Feature(controlModel, nd1.getName() + "_" + dv1[0].getValue());
+//		Feature cmdv2 = new Feature(controlModel, nd1.getName() + "_" + dv1[1].getValue());
+//		Feature cmdv3 = new Feature(controlModel, nd1.getName() + "_" + dv1[2].getValue());
+//		Feature cmdv4 = new Feature(controlModel, nd2.getName() + "_" + dv2[0].getValue());
+//		Feature cmdv5 = new Feature(controlModel, nd2.getName() + "_" + dv2[1].getValue());
+//		Feature cmdv6 = new Feature(controlModel, nd2.getName() + "_" + dv2[2].getValue());
 //
 //		FeatureUtils.addChild(vr, cmed1);
 //		FeatureUtils.addChild(vr, cmnd1);
@@ -462,7 +456,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 //		FeatureUtils.addConstraint(controlModel, constr);
 //
 //		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
-//		IFeatureModel fm = conv.transform(dm);
+//		FeatureModel fm = conv.transform(dm);
 //
 //		assertTrue(areFMEqual(controlModel, fm));
 //	}
@@ -470,7 +464,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 //	// If the Value of NumberDecision nd1 is Greater than the value of DoubleValue
 //	// dv[0] (=0) then the StringValue sv1 should be disallowed for EnumDecision ed1
 //	@Test // TODO not sure if controlModel constraint is right. might need a fix
-//	public void testTransformRulesCompareGreaterDisAllow() throws NotSupportedVariablityTypeException {
+//	public void testTransformRulesCompareGreaterDisAllow() throws NotSupportedVariabilityTypeException {
 //		EnumDecision ed1 = new EnumDecision("ed1");
 //		StringValue sv1 = new StringValue("sv1");
 //		ed1.getRange().add(sv1);
@@ -483,16 +477,16 @@ public class DecisionModeltoFeatureModelTransformerTest {
 //		dm.add(ed1);
 //		dm.add(nd1);
 //
-//		IFeatureModel controlModel = new FeatureModel("TestModel");
-//		IFeature vr = new Feature(controlModel, "VIRTUAL_ROOT");
+//		FeatureModel controlModel = new FeatureModel("TestModel");
+//		Feature vr = new Feature(controlModel, "VIRTUAL_ROOT");
 //		FeatureUtils.setRoot(controlModel, vr);
 //		FeatureUtils.setOr(vr);
-//		IFeature cmed1 = new Feature(controlModel, ed1.getName());
-//		IFeature cmsv1 = new Feature(controlModel, sv1.getValue());
-//		IFeature cmnd1 = new Feature(controlModel, nd1.getName());
-//		IFeature cmdv1 = new Feature(controlModel, nd1.getName() + "_" + dv[0].getValue());
-//		IFeature cmdv2 = new Feature(controlModel, nd1.getName() + "_" + dv[1].getValue());
-//		IFeature cmdv3 = new Feature(controlModel, nd1.getName() + "_" + dv[2].getValue());
+//		Feature cmed1 = new Feature(controlModel, ed1.getName());
+//		Feature cmsv1 = new Feature(controlModel, sv1.getValue());
+//		Feature cmnd1 = new Feature(controlModel, nd1.getName());
+//		Feature cmdv1 = new Feature(controlModel, nd1.getName() + "_" + dv[0].getValue());
+//		Feature cmdv2 = new Feature(controlModel, nd1.getName() + "_" + dv[1].getValue());
+//		Feature cmdv3 = new Feature(controlModel, nd1.getName() + "_" + dv[2].getValue());
 //		FeatureUtils.addChild(vr, cmed1);
 //		FeatureUtils.addChild(vr, cmnd1);
 //
@@ -520,7 +514,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 //		FeatureUtils.addConstraint(controlModel, constr2);
 //
 //		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
-//		IFeatureModel fm = conv.transform(dm);
+//		FeatureModel fm = conv.transform(dm);
 //
 //		assertTrue(areFMEqual(controlModel, fm));
 //	}
@@ -532,7 +526,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 //	// transformed = null => -sv1,null => -sv1,null => -sv1
 //	// reason is because right nodes can't be found because of d_ naming
 //	@Test // TODO not sure if controlModel constraint is right. might need a fix
-//	public void testTransformRulesCompareGreaterEqualDisAllow() throws NotSupportedVariablityTypeException {
+//	public void testTransformRulesCompareGreaterEqualDisAllow() throws NotSupportedVariabilityTypeException {
 //		EnumDecision ed1 = new EnumDecision("ed1");
 //		StringValue sv1 = new StringValue("sv1");
 //		ed1.getRange().add(sv1);
@@ -545,16 +539,16 @@ public class DecisionModeltoFeatureModelTransformerTest {
 //		dm.add(ed1);
 //		dm.add(nd1);
 //
-//		IFeatureModel controlModel = new FeatureModel("TestModel");
-//		IFeature vr = new Feature(controlModel, "VIRTUAL_ROOT");
+//		FeatureModel controlModel = new FeatureModel("TestModel");
+//		Feature vr = new Feature(controlModel, "VIRTUAL_ROOT");
 //		FeatureUtils.setRoot(controlModel, vr);
 //		FeatureUtils.setOr(vr);
-//		IFeature cmed1 = new Feature(controlModel, ed1.getName());
-//		IFeature cmsv1 = new Feature(controlModel, sv1.getValue());
-//		IFeature cmnd1 = new Feature(controlModel, nd1.getName());
-//		IFeature cmdv1 = new Feature(controlModel, nd1.getName() + "_" + dv[0].getValue());
-//		IFeature cmdv2 = new Feature(controlModel, nd1.getName() + "_" + dv[1].getValue());
-//		IFeature cmdv3 = new Feature(controlModel, nd1.getName() + "_" + dv[2].getValue());
+//		Feature cmed1 = new Feature(controlModel, ed1.getName());
+//		Feature cmsv1 = new Feature(controlModel, sv1.getValue());
+//		Feature cmnd1 = new Feature(controlModel, nd1.getName());
+//		Feature cmdv1 = new Feature(controlModel, nd1.getName() + "_" + dv[0].getValue());
+//		Feature cmdv2 = new Feature(controlModel, nd1.getName() + "_" + dv[1].getValue());
+//		Feature cmdv3 = new Feature(controlModel, nd1.getName() + "_" + dv[2].getValue());
 //		FeatureUtils.addChild(vr, cmed1);
 //		FeatureUtils.addChild(vr, cmnd1);
 //
@@ -586,7 +580,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 //		FeatureUtils.addConstraint(controlModel, constr2);
 //
 //		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
-//		IFeatureModel fm = conv.transform(dm);
+//		FeatureModel fm = conv.transform(dm);
 //
 //		assertTrue(areFMEqual(controlModel, fm));
 //	}
@@ -598,7 +592,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 //	// TODO not sure if controlModel constraint is right. might need a fix,
 //	// couldn't find anything that would model a "Less" relation in feature model
 //	@Test
-//	public void testTransformRulesCompareLessDisAllow() throws NotSupportedVariablityTypeException {
+//	public void testTransformRulesCompareLessDisAllow() throws NotSupportedVariabilityTypeException {
 //		EnumDecision ed1 = new EnumDecision("ed1");
 //		StringValue sv1 = new StringValue("sv1");
 //		ed1.getRange().add(sv1);
@@ -611,16 +605,16 @@ public class DecisionModeltoFeatureModelTransformerTest {
 //		dm.add(ed1);
 //		dm.add(nd1);
 //
-//		IFeatureModel controlModel = new FeatureModel("TestModel");
-//		IFeature vr = new Feature(controlModel, "VIRTUAL_ROOT");
+//		FeatureModel controlModel = new FeatureModel("TestModel");
+//		Feature vr = new Feature(controlModel, "VIRTUAL_ROOT");
 //		FeatureUtils.setRoot(controlModel, vr);
 //		FeatureUtils.setOr(vr);
-//		IFeature cmed1 = new Feature(controlModel, ed1.getName());
-//		IFeature cmsv1 = new Feature(controlModel, sv1.getValue());
-//		IFeature cmnd1 = new Feature(controlModel, nd1.getName());
-//		IFeature cmdv1 = new Feature(controlModel, nd1.getName() + "_" + dv[0].getValue());
-//		IFeature cmdv2 = new Feature(controlModel, nd1.getName() + "_" + dv[1].getValue());
-//		IFeature cmdv3 = new Feature(controlModel, nd1.getName() + "_" + dv[2].getValue());
+//		Feature cmed1 = new Feature(controlModel, ed1.getName());
+//		Feature cmsv1 = new Feature(controlModel, sv1.getValue());
+//		Feature cmnd1 = new Feature(controlModel, nd1.getName());
+//		Feature cmdv1 = new Feature(controlModel, nd1.getName() + "_" + dv[0].getValue());
+//		Feature cmdv2 = new Feature(controlModel, nd1.getName() + "_" + dv[1].getValue());
+//		Feature cmdv3 = new Feature(controlModel, nd1.getName() + "_" + dv[2].getValue());
 //		FeatureUtils.addChild(vr, cmed1);
 //		FeatureUtils.addChild(vr, cmnd1);
 //
@@ -645,7 +639,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 //		FeatureUtils.addConstraint(controlModel, constr);
 //
 //		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
-//		IFeatureModel fm = conv.transform(dm);
+//		FeatureModel fm = conv.transform(dm);
 //
 //		assertTrue(areFMEqual(controlModel, fm));
 //	}
@@ -654,7 +648,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 //	// DoubleValue
 //	// dv[0] (=0) then the StringValue sv1 should be disallowed for EnumDecision ed1
 //	@Test // TODO not sure if controlModel constraint is right. might need a fix
-//	public void testTransformRulesCompareLessEqualsDisAllow() throws NotSupportedVariablityTypeException {
+//	public void testTransformRulesCompareLessEqualsDisAllow() throws NotSupportedVariabilityTypeException {
 //		EnumDecision ed1 = new EnumDecision("ed1");
 //		StringValue sv1 = new StringValue("sv1");
 //		ed1.getRange().add(sv1);
@@ -667,16 +661,16 @@ public class DecisionModeltoFeatureModelTransformerTest {
 //		dm.add(ed1);
 //		dm.add(nd1);
 //
-//		IFeatureModel controlModel = new FeatureModel("TestModel");
-//		IFeature vr = new Feature(controlModel, "VIRTUAL_ROOT");
+//		FeatureModel controlModel = new FeatureModel("TestModel");
+//		Feature vr = new Feature(controlModel, "VIRTUAL_ROOT");
 //		FeatureUtils.setRoot(controlModel, vr);
 //		FeatureUtils.setOr(vr);
-//		IFeature cmed1 = new Feature(controlModel, ed1.getName());
-//		IFeature cmsv1 = new Feature(controlModel, sv1.getValue());
-//		IFeature cmnd1 = new Feature(controlModel, nd1.getName());
-//		IFeature cmdv1 = new Feature(controlModel, nd1.getName() + "_" + dv[0].getValue());
-//		IFeature cmdv2 = new Feature(controlModel, nd1.getName() + "_" + dv[1].getValue());
-//		IFeature cmdv3 = new Feature(controlModel, nd1.getName() + "_" + dv[2].getValue());
+//		Feature cmed1 = new Feature(controlModel, ed1.getName());
+//		Feature cmsv1 = new Feature(controlModel, sv1.getValue());
+//		Feature cmnd1 = new Feature(controlModel, nd1.getName());
+//		Feature cmdv1 = new Feature(controlModel, nd1.getName() + "_" + dv[0].getValue());
+//		Feature cmdv2 = new Feature(controlModel, nd1.getName() + "_" + dv[1].getValue());
+//		Feature cmdv3 = new Feature(controlModel, nd1.getName() + "_" + dv[2].getValue());
 //		FeatureUtils.addChild(vr, cmed1);
 //		FeatureUtils.addChild(vr, cmnd1);
 //
@@ -701,7 +695,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 //		FeatureUtils.addConstraint(controlModel, constr);
 //
 //		DecisionModeltoFeatureModelTransformer conv = new DecisionModeltoFeatureModelTransformer();
-//		IFeatureModel fm = conv.transform(dm);
+//		FeatureModel fm = conv.transform(dm);
 //
 //		assertTrue(areFMEqual(controlModel, fm));
 //	}
@@ -709,7 +703,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 	// Within the rule a BooleanDecision bd1 DisAllows a StringValue sv1 for
 	// EnumDecision ed1
 	@Test
-	public void testTransformRulesBooleanConditionDisAllow() throws NotSupportedVariablityTypeException {
+	public void testTransformRulesBooleanConditionDisAllow() throws NotSupportedVariabilityTypeException {
 		EnumDecision ed1 = new EnumDecision("ed1");
 		StringValue sv1 = new StringValue("sv1");
 		BooleanDecision bd1 = new BooleanDecision("bd1");
@@ -719,13 +713,13 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		dm.add(ed1);
 		dm.add(bd1);
 
-		IFeatureModel controlModel = new FeatureModel("TestModel");
-		IFeature vr = new Feature(controlModel, "VIRTUAL_ROOT");
+		FeatureModel controlModel = new FeatureModel("TestModel");
+		Feature vr = new Feature(controlModel, "VIRTUAL_ROOT");
 		FeatureUtils.setRoot(controlModel, vr);
 		FeatureUtils.setOr(vr);
-		IFeature cmed1 = new Feature(controlModel, ed1.getName());
-		IFeature cmbd1 = new Feature(controlModel, bd1.getName());
-		IFeature cmsv1 = new Feature(controlModel, sv1.getValue());
+		Feature cmed1 = new Feature(controlModel, ed1.getName());
+		Feature cmbd1 = new Feature(controlModel, bd1.getName());
+		Feature cmsv1 = new Feature(controlModel, sv1.getValue());
 		FeatureUtils.addChild(vr, cmed1);
 		FeatureUtils.addChild(vr, cmbd1);
 
@@ -743,14 +737,14 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		FeatureUtils.addConstraint(controlModel, constr);
 
 		DecisionModelTransformer conv = new DecisionModelTransformer();
-		IFeatureModel fm = conv.transform(dm);
+		FeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
 	}
 
 	// if BooleanDecision bd1 is true, set also bd2 to true
 	@Test
-	public void testTransformBooleanImpliesOtherBooleanRule() throws NotSupportedVariablityTypeException {
+	public void testTransformBooleanImpliesOtherBooleanRule() throws NotSupportedVariabilityTypeException {
 		BooleanDecision bd1 = new BooleanDecision("bd1");
 		BooleanDecision bd2 = new BooleanDecision("bd2");
 
@@ -758,12 +752,12 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		bd1.addRule(r);
 		dm.add(bd1);
 
-		IFeatureModel controlModel = new FeatureModel("TestModel");
-		IFeature vr = new Feature(controlModel, "VIRTUAL_ROOT");
+		FeatureModel controlModel = new FeatureModel("TestModel");
+		Feature vr = new Feature(controlModel, "VIRTUAL_ROOT");
 		FeatureUtils.setRoot(controlModel, vr);
 		FeatureUtils.setOr(vr);
-		IFeature cmbd1 = new Feature(controlModel, bd1.getName());
-		IFeature cmbd2 = new Feature(controlModel, bd2.getName());
+		Feature cmbd1 = new Feature(controlModel, bd1.getName());
+		Feature cmbd2 = new Feature(controlModel, bd2.getName());
 		FeatureUtils.addChild(vr, cmbd1);
 		FeatureUtils.addChild(vr, cmbd2);
 
@@ -776,14 +770,14 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		FeatureUtils.addConstraint(controlModel, constr);
 
 		DecisionModelTransformer conv = new DecisionModelTransformer();
-		IFeatureModel fm = conv.transform(dm);
+		FeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
 	}
 
 	// if BooleanDecision bd1 is true, set also bd2 to False
 	@Test
-	public void testTransformBooleanImpliesNotOtherBooleanRule() throws NotSupportedVariablityTypeException {
+	public void testTransformBooleanImpliesNotOtherBooleanRule() throws NotSupportedVariabilityTypeException {
 		BooleanDecision bd1 = new BooleanDecision("bd1");
 		BooleanDecision bd2 = new BooleanDecision("bd2");
 
@@ -792,12 +786,12 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		dm.add(bd1);
 		dm.add(bd2);
 
-		IFeatureModel controlModel = new FeatureModel("TestModel");
-		IFeature vr = new Feature(controlModel, "VIRTUAL_ROOT");
+		FeatureModel controlModel = new FeatureModel("TestModel");
+		Feature vr = new Feature(controlModel, "VIRTUAL_ROOT");
 		FeatureUtils.setRoot(controlModel, vr);
 		FeatureUtils.setOr(vr);
-		IFeature cmbd1 = new Feature(controlModel, bd1.getName());
-		IFeature cmbd2 = new Feature(controlModel, bd2.getName());
+		Feature cmbd1 = new Feature(controlModel, bd1.getName());
+		Feature cmbd2 = new Feature(controlModel, bd2.getName());
 		FeatureUtils.addChild(vr, cmbd1);
 		FeatureUtils.addChild(vr, cmbd2);
 
@@ -810,14 +804,14 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		FeatureUtils.addConstraint(controlModel, constr);
 
 		DecisionModelTransformer conv = new DecisionModelTransformer();
-		IFeatureModel fm = conv.transform(dm);
+		FeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
 	}
 
 	// if BooleanDecision bd1 is set to true, set EnumDecision ed1 to NoneValue
 	@Test
-	public void testTransformRulesBooleanConditionSetEnumNone() throws NotSupportedVariablityTypeException {
+	public void testTransformRulesBooleanConditionSetEnumNone() throws NotSupportedVariabilityTypeException {
 		EnumDecision ed1 = new EnumDecision("ed1");
 		StringValue sv1 = new StringValue("sv1");
 		StringValue sv2 = (StringValue) ed1.getNoneOption();
@@ -829,14 +823,14 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		dm.add(ed1);
 		dm.add(bd1);
 
-		IFeatureModel controlModel = new FeatureModel("TestModel");
-		IFeature vr = new Feature(controlModel, "VIRTUAL_ROOT");
+		FeatureModel controlModel = new FeatureModel("TestModel");
+		Feature vr = new Feature(controlModel, "VIRTUAL_ROOT");
 		FeatureUtils.setRoot(controlModel, vr);
 		FeatureUtils.setOr(vr);
-		IFeature cmed1 = new Feature(controlModel, ed1.getName());
-		IFeature cmbd1 = new Feature(controlModel, bd1.getName());
-		IFeature cmsv1 = new Feature(controlModel, sv1.getValue());
-		IFeature cmsv2 = new Feature(controlModel, sv2.getValue());
+		Feature cmed1 = new Feature(controlModel, ed1.getName());
+		Feature cmbd1 = new Feature(controlModel, bd1.getName());
+		Feature cmsv1 = new Feature(controlModel, sv1.getValue());
+		Feature cmsv2 = new Feature(controlModel, sv2.getValue());
 		FeatureUtils.addChild(vr, cmed1);
 		FeatureUtils.addChild(vr, cmbd1);
 
@@ -854,7 +848,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		FeatureUtils.addConstraint(controlModel, constr);
 
 		DecisionModelTransformer conv = new DecisionModelTransformer();
-		IFeatureModel fm = conv.transform(dm);
+		FeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
 	}
@@ -863,7 +857,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 	// controlModel = d_ed1 => d_bd1
 	// transformed = bd1 => bd1
 	@Test
-	public void testTransformRulesEnumNotNoneSelectBool() throws NotSupportedVariablityTypeException {
+	public void testTransformRulesEnumNotNoneSelectBool() throws NotSupportedVariabilityTypeException {
 		EnumDecision ed1 = new EnumDecision("ed1");
 		StringValue sv1 = new StringValue("sv1");
 		StringValue sv2 = (StringValue) ed1.getNoneOption();
@@ -877,14 +871,14 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		dm.add(ed1);
 		dm.add(bd1);
 
-		IFeatureModel controlModel = new FeatureModel("TestModel");
-		IFeature vr = new Feature(controlModel, "VIRTUAL_ROOT");
+		FeatureModel controlModel = new FeatureModel("TestModel");
+		Feature vr = new Feature(controlModel, "VIRTUAL_ROOT");
 		FeatureUtils.setRoot(controlModel, vr);
 		FeatureUtils.setOr(vr);
-		IFeature cmed1 = new Feature(controlModel, ed1.getName());
-		IFeature cmbd1 = new Feature(controlModel, bd1.getName());
-		IFeature cmsv1 = new Feature(controlModel, sv1.getValue());
-		IFeature cmsv2 = new Feature(controlModel, sv2.getValue());
+		Feature cmed1 = new Feature(controlModel, ed1.getName());
+		Feature cmbd1 = new Feature(controlModel, bd1.getName());
+		Feature cmsv1 = new Feature(controlModel, sv1.getValue());
+		Feature cmsv2 = new Feature(controlModel, sv2.getValue());
 		FeatureUtils.addChild(vr, cmed1);
 		FeatureUtils.addChild(vr, cmbd1);
 
@@ -902,7 +896,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		FeatureUtils.addConstraint(controlModel, constr);
 
 		DecisionModelTransformer conv = new DecisionModelTransformer();
-		IFeatureModel fm = conv.transform(dm);
+		FeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
 	}
@@ -911,7 +905,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 	// ControlModel produces: propNode=sv1 => -d_ed2
 	// transformation produces: propNode=sv1 => ed2
 	@Test
-	public void testTransformRulesEnumValueSetsEnumDecNone() throws NotSupportedVariablityTypeException {
+	public void testTransformRulesEnumValueSetsEnumDecNone() throws NotSupportedVariabilityTypeException {
 		EnumDecision ed1 = new EnumDecision("ed1");
 		EnumDecision ed2 = new EnumDecision("ed2");
 		StringValue sv1 = new StringValue("sv1");
@@ -928,15 +922,15 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		dm.add(ed1);
 		dm.add(ed2);
 
-		IFeatureModel controlModel = new FeatureModel("TestModel");
-		IFeature vr = new Feature(controlModel, "VIRTUAL_ROOT");
+		FeatureModel controlModel = new FeatureModel("TestModel");
+		Feature vr = new Feature(controlModel, "VIRTUAL_ROOT");
 		FeatureUtils.setRoot(controlModel, vr);
 		FeatureUtils.setOr(vr);
-		IFeature cmed1 = new Feature(controlModel, ed1.getName());
-		IFeature cmed2 = new Feature(controlModel, ed2.getName());
-		IFeature cmsv1 = new Feature(controlModel, sv1.getValue());
-		IFeature cmsv2 = new Feature(controlModel, sv2.getValue());
-		IFeature cmsv3 = new Feature(controlModel, sv3.getValue());
+		Feature cmed1 = new Feature(controlModel, ed1.getName());
+		Feature cmed2 = new Feature(controlModel, ed2.getName());
+		Feature cmsv1 = new Feature(controlModel, sv1.getValue());
+		Feature cmsv2 = new Feature(controlModel, sv2.getValue());
+		Feature cmsv3 = new Feature(controlModel, sv3.getValue());
 		FeatureUtils.addChild(vr, cmed1);
 		FeatureUtils.addChild(vr, cmed2);
 
@@ -956,7 +950,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		FeatureUtils.addConstraint(controlModel, constr);
 
 		DecisionModelTransformer conv = new DecisionModelTransformer();
-		IFeatureModel fm = conv.transform(dm);
+		FeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
 	}
@@ -966,7 +960,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 	// transformed= bd1 | bd2
 	// @Ignore
 	@Test
-	public void testTransformRulesComplexConditionSelectDecisionAction() throws NotSupportedVariablityTypeException {
+	public void testTransformRulesComplexConditionSelectDecisionAction() throws NotSupportedVariabilityTypeException {
 		EnumDecision ed1 = new EnumDecision("ed1");
 		BooleanDecision bd1 = new BooleanDecision("bd1");
 		BooleanDecision bd2 = new BooleanDecision("bd2");
@@ -979,14 +973,14 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		dm.add(bd1);
 		dm.add(bd2);
 
-		IFeatureModel controlModel = new FeatureModel("TestModel");
-		IFeature vr = new Feature(controlModel, "VIRTUAL_ROOT");
+		FeatureModel controlModel = new FeatureModel("TestModel");
+		Feature vr = new Feature(controlModel, "VIRTUAL_ROOT");
 		FeatureUtils.setRoot(controlModel, vr);
 		FeatureUtils.setOr(vr);
-		IFeature cmed1 = new Feature(controlModel, ed1.getName());
-		IFeature cmbd1 = new Feature(controlModel, bd1.getName());
-		IFeature cmbd2 = new Feature(controlModel, bd2.getName());
-		IFeature cmsv1 = new Feature(controlModel, sv1.getValue());
+		Feature cmed1 = new Feature(controlModel, ed1.getName());
+		Feature cmbd1 = new Feature(controlModel, bd1.getName());
+		Feature cmbd2 = new Feature(controlModel, bd2.getName());
+		Feature cmsv1 = new Feature(controlModel, sv1.getValue());
 		FeatureUtils.addChild(vr, cmed1);
 		FeatureUtils.addChild(vr, cmbd1);
 		FeatureUtils.addChild(vr, cmbd2);
@@ -1005,7 +999,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		FeatureUtils.addConstraint(controlModel, constr);
 
 		DecisionModelTransformer conv = new DecisionModelTransformer();
-		IFeatureModel fm = conv.transform(dm);
+		FeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
 	}
@@ -1016,7 +1010,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 	// @Ignore
 	@Test
 	public void testTransformRulesComplexConditionWithAndNodeAndNotNodeSelectDecisionAction()
-			throws NotSupportedVariablityTypeException {
+			throws NotSupportedVariabilityTypeException {
 		EnumDecision ed1 = new EnumDecision("ed1");
 		BooleanDecision bd1 = new BooleanDecision("bd1");
 		BooleanDecision bd2 = new BooleanDecision("bd2");
@@ -1031,14 +1025,14 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		dm.add(bd2);
 		dm.add(bd1);
 
-		IFeatureModel controlModel = new FeatureModel("TestModel");
-		IFeature vr = new Feature(controlModel, "VIRTUAL_ROOT");
+		FeatureModel controlModel = new FeatureModel("TestModel");
+		Feature vr = new Feature(controlModel, "VIRTUAL_ROOT");
 		FeatureUtils.setRoot(controlModel, vr);
 		FeatureUtils.setOr(vr);
-		IFeature cmed1 = new Feature(controlModel, ed1.getName());
-		IFeature cmbd1 = new Feature(controlModel, bd1.getName());
-		IFeature cmbd2 = new Feature(controlModel, bd2.getName());
-		IFeature cmsv1 = new Feature(controlModel, sv1.getValue());
+		Feature cmed1 = new Feature(controlModel, ed1.getName());
+		Feature cmbd1 = new Feature(controlModel, bd1.getName());
+		Feature cmbd2 = new Feature(controlModel, bd2.getName());
+		Feature cmsv1 = new Feature(controlModel, sv1.getValue());
 		FeatureUtils.addChild(vr, cmed1);
 		FeatureUtils.addChild(vr, cmbd1);
 		FeatureUtils.addChild(vr, cmbd2);
@@ -1061,7 +1055,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		FeatureUtils.addConstraint(controlModel, constr);
 
 		DecisionModelTransformer conv = new DecisionModelTransformer();
-		IFeatureModel fm = conv.transform(dm);
+		FeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
 	}
@@ -1073,7 +1067,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 	// @Ignore
 	@Test
 	public void testTransformRulesComplexConditionWithAndNodeSelectDecisionAction()
-			throws NotSupportedVariablityTypeException {
+			throws NotSupportedVariabilityTypeException {
 		EnumDecision ed1 = new EnumDecision("ed1");
 		BooleanDecision bd1 = new BooleanDecision("bd1");
 		BooleanDecision bd2 = new BooleanDecision("bd2");
@@ -1085,14 +1079,14 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		ed1.addRule(r);
 		dm.add(ed1);
 
-		IFeatureModel controlModel = new FeatureModel("TestModel");
-		IFeature vr = new Feature(controlModel, "VIRTUAL_ROOT");
+		FeatureModel controlModel = new FeatureModel("TestModel");
+		Feature vr = new Feature(controlModel, "VIRTUAL_ROOT");
 		FeatureUtils.setRoot(controlModel, vr);
 		FeatureUtils.setOr(vr);
-		IFeature cmed1 = new Feature(controlModel, ed1.getName());
-		IFeature cmbd1 = new Feature(controlModel, bd1.getName());
-		IFeature cmbd2 = new Feature(controlModel, bd2.getName());
-		IFeature cmsv1 = new Feature(controlModel, sv1.getValue());
+		Feature cmed1 = new Feature(controlModel, ed1.getName());
+		Feature cmbd1 = new Feature(controlModel, bd1.getName());
+		Feature cmbd2 = new Feature(controlModel, bd2.getName());
+		Feature cmsv1 = new Feature(controlModel, sv1.getValue());
 		FeatureUtils.addChild(vr, cmed1);
 		FeatureUtils.addChild(vr, cmbd1);
 		FeatureUtils.addChild(vr, cmbd2);
@@ -1114,12 +1108,12 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		FeatureUtils.addConstraint(controlModel, constr);
 
 		DecisionModelTransformer conv = new DecisionModelTransformer();
-		IFeatureModel fm = conv.transform(dm);
+		FeatureModel fm = conv.transform(dm);
 
 		assertTrue(areFMEqual(controlModel, fm));
 	}
 
-	private boolean areFMEqual(final IFeatureModel fm1, final IFeatureModel fm2) {
+	private boolean areFMEqual(final FeatureModel fm1, final FeatureModel fm2) {
 		if (!areConstraintListsEqual(fm1.getConstraints(), fm2.getConstraints())) {
 			return false;
 		}
@@ -1177,7 +1171,7 @@ public class DecisionModeltoFeatureModelTransformerTest {
 		return true;
 	}
 
-	private boolean areFeatureTablesEqual(final Map<String, IFeature> m1, final Map<String, IFeature> m2) {
+	private boolean areFeatureTablesEqual(final Map<String, Feature> m1, final Map<String, Feature> m2) {
 		if (m1.keySet().size() != m2.keySet().size()) {
 			return false;
 		}
@@ -1185,14 +1179,14 @@ public class DecisionModeltoFeatureModelTransformerTest {
 			return false;
 		}
 		for (String k : m1.keySet()) {
-			if (!areIFeaturesEqual(m1.get(k), m2.get(k))) {
+			if (!areFeaturesEqual(m1.get(k), m2.get(k))) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	private boolean areIFeaturesEqual(final IFeature f1, final IFeature f2) {
+	private boolean areFeaturesEqual(final Feature f1, final Feature f2) {
 		if (!f1.getName().equals(f2.getName())) {
 			return false;
 		}

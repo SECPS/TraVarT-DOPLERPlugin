@@ -55,14 +55,6 @@ import at.jku.cps.travart.dopler.decision.model.impl.SetValueAction;
 import at.jku.cps.travart.dopler.decision.model.impl.StringDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.StringValue;
 import at.jku.cps.travart.dopler.decision.parser.ConditionParser;
-import de.ovgu.featureide.fm.core.ExtensionManager.NoSuchExtensionException;
-import de.ovgu.featureide.fm.core.base.FeatureUtils;
-import de.ovgu.featureide.fm.core.base.IConstraint;
-import de.ovgu.featureide.fm.core.base.impl.DefaultFeatureModelFactory;
-import de.ovgu.featureide.fm.core.base.impl.FMFactoryManager;
-import de.ovgu.featureide.fm.core.init.FMCoreLibrary;
-import de.ovgu.featureide.fm.core.init.LibraryManager;
-import de.vill.main.UVLModelFactory;
 import de.vill.model.Attribute;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
@@ -77,10 +69,6 @@ import de.vill.model.constraint.OrConstraint;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class DecisionModelTransformer implements IModelTransformer<IDecisionModel> {
-
-	static {
-		LibraryManager.registerLibrary(FMCoreLibrary.getInstance());
-	}
 
 	private FeatureModel fm;
 	private IDecisionModel dm;
@@ -101,7 +89,6 @@ public class DecisionModelTransformer implements IModelTransformer<IDecisionMode
 	}
 
 	public IDecisionModel transform(FeatureModel arg0, String arg1) throws NotSupportedVariabilityTypeException {
-		this.fm = fm;
 		try {
 			factory = DecisionModelFactory.getInstance();
 			dm = factory.create();

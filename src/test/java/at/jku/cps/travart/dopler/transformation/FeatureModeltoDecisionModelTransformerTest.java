@@ -10,8 +10,7 @@ import org.junit.Test;
 
 import at.jku.cps.travart.core.common.IConfigurable;
 import at.jku.cps.travart.core.common.ISampler;
-import at.jku.cps.travart.core.common.Prop4JUtils;
-import at.jku.cps.travart.core.common.exc.NotSupportedVariablityTypeException;
+import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import at.jku.cps.travart.core.sampling.FeatureModelSampler;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.factory.impl.DecisionModelFactory;
@@ -44,7 +43,7 @@ public class FeatureModeltoDecisionModelTransformerTest {
 	}
 
 	@Test
-	public void testTransformOrDecision() throws NotSupportedVariablityTypeException {
+	public void testTransformOrDecision() throws NotSupportedVariabilityTypeException {
 //		EnumDecision ed1 = new EnumDecision("ed1");
 //		StringValue sv1 = new StringValue("sv1");
 //		StringValue sv2 = new StringValue("sv2");
@@ -84,7 +83,7 @@ public class FeatureModeltoDecisionModelTransformerTest {
 	}
 
 	@Test
-	public void testTransformAlternativeDecision() throws NotSupportedVariablityTypeException {
+	public void testTransformAlternativeDecision() throws NotSupportedVariabilityTypeException {
 		IFeature cmed1 = new Feature(fm, "ed1");
 		FeatureUtils.setRoot(fm, cmed1);
 		FeatureUtils.setAlternative(cmed1);
@@ -114,7 +113,7 @@ public class FeatureModeltoDecisionModelTransformerTest {
 	}
 
 	@Test
-	public void testTransformMandatoryDecision() throws NotSupportedVariablityTypeException {
+	public void testTransformMandatoryDecision() throws NotSupportedVariabilityTypeException {
 		IFeature cmed1 = new Feature(fm, "ed1");
 		FeatureUtils.setRoot(fm, cmed1);
 
@@ -138,7 +137,7 @@ public class FeatureModeltoDecisionModelTransformerTest {
 	}
 
 	@Test
-	public void testTransformNumberDecision() throws NotSupportedVariablityTypeException {
+	public void testTransformNumberDecision() throws NotSupportedVariabilityTypeException {
 		IFeature cmnd1 = new Feature(fm, "nd1");
 		FeatureUtils.setRoot(fm, cmnd1);
 
@@ -161,7 +160,7 @@ public class FeatureModeltoDecisionModelTransformerTest {
 	}
 
 	@Test
-	public void testTransformNumberDecisionWithVirtualRoot() throws NotSupportedVariablityTypeException {
+	public void testTransformNumberDecisionWithVirtualRoot() throws NotSupportedVariabilityTypeException {
 		IFeature cmvr = new Feature(fm, "VIRTUAL_ROOT");
 		IFeature cmnd1 = new Feature(fm, "nd1");
 		FeatureUtils.setRoot(fm, cmvr);
@@ -187,7 +186,7 @@ public class FeatureModeltoDecisionModelTransformerTest {
 	}
 
 	@Test
-	public void testTransformNumberDecisionWithVirtualRootAndConstraint() throws NotSupportedVariablityTypeException {
+	public void testTransformNumberDecisionWithVirtualRootAndConstraint() throws NotSupportedVariabilityTypeException {
 		IFeature cmvr = new Feature(fm, "VIRTUAL_ROOT");
 		IFeature cmnd1 = new Feature(fm, "nd1");
 		IFeature cmsd1 = new Feature(fm, "sd1");
@@ -224,7 +223,7 @@ public class FeatureModeltoDecisionModelTransformerTest {
 	}
 
 	@Test
-	public void testTransformConstraintNumberDecisionImpliesBoolean() throws NotSupportedVariablityTypeException {
+	public void testTransformConstraintNumberDecisionImpliesBoolean() throws NotSupportedVariabilityTypeException {
 		IFeature cmvr = new Feature(fm, "VIRTUAL_ROOT");
 		IFeature cmnd1 = new Feature(fm, "nd1");
 		IFeature cmbd1 = new Feature(fm, "bd1");
@@ -262,7 +261,7 @@ public class FeatureModeltoDecisionModelTransformerTest {
 	}
 
 	@Test
-	public void testTransformConstraintNumberDecisionExcludesBoolean() throws NotSupportedVariablityTypeException {
+	public void testTransformConstraintNumberDecisionExcludesBoolean() throws NotSupportedVariabilityTypeException {
 		IFeature cmvr = new Feature(fm, "VIRTUAL_ROOT");
 		IFeature cmnd1 = new Feature(fm, "nd1");
 		IFeature cmbd1 = new Feature(fm, "bd1");
@@ -300,7 +299,7 @@ public class FeatureModeltoDecisionModelTransformerTest {
 	}
 
 	@Test
-	public void testTransformConstraintEnumDecisionExcludesEnumdecision() throws NotSupportedVariablityTypeException {
+	public void testTransformConstraintEnumDecisionExcludesEnumdecision() throws NotSupportedVariabilityTypeException {
 		IFeature cmvr = new Feature(fm, "VIRTUAL_ROOT");
 		IFeature cmed1 = new Feature(fm, "ed1");
 		IFeature cmed2 = new Feature(fm, "ed2");
@@ -345,7 +344,7 @@ public class FeatureModeltoDecisionModelTransformerTest {
 	}
 
 	@Test
-	public void testTransformConstraintEnumDecisionImpliesEnumDecision() throws NotSupportedVariablityTypeException {
+	public void testTransformConstraintEnumDecisionImpliesEnumDecision() throws NotSupportedVariabilityTypeException {
 		IFeature cmvr = new Feature(fm, "VIRTUAL_ROOT");
 		IFeature cmed1 = new Feature(fm, "ed1");
 		IFeature cmed2 = new Feature(fm, "ed2");
@@ -384,7 +383,7 @@ public class FeatureModeltoDecisionModelTransformerTest {
 	}
 
 	@Test
-	public void testTransformConstraintEnumDecisionExcludesEnumDecision() throws NotSupportedVariablityTypeException {
+	public void testTransformConstraintEnumDecisionExcludesEnumDecision() throws NotSupportedVariabilityTypeException {
 		IFeature cmvr = new Feature(fm, "VIRTUAL_ROOT");
 		IFeature cmed1 = new Feature(fm, "ed1");
 		IFeature cmed2 = new Feature(fm, "ed2");
@@ -423,7 +422,7 @@ public class FeatureModeltoDecisionModelTransformerTest {
 	}
 
 	@Test
-	public void testTransformConstraintEnumDecisionRequiresEnumDecisions() throws NotSupportedVariablityTypeException {
+	public void testTransformConstraintEnumDecisionRequiresEnumDecisions() throws NotSupportedVariabilityTypeException {
 		IFeature cmvr = new Feature(fm, "VIRTUAL_ROOT");
 		IFeature cmed1 = new Feature(fm, "ed1");
 		IFeature cmed2 = new Feature(fm, "ed2");
@@ -465,7 +464,7 @@ public class FeatureModeltoDecisionModelTransformerTest {
 	}
 
 	@Test
-	public void testTransformConstraintEnumDecisionExcludesEnumDecisions() throws NotSupportedVariablityTypeException {
+	public void testTransformConstraintEnumDecisionExcludesEnumDecisions() throws NotSupportedVariabilityTypeException {
 		IFeature cmvr = new Feature(fm, "VIRTUAL_ROOT");
 		IFeature cmed1 = new Feature(fm, "ed1");
 		IFeature cmed2 = new Feature(fm, "ed2");
@@ -509,7 +508,7 @@ public class FeatureModeltoDecisionModelTransformerTest {
 	}
 
 	@Test
-	public void testTransformConstraintUnidirectionalIncludesTwoFeatures() throws NotSupportedVariablityTypeException {
+	public void testTransformConstraintUnidirectionalIncludesTwoFeatures() throws NotSupportedVariabilityTypeException {
 		IFeature cmvr = new Feature(fm, "VIRTUAL_ROOT");
 		IFeature cmed1 = new Feature(fm, "ed1");
 		IFeature cmed2 = new Feature(fm, "ed2");
@@ -552,7 +551,7 @@ public class FeatureModeltoDecisionModelTransformerTest {
 	}
 
 	@Test
-	public void testTransformConstraintUnidirectionalIncludesOneFeature() throws NotSupportedVariablityTypeException {
+	public void testTransformConstraintUnidirectionalIncludesOneFeature() throws NotSupportedVariabilityTypeException {
 		IFeature cmvr = new Feature(fm, "VIRTUAL_ROOT");
 		IFeature cmed1 = new Feature(fm, "ed1");
 		IFeature cmed2 = new Feature(fm, "ed2");
@@ -596,7 +595,7 @@ public class FeatureModeltoDecisionModelTransformerTest {
 
 	@Test
 	public void testTransformConstraintNegatedImpliesWithOrAllPositiveLiterals()
-			throws NotSupportedVariablityTypeException {
+			throws NotSupportedVariabilityTypeException {
 		IFeature cmvr = new Feature(fm, "VIRTUAL_ROOT");
 		IFeature cmed1 = new Feature(fm, "ed1");
 		IFeature cmed2 = new Feature(fm, "ed2");
@@ -640,7 +639,7 @@ public class FeatureModeltoDecisionModelTransformerTest {
 	}
 
 	@Test
-	public void testTransformConstraintBooleanDecisionExcludesBoolean() throws NotSupportedVariablityTypeException {
+	public void testTransformConstraintBooleanDecisionExcludesBoolean() throws NotSupportedVariabilityTypeException {
 		IFeature cmvr = new Feature(fm, "VIRTUAL_ROOT");
 		IFeature cmbd1 = new Feature(fm, "bd1");
 		IFeature cmbd2 = new Feature(fm, "bd2");
@@ -670,7 +669,7 @@ public class FeatureModeltoDecisionModelTransformerTest {
 	}
 
 	@Test
-	public void testTransformConstraintEnumDecisionWithNoneSelectsBoolean() throws NotSupportedVariablityTypeException {
+	public void testTransformConstraintEnumDecisionWithNoneSelectsBoolean() throws NotSupportedVariabilityTypeException {
 		IFeature cmvr = new Feature(fm, "VIRTUAL_ROOT");
 		IFeature cmed1 = new Feature(fm, "ed1");
 		IFeature cmbd1 = new Feature(fm, "bd1");
@@ -708,7 +707,7 @@ public class FeatureModeltoDecisionModelTransformerTest {
 	}
 
 	@Test
-	public void testTransformConstraintBooleanSelectsEnumDecisionWithNone() throws NotSupportedVariablityTypeException {
+	public void testTransformConstraintBooleanSelectsEnumDecisionWithNone() throws NotSupportedVariabilityTypeException {
 		IFeature cmvr = new Feature(fm, "VIRTUAL_ROOT");
 		IFeature cmed1 = new Feature(fm, "ed1");
 		IFeature cmbd1 = new Feature(fm, "bd1");
@@ -747,7 +746,7 @@ public class FeatureModeltoDecisionModelTransformerTest {
 
 	private boolean equalValidSamples(final IDecisionModel dm, final Set<Map<IConfigurable, Boolean>> d,
 			final IFeatureModel fm, final Set<Map<IConfigurable, Boolean>> f)
-			throws NotSupportedVariablityTypeException {
+			throws NotSupportedVariabilityTypeException {
 		ISampler<IDecisionModel> dsamp = new DecisionModelSampler();
 		ISampler<IFeatureModel> fsamp = new FeatureModelSampler();
 		long count1 = 0;
