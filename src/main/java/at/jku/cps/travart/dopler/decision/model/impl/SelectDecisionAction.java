@@ -12,9 +12,9 @@ import at.jku.cps.travart.dopler.decision.model.IValue;
 
 public class SelectDecisionAction implements IAction {
 
-	private final ADecision<?> decision;
+	private final IDecision<?> decision;
 
-	public SelectDecisionAction(final ADecision<?> decision) {
+	public SelectDecisionAction(final IDecision<?> decision) {
 		this.decision = Objects.requireNonNull(decision);
 	}
 

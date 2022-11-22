@@ -47,19 +47,20 @@ import de.vill.model.Group.GroupType;
 import de.vill.model.constraint.AndConstraint;
 import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.LiteralConstraint;
+import de.vill.model.constraint.NotConstraint;
 import de.vill.model.constraint.OrConstraint;
 
 @SuppressWarnings("rawtypes")
 public abstract class TransformFMtoDMUtil {
-	
-	
-	protected static void convertFeature(DecisionModelFactory factory, IDecisionModel dm,final Feature feature) throws NotSupportedVariabilityTypeException {
+
+	protected static void convertFeature(DecisionModelFactory factory, IDecisionModel dm, final Feature feature)
+			throws NotSupportedVariabilityTypeException {
 		if (!feature.getFeatureName().equals(DefaultModelTransformationProperties.ARTIFICIAL_MODEL_NAME)) {
 			BooleanDecision decision = factory.createBooleanDecision(feature.getFeatureName());
 			dm.add(decision);
 			decision.setQuestion(feature.getFeatureName() + "?");
 			if (TraVarTUtils.isEnumerationType(feature)) {
-				createEnumDecisions(factory,dm,feature);
+				createEnumDecisions(factory, dm, feature);
 			}
 			if (feature.getParentFeature() == null) {
 				decision.setVisibility(ICondition.TRUE);
@@ -70,6 +71,7 @@ public abstract class TransformFMtoDMUtil {
 				// as tree traversal, the parent should be dealt with already
 				IDecision parent = dm.get(parentName);
 				assert parent != null;
+				// funky behaviour due to roundtrip compatibility - don't change
 				Rule rule = new Rule(new IsSelectedFunction(parent), new SelectDecisionAction(decision));
 				parent.addRule(rule);
 				updateRules(parent, rule);
@@ -87,7 +89,7 @@ public abstract class TransformFMtoDMUtil {
 				.collect(Collectors.toList())) {
 			if (feature.getFeatureName().equals(DefaultModelTransformationProperties.ARTIFICIAL_MODEL_NAME)
 					|| !isEnumSubFeature(child)) {
-				convertFeature(factory,dm,child);
+				convertFeature(factory, dm, child);
 			}
 		}
 	}
@@ -100,7 +102,8 @@ public abstract class TransformFMtoDMUtil {
 		return false;
 	}
 
-	protected static void createEnumDecisions(DecisionModelFactory factory, IDecisionModel dm,final Feature feature) throws NotSupportedVariabilityTypeException {
+	protected static void createEnumDecisions(DecisionModelFactory factory, IDecisionModel dm, final Feature feature)
+			throws NotSupportedVariabilityTypeException {
 		// in FeatureIDE only one feature group is possible per feature
 		EnumDecision enumDecision = factory.createEnumDecision(feature.getFeatureName() + "#0");
 		dm.add(enumDecision);
@@ -117,7 +120,7 @@ public abstract class TransformFMtoDMUtil {
 		// TODO check how to handle Groups here
 		for (Feature optionFeature : feature.getChildren().stream().flatMap(g -> g.getFeatures().stream())
 				.collect(Collectors.toList())) {
-			convertFeature(factory,dm,optionFeature);
+			convertFeature(factory, dm, optionFeature);
 			BooleanDecision optionDecision = (BooleanDecision) dm.get(optionFeature.getFeatureName());
 			ARangeValue optionValue = enumDecision.getRangeValue(optionFeature.getFeatureName());
 			// as tree traversal, the parent should be dealt with already
@@ -128,7 +131,7 @@ public abstract class TransformFMtoDMUtil {
 			updateRules(enumDecision, rule);
 		}
 		// create rule for optional parent features
-		if (!(feature.getParentFeature() == null) && !feature.getParentGroup().GROUPTYPE.equals(GroupType.MANDATORY)) {
+		if (feature.getParentFeature() != null && !feature.getParentGroup().GROUPTYPE.equals(GroupType.MANDATORY)) {
 			Rule rule = new Rule(new Not(new IsSelectedFunction(parent)),
 					new SetValueAction(enumDecision, enumDecision.getNoneOption()));
 			parent.addRule(rule);
@@ -136,15 +139,15 @@ public abstract class TransformFMtoDMUtil {
 		}
 	}
 
-	protected static void convertConstraints(DecisionModelFactory factory, IDecisionModel dm,FeatureModel fm,final List<Constraint> constraints)
-			throws CircleInConditionException, ConditionCreationException {
+	protected static void convertConstraints(DecisionModelFactory factory, IDecisionModel dm, FeatureModel fm,
+			final List<Constraint> constraints) throws CircleInConditionException, ConditionCreationException {
 		for (Constraint constraint : constraints) {
-			convertConstraintRec(factory,dm,fm,constraint);
+			convertConstraintRec(factory, dm, fm, constraint);
 		}
 	}
 
-	protected static void convertConstraintRec(DecisionModelFactory factory, IDecisionModel dm,FeatureModel fm,final Constraint node)
-			throws CircleInConditionException, ConditionCreationException {
+	protected static void convertConstraintRec(DecisionModelFactory factory, IDecisionModel dm, FeatureModel fm,
+			final Constraint node) throws CircleInConditionException, ConditionCreationException {
 		// create a CNF from nodes enables separating the concerns how to transform the
 		// different groups.
 		// A requires B <=> CNF: Not(A) or B
@@ -154,14 +157,14 @@ public abstract class TransformFMtoDMUtil {
 				.buildConstraintFromFormula(TraVarTUtils.buildFormulaFromConstraint(node, new FormulaFactory()).cnf());
 		if (TraVarTUtils.isComplexConstraint(cnfConstraint)) {
 			for (Constraint child : cnfConstraint.getConstraintSubParts()) {
-				convertConstraintRec(factory,dm,fm,child);
+				convertConstraintRec(factory, dm, fm, child);
 			}
 		} else {
-			convertConstraint(factory,dm,fm,cnfConstraint);
+			convertConstraint(factory, dm, fm, cnfConstraint);
 		}
 	}
 
-	protected static void deriveUnidirectionalRules(IDecisionModel dm,final Constraint cnfConstraint)
+	protected static void deriveUnidirectionalRules(IDecisionModel dm, final Constraint cnfConstraint)
 			throws CircleInConditionException, ConditionCreationException {
 		Constraint negative = TraVarTUtils.getFirstNegativeLiteral(cnfConstraint);
 		String feature = ((LiteralConstraint) negative).getLiteral();
@@ -169,8 +172,8 @@ public abstract class TransformFMtoDMUtil {
 		if (decision.getType() == ADecision.DecisionType.BOOLEAN) {
 			BooleanDecision target = (BooleanDecision) decision;
 			Set<Constraint> positiveLiterals = TraVarTUtils.getPositiveLiterals(cnfConstraint);
-			List<IDecision> conditionDecisions = findDecisionsForLiterals(dm,positiveLiterals);
-			List<IDecision> ruleDecisions = findDecisionsForLiterals(dm,positiveLiterals);
+			List<IDecision> conditionDecisions = findDecisionsForLiterals(dm, positiveLiterals);
+			List<IDecision> ruleDecisions = findDecisionsForLiterals(dm, positiveLiterals);
 			ICondition ruleCondition = DecisionModelUtils.consumeToBinaryCondition(conditionDecisions, And.class, true);
 			Rule rule = new Rule(ruleCondition, new DeSelectDecisionAction(target));
 			// add new rule to all rule decisions
@@ -181,8 +184,9 @@ public abstract class TransformFMtoDMUtil {
 		}
 	}
 
-	protected static void convertConstraint(DecisionModelFactory factory, IDecisionModel dm,FeatureModel fm,final Constraint cnfConstraint)
-			throws CircleInConditionException, ConditionCreationException, at.jku.cps.travart.dopler.decision.exc.ConditionCreationException {
+	protected static void convertConstraint(DecisionModelFactory factory, IDecisionModel dm, FeatureModel fm,
+			final Constraint cnfConstraint) throws CircleInConditionException, ConditionCreationException,
+			at.jku.cps.travart.dopler.decision.exc.ConditionCreationException {
 		if (TraVarTUtils.isSingleFeatureRequires(cnfConstraint)) {
 			// mandatory from root - requires rule
 			Feature root = fm.getFeatureMap()
@@ -206,15 +210,15 @@ public abstract class TransformFMtoDMUtil {
 			source.addRule(rule);
 			updateRules(source, rule);
 		} else if (TraVarTUtils.isRequires(cnfConstraint)) {
-			deriveRequiresRules(dm,fm,cnfConstraint);
+			deriveRequiresRules(dm, fm, cnfConstraint);
 		} else if (TraVarTUtils.isExcludes(cnfConstraint)) {
-			deriveExcludeRules(dm,fm,cnfConstraint);
+			deriveExcludeRules(dm, fm, cnfConstraint);
 		} else if (TraVarTUtils.countLiterals(cnfConstraint) == 2 && TraVarTUtils.hasNegativeLiteral(cnfConstraint)
 				&& TraVarTUtils.countNegativeLiterals(cnfConstraint) == 1) {
-			deriveUnidirectionalRules(dm,cnfConstraint);
+			deriveUnidirectionalRules(dm, cnfConstraint);
 		} else if (TraVarTUtils.countLiterals(cnfConstraint) > 1 && TraVarTUtils.hasNegativeLiteral(cnfConstraint)
 				&& TraVarTUtils.countNegativeLiterals(cnfConstraint) == 1) {
-			deriveUnidirectionalRules(dm,cnfConstraint);
+			deriveUnidirectionalRules(dm, cnfConstraint);
 		} else if (TraVarTUtils.countLiterals(cnfConstraint) > 1 && TraVarTUtils.hasPositiveLiteral(cnfConstraint)
 				&& TraVarTUtils.countPositiveLiterals(cnfConstraint) == 1) {
 			Constraint positive = TraVarTUtils.getFirstPositiveLiteral(cnfConstraint);
@@ -223,8 +227,8 @@ public abstract class TransformFMtoDMUtil {
 			if (decision.getType() == ADecision.DecisionType.BOOLEAN) {
 				BooleanDecision target = (BooleanDecision) decision;
 				Set<Constraint> negativeLiterals = TraVarTUtils.getNegativeLiterals(cnfConstraint);
-				List<IDecision> conditionDecisions = findDecisionsForLiterals(dm,negativeLiterals);
-				List<IDecision> ruleDecisions = findDecisionsForLiterals(dm,negativeLiterals);
+				List<IDecision> conditionDecisions = findDecisionsForLiterals(dm, negativeLiterals);
+				List<IDecision> ruleDecisions = findDecisionsForLiterals(dm, negativeLiterals);
 				ICondition ruleCondition = DecisionModelUtils.consumeToBinaryCondition(conditionDecisions, And.class,
 						false);
 				Rule rule = new Rule(ruleCondition, new SelectDecisionAction(target));
@@ -238,7 +242,7 @@ public abstract class TransformFMtoDMUtil {
 				&& TraVarTUtils.countLiterals(cnfConstraint) == TraVarTUtils.countPositiveLiterals(cnfConstraint)
 				&& cnfConstraint instanceof OrConstraint) {
 			Set<Constraint> literals = TraVarTUtils.getLiterals(cnfConstraint);
-			List<IDecision> literalDecisions = findDecisionsForLiterals(dm,literals);
+			List<IDecision> literalDecisions = findDecisionsForLiterals(dm, literals);
 			EnumDecision enumDecision = factory
 					.createEnumDecision(String.format("or#constr#%s", literalDecisions.size()));
 			dm.add(enumDecision);
@@ -260,7 +264,7 @@ public abstract class TransformFMtoDMUtil {
 				&& TraVarTUtils.countLiterals(cnfConstraint) == TraVarTUtils.countPositiveLiterals(cnfConstraint)
 				&& cnfConstraint instanceof AndConstraint) {
 			Set<Constraint> literals = TraVarTUtils.getLiterals(cnfConstraint);
-			List<IDecision> literalDecisions = findDecisionsForLiterals(dm,literals);
+			List<IDecision> literalDecisions = findDecisionsForLiterals(dm, literals);
 			EnumDecision enumDecision = factory
 					.createEnumDecision(String.format("or#constr#%s", literalDecisions.size()));
 			dm.add(enumDecision);
@@ -297,7 +301,12 @@ public abstract class TransformFMtoDMUtil {
 					}
 				}
 			} else {
-				String feature = ((LiteralConstraint) cnfConstraint).getLiteral();
+				String feature;
+				if (cnfConstraint instanceof NotConstraint) {
+					feature = ((LiteralConstraint) ((NotConstraint) cnfConstraint).getContent()).getLiteral();
+				} else {
+					feature = ((LiteralConstraint) cnfConstraint).getLiteral();
+				}
 				IDecision decision = dm.get(feature);
 				if (decision.getType() == ADecision.DecisionType.BOOLEAN) {
 					BooleanDecision boolDecision = (BooleanDecision) decision;
@@ -310,7 +319,7 @@ public abstract class TransformFMtoDMUtil {
 		} else {
 			// any other type of mode
 			// create demorgen condition node 1:1
-			ICondition condition = deriveConditionFromConstraint(dm,cnfConstraint);
+			ICondition condition = deriveConditionFromConstraint(dm, cnfConstraint);
 			// create implies with root decision to set to false
 			BooleanDecision rootDecision = (BooleanDecision) dm.get(fm.getRootFeature().getFeatureName());
 			Rule rule = new Rule(new Not(condition), new DeSelectDecisionAction(rootDecision));
@@ -319,7 +328,7 @@ public abstract class TransformFMtoDMUtil {
 		}
 	}
 
-	protected static void deriveRequiresRules(IDecisionModel dm,FeatureModel fm,final Constraint cnfConstraint) {
+	protected static void deriveRequiresRules(IDecisionModel dm, FeatureModel fm, final Constraint cnfConstraint) {
 		Constraint sourceLiteral = TraVarTUtils.getFirstNegativeLiteral(cnfConstraint);
 		Constraint targetLiteral = TraVarTUtils.getFirstPositiveLiteral(cnfConstraint);
 		if (TraVarTUtils.isLiteral(sourceLiteral) && TraVarTUtils.isLiteral(targetLiteral)) {
@@ -327,15 +336,15 @@ public abstract class TransformFMtoDMUtil {
 			String targetFeature = ((LiteralConstraint) targetLiteral).getLiteral();
 			IDecision source = dm.get(sourceFeature);
 			IDecision target = dm.get(targetFeature);
-			if (isEnumFeature(fm,source) && !isEnumFeature(fm,target)) {
-				EnumDecision enumDecision = findEnumDecisionWithVisiblityCondition(dm,source);
+			if (isEnumFeature(fm, source) && !isEnumFeature(fm, target)) {
+				EnumDecision enumDecision = findEnumDecisionWithVisiblityCondition(dm, source);
 				if (enumDecision.hasNoneOption()) {
 					Rule rule = new Rule(
 							new Not(new DecisionValueCondition(enumDecision, enumDecision.getNoneOption())),
 							new SelectDecisionAction((BooleanDecision) target));
 					enumDecision.addRule(rule);
 					updateRules(enumDecision, rule);
-				} else if (hasOptionalParent(fm,sourceFeature) && target.getType() == ADecision.DecisionType.BOOLEAN) {
+				} else if (hasOptionalParent(fm, sourceFeature) && target.getType() == ADecision.DecisionType.BOOLEAN) {
 					// search the boolean parent decision for the enum and then set the rule there
 					IDecision parent = ((IsSelectedFunction) enumDecision.getVisiblity()).getParameters().get(0);
 					Rule rule = new Rule(new IsSelectedFunction(parent),
@@ -343,9 +352,9 @@ public abstract class TransformFMtoDMUtil {
 					source.addRule(rule);
 					updateRules(source, rule);
 				}
-			} else if (!isEnumFeature(fm,source) && isEnumFeature(fm,target)) {
+			} else if (!isEnumFeature(fm, source) && isEnumFeature(fm, target)) {
 				// the none value of the enum feature if available must be disallowed
-				EnumDecision enumDecision = findEnumDecisionWithVisiblityCondition(dm,target);
+				EnumDecision enumDecision = findEnumDecisionWithVisiblityCondition(dm, target);
 				if (enumDecision.hasNoneOption()) {
 					Rule rule = new Rule(new IsSelectedFunction(source),
 							new DisAllowAction(enumDecision, enumDecision.getNoneOption()));
@@ -353,8 +362,8 @@ public abstract class TransformFMtoDMUtil {
 					updateRules(source, rule);
 				}
 
-			} else if (!hasVirtualParent(fm,target) && isEnumSubFeature(fm,target)) {
-				EnumDecision enumDecision = findEnumDecisionByRangeValue(dm,target);
+			} else if (!hasVirtualParent(fm, target) && isEnumSubFeature(fm, target)) {
+				EnumDecision enumDecision = findEnumDecisionByRangeValue(dm, target);
 				ARangeValue value = enumDecision.getRangeValue(targetFeature);
 				Rule rule = new Rule(new IsSelectedFunction(source), new SetValueAction(enumDecision, value));
 				source.addRule(rule);
@@ -368,7 +377,7 @@ public abstract class TransformFMtoDMUtil {
 		}
 	}
 
-	protected static boolean hasOptionalParent(FeatureModel fm,final String featureName) {
+	protected static boolean hasOptionalParent(FeatureModel fm, final String featureName) {
 		Feature feature = fm.getFeatureMap().get(featureName);
 		if (feature == null) {
 			return false;
@@ -383,14 +392,14 @@ public abstract class TransformFMtoDMUtil {
 		return false;
 	}
 
-	protected static boolean hasVirtualParent(FeatureModel fm,final IDecision decision) {
+	protected static boolean hasVirtualParent(FeatureModel fm, final IDecision decision) {
 		Feature feature = fm.getFeatureMap().get(
 				DecisionModelUtils.retriveFeatureName(decision, decision.getType() == ADecision.DecisionType.BOOLEAN));
 		Feature parent = feature.getParentFeature();
 		return parent.getFeatureName().equals(DefaultModelTransformationProperties.ARTIFICIAL_MODEL_NAME);
 	}
 
-	protected static void deriveExcludeRules(IDecisionModel dm,FeatureModel fm,final Constraint cnfConstraint) {
+	protected static void deriveExcludeRules(IDecisionModel dm, FeatureModel fm, final Constraint cnfConstraint) {
 		// excludes constraints are bidirectional by default, therefore direction for
 		// defined constraint is negligible, but we need two rules
 		Constraint sourceLiteral = TraVarTUtils.getLeftConstraint(cnfConstraint);
@@ -400,20 +409,20 @@ public abstract class TransformFMtoDMUtil {
 			String targetFeature = ((LiteralConstraint) targetLiteral).getLiteral();
 			IDecision source = dm.get(sourceFeature);
 			IDecision target = dm.get(targetFeature);
-			if (isEnumSubFeature(fm,source) && !isEnumSubFeature(fm,target)) {
+			if (isEnumSubFeature(fm, source) && !isEnumSubFeature(fm, target)) {
 				// if either of the decisions is a enum sub feature the value for the
 				// enumeration decision must be disallowed
 				Rule rule = new Rule(new IsSelectedFunction(source),
 						new DeSelectDecisionAction((BooleanDecision) target));
 				source.addRule(rule);
 				updateRules(source, rule);
-				EnumDecision enumDecision = findEnumDecisionByRangeValue(dm,source);
+				EnumDecision enumDecision = findEnumDecisionByRangeValue(dm, source);
 				ARangeValue value = enumDecision.getRangeValue(sourceFeature);
 				rule = new Rule(new IsSelectedFunction(target), new DisAllowAction(enumDecision, value));
 				target.addRule(rule);
 				updateRules(target, rule);
-			} else if (!isEnumSubFeature(fm,source) && isEnumSubFeature(fm,target)) {
-				EnumDecision enumDecision = findEnumDecisionByRangeValue(dm,target);
+			} else if (!isEnumSubFeature(fm, source) && isEnumSubFeature(fm, target)) {
+				EnumDecision enumDecision = findEnumDecisionByRangeValue(dm, target);
 				ARangeValue value = enumDecision.getRangeValue(targetFeature);
 				Rule rule = new Rule(new IsSelectedFunction(source), new DisAllowAction(enumDecision, value));
 				source.addRule(rule);
@@ -421,9 +430,9 @@ public abstract class TransformFMtoDMUtil {
 				rule = new Rule(new IsSelectedFunction(target), new DeSelectDecisionAction((BooleanDecision) source));
 				target.addRule(rule);
 				updateRules(target, rule);
-			} else if (isEnumSubFeature(fm,source) && isEnumSubFeature(fm,target)) {
-				EnumDecision sourceEnumDecision = findEnumDecisionByRangeValue(dm,source);
-				EnumDecision targetEnumDecision = findEnumDecisionByRangeValue(dm,target);
+			} else if (isEnumSubFeature(fm, source) && isEnumSubFeature(fm, target)) {
+				EnumDecision sourceEnumDecision = findEnumDecisionByRangeValue(dm, source);
+				EnumDecision targetEnumDecision = findEnumDecisionByRangeValue(dm, target);
 				ARangeValue sourceValue = sourceEnumDecision.getRangeValue(sourceFeature);
 				ARangeValue targetValue = targetEnumDecision.getRangeValue(targetFeature);
 				Rule rule = new Rule(new IsSelectedFunction(source),
@@ -446,15 +455,16 @@ public abstract class TransformFMtoDMUtil {
 		}
 	}
 
-	protected static ICondition deriveConditionFromConstraint(IDecisionModel dm,final Constraint node) throws ConditionCreationException {
+	protected static ICondition deriveConditionFromConstraint(IDecisionModel dm, final Constraint node)
+			throws ConditionCreationException {
 		if (node instanceof AndConstraint) {
 			List<Constraint> nodes = new ArrayList<Constraint>();
 			nodes.addAll(node.getConstraintSubParts());
-			ICondition first = deriveConditionFromConstraint(dm,nodes.remove(0));
-			ICondition second = deriveConditionFromConstraint(dm,nodes.remove(0));
+			ICondition first = deriveConditionFromConstraint(dm, nodes.remove(0));
+			ICondition second = deriveConditionFromConstraint(dm, nodes.remove(0));
 			And and = new And(first, second);
 			while (!nodes.isEmpty()) {
-				ICondition next = deriveConditionFromConstraint(dm,nodes.remove(0));
+				ICondition next = deriveConditionFromConstraint(dm, nodes.remove(0));
 				and = new And(and, next);
 			}
 			return and;
@@ -462,11 +472,11 @@ public abstract class TransformFMtoDMUtil {
 		if (node instanceof OrConstraint) {
 			List<Constraint> nodes = new ArrayList<Constraint>();
 			nodes.addAll(node.getConstraintSubParts());
-			ICondition first = deriveConditionFromConstraint(dm,nodes.remove(0));
-			ICondition second = deriveConditionFromConstraint(dm,nodes.remove(0));
+			ICondition first = deriveConditionFromConstraint(dm, nodes.remove(0));
+			ICondition second = deriveConditionFromConstraint(dm, nodes.remove(0));
 			Or or = new Or(first, second);
 			while (!nodes.isEmpty()) {
-				ICondition next = deriveConditionFromConstraint(dm,nodes.remove(0));
+				ICondition next = deriveConditionFromConstraint(dm, nodes.remove(0));
 				or = new Or(or, next);
 			}
 			return or;
@@ -479,12 +489,12 @@ public abstract class TransformFMtoDMUtil {
 		throw new ConditionCreationException(String.format("Not supported condition type: %s", node));
 	}
 
-	protected static EnumDecision findEnumDecisionWithVisiblityCondition(IDecisionModel dm,final IDecision decision) {
+	protected static EnumDecision findEnumDecisionWithVisiblityCondition(IDecisionModel dm, final IDecision decision) {
 		// TODO: order causes issues; in one model (financial services) it is needed the
 		// other way around
 		// TODO: in another model as it is right now (Ubuntu_14_1)
 		// TODO: which is the best way to find out
-		List<EnumDecision> decisions = ((DecisionModel)dm).findWithVisibility(decision).stream()
+		List<EnumDecision> decisions = ((DecisionModel) dm).findWithVisibility(decision).stream()
 				.filter(d -> (d.getType() == ADecision.DecisionType.ENUM)).map(d -> (EnumDecision) d)
 				.collect(Collectors.toList());
 		if (!decisions.isEmpty()) {
@@ -493,15 +503,15 @@ public abstract class TransformFMtoDMUtil {
 		return null;
 	}
 
-	protected static EnumDecision findEnumDecisionByRangeValue(IDecisionModel dm,final IDecision decision) {
-		List<EnumDecision> decisions = new ArrayList<>(((DecisionModel)dm).findWithRangeValue(decision));
+	protected static EnumDecision findEnumDecisionByRangeValue(IDecisionModel dm, final IDecision decision) {
+		List<EnumDecision> decisions = new ArrayList<>(((DecisionModel) dm).findWithRangeValue(decision));
 		if (!decisions.isEmpty()) {
 			return decisions.remove(0);
 		}
 		return null;
 	}
 
-	protected static List<IDecision> findDecisionsForLiterals(IDecisionModel dm,final Set<Constraint> literals) {
+	protected static List<IDecision> findDecisionsForLiterals(IDecisionModel dm, final Set<Constraint> literals) {
 		List<IDecision> literalDecisions = new ArrayList<>();
 		for (Constraint positive : literals) {
 			String name = ((LiteralConstraint) positive).getLiteral();
@@ -560,13 +570,13 @@ public abstract class TransformFMtoDMUtil {
 		return parent != null && TraVarTUtils.isEnumerationType(parent);
 	}
 
-	protected static boolean isEnumSubFeature(FeatureModel fm,final IDecision decision) {
+	protected static boolean isEnumSubFeature(FeatureModel fm, final IDecision decision) {
 		Feature feature = fm.getFeatureMap().get(
 				DecisionModelUtils.retriveFeatureName(decision, decision.getType() == ADecision.DecisionType.ENUM));
 		return isEnumSubFeature(feature);
 	}
 
-	protected static boolean isEnumFeature(FeatureModel fm,final IDecision decision) {
+	protected static boolean isEnumFeature(FeatureModel fm, final IDecision decision) {
 		Feature feature = fm.getFeatureMap().get(
 				DecisionModelUtils.retriveFeatureName(decision, decision.getType() == ADecision.DecisionType.ENUM));
 		return TraVarTUtils.isEnumerationType(feature);
@@ -574,11 +584,11 @@ public abstract class TransformFMtoDMUtil {
 
 	protected static void defineCardinality(final EnumDecision decision, final Feature feature) {
 		Cardinality cardinality = null;
-		//TODO probably needs larger refactor due to group cardinalities
-		if (feature.getChildren().stream().anyMatch(g->g.GROUPTYPE.equals(GroupType.OR))) {
+		// TODO probably needs larger refactor due to group cardinalities
+		if (feature.getChildren().stream().anyMatch(g -> g.GROUPTYPE.equals(GroupType.OR))) {
 			cardinality = new Cardinality(1, feature.getChildren().stream().flatMap(g -> g.getFeatures().stream())
 					.collect(Collectors.toList()).size());
-		} else if (feature.getChildren().stream().anyMatch(g->g.GROUPTYPE.equals(GroupType.ALTERNATIVE))) {
+		} else if (feature.getChildren().stream().anyMatch(g -> g.GROUPTYPE.equals(GroupType.ALTERNATIVE))) {
 			cardinality = new Cardinality(1, 1);
 		} else {
 			cardinality = new Cardinality(0, feature.getChildren().stream().flatMap(g -> g.getFeatures().stream())
@@ -598,7 +608,8 @@ public abstract class TransformFMtoDMUtil {
 		}
 		decision.setRange(range);
 		// add non option if it comes from a enum decision
-		if (!feature.getParentGroup().GROUPTYPE.equals(GroupType.MANDATORY) || isEnumSubFeature(feature)) {
+		if (feature.getParentGroup() != null
+				&& (!feature.getParentGroup().GROUPTYPE.equals(GroupType.MANDATORY) || isEnumSubFeature(feature))) {
 			ARangeValue noneOption = decision.getNoneOption();
 			noneOption.enable();
 			decision.getRange().add(noneOption);
@@ -610,12 +621,14 @@ public abstract class TransformFMtoDMUtil {
 		}
 	}
 
-	protected static void convertVisibilityCustomProperties(IDecisionModel dm,final Collection<Feature> features) {
+	protected static void convertVisibilityCustomProperties(IDecisionModel dm, final Collection<Feature> features) {
 		for (Feature feature : features) {
-			if (feature.getAttributes().containsKey(DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY)){//,DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY_TYPE)) {
+			if (feature.getAttributes()
+					.containsKey(DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY)) {// ,DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY_TYPE))
+																											// {
 				ConditionParser conditionParser = new ConditionParser(dm);
-				String visbility = feature.getAttributes().get(
-						DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY).toString();//,DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY_TYPE);
+				String visbility = feature.getAttributes()
+						.get(DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY).toString();// ,DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY_TYPE);
 				ICondition visiblity = conditionParser.parse(visbility);
 				IDecision decision = dm.get(feature.getFeatureName());
 				decision.setVisibility(visiblity);
