@@ -44,31 +44,27 @@ public class DisAllowFunctionTest {
 
 	@Test
 	public void noNullValueTest() {
-		assertThrows(NullPointerException.class, () -> new DisAllowAction(new BooleanDecision("test"), null));
+		assertThrows(IllegalArgumentException.class, () -> new DisAllowAction(new BooleanDecision("test"), null));
 	}
 
 	@Test
 	public void DecisionValueRangeTest_AllowStringForBoolDec() throws ActionExecutionException {
-		IAction allow = new DisAllowAction(new BooleanDecision("test"), new StringValue("test"));
-		assertThrows(IllegalArgumentException.class, () -> allow.execute());
+		assertThrows(IllegalArgumentException.class, () -> new DisAllowAction(new BooleanDecision("test"), new StringValue("test")));
 	}
 
 	@Test
 	public void DecisionValueRangeTest_AllowDoubleForBoolDec() throws ActionExecutionException {
-		IAction allow = new DisAllowAction(new BooleanDecision("test"), new DoubleValue(1.2));
-		assertThrows(IllegalArgumentException.class, () -> allow.execute());
+		assertThrows(IllegalArgumentException.class, () -> new DisAllowAction(new BooleanDecision("test"), new DoubleValue(1.2)));
 	}
 
 	@Test
 	public void DecisionValueRangeTest_AllowDoubleForEnumDec() throws ActionExecutionException {
-		IAction allow = new DisAllowAction(new EnumDecision("test"), new StringValue("test"));
-		assertThrows(IllegalArgumentException.class, () -> allow.execute());
+		assertThrows(IllegalArgumentException.class, () -> new DisAllowAction(new EnumDecision("test"), new StringValue("test")));
 	}
 
 	@Test
 	public void DecisionValueRangeTest_AllowBoolForEnumDec() throws ActionExecutionException {
-		IAction allow = new DisAllowAction(new EnumDecision("test"), BooleanValue.getFalse());
-		assertThrows(IllegalArgumentException.class, () -> allow.execute());
+		assertThrows(IllegalArgumentException.class, () -> new DisAllowAction(new EnumDecision("test"), BooleanValue.getFalse()));
 	}
 
 	@Test
@@ -114,8 +110,7 @@ public class DisAllowFunctionTest {
 
 	@Test
 	public void testIsSatisfied_ValueNotPresent() throws Exception {
-		da = new DisAllowAction(dec, new StringValue("test"));
-		assertThrows(IllegalArgumentException.class, () ->da.isSatisfied());
+		assertThrows(IllegalArgumentException.class, () ->new DisAllowAction(dec, new StringValue("test")));
 		// should throw Exception because the new String is not part of the range.
 	}
 

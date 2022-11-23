@@ -3,12 +3,11 @@ package at.jku.cps.travart.dopler.decision.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
@@ -22,6 +21,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.StringValue;
 public class IValueTest {
 
 	@ParameterizedTest
+	@MethodSource("instancesToTest")
 	public void testGetValue(IValue val) {
 		if (val instanceof EnumDecision) {
 			assertEquals(new StringValue(" "), val.getValue());
@@ -32,6 +32,7 @@ public class IValueTest {
 
 	@SuppressWarnings("unchecked")
 	@ParameterizedTest
+	@MethodSource("instancesToTest")
 	public void testSetValue(IValue val) throws RangeValueException {
 		if (!(val instanceof ADecision)) {
 			assertThrows(Throwable.class, ()->val.setValue(null));

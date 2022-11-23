@@ -37,6 +37,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.Equals;
 import at.jku.cps.travart.dopler.decision.model.impl.GetValueFunction;
 import at.jku.cps.travart.dopler.decision.model.impl.Greater;
 import at.jku.cps.travart.dopler.decision.model.impl.GreaterEquals;
+import at.jku.cps.travart.dopler.decision.model.impl.IsSelectedFunction;
 import at.jku.cps.travart.dopler.decision.model.impl.IsTakenFunction;
 import at.jku.cps.travart.dopler.decision.model.impl.Less;
 import at.jku.cps.travart.dopler.decision.model.impl.LessEquals;
@@ -606,10 +607,14 @@ public class DecisionModelUtilsTest {
 		assertFalse(DecisionModelUtils.isMandatoryVisibilityCondition(n));
 		Or o = new Or(ICondition.FALSE, ICondition.TRUE);
 		assertFalse(DecisionModelUtils.isMandatoryVisibilityCondition(o));
-		And a = new And(ICondition.FALSE, new IsTakenFunction(new BooleanDecision("bd")));
+		And a = new And(ICondition.FALSE, new IsSelectedFunction(new BooleanDecision("bd")));
 		assertTrue(DecisionModelUtils.isMandatoryVisibilityCondition(a));
+		 a = new And(new IsSelectedFunction(new BooleanDecision("bd")),ICondition.FALSE);
+		assertTrue(DecisionModelUtils.isMandatoryVisibilityCondition(a));
+		 a = new And(ICondition.FALSE, new IsTakenFunction(new BooleanDecision("bd")));
+		assertFalse(DecisionModelUtils.isMandatoryVisibilityCondition(a));
 		a = new And(new IsTakenFunction(new BooleanDecision("bd")), ICondition.FALSE);
-		assertTrue(DecisionModelUtils.isMandatoryVisibilityCondition(a));
+		assertFalse(DecisionModelUtils.isMandatoryVisibilityCondition(a));
 		a = new And(new IsTakenFunction(new BooleanDecision("bd")), ICondition.TRUE);
 		assertFalse(DecisionModelUtils.isMandatoryVisibilityCondition(a));
 		a = new And(ICondition.FALSE, ICondition.FALSE);
@@ -737,7 +742,7 @@ public class DecisionModelUtilsTest {
 	@Test
 	public void testRetriveFeatureNameIDecisionBooleanBooleanEnumDecFalseTrue() {
 		EnumDecision ed = new EnumDecision("ed_2");
-		assertEquals("ed", DecisionModelUtils.retriveFeatureName(ed, true));
+		assertNotEquals("ed", DecisionModelUtils.retriveFeatureName(ed, true));
 	}
 
 	@Test
@@ -788,21 +793,21 @@ public class DecisionModelUtilsTest {
 	@Test
 	public void testRetriveMandatoryVisibilityCondition4() {
 		BooleanDecision bd = new BooleanDecision("bd");
-		And a = new And(ICondition.FALSE, new IsTakenFunction(bd));
+		And a = new And(ICondition.FALSE, new IsSelectedFunction(bd));
 		assertEquals(bd, DecisionModelUtils.retriveMandatoryVisibilityCondition(a));
 	}
 
 	@Test
 	public void testRetriveMandatoryVisibilityCondition5() {
 		BooleanDecision bd = new BooleanDecision("bd");
-		And a = new And(new IsTakenFunction(bd), ICondition.FALSE);
+		And a = new And(new IsSelectedFunction(bd), ICondition.FALSE);
 		assertEquals(bd, DecisionModelUtils.retriveMandatoryVisibilityCondition(a));
 	}
 
 	@Test
 	public void testRetriveMandatoryVisibilityCondition6() {
 		BooleanDecision bd = new BooleanDecision("bd");
-		And a = new And(new IsTakenFunction(bd), ICondition.TRUE);
+		And a = new And(new IsSelectedFunction(bd), ICondition.TRUE);
 		assertThrows(IllegalArgumentException.class, () -> {
 			DecisionModelUtils.retriveMandatoryVisibilityCondition(a);			 
 		});

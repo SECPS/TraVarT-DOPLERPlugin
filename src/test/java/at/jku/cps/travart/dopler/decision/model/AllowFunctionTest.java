@@ -142,7 +142,7 @@ public class AllowFunctionTest {
 		AllowAction da2 = new AllowAction(dec, v);
 		assertEquals(da,da2);
 		AllowAction da3 = new AllowAction(dec, new StringValue("testtest"));
-		assertEquals(da,da3);
+		assertNotEquals(da,da3);
 	}
 
 	@Test

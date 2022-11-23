@@ -70,8 +70,6 @@ public class AndTest {
 		And begin = new And(ICondition.TRUE, ICondition.TRUE);
 		And left = new And(ICondition.TRUE, ICondition.TRUE);
 		begin.setLeft(left);
-		left.setLeft(begin);
-		assertThrows(CircleInConditionException.class,()-> begin.evaluate());
-		begin.toString();
+		assertThrows(CircleInConditionException.class,()-> left.setLeft(begin));
 	}
 }

@@ -512,8 +512,7 @@ public class DecisionModelTest {
 
 	@Test
 	public void testToStringNoDecisions() {
-		assertEquals("ToString for an empty model didn't yield expected results.",
-				"DecisionModel" + dm.getName() + "[]", dm.toString());
+		assertEquals("DecisionModel" + dm.getName() + "[]", dm.toString());
 	}
 
 	@Test
@@ -526,8 +525,7 @@ public class DecisionModelTest {
 		dm.add(d);
 		d.setValue(s1.getValue());
 		d.setSelected(true);
-		assertEquals(
-				"ToString for a model with a decision didn't yield expected results.", "DecisionModel" + dm.getName()
+		assertEquals("DecisionModel" + dm.getName()
 						+ "[" + d.toString() + "[selected=" + d.isSelected() + "; value=" + d.getValue() + "] ]",
 				dm.toString());
 	}
