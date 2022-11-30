@@ -586,17 +586,25 @@ public class DecisionModelUtilsTest {
 		BooleanDecision bd = new BooleanDecision("bd");
 		DisAllowAction daa = new DisAllowAction(bd, BooleanValue.getFalse());
 		Rule r = new Rule(new IsTakenFunction(bd), daa);
-		assertTrue(DecisionModelUtils.isInItSelfRule(r));
+		assertFalse(DecisionModelUtils.isInItSelfRule(r));
 	}
 
 	@Test
 	public void testIsInItSelfRuleIsDecisionButNotItselfRule() {
-		BooleanDecision bd = new BooleanDecision("bd");
 		EnumDecision ed = new EnumDecision("ed");
 		ed.getRange().add(ed.getNoneOption());
 		DisAllowAction daa = new DisAllowAction(ed, ed.getNoneOption());
-		Rule r = new Rule(new IsTakenFunction(bd), daa);
+		Rule r = new Rule(new IsTakenFunction(ed), daa);
 		assertFalse(DecisionModelUtils.isInItSelfRule(r));
+	}
+	
+	@Test
+	public void testIsInItSelfRuleIsDecisionButNotItselfRuleSelected() {
+		EnumDecision ed = new EnumDecision("ed");
+		ed.getRange().add(ed.getNoneOption());
+		DisAllowAction daa = new DisAllowAction(ed, ed.getNoneOption());
+		Rule r = new Rule(new IsSelectedFunction(ed), daa);
+		assertTrue(DecisionModelUtils.isInItSelfRule(r));
 	}
 
 	@Test
