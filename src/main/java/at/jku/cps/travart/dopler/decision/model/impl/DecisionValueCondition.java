@@ -34,4 +34,24 @@ public class DecisionValueCondition implements ICondition {
 	public String toString() {
 		return decision + "." + value;
 	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(decision, value);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		DecisionValueCondition other = (DecisionValueCondition) obj;
+		return Objects.equals(decision, other.decision) && Objects.equals(value, other.value);
+	}
 }
