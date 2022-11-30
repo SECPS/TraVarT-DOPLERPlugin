@@ -166,8 +166,8 @@ public abstract class TransformFMtoDMUtil {
 
 	protected static void deriveUnidirectionalRules(IDecisionModel dm, final Constraint cnfConstraint)
 			throws CircleInConditionException, ConditionCreationException {
-		Constraint negative = TraVarTUtils.getFirstNegativeLiteral(cnfConstraint);
-		String feature = ((LiteralConstraint) negative).getLiteral();
+		NotConstraint negative = TraVarTUtils.getFirstNegativeLiteral(cnfConstraint);
+		String feature = ((LiteralConstraint) negative.getContent()).getLiteral();
 		IDecision decision = dm.get(feature);
 		if (decision.getType() == ADecision.DecisionType.BOOLEAN) {
 			BooleanDecision target = (BooleanDecision) decision;
@@ -185,8 +185,7 @@ public abstract class TransformFMtoDMUtil {
 	}
 
 	protected static void convertConstraint(DecisionModelFactory factory, IDecisionModel dm, FeatureModel fm,
-			final Constraint cnfConstraint) throws CircleInConditionException, ConditionCreationException,
-			at.jku.cps.travart.dopler.decision.exc.ConditionCreationException {
+			final Constraint cnfConstraint) throws CircleInConditionException, ConditionCreationException{
 		if (TraVarTUtils.isSingleFeatureRequires(cnfConstraint)) {
 			// mandatory from root - requires rule
 			Feature root = fm.getFeatureMap()
@@ -198,12 +197,12 @@ public abstract class TransformFMtoDMUtil {
 			Rule rule = new Rule(new IsSelectedFunction(source), new SelectDecisionAction((BooleanDecision) target));
 			source.addRule(rule);
 			updateRules(source, rule);
-		} else if (TraVarTUtils.isSingleFeatureExcludes(cnfConstraint)) {
+		} else if (TraVarTUtils.isNegativeLiteral(cnfConstraint)) {
 			// excludes from root - dead feature - excludes rule
 			Feature root = fm.getFeatureMap()
 					.get(TraVarTUtils.deriveFeatureModelRoot(fm.getFeatureMap(), "virtual root"));
-			Constraint targetLiteral = TraVarTUtils.getFirstNegativeLiteral(cnfConstraint);
-			String targetFeature = ((LiteralConstraint) targetLiteral).getLiteral();
+			NotConstraint targetLiteral = TraVarTUtils.getFirstNegativeLiteral(cnfConstraint);
+			String targetFeature = ((LiteralConstraint) targetLiteral.getContent()).getLiteral();
 			IDecision source = dm.get(root.getFeatureName());
 			IDecision target = dm.get(targetFeature);
 			Rule rule = new Rule(new IsSelectedFunction(source), new DeSelectDecisionAction((BooleanDecision) target));
@@ -212,10 +211,8 @@ public abstract class TransformFMtoDMUtil {
 		} else if (TraVarTUtils.isRequires(cnfConstraint)) {
 			deriveRequiresRules(dm, fm, cnfConstraint);
 		} else if (TraVarTUtils.isExcludes(cnfConstraint)) {
+			// FIXME does not handle multi-excludes ?!?!
 			deriveExcludeRules(dm, fm, cnfConstraint);
-		} else if (TraVarTUtils.countLiterals(cnfConstraint) == 2 && TraVarTUtils.hasNegativeLiteral(cnfConstraint)
-				&& TraVarTUtils.countNegativeLiterals(cnfConstraint) == 1) {
-			deriveUnidirectionalRules(dm, cnfConstraint);
 		} else if (TraVarTUtils.countLiterals(cnfConstraint) > 1 && TraVarTUtils.hasNegativeLiteral(cnfConstraint)
 				&& TraVarTUtils.countNegativeLiterals(cnfConstraint) == 1) {
 			deriveUnidirectionalRules(dm, cnfConstraint);
@@ -329,10 +326,10 @@ public abstract class TransformFMtoDMUtil {
 	}
 
 	protected static void deriveRequiresRules(IDecisionModel dm, FeatureModel fm, final Constraint cnfConstraint) {
-		Constraint sourceLiteral = TraVarTUtils.getFirstNegativeLiteral(cnfConstraint);
+		NotConstraint sourceLiteral = TraVarTUtils.getFirstNegativeLiteral(cnfConstraint);
 		Constraint targetLiteral = TraVarTUtils.getFirstPositiveLiteral(cnfConstraint);
 		if (TraVarTUtils.isLiteral(sourceLiteral) && TraVarTUtils.isLiteral(targetLiteral)) {
-			String sourceFeature = ((LiteralConstraint) sourceLiteral).getLiteral();
+			String sourceFeature = ((LiteralConstraint) sourceLiteral.getContent()).getLiteral();
 			String targetFeature = ((LiteralConstraint) targetLiteral).getLiteral();
 			IDecision source = dm.get(sourceFeature);
 			IDecision target = dm.get(targetFeature);
@@ -405,8 +402,12 @@ public abstract class TransformFMtoDMUtil {
 		Constraint sourceLiteral = TraVarTUtils.getLeftConstraint(cnfConstraint);
 		Constraint targetLiteral = TraVarTUtils.getRightConstraint(cnfConstraint);
 		if (TraVarTUtils.isLiteral(sourceLiteral) && TraVarTUtils.isLiteral(targetLiteral)) {
-			String sourceFeature = ((LiteralConstraint) sourceLiteral).getLiteral();
-			String targetFeature = ((LiteralConstraint) targetLiteral).getLiteral();
+			String sourceFeature = sourceLiteral instanceof NotConstraint
+					? ((LiteralConstraint) ((NotConstraint) sourceLiteral).getContent()).getLiteral()
+					: ((LiteralConstraint) sourceLiteral).getLiteral();
+			String targetFeature = targetLiteral instanceof NotConstraint
+					? ((LiteralConstraint) ((NotConstraint) targetLiteral).getContent()).getLiteral()
+					: ((LiteralConstraint) targetLiteral).getLiteral();
 			IDecision source = dm.get(sourceFeature);
 			IDecision target = dm.get(targetFeature);
 			if (isEnumSubFeature(fm, source) && !isEnumSubFeature(fm, target)) {
