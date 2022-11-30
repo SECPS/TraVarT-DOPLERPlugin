@@ -280,7 +280,7 @@ public final class DecisionModelUtils {
 	}
 
 	/*
-	 * Identify rules which contain actions to itself. e.g., if (isTaken(d_Storage))
+	 * Identify rules which contain actions to itself. e.g., if (isSelected(d_Storage))
 	 * { disAllow(d_Storage_0.None); }
 	 */
 	@SuppressWarnings("rawtypes")
