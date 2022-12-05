@@ -244,13 +244,13 @@ class TransformFMtoDMUtilTest {
 		assertFalse(childADec.getRules().isEmpty());
 		// A disallows B
 		assertEquals(
-				new Rule(new IsSelectedFunction(childADec),
-						new DisAllowAction(root0Dec, root0Dec.getRangeValue(childB))),
+				new Rule(new Not(new IsSelectedFunction(childADec)),
+						new AllowAction(root0Dec, root0Dec.getRangeValue(childB))),
 				childADec.getRules().iterator().next());
 		// B disallows A
 		assertEquals(
-				new Rule(new IsSelectedFunction(childBDec),
-						new DisAllowAction(root0Dec, root0Dec.getRangeValue(childA))),
+				new Rule(new Not(new IsSelectedFunction(childBDec)),
+						new AllowAction(root0Dec, root0Dec.getRangeValue(childA))),
 				childBDec.getRules().iterator().next());
 
 		Set<Rule> ruleSet = root0Dec.getRules();
