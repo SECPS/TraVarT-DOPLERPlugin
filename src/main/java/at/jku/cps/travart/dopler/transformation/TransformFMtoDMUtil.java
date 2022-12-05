@@ -49,6 +49,7 @@ import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.LiteralConstraint;
 import de.vill.model.constraint.NotConstraint;
 import de.vill.model.constraint.OrConstraint;
+import de.vill.model.constraint.ParenthesisConstraint;
 
 @SuppressWarnings("rawtypes")
 public abstract class TransformFMtoDMUtil {
@@ -186,44 +187,45 @@ public abstract class TransformFMtoDMUtil {
 
 	protected static void convertConstraint(DecisionModelFactory factory, IDecisionModel dm, FeatureModel fm,
 			final Constraint cnfConstraint) throws CircleInConditionException, ConditionCreationException{
-		if (TraVarTUtils.isSingleFeatureRequires(cnfConstraint)) {
+		Constraint parenthesisLessConstraint=(cnfConstraint instanceof ParenthesisConstraint)?((ParenthesisConstraint)cnfConstraint).getContent():cnfConstraint;
+		if (TraVarTUtils.isSingleFeatureRequires(parenthesisLessConstraint)) {
 			// mandatory from root - requires rule
 			Feature root = fm.getFeatureMap()
 					.get(TraVarTUtils.deriveFeatureModelRoot(fm.getFeatureMap(), "virtual root"));
-			Constraint targetLiteral = TraVarTUtils.getFirstPositiveLiteral(cnfConstraint);
+			Constraint targetLiteral = TraVarTUtils.getFirstPositiveLiteral(parenthesisLessConstraint);
 			String targetFeature = ((LiteralConstraint) targetLiteral).getLiteral();
 			IDecision source = dm.get(root.getFeatureName());
 			IDecision target = dm.get(targetFeature);
 			Rule rule = new Rule(new IsSelectedFunction(source), new SelectDecisionAction((BooleanDecision) target));
 			source.addRule(rule);
 			updateRules(source, rule);
-		} else if (TraVarTUtils.isNegativeLiteral(cnfConstraint)) {
+		} else if (TraVarTUtils.isNegativeLiteral(parenthesisLessConstraint)) {
 			// excludes from root - dead feature - excludes rule
 			Feature root = fm.getFeatureMap()
 					.get(TraVarTUtils.deriveFeatureModelRoot(fm.getFeatureMap(), "virtual root"));
-			NotConstraint targetLiteral = TraVarTUtils.getFirstNegativeLiteral(cnfConstraint);
+			NotConstraint targetLiteral = TraVarTUtils.getFirstNegativeLiteral(parenthesisLessConstraint);
 			String targetFeature = ((LiteralConstraint) targetLiteral.getContent()).getLiteral();
 			IDecision source = dm.get(root.getFeatureName());
 			IDecision target = dm.get(targetFeature);
 			Rule rule = new Rule(new IsSelectedFunction(source), new DeSelectDecisionAction((BooleanDecision) target));
 			source.addRule(rule);
 			updateRules(source, rule);
-		} else if (TraVarTUtils.isRequires(cnfConstraint)) {
-			deriveRequiresRules(dm, fm, cnfConstraint);
-		} else if (TraVarTUtils.isExcludes(cnfConstraint)) {
+		} else if (TraVarTUtils.isRequires(parenthesisLessConstraint)) {
+			deriveRequiresRules(dm, fm, parenthesisLessConstraint);
+		} else if (TraVarTUtils.isExcludes(parenthesisLessConstraint)) {
 			// FIXME does not handle multi-excludes ?!?!
-			deriveExcludeRules(dm, fm, cnfConstraint);
-		} else if (TraVarTUtils.countLiterals(cnfConstraint) > 1 && TraVarTUtils.hasNegativeLiteral(cnfConstraint)
-				&& TraVarTUtils.countNegativeLiterals(cnfConstraint) == 1) {
-			deriveUnidirectionalRules(dm, cnfConstraint);
-		} else if (TraVarTUtils.countLiterals(cnfConstraint) > 1 && TraVarTUtils.hasPositiveLiteral(cnfConstraint)
-				&& TraVarTUtils.countPositiveLiterals(cnfConstraint) == 1) {
-			Constraint positive = TraVarTUtils.getFirstPositiveLiteral(cnfConstraint);
+			deriveExcludeRules(dm, fm, parenthesisLessConstraint);
+		} else if (TraVarTUtils.countLiterals(parenthesisLessConstraint) > 1 && TraVarTUtils.hasNegativeLiteral(parenthesisLessConstraint)
+				&& TraVarTUtils.countNegativeLiterals(parenthesisLessConstraint) == 1) {
+			deriveUnidirectionalRules(dm, parenthesisLessConstraint);
+		} else if (TraVarTUtils.countLiterals(parenthesisLessConstraint) > 1 && TraVarTUtils.hasPositiveLiteral(parenthesisLessConstraint)
+				&& TraVarTUtils.countPositiveLiterals(parenthesisLessConstraint) == 1) {
+			Constraint positive = TraVarTUtils.getFirstPositiveLiteral(parenthesisLessConstraint);
 			String feature = ((LiteralConstraint) positive).getLiteral();
 			IDecision decision = dm.get(feature);
 			if (decision.getType() == ADecision.DecisionType.BOOLEAN) {
 				BooleanDecision target = (BooleanDecision) decision;
-				Set<Constraint> negativeLiterals = TraVarTUtils.getNegativeLiterals(cnfConstraint);
+				Set<Constraint> negativeLiterals = TraVarTUtils.getNegativeLiterals(parenthesisLessConstraint);
 				List<IDecision> conditionDecisions = findDecisionsForLiterals(dm, negativeLiterals);
 				List<IDecision> ruleDecisions = findDecisionsForLiterals(dm, negativeLiterals);
 				ICondition ruleCondition = DecisionModelUtils.consumeToBinaryCondition(conditionDecisions, And.class,
@@ -235,10 +237,10 @@ public abstract class TransformFMtoDMUtil {
 					updateRules(source, rule);
 				}
 			}
-		} else if (TraVarTUtils.countLiterals(cnfConstraint) > 1
-				&& TraVarTUtils.countLiterals(cnfConstraint) == TraVarTUtils.countPositiveLiterals(cnfConstraint)
-				&& cnfConstraint instanceof OrConstraint) {
-			Set<Constraint> literals = TraVarTUtils.getLiterals(cnfConstraint);
+		} else if (TraVarTUtils.countLiterals(parenthesisLessConstraint) > 1
+				&& TraVarTUtils.countLiterals(parenthesisLessConstraint) == TraVarTUtils.countPositiveLiterals(parenthesisLessConstraint)
+				&& parenthesisLessConstraint instanceof OrConstraint) {
+			Set<Constraint> literals = TraVarTUtils.getLiterals(parenthesisLessConstraint);
 			List<IDecision> literalDecisions = findDecisionsForLiterals(dm, literals);
 			EnumDecision enumDecision = factory
 					.createEnumDecision(String.format("or#constr#%s", literalDecisions.size()));
@@ -257,10 +259,10 @@ public abstract class TransformFMtoDMUtil {
 				enumDecision.addRule(rule);
 				updateRules(enumDecision, rule);
 			}
-		} else if (TraVarTUtils.countLiterals(cnfConstraint) > 1
-				&& TraVarTUtils.countLiterals(cnfConstraint) == TraVarTUtils.countPositiveLiterals(cnfConstraint)
-				&& cnfConstraint instanceof AndConstraint) {
-			Set<Constraint> literals = TraVarTUtils.getLiterals(cnfConstraint);
+		} else if (TraVarTUtils.countLiterals(parenthesisLessConstraint) > 1
+				&& TraVarTUtils.countLiterals(parenthesisLessConstraint) == TraVarTUtils.countPositiveLiterals(parenthesisLessConstraint)
+				&& parenthesisLessConstraint instanceof AndConstraint) {
+			Set<Constraint> literals = TraVarTUtils.getLiterals(parenthesisLessConstraint);
 			List<IDecision> literalDecisions = findDecisionsForLiterals(dm, literals);
 			EnumDecision enumDecision = factory
 					.createEnumDecision(String.format("or#constr#%s", literalDecisions.size()));
@@ -279,9 +281,9 @@ public abstract class TransformFMtoDMUtil {
 				enumDecision.addRule(rule);
 				updateRules(enumDecision, rule);
 			}
-		} else if (TraVarTUtils.countLiterals(cnfConstraint) == 1 && TraVarTUtils.isLiteral(cnfConstraint)) {
-			if (TraVarTUtils.hasPositiveLiteral(cnfConstraint)) {
-				String feature = ((LiteralConstraint) cnfConstraint).getLiteral();
+		} else if (TraVarTUtils.countLiterals(parenthesisLessConstraint) == 1 && TraVarTUtils.isLiteral(parenthesisLessConstraint)) {
+			if (TraVarTUtils.hasPositiveLiteral(parenthesisLessConstraint)) {
+				String feature = ((LiteralConstraint) parenthesisLessConstraint).getLiteral();
 				IDecision decision = dm.get(feature);
 				if (decision.getType() == ADecision.DecisionType.BOOLEAN) {
 					BooleanDecision boolDecision = (BooleanDecision) decision;
@@ -299,10 +301,10 @@ public abstract class TransformFMtoDMUtil {
 				}
 			} else {
 				String feature;
-				if (cnfConstraint instanceof NotConstraint) {
-					feature = ((LiteralConstraint) ((NotConstraint) cnfConstraint).getContent()).getLiteral();
+				if (parenthesisLessConstraint instanceof NotConstraint) {
+					feature = ((LiteralConstraint) ((NotConstraint) parenthesisLessConstraint).getContent()).getLiteral();
 				} else {
-					feature = ((LiteralConstraint) cnfConstraint).getLiteral();
+					feature = ((LiteralConstraint) parenthesisLessConstraint).getLiteral();
 				}
 				IDecision decision = dm.get(feature);
 				if (decision.getType() == ADecision.DecisionType.BOOLEAN) {
@@ -313,16 +315,23 @@ public abstract class TransformFMtoDMUtil {
 					updateRules(boolDecision, rule);
 				}
 			}
+		} else if(TraVarTUtils.isRequiredForAllConstraint(parenthesisLessConstraint)) {
+			deriveRequiredForAllRule(parenthesisLessConstraint);
 		} else {
 			// any other type of mode
 			// create demorgen condition node 1:1
-			ICondition condition = deriveConditionFromConstraint(dm, cnfConstraint);
+			ICondition condition = deriveConditionFromConstraint(dm, parenthesisLessConstraint);
 			// create implies with root decision to set to false
 			BooleanDecision rootDecision = (BooleanDecision) dm.get(fm.getRootFeature().getFeatureName());
 			Rule rule = new Rule(new Not(condition), new DeSelectDecisionAction(rootDecision));
 			rootDecision.addRule(rule);
 			updateRules(rootDecision, rule);
 		}
+	}
+
+	private static void deriveRequiredForAllRule(Constraint parenthesisLessConstraint) {
+		// TODO Ask Kevin how to handle this (enums and stuff might require some cases)
+		
 	}
 
 	protected static void deriveRequiresRules(IDecisionModel dm, FeatureModel fm, final Constraint cnfConstraint) {
@@ -399,6 +408,7 @@ public abstract class TransformFMtoDMUtil {
 	protected static void deriveExcludeRules(IDecisionModel dm, FeatureModel fm, final Constraint cnfConstraint) {
 		// excludes constraints are bidirectional by default, therefore direction for
 		// defined constraint is negligible, but we need two rules
+		
 		Constraint sourceLiteral = TraVarTUtils.getLeftConstraint(cnfConstraint);
 		Constraint targetLiteral = TraVarTUtils.getRightConstraint(cnfConstraint);
 		if (TraVarTUtils.isLiteral(sourceLiteral) && TraVarTUtils.isLiteral(targetLiteral)) {
