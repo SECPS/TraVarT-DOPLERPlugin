@@ -15,9 +15,14 @@ import at.jku.cps.travart.dopler.decision.model.impl.NumberDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Range;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
 import at.jku.cps.travart.dopler.decision.model.impl.StringDecision;
-import de.ovgu.featureide.fm.core.base.IFactory;
 
-public interface IDecisionModelFactory extends IFactory<DecisionModel> {
+public interface IDecisionModelFactory{
+	
+	String getId();
+
+	boolean initExtension();
+
+	DecisionModel create();
 
 	BooleanDecision createBooleanDecision(String id);
 

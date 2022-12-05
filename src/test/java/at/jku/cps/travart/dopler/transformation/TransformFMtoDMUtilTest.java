@@ -66,7 +66,7 @@ class TransformFMtoDMUtilTest {
 		childAFeature = new Feature(childA);
 		childBFeature = new Feature(childB);
 		childCFeature = new Feature(childC);
-		Set<Rule> controlSet= new HashSet<>();
+		controlSet= new HashSet<>();
 	}
 
 	@Test
@@ -466,7 +466,7 @@ class TransformFMtoDMUtilTest {
 		IDecision root0Dec = dm.get("root#0");
 		// A disallows B
 
-		Set<Rule> ruleSet = childADec.getRules();
+		Set<Rule> ruleSet = childADec.getRules(); 
 //		controlSet.add(new Rule(new And(new IsSelectedFunction(childADec), new IsSelectedFunction(childBDec)),
 //				new SelectDecisionAction((BooleanDecision) childCDec)));
 //		assertEquals(controlSet, ruleSet);
