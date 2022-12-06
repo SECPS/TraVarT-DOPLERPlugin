@@ -7,7 +7,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
@@ -56,17 +58,48 @@ class TransformFMtoDMUtilTest {
 	Feature childBFeature;
 	Feature childCFeature;
 	Set<Rule> controlSet;
+	Group orGroup;
+
+	IDecision childADec;
+	IDecision childBDec;
+	IDecision childCDec;
+	IDecision rootDec;
+	IDecision root0Dec;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		factory = new DecisionModelFactory();
 		dm = factory.create();
 		fm = new FeatureModel();
+		orGroup = new Group(GroupType.OR);
 		rootFeature = new Feature(root);
 		childAFeature = new Feature(childA);
 		childBFeature = new Feature(childB);
 		childCFeature = new Feature(childC);
-		controlSet= new HashSet<>();
+		orGroup.getFeatures().add(childAFeature);
+		orGroup.getFeatures().add(childBFeature);
+		orGroup.getFeatures().add(childCFeature);
+		rootFeature.getChildren().add(orGroup);
+		fm.setRootFeature(rootFeature);
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
+		controlSet = new HashSet<>();
+	}
+
+	@AfterEach
+	void clear() {
+		childADec = null;
+		childBDec = null;
+		childCDec = null;
+		rootDec = null;
+		root0Dec = null;
+	}
+
+	private void getDecisions(IDecisionModel dm) {
+		childADec = dm.get(childA);
+		childBDec = dm.get(childB);
+		childCDec = dm.get(childC);
+		rootDec = dm.get(rootFeature.getFeatureName());
+		root0Dec = dm.get("root#0");
 	}
 
 	@Test
@@ -226,21 +259,13 @@ class TransformFMtoDMUtilTest {
 	@Test
 	void testConvertConstraintRecExcludes()
 			throws NotSupportedVariabilityTypeException, CircleInConditionException, ConditionCreationException {
-		Group orGroup = new Group(GroupType.OR);
-		orGroup.getFeatures().add(childAFeature);
-		orGroup.getFeatures().add(childBFeature);
-		rootFeature.getChildren().add(orGroup);
-		fm.setRootFeature(rootFeature);
-		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
 		// A => !B
 		Constraint implConstraint = new ImplicationConstraint(new LiteralConstraint(childA),
 				new NotConstraint(new LiteralConstraint(childB)));
 		fm.getConstraints().add(implConstraint);
 		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
 		TransformFMtoDMUtil.convertConstraintRec(factory, dm, fm, implConstraint);
-		IDecision childADec = dm.get(childA);
-		IDecision childBDec = dm.get(childB);
-		IDecision root0Dec = dm.get("root#0");
+		getDecisions(dm);
 		assertFalse(childADec.getRules().isEmpty());
 		// A disallows B
 		assertEquals(
@@ -264,20 +289,13 @@ class TransformFMtoDMUtilTest {
 	@Test
 	void testConvertConstraintRecRequires()
 			throws NotSupportedVariabilityTypeException, CircleInConditionException, ConditionCreationException {
-		Group orGroup = new Group(GroupType.OR);
-		orGroup.getFeatures().add(childAFeature);
-		orGroup.getFeatures().add(childBFeature);
-		rootFeature.getChildren().add(orGroup);
-		fm.setRootFeature(rootFeature);
-		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
 		// A => B
 		Constraint implConstraint = new ImplicationConstraint(new LiteralConstraint(childA),
 				new LiteralConstraint(childB));
 		fm.getConstraints().add(implConstraint);
 		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
 		TransformFMtoDMUtil.convertConstraintRec(factory, dm, fm, implConstraint);
-		IDecision childADec = dm.get(childA);
-		IDecision root0Dec = dm.get("root#0");
+		getDecisions(dm);
 		// A disallows B
 		assertEquals(
 				new Rule(new IsSelectedFunction(childADec),
@@ -295,19 +313,12 @@ class TransformFMtoDMUtilTest {
 	@Test
 	void testConvertConstraintRecSingleRequires()
 			throws NotSupportedVariabilityTypeException, CircleInConditionException, ConditionCreationException {
-		Group orGroup = new Group(GroupType.OR);
-		orGroup.getFeatures().add(childAFeature);
-		orGroup.getFeatures().add(childBFeature);
-		rootFeature.getChildren().add(orGroup);
-		fm.setRootFeature(rootFeature);
-		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
 		// child A is required
 		Constraint implConstraint = new LiteralConstraint(childA);
 		fm.getConstraints().add(implConstraint);
 		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
 		TransformFMtoDMUtil.convertConstraintRec(factory, dm, fm, implConstraint);
-		IDecision childADec = dm.get(childA);
-		IDecision rootDec = dm.get(rootFeature.getFeatureName());
+		getDecisions(dm);
 		// A disallows B
 		assertEquals(new Rule(new IsSelectedFunction(rootDec), new SelectDecisionAction(childADec)),
 				rootDec.getRules().iterator().next());
@@ -316,44 +327,30 @@ class TransformFMtoDMUtilTest {
 	@Test
 	void testConvertConstraintRecDoubleRequires()
 			throws NotSupportedVariabilityTypeException, CircleInConditionException, ConditionCreationException {
-		Group orGroup = new Group(GroupType.OR);
-		orGroup.getFeatures().add(childAFeature);
-		orGroup.getFeatures().add(childBFeature);
-		rootFeature.getChildren().add(orGroup);
-		fm.setRootFeature(rootFeature);
-		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
 		// A and B
 		Constraint implConstraint = new AndConstraint(new LiteralConstraint(childA), new LiteralConstraint(childB));
 		fm.getConstraints().add(implConstraint);
 		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
 		TransformFMtoDMUtil.convertConstraintRec(factory, dm, fm, implConstraint);
-		IDecision childADec = dm.get(childA);
-		IDecision childBDec = dm.get(childB);
-		IDecision rootDec = dm.get(rootFeature.getFeatureName());
-		IDecision root0Dec = dm.get("root#0");
+		getDecisions(dm);
 
 		Set<Rule> ruleSet = root0Dec.getRules();
-		controlSet.add(new Rule(new IsSelectedFunction(rootDec), new SelectDecisionAction(childADec)));
-		controlSet.add(new Rule(new IsSelectedFunction(rootDec), new SelectDecisionAction(childBDec)));
+		controlSet.add(new Rule(new DecisionValueCondition(root0Dec, root0Dec.getRangeValue(childA)),
+				new SelectDecisionAction(childADec)));
+		controlSet.add(new Rule(new DecisionValueCondition(root0Dec, root0Dec.getRangeValue(childB)),
+				new SelectDecisionAction(childBDec)));
 		assertEquals(controlSet, ruleSet);
 	}
 
 	@Test
 	void testConvertConstraintRecSingleExcludes()
 			throws NotSupportedVariabilityTypeException, CircleInConditionException, ConditionCreationException {
-		Group orGroup = new Group(GroupType.OR);
-		orGroup.getFeatures().add(childAFeature);
-		orGroup.getFeatures().add(childBFeature);
-		rootFeature.getChildren().add(orGroup);
-		fm.setRootFeature(rootFeature);
-		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
 		// not A
 		Constraint notConstraint = new NotConstraint(new LiteralConstraint(childA));
 		fm.getConstraints().add(notConstraint);
 		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
 		TransformFMtoDMUtil.convertConstraintRec(factory, dm, fm, notConstraint);
-		IDecision childADec = dm.get(childA);
-		IDecision rootDec = dm.get(rootFeature.getFeatureName());
+		getDecisions(dm);
 		assertEquals(new Rule(new IsSelectedFunction(rootDec), new DeSelectDecisionAction((BooleanDecision) childADec)),
 				rootDec.getRules().iterator().next());
 	}
@@ -361,21 +358,13 @@ class TransformFMtoDMUtilTest {
 	@Test
 	void testConvertConstraintRecComplexConstraintSplit()
 			throws NotSupportedVariabilityTypeException, CircleInConditionException, ConditionCreationException {
-		Group orGroup = new Group(GroupType.OR);
-		orGroup.getFeatures().add(childAFeature);
-		orGroup.getFeatures().add(childBFeature);
-		orGroup.getFeatures().add(childCFeature);
-		rootFeature.getChildren().add(orGroup);
-		fm.setRootFeature(rootFeature);
-		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
 		// A => B and !C
 		Constraint implConstraint = new ImplicationConstraint(new LiteralConstraint(childA),
 				new AndConstraint(new LiteralConstraint(childB), new NotConstraint(new LiteralConstraint(childC))));
 		fm.getConstraints().add(implConstraint);
 		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
 		TransformFMtoDMUtil.convertConstraintRec(factory, dm, fm, implConstraint);
-		IDecision childADec = dm.get(childA);
-		IDecision root0Dec = dm.get("root#0");
+		getDecisions(dm);
 
 		Set<Rule> ruleSet = childADec.getRules();
 		controlSet.add(new Rule(new Not(new IsSelectedFunction(childADec)),
@@ -391,41 +380,27 @@ class TransformFMtoDMUtilTest {
 	@Test
 	void testConvertConstraintRecComplexConstraintDoubleRequires()
 			throws NotSupportedVariabilityTypeException, CircleInConditionException, ConditionCreationException {
-		Group orGroup = new Group(GroupType.OR);
-		orGroup.getFeatures().add(childAFeature);
-		orGroup.getFeatures().add(childBFeature);
-		orGroup.getFeatures().add(childCFeature);
-		rootFeature.getChildren().add(orGroup);
-		fm.setRootFeature(rootFeature);
-		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
 		// A => B and C
 		Constraint implConstraint = new ImplicationConstraint(new LiteralConstraint(childA),
 				new AndConstraint(new LiteralConstraint(childB), new LiteralConstraint(childC)));
 		fm.getConstraints().add(implConstraint);
 		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
 		TransformFMtoDMUtil.convertConstraintRec(factory, dm, fm, implConstraint);
-		IDecision childADec = dm.get(childA);
-		IDecision childBDec = dm.get(childB);
-		IDecision childCDec = dm.get(childC);
+		getDecisions(dm);
 
 		Set<Rule> ruleSet = childADec.getRules();
-		controlSet.add(
-				new Rule(new IsSelectedFunction(childADec), new SelectDecisionAction((BooleanDecision) childBDec)));
-		controlSet.add(
-				new Rule(new IsSelectedFunction(childADec), new SelectDecisionAction((BooleanDecision) childCDec)));
+		controlSet.add(new Rule(new IsSelectedFunction(childADec),
+				new SetValueAction(root0Dec, root0Dec.getRangeValue(childC))));
+		controlSet.add(new Rule(new IsSelectedFunction(childADec),
+				new SetValueAction(root0Dec, root0Dec.getRangeValue(childB))));
 		assertEquals(controlSet, ruleSet);
 	}
 
+	// TODO talk with kevin how to implement this
 	@Test
+	@Disabled("Check back with Kevin how to this case can be implemented.")
 	void testConvertConstraintRecComplexConstraintCoupleRequires()
 			throws NotSupportedVariabilityTypeException, CircleInConditionException, ConditionCreationException {
-		Group orGroup = new Group(GroupType.OR);
-		orGroup.getFeatures().add(childAFeature);
-		orGroup.getFeatures().add(childBFeature);
-		orGroup.getFeatures().add(childCFeature);
-		rootFeature.getChildren().add(orGroup);
-		fm.setRootFeature(rootFeature);
-		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
 		// A and B => C
 		Constraint implConstraint = new ImplicationConstraint(
 				new AndConstraint(new LiteralConstraint(childA), new LiteralConstraint(childB)),
@@ -433,9 +408,7 @@ class TransformFMtoDMUtilTest {
 		fm.getConstraints().add(implConstraint);
 		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
 		TransformFMtoDMUtil.convertConstraintRec(factory, dm, fm, implConstraint);
-		IDecision childADec = dm.get(childA);
-		IDecision childBDec = dm.get(childB);
-		IDecision childCDec = dm.get(childC);
+		getDecisions(dm);
 
 		Set<Rule> ruleSet = childADec.getRules();
 		controlSet.add(new Rule(new And(new IsSelectedFunction(childADec), new IsSelectedFunction(childBDec)),
@@ -446,35 +419,41 @@ class TransformFMtoDMUtilTest {
 	@Test
 	void testConvertConstraintRecComplexConstraintMultiOr()
 			throws NotSupportedVariabilityTypeException, CircleInConditionException, ConditionCreationException {
-		Group orGroup = new Group(GroupType.OR);
-		orGroup.getFeatures().add(childAFeature);
-		orGroup.getFeatures().add(childBFeature);
-		orGroup.getFeatures().add(childCFeature);
-		rootFeature.getChildren().add(orGroup);
-		fm.setRootFeature(rootFeature);
-		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
 		// Or relation between all children also as constraint
 		Constraint implConstraint = new OrConstraint(new LiteralConstraint(childA),
 				new OrConstraint(new LiteralConstraint(childB), new LiteralConstraint(childC)));
 		fm.getConstraints().add(implConstraint);
 		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
 		TransformFMtoDMUtil.convertConstraintRec(factory, dm, fm, implConstraint);
-		IDecision childADec = dm.get(childA);
-		IDecision childBDec = dm.get(childB);
-		IDecision childCDec = dm.get(childC);
-		IDecision rootDec = dm.get(rootFeature.getFeatureName());
-		IDecision root0Dec = dm.get("root#0");
+		getDecisions(dm);
+		IDecision orConstDec;
+		assertNotNull(orConstDec = dm.get("or#constr#3"));
 		// A disallows B
 
-		Set<Rule> ruleSet = childADec.getRules(); 
-//		controlSet.add(new Rule(new And(new IsSelectedFunction(childADec), new IsSelectedFunction(childBDec)),
-//				new SelectDecisionAction((BooleanDecision) childCDec)));
-//		assertEquals(controlSet, ruleSet);
+		Set<Rule> ruleSet = orConstDec.getRules();
+		controlSet.add(new Rule(new DecisionValueCondition(orConstDec, orConstDec.getRangeValue(childA)),
+				new SelectDecisionAction((BooleanDecision) childADec)));
+		controlSet.add(new Rule(new DecisionValueCondition(orConstDec, orConstDec.getRangeValue(childB)),
+				new SelectDecisionAction((BooleanDecision) childBDec)));
+		controlSet.add(new Rule(new DecisionValueCondition(orConstDec, orConstDec.getRangeValue(childC)),
+				new SelectDecisionAction((BooleanDecision) childCDec)));
+
+		assertEquals(controlSet, ruleSet);
 	}
 
 	@Test
-	void testDeriveUnidirectionalRules() {
-		fail("Not yet implemented");
+	void testDeriveUnidirectionalRules()
+			throws NotSupportedVariabilityTypeException, CircleInConditionException, ConditionCreationException {
+		// Or relation between all children also as constraint
+		Constraint implConstraint = new OrConstraint(new LiteralConstraint(childA),
+				new OrConstraint(new LiteralConstraint(childB), new NotConstraint(new LiteralConstraint(childC))));
+		fm.getConstraints().add(implConstraint);
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		TransformFMtoDMUtil.convertConstraintRec(factory, dm, fm, implConstraint);
+		getDecisions(dm);
+		// A disallows B
+
+		Set<Rule> ruleSet = childADec.getRules();
 	}
 
 	@Test
@@ -483,13 +462,66 @@ class TransformFMtoDMUtilTest {
 	}
 
 	@Test
-	void testDeriveRequiresRules() {
-		fail("Not yet implemented");
+	void testDeriveRequiresRules()
+			throws NotSupportedVariabilityTypeException, CircleInConditionException, ConditionCreationException {
+		// Or relation between all children also as constraint
+		Constraint implConstraint = new OrConstraint(new LiteralConstraint(childA),
+				new OrConstraint(new LiteralConstraint(childB), new NotConstraint(new LiteralConstraint(childC))));
+		fm.getConstraints().add(implConstraint);
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		TransformFMtoDMUtil.convertConstraintRec(factory, dm, fm, implConstraint);
+		getDecisions(dm);
+		// A disallows B
+
+		Set<Rule> ruleSet = childADec.getRules();
 	}
 
 	@Test
-	void testHasOptionalParent() {
-		fail("Not yet implemented");
+	void testHasOptionalParentTrue() throws NotSupportedVariabilityTypeException {
+		Group optionalGroup= new Group(GroupType.OPTIONAL);
+		String childD="childD";
+		Feature childDFeature=new Feature(childD);
+		optionalGroup.getFeatures().add(childDFeature);
+		childAFeature.addChildren(optionalGroup);
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		assertTrue(TransformFMtoDMUtil.hasOptionalParent(fm, childD));
+	}
+	
+	@Test
+	void testHasOptionalParentTrueWithDeeperTree() throws NotSupportedVariabilityTypeException {
+		Group optionalGroup= new Group(GroupType.OPTIONAL);
+		Group mandGroup= new Group(GroupType.MANDATORY);
+		Group altGroup= new Group(GroupType.ALTERNATIVE);
+		Group cardGroup= new Group(GroupType.GROUP_CARDINALITY);
+		Group orGroup= new Group(GroupType.OR);
+		String childD="childD";
+		Feature childDFeature=new Feature(childD);
+		optionalGroup.getFeatures().add(childDFeature);
+		childAFeature.addChildren(optionalGroup);
+		String childE="childE";
+		Feature childEFeature=new Feature(childE);
+		mandGroup.getFeatures().add(childEFeature);
+		childDFeature.addChildren(mandGroup);
+		String childF="childF";
+		Feature childFFeature=new Feature(childF);
+		altGroup.getFeatures().add(childFFeature);
+		childEFeature.addChildren(altGroup);
+		String childG="childG";
+		Feature childGFeature=new Feature(childG);
+		cardGroup.getFeatures().add(childGFeature);
+		childFFeature.addChildren(cardGroup);
+		String childH="childH";
+		Feature childHFeature=new Feature(childH);
+		orGroup.getFeatures().add(childHFeature);
+		childGFeature.addChildren(orGroup);
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		assertTrue(TransformFMtoDMUtil.hasOptionalParent(fm, childH));
+	}
+	
+	@Test
+	void testHasOptionalParentFalse() throws NotSupportedVariabilityTypeException {
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		assertFalse(TransformFMtoDMUtil.hasOptionalParent(fm, childB));
 	}
 
 	@Test
