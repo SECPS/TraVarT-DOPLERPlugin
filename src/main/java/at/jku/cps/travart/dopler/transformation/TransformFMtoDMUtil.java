@@ -186,9 +186,11 @@ public abstract class TransformFMtoDMUtil {
 	}
 
 	protected static void convertConstraint(DecisionModelFactory factory, IDecisionModel dm, FeatureModel fm,
-			final Constraint cnfConstraint) throws CircleInConditionException, ConditionCreationException{
-		Constraint parenthesisLessConstraint=(cnfConstraint instanceof ParenthesisConstraint)?((ParenthesisConstraint)cnfConstraint).getContent():cnfConstraint;
-		if (TraVarTUtils.isSingleFeatureRequires(parenthesisLessConstraint)) {
+			final Constraint cnfConstraint) throws CircleInConditionException, ConditionCreationException {
+		Constraint parenthesisLessConstraint = (cnfConstraint instanceof ParenthesisConstraint)
+				? ((ParenthesisConstraint) cnfConstraint).getContent()
+				: cnfConstraint;
+		if (parenthesisLessConstraint instanceof LiteralConstraint) {
 			// mandatory from root - requires rule
 			Feature root = fm.getFeatureMap()
 					.get(TraVarTUtils.deriveFeatureModelRoot(fm.getFeatureMap(), "virtual root"));
@@ -215,11 +217,13 @@ public abstract class TransformFMtoDMUtil {
 		} else if (TraVarTUtils.isExcludes(parenthesisLessConstraint)) {
 			// FIXME does not handle multi-excludes ?!?!
 			deriveExcludeRules(dm, fm, parenthesisLessConstraint);
-		} else if (TraVarTUtils.countLiterals(parenthesisLessConstraint) > 1 && TraVarTUtils.hasNegativeLiteral(parenthesisLessConstraint)
+		} else if (TraVarTUtils.countLiterals(parenthesisLessConstraint) > 1
 				&& TraVarTUtils.countNegativeLiterals(parenthesisLessConstraint) == 1) {
+			// Is this not simply a requires? can this even be reached?
 			deriveUnidirectionalRules(dm, parenthesisLessConstraint);
-		} else if (TraVarTUtils.countLiterals(parenthesisLessConstraint) > 1 && TraVarTUtils.hasPositiveLiteral(parenthesisLessConstraint)
+		} else if (TraVarTUtils.countLiterals(parenthesisLessConstraint) > 1
 				&& TraVarTUtils.countPositiveLiterals(parenthesisLessConstraint) == 1) {
+			// Is this just a requiresForAll? One positive, rest negative?
 			Constraint positive = TraVarTUtils.getFirstPositiveLiteral(parenthesisLessConstraint);
 			String feature = ((LiteralConstraint) positive).getLiteral();
 			IDecision decision = dm.get(feature);
@@ -238,7 +242,8 @@ public abstract class TransformFMtoDMUtil {
 				}
 			}
 		} else if (TraVarTUtils.countLiterals(parenthesisLessConstraint) > 1
-				&& TraVarTUtils.countLiterals(parenthesisLessConstraint) == TraVarTUtils.countPositiveLiterals(parenthesisLessConstraint)
+				&& TraVarTUtils.countLiterals(parenthesisLessConstraint) == TraVarTUtils
+						.countPositiveLiterals(parenthesisLessConstraint)
 				&& parenthesisLessConstraint instanceof OrConstraint) {
 			Set<Constraint> literals = TraVarTUtils.getLiterals(parenthesisLessConstraint);
 			List<IDecision> literalDecisions = findDecisionsForLiterals(dm, literals);
@@ -260,10 +265,11 @@ public abstract class TransformFMtoDMUtil {
 				updateRules(enumDecision, rule);
 			}
 		} else if (TraVarTUtils.countLiterals(parenthesisLessConstraint) > 1
-				&& TraVarTUtils.countLiterals(parenthesisLessConstraint) == TraVarTUtils.countPositiveLiterals(parenthesisLessConstraint)
+				&& TraVarTUtils.countNegativeLiterals(parenthesisLessConstraint) == 0
 				&& parenthesisLessConstraint instanceof AndConstraint) {
 			Set<Constraint> literals = TraVarTUtils.getLiterals(parenthesisLessConstraint);
 			List<IDecision> literalDecisions = findDecisionsForLiterals(dm, literals);
+			// FIXME why does it say OR here? These features are connected by AND!
 			EnumDecision enumDecision = factory
 					.createEnumDecision(String.format("or#constr#%s", literalDecisions.size()));
 			dm.add(enumDecision);
@@ -281,7 +287,11 @@ public abstract class TransformFMtoDMUtil {
 				enumDecision.addRule(rule);
 				updateRules(enumDecision, rule);
 			}
-		} else if (TraVarTUtils.countLiterals(parenthesisLessConstraint) == 1 && TraVarTUtils.isLiteral(parenthesisLessConstraint)) {
+			//Is this not the same as the single feature include/exclude above? (First 2 cases)
+			//This does not check if the enclosing constraint is an OR though (like it does in the original
+			//implementation of the isSingleRequires method. Is this some weird compatibility stuff again?
+		} else if (TraVarTUtils.countLiterals(parenthesisLessConstraint) == 1
+				&& TraVarTUtils.isLiteral(parenthesisLessConstraint)) {		
 			if (TraVarTUtils.hasPositiveLiteral(parenthesisLessConstraint)) {
 				String feature = ((LiteralConstraint) parenthesisLessConstraint).getLiteral();
 				IDecision decision = dm.get(feature);
@@ -302,7 +312,8 @@ public abstract class TransformFMtoDMUtil {
 			} else {
 				String feature;
 				if (parenthesisLessConstraint instanceof NotConstraint) {
-					feature = ((LiteralConstraint) ((NotConstraint) parenthesisLessConstraint).getContent()).getLiteral();
+					feature = ((LiteralConstraint) ((NotConstraint) parenthesisLessConstraint).getContent())
+							.getLiteral();
 				} else {
 					feature = ((LiteralConstraint) parenthesisLessConstraint).getLiteral();
 				}
@@ -315,7 +326,7 @@ public abstract class TransformFMtoDMUtil {
 					updateRules(boolDecision, rule);
 				}
 			}
-		} else if(TraVarTUtils.isRequiredForAllConstraint(parenthesisLessConstraint)) {
+		} else if (TraVarTUtils.isRequiredForAllConstraint(parenthesisLessConstraint)) {
 			deriveRequiredForAllRule(parenthesisLessConstraint);
 		} else {
 			// any other type of mode
@@ -331,7 +342,7 @@ public abstract class TransformFMtoDMUtil {
 
 	private static void deriveRequiredForAllRule(Constraint parenthesisLessConstraint) {
 		// TODO Ask Kevin how to handle this (enums and stuff might require some cases)
-		
+
 	}
 
 	protected static void deriveRequiresRules(IDecisionModel dm, FeatureModel fm, final Constraint cnfConstraint) {
@@ -408,7 +419,7 @@ public abstract class TransformFMtoDMUtil {
 	protected static void deriveExcludeRules(IDecisionModel dm, FeatureModel fm, final Constraint cnfConstraint) {
 		// excludes constraints are bidirectional by default, therefore direction for
 		// defined constraint is negligible, but we need two rules
-		
+
 		Constraint sourceLiteral = TraVarTUtils.getLeftConstraint(cnfConstraint);
 		Constraint targetLiteral = TraVarTUtils.getRightConstraint(cnfConstraint);
 		if (TraVarTUtils.isLiteral(sourceLiteral) && TraVarTUtils.isLiteral(targetLiteral)) {
@@ -611,7 +622,6 @@ public abstract class TransformFMtoDMUtil {
 	protected static void defineRange(final EnumDecision decision, final Feature feature)
 			throws NotSupportedVariabilityTypeException {
 		Range<String> range = new Range<>();
-		// TODO Groups?
 		for (Feature optionFeature : feature.getChildren().stream().flatMap(g -> g.getFeatures().stream())
 				.collect(Collectors.toList())) {
 			StringValue option = new StringValue(optionFeature.getFeatureName());
