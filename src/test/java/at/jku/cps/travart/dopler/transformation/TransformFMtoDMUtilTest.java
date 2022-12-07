@@ -478,60 +478,127 @@ class TransformFMtoDMUtilTest {
 
 	@Test
 	void testHasOptionalParentTrue() throws NotSupportedVariabilityTypeException {
-		Group optionalGroup= new Group(GroupType.OPTIONAL);
-		String childD="childD";
-		Feature childDFeature=new Feature(childD);
+		Group optionalGroup = new Group(GroupType.OPTIONAL);
+		String childD = "childD";
+		Feature childDFeature = new Feature(childD);
 		optionalGroup.getFeatures().add(childDFeature);
 		childAFeature.addChildren(optionalGroup);
 		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
 		assertTrue(TransformFMtoDMUtil.hasOptionalParent(fm, childD));
 	}
-	
+
 	@Test
 	void testHasOptionalParentTrueWithDeeperTree() throws NotSupportedVariabilityTypeException {
-		Group optionalGroup= new Group(GroupType.OPTIONAL);
-		Group mandGroup= new Group(GroupType.MANDATORY);
-		Group altGroup= new Group(GroupType.ALTERNATIVE);
-		Group cardGroup= new Group(GroupType.GROUP_CARDINALITY);
-		Group orGroup= new Group(GroupType.OR);
-		String childD="childD";
-		Feature childDFeature=new Feature(childD);
+		Group optionalGroup = new Group(GroupType.OPTIONAL);
+		Group mandGroup = new Group(GroupType.MANDATORY);
+		Group altGroup = new Group(GroupType.ALTERNATIVE);
+		Group cardGroup = new Group(GroupType.GROUP_CARDINALITY);
+		Group orGroup = new Group(GroupType.OR);
+		String childD = "childD";
+		Feature childDFeature = new Feature(childD);
 		optionalGroup.getFeatures().add(childDFeature);
 		childAFeature.addChildren(optionalGroup);
-		String childE="childE";
-		Feature childEFeature=new Feature(childE);
+		String childE = "childE";
+		Feature childEFeature = new Feature(childE);
 		mandGroup.getFeatures().add(childEFeature);
 		childDFeature.addChildren(mandGroup);
-		String childF="childF";
-		Feature childFFeature=new Feature(childF);
+		String childF = "childF";
+		Feature childFFeature = new Feature(childF);
 		altGroup.getFeatures().add(childFFeature);
 		childEFeature.addChildren(altGroup);
-		String childG="childG";
-		Feature childGFeature=new Feature(childG);
+		String childG = "childG";
+		Feature childGFeature = new Feature(childG);
 		cardGroup.getFeatures().add(childGFeature);
 		childFFeature.addChildren(cardGroup);
-		String childH="childH";
-		Feature childHFeature=new Feature(childH);
+		String childH = "childH";
+		Feature childHFeature = new Feature(childH);
 		orGroup.getFeatures().add(childHFeature);
 		childGFeature.addChildren(orGroup);
 		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		getDecisions(dm);
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
 		assertTrue(TransformFMtoDMUtil.hasOptionalParent(fm, childH));
+		assertTrue(TransformFMtoDMUtil.hasOptionalParent(fm, childF));
 	}
-	
+
 	@Test
 	void testHasOptionalParentFalse() throws NotSupportedVariabilityTypeException {
 		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		getDecisions(dm);
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
 		assertFalse(TransformFMtoDMUtil.hasOptionalParent(fm, childB));
 	}
 
 	@Test
-	void testHasVirtualParentFeatureModelIDecision() {
-		fail("Not yet implemented");
+	void testHasVirtualParentFeatureModelIDecision() throws NotSupportedVariabilityTypeException {
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		getDecisions(dm);
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
+		assertFalse(TransformFMtoDMUtil.hasVirtualParent(fm, childADec));
 	}
 
 	@Test
-	void testDeriveExcludeRules() {
-		fail("Not yet implemented");
+	void testDeriveExcludeRulesNormalDecisionExcludesEnumSubDecision() throws NotSupportedVariabilityTypeException {
+		Group altGroup = new Group(GroupType.OR);
+		String childD = "childD";
+		Feature childDFeature = new Feature(childD);
+		altGroup.getFeatures().add(childDFeature);
+		orGroup.GROUPTYPE = GroupType.OPTIONAL;
+		childAFeature.getChildren().add(altGroup);
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		getDecisions(dm);
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
+		Constraint constraint = new ImplicationConstraint(new LiteralConstraint(childD),
+				new NotConstraint(new LiteralConstraint(childB)));
+		TransformFMtoDMUtil.deriveExcludeRules(dm, fm, constraint);
+		controlSet.add(new Rule(new IsSelectedFunction(dm.get(childB)),
+				new DisAllowAction(dm.get(childA+"#0"), ((EnumDecision) dm.get(childA+"#0")).getRangeValue(childD))));
+		controlSet.add(new Rule(new Not(new IsSelectedFunction(dm.get(childB))),
+				new AllowAction(dm.get(childA+"#0"), ((EnumDecision) dm.get(childA+"#0")).getRangeValue(childD))));
+	
+		Set<Rule> ruleSet= childBDec.getRules();
+		
+		assertEquals(controlSet,ruleSet);
+	}
+	
+	@Test
+	void testDeriveExcludeRulesEnumSubDecisionExcludesNormalDecision() throws NotSupportedVariabilityTypeException {
+		Group altGroup = new Group(GroupType.OR);
+		String childD = "childD";
+		Feature childDFeature = new Feature(childD);
+		altGroup.getFeatures().add(childDFeature);
+		orGroup.GROUPTYPE = GroupType.OPTIONAL;
+		childAFeature.getChildren().add(altGroup);
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		getDecisions(dm);
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
+		Constraint constraint = new ImplicationConstraint(new LiteralConstraint(childB),
+				new NotConstraint(new LiteralConstraint(childD)));
+		TransformFMtoDMUtil.deriveExcludeRules(dm, fm, constraint);
+		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision)childBDec),new DisAllowAction(dm.get(childA+"#0"),((EnumDecision) dm.get(childA+"#0")).getRangeValue(childD))));
+		controlSet.add(new Rule(new Not(new IsSelectedFunction((BooleanDecision)childBDec)), new AllowAction(dm.get(childA+"#0"), ((EnumDecision) dm.get(childA+"#0")).getRangeValue(childD))));
+		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision)dm.get(childD)), new DeSelectDecisionAction((BooleanDecision)childBDec)));
+		Set<Rule> ruleSet= childBDec.getRules();
+		ruleSet.addAll(dm.get(childD).getRules());
+		
+		assertEquals(controlSet,ruleSet);
+	}
+	
+	@Test
+	void testDeriveExcludeRulesNormalDecisionExcludesNormalDecision() throws NotSupportedVariabilityTypeException {
+		orGroup.GROUPTYPE = GroupType.OPTIONAL;
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		getDecisions(dm);
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
+		Constraint constraint = new ImplicationConstraint(new LiteralConstraint(childA),
+				new NotConstraint(new LiteralConstraint(childB)));
+		TransformFMtoDMUtil.deriveExcludeRules(dm, fm, constraint);
+		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision)childBDec),new DeSelectDecisionAction((BooleanDecision)childADec)));
+		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision)childADec),new DeSelectDecisionAction((BooleanDecision)childBDec)));
+		Set<Rule> ruleSet= childBDec.getRules();
+		ruleSet.addAll(childADec.getRules());
+		
+		assertEquals(controlSet,ruleSet);
 	}
 
 	@Test
