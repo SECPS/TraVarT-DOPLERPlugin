@@ -43,6 +43,7 @@ import de.vill.model.constraint.ImplicationConstraint;
 import de.vill.model.constraint.LiteralConstraint;
 import de.vill.model.constraint.NotConstraint;
 import de.vill.model.constraint.OrConstraint;
+import de.vill.model.constraint.ParenthesisConstraint;
 
 @SuppressWarnings("rawtypes")
 class TransformFMtoDMUtilTest {
@@ -283,6 +284,8 @@ class TransformFMtoDMUtilTest {
 				new SelectDecisionAction(dm.get(childA))));
 		controlSet.add(new Rule(new DecisionValueCondition(root0Dec, root0Dec.getRangeValue(childB)),
 				new SelectDecisionAction(dm.get(childB))));
+		controlSet.add(new Rule(new DecisionValueCondition(root0Dec, root0Dec.getRangeValue(childC)),
+				new SelectDecisionAction(dm.get(childC))));
 		assertEquals(controlSet, ruleSet);
 	}
 
@@ -307,6 +310,8 @@ class TransformFMtoDMUtilTest {
 				new SelectDecisionAction(dm.get(childA))));
 		controlSet.add(new Rule(new DecisionValueCondition(root0Dec, root0Dec.getRangeValue(childB)),
 				new SelectDecisionAction(dm.get(childB))));
+		controlSet.add(new Rule(new DecisionValueCondition(root0Dec, root0Dec.getRangeValue(childC)),
+				new SelectDecisionAction(dm.get(childC))));
 		assertEquals(controlSet, ruleSet);
 	}
 
@@ -339,6 +344,8 @@ class TransformFMtoDMUtilTest {
 				new SelectDecisionAction(childADec)));
 		controlSet.add(new Rule(new DecisionValueCondition(root0Dec, root0Dec.getRangeValue(childB)),
 				new SelectDecisionAction(childBDec)));
+		controlSet.add(new Rule(new DecisionValueCondition(root0Dec, root0Dec.getRangeValue(childC)),
+				new SelectDecisionAction(childCDec)));
 		assertEquals(controlSet, ruleSet);
 	}
 
@@ -442,6 +449,23 @@ class TransformFMtoDMUtilTest {
 	}
 
 	@Test
+	void testConvertConstraintFaulty() throws NotSupportedVariabilityTypeException, ConditionCreationException {
+		orGroup.GROUPTYPE = GroupType.OPTIONAL;
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		getDecisions(dm);
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
+		Constraint constraint = new ParenthesisConstraint(new ParenthesisConstraint(null));
+		assertThrows(ConditionCreationException.class,
+				() -> TransformFMtoDMUtil.convertConstraint(new DecisionModelFactory(), dm, fm, constraint));
+//		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision)childBDec),new DeSelectDecisionAction((BooleanDecision)childADec)));
+//		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision)childADec),new DeSelectDecisionAction((BooleanDecision)childBDec)));
+//		Set<Rule> ruleSet = childBDec.getRules();
+//		ruleSet.addAll(childADec.getRules());
+//
+//		assertEquals(controlSet, ruleSet);
+	}
+
+	@Test
 	void testDeriveUnidirectionalRules()
 			throws NotSupportedVariabilityTypeException, CircleInConditionException, ConditionCreationException {
 		// Or relation between all children also as constraint
@@ -454,11 +478,6 @@ class TransformFMtoDMUtilTest {
 		// A disallows B
 
 		Set<Rule> ruleSet = childADec.getRules();
-	}
-
-	@Test
-	void testConvertConstraint() {
-		fail("Not yet implemented");
 	}
 
 	@Test
@@ -484,6 +503,7 @@ class TransformFMtoDMUtilTest {
 		optionalGroup.getFeatures().add(childDFeature);
 		childAFeature.addChildren(optionalGroup);
 		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
 		assertTrue(TransformFMtoDMUtil.hasOptionalParent(fm, childD));
 	}
 
@@ -551,16 +571,16 @@ class TransformFMtoDMUtilTest {
 		Constraint constraint = new ImplicationConstraint(new LiteralConstraint(childD),
 				new NotConstraint(new LiteralConstraint(childB)));
 		TransformFMtoDMUtil.deriveExcludeRules(dm, fm, constraint);
-		controlSet.add(new Rule(new IsSelectedFunction(dm.get(childB)),
-				new DisAllowAction(dm.get(childA+"#0"), ((EnumDecision) dm.get(childA+"#0")).getRangeValue(childD))));
+		controlSet.add(new Rule(new IsSelectedFunction(dm.get(childB)), new DisAllowAction(dm.get(childA + "#0"),
+				((EnumDecision) dm.get(childA + "#0")).getRangeValue(childD))));
 		controlSet.add(new Rule(new Not(new IsSelectedFunction(dm.get(childB))),
-				new AllowAction(dm.get(childA+"#0"), ((EnumDecision) dm.get(childA+"#0")).getRangeValue(childD))));
-	
-		Set<Rule> ruleSet= childBDec.getRules();
-		
-		assertEquals(controlSet,ruleSet);
+				new AllowAction(dm.get(childA + "#0"), ((EnumDecision) dm.get(childA + "#0")).getRangeValue(childD))));
+
+		Set<Rule> ruleSet = childBDec.getRules();
+
+		assertEquals(controlSet, ruleSet);
 	}
-	
+
 	@Test
 	void testDeriveExcludeRulesEnumSubDecisionExcludesNormalDecision() throws NotSupportedVariabilityTypeException {
 		Group altGroup = new Group(GroupType.OR);
@@ -575,15 +595,18 @@ class TransformFMtoDMUtilTest {
 		Constraint constraint = new ImplicationConstraint(new LiteralConstraint(childB),
 				new NotConstraint(new LiteralConstraint(childD)));
 		TransformFMtoDMUtil.deriveExcludeRules(dm, fm, constraint);
-		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision)childBDec),new DisAllowAction(dm.get(childA+"#0"),((EnumDecision) dm.get(childA+"#0")).getRangeValue(childD))));
-		controlSet.add(new Rule(new Not(new IsSelectedFunction((BooleanDecision)childBDec)), new AllowAction(dm.get(childA+"#0"), ((EnumDecision) dm.get(childA+"#0")).getRangeValue(childD))));
-		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision)dm.get(childD)), new DeSelectDecisionAction((BooleanDecision)childBDec)));
-		Set<Rule> ruleSet= childBDec.getRules();
+		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision) childBDec), new DisAllowAction(
+				dm.get(childA + "#0"), ((EnumDecision) dm.get(childA + "#0")).getRangeValue(childD))));
+		controlSet.add(new Rule(new Not(new IsSelectedFunction((BooleanDecision) childBDec)),
+				new AllowAction(dm.get(childA + "#0"), ((EnumDecision) dm.get(childA + "#0")).getRangeValue(childD))));
+		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision) dm.get(childD)),
+				new DeSelectDecisionAction((BooleanDecision) childBDec)));
+		Set<Rule> ruleSet = childBDec.getRules();
 		ruleSet.addAll(dm.get(childD).getRules());
-		
-		assertEquals(controlSet,ruleSet);
+
+		assertEquals(controlSet, ruleSet);
 	}
-	
+
 	@Test
 	void testDeriveExcludeRulesNormalDecisionExcludesNormalDecision() throws NotSupportedVariabilityTypeException {
 		orGroup.GROUPTYPE = GroupType.OPTIONAL;
@@ -593,12 +616,14 @@ class TransformFMtoDMUtilTest {
 		Constraint constraint = new ImplicationConstraint(new LiteralConstraint(childA),
 				new NotConstraint(new LiteralConstraint(childB)));
 		TransformFMtoDMUtil.deriveExcludeRules(dm, fm, constraint);
-		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision)childBDec),new DeSelectDecisionAction((BooleanDecision)childADec)));
-		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision)childADec),new DeSelectDecisionAction((BooleanDecision)childBDec)));
-		Set<Rule> ruleSet= childBDec.getRules();
+		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision) childBDec),
+				new DeSelectDecisionAction((BooleanDecision) childADec)));
+		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision) childADec),
+				new DeSelectDecisionAction((BooleanDecision) childBDec)));
+		Set<Rule> ruleSet = childBDec.getRules();
 		ruleSet.addAll(childADec.getRules());
-		
-		assertEquals(controlSet,ruleSet);
+
+		assertEquals(controlSet, ruleSet);
 	}
 
 	@Test
