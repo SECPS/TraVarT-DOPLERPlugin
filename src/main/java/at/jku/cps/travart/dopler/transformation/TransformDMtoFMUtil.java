@@ -54,7 +54,8 @@ import de.vill.model.constraint.OrConstraint;
 @SuppressWarnings("rawtypes")
 public abstract class TransformDMtoFMUtil {
 
-	protected static void createFeatures(FeatureModel fm,IDecisionModel dm) throws CircleInConditionException {
+	protected static void createFeatures(final FeatureModel fm, final IDecisionModel dm)
+			throws CircleInConditionException {
 		// first add all Boolean decisions
 		for (BooleanDecision decision : DecisionModelUtils.getBooleanDecisions(dm)) {
 			String featureName = retriveFeatureName(decision);
@@ -78,13 +79,11 @@ public abstract class TransformDMtoFMUtil {
 				// first check if you can find a feature with the same name as the value
 				// if so use it, otherwise create it
 				Feature child = fm.getFeatureMap().get(childName);
-				if (child != null) {
-					alternativeGroup.getFeatures().add(child);
-				} else {
+				if ((child == null)) {
 					child = new Feature(childName);
 					fm.getFeatureMap().put(childName, child);
-					alternativeGroup.getFeatures().add(child);
 				}
+				alternativeGroup.getFeatures().add(child);
 			}
 			// TODO check all instances of newly created features that there in the actual
 			// tree as well, not just the
@@ -147,12 +146,12 @@ public abstract class TransformDMtoFMUtil {
 				} else if (decision.getCardinality().isAnd()) {
 					constraint = consumeToBinaryCondition(features, new AndConstraint(null, null), false);
 				}
-				addConstraintIfEligible(fm,constraint);
+				addConstraintIfEligible(fm, constraint);
 			}
 		}
 	}
-	
-	protected static void addConstraintIfEligible(FeatureModel fm,final Constraint constraint) {
+
+	protected static void addConstraintIfEligible(final FeatureModel fm, final Constraint constraint) {
 
 		if (constraint == null || isInItSelfConstraint(constraint)) {
 			return;
@@ -165,8 +164,8 @@ public abstract class TransformDMtoFMUtil {
 		Arrays.asList();
 		fm.getConstraints().add(constraint);
 	}
-	
-	protected static boolean isInItSelfConstraint(Constraint constraint) {
+
+	protected static boolean isInItSelfConstraint(final Constraint constraint) {
 		if (constraint instanceof LiteralConstraint) {
 			return false;
 		}
@@ -177,8 +176,8 @@ public abstract class TransformDMtoFMUtil {
 		}
 		return constraint.getConstraintSubParts().get(0).equals(constraint.getConstraintSubParts().get(1));
 	}
-	
-	protected static void createFeatureTree(FeatureModel fm,IDecisionModel dm) {
+
+	protected static void createFeatureTree(final FeatureModel fm, final IDecisionModel dm) {
 		for (IDecision decision : dm.getDecisions()) {
 			if (!DecisionModelUtils.isEnumDecisionConstraint(decision)) {
 				Feature feature = fm.getFeatureMap().get(retriveFeatureName(decision));
@@ -219,23 +218,27 @@ public abstract class TransformDMtoFMUtil {
 			}
 		}
 	}
-	
+
 	/**
 	 * recursively consumes a list of features into a constraint of Literals.
-	 * 
+	 *
 	 * @param features
 	 * @param c
 	 * @param negated
 	 * @return
 	 */
-	protected static Constraint consumeToBinaryCondition(List<Feature> features, Constraint c, boolean negated) {
-		if (features.isEmpty())
+	protected static Constraint consumeToBinaryCondition(final List<Feature> features, final Constraint c,
+			final boolean negated) {
+		if (features.isEmpty()) {
 			throw new IllegalArgumentException("Set of decisions is empty.");
-		if (features.stream().anyMatch(d -> d == null))
+		}
+		if (features.stream().anyMatch(d -> d == null)) {
 			throw new IllegalArgumentException("Set of decisions contains Null.");
-		if (features.size() == 1)
+		}
+		if (features.size() == 1) {
 			return negated ? new LiteralConstraint(features.remove(0).getFeatureName())
 					: new NotConstraint(new LiteralConstraint(features.remove(0).getFeatureName()));
+		}
 		if (c instanceof OrConstraint) {
 			if (negated) {
 				return new OrConstraint(new NotConstraint(new LiteralConstraint(features.remove(0).getFeatureName())),
@@ -244,7 +247,8 @@ public abstract class TransformDMtoFMUtil {
 				return new OrConstraint(new LiteralConstraint(features.remove(0).getFeatureName()),
 						consumeToBinaryCondition(features, c, negated));
 			}
-		} else if (c instanceof AndConstraint) {
+		}
+		if (c instanceof AndConstraint) {
 			if (negated) {
 				return new AndConstraint(new NotConstraint(new LiteralConstraint(features.remove(0).getFeatureName())),
 						consumeToBinaryCondition(features, c, negated));
@@ -255,12 +259,12 @@ public abstract class TransformDMtoFMUtil {
 		}
 		return c;
 	}
-	
+
 	protected static String retriveFeatureName(final IDecision decision) {
 		return DecisionModelUtils.retriveFeatureName(decision, decision.getType() == ADecision.DecisionType.ENUM);
 	}
-	
-	protected static void createConstraints(FeatureModel fm, IDecisionModel dm) {
+
+	protected static void createConstraints(final FeatureModel fm, final IDecisionModel dm) {
 		for (IDecision decision : dm.getDecisions()) {
 			if (!DecisionModelUtils.isEnumDecisionConstraint(decision)) {
 				// first store complex visibility condition in properties, to avoid losing the
@@ -270,7 +274,7 @@ public abstract class TransformDMtoFMUtil {
 					Feature feature = fm.getFeatureMap().get(retriveFeatureName(decision));
 					// add visibility as property for restoring them later if necessary
 					feature.getAttributes().put(DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY,
-							new Attribute<String>(
+							new Attribute<>(
 									DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY_TYPE,
 									decision.getVisiblity().toString()));
 				}
@@ -279,17 +283,18 @@ public abstract class TransformDMtoFMUtil {
 					Rule rule = (Rule) o;
 					if (!DecisionModelUtils.isInItSelfRule(rule)) {
 						if (DecisionModelUtils.isCompareCondition(rule.getCondition())) {
-							deriveCompareConstraints(fm,decision, rule.getCondition(), rule.getAction());
+							deriveCompareConstraints(fm, decision, rule.getCondition(), rule.getAction());
 						} else {
-							deriveConstraint(fm,dm,decision, rule.getCondition(), rule.getAction());
+							deriveConstraint(fm, dm, decision, rule.getCondition(), rule.getAction());
 						}
 					}
 				}
 			}
 		}
 	}
-	
-	protected static void deriveCompareConstraints(FeatureModel fm,final IDecision decision, final ICondition condition, final IAction action) {
+
+	protected static void deriveCompareConstraints(final FeatureModel fm, final IDecision decision,
+			final ICondition condition, final IAction action) {
 		if (decision.getType() == ADecision.DecisionType.NUMBER && action instanceof DisAllowAction) {
 			NumberDecision numberDecision = (NumberDecision) decision;
 			ABinaryCondition binCondition = (ABinaryCondition) condition;
@@ -297,48 +302,49 @@ public abstract class TransformDMtoFMUtil {
 			Feature disAllowFeature = fm.getFeatureMap().get(((DisAllowAction) action).getValue().toString());
 			LiteralConstraint disAllowLiteral = new LiteralConstraint(disAllowFeature.getFeatureName());
 			if (condition instanceof Equals) {
-				createExcludesConstraint(fm,numberDecision, disAllowLiteral, conditionValue);
+				createExcludesConstraint(fm, numberDecision, disAllowLiteral, conditionValue);
 			} else if (condition instanceof Greater) {
 				Set<ARangeValue<Double>> values = numberDecision.getRange().stream()
 						.filter(v -> v.getValue() > conditionValue.getValue()).collect(Collectors.toSet());
 				for (ARangeValue<Double> value : values) {
-					createExcludesConstraint(fm,numberDecision, disAllowLiteral, value);
+					createExcludesConstraint(fm, numberDecision, disAllowLiteral, value);
 				}
 			} else if (condition instanceof Less) {
 				Set<ARangeValue<Double>> values = numberDecision.getRange().stream()
 						.filter(v -> v.getValue() < conditionValue.getValue()).collect(Collectors.toSet());
 				for (ARangeValue<Double> value : values) {
-					createExcludesConstraint(fm,numberDecision, disAllowLiteral, value);
+					createExcludesConstraint(fm, numberDecision, disAllowLiteral, value);
 				}
 			} else if (condition instanceof GreaterEquals) {
 				Set<ARangeValue<Double>> values = numberDecision.getRange().stream()
 						.filter(v -> v.getValue() >= conditionValue.getValue()).collect(Collectors.toSet());
 				for (ARangeValue<Double> value : values) {
-					createExcludesConstraint(fm,numberDecision, disAllowLiteral, value);
+					createExcludesConstraint(fm, numberDecision, disAllowLiteral, value);
 				}
 			} else if (condition instanceof LessEquals) {
 				Set<ARangeValue<Double>> values = numberDecision.getRange().stream()
 						.filter(v -> v.getValue() <= conditionValue.getValue()).collect(Collectors.toSet());
 				for (ARangeValue<Double> value : values) {
-					createExcludesConstraint(fm,numberDecision, disAllowLiteral, value);
+					createExcludesConstraint(fm, numberDecision, disAllowLiteral, value);
 				}
 			}
 		}
 	}
-	
-	protected static void createExcludesConstraint(FeatureModel fm,final NumberDecision numberDecision, final LiteralConstraint disAllowLiteral,
-			final ARangeValue<Double> value) {
+
+	protected static void createExcludesConstraint(final FeatureModel fm, final NumberDecision numberDecision,
+			final LiteralConstraint disAllowLiteral, final ARangeValue<Double> value) {
 		Feature valueFeature = fm.getFeatureMap()
 				.get(numberDecision.getId() + DefaultDecisionModelTransformationProperties.CONFIGURATION_VALUE_SEPERATOR
 						+ value.getValue().toString());
 		LiteralConstraint valueLiteral = new LiteralConstraint(valueFeature.getFeatureName());
 		Constraint constraint = new ImplicationConstraint(new LiteralConstraint(valueLiteral.toString()),
 				new NotConstraint(new LiteralConstraint(disAllowLiteral.toString())));
-		addConstraintIfEligible(fm,constraint);
+		addConstraintIfEligible(fm, constraint);
 	}
-	
-	protected static void deriveConstraint(FeatureModel fm, IDecisionModel dm,final IDecision decision, final ICondition condition, final IAction action) {
-		Constraint conditionConstraint = deriveConditionConstraint(fm,decision, condition);
+
+	protected static void deriveConstraint(final FeatureModel fm, final IDecisionModel dm, final IDecision decision,
+			final ICondition condition, final IAction action) {
+		Constraint conditionConstraint = deriveConditionConstraint(fm, decision, condition);
 		// case: if decision is selected another one has to be selected as well: implies
 		if (condition instanceof IsSelectedFunction && action.getVariable() instanceof ADecision
 				&& action.getValue().equals(BooleanValue.getTrue())) {
@@ -353,7 +359,7 @@ public abstract class TransformDMtoFMUtil {
 					|| !variableFeature.getParentGroup().GROUPTYPE.equals(GroupType.MANDATORY)) {
 				Constraint constraint = new ImplicationConstraint(conditionConstraint,
 						new LiteralConstraint(variableFeature.getFeatureName()));
-				addConstraintIfEligible(fm,constraint);
+				addConstraintIfEligible(fm, constraint);
 			}
 		}
 		// case: excludes constraint
@@ -364,7 +370,7 @@ public abstract class TransformDMtoFMUtil {
 			Feature feature = fm.getFeatureMap().get(featureName);
 			Constraint constraint = new ImplicationConstraint(conditionConstraint,
 					new NotConstraint(new LiteralConstraint(feature.getFeatureName())));
-			addConstraintIfEligible(fm,constraint);
+			addConstraintIfEligible(fm, constraint);
 		}
 		// case: if the action allows or disallows/sets a decision to a None value
 		else if (condition instanceof IsSelectedFunction && action instanceof SetValueAction
@@ -375,7 +381,7 @@ public abstract class TransformDMtoFMUtil {
 			Feature varFeature = fm.getFeatureMap().get(featureName);
 			Constraint constraint = new ImplicationConstraint(conditionConstraint,
 					new NotConstraint(new LiteralConstraint(varFeature.getFeatureName())));
-			addConstraintIfEligible(fm,constraint);
+			addConstraintIfEligible(fm, constraint);
 		}
 		// case: condition is negated: if both bool then it is an or constraint,
 		// otherwise implies
@@ -388,7 +394,7 @@ public abstract class TransformDMtoFMUtil {
 			Feature variableFeature = fm.getFeatureMap().get(variableDecisionFeatureName);
 			Constraint constraint = new ImplicationConstraint(new LiteralConstraint(conditionFeature.getFeatureName()),
 					new LiteralConstraint(variableFeature.getFeatureName()));
-			addConstraintIfEligible(fm,constraint);
+			addConstraintIfEligible(fm, constraint);
 		}
 		// case: if the condition is a enum value and sets the value of a different
 		// decision (Number/String decision)
@@ -406,7 +412,7 @@ public abstract class TransformDMtoFMUtil {
 			if (DecisionModelUtils.isNoneAction(action)) {
 				Constraint constraint = new ImplicationConstraint(conditionConstraint,
 						new LiteralConstraint(variableFeature.getFeatureName()));
-				addConstraintIfEligible(fm,constraint);
+				addConstraintIfEligible(fm, constraint);
 			} else {
 				Group featuregroup = null;
 				if (variableDecision instanceof EnumDecision) {
@@ -453,7 +459,7 @@ public abstract class TransformDMtoFMUtil {
 					constraint = new ImplicationConstraint(conditionConstraint,
 							new LiteralConstraint(valueFeature.getFeatureName()));
 				}
-				addConstraintIfEligible(fm,constraint);
+				addConstraintIfEligible(fm, constraint);
 			}
 		} else if (DecisionModelUtils.isComplexCondition(condition)
 				&& (action instanceof SelectDecisionAction || action instanceof DeSelectDecisionAction)) {
@@ -492,35 +498,39 @@ public abstract class TransformDMtoFMUtil {
 //				variableLiteral.positive = false;
 				constraint = new OrConstraint(conditionConstraint, new NotConstraint(variableLiteral));
 			}
-			addConstraintIfEligible(fm,constraint);
+			addConstraintIfEligible(fm, constraint);
 		}
 	}
-	
-	protected static boolean hasNegativeLiteral(Constraint constraint) {
+
+	protected static boolean hasNegativeLiteral(final Constraint constraint) {
 		boolean subConstraintLiteral = false;
 		for (Constraint subconstraint : constraint.getConstraintSubParts()) {
-			if (subconstraint instanceof LiteralConstraint)
+			if (subconstraint instanceof LiteralConstraint) {
 				subConstraintLiteral = true;
-		}
-		if ((constraint instanceof NotConstraint) && subConstraintLiteral) {
-			return true;
-		} else {
-			boolean anyNegative = false;
-			for (Constraint subconstraint : constraint.getConstraintSubParts()) {
-				anyNegative |= hasNegativeLiteral(subconstraint);
 			}
-			return anyNegative;
 		}
+		if (constraint instanceof NotConstraint && subConstraintLiteral) {
+			return true;
+		}
+		boolean anyNegative = false;
+		for (Constraint subconstraint : constraint.getConstraintSubParts()) {
+			anyNegative |= hasNegativeLiteral(subconstraint);
+		}
+		return anyNegative;
 	}
-	
-	protected static Constraint consumeToGroup(List<LiteralConstraint> conditionLiterals, boolean or, boolean negated) {
-		if (conditionLiterals.isEmpty())
+
+	protected static Constraint consumeToGroup(final List<LiteralConstraint> conditionLiterals, final boolean or,
+			final boolean negated) {
+		if (conditionLiterals.isEmpty()) {
 			throw new IllegalArgumentException("Set of decisions is empty.");
-		if (conditionLiterals.stream().anyMatch(d -> d == null))
+		}
+		if (conditionLiterals.stream().anyMatch(d -> d == null)) {
 			throw new IllegalArgumentException("Set of decisions contains Null.");
-		if (conditionLiterals.size() == 1)
+		}
+		if (conditionLiterals.size() == 1) {
 			return negated ? new LiteralConstraint(conditionLiterals.remove(0).getLiteral())
 					: new NotConstraint(new LiteralConstraint(conditionLiterals.remove(0).getLiteral()));
+		}
 		if (or) {
 			if (negated) {
 				return new OrConstraint(
@@ -530,22 +540,21 @@ public abstract class TransformDMtoFMUtil {
 				return new OrConstraint(new LiteralConstraint(conditionLiterals.remove(0).getLiteral()),
 						consumeToGroup(conditionLiterals, or, negated));
 			}
+		}
+		if (negated) {
+			return new AndConstraint(new NotConstraint(new LiteralConstraint(conditionLiterals.remove(0).getLiteral())),
+					consumeToGroup(conditionLiterals, or, negated));
 		} else {
-			if (negated) {
-				return new AndConstraint(
-						new NotConstraint(new LiteralConstraint(conditionLiterals.remove(0).getLiteral())),
-						consumeToGroup(conditionLiterals, or, negated));
-			} else {
-				return new AndConstraint(new LiteralConstraint(conditionLiterals.remove(0).getLiteral()),
-						consumeToGroup(conditionLiterals, or, negated));
-			}
+			return new AndConstraint(new LiteralConstraint(conditionLiterals.remove(0).getLiteral()),
+					consumeToGroup(conditionLiterals, or, negated));
 		}
 	}
-	
-	protected static Constraint deriveConditionConstraint(FeatureModel fm,final IDecision decision, final ICondition condition) {
+
+	protected static Constraint deriveConditionConstraint(final FeatureModel fm, final IDecision decision,
+			final ICondition condition) {
 		if (DecisionModelUtils.isBinaryCondition(condition)) {
 			ABinaryCondition binCondition = (ABinaryCondition) condition;
-			return deriveConstraintRecursive(fm,binCondition.getLeft(), binCondition.getRight(), condition);
+			return deriveConstraintRecursive(fm, binCondition.getLeft(), binCondition.getRight(), condition);
 		}
 		if (condition instanceof DecisionValueCondition) {
 			ARangeValue value = ((DecisionValueCondition) condition).getValue();
@@ -565,8 +574,7 @@ public abstract class TransformDMtoFMUtil {
 			} else {
 				literal = new LiteralConstraint(operand.toString());
 			}
-			literal = new NotConstraint(literal);
-			return literal;
+			return new NotConstraint(literal);
 		}
 		if (condition instanceof IsSelectedFunction) {
 			IsSelectedFunction isSelected = (IsSelectedFunction) condition;
@@ -581,11 +589,11 @@ public abstract class TransformDMtoFMUtil {
 		}
 		return new LiteralConstraint(condition.toString());
 	}
-	
-	protected static Constraint deriveConstraintRecursive(FeatureModel fm,final ICondition left, final ICondition right,
-			final ICondition condition) {
-		Constraint cLeft = deriveConstraint(fm,left);
-		Constraint cRight = deriveConstraint(fm,right);
+
+	protected static Constraint deriveConstraintRecursive(final FeatureModel fm, final ICondition left,
+			final ICondition right, final ICondition condition) {
+		Constraint cLeft = deriveConstraint(fm, left);
+		Constraint cRight = deriveConstraint(fm, right);
 		if (cLeft == null && cRight != null) {
 			return new LiteralConstraint(cRight.toString());
 		}
@@ -598,17 +606,16 @@ public abstract class TransformDMtoFMUtil {
 		return new AndConstraint(new NotConstraint(new LiteralConstraint(cLeft.toString())),
 				new NotConstraint(new LiteralConstraint(cRight.toString())));
 	}
-	
-	protected static Constraint deriveConstraint(FeatureModel fm,final ICondition node) {
+
+	protected static Constraint deriveConstraint(final FeatureModel fm, final ICondition node) {
 		if (DecisionModelUtils.isBinaryCondition(node)) {
 			ABinaryCondition binVis = (ABinaryCondition) node;
-			return deriveConstraintRecursive(fm,binVis.getLeft(), binVis.getRight(), binVis);
+			return deriveConstraintRecursive(fm, binVis.getLeft(), binVis.getRight(), binVis);
 		}
 		if (node instanceof Not) {
 			Not notConstraint = (Not) node;
 			LiteralConstraint literalC = new LiteralConstraint(notConstraint.getOperand().toString());
-			NotConstraint notC = new NotConstraint(literalC);
-			return notC;
+			return new NotConstraint(literalC);
 		}
 		if (node instanceof IsSelectedFunction) {
 			IDecision decision = ((IsSelectedFunction) node).getParameters().get(0);
@@ -620,5 +627,5 @@ public abstract class TransformDMtoFMUtil {
 		}
 		return new LiteralConstraint(node.toString());
 	}
-	
+
 }
