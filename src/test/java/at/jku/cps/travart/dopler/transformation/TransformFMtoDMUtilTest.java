@@ -1,10 +1,14 @@
 package at.jku.cps.travart.dopler.transformation;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
@@ -69,7 +73,7 @@ class TransformFMtoDMUtilTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		factory = new DecisionModelFactory();
+		factory = DecisionModelFactory.getInstance();
 		dm = factory.create();
 		fm = new FeatureModel();
 		orGroup = new Group(GroupType.OR);
@@ -95,7 +99,7 @@ class TransformFMtoDMUtilTest {
 		root0Dec = null;
 	}
 
-	private void getDecisions(IDecisionModel dm) {
+	private void getDecisions(final IDecisionModel dm) {
 		childADec = dm.get(childA);
 		childBDec = dm.get(childB);
 		childCDec = dm.get(childC);
@@ -419,7 +423,7 @@ class TransformFMtoDMUtilTest {
 
 		Set<Rule> ruleSet = childADec.getRules();
 		controlSet.add(new Rule(new And(new IsSelectedFunction(childADec), new IsSelectedFunction(childBDec)),
-				new SelectDecisionAction((BooleanDecision) childCDec)));
+				new SelectDecisionAction(childCDec)));
 		assertEquals(controlSet, ruleSet);
 	}
 
@@ -439,11 +443,11 @@ class TransformFMtoDMUtilTest {
 
 		Set<Rule> ruleSet = orConstDec.getRules();
 		controlSet.add(new Rule(new DecisionValueCondition(orConstDec, orConstDec.getRangeValue(childA)),
-				new SelectDecisionAction((BooleanDecision) childADec)));
+				new SelectDecisionAction(childADec)));
 		controlSet.add(new Rule(new DecisionValueCondition(orConstDec, orConstDec.getRangeValue(childB)),
-				new SelectDecisionAction((BooleanDecision) childBDec)));
+				new SelectDecisionAction(childBDec)));
 		controlSet.add(new Rule(new DecisionValueCondition(orConstDec, orConstDec.getRangeValue(childC)),
-				new SelectDecisionAction((BooleanDecision) childCDec)));
+				new SelectDecisionAction(childCDec)));
 
 		assertEquals(controlSet, ruleSet);
 	}
@@ -456,7 +460,7 @@ class TransformFMtoDMUtilTest {
 		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
 		Constraint constraint = new ParenthesisConstraint(new ParenthesisConstraint(null));
 		assertThrows(ConditionCreationException.class,
-				() -> TransformFMtoDMUtil.convertConstraint(new DecisionModelFactory(), dm, fm, constraint));
+				() -> TransformFMtoDMUtil.convertConstraint(DecisionModelFactory.getInstance(), dm, fm, constraint));
 //		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision)childBDec),new DeSelectDecisionAction((BooleanDecision)childADec)));
 //		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision)childADec),new DeSelectDecisionAction((BooleanDecision)childBDec)));
 //		Set<Rule> ruleSet = childBDec.getRules();
@@ -595,11 +599,11 @@ class TransformFMtoDMUtilTest {
 		Constraint constraint = new ImplicationConstraint(new LiteralConstraint(childB),
 				new NotConstraint(new LiteralConstraint(childD)));
 		TransformFMtoDMUtil.deriveExcludeRules(dm, fm, constraint);
-		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision) childBDec), new DisAllowAction(
-				dm.get(childA + "#0"), ((EnumDecision) dm.get(childA + "#0")).getRangeValue(childD))));
-		controlSet.add(new Rule(new Not(new IsSelectedFunction((BooleanDecision) childBDec)),
+		controlSet.add(new Rule(new IsSelectedFunction(childBDec), new DisAllowAction(dm.get(childA + "#0"),
+				((EnumDecision) dm.get(childA + "#0")).getRangeValue(childD))));
+		controlSet.add(new Rule(new Not(new IsSelectedFunction(childBDec)),
 				new AllowAction(dm.get(childA + "#0"), ((EnumDecision) dm.get(childA + "#0")).getRangeValue(childD))));
-		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision) dm.get(childD)),
+		controlSet.add(new Rule(new IsSelectedFunction(dm.get(childD)),
 				new DeSelectDecisionAction((BooleanDecision) childBDec)));
 		Set<Rule> ruleSet = childBDec.getRules();
 		ruleSet.addAll(dm.get(childD).getRules());
@@ -616,10 +620,10 @@ class TransformFMtoDMUtilTest {
 		Constraint constraint = new ImplicationConstraint(new LiteralConstraint(childA),
 				new NotConstraint(new LiteralConstraint(childB)));
 		TransformFMtoDMUtil.deriveExcludeRules(dm, fm, constraint);
-		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision) childBDec),
-				new DeSelectDecisionAction((BooleanDecision) childADec)));
-		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision) childADec),
-				new DeSelectDecisionAction((BooleanDecision) childBDec)));
+		controlSet.add(
+				new Rule(new IsSelectedFunction(childBDec), new DeSelectDecisionAction((BooleanDecision) childADec)));
+		controlSet.add(
+				new Rule(new IsSelectedFunction(childADec), new DeSelectDecisionAction((BooleanDecision) childBDec)));
 		Set<Rule> ruleSet = childBDec.getRules();
 		ruleSet.addAll(childADec.getRules());
 
