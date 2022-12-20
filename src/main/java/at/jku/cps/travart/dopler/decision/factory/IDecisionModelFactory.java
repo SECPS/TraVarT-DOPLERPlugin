@@ -1,5 +1,6 @@
 package at.jku.cps.travart.dopler.decision.factory;
 
+import at.jku.cps.travart.core.common.IFactory;
 import at.jku.cps.travart.dopler.decision.impl.DecisionModel;
 import at.jku.cps.travart.dopler.decision.model.ARangeValue;
 import at.jku.cps.travart.dopler.decision.model.IAction;
@@ -16,13 +17,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.Range;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
 import at.jku.cps.travart.dopler.decision.model.impl.StringDecision;
 
-public interface IDecisionModelFactory{
-	
-	String getId();
-
-	boolean initExtension();
-
-	DecisionModel create();
+public interface IDecisionModelFactory extends IFactory<DecisionModel> {
 
 	BooleanDecision createBooleanDecision(String id);
 

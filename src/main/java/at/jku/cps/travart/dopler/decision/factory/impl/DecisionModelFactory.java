@@ -25,8 +25,17 @@ public class DecisionModelFactory implements IDecisionModelFactory {
 
 	public static final String ID = "at.jku.cps.travart.dopler.decision.factory.DecisionModelFactory";
 
+	private DecisionModelFactory() {
+
+	}
+
+	private static DecisionModelFactory factory;
+
 	public static DecisionModelFactory getInstance() {
-		return new DecisionModelFactory();
+		if (factory == null) {
+			factory = new DecisionModelFactory();
+		}
+		return factory;
 	}
 
 	@Override
