@@ -17,7 +17,7 @@ public class DecisionModelTransformer implements IModelTransformer<IDecisionMode
 	private DecisionModelFactory factory;
 
 	@Override
-	public FeatureModel transform(final IDecisionModel model, final String modelName, final OPTIMIZING_LEVEL level)
+	public FeatureModel transform(final IDecisionModel model, final String modelName, final TRANSFORMATION_LEVEL level)
 			throws NotSupportedVariabilityTypeException {
 		dm = model;
 		fm = new FeatureModel();
@@ -33,7 +33,7 @@ public class DecisionModelTransformer implements IModelTransformer<IDecisionMode
 	}
 
 	@Override
-	public IDecisionModel transform(final FeatureModel model, final String modelName, final OPTIMIZING_LEVEL level)
+	public IDecisionModel transform(final FeatureModel model, final String modelName, final TRANSFORMATION_LEVEL level)
 			throws NotSupportedVariabilityTypeException {
 		try {
 			factory = DecisionModelFactory.getInstance();
