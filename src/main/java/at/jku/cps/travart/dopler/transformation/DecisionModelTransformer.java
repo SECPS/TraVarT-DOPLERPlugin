@@ -9,7 +9,6 @@ import at.jku.cps.travart.dopler.decision.exc.ConditionCreationException;
 import at.jku.cps.travart.dopler.decision.factory.impl.DecisionModelFactory;
 import de.vill.model.FeatureModel;
 
-@SuppressWarnings({})
 public class DecisionModelTransformer implements IModelTransformer<IDecisionModel> {
 
 	private FeatureModel fm;

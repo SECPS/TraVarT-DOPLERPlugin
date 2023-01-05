@@ -4,7 +4,6 @@ import java.util.Objects;
 
 import at.jku.cps.travart.dopler.decision.exc.ActionExecutionException;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
-import at.jku.cps.travart.dopler.decision.model.ADecision;
 import at.jku.cps.travart.dopler.decision.model.ADecision.DecisionType;
 import at.jku.cps.travart.dopler.decision.model.IAction;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
@@ -57,10 +56,7 @@ public class SelectDecisionAction implements IAction {
 		if (this == obj) {
 			return true;
 		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
+		if ((obj == null) || (getClass() != obj.getClass())) {
 			return false;
 		}
 		SelectDecisionAction other = (SelectDecisionAction) obj;

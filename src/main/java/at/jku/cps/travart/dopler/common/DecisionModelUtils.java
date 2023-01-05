@@ -104,10 +104,7 @@ public final class DecisionModelUtils {
 	}
 
 	public static boolean detectCircle(final ICondition condition, final ICondition toAdd) {
-		if (toAdd == ICondition.TRUE || toAdd == ICondition.FALSE) {
-			return false;
-		}
-		if (condition == ICondition.TRUE || condition == ICondition.FALSE) {
+		if (toAdd == ICondition.TRUE || toAdd == ICondition.FALSE || condition == ICondition.TRUE || condition == ICondition.FALSE) {
 			return false;
 		}
 		if (condition == toAdd) {
@@ -280,8 +277,8 @@ public final class DecisionModelUtils {
 	}
 
 	/*
-	 * Identify rules which contain actions to itself. e.g., if (isSelected(d_Storage))
-	 * { disAllow(d_Storage_0.None); }
+	 * Identify rules which contain actions to itself. e.g., if
+	 * (isSelected(d_Storage)) { disAllow(d_Storage_0.None); }
 	 */
 	@SuppressWarnings("rawtypes")
 	public static boolean isInItSelfRule(final Rule rule) {
@@ -438,6 +435,7 @@ public final class DecisionModelUtils {
 		return dm.size();
 	}
 
+	@SuppressWarnings("rawtypes")
 	public static long countRules(final IDecisionModel dm) {
 		long rulesCount = 0;
 		for (IDecision decision : dm.getDecisions()) {
