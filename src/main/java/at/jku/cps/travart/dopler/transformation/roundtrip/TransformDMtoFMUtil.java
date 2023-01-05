@@ -1,4 +1,4 @@
-package at.jku.cps.travart.dopler.transformation;
+package at.jku.cps.travart.dopler.transformation.roundtrip;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,6 +39,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.SelectDecisionAction;
 import at.jku.cps.travart.dopler.decision.model.impl.SetValueAction;
 import at.jku.cps.travart.dopler.decision.model.impl.StringDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.StringValue;
+import at.jku.cps.travart.dopler.transformation.DefaultDecisionModelTransformationProperties;
 import de.vill.model.Attribute;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
@@ -54,7 +55,7 @@ import de.vill.model.constraint.OrConstraint;
 @SuppressWarnings("rawtypes")
 public abstract class TransformDMtoFMUtil {
 
-	protected static void createFeatures(final FeatureModel fm, final IDecisionModel dm)
+	public static void createFeatures(final FeatureModel fm, final IDecisionModel dm)
 			throws CircleInConditionException {
 		// first add all Boolean decisions
 		for (BooleanDecision decision : DecisionModelUtils.getBooleanDecisions(dm)) {
@@ -79,7 +80,7 @@ public abstract class TransformDMtoFMUtil {
 				// first check if you can find a feature with the same name as the value
 				// if so use it, otherwise create it
 				Feature child = fm.getFeatureMap().get(childName);
-				if ((child == null)) {
+				if (child == null) {
 					child = new Feature(childName);
 					fm.getFeatureMap().put(childName, child);
 				}
@@ -151,7 +152,7 @@ public abstract class TransformDMtoFMUtil {
 		}
 	}
 
-	protected static void addConstraintIfEligible(final FeatureModel fm, final Constraint constraint) {
+	public static void addConstraintIfEligible(final FeatureModel fm, final Constraint constraint) {
 
 		if (constraint == null || isInItSelfConstraint(constraint)) {
 			return;
@@ -165,7 +166,7 @@ public abstract class TransformDMtoFMUtil {
 		fm.getConstraints().add(constraint);
 	}
 
-	protected static boolean isInItSelfConstraint(final Constraint constraint) {
+	public static boolean isInItSelfConstraint(final Constraint constraint) {
 		if (constraint instanceof LiteralConstraint) {
 			return false;
 		}
@@ -177,7 +178,7 @@ public abstract class TransformDMtoFMUtil {
 		return constraint.getConstraintSubParts().get(0).equals(constraint.getConstraintSubParts().get(1));
 	}
 
-	protected static void createFeatureTree(final FeatureModel fm, final IDecisionModel dm) {
+	public static void createFeatureTree(final FeatureModel fm, final IDecisionModel dm) {
 		for (IDecision decision : dm.getDecisions()) {
 			if (!DecisionModelUtils.isEnumDecisionConstraint(decision)) {
 				Feature feature = fm.getFeatureMap().get(retriveFeatureName(decision));
@@ -227,7 +228,7 @@ public abstract class TransformDMtoFMUtil {
 	 * @param negated
 	 * @return
 	 */
-	protected static Constraint consumeToBinaryCondition(final List<Feature> features, final Constraint c,
+	public static Constraint consumeToBinaryCondition(final List<Feature> features, final Constraint c,
 			final boolean negated) {
 		if (features.isEmpty()) {
 			throw new IllegalArgumentException("Set of decisions is empty.");
@@ -243,28 +244,26 @@ public abstract class TransformDMtoFMUtil {
 			if (negated) {
 				return new OrConstraint(new NotConstraint(new LiteralConstraint(features.remove(0).getFeatureName())),
 						consumeToBinaryCondition(features, c, negated));
-			} else {
-				return new OrConstraint(new LiteralConstraint(features.remove(0).getFeatureName()),
-						consumeToBinaryCondition(features, c, negated));
 			}
+			return new OrConstraint(new LiteralConstraint(features.remove(0).getFeatureName()),
+					consumeToBinaryCondition(features, c, negated));
 		}
 		if (c instanceof AndConstraint) {
 			if (negated) {
 				return new AndConstraint(new NotConstraint(new LiteralConstraint(features.remove(0).getFeatureName())),
 						consumeToBinaryCondition(features, c, negated));
-			} else {
-				return new AndConstraint(new LiteralConstraint(features.remove(0).getFeatureName()),
-						consumeToBinaryCondition(features, c, negated));
 			}
+			return new AndConstraint(new LiteralConstraint(features.remove(0).getFeatureName()),
+					consumeToBinaryCondition(features, c, negated));
 		}
 		return c;
 	}
 
-	protected static String retriveFeatureName(final IDecision decision) {
+	public static String retriveFeatureName(final IDecision decision) {
 		return DecisionModelUtils.retriveFeatureName(decision, decision.getType() == ADecision.DecisionType.ENUM);
 	}
 
-	protected static void createConstraints(final FeatureModel fm, final IDecisionModel dm) {
+	public static void createConstraints(final FeatureModel fm, final IDecisionModel dm) {
 		for (IDecision decision : dm.getDecisions()) {
 			if (!DecisionModelUtils.isEnumDecisionConstraint(decision)) {
 				// first store complex visibility condition in properties, to avoid losing the
@@ -274,8 +273,7 @@ public abstract class TransformDMtoFMUtil {
 					Feature feature = fm.getFeatureMap().get(retriveFeatureName(decision));
 					// add visibility as property for restoring them later if necessary
 					feature.getAttributes().put(DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY,
-							new Attribute<>(
-									DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY_TYPE,
+							new Attribute<>(DefaultDecisionModelTransformationProperties.PROPERTY_KEY_VISIBILITY_TYPE,
 									decision.getVisiblity().toString()));
 				}
 				// second transform constraints from the rules
@@ -293,7 +291,7 @@ public abstract class TransformDMtoFMUtil {
 		}
 	}
 
-	protected static void deriveCompareConstraints(final FeatureModel fm, final IDecision decision,
+	public static void deriveCompareConstraints(final FeatureModel fm, final IDecision decision,
 			final ICondition condition, final IAction action) {
 		if (decision.getType() == ADecision.DecisionType.NUMBER && action instanceof DisAllowAction) {
 			NumberDecision numberDecision = (NumberDecision) decision;
@@ -331,7 +329,7 @@ public abstract class TransformDMtoFMUtil {
 		}
 	}
 
-	protected static void createExcludesConstraint(final FeatureModel fm, final NumberDecision numberDecision,
+	public static void createExcludesConstraint(final FeatureModel fm, final NumberDecision numberDecision,
 			final LiteralConstraint disAllowLiteral, final ARangeValue<Double> value) {
 		Feature valueFeature = fm.getFeatureMap()
 				.get(numberDecision.getId() + DefaultDecisionModelTransformationProperties.CONFIGURATION_VALUE_SEPERATOR
@@ -342,7 +340,7 @@ public abstract class TransformDMtoFMUtil {
 		addConstraintIfEligible(fm, constraint);
 	}
 
-	protected static void deriveConstraint(final FeatureModel fm, final IDecisionModel dm, final IDecision decision,
+	public static void deriveConstraint(final FeatureModel fm, final IDecisionModel dm, final IDecision decision,
 			final ICondition condition, final IAction action) {
 		Constraint conditionConstraint = deriveConditionConstraint(fm, decision, condition);
 		// case: if decision is selected another one has to be selected as well: implies
@@ -502,7 +500,7 @@ public abstract class TransformDMtoFMUtil {
 		}
 	}
 
-	protected static boolean hasNegativeLiteral(final Constraint constraint) {
+	public static boolean hasNegativeLiteral(final Constraint constraint) {
 		boolean subConstraintLiteral = false;
 		for (Constraint subconstraint : constraint.getConstraintSubParts()) {
 			if (subconstraint instanceof LiteralConstraint) {
@@ -519,7 +517,7 @@ public abstract class TransformDMtoFMUtil {
 		return anyNegative;
 	}
 
-	protected static Constraint consumeToGroup(final List<LiteralConstraint> conditionLiterals, final boolean or,
+	public static Constraint consumeToGroup(final List<LiteralConstraint> conditionLiterals, final boolean or,
 			final boolean negated) {
 		if (conditionLiterals.isEmpty()) {
 			throw new IllegalArgumentException("Set of decisions is empty.");
@@ -536,21 +534,19 @@ public abstract class TransformDMtoFMUtil {
 				return new OrConstraint(
 						new NotConstraint(new LiteralConstraint(conditionLiterals.remove(0).getLiteral())),
 						consumeToGroup(conditionLiterals, or, negated));
-			} else {
-				return new OrConstraint(new LiteralConstraint(conditionLiterals.remove(0).getLiteral()),
-						consumeToGroup(conditionLiterals, or, negated));
 			}
+			return new OrConstraint(new LiteralConstraint(conditionLiterals.remove(0).getLiteral()),
+					consumeToGroup(conditionLiterals, or, negated));
 		}
 		if (negated) {
 			return new AndConstraint(new NotConstraint(new LiteralConstraint(conditionLiterals.remove(0).getLiteral())),
 					consumeToGroup(conditionLiterals, or, negated));
-		} else {
-			return new AndConstraint(new LiteralConstraint(conditionLiterals.remove(0).getLiteral()),
-					consumeToGroup(conditionLiterals, or, negated));
 		}
+		return new AndConstraint(new LiteralConstraint(conditionLiterals.remove(0).getLiteral()),
+				consumeToGroup(conditionLiterals, or, negated));
 	}
 
-	protected static Constraint deriveConditionConstraint(final FeatureModel fm, final IDecision decision,
+	public static Constraint deriveConditionConstraint(final FeatureModel fm, final IDecision decision,
 			final ICondition condition) {
 		if (DecisionModelUtils.isBinaryCondition(condition)) {
 			ABinaryCondition binCondition = (ABinaryCondition) condition;
@@ -590,7 +586,7 @@ public abstract class TransformDMtoFMUtil {
 		return new LiteralConstraint(condition.toString());
 	}
 
-	protected static Constraint deriveConstraintRecursive(final FeatureModel fm, final ICondition left,
+	public static Constraint deriveConstraintRecursive(final FeatureModel fm, final ICondition left,
 			final ICondition right, final ICondition condition) {
 		Constraint cLeft = deriveConstraint(fm, left);
 		Constraint cRight = deriveConstraint(fm, right);
@@ -607,7 +603,7 @@ public abstract class TransformDMtoFMUtil {
 				new NotConstraint(new LiteralConstraint(cRight.toString())));
 	}
 
-	protected static Constraint deriveConstraint(final FeatureModel fm, final ICondition node) {
+	public static Constraint deriveConstraint(final FeatureModel fm, final ICondition node) {
 		if (DecisionModelUtils.isBinaryCondition(node)) {
 			ABinaryCondition binVis = (ABinaryCondition) node;
 			return deriveConstraintRecursive(fm, binVis.getLeft(), binVis.getRight(), binVis);

@@ -37,6 +37,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.Not;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
 import at.jku.cps.travart.dopler.decision.model.impl.SelectDecisionAction;
 import at.jku.cps.travart.dopler.decision.model.impl.SetValueAction;
+import at.jku.cps.travart.dopler.transformation.roundtrip.TransformFMtoDMUtil;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import de.vill.model.Group;
