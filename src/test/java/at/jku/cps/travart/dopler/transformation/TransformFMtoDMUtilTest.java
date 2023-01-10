@@ -461,7 +461,7 @@ class TransformFMtoDMUtilTest {
 		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
 		Constraint constraint = new ParenthesisConstraint(new ParenthesisConstraint(null));
 		assertThrows(NullPointerException.class,
-				() -> TransformFMtoDMUtil.convertConstraint(new DecisionModelFactory(), dm, fm, constraint));
+				() -> TransformFMtoDMUtil.convertConstraint(DecisionModelFactory.getInstance(), dm, fm, constraint));
 //		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision)childBDec),new DeSelectDecisionAction((BooleanDecision)childADec)));
 //		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision)childADec),new DeSelectDecisionAction((BooleanDecision)childBDec)));
 //		Set<Rule> ruleSet = childBDec.getRules();
