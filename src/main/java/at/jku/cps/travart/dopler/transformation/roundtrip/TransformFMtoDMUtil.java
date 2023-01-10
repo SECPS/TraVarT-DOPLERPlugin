@@ -231,7 +231,7 @@ public abstract class TransformFMtoDMUtil {
 	private static void deriveDeadFeatureRules(final IDecisionModel dm, final FeatureModel fm,
 			final Constraint constraint) {
 		Feature root = fm.getFeatureMap().get(TraVarTUtils.deriveFeatureModelRoot(fm.getFeatureMap(), "virtual root"));
-		NotConstraint targetLiteral = TraVarTUtils.getFirstNegativeLiteral(constraint);
+		NotConstraint targetLiteral = (NotConstraint)TraVarTUtils.getFirstNegativeLiteral(constraint);
 		String targetFeature = ((LiteralConstraint) targetLiteral.getContent()).getLiteral();
 		IDecision source = dm.get(root.getFeatureName());
 		IDecision target = dm.get(targetFeature);
@@ -335,9 +335,8 @@ public abstract class TransformFMtoDMUtil {
 	 * @param fm            the feature model
 	 * @param cnfConstraint the constraint in the required format
 	 */
-	private static void deriveRequiresRules(final IDecisionModel dm, final FeatureModel fm,
-			final Constraint cnfConstraint) {
-		NotConstraint sourceLiteral = TraVarTUtils.getFirstNegativeLiteral(cnfConstraint);
+	private static void deriveRequiresRules(IDecisionModel dm, FeatureModel fm, final Constraint cnfConstraint) {
+		NotConstraint sourceLiteral = (NotConstraint) TraVarTUtils.getFirstNegativeLiteral(cnfConstraint);
 		Constraint targetLiteral = TraVarTUtils.getFirstPositiveLiteral(cnfConstraint);
 		if (TraVarTUtils.isLiteral(sourceLiteral) && TraVarTUtils.isLiteral(targetLiteral)) {
 			String sourceFeature = ((LiteralConstraint) sourceLiteral.getContent()).getLiteral();

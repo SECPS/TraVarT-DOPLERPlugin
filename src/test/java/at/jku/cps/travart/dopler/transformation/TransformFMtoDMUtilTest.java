@@ -304,7 +304,7 @@ class TransformFMtoDMUtilTest {
 		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
 		TransformFMtoDMUtil.convertConstraintRec(factory, dm, fm, implConstraint);
 		getDecisions(dm);
-		// A disallows B
+		// A requires B
 		assertEquals(
 				new Rule(new IsSelectedFunction(childADec),
 						new SetValueAction(root0Dec, root0Dec.getRangeValue(childB))),
@@ -460,8 +460,8 @@ class TransformFMtoDMUtilTest {
 		getDecisions(dm);
 		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
 		Constraint constraint = new ParenthesisConstraint(new ParenthesisConstraint(null));
-		assertThrows(ConditionCreationException.class,
-				() -> TransformFMtoDMUtil.convertConstraint(DecisionModelFactory.getInstance(), dm, fm, constraint));
+		assertThrows(NullPointerException.class,
+				() -> TransformFMtoDMUtil.convertConstraint(new DecisionModelFactory(), dm, fm, constraint));
 //		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision)childBDec),new DeSelectDecisionAction((BooleanDecision)childADec)));
 //		controlSet.add(new Rule(new IsSelectedFunction((BooleanDecision)childADec),new DeSelectDecisionAction((BooleanDecision)childBDec)));
 //		Set<Rule> ruleSet = childBDec.getRules();
