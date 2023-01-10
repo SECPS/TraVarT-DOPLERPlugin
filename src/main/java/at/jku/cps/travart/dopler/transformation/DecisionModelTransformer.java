@@ -16,18 +16,18 @@ public class DecisionModelTransformer implements IModelTransformer<IDecisionMode
 	private final DecisionModelOneWayTransformer decisionModelOneWayTransformer = new DecisionModelOneWayTransformer();
 
 	@Override
-	public FeatureModel transform(final IDecisionModel model, final String modelName, final TRANSFORMATION_LEVEL level)
+	public FeatureModel transform(final IDecisionModel model, final String modelName, final STRATEGY level)
 			throws NotSupportedVariabilityTypeException {
-		if (level == TRANSFORMATION_LEVEL.ROUNDTRIP) {
+		if (level == STRATEGY.ROUNDTRIP) {
 		return decisionModelRoundtripTransformer.transform(model);
 		}
 		return decisionModelOneWayTransformer.transform(model, modelName);
 	}
 
 	@Override
-	public IDecisionModel transform(final FeatureModel model, final String modelName, final TRANSFORMATION_LEVEL level)
+	public IDecisionModel transform(final FeatureModel model, final String modelName, final STRATEGY level)
 			throws NotSupportedVariabilityTypeException {
-		if (level == TRANSFORMATION_LEVEL.ROUNDTRIP) {
+		if (level == STRATEGY.ROUNDTRIP) {
 		return decisionModelRoundtripTransformer.transform(model);
 		}
 		return decisionModelOneWayTransformer.transform(model, modelName);

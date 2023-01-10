@@ -8,14 +8,14 @@ import de.vill.model.FeatureModel;
 public class DecisionModelOneWayTransformer implements IModelTransformer<IDecisionModel> {
 
 	@Override
-	public FeatureModel transform(final IDecisionModel model, final String modelName, final TRANSFORMATION_LEVEL level)
+	public FeatureModel transform(final IDecisionModel model, final String modelName, final STRATEGY level)
 			throws NotSupportedVariabilityTypeException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public IDecisionModel transform(final FeatureModel model, final String modelName, final TRANSFORMATION_LEVEL level)
+	public IDecisionModel transform(final FeatureModel model, final String modelName, final STRATEGY level)
 			throws NotSupportedVariabilityTypeException {
 		// TODO Auto-generated method stub
 		return null;

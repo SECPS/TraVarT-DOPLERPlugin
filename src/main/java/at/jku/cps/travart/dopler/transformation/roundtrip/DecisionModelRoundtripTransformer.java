@@ -15,7 +15,7 @@ public class DecisionModelRoundtripTransformer implements IModelTransformer<IDec
 	private IDecisionModel dm;
 
 	@Override
-	public FeatureModel transform(final IDecisionModel model, final String modelName, final TRANSFORMATION_LEVEL level)
+	public FeatureModel transform(final IDecisionModel model, final String modelName, final STRATEGY level)
 			throws NotSupportedVariabilityTypeException {
 		dm = model;
 		fm = new FeatureModel();
@@ -31,7 +31,7 @@ public class DecisionModelRoundtripTransformer implements IModelTransformer<IDec
 	}
 
 	@Override
-	public IDecisionModel transform(final FeatureModel model, final String modelName, final TRANSFORMATION_LEVEL level)
+	public IDecisionModel transform(final FeatureModel model, final String modelName, final STRATEGY level)
 			throws NotSupportedVariabilityTypeException {
 		try {
 			DecisionModelFactory factory = DecisionModelFactory.getInstance();
