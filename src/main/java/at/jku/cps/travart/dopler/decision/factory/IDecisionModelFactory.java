@@ -11,6 +11,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Cardinality;
 import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.GetValueFunction;
+import at.jku.cps.travart.dopler.decision.model.impl.IsSelectedFunction;
 import at.jku.cps.travart.dopler.decision.model.impl.IsTakenFunction;
 import at.jku.cps.travart.dopler.decision.model.impl.NumberDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Range;
@@ -35,6 +36,9 @@ public interface IDecisionModelFactory extends IFactory<DecisionModel> {
 
 	@SuppressWarnings("rawtypes")
 	IsTakenFunction createIsTakenFunction(IDecision decision);
+
+	@SuppressWarnings("rawtypes")
+	IsSelectedFunction createIsSelectedFunction(IDecision decision);
 
 	And createAndCondition(ICondition left, ICondition right);
 

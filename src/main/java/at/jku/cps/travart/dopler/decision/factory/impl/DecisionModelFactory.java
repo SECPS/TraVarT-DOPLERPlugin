@@ -1,5 +1,7 @@
 package at.jku.cps.travart.dopler.decision.factory.impl;
 
+import java.util.Objects;
+
 import at.jku.cps.travart.dopler.decision.factory.IDecisionModelFactory;
 import at.jku.cps.travart.dopler.decision.impl.DecisionModel;
 import at.jku.cps.travart.dopler.decision.model.ARangeValue;
@@ -13,6 +15,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.DoubleValue;
 import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Equals;
 import at.jku.cps.travart.dopler.decision.model.impl.GetValueFunction;
+import at.jku.cps.travart.dopler.decision.model.impl.IsSelectedFunction;
 import at.jku.cps.travart.dopler.decision.model.impl.IsTakenFunction;
 import at.jku.cps.travart.dopler.decision.model.impl.NumberDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Range;
@@ -127,7 +130,13 @@ public class DecisionModelFactory implements IDecisionModelFactory {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public IsTakenFunction createIsTakenFunction(final IDecision decision) {
-		return new IsTakenFunction(decision);
+		return new IsTakenFunction(Objects.requireNonNull(decision));
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public IsSelectedFunction createIsSelectedFunction(final IDecision decision) {
+		return new IsSelectedFunction(Objects.requireNonNull(decision));
 	}
 
 	@Override

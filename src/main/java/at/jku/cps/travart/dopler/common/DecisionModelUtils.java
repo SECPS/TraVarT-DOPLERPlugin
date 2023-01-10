@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +19,7 @@ import org.apache.commons.csv.CSVFormat.Builder;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.exc.ConditionCreationException;
 import at.jku.cps.travart.dopler.decision.impl.DMCSVHeader;
+import at.jku.cps.travart.dopler.decision.impl.DecisionModel;
 import at.jku.cps.travart.dopler.decision.model.ABinaryCondition;
 import at.jku.cps.travart.dopler.decision.model.ADecision;
 import at.jku.cps.travart.dopler.decision.model.ADecision.DecisionType;
@@ -104,7 +106,8 @@ public final class DecisionModelUtils {
 	}
 
 	public static boolean detectCircle(final ICondition condition, final ICondition toAdd) {
-		if (toAdd == ICondition.TRUE || toAdd == ICondition.FALSE || condition == ICondition.TRUE || condition == ICondition.FALSE) {
+		if (toAdd == ICondition.TRUE || toAdd == ICondition.FALSE || condition == ICondition.TRUE
+				|| condition == ICondition.FALSE) {
 			return false;
 		}
 		if (condition == toAdd) {
@@ -488,5 +491,16 @@ public final class DecisionModelUtils {
 			}
 		}
 		return count;
+	}
+
+	/**
+	 * Adds a decision to the given decision model.
+	 *
+	 * @param dm       the decision model to which the given decision should be
+	 *                 added.
+	 * @param decision the decision to add.
+	 */
+	public static void addDecision(final DecisionModel dm, final BooleanDecision decision) {
+		Objects.requireNonNull(dm).add(Objects.requireNonNull(decision));
 	}
 }
