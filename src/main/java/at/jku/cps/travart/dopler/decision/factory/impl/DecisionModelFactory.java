@@ -47,11 +47,6 @@ public class DecisionModelFactory implements IDecisionModelFactory {
 	}
 
 	@Override
-	public boolean initExtension() {
-		return true;
-	}
-
-	@Override
 	public DecisionModel create() {
 		return new DecisionModel(ID);
 	}
