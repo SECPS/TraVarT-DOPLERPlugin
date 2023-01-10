@@ -50,7 +50,7 @@ import de.vill.model.constraint.NotConstraint;
 import de.vill.model.constraint.OrConstraint;
 import de.vill.model.constraint.ParenthesisConstraint;
 
-@SuppressWarnings("rawtypes")
+@SuppressWarnings({"rawtypes","unchecked"})
 class TransformFMtoDMUtilTest {
 	DecisionModelFactory factory;
 	IDecisionModel dm;
@@ -263,8 +263,8 @@ class TransformFMtoDMUtilTest {
 	}
 
 	@Test
-	void testConvertConstraintRecExcludes()
-			throws NotSupportedVariabilityTypeException, CircleInConditionException, ConditionCreationException, ReflectiveOperationException {
+	void testConvertConstraintRecExcludes() throws NotSupportedVariabilityTypeException, CircleInConditionException,
+			ConditionCreationException, ReflectiveOperationException {
 		// A => !B
 		Constraint implConstraint = new ImplicationConstraint(new LiteralConstraint(childA),
 				new NotConstraint(new LiteralConstraint(childB)));
@@ -295,8 +295,8 @@ class TransformFMtoDMUtilTest {
 	}
 
 	@Test
-	void testConvertConstraintRecRequires()
-			throws NotSupportedVariabilityTypeException, CircleInConditionException, ConditionCreationException, ReflectiveOperationException {
+	void testConvertConstraintRecRequires() throws NotSupportedVariabilityTypeException, CircleInConditionException,
+			ConditionCreationException, ReflectiveOperationException {
 		// A => B
 		Constraint implConstraint = new ImplicationConstraint(new LiteralConstraint(childA),
 				new LiteralConstraint(childB));
@@ -321,8 +321,8 @@ class TransformFMtoDMUtilTest {
 	}
 
 	@Test
-	void testConvertConstraintRecSingleRequires()
-			throws NotSupportedVariabilityTypeException, CircleInConditionException, ConditionCreationException, ReflectiveOperationException {
+	void testConvertConstraintRecSingleRequires() throws NotSupportedVariabilityTypeException,
+			CircleInConditionException, ConditionCreationException, ReflectiveOperationException {
 		// child A is required
 		Constraint implConstraint = new LiteralConstraint(childA);
 		fm.getConstraints().add(implConstraint);
@@ -335,8 +335,8 @@ class TransformFMtoDMUtilTest {
 	}
 
 	@Test
-	void testConvertConstraintRecDoubleRequires()
-			throws NotSupportedVariabilityTypeException, CircleInConditionException, ConditionCreationException, ReflectiveOperationException {
+	void testConvertConstraintRecDoubleRequires() throws NotSupportedVariabilityTypeException,
+			CircleInConditionException, ConditionCreationException, ReflectiveOperationException {
 		// A and B
 		Constraint implConstraint = new AndConstraint(new LiteralConstraint(childA), new LiteralConstraint(childB));
 		fm.getConstraints().add(implConstraint);
@@ -355,8 +355,8 @@ class TransformFMtoDMUtilTest {
 	}
 
 	@Test
-	void testConvertConstraintRecSingleExcludes()
-			throws NotSupportedVariabilityTypeException, CircleInConditionException, ConditionCreationException, ReflectiveOperationException {
+	void testConvertConstraintRecSingleExcludes() throws NotSupportedVariabilityTypeException,
+			CircleInConditionException, ConditionCreationException, ReflectiveOperationException {
 		// not A
 		Constraint notConstraint = new NotConstraint(new LiteralConstraint(childA));
 		fm.getConstraints().add(notConstraint);
@@ -368,8 +368,8 @@ class TransformFMtoDMUtilTest {
 	}
 
 	@Test
-	void testConvertConstraintRecComplexConstraintSplit()
-			throws NotSupportedVariabilityTypeException, CircleInConditionException, ConditionCreationException, ReflectiveOperationException {
+	void testConvertConstraintRecComplexConstraintSplit() throws NotSupportedVariabilityTypeException,
+			CircleInConditionException, ConditionCreationException, ReflectiveOperationException {
 		// A => B and !C
 		Constraint implConstraint = new ImplicationConstraint(new LiteralConstraint(childA),
 				new AndConstraint(new LiteralConstraint(childB), new NotConstraint(new LiteralConstraint(childC))));
@@ -390,8 +390,8 @@ class TransformFMtoDMUtilTest {
 	}
 
 	@Test
-	void testConvertConstraintRecComplexConstraintDoubleRequires()
-			throws NotSupportedVariabilityTypeException, CircleInConditionException, ConditionCreationException, ReflectiveOperationException {
+	void testConvertConstraintRecComplexConstraintDoubleRequires() throws NotSupportedVariabilityTypeException,
+			CircleInConditionException, ConditionCreationException, ReflectiveOperationException {
 		// A => B and C
 		Constraint implConstraint = new ImplicationConstraint(new LiteralConstraint(childA),
 				new AndConstraint(new LiteralConstraint(childB), new LiteralConstraint(childC)));
@@ -411,8 +411,8 @@ class TransformFMtoDMUtilTest {
 	// TODO talk with kevin how to implement this
 	@Test
 	@Disabled("Check back with Kevin how to this case can be implemented.")
-	void testConvertConstraintRecComplexConstraintCoupleRequires()
-			throws NotSupportedVariabilityTypeException, CircleInConditionException, ConditionCreationException, ReflectiveOperationException {
+	void testConvertConstraintRecComplexConstraintCoupleRequires() throws NotSupportedVariabilityTypeException,
+			CircleInConditionException, ConditionCreationException, ReflectiveOperationException {
 		// A and B => C
 		Constraint implConstraint = new ImplicationConstraint(
 				new AndConstraint(new LiteralConstraint(childA), new LiteralConstraint(childB)),
@@ -429,8 +429,8 @@ class TransformFMtoDMUtilTest {
 	}
 
 	@Test
-	void testConvertConstraintRecComplexConstraintMultiOr()
-			throws NotSupportedVariabilityTypeException, CircleInConditionException, ConditionCreationException, ReflectiveOperationException {
+	void testConvertConstraintRecComplexConstraintMultiOr() throws NotSupportedVariabilityTypeException,
+			CircleInConditionException, ConditionCreationException, ReflectiveOperationException {
 		// Or relation between all children also as constraint
 		Constraint implConstraint = new OrConstraint(new LiteralConstraint(childA),
 				new OrConstraint(new LiteralConstraint(childB), new LiteralConstraint(childC)));
@@ -471,8 +471,8 @@ class TransformFMtoDMUtilTest {
 	}
 
 	@Test
-	void testDeriveUnidirectionalRules()
-			throws NotSupportedVariabilityTypeException, CircleInConditionException, ConditionCreationException, ReflectiveOperationException {
+	void testDeriveUnidirectionalRules() throws NotSupportedVariabilityTypeException, CircleInConditionException,
+			ConditionCreationException, ReflectiveOperationException {
 		// Or relation between all children also as constraint
 		Constraint implConstraint = new OrConstraint(new LiteralConstraint(childA),
 				new OrConstraint(new LiteralConstraint(childB), new NotConstraint(new LiteralConstraint(childC))));
@@ -486,8 +486,8 @@ class TransformFMtoDMUtilTest {
 	}
 
 	@Test
-	void testDeriveRequiresRules()
-			throws NotSupportedVariabilityTypeException, CircleInConditionException, ConditionCreationException, ReflectiveOperationException {
+	void testDeriveRequiresRules() throws NotSupportedVariabilityTypeException, CircleInConditionException,
+			ConditionCreationException, ReflectiveOperationException {
 		// Or relation between all children also as constraint
 		Constraint implConstraint = new OrConstraint(new LiteralConstraint(childA),
 				new OrConstraint(new LiteralConstraint(childB), new NotConstraint(new LiteralConstraint(childC))));
@@ -563,7 +563,8 @@ class TransformFMtoDMUtilTest {
 	}
 
 	@Test
-	void testDeriveExcludeRulesNormalDecisionExcludesEnumSubDecision() throws NotSupportedVariabilityTypeException, ReflectiveOperationException {
+	void testDeriveExcludeRulesNormalDecisionExcludesEnumSubDecision()
+			throws NotSupportedVariabilityTypeException, ReflectiveOperationException {
 		Group altGroup = new Group(GroupType.OR);
 		String childD = "childD";
 		Feature childDFeature = new Feature(childD);
@@ -587,7 +588,8 @@ class TransformFMtoDMUtilTest {
 	}
 
 	@Test
-	void testDeriveExcludeRulesEnumSubDecisionExcludesNormalDecision() throws NotSupportedVariabilityTypeException, ReflectiveOperationException {
+	void testDeriveExcludeRulesEnumSubDecisionExcludesNormalDecision()
+			throws NotSupportedVariabilityTypeException, ReflectiveOperationException {
 		Group altGroup = new Group(GroupType.OR);
 		String childD = "childD";
 		Feature childDFeature = new Feature(childD);
@@ -613,7 +615,8 @@ class TransformFMtoDMUtilTest {
 	}
 
 	@Test
-	void testDeriveExcludeRulesNormalDecisionExcludesNormalDecision() throws NotSupportedVariabilityTypeException, ReflectiveOperationException {
+	void testDeriveExcludeRulesNormalDecisionExcludesNormalDecision()
+			throws NotSupportedVariabilityTypeException, ReflectiveOperationException {
 		orGroup.GROUPTYPE = GroupType.OPTIONAL;
 		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
 		getDecisions(dm);
@@ -629,6 +632,50 @@ class TransformFMtoDMUtilTest {
 		ruleSet.addAll(childADec.getRules());
 
 		assertEquals(controlSet, ruleSet);
+	}
+	
+	@Test
+	void testConvertConstraintRecRequiredForAllRule()
+			throws NotSupportedVariabilityTypeException, ReflectiveOperationException, CircleInConditionException, ConditionCreationException {
+		orGroup.GROUPTYPE = GroupType.OPTIONAL;
+		Constraint requiredForAllConstraint = new OrConstraint(new LiteralConstraint(childA),
+				new OrConstraint(new NotConstraint(new LiteralConstraint(childB)), new NotConstraint(new LiteralConstraint(childC))));
+		fm.getConstraints().add(requiredForAllConstraint);
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		TransformFMtoDMUtil.convertConstraintRec(factory, dm, fm, requiredForAllConstraint);
+		getDecisions(dm);
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
+		controlSet.add(new Rule(new And(new IsSelectedFunction(childBDec),new IsSelectedFunction(childCDec)),new SelectDecisionAction(childADec)));
+		Set<Rule> ruleSetB = childBDec.getRules();
+		Set<Rule> ruleSetC = childCDec.getRules();
+
+		assertEquals(controlSet, ruleSetB);
+		assertEquals(controlSet, ruleSetC);
+	}
+	
+	@Test
+	void testConvertConstraintRecEnumSourceRequires()
+			throws NotSupportedVariabilityTypeException, ReflectiveOperationException, CircleInConditionException, ConditionCreationException {
+		orGroup.GROUPTYPE = GroupType.OPTIONAL;
+		String childA1= "childA1";
+		String childA2= "childA2";
+		Feature childA1Feature= new Feature(childA1);
+		Feature childA2Feature= new Feature(childA2);
+		Group altGroup= new Group(GroupType.ALTERNATIVE);
+		altGroup.getFeatures().add(childA1Feature);
+		altGroup.getFeatures().add(childA2Feature);
+		childAFeature.getChildren().add(altGroup);
+		Constraint enumRequiresConstraint = new OrConstraint(new LiteralConstraint(childC), new NotConstraint(new LiteralConstraint(childA)));
+		fm.getConstraints().add(enumRequiresConstraint);
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		TransformFMtoDMUtil.convertConstraintRec(factory, dm, fm,enumRequiresConstraint );
+		getDecisions(dm);
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
+		IDecision enumADec=dm.get("childA#0");
+		controlSet.add(new Rule(new Not(new DecisionValueCondition(enumADec,((EnumDecision)enumADec).getNoneOption())),new SelectDecisionAction(childCDec)));
+		Set<Rule> ruleSetEnumA = enumADec.getRules();
+
+		assertTrue(ruleSetEnumA.contains(controlSet.iterator().next()));
 	}
 
 	@Test
