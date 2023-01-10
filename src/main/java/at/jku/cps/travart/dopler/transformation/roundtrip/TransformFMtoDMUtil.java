@@ -143,7 +143,7 @@ public abstract class TransformFMtoDMUtil {
 
 	public static void convertConstraints(final DecisionModelFactory factory, final IDecisionModel dm,
 			final FeatureModel fm, final List<Constraint> constraints)
-			throws CircleInConditionException, ConditionCreationException {
+			throws CircleInConditionException, ConditionCreationException, ReflectiveOperationException {
 		for (Constraint constraint : constraints) {
 			convertConstraintRec(factory, dm, fm, constraint);
 		}
@@ -151,7 +151,7 @@ public abstract class TransformFMtoDMUtil {
 
 	public static void convertConstraintRec(final DecisionModelFactory factory, final IDecisionModel dm,
 			final FeatureModel fm, final Constraint node)
-			throws CircleInConditionException, ConditionCreationException {
+			throws CircleInConditionException, ConditionCreationException, ReflectiveOperationException {
 		// create a CNF from nodes enables separating the concerns how to transform the
 		// different groups.
 		// A requires B <=> CNF: Not(A) or B
@@ -181,9 +181,10 @@ public abstract class TransformFMtoDMUtil {
 	 * @throws ConditionCreationException when no translation could be found for the
 	 *                                    constraint or an error happened in the
 	 *                                    translation
+	 * @throws ReflectiveOperationException 
 	 */
 	public static void convertConstraint(final DecisionModelFactory factory, final IDecisionModel dm,
-			final FeatureModel fm, final Constraint cnfConstraint) throws ConditionCreationException {
+			final FeatureModel fm, final Constraint cnfConstraint) throws ConditionCreationException, ReflectiveOperationException {
 		Constraint parenthesisLessConstraint = cnfConstraint instanceof ParenthesisConstraint
 				? ((ParenthesisConstraint) cnfConstraint).getContent()
 				: cnfConstraint;
@@ -405,7 +406,7 @@ public abstract class TransformFMtoDMUtil {
 	}
 
 	public static void deriveExcludeRules(final IDecisionModel dm, final FeatureModel fm,
-			final Constraint cnfConstraint) {
+			final Constraint cnfConstraint) throws ReflectiveOperationException {
 		// excludes constraints are bidirectional by default, therefore direction for
 		// defined constraint is negligible, but we need two rules
 

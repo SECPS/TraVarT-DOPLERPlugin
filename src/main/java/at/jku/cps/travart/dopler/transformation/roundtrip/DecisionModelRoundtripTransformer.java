@@ -41,7 +41,7 @@ public class DecisionModelRoundtripTransformer implements IModelTransformer<IDec
 			TransformFMtoDMUtil.convertConstraints(factory, dm, fm, fm.getConstraints());
 			TransformFMtoDMUtil.convertVisibilityCustomProperties(dm, fm.getFeatureMap().values());
 			return dm;
-		} catch (CircleInConditionException | ConditionCreationException e) {
+		} catch (CircleInConditionException | ConditionCreationException | ReflectiveOperationException e) {
 			throw new NotSupportedVariabilityTypeException(e);
 		}
 	}
