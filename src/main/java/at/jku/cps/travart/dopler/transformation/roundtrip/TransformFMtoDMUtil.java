@@ -402,6 +402,7 @@ public abstract class TransformFMtoDMUtil {
 		Feature feature = fm.getFeatureMap().get(
 				DecisionModelUtils.retriveFeatureName(decision, decision.getType() == ADecision.DecisionType.BOOLEAN));
 		Feature parent = feature.getParentFeature();
+		if(parent == null) return false;
 		return parent.getFeatureName().equals(DefaultModelTransformationProperties.ARTIFICIAL_MODEL_NAME);
 	}
 
