@@ -9,8 +9,6 @@ import at.jku.cps.travart.dopler.transformation.roundtrip.DecisionModelRoundtrip
 import de.vill.model.FeatureModel;
 
 public class DecisionModelTransformer implements IModelTransformer<IDecisionModel> {
-	private DecisionModel dm;
-
 
 	private final DecisionModelRoundtripTransformer decisionModelRoundtripTransformer = new DecisionModelRoundtripTransformer();
 	private final DecisionModelOneWayTransformer decisionModelOneWayTransformer = new DecisionModelOneWayTransformer();
