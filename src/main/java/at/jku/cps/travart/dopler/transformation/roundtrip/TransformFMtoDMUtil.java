@@ -75,6 +75,9 @@ public abstract class TransformFMtoDMUtil {
 				assert parent != null;
 				// funky behaviour due to roundtrip compatibility - don't change
 				Rule rule = new Rule(new IsSelectedFunction(parent), new SelectDecisionAction(decision));
+				Rule ruleReverse = new Rule(new IsSelectedFunction(decision), new SelectDecisionAction(parent));
+				decision.addRule(ruleReverse);
+				updateRules(decision, ruleReverse);
 				parent.addRule(rule);
 				updateRules(parent, rule);
 				decision.setVisibility(new And(ICondition.FALSE, new IsSelectedFunction(parent)));
@@ -178,13 +181,14 @@ public abstract class TransformFMtoDMUtil {
 	 * @param dm            the decision model
 	 * @param fm            the feature model
 	 * @param cnfConstraint the constraint in CNF form
-	 * @throws ConditionCreationException when no translation could be found for the
-	 *                                    constraint or an error happened in the
-	 *                                    translation
-	 * @throws ReflectiveOperationException 
+	 * @throws ConditionCreationException   when no translation could be found for
+	 *                                      the constraint or an error happened in
+	 *                                      the translation
+	 * @throws ReflectiveOperationException
 	 */
 	public static void convertConstraint(final DecisionModelFactory factory, final IDecisionModel dm,
-			final FeatureModel fm, final Constraint cnfConstraint) throws ConditionCreationException, ReflectiveOperationException {
+			final FeatureModel fm, final Constraint cnfConstraint)
+			throws ConditionCreationException, ReflectiveOperationException {
 		Constraint parenthesisLessConstraint = cnfConstraint instanceof ParenthesisConstraint
 				? ((ParenthesisConstraint) cnfConstraint).getContent()
 				: cnfConstraint;
@@ -232,7 +236,7 @@ public abstract class TransformFMtoDMUtil {
 	private static void deriveDeadFeatureRules(final IDecisionModel dm, final FeatureModel fm,
 			final Constraint constraint) {
 		Feature root = fm.getFeatureMap().get(TraVarTUtils.deriveFeatureModelRoot(fm.getFeatureMap(), "virtual root"));
-		NotConstraint targetLiteral = (NotConstraint)TraVarTUtils.getFirstNegativeLiteral(constraint);
+		NotConstraint targetLiteral = (NotConstraint) TraVarTUtils.getFirstNegativeLiteral(constraint);
 		String targetFeature = ((LiteralConstraint) targetLiteral.getContent()).getLiteral();
 		IDecision source = dm.get(root.getFeatureName());
 		IDecision target = dm.get(targetFeature);
@@ -368,6 +372,9 @@ public abstract class TransformFMtoDMUtil {
 					source.addRule(rule);
 					updateRules(source, rule);
 				}
+				Rule rule = new Rule(new IsSelectedFunction(source), new SelectDecisionAction(target));
+				source.addRule(rule);
+				updateRules(source, rule);
 
 			} else if (!hasVirtualParent(fm, target) && isEnumSubFeature(fm, target)) {
 				EnumDecision enumDecision = findEnumDecisionByRangeValue(dm, target);
@@ -402,7 +409,8 @@ public abstract class TransformFMtoDMUtil {
 		Feature feature = fm.getFeatureMap().get(
 				DecisionModelUtils.retriveFeatureName(decision, decision.getType() == ADecision.DecisionType.BOOLEAN));
 		Feature parent = feature.getParentFeature();
-		if(parent == null) return false;
+		if (parent == null)
+			return false;
 		return parent.getFeatureName().equals(DefaultModelTransformationProperties.ARTIFICIAL_MODEL_NAME);
 	}
 
@@ -470,34 +478,38 @@ public abstract class TransformFMtoDMUtil {
 
 	public static ICondition deriveConditionFromConstraint(final IDecisionModel dm, final Constraint node)
 			throws ConditionCreationException {
-		if (node instanceof AndConstraint) {
-			List<Constraint> nodes = new ArrayList<>(node.getConstraintSubParts());
-			ICondition first = deriveConditionFromConstraint(dm, nodes.remove(0));
-			ICondition second = deriveConditionFromConstraint(dm, nodes.remove(0));
+		Constraint workingConstraint = node;
+		while (node instanceof ParenthesisConstraint) {
+			workingConstraint = ((ParenthesisConstraint) workingConstraint).getContent();
+		}
+		if (workingConstraint instanceof AndConstraint) {
+			List<Constraint> workingConstraints = new ArrayList<>(workingConstraint.getConstraintSubParts());
+			ICondition first = deriveConditionFromConstraint(dm, workingConstraints.remove(0));
+			ICondition second = deriveConditionFromConstraint(dm, workingConstraints.remove(0));
 			And and = new And(first, second);
-			while (!nodes.isEmpty()) {
-				ICondition next = deriveConditionFromConstraint(dm, nodes.remove(0));
+			while (!workingConstraints.isEmpty()) {
+				ICondition next = deriveConditionFromConstraint(dm, workingConstraints.remove(0));
 				and = new And(and, next);
 			}
 			return and;
 		}
-		if (node instanceof OrConstraint) {
-			List<Constraint> nodes = new ArrayList<>(node.getConstraintSubParts());
-			ICondition first = deriveConditionFromConstraint(dm, nodes.remove(0));
-			ICondition second = deriveConditionFromConstraint(dm, nodes.remove(0));
+		if (workingConstraint instanceof OrConstraint) {
+			List<Constraint> workingConstraints = new ArrayList<>(workingConstraint.getConstraintSubParts());
+			ICondition first = deriveConditionFromConstraint(dm, workingConstraints.remove(0));
+			ICondition second = deriveConditionFromConstraint(dm, workingConstraints.remove(0));
 			Or or = new Or(first, second);
-			while (!nodes.isEmpty()) {
-				ICondition next = deriveConditionFromConstraint(dm, nodes.remove(0));
+			while (!workingConstraints.isEmpty()) {
+				ICondition next = deriveConditionFromConstraint(dm, workingConstraints.remove(0));
 				or = new Or(or, next);
 			}
 			return or;
 		}
-		if (TraVarTUtils.isLiteral(node)) {
-			IDecision decision = dm.get(((LiteralConstraint) node).getLiteral());
+		if (TraVarTUtils.isLiteral(workingConstraint)) {
+			IDecision decision = dm.get(((LiteralConstraint) workingConstraint).getLiteral());
 			IsSelectedFunction function = new IsSelectedFunction(decision);
-			return TraVarTUtils.isNegativeLiteral(node) ? new Not(function) : function;
+			return TraVarTUtils.isNegativeLiteral(workingConstraint) ? new Not(function) : function;
 		}
-		throw new ConditionCreationException(String.format("Not supported condition type: %s", node));
+		throw new ConditionCreationException(String.format("Not supported condition type: %s", workingConstraint));
 	}
 
 	public static EnumDecision findEnumDecisionWithVisiblityCondition(final IDecisionModel dm,
