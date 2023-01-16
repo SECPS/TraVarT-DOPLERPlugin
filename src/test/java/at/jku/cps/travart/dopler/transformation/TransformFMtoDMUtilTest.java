@@ -10,19 +10,25 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import at.jku.cps.travart.core.helpers.TraVarTUtils;
 import at.jku.cps.travart.core.transformation.DefaultModelTransformationProperties;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
+import at.jku.cps.travart.dopler.decision.exc.ActionExecutionException;
 import at.jku.cps.travart.dopler.decision.exc.CircleInConditionException;
 import at.jku.cps.travart.dopler.decision.exc.ConditionCreationException;
 import at.jku.cps.travart.dopler.decision.factory.impl.DecisionModelFactory;
+import at.jku.cps.travart.dopler.decision.model.IAction;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.AllowAction;
@@ -32,11 +38,17 @@ import at.jku.cps.travart.dopler.decision.model.impl.DeSelectDecisionAction;
 import at.jku.cps.travart.dopler.decision.model.impl.DecisionValueCondition;
 import at.jku.cps.travart.dopler.decision.model.impl.DisAllowAction;
 import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.Equals;
+import at.jku.cps.travart.dopler.decision.model.impl.Greater;
+import at.jku.cps.travart.dopler.decision.model.impl.GreaterEquals;
 import at.jku.cps.travart.dopler.decision.model.impl.IsSelectedFunction;
 import at.jku.cps.travart.dopler.decision.model.impl.Not;
+import at.jku.cps.travart.dopler.decision.model.impl.Or;
+import at.jku.cps.travart.dopler.decision.model.impl.Range;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
 import at.jku.cps.travart.dopler.decision.model.impl.SelectDecisionAction;
 import at.jku.cps.travart.dopler.decision.model.impl.SetValueAction;
+import at.jku.cps.travart.dopler.decision.model.impl.StringValue;
 import at.jku.cps.travart.dopler.transformation.roundtrip.TransformFMtoDMUtil;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
@@ -44,11 +56,14 @@ import de.vill.model.Group;
 import de.vill.model.Group.GroupType;
 import de.vill.model.constraint.AndConstraint;
 import de.vill.model.constraint.Constraint;
+import de.vill.model.constraint.EquivalenceConstraint;
+import de.vill.model.constraint.GreaterEquationConstraint;
 import de.vill.model.constraint.ImplicationConstraint;
 import de.vill.model.constraint.LiteralConstraint;
 import de.vill.model.constraint.NotConstraint;
 import de.vill.model.constraint.OrConstraint;
 import de.vill.model.constraint.ParenthesisConstraint;
+import de.vill.model.expression.LiteralExpression;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 class TransformFMtoDMUtilTest {
@@ -56,9 +71,9 @@ class TransformFMtoDMUtilTest {
 	IDecisionModel dm;
 	FeatureModel fm;
 	String root = "root";
-	String childA = "childA";
-	String childB = "childB";
-	String childC = "childC";
+	static String childA = "childA";
+	static String childB = "childB";
+	static String childC = "childC";
 	Feature rootFeature;
 	Feature childAFeature;
 	Feature childBFeature;
@@ -738,7 +753,7 @@ class TransformFMtoDMUtilTest {
 		Set<Rule> ruleSetEnumC = enumCDec.getRules();
 		assertTrue(ruleSetEnumC.contains(controlSet.iterator().next()));
 	}
-	
+
 	@Test
 	void testConvertConstraintRecBoringBooleanToBooleanRequires() throws NotSupportedVariabilityTypeException,
 			ReflectiveOperationException, CircleInConditionException, ConditionCreationException {
@@ -759,7 +774,43 @@ class TransformFMtoDMUtilTest {
 
 	@Test
 	void testDeriveConditionFromConstraint() {
-		fail("Not yet implemented");
+
+	}
+
+	@ParameterizedTest
+	@MethodSource("constraintsToConvert")
+	public void testIsSatisfied(ICondition expectedResult, Constraint input)
+			throws ActionExecutionException, NotSupportedVariabilityTypeException, ConditionCreationException {
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		assertEquals(expectedResult.toString(), TransformFMtoDMUtil.deriveConditionFromConstraint(dm, input).toString());
+	}
+
+	private static Stream<Arguments> constraintsToConvert() {
+
+		return Stream.of(
+				Arguments.of(
+						new And(new IsSelectedFunction(new BooleanDecision(childA)),
+								new IsSelectedFunction(new BooleanDecision(childB))),
+						new AndConstraint(new LiteralConstraint(childA), new LiteralConstraint(childB))),
+				Arguments.of(
+						new Or(new IsSelectedFunction(new BooleanDecision(childA)),
+								new IsSelectedFunction(new BooleanDecision(childB))),
+						new OrConstraint(new LiteralConstraint(childA), new LiteralConstraint(childB))),
+				Arguments.of(
+						new Not(new And(new IsSelectedFunction(new BooleanDecision(childA)),
+								new IsSelectedFunction(new BooleanDecision(childB)))),
+						new NotConstraint(
+								new AndConstraint(new LiteralConstraint(childA), new LiteralConstraint(childB)))),
+				Arguments.of(
+						new Equals(new IsSelectedFunction(new BooleanDecision(childA)),
+								new IsSelectedFunction(new BooleanDecision(childB))),
+						new EquivalenceConstraint(new LiteralConstraint(childA), new LiteralConstraint(childB))),
+				Arguments.of(
+						new GreaterEquals(new IsSelectedFunction(new BooleanDecision(childA)),
+								new IsSelectedFunction(new BooleanDecision(childB))),
+						new GreaterEquationConstraint(new LiteralExpression(childA), new LiteralExpression(childB))));
+		// TODO This parameterised test includes input sets for (so far) unimplemented
+		// features. make sure to ignore them if they've not been implemented yet.
 	}
 
 	@Test
