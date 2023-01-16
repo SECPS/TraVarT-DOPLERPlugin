@@ -5,13 +5,15 @@ import at.jku.cps.travart.dopler.decision.model.ICondition;
 
 public class Not extends AUnaryCondition {
 
+	public static final String SYMBOL= "!";
+
 	public Not(ICondition value) {
 		super(value);
 	}
 
 	@Override
 	public String toString() {
-		return String.format("!%s", getOperand());
+		return String.format(SYMBOL+"%s", getOperand());
 	}
 
 	@Override
