@@ -7,6 +7,8 @@ import at.jku.cps.travart.dopler.decision.model.ICondition;
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class Less extends ABinaryCondition {
 
+	public static final String SYMBOL= "<";
+
 	public Less(final ICondition left, final ICondition right) {
 		super(left, right);
 	}
@@ -39,6 +41,6 @@ public class Less extends ABinaryCondition {
 
 	@Override
 	public String toString() {
-		return getLeft() + " < " + getRight();
+		return getLeft() + " "+SYMBOL+" " + getRight();
 	}
 }
