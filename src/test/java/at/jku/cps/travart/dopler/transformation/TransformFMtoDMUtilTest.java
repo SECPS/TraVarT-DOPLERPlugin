@@ -50,7 +50,7 @@ import de.vill.model.constraint.NotConstraint;
 import de.vill.model.constraint.OrConstraint;
 import de.vill.model.constraint.ParenthesisConstraint;
 
-@SuppressWarnings({"rawtypes","unchecked"})
+@SuppressWarnings({ "rawtypes", "unchecked" })
 class TransformFMtoDMUtilTest {
 	DecisionModelFactory factory;
 	IDecisionModel dm;
@@ -633,49 +633,128 @@ class TransformFMtoDMUtilTest {
 
 		assertEquals(controlSet, ruleSet);
 	}
-	
+
 	@Test
-	void testConvertConstraintRecRequiredForAllRule()
-			throws NotSupportedVariabilityTypeException, ReflectiveOperationException, CircleInConditionException, ConditionCreationException {
+	void testConvertConstraintRecRequiredForAllRule() throws NotSupportedVariabilityTypeException,
+			ReflectiveOperationException, CircleInConditionException, ConditionCreationException {
 		orGroup.GROUPTYPE = GroupType.OPTIONAL;
-		Constraint requiredForAllConstraint = new OrConstraint(new LiteralConstraint(childA),
-				new OrConstraint(new NotConstraint(new LiteralConstraint(childB)), new NotConstraint(new LiteralConstraint(childC))));
+		Constraint requiredForAllConstraint = new OrConstraint(new LiteralConstraint(childA), new OrConstraint(
+				new NotConstraint(new LiteralConstraint(childB)), new NotConstraint(new LiteralConstraint(childC))));
 		fm.getConstraints().add(requiredForAllConstraint);
 		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
 		TransformFMtoDMUtil.convertConstraintRec(factory, dm, fm, requiredForAllConstraint);
 		getDecisions(dm);
 		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
-		controlSet.add(new Rule(new And(new IsSelectedFunction(childBDec),new IsSelectedFunction(childCDec)),new SelectDecisionAction(childADec)));
+		controlSet.add(new Rule(new And(new IsSelectedFunction(childBDec), new IsSelectedFunction(childCDec)),
+				new SelectDecisionAction(childADec)));
 		Set<Rule> ruleSetB = childBDec.getRules();
 		Set<Rule> ruleSetC = childCDec.getRules();
 
 		assertEquals(controlSet, ruleSetB);
 		assertEquals(controlSet, ruleSetC);
 	}
-	
+
 	@Test
-	void testConvertConstraintRecEnumSourceRequires()
-			throws NotSupportedVariabilityTypeException, ReflectiveOperationException, CircleInConditionException, ConditionCreationException {
+	void testConvertConstraintRecEnumSourceRequires() throws NotSupportedVariabilityTypeException,
+			ReflectiveOperationException, CircleInConditionException, ConditionCreationException {
 		orGroup.GROUPTYPE = GroupType.OPTIONAL;
-		String childA1= "childA1";
-		String childA2= "childA2";
-		Feature childA1Feature= new Feature(childA1);
-		Feature childA2Feature= new Feature(childA2);
-		Group altGroup= new Group(GroupType.ALTERNATIVE);
+		String childA1 = "childA1";
+		String childA2 = "childA2";
+		Feature childA1Feature = new Feature(childA1);
+		Feature childA2Feature = new Feature(childA2);
+		Group altGroup = new Group(GroupType.ALTERNATIVE);
 		altGroup.getFeatures().add(childA1Feature);
 		altGroup.getFeatures().add(childA2Feature);
 		childAFeature.getChildren().add(altGroup);
-		Constraint enumRequiresConstraint = new OrConstraint(new LiteralConstraint(childC), new NotConstraint(new LiteralConstraint(childA)));
+		Constraint enumRequiresConstraint = new OrConstraint(new LiteralConstraint(childC),
+				new NotConstraint(new LiteralConstraint(childA)));
 		fm.getConstraints().add(enumRequiresConstraint);
 		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
-		TransformFMtoDMUtil.convertConstraintRec(factory, dm, fm,enumRequiresConstraint );
+		TransformFMtoDMUtil.convertConstraintRec(factory, dm, fm, enumRequiresConstraint);
 		getDecisions(dm);
 		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
-		IDecision enumADec=dm.get("childA#0");
-		controlSet.add(new Rule(new Not(new DecisionValueCondition(enumADec,((EnumDecision)enumADec).getNoneOption())),new SelectDecisionAction(childCDec)));
+		IDecision enumADec = dm.get("childA#0");
+		controlSet
+				.add(new Rule(new Not(new DecisionValueCondition(enumADec, ((EnumDecision) enumADec).getNoneOption())),
+						new SelectDecisionAction(childCDec)));
 		Set<Rule> ruleSetEnumA = enumADec.getRules();
 
 		assertTrue(ruleSetEnumA.contains(controlSet.iterator().next()));
+	}
+
+	@Test
+	void testConvertConstraintRecEnumWithOptionalParentSourceRequires() throws NotSupportedVariabilityTypeException,
+			ReflectiveOperationException, CircleInConditionException, ConditionCreationException {
+		orGroup.GROUPTYPE = GroupType.OPTIONAL;
+		String childA1 = "childA1";
+		String childA2 = "childA2";
+		String childAMand = "childAMand";
+		Feature childA1Feature = new Feature(childA1);
+		Feature childA2Feature = new Feature(childA2);
+		Feature childAMandFeature = new Feature(childAMand);
+		Group altGroup = new Group(GroupType.ALTERNATIVE);
+		Group mandGroup = new Group(GroupType.MANDATORY);
+		altGroup.getFeatures().add(childA1Feature);
+		altGroup.getFeatures().add(childA2Feature);
+		mandGroup.getFeatures().add(childAMandFeature);
+		childAMandFeature.getChildren().add(altGroup);
+		childAFeature.getChildren().add(mandGroup);
+		Constraint enumRequiresConstraint = new OrConstraint(new LiteralConstraint(childC),
+				new NotConstraint(new LiteralConstraint(childAMand)));
+		fm.getConstraints().add(enumRequiresConstraint);
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		TransformFMtoDMUtil.convertConstraintRec(factory, dm, fm, enumRequiresConstraint);
+		getDecisions(dm);
+		IDecision enumADec = dm.get(childAMand);
+		controlSet.add(new Rule(new IsSelectedFunction(dm.get(childAMand)), new SelectDecisionAction(childCDec)));
+		Set<Rule> ruleSetEnumA = enumADec.getRules();
+
+		assertTrue(ruleSetEnumA.contains(controlSet.iterator().next()));
+	}
+
+	@Test
+	void testConvertConstraintRecBooleanToEnumRequires() throws NotSupportedVariabilityTypeException,
+			ReflectiveOperationException, CircleInConditionException, ConditionCreationException {
+		orGroup.GROUPTYPE = GroupType.OPTIONAL;
+		String childA1 = "childA1";
+		String childA2 = "childA2";
+		Feature childA1Feature = new Feature(childA1);
+		Feature childA2Feature = new Feature(childA2);
+		Group altGroup = new Group(GroupType.ALTERNATIVE);
+		altGroup.getFeatures().add(childA1Feature);
+		altGroup.getFeatures().add(childA2Feature);
+		childAFeature.getChildren().add(altGroup);
+		Constraint enumRequiresConstraint = new OrConstraint(new LiteralConstraint(childA),
+				new NotConstraint(new LiteralConstraint(childC)));
+		fm.getConstraints().add(enumRequiresConstraint);
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		TransformFMtoDMUtil.convertConstraintRec(factory, dm, fm, enumRequiresConstraint);
+		getDecisions(dm);
+		IDecision enumCDec = dm.get(childC);
+
+		controlSet.add(new Rule(new IsSelectedFunction(enumCDec), new SelectDecisionAction(childADec)));
+		Set<Rule> ruleSetEnumC = enumCDec.getRules();
+		assertTrue(ruleSetEnumC.contains(controlSet.iterator().next()));
+	}
+	
+	@Test
+	void testConvertConstraintRecBoringBooleanToBooleanRequires() throws NotSupportedVariabilityTypeException,
+			ReflectiveOperationException, CircleInConditionException, ConditionCreationException {
+		orGroup.GROUPTYPE = GroupType.OPTIONAL;
+		Constraint enumRequiresConstraint = new OrConstraint(new LiteralConstraint(childA),
+				new NotConstraint(new LiteralConstraint(childC)));
+		fm.getConstraints().add(enumRequiresConstraint);
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		TransformFMtoDMUtil.convertConstraintRec(factory, dm, fm, enumRequiresConstraint);
+		getDecisions(dm);
+		IDecision enumCDec = dm.get(childC);
+
+		controlSet.add(new Rule(new IsSelectedFunction(enumCDec), new SelectDecisionAction(childADec)));
+		Set<Rule> ruleSetEnumC = enumCDec.getRules();
+		assertTrue(ruleSetEnumC.contains(controlSet.iterator().next()));
 	}
 
 	@Test
