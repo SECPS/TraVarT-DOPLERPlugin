@@ -899,6 +899,87 @@ class TransformFMtoDMUtilTest {
 		getDecisions(dm);		
 		assertTrue(TransformFMtoDMUtil.isEnumSubFeature(fm, childADec));
 	}
+	
+	@Test
+	void testIsEnumSubFeatureEnumFeature() throws NotSupportedVariabilityTypeException {
+		orGroup.GROUPTYPE=GroupType.ALTERNATIVE;
+		Group subEnumGroup= new Group(GroupType.ALTERNATIVE);
+		Feature A1= new Feature("A1");
+		Feature A2= new Feature("A2");
+		subEnumGroup.getFeatures().add(A1);
+		subEnumGroup.getFeatures().add(A2);
+		childAFeature.getChildren().add(subEnumGroup);
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		getDecisions(dm);		
+		assertTrue(TransformFMtoDMUtil.isEnumSubFeature(fm, dm.get(childA+"#0")));
+	}
+	
+	@Test
+	void testIsEnumFeatureAlternativeGroup() throws NotSupportedVariabilityTypeException {
+		orGroup.GROUPTYPE=GroupType.ALTERNATIVE;
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		getDecisions(dm);
+		assertFalse(TransformFMtoDMUtil.isEnumFeature(fm, childADec));
+		assertTrue(TransformFMtoDMUtil.isEnumFeature(fm, rootDec));
+	}
+	
+	@Test
+	void testIsEnumFeatureMandatoryGroup() throws NotSupportedVariabilityTypeException {
+		orGroup.GROUPTYPE=GroupType.MANDATORY;
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		getDecisions(dm);
+		assertFalse(TransformFMtoDMUtil.isEnumFeature(fm, childADec));
+	}
+	
+	@Test
+	void testIsEnumFeatureOptionalGroup() throws NotSupportedVariabilityTypeException {
+		orGroup.GROUPTYPE=GroupType.OPTIONAL;
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		getDecisions(dm);		
+		assertFalse(TransformFMtoDMUtil.isEnumFeature(fm, childADec));
+		assertFalse(TransformFMtoDMUtil.isEnumFeature(fm, rootDec));
+	}
+	
+	@Test
+	void testIsEnumFeatureOrGroup() throws NotSupportedVariabilityTypeException {
+		orGroup.GROUPTYPE=GroupType.OR;
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		getDecisions(dm);
+		assertFalse(TransformFMtoDMUtil.isEnumFeature(fm, childADec));
+		assertTrue(TransformFMtoDMUtil.isEnumFeature(fm, rootDec));
+	}
+	
+	@Test
+	void testIsEnumFeatureGroupCardinality() throws NotSupportedVariabilityTypeException {
+		orGroup.GROUPTYPE=GroupType.GROUP_CARDINALITY;
+		orGroup.setUpperBound(String.valueOf(1));
+		orGroup.setLowerBound(String.valueOf(1));
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		getDecisions(dm);		
+		assertFalse(TransformFMtoDMUtil.isEnumFeature(fm, childADec));
+		assertTrue(TransformFMtoDMUtil.isEnumFeature(fm, rootDec));
+	}
+	
+	@Test
+	void testIsEnumFeatureEnumFeature() throws NotSupportedVariabilityTypeException {
+		orGroup.GROUPTYPE=GroupType.ALTERNATIVE;
+		Group subEnumGroup= new Group(GroupType.ALTERNATIVE);
+		Feature A1= new Feature("A1");
+		Feature A2= new Feature("A2");
+		subEnumGroup.getFeatures().add(A1);
+		subEnumGroup.getFeatures().add(A2);
+		childAFeature.getChildren().add(subEnumGroup);
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		getDecisions(dm);
+		assertTrue(TransformFMtoDMUtil.isEnumFeature(fm, dm.get(childA+"#0")));
+	}
 
 	@Test
 	
