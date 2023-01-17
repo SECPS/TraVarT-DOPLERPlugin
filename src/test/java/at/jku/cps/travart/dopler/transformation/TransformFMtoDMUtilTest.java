@@ -814,46 +814,6 @@ class TransformFMtoDMUtilTest {
 	}
 
 	@Test
-	void testFindEnumDecisionWithVisiblityCondition() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testFindEnumDecisionByRangeValue() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testFindDecisionsForLiterals() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testUpdateRules() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testInvertRule() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testInvertCondition() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testIsEnumSubFeatureFeature() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testIsEnumSubFeatureFeatureModelIDecision() {
-		fail("Not yet implemented");
-	}
-
-	@Test
 	void testIsEnumSubFeatureAlternativeGroup() throws NotSupportedVariabilityTypeException {
 		orGroup.GROUPTYPE=GroupType.ALTERNATIVE;
 		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
@@ -981,20 +941,5 @@ class TransformFMtoDMUtilTest {
 		assertTrue(TransformFMtoDMUtil.isEnumFeature(fm, dm.get(childA+"#0")));
 	}
 
-	@Test
-	
-	void testDefineCardinality() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testDefineRange() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testConvertVisibilityCustomProperties() {
-		fail("Not yet implemented");
-	}
 
 }
