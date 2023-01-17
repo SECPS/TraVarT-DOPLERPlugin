@@ -783,6 +783,8 @@ class TransformFMtoDMUtilTest {
 			throws ActionExecutionException, NotSupportedVariabilityTypeException, ConditionCreationException {
 		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
 		assertEquals(expectedResult.toString(), TransformFMtoDMUtil.deriveConditionFromConstraint(dm, input).toString());
+		// TODO This parameterised test includes input sets for (so far) unimplemented
+		// features. Make sure to ignore them if they've not been implemented yet.
 	}
 
 	private static Stream<Arguments> constraintsToConvert() {
@@ -809,8 +811,6 @@ class TransformFMtoDMUtilTest {
 						new GreaterEquals(new IsSelectedFunction(new BooleanDecision(childA)),
 								new IsSelectedFunction(new BooleanDecision(childB))),
 						new GreaterEquationConstraint(new LiteralExpression(childA), new LiteralExpression(childB))));
-		// TODO This parameterised test includes input sets for (so far) unimplemented
-		// features. make sure to ignore them if they've not been implemented yet.
 	}
 
 	@Test
@@ -854,11 +854,54 @@ class TransformFMtoDMUtilTest {
 	}
 
 	@Test
-	void testIsEnumFeature() {
-		fail("Not yet implemented");
+	void testIsEnumSubFeatureAlternativeGroup() throws NotSupportedVariabilityTypeException {
+		orGroup.GROUPTYPE=GroupType.ALTERNATIVE;
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		getDecisions(dm);
+		assertTrue(TransformFMtoDMUtil.isEnumSubFeature(fm, childADec));
+	}
+	
+	@Test
+	void testIsEnumSubFeatureMandatoryGroup() throws NotSupportedVariabilityTypeException {
+		orGroup.GROUPTYPE=GroupType.MANDATORY;
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		getDecisions(dm);
+		assertFalse(TransformFMtoDMUtil.isEnumSubFeature(fm, childADec));
+	}
+	
+	@Test
+	void testIsEnumSubFeatureOptionalGroup() throws NotSupportedVariabilityTypeException {
+		orGroup.GROUPTYPE=GroupType.OPTIONAL;
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		getDecisions(dm);		
+		assertFalse(TransformFMtoDMUtil.isEnumSubFeature(fm, childADec));
+	}
+	
+	@Test
+	void testIsEnumSubFeatureOrGroup() throws NotSupportedVariabilityTypeException {
+		orGroup.GROUPTYPE=GroupType.OR;
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		getDecisions(dm);
+		assertTrue(TransformFMtoDMUtil.isEnumSubFeature(fm, childADec));
+	}
+	
+	@Test
+	void testIsEnumSubFeatureGroupCardinality() throws NotSupportedVariabilityTypeException {
+		orGroup.GROUPTYPE=GroupType.GROUP_CARDINALITY;
+		orGroup.setUpperBound(String.valueOf(1));
+		orGroup.setLowerBound(String.valueOf(1));
+		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
+		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
+		getDecisions(dm);		
+		assertTrue(TransformFMtoDMUtil.isEnumSubFeature(fm, childADec));
 	}
 
 	@Test
+	
 	void testDefineCardinality() {
 		fail("Not yet implemented");
 	}
