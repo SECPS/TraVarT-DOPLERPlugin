@@ -2,6 +2,11 @@ package at.jku.cps.travart.dopler.transformation;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,30 +33,34 @@ class TransformDMtoFMUtilTest {
 	EnumDecision flavors;
 	StringDecision name;
 	EnumDecision toppings;
+	Range<String> holderRange;
+	Range<Double> portionRange;
+	Range<String> flavorRange;
+	Range<String> topRange;
 	
 	FeatureModel fm;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		dm=factory.getInstance().create();
-		cream = new BooleanDecision("whipped cream?");
-		holder= new EnumDecision("What kind of holder?");
-		Range<String> holderRange= new Range<>();
-		holderRange.add(new StringValue("Edible cup"));
-		holderRange.add(new StringValue("plastic cup"));
-		holderRange.add(new StringValue("paper cup"));
+		cream = new BooleanDecision("whipped_cream");
+		holder= new EnumDecision("holder");
+		holderRange= new Range<>();
+		holderRange.add(new StringValue("edible_cup"));
+		holderRange.add(new StringValue("plastic_cup"));
+		holderRange.add(new StringValue("paper_cup"));
 		holder.setRange(holderRange);
 		holder.setCardinality(new Cardinality(1,1));
-		portions= new NumberDecision("how many portions?");
-		Range<Double> portionRange= new Range<>();
+		portions= new NumberDecision("portions");
+		portionRange= new Range<>();
 		portionRange.add(new DoubleValue(1));
 		portionRange.add(new DoubleValue(2));
 		portionRange.add(new DoubleValue(3));
 		portionRange.add(new DoubleValue(4));
 		portions.setRange(portionRange);
-		flavors= new EnumDecision("Flavors?");
+		flavors= new EnumDecision("flavors");
 		flavors.setCardinality(new Cardinality(1,4));
-		Range<String> flavorRange=new Range<>();
+		flavorRange=new Range<>();
 		flavorRange.add(new StringValue("vanilla"));
 		flavorRange.add(new StringValue("strawberry"));
 		flavorRange.add(new StringValue("chocolate"));
@@ -59,28 +68,35 @@ class TransformDMtoFMUtilTest {
 		flavorRange.add(new StringValue("banana"));
 		flavorRange.add(new StringValue("bubblegum"));
 		flavors.setRange(flavorRange);
-		toppings= new EnumDecision("Toppings?");
-		Range<String> topRange= new Range<>();
-		topRange.add(new StringValue("rainbow sprinkles"));
+		toppings= new EnumDecision("toppings");
+		topRange= new Range<>();
+		topRange.add(new StringValue("rainbow_sprinkles"));
 		topRange.add(new StringValue("cocoa"));
-		topRange.add(new StringValue("Smarties"));
-		topRange.add(new StringValue("gold flakes"));
-		topRange.add(toppings.getNoneOption());
+		topRange.add(new StringValue("smarties"));
+		topRange.add(new StringValue("gold_flakes"));
+//		topRange.add(toppings.getNoneOption());
 		toppings.setRange(topRange);
 		toppings.setCardinality(new Cardinality(0,4));
-		name=new StringDecision("your name?");	
+		name=new StringDecision("name");	
 		dm.add(cream);
 		dm.add(holder);
 		dm.add(portions);
 		dm.add(flavors);
-		dm.add(name);
 		dm.add(toppings);
-		fm= new FeatureModel();		
+		dm.add(name);
+		fm= new FeatureModel();
 	}
 
 	@Test
-	void testCreateFeatures() throws CircleInConditionException {
+	void testCreateFeaturesAreAllFeatureTypesPresent() throws CircleInConditionException {
 		TransformDMtoFMUtil.createFeatures(fm,dm);
+		Set<String> featureNames= new HashSet<>();
+		featureNames.addAll(Arrays.asList(cream.getName(),holder.getName(),flavors.getName(),toppings.getName(),
+				name.getName()));
+		featureNames.addAll(holderRange.stream().map(e->e.getValue()).collect(Collectors.toList()));
+		featureNames.addAll(flavorRange.stream().map(e->e.getValue()).collect(Collectors.toList()));
+		featureNames.addAll(topRange.stream().map(e->e.getValue()).collect(Collectors.toList()));
+		assertTrue(fm.getFeatureMap().keySet().containsAll(featureNames));
 	}
 
 	@Test
@@ -94,8 +110,10 @@ class TransformDMtoFMUtilTest {
 	}
 
 	@Test
-	void testCreateFeatureTree() {
-		fail("Not yet implemented");
+	void testCreateFeatureTree() throws CircleInConditionException {
+		TransformDMtoFMUtil.createFeatures(fm,dm);
+		TransformDMtoFMUtil.createFeatureTree(fm, dm);
+		System.out.println(fm.toString());
 	}
 
 	@Test
