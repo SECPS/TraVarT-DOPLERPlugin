@@ -49,5 +49,7 @@ public interface IDecisionModelFactory extends IFactory<DecisionModel> {
 
 	IAction createSelectDecisionAction(BooleanDecision decision);
 
+	IAction createDeSelectDecisionAction(BooleanDecision decision);
+
 	Rule createRule(ICondition condition, IAction action);
 }

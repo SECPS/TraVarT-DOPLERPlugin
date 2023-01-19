@@ -11,6 +11,7 @@ import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.And;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Cardinality;
+import at.jku.cps.travart.dopler.decision.model.impl.DeSelectDecisionAction;
 import at.jku.cps.travart.dopler.decision.model.impl.DoubleValue;
 import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Equals;
@@ -153,6 +154,11 @@ public class DecisionModelFactory implements IDecisionModelFactory {
 	@Override
 	public IAction createSelectDecisionAction(final BooleanDecision decision) {
 		return new SelectDecisionAction(decision);
+	}
+
+	@Override
+	public IAction createDeSelectDecisionAction(final BooleanDecision decision) {
+		return new DeSelectDecisionAction(decision);
 	}
 
 	@Override
