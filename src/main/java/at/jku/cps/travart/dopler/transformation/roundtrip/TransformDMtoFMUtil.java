@@ -65,6 +65,8 @@ public abstract class TransformDMtoFMUtil {
 			fm.getFeatureMap().put(featureName, feature);
 		}
 		// second add all Number decisions
+		// FIXME there's some issue with parent features for number decisions not being generated.
+		// this leads to issues in {@code createFeatureTree()} 
 		for (NumberDecision decision : DecisionModelUtils.getNumberDecisions(dm)) {
 			String featureName = retriveFeatureName(decision);
 			Feature feature = new Feature(featureName);
@@ -90,6 +92,7 @@ public abstract class TransformDMtoFMUtil {
 			// tree as well, not just the
 			// map.
 			feature.addChildren(alternativeGroup);
+			fm.getFeatureMap().put(featureName, feature);
 		}
 		// third add all String decisions
 		for (StringDecision decision : DecisionModelUtils.getStringDecisions(dm)) {
@@ -113,6 +116,10 @@ public abstract class TransformDMtoFMUtil {
 					enumGroup = new Group(GroupType.ALTERNATIVE);
 				} else if (cardinality.isOr()) {
 					enumGroup = new Group(GroupType.OR);
+				}else {
+					enumGroup=new Group(GroupType.GROUP_CARDINALITY);
+					enumGroup.setLowerBound(String.valueOf(cardinality.getMin()));
+					enumGroup.setUpperBound(String.valueOf(cardinality.getMax()));
 				}
 				for (Object o : decision.getRange()) {
 					IValue value = (IValue) o;

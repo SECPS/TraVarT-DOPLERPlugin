@@ -4,6 +4,7 @@ import at.jku.cps.travart.dopler.decision.model.ABinaryCondition;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 
 public class And extends ABinaryCondition {
+	public static final String SYMBOL= "&&";
 
 	public And(ICondition left, ICondition right) {
 		super(left, right);
@@ -16,6 +17,6 @@ public class And extends ABinaryCondition {
 
 	@Override
 	public String toString() {
-		return String.format("(%s && %s)", getLeft(), getRight());
+		return String.format("(%s "+SYMBOL+" %s)", getLeft(), getRight());
 	}
 }
