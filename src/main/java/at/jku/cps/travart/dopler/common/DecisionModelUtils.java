@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -126,6 +127,11 @@ public final class DecisionModelUtils {
 
 	public static Set<BooleanDecision> getBooleanDecisions(final IDecisionModel dm) {
 		return getDecisionType(dm, DecisionType.BOOLEAN, BooleanDecision.class);
+	}
+
+	@SuppressWarnings("rawtypes")
+	public static <T extends IDecision> Optional<T> getDecisionbyId(final Set<T> decisions, final String id) {
+		return Objects.requireNonNull(decisions).stream().filter(d -> id.equals(d.getId())).findFirst();
 	}
 
 	private static <T> Set<T> getDecisionType(final IDecisionModel dm, final ADecision.DecisionType type,
