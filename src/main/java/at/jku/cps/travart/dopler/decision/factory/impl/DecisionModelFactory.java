@@ -18,6 +18,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.Equals;
 import at.jku.cps.travart.dopler.decision.model.impl.GetValueFunction;
 import at.jku.cps.travart.dopler.decision.model.impl.IsSelectedFunction;
 import at.jku.cps.travart.dopler.decision.model.impl.IsTakenFunction;
+import at.jku.cps.travart.dopler.decision.model.impl.Not;
 import at.jku.cps.travart.dopler.decision.model.impl.NumberDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Range;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
@@ -138,6 +139,10 @@ public class DecisionModelFactory implements IDecisionModelFactory {
 	@Override
 	public And createAndCondition(final ICondition left, final ICondition right) {
 		return new And(left, right);
+	}
+
+	public Not createNotCondition(final ICondition value) {
+		return new Not(value);
 	}
 
 	@SuppressWarnings("rawtypes")

@@ -13,6 +13,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.GetValueFunction;
 import at.jku.cps.travart.dopler.decision.model.impl.IsSelectedFunction;
 import at.jku.cps.travart.dopler.decision.model.impl.IsTakenFunction;
+import at.jku.cps.travart.dopler.decision.model.impl.Not;
 import at.jku.cps.travart.dopler.decision.model.impl.NumberDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Range;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
@@ -41,6 +42,8 @@ public interface IDecisionModelFactory extends IFactory<DecisionModel> {
 	IsSelectedFunction createIsSelectedFunction(IDecision decision);
 
 	And createAndCondition(ICondition left, ICondition right);
+
+	Not createNotCondition(ICondition value);
 
 	@SuppressWarnings("rawtypes")
 	GetValueFunction createGetValueFunction(IDecision decision);

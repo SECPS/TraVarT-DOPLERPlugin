@@ -59,7 +59,7 @@ public final class DecisionModelUtils {
 		Builder builder = CSVFormat.EXCEL.builder();
 		builder.setDelimiter(DELIMITER);
 		builder.setHeader(DMCSVHeader.stringArray());
-		builder.setSkipHeaderRecord(true);
+		builder.setSkipHeaderRecord(false);
 		return builder.build();
 	}
 
