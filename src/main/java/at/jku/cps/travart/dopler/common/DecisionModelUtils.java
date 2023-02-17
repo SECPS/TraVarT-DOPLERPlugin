@@ -428,12 +428,12 @@ public final class DecisionModelUtils {
 	}
 
 	public static void logModelStatistics(final Logger logger, final IDecisionModel dm) {
-		logger.log(Level.INFO, String.format("Name: %s", dm.getName()));
-		logger.log(Level.INFO, String.format("#Decisons: %s", getNumberOfDecisions(dm)));
-		logger.log(Level.INFO, String.format("#Rules: %s", countRules(dm)));
-		logger.log(Level.INFO, String.format("#Rule Conditions: %s", getConditonsCount(dm)));
-		logger.log(Level.INFO, String.format("#Actions: %s", countActions(dm)));
-		logger.log(Level.INFO, String.format("#Visibility Conditions: %s", countComplexVisibilityConditions(dm)));
+		logger.log(Level.INFO, "Name: {0}", dm.getName());
+		logger.log(Level.INFO, "#Decisons: {0}", getNumberOfDecisions(dm));
+		logger.log(Level.INFO, "#Rules: {0}", countRules(dm));
+		logger.log(Level.INFO, "#Rule Conditions: {0}", getConditonsCount(dm));
+		logger.log(Level.INFO, "#Actions: {0}", countActions(dm));
+		logger.log(Level.INFO, "#Visibility Conditions: {0}", countComplexVisibilityConditions(dm));
 	}
 
 	public static String getDecisionModelName(final IDecisionModel dm) {
