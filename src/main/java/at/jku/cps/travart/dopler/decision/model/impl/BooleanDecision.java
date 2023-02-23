@@ -46,11 +46,11 @@ public class BooleanDecision extends ADecision<Boolean> {
 		return range;
 	}
 
-	/**
-	 * Does nothing as a boolean has a defined set of values
-	 */
 	@Override
 	public void setRange(final Range<Boolean> range) {
+		/**
+		 * Does nothing as a boolean has a defined set of values
+		 */
 	}
 
 	@Override

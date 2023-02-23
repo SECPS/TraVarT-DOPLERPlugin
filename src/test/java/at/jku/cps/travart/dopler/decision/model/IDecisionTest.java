@@ -14,7 +14,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import at.jku.cps.travart.dopler.decision.exc.ActionExecutionException;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
 import at.jku.cps.travart.dopler.decision.model.impl.AllowAction;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
@@ -33,13 +32,13 @@ public class IDecisionTest {
 
 	@ParameterizedTest
 	@MethodSource("instancesToTest")
-	public void testIsSelected(IDecision dec) {
+	public void testIsSelected(final IDecision dec) {
 		assertFalse(dec.isSelected());
 	}
 
 	@ParameterizedTest
 	@MethodSource("instancesToTest")
-	public void testSetSelected(IDecision dec) {
+	public void testSetSelected(final IDecision dec) {
 		assertFalse(dec.isSelected());
 		dec.setSelected(true);
 		assertTrue(dec.isSelected());
@@ -49,13 +48,13 @@ public class IDecisionTest {
 
 	@ParameterizedTest
 	@MethodSource("instancesToTest")
-	public void testGetId(IDecision dec) {
+	public void testGetId(final IDecision dec) {
 		assertEquals("test", dec.getId());
 	}
 
 	@ParameterizedTest
 	@MethodSource("instancesToTest")
-	public void testSetGetQuestion(IDecision dec) {
+	public void testSetGetQuestion(final IDecision dec) {
 		assertEquals("", dec.getQuestion());
 		String t = "test";
 		dec.setQuestion(t);
@@ -64,7 +63,7 @@ public class IDecisionTest {
 
 	@ParameterizedTest
 	@MethodSource("instancesToTest")
-	public void testSetGetDescription(IDecision dec) {
+	public void testSetGetDescription(final IDecision dec) {
 		assertEquals("", dec.getDescription());
 		String t = "test";
 		dec.setDescription(t);
@@ -73,13 +72,13 @@ public class IDecisionTest {
 
 	@ParameterizedTest
 	@MethodSource("instancesToTest")
-	public void testGetType(IDecision dec) {
+	public void testGetType(final IDecision dec) {
 		assertNotNull(dec.getType());
 	}
 
 	@ParameterizedTest
 	@MethodSource("instancesToTest")
-	public void testGetRange(IDecision dec) {
+	public void testGetRange(final IDecision dec) {
 		if (dec instanceof BooleanDecision) {
 			Range r = new Range();
 			r.add(BooleanValue.getFalse());
@@ -92,7 +91,7 @@ public class IDecisionTest {
 
 	@ParameterizedTest
 	@MethodSource("instancesToTest")
-	public void testGetRangeValue(IDecision dec) throws RangeValueException {
+	public void testGetRangeValue(final IDecision dec) throws RangeValueException {
 		dec.reset();
 		if (dec instanceof BooleanDecision) {
 			assertNotNull(dec.getRangeValue(false));
@@ -109,30 +108,30 @@ public class IDecisionTest {
 
 	@ParameterizedTest
 	@MethodSource("instancesToTest")
-	public void testContainsRangeValue(IDecision dec) {
+	public void testContainsRangeValue(final IDecision dec) {
 		assertFalse(dec.getRange().contains(new StringValue("test")));
 	}
 
 	@ParameterizedTest
 	@MethodSource("instancesToTest")
-	public void testGetRules(IDecision dec) {
+	public void testGetRules(final IDecision dec) {
 		assertTrue(dec.getRules().isEmpty());
 	}
 
-	@ParameterizedTest
-	@MethodSource("instancesToTest")
-	public void testExecuteRules(IDecision dec) {
-		try {
-			dec.executeRules();
-		} catch (ActionExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	@ParameterizedTest
+//	@MethodSource("instancesToTest")
+//	public void testExecuteRules(IDecision dec) {
+//		try {
+//			dec.executeRules();
+//		} catch (ActionExecutionException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 
 	@ParameterizedTest
 	@MethodSource("instancesToTest")
-	public void testAddRule(IDecision dec) throws RangeValueException {
+	public void testAddRule(final IDecision dec) throws RangeValueException {
 		Rule r = new Rule(ICondition.TRUE, new AllowAction(dec, new StringValue("test")));
 		dec.addRule(r);
 		assertTrue(dec.getRules().contains(r));
@@ -141,7 +140,7 @@ public class IDecisionTest {
 
 	@ParameterizedTest
 	@MethodSource("instancesToTest")
-	public void testAddRules(IDecision dec) {
+	public void testAddRules(final IDecision dec) {
 		Set<Rule> sr = new HashSet<>();
 		Rule r1 = new Rule(ICondition.TRUE, new SetValueAction(dec, new StringValue("test")));
 		Rule r2 = new Rule(ICondition.TRUE, new SetValueAction(dec, new StringValue("test2")));
@@ -156,7 +155,7 @@ public class IDecisionTest {
 
 	@ParameterizedTest
 	@MethodSource("instancesToTest")
-	public void testRemoveRule(IDecision dec) {
+	public void testRemoveRule(final IDecision dec) {
 		Set<Rule> sr = new HashSet<>();
 		Rule r1 = new Rule(ICondition.TRUE, new SetValueAction(dec, new StringValue("test")));
 		Rule r2 = new Rule(ICondition.TRUE, new SetValueAction(dec, new StringValue("test2")));
@@ -175,7 +174,7 @@ public class IDecisionTest {
 
 	@ParameterizedTest
 	@MethodSource("instancesToTest")
-	public void testSetRules(IDecision dec) {
+	public void testSetRules(final IDecision dec) {
 		Set<Rule> sr = new HashSet<>();
 		Rule r1 = new Rule(ICondition.TRUE, new SetValueAction(dec, new StringValue("test")));
 		Rule r2 = new Rule(ICondition.TRUE, new SetValueAction(dec, new StringValue("test2")));
@@ -194,20 +193,20 @@ public class IDecisionTest {
 
 	@ParameterizedTest
 	@MethodSource("instancesToTest")
-	public void testGetVisibility(IDecision dec) {
+	public void testGetVisibility(final IDecision dec) {
 		assertNotNull(dec.getVisiblity());
 	}
 
 	@ParameterizedTest
 	@MethodSource("instancesToTest")
-	public void testSetVisibility(IDecision dec) {
+	public void testSetVisibility(final IDecision dec) {
 		dec.setVisibility(ICondition.TRUE);
 		assertEquals(ICondition.TRUE, dec.getVisiblity());
 	}
 
 	@ParameterizedTest
 	@MethodSource("instancesToTest")
-	public void testReset(IDecision dec) throws Throwable {
+	public void testReset(final IDecision dec) throws Throwable {
 		dec.reset();
 		if (dec instanceof BooleanDecision) {
 			assertNotNull(dec.getValue());

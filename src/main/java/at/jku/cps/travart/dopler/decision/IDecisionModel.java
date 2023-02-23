@@ -5,7 +5,6 @@ import java.util.Map;
 
 import at.jku.cps.travart.core.common.IConfigurable;
 import at.jku.cps.travart.core.common.IValidate;
-import at.jku.cps.travart.dopler.decision.exc.ActionExecutionException;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 
@@ -35,8 +34,6 @@ public interface IDecisionModel extends IValidate {
 	void setName(String name);
 
 	String getName();
-
-	void executeRules() throws ActionExecutionException;
 
 	@SuppressWarnings("rawtypes")
 	void add(IDecision decision);

@@ -56,11 +56,15 @@ public abstract class ADecision<T> implements IDecision<T> {
 	}
 
 	@Override
-	public final void executeRules() throws ActionExecutionException {
-		for (Rule rule : getRules()) {
-			if (rule.getCondition().evaluate() && !rule.getAction().isSatisfied()) {
-				rule.getAction().execute();
+	public final void executeRules() {
+		try {
+			for (Rule rule : getRules()) {
+				if (rule.getCondition().evaluate() && !rule.getAction().isSatisfied()) {
+					rule.getAction().execute();
+				}
 			}
+		} catch (ActionExecutionException e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -141,7 +145,7 @@ public abstract class ADecision<T> implements IDecision<T> {
 
 	@Override
 	public String getName() {
-		return id;
+		return getId();
 	}
 
 	@Override
@@ -178,10 +182,7 @@ public abstract class ADecision<T> implements IDecision<T> {
 			return false;
 		}
 		ADecision other = (ADecision) obj;
-		if (!Objects.equals(id, other.id) || !Objects.equals(type, other.type) || !Objects.equals(rules, other.rules)
-				|| !Objects.equals(visibility, other.visibility)) {
-			return false;
-		}
-		return true;
+		return Objects.equals(id, other.id) && Objects.equals(type, other.type) && Objects.equals(rules, other.rules)
+				&& Objects.equals(visibility, other.visibility);
 	}
 }

@@ -3,6 +3,7 @@ package at.jku.cps.travart.dopler.common;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -34,6 +35,7 @@ import at.jku.cps.travart.dopler.decision.model.IRangeValue;
 import at.jku.cps.travart.dopler.decision.model.IValue;
 import at.jku.cps.travart.dopler.decision.model.impl.And;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.DeSelectDecisionAction;
 import at.jku.cps.travart.dopler.decision.model.impl.DecisionValueCondition;
 import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Equals;
@@ -46,6 +48,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.LessEquals;
 import at.jku.cps.travart.dopler.decision.model.impl.Not;
 import at.jku.cps.travart.dopler.decision.model.impl.NumberDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
+import at.jku.cps.travart.dopler.decision.model.impl.SelectDecisionAction;
 import at.jku.cps.travart.dopler.decision.model.impl.StringDecision;
 
 public final class DecisionModelUtils {
@@ -508,5 +511,51 @@ public final class DecisionModelUtils {
 	 */
 	public static void addDecision(final DecisionModel dm, final BooleanDecision decision) {
 		Objects.requireNonNull(dm).add(Objects.requireNonNull(decision));
+	}
+
+	@SuppressWarnings("rawtypes")
+	public static boolean allVisisbleDecisionsAreSelected(final Collection<IDecision<?>> decisions) {
+		boolean result = true;
+		for (IDecision decision : decisions) {
+			if (decision.isVisible()) {
+				result = result && decision.isSelected();
+			}
+		}
+		return result;
+	}
+
+	public static boolean definesMandatoryConstraint(final IDecision<?> decision) {
+		for (Rule rule : decision.getRules()) {
+			if (rule.getCondition() instanceof Not && rule.getAction() instanceof SelectDecisionAction) {
+				Not condition = (Not) rule.getCondition();
+				if (condition.getOperand() instanceof IsSelectedFunction) {
+					IsSelectedFunction function = (IsSelectedFunction) condition.getOperand();
+					SelectDecisionAction action = (SelectDecisionAction) rule.getAction();
+					if (decision.equals(function.getParameters().get(0)) && decision.equals(action.getVariable())) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	public static boolean isRequiresRule(final IDecision<?> decision, final Rule rule) {
+		return rule.getCondition() instanceof IsSelectedFunction && rule.getAction() instanceof SelectDecisionAction
+				&& decision.equals(((IsSelectedFunction) rule.getCondition()).getParameters().get(0));
+	}
+
+	public static boolean definesExcludesConstraint(final IDecision<?> decision) {
+		for (Rule rule : decision.getRules()) {
+			if (isExcludesRule(decision, rule)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static boolean isExcludesRule(final IDecision<?> decision, final Rule rule) {
+		return rule.getCondition() instanceof IsSelectedFunction && rule.getAction() instanceof DeSelectDecisionAction
+				&& decision.equals(((IsSelectedFunction) rule.getCondition()).getParameters().get(0));
 	}
 }

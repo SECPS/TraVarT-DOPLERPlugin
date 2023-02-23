@@ -1,5 +1,6 @@
 package at.jku.cps.travart.dopler.sampling;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -22,9 +23,12 @@ import at.jku.cps.travart.dopler.decision.model.ADecision;
 import at.jku.cps.travart.dopler.decision.model.ADecision.DecisionType;
 import at.jku.cps.travart.dopler.decision.model.ARangeValue;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
-import at.jku.cps.travart.dopler.decision.model.impl.BooleanValue;
+import at.jku.cps.travart.dopler.decision.model.IValue;
+import at.jku.cps.travart.dopler.decision.model.impl.DeSelectDecisionAction;
 import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.NumberDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.Rule;
+import at.jku.cps.travart.dopler.decision.model.impl.SelectDecisionAction;
 import at.jku.cps.travart.dopler.transformation.DefaultDecisionModelTransformationProperties;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -35,7 +39,7 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 	private Set<Map<IConfigurable, Boolean>> validConfigs;
 	private Set<Map<IConfigurable, Boolean>> invalidConfigs;
 	private IDecisionModel lastDm;
-	private int configcounter;
+	private long configcounter;
 	private long maxNumberOfValidConfigs;
 
 	public DecisionModelSampler(final long maxNumberOfValidConfigs) {
@@ -97,8 +101,8 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 			lastDm = dm;
 			configcounter = 0;
 			validConfigs = new HashSet<>();
-			invalidConfigs = new HashSet<>();
-			createConfigurations(dm, DecisionModelUtils.getSelectableDecisions(dm));
+//			invalidConfigs = new HashSet<>();
+			createConfigurations(dm, dm.getDecisions()); // .getSelectableDecisions(dm));
 //			createConfigurations(dm, DecisionModelUtils.getVisibleDecisions(dm));
 			System.out.println("Configurations generated: " + configcounter);
 		} catch (NotSupportedVariabilityTypeException | RangeValueException | ActionExecutionException
@@ -107,7 +111,7 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 		}
 	}
 
-	private void createConfigurations(final IDecisionModel dm, final Set<IDecision> decisions)
+	private void createConfigurations(final IDecisionModel dm, final Collection<IDecision<?>> decisions)
 			throws NotSupportedVariabilityTypeException, RangeValueException, ActionExecutionException,
 			UnsatisfiedCardinalityException {
 		// cancel if max number of valid configurations is reached
@@ -115,50 +119,75 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 			return;
 		}
 		configcounter++;
-		if (dm.isValid() && DecisionModelUtils.allDecisionsAreSelected(decisions)) {
+		if (dm.isValid()) { // && DecisionModelUtils.allVisisbleDecisionsAreSelected(decisions)) {
 			Map<IConfigurable, Boolean> validConfig = getCurrentConfigurationInclValues(dm);
 			validConfigs.add(validConfig);
-			deriveInvalidConfigs(validConfig);
+//			deriveInvalidConfigs(validConfig);
 		}
-		Set<IDecision> nextDecisions = new LinkedHashSet<>(decisions);
-		Iterator<IDecision> decisionIterator = nextDecisions.iterator();
+		Set<IDecision<?>> nextDecisions = new LinkedHashSet<>(decisions);
+		Iterator<IDecision<?>> decisionIterator = nextDecisions.iterator();
 		while (decisionIterator.hasNext()) {
 			IDecision decision = decisionIterator.next();
 			decisionIterator.remove();
-			if (!(decision.getType() == ADecision.DecisionType.ENUM)) {
-				for (Object o : decision.getRange()) {
-					ARangeValue rangeValue = (ARangeValue) o;
-					decision.setValue(rangeValue.getValue());
-					if (decision.getType() == ADecision.DecisionType.BOOLEAN && decision.isSelected()
-							&& !decision.isVisible()) {
-						decision.setValue(BooleanValue.getFalse().getValue());
-					} else if (decision.getType() == ADecision.DecisionType.NUMBER && decision.isSelected()
-							&& !decision.isVisible()) {
-						decision.reset();
-					} else {
-						afterValueSelection(dm, decision);
-					}
-//					decision.executeRules();
-					createConfigurations(dm, nextDecisions);
+//			if (decision.getType() != ADecision.DecisionType.ENUM) {
+			for (Object o : decision.getRange()) {
+				ARangeValue rangeValue = (ARangeValue) o;
+				IValue prevValue = decision.getValue();
+				decision.setValue(rangeValue.getValue());
+				if (!canBeValid(decision)) {
+					decision.setValue(prevValue);
+					return;
 				}
-			} else {
-				EnumDecision enumDecision = (EnumDecision) decision;
-				int minSelectedValues = enumDecision.getCardinality().getMin();
-				int maxSelectedValues = enumDecision.getCardinality().getMax();
-				Set<Set<ARangeValue<String>>> valueSets = DecisionModelUtils
-						.powerSetWithMinAndMax(enumDecision.getRange(), minSelectedValues, maxSelectedValues);
-				for (Set<ARangeValue<String>> values : valueSets) {
-					enumDecision.setValues(values);
-					if (decision.isSelected() && !decision.isVisible()) {
-						decision.reset();
-					}
-//					else {
-//						decision.executeRules();
+//					if (decision.getType() == ADecision.DecisionType.BOOLEAN && decision.isSelected()
+//							&& !decision.isVisible()) {
+//						decision.setValue(BooleanValue.getFalse().getValue());
+//					} else if (decision.getType() == ADecision.DecisionType.NUMBER && decision.isSelected()
+//							&& !decision.isVisible()) {
+//						decision.reset();
+//					} else {
+//						afterValueSelection(dm, decision);
 //					}
-					createConfigurations(dm, nextDecisions);
+//					decision.executeRules();
+				createConfigurations(dm, nextDecisions);
+			}
+//			} else {
+//				EnumDecision enumDecision = (EnumDecision) decision;
+//				int minSelectedValues = enumDecision.getCardinality().getMin();
+//				int maxSelectedValues = enumDecision.getCardinality().getMax();
+//				Set<Set<ARangeValue<String>>> valueSets = DecisionModelUtils
+//						.powerSetWithMinAndMax(enumDecision.getRange(), minSelectedValues, maxSelectedValues);
+//				for (Set<ARangeValue<String>> values : valueSets) {
+//					enumDecision.setValues(values);
+//					if (decision.isSelected() && !decision.isVisible()) {
+//						decision.reset();
+//					}
+////					else {
+////						decision.executeRules();
+////					}
+//					createConfigurations(dm, nextDecisions);
+//				}
+//			}
+		}
+	}
+
+	private boolean canBeValid(final IDecision decision) {
+		for (Object o : decision.getRules()) {
+			Rule rule = (Rule) o;
+			if (rule.getCondition().evaluate()) {
+				if (rule.getAction() instanceof SelectDecisionAction) {
+					SelectDecisionAction action = (SelectDecisionAction) rule.getAction();
+					if (!action.getVariable().isSelected()) {
+						return false;
+					}
+				} else if (rule.getAction() instanceof DeSelectDecisionAction) {
+					DeSelectDecisionAction action = (DeSelectDecisionAction) rule.getAction();
+					if (action.getVariable().isSelected()) {
+						return false;
+					}
 				}
 			}
 		}
+		return true;
 	}
 
 	private void deriveInvalidConfigs(final Map<IConfigurable, Boolean> config)
@@ -302,8 +331,7 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 					}
 				}
 			}
-			boolean valid = dm.isValid();
-			return valid;
+			return dm.isValid();
 		} catch (RangeValueException | UnsatisfiedCardinalityException e) {
 			throw new NotSupportedVariabilityTypeException(e);
 		}
@@ -334,8 +362,8 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 					}
 				}
 			}
-			dm.executeRules();
-		} catch (RangeValueException | ActionExecutionException | UnsatisfiedCardinalityException e) {
+//			dm.executeRules();
+		} catch (RangeValueException | UnsatisfiedCardinalityException e) {
 			throw new NotSupportedVariabilityTypeException(e);
 		}
 	}

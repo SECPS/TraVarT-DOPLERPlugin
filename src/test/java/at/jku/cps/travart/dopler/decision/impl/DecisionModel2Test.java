@@ -14,7 +14,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import at.jku.cps.travart.core.common.IConfigurable;
-import at.jku.cps.travart.dopler.common.DecisionModelUtils;
 import at.jku.cps.travart.dopler.decision.exc.ActionExecutionException;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
 import at.jku.cps.travart.dopler.decision.factory.impl.DecisionModelFactory;
@@ -125,7 +124,6 @@ public class DecisionModel2Test {
 		ed.getRange().add(sv);
 		bd.addRule(new Rule(ICondition.TRUE, new SetValueAction(ed, sv)));
 		bd.setSelected(true);
-		dm.executeRules();
 		assertEquals(sv, ed.getValue());
 	}
 
@@ -272,7 +270,7 @@ public class DecisionModel2Test {
 		nd.getRange().add(dv);
 		bd.addRule(new Rule(ICondition.TRUE, new DisAllowAction(nd, dv)));
 
-		assertFalse(dm.isValid(),"A Rule's condition is met, but its Action is not satisfied.");
+		assertFalse(dm.isValid(), "A Rule's condition is met, but its Action is not satisfied.");
 	}
 
 	@Test
@@ -324,11 +322,11 @@ public class DecisionModel2Test {
 		controlMap.put(nd, true);
 		controlMap.put(ed, false);
 		controlMap.put(sd, false);
-		assertEquals(controlMap,
-				dm.getCurrentConfiguration(),(controlMap.toString() + " should equal " + dm.getCurrentConfiguration().toString()));
+		assertEquals(controlMap, dm.getCurrentConfiguration(),
+				controlMap.toString() + " should equal " + dm.getCurrentConfiguration().toString());
 		bd.setSelected(false);
-		assertNotEquals(
-				controlMap, dm.getCurrentConfiguration(),controlMap.toString() + " should not equal " + dm.getCurrentConfiguration().toString());
+		assertNotEquals(controlMap, dm.getCurrentConfiguration(),
+				controlMap.toString() + " should not equal " + dm.getCurrentConfiguration().toString());
 	}
 
 	@Test
@@ -341,7 +339,7 @@ public class DecisionModel2Test {
 		controlMap.put(ed, false);
 		controlMap.put(sd, false);
 		bd.setSelected(false);
-		assertNotEquals(
-				controlMap, dm.getCurrentConfiguration(),controlMap.toString() + " should not equal " + dm.getCurrentConfiguration().toString());
+		assertNotEquals(controlMap, dm.getCurrentConfiguration(),
+				controlMap.toString() + " should not equal " + dm.getCurrentConfiguration().toString());
 	}
 }

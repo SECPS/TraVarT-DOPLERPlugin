@@ -16,10 +16,7 @@ import at.jku.cps.travart.dopler.decision.model.ADecision;
 import at.jku.cps.travart.dopler.decision.model.ARangeValue;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
-import at.jku.cps.travart.dopler.decision.model.IEnumerationDecision;
-import at.jku.cps.travart.dopler.decision.model.impl.AllowAction;
 import at.jku.cps.travart.dopler.decision.model.impl.And;
-import at.jku.cps.travart.dopler.decision.model.impl.DisAllowAction;
 import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.IsSelectedFunction;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
@@ -43,16 +40,6 @@ public final class DecisionModel implements IDecisionModel {
 		this.factoryId = Objects.requireNonNull(factoryId);
 		this.name = Objects.requireNonNull(name);
 		decisions = new HashMap<>();
-	}
-
-	// TODO: remove, should be done by the decision
-	@Override
-	public final void executeRules() throws ActionExecutionException {
-		for (IDecision decision : getDecisions()) {
-			if (decision.isSelected()) {
-				decision.executeRules();
-			}
-		}
 	}
 
 	@Override
@@ -171,75 +158,21 @@ public final class DecisionModel implements IDecisionModel {
 	@Override
 	public boolean isValid() {
 		try {
-			if (DecisionModelUtils.getSelectedDecisions(this).isEmpty()) {
-				return false;
-			}
 			for (IDecision decision : getDecisions()) {
-				if (decision.isSelected() && decision.getVisiblity() != ICondition.FALSE) {
-					// if selected, the decision must be visible as well, as long the decision is no
-					// mandatory feature or a decision based on a Enum value
-					if (!decision.isVisible()
-							&& !DecisionModelUtils.isMandatoryVisibilityCondition(decision.getVisiblity())
-							|| DecisionModelUtils.isMandatoryVisibilityCondition(decision.getVisiblity())
-									&& !DecisionModelUtils.retriveMandatoryVisibilityCondition(decision.getVisiblity())
-											.isSelected()) {
-						return false;
-					}
-					// enumeration decision always must have a value, if they are selected (if
-					// optional they have the none
-					// value); values set of enumerations isn't allowed to be empty.
-					if (decision instanceof EnumDecision && ((EnumDecision) decision).getValues().isEmpty()) {
-						return false;
-					}
-				}
-				// if decision is a transformed constraint enumeration, it must be some sort of
-				// selected if visible
-				if (DecisionModelUtils.isEnumDecisionConstraint(decision) && decision.isVisible()) {
-					if (!decision.isSelected()) {
-						return false;
-					}
-					EnumDecision enumD = (EnumDecision) decision;
-					if (enumD.getValues().isEmpty()) {
-						return false;
-					}
-					for (ARangeValue<String> value : enumD.getValues()) {
-						IDecision selected = get(value.getValue());
-						if (!selected.isSelected()) {
-							return false;
-						}
-					}
+				// when a decision is visible it must be taken too
+				if (decision.isVisible() && !decision.isTaken()) {
+					return false;
 				}
 				// if selected, all rules must be satisfied, if the rule condition holds
-				for (Object o : decision.getRules()) {
-					Rule rule = (Rule) o;
-					if (rule.getCondition().evaluate()) {
-						// test if the rule actions are satisfied
-						// TODO: Review: A value may be allowed by setting another value, but it can be
-						// disallowed by other conditions, so the only actions to be checked are all
-						// others than AllowFunctions
-						// TODO: Different interpretation of the AllowFunction and the DisAllowFunction.
-						// As long the actual value is different the model is valid. Enabled flag for
-						// configurators
-						if (rule.getAction() instanceof AllowAction) {
-							// nothing to do here
-						} else if (rule.getAction() instanceof DisAllowAction) {
-							DisAllowAction daf = (DisAllowAction) rule.getAction();
-							if (daf.getVariable() instanceof IEnumerationDecision) {
-								IEnumerationDecision variable = (IEnumerationDecision) daf.getVariable();
-								if (variable.getValues().contains(daf.getValue())) {
-									return false;
-								}
-							} else {
-								IDecision variable = daf.getVariable();
-								if (!variable.getValue().equals(daf.getValue())) {
-									return false;
-								}
-							}
-						} else if (!rule.getAction().isSatisfied()) {
+				if (decision.isTaken()) {
+					for (Object o : decision.getRules()) {
+						Rule rule = (Rule) o;
+						if (rule.getCondition().evaluate() && !rule.getAction().isSatisfied()) {
 							return false;
 						}
 					}
 				}
+
 			}
 			return true;
 		} catch (ActionExecutionException e) {
@@ -304,13 +237,7 @@ public final class DecisionModel implements IDecisionModel {
 			return false;
 		}
 		DecisionModel other = (DecisionModel) o;
-		if (!name.equals(other.name)) {
-			return false;
-		}
-		if (size() != other.size()) {
-			return false;
-		}
-		if (!containsAll(other.getDecisions())) {
+		if (!name.equals(other.name) || size() != other.size() || !containsAll(other.getDecisions())) {
 			return false;
 		}
 		return true;

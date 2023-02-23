@@ -358,8 +358,8 @@ public class DecisionModelTest {
 		dm.add(d1);
 		dm.add(d2);
 		d1.setValue(false);
-		d1.executeRules();
-		assertEquals(BooleanValue.getFalse(), d1.getValue(),"BooleanDecision value should be changed to false.");
+		// d1.executeRules();
+		assertEquals(BooleanValue.getFalse(), d1.getValue(), "BooleanDecision value should be changed to false.");
 		StringValue s1 = new StringValue("myVal");
 		StringValue s2 = new StringValue("myVal2");
 		StringValue s3 = new StringValue("myVal3");
@@ -368,10 +368,11 @@ public class DecisionModelTest {
 		r.add(s2);
 		d2.setRange(r);
 		d2.setValue(s2.getValue());
-		d2.executeRules();
-		assertNotEquals(d2.getValue(), s1,"s2 was set as value, so s1 should not be the value here.");
-		assertEquals(d2.getValue(), s2,"s2 is the value set by the function and should therefore be the value of d2.");
-		assertThrows(RangeValueException.class, () -> d2.setValue(s3.getValue()),"Should throw a RangeValueException, because s3 is not part of d2's range.");
+//		d2.executeRules();
+		assertNotEquals(d2.getValue(), s1, "s2 was set as value, so s1 should not be the value here.");
+		assertEquals(d2.getValue(), s2, "s2 is the value set by the function and should therefore be the value of d2.");
+		assertThrows(RangeValueException.class, () -> d2.setValue(s3.getValue()),
+				"Should throw a RangeValueException, because s3 is not part of d2's range.");
 	}
 
 //	@Test
@@ -389,7 +390,7 @@ public class DecisionModelTest {
 
 	@Test
 	public void testIsValidNoDecisions() {
-		assertFalse(dm.isValid(),"a decision model with no decisions should be invalid by default");
+		assertFalse(dm.isValid(), "a decision model with no decisions should be invalid by default");
 	}
 
 	@Test
@@ -398,7 +399,8 @@ public class DecisionModelTest {
 		dm.add(b1);
 		b1.setSelected(true);
 		b1.setVisibility(new IsTakenFunction(new BooleanDecision("test")));
-		assertFalse(dm.isValid(),"b1 is a mandatory feature, that is based on a boolean decision and should therefore yield false");
+		assertFalse(dm.isValid(),
+				"b1 is a mandatory feature, that is based on a boolean decision and should therefore yield false");
 	}
 
 	@Test
@@ -406,7 +408,7 @@ public class DecisionModelTest {
 		EnumDecision d = new EnumDecision("test");
 		dm.add(d);
 		d.setSelected(true);
-		assertFalse(dm.isValid(),"EnumDecision has no Values and should therefore yield false.");
+		assertFalse(dm.isValid(), "EnumDecision has no Values and should therefore yield false.");
 	}
 
 	@Test
@@ -423,7 +425,7 @@ public class DecisionModelTest {
 		d.setSelected(true);
 		d.addRule(new Rule(ICondition.TRUE, new SetValueAction(d, new StringValue("sValue1"))));
 		d.addRule(new Rule(ICondition.FALSE, new SetValueAction(d, new StringValue("sValue2"))));
-		assertFalse(dm.isValid(),"Cannot perform SetValueAction because d does not have that value.");
+		assertFalse(dm.isValid(), "Cannot perform SetValueAction because d does not have that value.");
 	}
 
 	@Test
@@ -438,7 +440,7 @@ public class DecisionModelTest {
 		dm.add(d);
 		d.setValue(s1.getValue());
 		d.setSelected(true);
-		assertTrue(dm.isValid(),"DecisionModel with an EnumDecision that is set and visible, is valid.");
+		assertTrue(dm.isValid(), "DecisionModel with an EnumDecision that is set and visible, is valid.");
 	}
 
 	@Test
@@ -456,7 +458,8 @@ public class DecisionModelTest {
 		IAction a = new DisAllowAction(d, s2);
 		d.addRule(new Rule(ICondition.TRUE, a));
 		a.execute();
-		assertTrue(dm.isValid(),"DecisionModel with an EnumDecision that is set and visible, an all rules satisfied is valid.");
+		assertTrue(dm.isValid(),
+				"DecisionModel with an EnumDecision that is set and visible, an all rules satisfied is valid.");
 	}
 
 	@Test
@@ -474,8 +477,8 @@ public class DecisionModelTest {
 		@SuppressWarnings("unused")
 		IAction a = new SetValueAction(d, s2);
 		assertThrows(IllegalArgumentException.class, () -> {
-					d.addRule(new Rule(ICondition.TRUE, new DisAllowAction(d, new StringValue("NotInRange"))));
-				},"Should throw IllegalArgumentException because value is not part of decision range.");
+			d.addRule(new Rule(ICondition.TRUE, new DisAllowAction(d, new StringValue("NotInRange"))));
+		}, "Should throw IllegalArgumentException because value is not part of decision range.");
 
 	}
 
@@ -486,9 +489,9 @@ public class DecisionModelTest {
 		EnumDecision dn = new EnumDecision("notContained");
 		dm.add(d);
 		dm.add(b);
-		assertEquals(d, dm.get(d.getId()),"d is in the model and should be found.");
-		assertEquals(b, dm.get(b.getId()),"b is in the model and should be found.");
-		assertNull(dm.get(dn.getId()),"dn has not been added to the model and should not be found.");
+		assertEquals(d, dm.get(d.getId()), "d is in the model and should be found.");
+		assertEquals(b, dm.get(b.getId()), "b is in the model and should be found.");
+		assertNull(dm.get(dn.getId()), "dn has not been added to the model and should not be found.");
 	}
 
 	@Test
@@ -506,8 +509,9 @@ public class DecisionModelTest {
 		dm.add(d);
 		dm.add(b);
 		dm.reset();
-		assertTrue(d.getValues().isEmpty(),"EnumDecision should have no values after reset.");
-		assertTrue(b.getValue().equals(BooleanValue.getFalse()),"BooleanDecision should have false as value after reset.");
+		assertTrue(d.getValues().isEmpty(), "EnumDecision should have no values after reset.");
+		assertTrue(b.getValue().equals(BooleanValue.getFalse()),
+				"BooleanDecision should have false as value after reset.");
 	}
 
 	@Test
@@ -525,9 +529,8 @@ public class DecisionModelTest {
 		dm.add(d);
 		d.setValue(s1.getValue());
 		d.setSelected(true);
-		assertEquals("DecisionModel" + dm.getName()
-						+ "[" + d.toString() + "[selected=" + d.isSelected() + "; value=" + d.getValue() + "] ]",
-				dm.toString());
+		assertEquals("DecisionModel" + dm.getName() + "[" + d.toString() + "[selected=" + d.isSelected() + "; value="
+				+ d.getValue() + "] ]", dm.toString());
 	}
 
 }

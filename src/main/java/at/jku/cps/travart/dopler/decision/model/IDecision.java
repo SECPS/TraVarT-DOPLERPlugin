@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Set;
 
 import at.jku.cps.travart.core.common.IConfigurable;
-import at.jku.cps.travart.dopler.decision.exc.ActionExecutionException;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
 import at.jku.cps.travart.dopler.decision.model.ADecision.DecisionType;
 import at.jku.cps.travart.dopler.decision.model.impl.Range;
@@ -38,9 +37,9 @@ public interface IDecision<T> extends IConfigurable {
 
 	void setValue(T value) throws RangeValueException;
 
-	Set<Rule> getRules();
+	void executeRules();
 
-	void executeRules() throws ActionExecutionException;
+	Set<Rule> getRules();
 
 	void addRule(Rule rule);
 
