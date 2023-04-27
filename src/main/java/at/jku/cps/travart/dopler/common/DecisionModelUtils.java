@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * TODO: explanation what the class does
+ *
+ * @author Kevin Feichtinger
+ *
+ * Copyright 2023 Johannes Kepler University Linz
+ * LIT Cyber-Physical Systems Lab
+ * All rights reserved
+ *******************************************************************************/
 package at.jku.cps.travart.dopler.common;
 
 import java.lang.reflect.Constructor;
@@ -167,7 +176,8 @@ public final class DecisionModelUtils {
 		return decision.getId().matches(ENUM_DECISION_CONSTRAINT_REGEX);
 	}
 
-	public static boolean isTransformedEnumDecision(final EnumerationDecision decision, final String decisionStartName) {
+	public static boolean isTransformedEnumDecision(final EnumerationDecision decision,
+			final String decisionStartName) {
 		return decision.getId().matches(Pattern.quote(decisionStartName) + ENUM_DECISION_TRANSFORMED_REGEX);
 	}
 
