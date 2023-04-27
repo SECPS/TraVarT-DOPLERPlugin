@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
-import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 
 @SuppressWarnings("rawtypes")
 public class AFunctionTest {
@@ -65,7 +65,7 @@ public class AFunctionTest {
 				return null;
 			}
 		};
-		af4 = new AFunction("test2", new EnumDecision("test")) {
+		af4 = new AFunction("test2", new EnumerationDecision("test")) {
 
 			@Override
 			public boolean evaluate() {
@@ -77,7 +77,7 @@ public class AFunctionTest {
 				return null;
 			}
 		};
-		af5 = new AFunction("test", new EnumDecision("test")) {
+		af5 = new AFunction("test", new EnumerationDecision("test")) {
 
 			@Override
 			public boolean evaluate() {
@@ -163,7 +163,7 @@ public class AFunctionTest {
 	public void testSetGetParameters() {
 		assertTrue(af.getParameters().contains(b));
 		List<IDecision> par = new LinkedList<>();
-		EnumDecision ed = new EnumDecision("test");
+		EnumerationDecision ed = new EnumerationDecision("test");
 		par.add(ed);
 		par.add(b);
 		af.setParameters(par);

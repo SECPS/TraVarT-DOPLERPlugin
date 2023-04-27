@@ -37,7 +37,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.DeSelectDecisionAction;
 import at.jku.cps.travart.dopler.decision.model.impl.DecisionValueCondition;
 import at.jku.cps.travart.dopler.decision.model.impl.DisAllowAction;
-import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Equals;
 import at.jku.cps.travart.dopler.decision.model.impl.Greater;
 import at.jku.cps.travart.dopler.decision.model.impl.GreaterEquals;
@@ -268,7 +268,7 @@ class TransformFMtoDMUtilTest {
 		}
 		TransformFMtoDMUtil.convertFeature(factory, dm, rootFeature);
 		IDecision rootOptChildDec = dm.get(rootOptChild);
-		EnumDecision rootOptChildEnumDec = (EnumDecision) dm.get(rootOptChild + "#0");
+		EnumerationDecision rootOptChildEnumDec = (EnumerationDecision) dm.get(rootOptChild + "#0");
 		IDecision[] childList = new IDecision[optChildren.length];
 		for (int i = 0; i < childList.length; i++) {
 			childList[i] = dm.get(optChildren[i]);
@@ -593,9 +593,9 @@ class TransformFMtoDMUtilTest {
 				new NotConstraint(new LiteralConstraint(childB)));
 		TransformFMtoDMUtil.deriveExcludeRules(dm, fm, constraint);
 		controlSet.add(new Rule(new IsSelectedFunction(dm.get(childB)), new DisAllowAction(dm.get(childA + "#0"),
-				((EnumDecision) dm.get(childA + "#0")).getRangeValue(childD))));
+				((EnumerationDecision) dm.get(childA + "#0")).getRangeValue(childD))));
 		controlSet.add(new Rule(new Not(new IsSelectedFunction(dm.get(childB))),
-				new AllowAction(dm.get(childA + "#0"), ((EnumDecision) dm.get(childA + "#0")).getRangeValue(childD))));
+				new AllowAction(dm.get(childA + "#0"), ((EnumerationDecision) dm.get(childA + "#0")).getRangeValue(childD))));
 
 		Set<Rule> ruleSet = childBDec.getRules();
 
@@ -618,9 +618,9 @@ class TransformFMtoDMUtilTest {
 				new NotConstraint(new LiteralConstraint(childD)));
 		TransformFMtoDMUtil.deriveExcludeRules(dm, fm, constraint);
 		controlSet.add(new Rule(new IsSelectedFunction(childBDec), new DisAllowAction(dm.get(childA + "#0"),
-				((EnumDecision) dm.get(childA + "#0")).getRangeValue(childD))));
+				((EnumerationDecision) dm.get(childA + "#0")).getRangeValue(childD))));
 		controlSet.add(new Rule(new Not(new IsSelectedFunction(childBDec)),
-				new AllowAction(dm.get(childA + "#0"), ((EnumDecision) dm.get(childA + "#0")).getRangeValue(childD))));
+				new AllowAction(dm.get(childA + "#0"), ((EnumerationDecision) dm.get(childA + "#0")).getRangeValue(childD))));
 		controlSet.add(new Rule(new IsSelectedFunction(dm.get(childD)),
 				new DeSelectDecisionAction((BooleanDecision) childBDec)));
 		Set<Rule> ruleSet = childBDec.getRules();
@@ -690,7 +690,7 @@ class TransformFMtoDMUtilTest {
 		fm.getFeatureMap().putAll(TraVarTUtils.getFeatureMapFromRoot(rootFeature));
 		IDecision enumADec = dm.get("childA#0");
 		controlSet
-				.add(new Rule(new Not(new DecisionValueCondition(enumADec, ((EnumDecision) enumADec).getNoneOption())),
+				.add(new Rule(new Not(new DecisionValueCondition(enumADec, ((EnumerationDecision) enumADec).getNoneOption())),
 						new SelectDecisionAction(childCDec)));
 		Set<Rule> ruleSetEnumA = enumADec.getRules();
 

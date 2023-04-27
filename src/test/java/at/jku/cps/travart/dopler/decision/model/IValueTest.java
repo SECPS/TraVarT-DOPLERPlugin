@@ -13,7 +13,7 @@ import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanValue;
 import at.jku.cps.travart.dopler.decision.model.impl.DoubleValue;
-import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.NumberDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.StringDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.StringValue;
@@ -23,7 +23,7 @@ public class IValueTest {
 	@ParameterizedTest
 	@MethodSource("instancesToTest")
 	public void testGetValue(IValue val) {
-		if (val instanceof EnumDecision) {
+		if (val instanceof EnumerationDecision) {
 			assertEquals(new StringValue(" "), val.getValue());
 		} else {
 			val.getValue();

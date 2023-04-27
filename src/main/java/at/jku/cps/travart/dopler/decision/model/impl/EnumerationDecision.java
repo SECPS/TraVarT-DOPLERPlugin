@@ -11,7 +11,7 @@ import at.jku.cps.travart.dopler.decision.model.ADecision;
 import at.jku.cps.travart.dopler.decision.model.ARangeValue;
 import at.jku.cps.travart.dopler.decision.model.IEnumerationDecision;
 
-public class EnumDecision extends ADecision<String> implements IEnumerationDecision<String> {
+public class EnumerationDecision extends ADecision<String> implements IEnumerationDecision<String> {
 
 	private static final String RANGE_VALUE_ERROR = "Value %s is not a range value of decision %s";
 	private static final String UNSATISFIED_CARDINALITY_ERROR = "Number of selected values does not satisfy cardinality of decision %s";
@@ -25,11 +25,11 @@ public class EnumDecision extends ADecision<String> implements IEnumerationDecis
 	private final Set<ARangeValue<String>> values;
 	private Cardinality cardinality;
 
-	public EnumDecision(final String id) {
+	public EnumerationDecision(final String id) {
 		this(id, new Cardinality(0, 1));
 	}
 
-	public EnumDecision(final String id, final Cardinality cardinality) {
+	public EnumerationDecision(final String id, final Cardinality cardinality) {
 		super(id, DecisionType.ENUM);
 		range = new Range<>();
 		values = new HashSet<>();

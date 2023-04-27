@@ -25,7 +25,7 @@ import at.jku.cps.travart.dopler.decision.model.ARangeValue;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.IValue;
 import at.jku.cps.travart.dopler.decision.model.impl.DeSelectDecisionAction;
-import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.NumberDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
 import at.jku.cps.travart.dopler.decision.model.impl.SelectDecisionAction;
@@ -242,7 +242,7 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 			decisionConfigurable.setSelected(decision.isSelected());
 			configuration.put(decisionConfigurable, decision.isSelected());
 			if (decision.getType() == ADecision.DecisionType.ENUM) {
-				EnumDecision enumDecision = (EnumDecision) decision;
+				EnumerationDecision enumDecision = (EnumerationDecision) decision;
 				for (ARangeValue value : enumDecision.getValues()) {
 					IConfigurable configurable = new IConfigurable() {
 						boolean selected;
@@ -370,7 +370,7 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 
 	private static void afterValueSelection(final IDecisionModel dm, final IDecision decision)
 			throws RangeValueException, UnsatisfiedCardinalityException {
-		for (EnumDecision enumDecision : DecisionModelUtils.getEnumDecisions(dm)) {
+		for (EnumerationDecision enumDecision : DecisionModelUtils.getEnumDecisions(dm)) {
 			// also select the enumeration decision if a boolean decision of the same name
 			// is set
 			if (DecisionModelUtils.isTransformedEnumDecision(enumDecision, decision.getId())) {
@@ -394,7 +394,7 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 
 	private void setEnumValue(final IDecisionModel dm, final String name)
 			throws RangeValueException, UnsatisfiedCardinalityException {
-		for (EnumDecision enumDecision : DecisionModelUtils.getEnumDecisions(dm)) {
+		for (EnumerationDecision enumDecision : DecisionModelUtils.getEnumDecisions(dm)) {
 			// add the value for a enum decision
 			for (ARangeValue<String> rangeValue : enumDecision.getRange()) {
 				if (rangeValue.getValue().equals(name)) {

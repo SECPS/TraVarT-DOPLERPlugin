@@ -16,7 +16,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.AllowAction;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanValue;
 import at.jku.cps.travart.dopler.decision.model.impl.Cardinality;
-import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.IsSelectedFunction;
 import at.jku.cps.travart.dopler.decision.model.impl.NumberDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Range;
@@ -61,7 +61,7 @@ public class ADecisionTest {
 
 	@Test
 	public void containsRangeValueTest() {
-		EnumDecision e = new EnumDecision("test");
+		EnumerationDecision e = new EnumerationDecision("test");
 		Range<String> eRange = new Range<>();
 		ARangeValue<String> f = new StringValue("First");
 		eRange.add(f);
@@ -76,7 +76,7 @@ public class ADecisionTest {
 	public void getTypeTest() {
 		ADecision d = new StringDecision("test");
 		assertEquals(DecisionType.STRING, d.getType());
-		d = new EnumDecision("test");
+		d = new EnumerationDecision("test");
 		assertEquals(DecisionType.ENUM, d.getType());
 		d = new NumberDecision("test");
 		assertEquals(DecisionType.NUMBER, d.getType());
@@ -117,7 +117,7 @@ public class ADecisionTest {
 
 		assertTrue(d1.equals(d1));
 		assertTrue(d1.equals(d2));
-		assertFalse(d1.equals(new EnumDecision("test")));
+		assertFalse(d1.equals(new EnumerationDecision("test")));
 		assertFalse(d1.equals(null));
 		assertFalse(d1.equals(new StringDecision("test2")));
 	}
@@ -125,7 +125,7 @@ public class ADecisionTest {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void setRuleTest() {
-		ADecision d = new EnumDecision("test");
+		ADecision d = new EnumerationDecision("test");
 		ADecision b = new BooleanDecision("test");
 		Set<Rule> rules = new HashSet<>();
 		Rule r1 = new Rule(new IsSelectedFunction(new BooleanDecision("test")),
@@ -138,7 +138,7 @@ public class ADecisionTest {
 	@SuppressWarnings({ "rawtypes" })
 	@Test
 	public void addRuleTest() {
-		ADecision d = new EnumDecision("test");
+		ADecision d = new EnumerationDecision("test");
 		ADecision b = new BooleanDecision("test");
 		Rule r1 = new Rule(new IsSelectedFunction(b), new AllowAction(b, BooleanValue.getTrue()));
 		d.addRule(r1);
@@ -151,7 +151,7 @@ public class ADecisionTest {
 	@SuppressWarnings({ "rawtypes" })
 	@Test
 	public void removeRuleTest() {
-		ADecision d = new EnumDecision("test");
+		ADecision d = new EnumerationDecision("test");
 		ADecision b = new BooleanDecision("test");
 		Rule r1 = new Rule(new IsSelectedFunction(b), new AllowAction(b, BooleanValue.getTrue()));
 		d.addRule(r1);
@@ -163,7 +163,7 @@ public class ADecisionTest {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void executeRulesTest() throws RangeValueException {
-		ADecision d = new EnumDecision("test");
+		ADecision d = new EnumerationDecision("test");
 		ADecision req = new BooleanDecision("isSet");
 		ADecision reqfalse = new BooleanDecision("isSet");
 		ADecision b = new BooleanDecision("test");

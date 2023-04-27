@@ -32,7 +32,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.DeSelectDecisionAction;
 import at.jku.cps.travart.dopler.decision.model.impl.DecisionValueCondition;
 import at.jku.cps.travart.dopler.decision.model.impl.DisAllowAction;
 import at.jku.cps.travart.dopler.decision.model.impl.DoubleValue;
-import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Equals;
 import at.jku.cps.travart.dopler.decision.model.impl.GetValueFunction;
 import at.jku.cps.travart.dopler.decision.model.impl.Greater;
@@ -186,7 +186,7 @@ public class DecisionModelUtilsTest {
 		sd.add(bd1);
 		sd.add(bd2);
 		sd.add(new NumberDecision("nd1"));
-		sd.add(new EnumDecision("ed1"));
+		sd.add(new EnumerationDecision("ed1"));
 		sd.add(new StringDecision("sd1"));
 		dm.addAll(sd);
 		Set<BooleanDecision> cd = DecisionModelUtils.getBooleanDecisions(dm);
@@ -201,7 +201,7 @@ public class DecisionModelUtilsTest {
 		sd.add(bd1);
 		sd.add(bd2);
 		sd.add(new NumberDecision("nd1"));
-		sd.add(new EnumDecision("ed1"));
+		sd.add(new EnumerationDecision("ed1"));
 		sd.add(new StringDecision("sd1"));
 		dm.addAll(sd);
 		Set<String> cd = DecisionModelUtils.getBooleanDecisionsAsNames(dm);
@@ -213,7 +213,7 @@ public class DecisionModelUtilsTest {
 		Set<IDecision<?>> sd = new LinkedHashSet<>();
 		BooleanDecision bd1 = new BooleanDecision("bd1");
 		BooleanDecision bd2 = new BooleanDecision("bd2");
-		EnumDecision ed1 = new EnumDecision("ed1");
+		EnumerationDecision ed1 = new EnumerationDecision("ed1");
 		NumberDecision nd1 = new NumberDecision("nd1");
 		StringDecision sd1 = new StringDecision("sd1");
 		sd.add(bd1);
@@ -233,7 +233,7 @@ public class DecisionModelUtilsTest {
 		Set<IDecision<?>> sd = new LinkedHashSet<>();
 		BooleanDecision bd1 = new BooleanDecision("bd1");
 		BooleanDecision bd2 = new BooleanDecision("bd2");
-		EnumDecision ed1 = new EnumDecision("ed1");
+		EnumerationDecision ed1 = new EnumerationDecision("ed1");
 
 		sd.add(bd1);
 		sd.add(bd2);
@@ -241,7 +241,7 @@ public class DecisionModelUtilsTest {
 		sd.add(ed1);
 		sd.add(new StringDecision("sd1"));
 		dm.addAll(sd);
-		Set<EnumDecision> cd = DecisionModelUtils.getEnumDecisions(dm);
+		Set<EnumerationDecision> cd = DecisionModelUtils.getEnumDecisions(dm);
 		assertTrue(cd.size() == 1 && cd.contains(ed1));
 	}
 
@@ -250,7 +250,7 @@ public class DecisionModelUtilsTest {
 		Set<IDecision<?>> sd = new LinkedHashSet<>();
 		BooleanDecision bd1 = new BooleanDecision("bd1");
 		BooleanDecision bd2 = new BooleanDecision("bd2");
-		EnumDecision ed1 = new EnumDecision("ed1");
+		EnumerationDecision ed1 = new EnumerationDecision("ed1");
 
 		sd.add(bd1);
 		sd.add(bd2);
@@ -267,7 +267,7 @@ public class DecisionModelUtilsTest {
 		Set<IDecision<?>> sd = new LinkedHashSet<>();
 		BooleanDecision bd1 = new BooleanDecision("bd1");
 		BooleanDecision bd2 = new BooleanDecision("bd2");
-		EnumDecision ed1 = new EnumDecision("ed1");
+		EnumerationDecision ed1 = new EnumerationDecision("ed1");
 		NumberDecision nd1 = new NumberDecision("nd1");
 		StringDecision sd1 = new StringDecision("sd1");
 		sd.add(bd1);
@@ -286,7 +286,7 @@ public class DecisionModelUtilsTest {
 		Set<IDecision<?>> sd = new LinkedHashSet<>();
 		BooleanDecision bd1 = new BooleanDecision("bd1");
 		BooleanDecision bd2 = new BooleanDecision("bd2");
-		EnumDecision ed1 = new EnumDecision("ed1");
+		EnumerationDecision ed1 = new EnumerationDecision("ed1");
 		NumberDecision nd1 = new NumberDecision("nd1");
 		StringDecision sd1 = new StringDecision("sd1");
 		sd.add(bd1);
@@ -305,7 +305,7 @@ public class DecisionModelUtilsTest {
 		BooleanDecision bd1 = new BooleanDecision("bd1");
 		bd1.setSelected(true);
 		BooleanDecision bd2 = new BooleanDecision("bd2");
-		EnumDecision ed1 = new EnumDecision("ed1");
+		EnumerationDecision ed1 = new EnumerationDecision("ed1");
 		bd2.setVisibility(ICondition.FALSE);
 		NumberDecision nd1 = new NumberDecision("nd1");
 		StringDecision sd1 = new StringDecision("sd1");
@@ -326,7 +326,7 @@ public class DecisionModelUtilsTest {
 		BooleanDecision bd1 = new BooleanDecision("bd1");
 		bd1.setSelected(true);
 		BooleanDecision bd2 = new BooleanDecision("bd2");
-		EnumDecision ed1 = new EnumDecision("ed1");
+		EnumerationDecision ed1 = new EnumerationDecision("ed1");
 		bd2.setVisibility(ICondition.FALSE);
 		NumberDecision nd1 = new NumberDecision("nd1");
 		StringDecision sd1 = new StringDecision("sd1");
@@ -347,7 +347,7 @@ public class DecisionModelUtilsTest {
 		BooleanDecision bd1 = new BooleanDecision("bd1");
 		bd1.setSelected(true);
 		BooleanDecision bd2 = new BooleanDecision("bd2");
-		EnumDecision ed1 = new EnumDecision("ed1");
+		EnumerationDecision ed1 = new EnumerationDecision("ed1");
 		bd2.setVisibility(ICondition.FALSE);
 		NumberDecision nd1 = new NumberDecision("nd1");
 		StringDecision sd1 = new StringDecision("sd1");
@@ -369,7 +369,7 @@ public class DecisionModelUtilsTest {
 		BooleanDecision bd1 = new BooleanDecision("bd1");
 		bd1.setSelected(true);
 		BooleanDecision bd2 = new BooleanDecision("bd2");
-		EnumDecision ed1 = new EnumDecision("ed1");
+		EnumerationDecision ed1 = new EnumerationDecision("ed1");
 		bd2.setVisibility(ICondition.FALSE);
 		NumberDecision nd1 = new NumberDecision("nd1");
 		StringDecision sd1 = new StringDecision("sd1");
@@ -390,7 +390,7 @@ public class DecisionModelUtilsTest {
 		BooleanDecision bd1 = new BooleanDecision("bd1");
 		bd1.setSelected(true);
 		BooleanDecision bd2 = new BooleanDecision("bd2");
-		EnumDecision ed1 = new EnumDecision("ed1");
+		EnumerationDecision ed1 = new EnumerationDecision("ed1");
 		bd2.setVisibility(ICondition.FALSE);
 		NumberDecision nd1 = new NumberDecision("nd1");
 		StringDecision sd1 = new StringDecision("sd1");
@@ -411,7 +411,7 @@ public class DecisionModelUtilsTest {
 		BooleanDecision bd1 = new BooleanDecision("bd1");
 		bd1.setSelected(true);
 		BooleanDecision bd2 = new BooleanDecision("bd2");
-		EnumDecision ed1 = new EnumDecision("ed1");
+		EnumerationDecision ed1 = new EnumerationDecision("ed1");
 		bd2.setVisibility(ICondition.FALSE);
 		NumberDecision nd1 = new NumberDecision("nd1");
 		StringDecision sd1 = new StringDecision("sd1");
@@ -432,7 +432,7 @@ public class DecisionModelUtilsTest {
 		BooleanDecision bd1 = new BooleanDecision("bd1");
 		bd1.setSelected(true);
 		BooleanDecision bd2 = new BooleanDecision("bd2");
-		EnumDecision ed1 = new EnumDecision("ed1");
+		EnumerationDecision ed1 = new EnumerationDecision("ed1");
 		bd2.setVisibility(ICondition.FALSE);
 		NumberDecision nd1 = new NumberDecision("nd1");
 		StringDecision sd1 = new StringDecision("sd1");
@@ -453,7 +453,7 @@ public class DecisionModelUtilsTest {
 		BooleanDecision bd1 = new BooleanDecision("bd1");
 		bd1.setSelected(true);
 		BooleanDecision bd2 = new BooleanDecision("bd2");
-		EnumDecision ed1 = new EnumDecision("ed1");
+		EnumerationDecision ed1 = new EnumerationDecision("ed1");
 		bd2.setVisibility(ICondition.FALSE);
 		NumberDecision nd1 = new NumberDecision("nd1");
 		StringDecision sd1 = new StringDecision("sd1");
@@ -484,14 +484,14 @@ public class DecisionModelUtilsTest {
 	@Test
 	public void testBooleanDecisionType() {
 		assertTrue(new BooleanDecision("bd").getType() == ADecision.DecisionType.BOOLEAN);
-		assertFalse(new EnumDecision("test").getType() == ADecision.DecisionType.BOOLEAN);
+		assertFalse(new EnumerationDecision("test").getType() == ADecision.DecisionType.BOOLEAN);
 		assertFalse(new NumberDecision("nd").getType() == ADecision.DecisionType.BOOLEAN);
 		assertFalse(new StringDecision("sd").getType() == ADecision.DecisionType.BOOLEAN);
 	}
 
 	@Test
 	public void testEnumDecisionType() {
-		assertTrue(new EnumDecision("test").getType() == ADecision.DecisionType.ENUM);
+		assertTrue(new EnumerationDecision("test").getType() == ADecision.DecisionType.ENUM);
 		assertFalse(new BooleanDecision("bd").getType() == ADecision.DecisionType.ENUM);
 		assertFalse(new NumberDecision("nd").getType() == ADecision.DecisionType.ENUM);
 		assertFalse(new StringDecision("sd").getType() == ADecision.DecisionType.ENUM);
@@ -501,7 +501,7 @@ public class DecisionModelUtilsTest {
 	public void testNumberDecisionType() {
 		assertTrue(new NumberDecision("nd").getType() == ADecision.DecisionType.NUMBER);
 		assertFalse(new BooleanDecision("bd").getType() == ADecision.DecisionType.NUMBER);
-		assertFalse(new EnumDecision("test").getType() == ADecision.DecisionType.NUMBER);
+		assertFalse(new EnumerationDecision("test").getType() == ADecision.DecisionType.NUMBER);
 		assertFalse(new StringDecision("sd").getType() == ADecision.DecisionType.NUMBER);
 	}
 
@@ -510,7 +510,7 @@ public class DecisionModelUtilsTest {
 		assertTrue(new StringDecision("sd").getType() == ADecision.DecisionType.STRING);
 		assertFalse(new NumberDecision("nd").getType() == ADecision.DecisionType.STRING);
 		assertFalse(new BooleanDecision("bd").getType() == ADecision.DecisionType.STRING);
-		assertFalse(new EnumDecision("test").getType() == ADecision.DecisionType.STRING);
+		assertFalse(new EnumerationDecision("test").getType() == ADecision.DecisionType.STRING);
 	}
 
 	@Test
@@ -549,13 +549,13 @@ public class DecisionModelUtilsTest {
 	@Test
 	public void testIsEnumNoneOption() {
 		assertFalse(DecisionModelUtils.isEnumNoneOption(new BooleanDecision("bd"), BooleanValue.getFalse()));
-		assertFalse(DecisionModelUtils.isEnumNoneOption(new EnumDecision("ed"), new DoubleValue(0)));
-		assertFalse(DecisionModelUtils.isEnumNoneOption(new EnumDecision("ed"), new StringValue("None")));
-		EnumDecision ed = new EnumDecision("ed");
+		assertFalse(DecisionModelUtils.isEnumNoneOption(new EnumerationDecision("ed"), new DoubleValue(0)));
+		assertFalse(DecisionModelUtils.isEnumNoneOption(new EnumerationDecision("ed"), new StringValue("None")));
+		EnumerationDecision ed = new EnumerationDecision("ed");
 		ARangeValue<String> sv = ed.getNoneOption();
 		ed.getRange().add(sv);
 		assertTrue(DecisionModelUtils.isEnumNoneOption(ed, sv));
-		EnumDecision ed2 = new EnumDecision("ed2");
+		EnumerationDecision ed2 = new EnumerationDecision("ed2");
 		ed2.getNoneOption();
 		assertTrue(DecisionModelUtils.isEnumNoneOption(ed2, sv));
 
@@ -563,7 +563,7 @@ public class DecisionModelUtilsTest {
 
 	@Test
 	public void testIsInItSelfRuleNotContained() {
-		EnumDecision ed = new EnumDecision("ed");
+		EnumerationDecision ed = new EnumerationDecision("ed");
 		StringValue sv = new StringValue("sv");
 		ed.getRange().add(sv);
 		AllowAction aa = new AllowAction(ed, sv);
@@ -573,7 +573,7 @@ public class DecisionModelUtilsTest {
 
 	@Test
 	public void testIsInItSelfRuleNotContainedButNegatedCondition() {
-		EnumDecision ed = new EnumDecision("ed");
+		EnumerationDecision ed = new EnumerationDecision("ed");
 		StringValue sv = new StringValue("sv");
 		ed.getRange().add(sv);
 		AllowAction aa = new AllowAction(ed, sv);
@@ -591,7 +591,7 @@ public class DecisionModelUtilsTest {
 
 	@Test
 	public void testIsInItSelfRuleIsDecisionButNotItselfRule() {
-		EnumDecision ed = new EnumDecision("ed");
+		EnumerationDecision ed = new EnumerationDecision("ed");
 		ed.getRange().add(ed.getNoneOption());
 		DisAllowAction daa = new DisAllowAction(ed, ed.getNoneOption());
 		Rule r = new Rule(new IsTakenFunction(ed), daa);
@@ -600,7 +600,7 @@ public class DecisionModelUtilsTest {
 	
 	@Test
 	public void testIsInItSelfRuleIsDecisionButNotItselfRuleSelected() {
-		EnumDecision ed = new EnumDecision("ed");
+		EnumerationDecision ed = new EnumerationDecision("ed");
 		ed.getRange().add(ed.getNoneOption());
 		DisAllowAction daa = new DisAllowAction(ed, ed.getNoneOption());
 		Rule r = new Rule(new IsSelectedFunction(ed), daa);
@@ -633,7 +633,7 @@ public class DecisionModelUtilsTest {
 	public void testIsNoneAction() {
 		assertFalse(DecisionModelUtils.isNoneAction(new DeSelectDecisionAction(new BooleanDecision("bd"))));
 
-		EnumDecision ed = new EnumDecision("ed");
+		EnumerationDecision ed = new EnumerationDecision("ed");
 		StringValue sv = new StringValue("sv");
 		ed.getRange().add(sv);
 		assertFalse(DecisionModelUtils.isNoneAction(new AllowAction(ed, sv)));
@@ -646,7 +646,7 @@ public class DecisionModelUtilsTest {
 	public void testIsNoneCondition() {
 		assertFalse(DecisionModelUtils.isNoneCondition(null));
 
-		EnumDecision ed = new EnumDecision("ed");
+		EnumerationDecision ed = new EnumerationDecision("ed");
 		StringValue sv = new StringValue("sd");
 		ed.getRange().add(sv);
 
@@ -678,7 +678,7 @@ public class DecisionModelUtilsTest {
 	public void testPowerSetNoneEmptySet() {
 		Set<IDecision<?>> s = new HashSet<>();
 		BooleanDecision bd = new BooleanDecision("bd");
-		EnumDecision ed = new EnumDecision("ed");
+		EnumerationDecision ed = new EnumerationDecision("ed");
 		s.add(bd);
 		s.add(ed);
 		Set<IDecision<?>> s0 = new HashSet<>();
@@ -701,7 +701,7 @@ public class DecisionModelUtilsTest {
 	public void testPowerSetWithMinAndMax() {
 		Set<IDecision<?>> s = new HashSet<>();
 		BooleanDecision bd = new BooleanDecision("bd");
-		EnumDecision ed = new EnumDecision("ed");
+		EnumerationDecision ed = new EnumerationDecision("ed");
 		s.add(bd);
 		s.add(ed);
 		Set<IDecision<?>> s1 = new HashSet<>();
@@ -737,25 +737,25 @@ public class DecisionModelUtilsTest {
 
 	@Test
 	public void testRetriveFeatureNameIDecisionBooleanBooleanEnumDecFalseFalse() {
-		EnumDecision ed = new EnumDecision("ed");
+		EnumerationDecision ed = new EnumerationDecision("ed");
 		assertEquals(ed.toString(), DecisionModelUtils.retriveFeatureName(ed, false));
 	}
 
 	@Test
 	public void testRetriveFeatureNameIDecisionBooleanBooleanEnumDecTrueFalse() {
-		EnumDecision ed = new EnumDecision("d_ed");
+		EnumerationDecision ed = new EnumerationDecision("d_ed");
 		assertNotEquals("ed", DecisionModelUtils.retriveFeatureName(ed, false));
 	}
 
 	@Test
 	public void testRetriveFeatureNameIDecisionBooleanBooleanEnumDecFalseTrue() {
-		EnumDecision ed = new EnumDecision("ed_2");
+		EnumerationDecision ed = new EnumerationDecision("ed_2");
 		assertNotEquals("ed", DecisionModelUtils.retriveFeatureName(ed, true));
 	}
 
 	@Test
 	public void testRetriveFeatureNameIDecisionBooleanBooleanEnumDecTrueTrue() {
-		EnumDecision ed = new EnumDecision("d_ed_2");
+		EnumerationDecision ed = new EnumerationDecision("d_ed_2");
 		assertNotEquals("ed", DecisionModelUtils.retriveFeatureName(ed, true));
 	}
 

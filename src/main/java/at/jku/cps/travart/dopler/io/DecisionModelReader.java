@@ -24,7 +24,7 @@ import at.jku.cps.travart.dopler.decision.model.ADecision.DecisionType;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Cardinality;
-import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Range;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
 import at.jku.cps.travart.dopler.decision.parser.ConditionParser;
@@ -88,12 +88,12 @@ public class DecisionModelReader implements IReader<IDecisionModel> {
 				if (!cardinality.isEmpty()) {
 					String[] values =Arrays.stream(cardinality.split( ":")).map(String::trim).filter(s -> !s.isEmpty() && !s.isBlank())
 							.toArray(String[]::new);
-					if (!(decision instanceof EnumDecision) || !(values.length == 2)) {
+					if (!(decision instanceof EnumerationDecision) || !(values.length == 2)) {
 						throw new NotSupportedVariabilityTypeException(String.format(CARDINALITY_NOT_SUPPORTED_ERROR,
 								cardinality, decision.getClass().getCanonicalName()));
 					}
 					Cardinality c = factory.createCardinality(Integer.parseInt(values[0]), Integer.parseInt(values[1]));
-					((EnumDecision) decision).setCardinality(c);
+					((EnumerationDecision) decision).setCardinality(c);
 				}
 				dm.add(decision);
 			}

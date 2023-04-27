@@ -1,12 +1,12 @@
 package at.jku.cps.travart.dopler.transformation.roundtrip;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import at.jku.cps.travart.core.helpers.TraVarTUtils;
 import at.jku.cps.travart.dopler.common.DecisionModelUtils;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.exc.CircleInConditionException;
@@ -25,7 +25,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.Cardinality;
 import at.jku.cps.travart.dopler.decision.model.impl.DeSelectDecisionAction;
 import at.jku.cps.travart.dopler.decision.model.impl.DecisionValueCondition;
 import at.jku.cps.travart.dopler.decision.model.impl.DisAllowAction;
-import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Equals;
 import at.jku.cps.travart.dopler.decision.model.impl.Greater;
 import at.jku.cps.travart.dopler.decision.model.impl.GreaterEquals;
@@ -62,11 +62,12 @@ public abstract class TransformDMtoFMUtil {
 			String featureName = retriveFeatureName(decision);
 			Feature feature = new Feature(featureName);
 			// Features are optional by default
-			fm.getFeatureMap().put(featureName, feature);
+			TraVarTUtils.addFeature(fm, feature);
 		}
 		// second add all Number decisions
-		// FIXME there's some issue with parent features for number decisions not being generated.
-		// this leads to issues in {@code createFeatureTree()} 
+		// FIXME there's some issue with parent features for number decisions not being
+		// generated.
+		// this leads to issues in {@code createFeatureTree()}
 		for (NumberDecision decision : DecisionModelUtils.getNumberDecisions(dm)) {
 			String featureName = retriveFeatureName(decision);
 			Feature feature = new Feature(featureName);
@@ -92,17 +93,17 @@ public abstract class TransformDMtoFMUtil {
 			// tree as well, not just the
 			// map.
 			feature.addChildren(alternativeGroup);
-			fm.getFeatureMap().put(featureName, feature);
+			TraVarTUtils.addFeature(fm, feature);
 		}
 		// third add all String decisions
 		for (StringDecision decision : DecisionModelUtils.getStringDecisions(dm)) {
 			String featureName = retriveFeatureName(decision);
 			Feature feature = new Feature(featureName);
 			// Features are optional by default
-			fm.getFeatureMap().put(featureName, feature);
+			TraVarTUtils.addFeature(fm, feature);
 		}
 		// finally build enumeration decisions from exiting features
-		for (EnumDecision decision : DecisionModelUtils.getEnumDecisions(dm)) {
+		for (EnumerationDecision decision : DecisionModelUtils.getEnumDecisions(dm)) {
 			if (!DecisionModelUtils.isEnumDecisionConstraint(decision)) {
 				String featureName = retriveFeatureName(decision);
 				Feature feature = fm.getFeatureMap().get(featureName);
@@ -116,8 +117,8 @@ public abstract class TransformDMtoFMUtil {
 					enumGroup = new Group(GroupType.ALTERNATIVE);
 				} else if (cardinality.isOr()) {
 					enumGroup = new Group(GroupType.OR);
-				}else {
-					enumGroup=new Group(GroupType.GROUP_CARDINALITY);
+				} else {
+					enumGroup = new Group(GroupType.GROUP_CARDINALITY);
 					enumGroup.setLowerBound(String.valueOf(cardinality.getMin()));
 					enumGroup.setUpperBound(String.valueOf(cardinality.getMax()));
 				}
@@ -128,14 +129,14 @@ public abstract class TransformDMtoFMUtil {
 					// if so use it, otherwise create it
 					Feature child = fm.getFeatureMap().get(childName);
 					if (child != null) {
-						fm.getFeatureMap().put(childName, child);
+						TraVarTUtils.addFeature(fm, feature);
 						enumGroup.getFeatures().add(child);
 					}
 					// If None value is read, don't add it, as it is special added for optional
 					// groups
 					else if (!DecisionModelUtils.isEnumNoneOption(decision, value)) {
 						child = new Feature(childName);
-						fm.getFeatureMap().put(childName, child);
+						TraVarTUtils.addFeature(fm, feature);
 						enumGroup.getFeatures().add(child);
 					}
 				}
@@ -164,13 +165,12 @@ public abstract class TransformDMtoFMUtil {
 		if (constraint == null || isInItSelfConstraint(constraint)) {
 			return;
 		}
-		for (Constraint constr : fm.getConstraints()) {
+		for (Constraint constr : TraVarTUtils.getOwnConstraints(fm)) {
 			if (constr.equals(constraint)) {
 				return;
 			}
 		}
-		Arrays.asList();
-		fm.getConstraints().add(constraint);
+		TraVarTUtils.addOwnConstraint(fm, constraint);
 	}
 
 	public static boolean isInItSelfConstraint(final Constraint constraint) {
@@ -420,8 +420,8 @@ public abstract class TransformDMtoFMUtil {
 				addConstraintIfEligible(fm, constraint);
 			} else {
 				Group featuregroup = null;
-				if (variableDecision instanceof EnumDecision) {
-					Cardinality cardinality = ((EnumDecision) variableDecision).getCardinality();
+				if (variableDecision instanceof EnumerationDecision) {
+					Cardinality cardinality = ((EnumerationDecision) variableDecision).getCardinality();
 					if (cardinality.isAlternative()) {
 						featuregroup = variableFeature.getChildren().stream()
 								.filter(g -> g.GROUPTYPE.equals(GroupType.ALTERNATIVE)).findFirst().get();

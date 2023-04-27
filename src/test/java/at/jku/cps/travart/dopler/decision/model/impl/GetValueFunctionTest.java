@@ -47,7 +47,7 @@ public class GetValueFunctionTest {
 
 	@Test
 	public void testExecuteNoRangeValueEnumValue() {
-		EnumDecision ed1 = new EnumDecision("test");
+		EnumerationDecision ed1 = new EnumerationDecision("test");
 		gvf = new GetValueFunction(ed1);
 		assertEquals(new StringValue(" "), gvf.execute(),"Should return single space String");
 	}

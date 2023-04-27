@@ -29,7 +29,7 @@ public class SetValueAction implements IAction {
 	public void execute() throws ActionExecutionException {
 		try {
 			if (decision.getType() == ADecision.DecisionType.ENUM) {
-				EnumDecision enumDecision = (EnumDecision) decision;
+				EnumerationDecision enumDecision = (EnumerationDecision) decision;
 				if (enumDecision.getCardinality().isAlternative()) {
 					enumDecision.setValue((String) value.getValue());
 				} else {
@@ -51,7 +51,7 @@ public class SetValueAction implements IAction {
 			if (!(decision.getType() == ADecision.DecisionType.ENUM)) {
 				return decision.getValue().equals(value);
 			}
-			EnumDecision enumDecision = (EnumDecision) decision;
+			EnumerationDecision enumDecision = (EnumerationDecision) decision;
 			if (enumDecision.getCardinality().isAlternative()) {
 				return enumDecision.getValue().equals(value);
 			}

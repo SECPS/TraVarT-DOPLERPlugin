@@ -22,7 +22,7 @@ import at.jku.cps.travart.dopler.decision.impl.DMCSVHeader;
 import at.jku.cps.travart.dopler.decision.model.ADecision.DecisionType;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
-import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.NumberDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Range;
 import at.jku.cps.travart.dopler.decision.model.impl.StringDecision;
@@ -78,7 +78,7 @@ public class RulesParserTest {
 				if (DecisionType.BOOLEAN.equalString(typeString)) {
 					decision = new BooleanDecision("");
 				} else if (DecisionType.ENUM.equalString(typeString)) {
-					decision = new EnumDecision("");
+					decision = new EnumerationDecision("");
 				} else if (DecisionType.NUMBER.equalString(typeString)) {
 					decision = new NumberDecision("");
 				} else if (DecisionType.STRING.equalString(typeString)) {

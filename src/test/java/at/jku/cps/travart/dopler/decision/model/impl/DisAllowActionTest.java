@@ -15,12 +15,12 @@ import at.jku.cps.travart.dopler.decision.exc.RangeValueNotEnabledException;
 
 public class DisAllowActionTest {
 	private DisAllowAction daa;
-	private EnumDecision ed;
+	private EnumerationDecision ed;
 	private StringValue s;
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		ed = new EnumDecision("test");
+		ed = new EnumerationDecision("test");
 		s = new StringValue("testValue");
 		ed.getRange().add(s);
 		daa = new DisAllowAction(ed, s);
@@ -128,7 +128,7 @@ public class DisAllowActionTest {
 
 	@Test
 	public void testEqualsDisAllowActionDifferent() {
-		EnumDecision ed2 = new EnumDecision("Test2");
+		EnumerationDecision ed2 = new EnumerationDecision("Test2");
 		StringValue s2 = new StringValue("Value2");
 		ed2.getRange().add(s2);
 		DisAllowAction daa2 = new DisAllowAction(ed2, s2);

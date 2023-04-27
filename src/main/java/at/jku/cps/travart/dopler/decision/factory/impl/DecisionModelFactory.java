@@ -8,12 +8,14 @@ import at.jku.cps.travart.dopler.decision.model.ARangeValue;
 import at.jku.cps.travart.dopler.decision.model.IAction;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.AllowAction;
 import at.jku.cps.travart.dopler.decision.model.impl.And;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Cardinality;
 import at.jku.cps.travart.dopler.decision.model.impl.DeSelectDecisionAction;
+import at.jku.cps.travart.dopler.decision.model.impl.DisAllowAction;
 import at.jku.cps.travart.dopler.decision.model.impl.DoubleValue;
-import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Equals;
 import at.jku.cps.travart.dopler.decision.model.impl.GetValueFunction;
 import at.jku.cps.travart.dopler.decision.model.impl.IsSelectedFunction;
@@ -23,6 +25,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.NumberDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Range;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
 import at.jku.cps.travart.dopler.decision.model.impl.SelectDecisionAction;
+import at.jku.cps.travart.dopler.decision.model.impl.SetValueAction;
 import at.jku.cps.travart.dopler.decision.model.impl.StringDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.StringValue;
 
@@ -67,8 +70,8 @@ public class DecisionModelFactory implements IDecisionModelFactory {
 	}
 
 	@Override
-	public EnumDecision createEnumDecision(final String id) {
-		EnumDecision decision = new EnumDecision(id);
+	public EnumerationDecision createEnumDecision(final String id) {
+		EnumerationDecision decision = new EnumerationDecision(id);
 		decision.setQuestion(id.concat("?"));
 		decision.setDescription(id.concat(" description"));
 		return decision;
@@ -141,6 +144,7 @@ public class DecisionModelFactory implements IDecisionModelFactory {
 		return new And(left, right);
 	}
 
+	@Override
 	public Not createNotCondition(final ICondition value) {
 		return new Not(value);
 	}
@@ -169,5 +173,20 @@ public class DecisionModelFactory implements IDecisionModelFactory {
 	@Override
 	public Rule createRule(final ICondition condition, final IAction action) {
 		return new Rule(condition, action);
+	}
+
+	@Override
+	public DisAllowAction createDisAllowAction(final EnumerationDecision userManagement, final String value) {
+		return new DisAllowAction(userManagement, userManagement.getRangeValue(value));
+	}
+
+	@Override
+	public AllowAction createAllowAction(final EnumerationDecision userManagement, final String value) {
+		return new AllowAction(userManagement, userManagement.getRangeValue(value));
+	}
+
+	@Override
+	public SetValueAction setValueAction(final EnumerationDecision userManagement, final String value) {
+		return new SetValueAction(userManagement, userManagement.getRangeValue(value));
 	}
 }

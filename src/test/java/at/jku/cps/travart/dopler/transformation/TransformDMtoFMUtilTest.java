@@ -16,7 +16,7 @@ import at.jku.cps.travart.dopler.decision.factory.impl.DecisionModelFactory;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Cardinality;
 import at.jku.cps.travart.dopler.decision.model.impl.DoubleValue;
-import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.NumberDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Range;
 import at.jku.cps.travart.dopler.decision.model.impl.StringDecision;
@@ -28,11 +28,11 @@ class TransformDMtoFMUtilTest {
 	DecisionModelFactory factory;
 	IDecisionModel dm;
 	BooleanDecision cream;
-	EnumDecision holder;
+	EnumerationDecision holder;
 	NumberDecision portions;
-	EnumDecision flavors;
+	EnumerationDecision flavors;
 	StringDecision name;
-	EnumDecision toppings;
+	EnumerationDecision toppings;
 	Range<String> holderRange;
 	Range<Double> portionRange;
 	Range<String> flavorRange;
@@ -44,7 +44,7 @@ class TransformDMtoFMUtilTest {
 	void setUp() throws Exception {
 		dm=factory.getInstance().create();
 		cream = new BooleanDecision("whipped_cream");
-		holder= new EnumDecision("holder");
+		holder= new EnumerationDecision("holder");
 		holderRange= new Range<>();
 		holderRange.add(new StringValue("edible_cup"));
 		holderRange.add(new StringValue("plastic_cup"));
@@ -58,7 +58,7 @@ class TransformDMtoFMUtilTest {
 		portionRange.add(new DoubleValue(3));
 		portionRange.add(new DoubleValue(4));
 		portions.setRange(portionRange);
-		flavors= new EnumDecision("flavors");
+		flavors= new EnumerationDecision("flavors");
 		flavors.setCardinality(new Cardinality(1,4));
 		flavorRange=new Range<>();
 		flavorRange.add(new StringValue("vanilla"));
@@ -68,7 +68,7 @@ class TransformDMtoFMUtilTest {
 		flavorRange.add(new StringValue("banana"));
 		flavorRange.add(new StringValue("bubblegum"));
 		flavors.setRange(flavorRange);
-		toppings= new EnumDecision("toppings");
+		toppings= new EnumerationDecision("toppings");
 		topRange= new Range<>();
 		topRange.add(new StringValue("rainbow_sprinkles"));
 		topRange.add(new StringValue("cocoa"));

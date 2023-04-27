@@ -15,19 +15,19 @@ import at.jku.cps.travart.dopler.decision.model.impl.AllowAction;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanValue;
 import at.jku.cps.travart.dopler.decision.model.impl.DoubleValue;
-import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.IsTakenFunction;
 import at.jku.cps.travart.dopler.decision.model.impl.Range;
 import at.jku.cps.travart.dopler.decision.model.impl.StringValue;
 
 public class AllowFunctionTest {
 	private AllowAction da;
-	private EnumDecision dec;
+	private EnumerationDecision dec;
 	private ARangeValue<String> v;
 
 	@BeforeEach
 	public void prepareObject() {
-		dec = new EnumDecision("test");
+		dec = new EnumerationDecision("test");
 		Range<String> ra = new Range<>();
 		v = new StringValue("testVal");
 		ra.add(v);
@@ -60,13 +60,13 @@ public class AllowFunctionTest {
 
 	@Test
 	public void DecisionValueRangeTest_AllowDoubleForEnumDec() throws ActionExecutionException {
-		IAction allow = new AllowAction(new EnumDecision("test"), new StringValue("test"));
+		IAction allow = new AllowAction(new EnumerationDecision("test"), new StringValue("test"));
 		assertThrows(ActionExecutionException.class,()->allow.execute());
 	}
 
 	@Test
 	public void DecisionValueRangeTest_AllowBoolForEnumDec() throws ActionExecutionException {
-		IAction allow = new AllowAction(new EnumDecision("test"), BooleanValue.getFalse());
+		IAction allow = new AllowAction(new EnumerationDecision("test"), BooleanValue.getFalse());
 		assertThrows(ActionExecutionException.class,()->allow.execute());
 	}
 
@@ -121,14 +121,14 @@ public class AllowFunctionTest {
 		assertEquals(da.hashCode(), da2.hashCode());
 		AllowAction da3 = new AllowAction(dec, new StringValue("testtest"));
 		assertNotEquals(da.hashCode(), da3.hashCode());
-		EnumDecision dec2 = new EnumDecision("diff");
+		EnumerationDecision dec2 = new EnumerationDecision("diff");
 		Range<String> ra = new Range<>();
 		v = new StringValue("testVal");
 		ra.add(v);
 		dec2.setRange(ra);
 		AllowAction da4 = new AllowAction(dec2, v);
 		assertNotEquals(da.hashCode(), da4.hashCode());
-		EnumDecision dec3 = new EnumDecision("diff");
+		EnumerationDecision dec3 = new EnumerationDecision("diff");
 		dec2.setRange(ra);
 		AllowAction da5 = new AllowAction(dec3, v);
 		assertNotEquals(da.hashCode(), da5.hashCode());

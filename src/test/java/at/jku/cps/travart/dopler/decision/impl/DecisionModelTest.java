@@ -19,7 +19,7 @@ import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanValue;
 import at.jku.cps.travart.dopler.decision.model.impl.DisAllowAction;
-import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.IsTakenFunction;
 import at.jku.cps.travart.dopler.decision.model.impl.NumberDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Range;
@@ -55,7 +55,7 @@ public class DecisionModelTest {
 	public void testGetDecisionNames() {
 		// tests if all decision names are returned.
 		BooleanDecision d1 = new BooleanDecision("btest");
-		EnumDecision d2 = new EnumDecision("test");
+		EnumerationDecision d2 = new EnumerationDecision("test");
 		dm.add(d1);
 		dm.add(d2);
 		assertTrue(dm.getDecisionNames().contains(d1.getId()) && dm.getDecisionNames().contains(d2.getId()));
@@ -66,7 +66,7 @@ public class DecisionModelTest {
 		// tests if the name of the booleanDecision is returned, but not the name
 		// of the enumdecision
 		BooleanDecision d1 = new BooleanDecision("btest");
-		EnumDecision d2 = new EnumDecision("test");
+		EnumerationDecision d2 = new EnumerationDecision("test");
 		dm.add(d1);
 		dm.add(d2);
 		assertTrue(DecisionModelUtils.getBooleanDecisionsAsNames(dm).contains(d1.getId())
@@ -77,7 +77,7 @@ public class DecisionModelTest {
 	@Test
 	public void testGetBooleanDecisions() {
 		BooleanDecision d1 = new BooleanDecision("btest");
-		EnumDecision d2 = new EnumDecision("test");
+		EnumerationDecision d2 = new EnumerationDecision("test");
 		BooleanDecision d3 = new BooleanDecision("btest2");
 		dm.add(d1);
 		dm.add(d2);
@@ -90,7 +90,7 @@ public class DecisionModelTest {
 	@Test
 	public void testGetEnumDecisionsAsNames() {
 		BooleanDecision d1 = new BooleanDecision("btest");
-		EnumDecision d2 = new EnumDecision("test");
+		EnumerationDecision d2 = new EnumerationDecision("test");
 		BooleanDecision d3 = new BooleanDecision("btest2");
 		dm.add(d1);
 		dm.add(d2);
@@ -104,7 +104,7 @@ public class DecisionModelTest {
 	@Test
 	public void testGetEnumDecisions() {
 		BooleanDecision d1 = new BooleanDecision("btest");
-		EnumDecision d2 = new EnumDecision("test");
+		EnumerationDecision d2 = new EnumerationDecision("test");
 		BooleanDecision d3 = new BooleanDecision("btest2");
 		dm.add(d1);
 		dm.add(d2);
@@ -117,7 +117,7 @@ public class DecisionModelTest {
 	@Test
 	public void testGetNumberDecisionsAsNames() {
 		BooleanDecision d1 = new BooleanDecision("btest");
-		EnumDecision d2 = new EnumDecision("test");
+		EnumerationDecision d2 = new EnumerationDecision("test");
 		BooleanDecision d3 = new BooleanDecision("btest2");
 		NumberDecision d4 = new NumberDecision("ntest");
 		dm.add(d1);
@@ -134,7 +134,7 @@ public class DecisionModelTest {
 	@Test
 	public void testGetNumberDecisions() {
 		BooleanDecision d1 = new BooleanDecision("btest");
-		EnumDecision d2 = new EnumDecision("test");
+		EnumerationDecision d2 = new EnumerationDecision("test");
 		BooleanDecision d3 = new BooleanDecision("btest2");
 		NumberDecision d4 = new NumberDecision("ntest");
 		dm.add(d1);
@@ -150,7 +150,7 @@ public class DecisionModelTest {
 	@Test
 	public void testGetStringDecisionsAsNames() {
 		BooleanDecision d1 = new BooleanDecision("btest");
-		EnumDecision d2 = new EnumDecision("test");
+		EnumerationDecision d2 = new EnumerationDecision("test");
 		BooleanDecision d3 = new BooleanDecision("btest2");
 		NumberDecision d4 = new NumberDecision("ntest");
 		StringDecision d5 = new StringDecision("setest");
@@ -171,7 +171,7 @@ public class DecisionModelTest {
 	@Test
 	public void testGetStringDecisions() {
 		BooleanDecision d1 = new BooleanDecision("btest");
-		EnumDecision d2 = new EnumDecision("test");
+		EnumerationDecision d2 = new EnumerationDecision("test");
 		BooleanDecision d3 = new BooleanDecision("btest2");
 		NumberDecision d4 = new NumberDecision("ntest");
 		StringDecision d5 = new StringDecision("setest");
@@ -190,7 +190,7 @@ public class DecisionModelTest {
 	@Test
 	public void testGetSelectableDecisionsAsNames() {
 		BooleanDecision d1 = new BooleanDecision("btest");
-		EnumDecision d2 = new EnumDecision("test");
+		EnumerationDecision d2 = new EnumerationDecision("test");
 		BooleanDecision d3 = new BooleanDecision("btest2");
 		NumberDecision d4 = new NumberDecision("ntest");
 		StringDecision d5 = new StringDecision("setest");
@@ -209,7 +209,7 @@ public class DecisionModelTest {
 	@Test
 	public void testGetSelectableDecisions() {
 		BooleanDecision d1 = new BooleanDecision("btest");
-		EnumDecision d2 = new EnumDecision("test");
+		EnumerationDecision d2 = new EnumerationDecision("test");
 		BooleanDecision d3 = new BooleanDecision("btest2");
 		NumberDecision d4 = new NumberDecision("ntest");
 		StringDecision d5 = new StringDecision("setest");
@@ -228,7 +228,7 @@ public class DecisionModelTest {
 	@Test
 	public void testGetSelectedDecisionsAsNames() {
 		BooleanDecision d1 = new BooleanDecision("btest");
-		EnumDecision d2 = new EnumDecision("test");
+		EnumerationDecision d2 = new EnumerationDecision("test");
 		BooleanDecision d3 = new BooleanDecision("btest2");
 		NumberDecision d4 = new NumberDecision("ntest");
 		StringDecision d5 = new StringDecision("setest");
@@ -250,7 +250,7 @@ public class DecisionModelTest {
 	@Test
 	public void testGetSelectedDecisions() {
 		BooleanDecision d1 = new BooleanDecision("btest");
-		EnumDecision d2 = new EnumDecision("test");
+		EnumerationDecision d2 = new EnumerationDecision("test");
 		BooleanDecision d3 = new BooleanDecision("btest2");
 		NumberDecision d4 = new NumberDecision("ntest");
 		StringDecision d5 = new StringDecision("setest");
@@ -272,7 +272,7 @@ public class DecisionModelTest {
 	@Test
 	public void testGetReachableDecisions() {
 		BooleanDecision d1 = new BooleanDecision("btest");
-		EnumDecision d2 = new EnumDecision("test");
+		EnumerationDecision d2 = new EnumerationDecision("test");
 		BooleanDecision d3 = new BooleanDecision("btest2");
 		NumberDecision d4 = new NumberDecision("ntest");
 		StringDecision d5 = new StringDecision("setest");
@@ -296,7 +296,7 @@ public class DecisionModelTest {
 	public void testHasReachableDecisions() {
 		assertFalse(DecisionModelUtils.hasReachableDecisions(dm));
 		BooleanDecision d1 = new BooleanDecision("btest");
-		EnumDecision d2 = new EnumDecision("test");
+		EnumerationDecision d2 = new EnumerationDecision("test");
 		BooleanDecision d3 = new BooleanDecision("btest2");
 		NumberDecision d4 = new NumberDecision("ntest");
 		StringDecision d5 = new StringDecision("setest");
@@ -354,7 +354,7 @@ public class DecisionModelTest {
 	@Test
 	public void testSetDecisionValue() throws ActionExecutionException, RangeValueException {
 		BooleanDecision d1 = new BooleanDecision("btest");
-		EnumDecision d2 = new EnumDecision("test");
+		EnumerationDecision d2 = new EnumerationDecision("test");
 		dm.add(d1);
 		dm.add(d2);
 		d1.setValue(false);
@@ -405,7 +405,7 @@ public class DecisionModelTest {
 
 	@Test
 	public void testIsValidEmptyEnumDecision() {
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		dm.add(d);
 		d.setSelected(true);
 		assertFalse(dm.isValid(), "EnumDecision has no Values and should therefore yield false.");
@@ -413,7 +413,7 @@ public class DecisionModelTest {
 
 	@Test
 	public void isValidAllRulesMustHold() throws RangeValueException {
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		StringValue s1 = new StringValue("s1");
 		StringValue s2 = new StringValue("s2");
 		Range<String> r = new Range<>();
@@ -430,7 +430,7 @@ public class DecisionModelTest {
 
 	@Test
 	public void isValidNoRules() throws RangeValueException {
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		StringValue s1 = new StringValue("s1");
 		StringValue s2 = new StringValue("s2");
 		Range<String> r = new Range<>();
@@ -445,7 +445,7 @@ public class DecisionModelTest {
 
 	@Test
 	public void isValidAllRulesSatisfied() throws RangeValueException, ActionExecutionException {
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		StringValue s1 = new StringValue("s1");
 		StringValue s2 = new StringValue("s2");
 		Range<String> r = new Range<>();
@@ -464,7 +464,7 @@ public class DecisionModelTest {
 
 	@Test
 	public void isValidActionExecutionException() throws IllegalArgumentException, RangeValueException {
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		StringValue s1 = new StringValue("s1");
 		StringValue s2 = new StringValue("s2");
 		Range<String> r = new Range<>();
@@ -484,9 +484,9 @@ public class DecisionModelTest {
 
 	@Test
 	public void testFindString() {
-		EnumDecision d = new EnumDecision("etest");
+		EnumerationDecision d = new EnumerationDecision("etest");
 		BooleanDecision b = new BooleanDecision("btest");
-		EnumDecision dn = new EnumDecision("notContained");
+		EnumerationDecision dn = new EnumerationDecision("notContained");
 		dm.add(d);
 		dm.add(b);
 		assertEquals(d, dm.get(d.getId()), "d is in the model and should be found.");
@@ -496,7 +496,7 @@ public class DecisionModelTest {
 
 	@Test
 	public void testReset() throws RangeValueException {
-		EnumDecision d = new EnumDecision("etest");
+		EnumerationDecision d = new EnumerationDecision("etest");
 		Range<String> r = new Range<>();
 		StringValue s1 = new StringValue("s1");
 		StringValue s2 = new StringValue("s2");
@@ -521,7 +521,7 @@ public class DecisionModelTest {
 
 	@Test
 	public void testToStringWithDecisions() throws RangeValueException {
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		StringValue s1 = new StringValue("s1");
 		Range<String> r = new Range<>();
 		r.add(s1);

@@ -15,7 +15,7 @@ import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueNotEnabledException;
 import at.jku.cps.travart.dopler.decision.exc.UnsatisfiedCardinalityException;
 import at.jku.cps.travart.dopler.decision.model.impl.Cardinality;
-import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Range;
 import at.jku.cps.travart.dopler.decision.model.impl.StringValue;
 
@@ -24,7 +24,7 @@ public class EnumDecisionTest {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void emptyRangeTest() {
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		Range r = new Range();
 		d.setRange(r);
 		assertThrows(NullPointerException.class, () ->d.getRangeValue(null));
@@ -33,7 +33,7 @@ public class EnumDecisionTest {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void hasNoneOptionTest() {
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		Range r = new Range();
 		d.setRange(r);
 		assertFalse(d.hasNoneOption());
@@ -45,7 +45,7 @@ public class EnumDecisionTest {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void addNoneOptionTest() {
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		Range r = new Range();
 		d.setRange(r);
 		assertFalse(d.hasNoneOption());
@@ -57,7 +57,7 @@ public class EnumDecisionTest {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void getNoneOptionTest() {
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		Range r = new Range();
 		d.setRange(r);
 		assertFalse(d.hasNoneOption());
@@ -67,7 +67,7 @@ public class EnumDecisionTest {
 
 	@Test
 	public void evalTest() {
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		d.setCardinality(new Cardinality(1, 1));
 		assertFalse(d.isSelected());
 	}
@@ -75,7 +75,7 @@ public class EnumDecisionTest {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void getValueTest() throws RangeValueException {
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		d.setCardinality(new Cardinality(0, 1));
 		Range r = new Range();
 		r.add(new StringValue("test"));
@@ -94,7 +94,7 @@ public class EnumDecisionTest {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void setValueTest_setValueNotInRange() throws RangeValueException {
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		Range r = new Range();
 		r.add(new StringValue("test"));
 		d.setRange(r);
@@ -107,7 +107,7 @@ public class EnumDecisionTest {
 	@Test
 	public void setValueTest_setValueNotEnabled() throws RangeValueException {
 		// try to set value that is not enabled
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		Range r = new Range();
 		StringValue s = new StringValue("test");
 		s.disable();
@@ -120,7 +120,7 @@ public class EnumDecisionTest {
 	@Test
 	public void setValueTest_setValueViolatingCardinality() throws RangeValueException {
 		// try to set value that does not satisfy cardinality
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		d.setCardinality(new Cardinality(3, 3));
 		Range r = new Range();
 		StringValue s = new StringValue("test");
@@ -135,7 +135,7 @@ public class EnumDecisionTest {
 		// This next test creates 3 values for a decision
 		// with a cardinality minimum of 3. It sets all values
 		// and then tests if the values are actually set
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		d.setCardinality(new Cardinality(3, 4));
 		Range r = new Range();
 		StringValue s1 = new StringValue("test1");
@@ -157,7 +157,7 @@ public class EnumDecisionTest {
 
 	@Test
 	public void setValueTest_UnfittingCardinality() throws RangeValueException {
-		EnumDecision d1 = new EnumDecision("test");
+		EnumerationDecision d1 = new EnumerationDecision("test");
 		d1.setCardinality(new Cardinality(2, 2));
 		Range<String> r1 = new Range<>();
 		StringValue t1 = new StringValue("test1");
@@ -171,7 +171,7 @@ public class EnumDecisionTest {
 
 	@Test
 	public void setValueTest_TooManyValuesForCardinality() throws RangeValueException, UnsatisfiedCardinalityException {
-		EnumDecision d1 = new EnumDecision("test");
+		EnumerationDecision d1 = new EnumerationDecision("test");
 		d1.setCardinality(new Cardinality(0, 2));
 		Range<String> r1 = new Range<>();
 		StringValue t11 = new StringValue("test1");
@@ -195,7 +195,7 @@ public class EnumDecisionTest {
 	@Test
 	public void setValueTest_OneNotEnabledValue() throws RangeValueException, UnsatisfiedCardinalityException {
 		// try to set values with one of the values disabled
-		EnumDecision d1 = new EnumDecision("test");
+		EnumerationDecision d1 = new EnumerationDecision("test");
 		d1.setCardinality(new Cardinality(3, 3));
 		Range<String> r1 = new Range<>();
 		StringValue t11 = new StringValue("test1");
@@ -216,7 +216,7 @@ public class EnumDecisionTest {
 
 	@Test
 	public void testGetRangeValueStringContained() {
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		StringValue sv = new StringValue("sv");
 		d.getRange().add(sv);
 		assertEquals(sv, d.getRangeValue("sv"),sv + " should equal " + d.getRangeValue("sv"));
@@ -224,7 +224,7 @@ public class EnumDecisionTest {
 
 	@Test
 	public void testGetRangeValueStringNotContained() {
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		StringValue sv = new StringValue("sv");
 		assertNull(d.getRangeValue("sv"),d.getRangeValue("sv") + " should equal null");
 		d.getRange().add(sv);
@@ -233,7 +233,7 @@ public class EnumDecisionTest {
 
 	@Test
 	public void testGetValuesNoValues() {
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		d.getRange().add(d.getNoneOption());
 		Set<ARangeValue<String>> set = new HashSet<>();
 		set.add(d.getNoneOption());
@@ -242,7 +242,7 @@ public class EnumDecisionTest {
 
 	@Test
 	public void testGetCardinality() {
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		assertEquals(new Cardinality(0, 1),
 				d.getCardinality(),d.getCardinality() + " should equal " + new Cardinality(0, 1));
 		d.setCardinality(new Cardinality(0, 2));
@@ -251,7 +251,7 @@ public class EnumDecisionTest {
 
 	@Test
 	public void testSetCardinalityNotNull() {
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		// Cardinality should not be allowed to be null
 		assertThrows(NullPointerException.class, () ->d.setCardinality(null));
 	}
@@ -259,7 +259,7 @@ public class EnumDecisionTest {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void setAndGetValuesTest_shouldPass() throws RangeValueException, UnsatisfiedCardinalityException {
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		d.setCardinality(new Cardinality(0, 2));
 		Range r = new Range();
 		StringValue t1 = new StringValue("test1");
@@ -281,7 +281,7 @@ public class EnumDecisionTest {
 
 	@Test
 	public void testSetValuesNotContainedInRange() throws RangeValueException, UnsatisfiedCardinalityException {
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		Set<ARangeValue<String>> svset = new HashSet<>();
 		svset.add(new StringValue("sv1"));
 		assertThrows(RangeValueException.class, () ->d.setValues(svset));
@@ -290,7 +290,7 @@ public class EnumDecisionTest {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void getValuesTest() throws RangeValueException, UnsatisfiedCardinalityException {
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		d.setCardinality(new Cardinality(0, 2));
 		Range r = new Range();
 		StringValue t1 = new StringValue("test1");
@@ -317,7 +317,7 @@ public class EnumDecisionTest {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void testReset() throws RangeValueException, UnsatisfiedCardinalityException {
-		EnumDecision d = new EnumDecision("test");
+		EnumerationDecision d = new EnumerationDecision("test");
 		d.setCardinality(new Cardinality(0, 4));
 		Range r = new Range();
 		StringValue t1 = new StringValue("test1");

@@ -23,7 +23,7 @@ public class DecisionModelRoundtripTransformer implements IModelTransformer<IDec
 			TransformDMtoFMUtil.createFeatures(fm, dm);
 			TransformDMtoFMUtil.createFeatureTree(fm, dm);
 			TransformDMtoFMUtil.createConstraints(fm, dm);
-			TraVarTUtils.deriveFeatureModelRoot(fm.getFeatureMap(), "VirtualRoot");
+			TraVarTUtils.deriveFeatureModelRoot(fm, "VirtualRoot");
 			return fm;
 		} catch (CircleInConditionException e) {
 			throw new NotSupportedVariabilityTypeException(e);
@@ -36,10 +36,10 @@ public class DecisionModelRoundtripTransformer implements IModelTransformer<IDec
 		try {
 			DecisionModelFactory factory = DecisionModelFactory.getInstance();
 			dm = factory.create();
-			dm.setName(fm.getRootFeature().getFeatureName());
-			TransformFMtoDMUtil.convertFeature(factory, dm, fm.getRootFeature());
-			TransformFMtoDMUtil.convertConstraints(factory, dm, fm, fm.getConstraints());
-			TransformFMtoDMUtil.convertVisibilityCustomProperties(dm, fm.getFeatureMap().values());
+			dm.setName(TraVarTUtils.getFeatureName(TraVarTUtils.getRoot(model)));
+			TransformFMtoDMUtil.convertFeature(factory, dm, TraVarTUtils.getRoot(model));
+			TransformFMtoDMUtil.convertConstraints(factory, dm, model, TraVarTUtils.getOwnConstraints(model));
+			TransformFMtoDMUtil.convertVisibilityCustomProperties(dm, TraVarTUtils.getFeatures(model));
 			return dm;
 		} catch (CircleInConditionException | ConditionCreationException | ReflectiveOperationException e) {
 			throw new NotSupportedVariabilityTypeException(e);

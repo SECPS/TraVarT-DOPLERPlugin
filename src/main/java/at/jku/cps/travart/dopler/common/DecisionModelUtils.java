@@ -37,7 +37,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.And;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.DeSelectDecisionAction;
 import at.jku.cps.travart.dopler.decision.model.impl.DecisionValueCondition;
-import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Equals;
 import at.jku.cps.travart.dopler.decision.model.impl.Greater;
 import at.jku.cps.travart.dopler.decision.model.impl.GreaterEquals;
@@ -158,8 +158,8 @@ public final class DecisionModelUtils {
 		return names;
 	}
 
-	public static Set<EnumDecision> getEnumDecisions(final IDecisionModel dm) {
-		return getDecisionType(dm, DecisionType.ENUM, EnumDecision.class);
+	public static Set<EnumerationDecision> getEnumDecisions(final IDecisionModel dm) {
+		return getDecisionType(dm, DecisionType.ENUM, EnumerationDecision.class);
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -167,12 +167,12 @@ public final class DecisionModelUtils {
 		return decision.getId().matches(ENUM_DECISION_CONSTRAINT_REGEX);
 	}
 
-	public static boolean isTransformedEnumDecision(final EnumDecision decision, final String decisionStartName) {
+	public static boolean isTransformedEnumDecision(final EnumerationDecision decision, final String decisionStartName) {
 		return decision.getId().matches(Pattern.quote(decisionStartName) + ENUM_DECISION_TRANSFORMED_REGEX);
 	}
 
 	public static Set<String> getEnumDecisionsAsNames(final IDecisionModel dm) {
-		return getEnumDecisions(dm).stream().map(EnumDecision::getId)
+		return getEnumDecisions(dm).stream().map(EnumerationDecision::getId)
 				.collect(Collectors.toCollection(LinkedHashSet::new));
 	}
 
@@ -285,7 +285,7 @@ public final class DecisionModelUtils {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static boolean isEnumNoneOption(final IDecision decision, final IValue value) {
 		return decision.getType() == ADecision.DecisionType.ENUM && value instanceof ARangeValue
-				&& ((EnumDecision) decision).isNoneOption((ARangeValue) value);
+				&& ((EnumerationDecision) decision).isNoneOption((ARangeValue) value);
 	}
 
 	/*
@@ -347,17 +347,17 @@ public final class DecisionModelUtils {
 		return condition instanceof Not;
 	}
 
-	public static <T> Set<Set<T>> powerSet(final Set<T> originalSet) {
-		Set<Set<T>> sets = new HashSet<>();
+	public static <T> Collection<Collection<T>> powerSet(final Collection<T> originalSet) {
+		Collection<Collection<T>> sets = new HashSet<>();
 		if (originalSet.isEmpty()) {
-			sets.add(new HashSet<T>());
+			sets.add(new HashSet<>());
 			return sets;
 		}
 		List<T> list = new ArrayList<>(originalSet);
 		T head = list.get(0);
-		Set<T> rest = new HashSet<>(list.subList(1, list.size()));
-		for (Set<T> set : powerSet(rest)) {
-			Set<T> newSet = new HashSet<>();
+		Collection<T> rest = new HashSet<>(list.subList(1, list.size()));
+		for (Collection<T> set : powerSet(rest)) {
+			Collection<T> newSet = new HashSet<>();
 			newSet.add(head);
 			newSet.addAll(set);
 			sets.add(newSet);
@@ -366,7 +366,8 @@ public final class DecisionModelUtils {
 		return sets;
 	}
 
-	public static <T> Set<Set<T>> powerSetWithMinAndMax(final Set<T> originalSet, final int min, final int max) {
+	public static <T> Collection<Collection<T>> powerSetWithMinAndMax(final Collection<T> originalSet, final int min,
+			final int max) {
 		return powerSet(originalSet).stream().filter(set -> set.size() >= min && set.size() <= max)
 				.collect(Collectors.toSet());
 	}

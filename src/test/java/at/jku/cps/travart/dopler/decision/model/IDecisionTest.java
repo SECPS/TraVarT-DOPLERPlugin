@@ -19,7 +19,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.AllowAction;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanValue;
 import at.jku.cps.travart.dopler.decision.model.impl.DoubleValue;
-import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.NumberDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Range;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
@@ -226,7 +226,7 @@ public class IDecisionTest {
 	}
 
 	private static Stream<Arguments> instancesToTest() {
-		return Stream.of(Arguments.of(new BooleanDecision("test")), Arguments.of(new EnumDecision("test")),
+		return Stream.of(Arguments.of(new BooleanDecision("test")), Arguments.of(new EnumerationDecision("test")),
 				Arguments.of(new NumberDecision("test")), Arguments.of(new StringDecision("test")));
 	}
 }

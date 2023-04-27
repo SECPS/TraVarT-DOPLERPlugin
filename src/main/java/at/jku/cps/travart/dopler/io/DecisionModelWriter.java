@@ -15,7 +15,7 @@ import at.jku.cps.travart.dopler.common.DecisionModelUtils;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.IValue;
-import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -48,8 +48,8 @@ public class DecisionModelWriter implements IWriter<IDecisionModel> {
 					rulesSetBuilder.append(rule);
 				}
 
-				String cardinalityString = decision instanceof EnumDecision
-						? ((EnumDecision) decision).getCardinality().toString()
+				String cardinalityString = decision instanceof EnumerationDecision
+						? ((EnumerationDecision) decision).getCardinality().toString()
 						: "";
 				printer.printRecord(decision.getId(), decision.getQuestion(), decision.getType(),
 						rangeSetBuilder.toString(), cardinalityString, rulesSetBuilder.toString(),

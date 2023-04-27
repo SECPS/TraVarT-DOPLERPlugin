@@ -21,7 +21,7 @@ public class LessEqualsTest {
 
 	@Test
 	public void testLessEqualsGetValueFunctionAndARangeValue() throws RangeValueException {
-		EnumDecision ed = new EnumDecision("testDecision");
+		EnumerationDecision ed = new EnumerationDecision("testDecision");
 		StringValue s = new StringValue("TestValue");
 		ed.getRange().add(s);
 		ed.setValue(s.getValue());
@@ -32,7 +32,7 @@ public class LessEqualsTest {
 
 	@Test
 	public void testLessEqualsGetValueFunctionAndGetValueFunctionStrings() {
-		EnumDecision ed = new EnumDecision("testDecision");
+		EnumerationDecision ed = new EnumerationDecision("testDecision");
 		StringValue s = new StringValue("TestValue");
 		ed.getRange().add(s);
 		GetValueFunction gvf1 = new GetValueFunction(ed);

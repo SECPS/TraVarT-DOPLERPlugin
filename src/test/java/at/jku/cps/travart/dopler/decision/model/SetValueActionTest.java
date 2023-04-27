@@ -14,7 +14,7 @@ import at.jku.cps.travart.dopler.decision.exc.ActionExecutionException;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
 import at.jku.cps.travart.dopler.decision.model.impl.Cardinality;
 import at.jku.cps.travart.dopler.decision.model.impl.DoubleValue;
-import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.NumberDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Range;
 import at.jku.cps.travart.dopler.decision.model.impl.SetValueAction;
@@ -23,14 +23,14 @@ import at.jku.cps.travart.dopler.decision.model.impl.StringValue;
 public class SetValueActionTest {
 	private SetValueAction sva;
 	private SetValueAction sva2;
-	private EnumDecision dec;
+	private EnumerationDecision dec;
 	private StringValue sv;
 	private StringValue sv2;
 
 	@BeforeEach
 	public void setUp() throws Exception {
 		Range<String> r = new Range<>();
-		dec = new EnumDecision("test");
+		dec = new EnumerationDecision("test");
 		sv = new StringValue("test");
 		sv2 = new StringValue("test2");
 		r.add(sv);
@@ -154,7 +154,7 @@ public class SetValueActionTest {
 		assertNotEquals(sva, "a String");
 		assertEquals(sva, sva);
 		assertNotEquals(sva, sva2);
-		sva2 = new SetValueAction(new EnumDecision("other"), sv);
+		sva2 = new SetValueAction(new EnumerationDecision("other"), sv);
 		assertNotEquals(sva, sva2);
 		sva2 = new SetValueAction(dec, sv);
 		assertEquals(sva, sva2);

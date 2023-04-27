@@ -17,7 +17,7 @@ import at.jku.cps.travart.dopler.decision.model.ARangeValue;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.And;
-import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.IsSelectedFunction;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
 
@@ -106,11 +106,11 @@ public final class DecisionModel implements IDecisionModel {
 	}
 
 	// TODO: remove from here - nothing to do with decision model per see
-	public Set<EnumDecision> findWithRangeValue(final IDecision decision) {
-		Set<EnumDecision> decisions = new HashSet<>();
+	public Set<EnumerationDecision> findWithRangeValue(final IDecision decision) {
+		Set<EnumerationDecision> decisions = new HashSet<>();
 		for (IDecision d : getDecisions()) {
 			if (d.getType() == ADecision.DecisionType.ENUM) {
-				EnumDecision enumDecision = (EnumDecision) d;
+				EnumerationDecision enumDecision = (EnumerationDecision) d;
 				ARangeValue value = enumDecision.getRangeValue(DecisionModelUtils.retriveFeatureName(decision, true));
 				if (value != null) {
 					decisions.add(enumDecision);

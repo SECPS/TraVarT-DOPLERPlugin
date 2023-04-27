@@ -11,7 +11,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.AllowAction;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.DeSelectDecisionAction;
 import at.jku.cps.travart.dopler.decision.model.impl.DisAllowAction;
-import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Range;
 import at.jku.cps.travart.dopler.decision.model.impl.SelectDecisionAction;
 import at.jku.cps.travart.dopler.decision.model.impl.SetValueAction;
@@ -22,7 +22,7 @@ public class IActionTest {
 	
 	
 	private  IAction a=null;
-	private static EnumDecision e = new EnumDecision("test");
+	private static EnumerationDecision e = new EnumerationDecision("test");
 	private static BooleanDecision b = new BooleanDecision("test");
 	
 	@ParameterizedTest

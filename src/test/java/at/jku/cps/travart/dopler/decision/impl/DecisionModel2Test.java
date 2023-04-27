@@ -24,7 +24,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.DeSelectDecisionAction;
 import at.jku.cps.travart.dopler.decision.model.impl.DisAllowAction;
 import at.jku.cps.travart.dopler.decision.model.impl.DoubleValue;
-import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.IsSelectedFunction;
 import at.jku.cps.travart.dopler.decision.model.impl.NumberDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
@@ -37,7 +37,7 @@ public class DecisionModel2Test {
 	DecisionModel dm;
 	BooleanDecision bd;
 	NumberDecision nd;
-	EnumDecision ed;
+	EnumerationDecision ed;
 	StringDecision sd;
 	private static final String factoryId = "myFactoryId";
 	private static final String modelName = "DecisionModel";
@@ -47,7 +47,7 @@ public class DecisionModel2Test {
 		dm = DecisionModelFactory.getInstance().create();
 		bd = new BooleanDecision("testBool");
 		nd = new NumberDecision("testNumber");
-		ed = new EnumDecision("testEnum");
+		ed = new EnumerationDecision("testEnum");
 		sd = new StringDecision("testString");
 		dm.add(bd);
 		dm.add(nd);
@@ -99,14 +99,14 @@ public class DecisionModel2Test {
 		ed.getRange().add(s1);
 		ed.getRange().add(s2);
 
-		EnumDecision ed2 = new EnumDecision("svalue1");
+		EnumerationDecision ed2 = new EnumerationDecision("svalue1");
 		StringValue sv1 = new StringValue("TheChoseValue1");
 		ed2.getRange().add(sv1);
 		ed2.setValue(sv1.getValue());
 		dm.add(ed2);
 		assertEquals(sv1, ed2.getValue());
 
-		EnumDecision ed3 = new EnumDecision("svalue2");
+		EnumerationDecision ed3 = new EnumerationDecision("svalue2");
 		StringValue sv2 = new StringValue("TheChoseValue2");
 		ed3.getRange().add(sv2);
 		ed3.setValue(sv2.getValue());
@@ -141,7 +141,7 @@ public class DecisionModel2Test {
 	public void testFindWithRangeValue() {
 		StringValue sv = new StringValue("value");
 		ed.getRange().add(sv);
-		EnumDecision ed2 = new EnumDecision("anotherEnum");
+		EnumerationDecision ed2 = new EnumerationDecision("anotherEnum");
 		dm.add(ed2);
 		ed.getRange().add(new StringValue("anotherEnum"));
 		assertTrue(dm.findWithRangeValue(ed2).contains(ed));

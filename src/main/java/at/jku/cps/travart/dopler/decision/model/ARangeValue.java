@@ -8,11 +8,11 @@ public abstract class ARangeValue<T> implements IRangeValue<T> {
 	private T value;
 	private boolean enabled;
 
-	public ARangeValue() {
+	protected ARangeValue() {
 		enabled = true;
 	}
 
-	public ARangeValue(final T value) {
+	protected ARangeValue(final T value) {
 		this();
 		this.value = value;
 	}
@@ -29,7 +29,7 @@ public abstract class ARangeValue<T> implements IRangeValue<T> {
 
 	@Override
 	public String toString() {
-		return value.toString().replaceAll("\\.", ",");
+		return value.toString().replace('.', ',');
 	}
 
 	@Override
@@ -62,10 +62,7 @@ public abstract class ARangeValue<T> implements IRangeValue<T> {
 		if (this == obj) {
 			return true;
 		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
+		if ((obj == null) || (getClass() != obj.getClass())) {
 			return false;
 		}
 		ARangeValue other = (ARangeValue) obj;

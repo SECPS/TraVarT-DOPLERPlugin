@@ -11,7 +11,7 @@ import at.jku.cps.travart.dopler.decision.exc.CircleInConditionException;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
 import at.jku.cps.travart.dopler.decision.model.impl.And;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
-import at.jku.cps.travart.dopler.decision.model.impl.EnumDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.IsTakenFunction;
 import at.jku.cps.travart.dopler.decision.model.impl.Range;
 import at.jku.cps.travart.dopler.decision.model.impl.StringValue;
@@ -36,7 +36,7 @@ public class AndTest {
 		IDecision c = null;
 		b.setValue(true);
 		a.setLeft(new IsTakenFunction(b));
-		c = new EnumDecision("test2");
+		c = new EnumerationDecision("test2");
 		StringValue s = new StringValue("EnumValue");
 		Range r = new Range();
 		r.add(s);
