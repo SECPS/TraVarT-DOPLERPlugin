@@ -1,8 +1,8 @@
 /*******************************************************************************
  * TODO: explanation what the class does
- *  
+ *
  *  @author Kevin Feichtinger
- *  
+ *
  * Copyright 2023 Johannes Kepler University Linz
  * LIT Cyber-Physical Systems Lab
  * All rights reserved
@@ -72,6 +72,7 @@ public abstract class TransformDMtoFMUtil {
 			Feature feature = new Feature(featureName);
 			// Features are optional by default
 			TraVarTUtils.addFeature(fm, feature);
+			TraVarTUtils.setGroup(fm, feature, TraVarTUtils.getRoot(fm), Group.GroupType.OPTIONAL);
 		}
 		// second add all Number decisions
 		// FIXME there's some issue with parent features for number decisions not being
@@ -80,10 +81,8 @@ public abstract class TransformDMtoFMUtil {
 		for (NumberDecision decision : DecisionModelUtils.getNumberDecisions(dm)) {
 			String featureName = retriveFeatureName(decision);
 			Feature feature = new Feature(featureName);
-			Group alternativeGroup = null;
-			if (!decision.getRange().isEmpty()) {
-				alternativeGroup = new Group(GroupType.ALTERNATIVE);
-			}
+			TraVarTUtils.addFeature(fm, feature);
+			TraVarTUtils.setGroup(fm, feature, TraVarTUtils.getRoot(fm), Group.GroupType.OPTIONAL);
 			for (Object o : decision.getRange()) {
 				IValue value = (IValue) o;
 				String childName = featureName
@@ -91,18 +90,13 @@ public abstract class TransformDMtoFMUtil {
 						+ value.getValue().toString();
 				// first check if you can find a feature with the same name as the value
 				// if so use it, otherwise create it
-				Feature child = fm.getFeatureMap().get(childName);
+				Feature child = TraVarTUtils.getFeature(fm, childName);
 				if (child == null) {
 					child = new Feature(childName);
-					fm.getFeatureMap().put(childName, child);
+					TraVarTUtils.addFeature(fm, child);
+					TraVarTUtils.setGroup(fm, feature, feature, Group.GroupType.ALTERNATIVE);
 				}
-				alternativeGroup.getFeatures().add(child);
 			}
-			// TODO check all instances of newly created features that there in the actual
-			// tree as well, not just the
-			// map.
-			feature.addChildren(alternativeGroup);
-			TraVarTUtils.addFeature(fm, feature);
 		}
 		// third add all String decisions
 		for (StringDecision decision : DecisionModelUtils.getStringDecisions(dm)) {
@@ -110,47 +104,53 @@ public abstract class TransformDMtoFMUtil {
 			Feature feature = new Feature(featureName);
 			// Features are optional by default
 			TraVarTUtils.addFeature(fm, feature);
+			TraVarTUtils.setGroup(fm, feature, TraVarTUtils.getRoot(fm), Group.GroupType.OPTIONAL);
 		}
 		// finally build enumeration decisions from exiting features
 		for (EnumerationDecision decision : DecisionModelUtils.getEnumDecisions(dm)) {
 			if (!DecisionModelUtils.isEnumDecisionConstraint(decision)) {
 				String featureName = retriveFeatureName(decision);
-				Feature feature = fm.getFeatureMap().get(featureName);
+				Feature feature = TraVarTUtils.getFeature(fm, featureName);
+				Cardinality cardinality = decision.getCardinality();
 				if (feature == null) {
 					feature = new Feature(featureName);
-					fm.getFeatureMap().put(featureName, feature);
+					TraVarTUtils.addFeature(fm, feature);
+
+					TraVarTUtils.setGroup(fm, feature, TraVarTUtils.getRoot(fm),
+							cardinality.getMin() > 0 ? Group.GroupType.MANDATORY : Group.GroupType.OPTIONAL);
 				}
-				Cardinality cardinality = decision.getCardinality();
-				Group enumGroup = null;
+				Group group;
 				if (cardinality.isAlternative()) {
-					enumGroup = new Group(GroupType.ALTERNATIVE);
+					TraVarTUtils.addGroup(fm, feature, GroupType.ALTERNATIVE);
+					group = TraVarTUtils.getGroup(feature, GroupType.ALTERNATIVE);
 				} else if (cardinality.isOr()) {
-					enumGroup = new Group(GroupType.OR);
+					TraVarTUtils.addGroup(fm, feature, GroupType.OR);
+					group = TraVarTUtils.getGroup(feature, GroupType.OR);
 				} else {
-					enumGroup = new Group(GroupType.GROUP_CARDINALITY);
-					enumGroup.setLowerBound(String.valueOf(cardinality.getMin()));
-					enumGroup.setUpperBound(String.valueOf(cardinality.getMax()));
+					TraVarTUtils.addGroup(fm, feature, GroupType.GROUP_CARDINALITY);
+					group = TraVarTUtils.getGroup(feature, GroupType.GROUP_CARDINALITY);
+					group.setLowerBound(String.valueOf(cardinality.getMin()));
+					group.setUpperBound(String.valueOf(cardinality.getMax()));
 				}
+				// group is yet to be empty
 				for (Object o : decision.getRange()) {
 					IValue value = (IValue) o;
 					String childName = value.getValue().toString();
 					// first check if you can find a feature with the same name as the value
 					// if so use it, otherwise create it
-					Feature child = fm.getFeatureMap().get(childName);
+					Feature child = TraVarTUtils.getFeature(fm, childName);
 					if (child != null) {
 						TraVarTUtils.addFeature(fm, feature);
-						enumGroup.getFeatures().add(child);
+						TraVarTUtils.addToGroup(fm, child, feature, group.GROUPTYPE);
 					}
 					// If None value is read, don't add it, as it is special added for optional
 					// groups
 					else if (!DecisionModelUtils.isEnumNoneOption(decision, value)) {
 						child = new Feature(childName);
-						TraVarTUtils.addFeature(fm, feature);
-						enumGroup.getFeatures().add(child);
+						TraVarTUtils.addFeature(fm, child);
+						TraVarTUtils.addToGroup(fm, child, feature, group.GROUPTYPE);
 					}
 				}
-				// Features are optional by default
-				feature.addChildren(enumGroup);
 			} else {
 				// TODO: return transformation if it contains at least 2 # in decision id, then
 				// it is a constraint --> build constraint based on cardinality and setdecision
@@ -501,7 +501,7 @@ public abstract class TransformDMtoFMUtil {
 			LiteralConstraint variableLiteral = new LiteralConstraint(variableFeature.getFeatureName());
 			Constraint constraint;
 			if (DecisionModelUtils.isNotCondition(condition)) {
-				constraint = new OrConstraint(new LiteralConstraint(conditionConstraint.toString()),
+				constraint = new ImplicationConstraint(new LiteralConstraint(conditionConstraint.toString()),
 						new LiteralConstraint(variableLiteral.toString()));
 			} else if (action instanceof SelectDecisionAction) {
 				constraint = new ImplicationConstraint(conditionConstraint, variableLiteral);
