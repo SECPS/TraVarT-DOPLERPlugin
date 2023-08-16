@@ -1,8 +1,8 @@
 /*******************************************************************************
  * TODO: explanation what the class does
- *  
+ *
  *  @author Kevin Feichtinger
- *  
+ *
  * Copyright 2023 Johannes Kepler University Linz
  * LIT Cyber-Physical Systems Lab
  * All rights reserved
@@ -15,6 +15,8 @@ import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -41,6 +43,9 @@ import at.jku.cps.travart.dopler.decision.parser.RulesParser;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class DecisionModelReader implements IReader<IDecisionModel> {
+
+	public static final String FILE_EXTENSION_CSV = ".csv";
+
 	private static final String CARDINALITY_NOT_SUPPORTED_ERROR = "Cardinality %s not supported for decision of type %s";
 
 	private final DecisionModelFactory factory;
@@ -81,13 +86,13 @@ public class DecisionModelReader implements IReader<IDecisionModel> {
 				String range = record.get(DMCSVHeader.RANGE);
 				if (!range.isBlank()) {
 					if (decision.getType() == DecisionType.NUMBER) {
-						String[] ranges = Arrays.stream(range.split( "-")).map(String::trim).filter(s -> !s.isEmpty() && !s.isBlank())
-								.toArray(String[]::new);
+						String[] ranges = Arrays.stream(range.split("-")).map(String::trim)
+								.filter(s -> !s.isEmpty() && !s.isBlank()).toArray(String[]::new);
 						Range<Double> valueRange = factory.createNumberValueRange(ranges);
 						decision.setRange(valueRange);
 					} else {
-						String[] options = Arrays.stream(range.split( "\\|")).map(String::trim).filter(s -> !s.isEmpty() && !s.isBlank())
-								.toArray(String[]::new);
+						String[] options = Arrays.stream(range.split("\\|")).map(String::trim)
+								.filter(s -> !s.isEmpty() && !s.isBlank()).toArray(String[]::new);
 						Range<String> valueOptions = factory.createEnumValueOptions(options);
 						decision.setRange(valueOptions);
 					}
@@ -95,8 +100,8 @@ public class DecisionModelReader implements IReader<IDecisionModel> {
 
 				String cardinality = record.get(DMCSVHeader.CARDINALITY).trim();
 				if (!cardinality.isEmpty()) {
-					String[] values =Arrays.stream(cardinality.split( ":")).map(String::trim).filter(s -> !s.isEmpty() && !s.isBlank())
-							.toArray(String[]::new);
+					String[] values = Arrays.stream(cardinality.split(":")).map(String::trim)
+							.filter(s -> !s.isEmpty() && !s.isBlank()).toArray(String[]::new);
 					if (!(decision instanceof EnumerationDecision) || !(values.length == 2)) {
 						throw new NotSupportedVariabilityTypeException(String.format(CARDINALITY_NOT_SUPPORTED_ERROR,
 								cardinality, decision.getClass().getCanonicalName()));
@@ -121,8 +126,8 @@ public class DecisionModelReader implements IReader<IDecisionModel> {
 				if (!csvRules.isEmpty()) {
 					// TODO: Find better way to spit the string of rules (decision names may have
 					// "if" as part of their names)
-					String[] CSVruleSplit = Arrays.stream(csvRules.split( "if")).map(String::trim).filter(s -> !s.isEmpty() && !s.isBlank())
-							.toArray(String[]::new);
+					String[] CSVruleSplit = Arrays.stream(csvRules.split("if")).map(String::trim)
+							.filter(s -> !s.isEmpty() && !s.isBlank()).toArray(String[]::new);
 					Set<Rule> rules = rParser.parse(decision, CSVruleSplit);
 					decision.addRules(rules);
 				}
@@ -133,5 +138,10 @@ public class DecisionModelReader implements IReader<IDecisionModel> {
 			}
 		}
 		return dm;
+	}
+
+	@Override
+	public Iterable<String> fileExtensions() {
+		return Collections.unmodifiableList(List.of(FILE_EXTENSION_CSV));
 	}
 }
