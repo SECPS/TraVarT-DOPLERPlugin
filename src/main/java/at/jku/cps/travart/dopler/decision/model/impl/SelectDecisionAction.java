@@ -13,7 +13,7 @@ import java.util.Objects;
 
 import at.jku.cps.travart.dopler.decision.exc.ActionExecutionException;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
-import at.jku.cps.travart.dopler.decision.model.ADecision.DecisionType;
+import at.jku.cps.travart.dopler.decision.model.AbstractDecision.DecisionType;
 import at.jku.cps.travart.dopler.decision.model.IAction;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.IValue;

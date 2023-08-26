@@ -62,7 +62,7 @@ public class RangeTest {
 	
 	@Test
 	public void testEqualsDifferentSubclass() {
-		HashSet<ARangeValue<Double>> hs=new HashSet<>();
+		HashSet<AbstractRangeValue<Double>> hs=new HashSet<>();
 		assertNotEquals(r,hs);
 	}
 	

@@ -1,8 +1,8 @@
 /*******************************************************************************
  * TODO: explanation what the class does
- *  
+ *
  *  @author Kevin Feichtinger
- *  
+ *
  * Copyright 2023 Johannes Kepler University Linz
  * LIT Cyber-Physical Systems Lab
  * All rights reserved
@@ -12,13 +12,13 @@ package at.jku.cps.travart.dopler.decision.model.impl;
 import java.util.Objects;
 
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
-import at.jku.cps.travart.dopler.decision.model.ADecision;
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractDecision;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 
-public class BooleanDecision extends ADecision<Boolean> {
+public class BooleanDecision extends AbstractDecision<Boolean> {
 
 	private final Range<Boolean> range;
-	private ARangeValue<Boolean> value;
+	private AbstractRangeValue<Boolean> value;
 
 	public BooleanDecision(final String id) {
 		super(id, DecisionType.BOOLEAN);
@@ -29,7 +29,7 @@ public class BooleanDecision extends ADecision<Boolean> {
 	}
 
 	@Override
-	public ARangeValue<Boolean> getValue() {
+	public AbstractRangeValue<Boolean> getValue() {
 		return value;
 	}
 
@@ -46,7 +46,7 @@ public class BooleanDecision extends ADecision<Boolean> {
 	}
 
 	@Override
-	public final ARangeValue<Boolean> getRangeValue(final String str) {
+	public final AbstractRangeValue<Boolean> getRangeValue(final String str) {
 		return getRangeValue(Boolean.valueOf(str));
 	}
 
@@ -66,6 +66,11 @@ public class BooleanDecision extends ADecision<Boolean> {
 	public void reset() throws RangeValueException {
 		setValue(false);
 		setIsTaken(false);
-		range.forEach(ARangeValue::enable);
+		range.forEach(AbstractRangeValue::enable);
 	}
+
+//	@Override
+//	public int compareTo(final Boolean o) {
+//		return value.getValue() == o ? 0 : value.getValue() ? 1 : -1;
+//	}
 }

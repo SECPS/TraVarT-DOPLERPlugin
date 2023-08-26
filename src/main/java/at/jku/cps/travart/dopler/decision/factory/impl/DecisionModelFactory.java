@@ -13,7 +13,7 @@ import java.util.Objects;
 
 import at.jku.cps.travart.dopler.decision.factory.IDecisionModelFactory;
 import at.jku.cps.travart.dopler.decision.impl.DecisionModel;
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 import at.jku.cps.travart.dopler.decision.model.IAction;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
@@ -165,7 +165,7 @@ public class DecisionModelFactory implements IDecisionModelFactory {
 	}
 
 	@Override
-	public ICondition createEquals(final ICondition getValue, final ARangeValue<?> value) {
+	public ICondition createEquals(final ICondition getValue, final AbstractRangeValue<?> value) {
 		return new Equals(getValue, value);
 	}
 

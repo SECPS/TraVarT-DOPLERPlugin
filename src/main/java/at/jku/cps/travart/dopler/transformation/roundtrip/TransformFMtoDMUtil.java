@@ -28,8 +28,8 @@ import at.jku.cps.travart.dopler.decision.exc.ConditionCreationException;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
 import at.jku.cps.travart.dopler.decision.factory.impl.DecisionModelFactory;
 import at.jku.cps.travart.dopler.decision.impl.DecisionModel;
-import at.jku.cps.travart.dopler.decision.model.ADecision;
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractDecision;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 import at.jku.cps.travart.dopler.decision.model.IAction;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
@@ -137,7 +137,7 @@ public abstract class TransformFMtoDMUtil {
 				.collect(Collectors.toList())) {
 			convertFeature(factory, dm, optionFeature);
 			BooleanDecision optionDecision = (BooleanDecision) dm.get(optionFeature.getFeatureName());
-			ARangeValue optionValue = enumDecision.getRangeValue(TraVarTUtils.getFeatureName(optionFeature));
+			AbstractRangeValue optionValue = enumDecision.getRangeValue(TraVarTUtils.getFeatureName(optionFeature));
 			// as tree traversal, the parent should be dealt with already
 			assert optionDecision != null;
 			Rule rule = new Rule(new DecisionValueCondition(enumDecision, optionValue),
@@ -326,7 +326,7 @@ public abstract class TransformFMtoDMUtil {
 		Constraint positive = TraVarTUtils.getFirstPositiveLiteral(constraint);
 		String feature = ((LiteralConstraint) positive).getLiteral();
 		IDecision decision = dm.get(feature);
-		if (decision.getType() == ADecision.DecisionType.BOOLEAN) {
+		if (decision.getType() == AbstractDecision.DecisionType.BOOLEAN) {
 			BooleanDecision target = (BooleanDecision) decision;
 			Set<Constraint> negativeLiterals = TraVarTUtils.getNegativeLiterals(constraint);
 			List<IDecision> conditionDecisions = findDecisionsForLiterals(dm, negativeLiterals);
@@ -368,7 +368,7 @@ public abstract class TransformFMtoDMUtil {
 							new SelectDecisionAction(target));
 					enumDecision.addRule(rule);
 					updateRules(enumDecision, rule);
-				} else if (hasOptionalParent(fm, sourceFeature) && target.getType() == ADecision.DecisionType.BOOLEAN) {
+				} else if (hasOptionalParent(fm, sourceFeature) && target.getType() == AbstractDecision.DecisionType.BOOLEAN) {
 					// search the boolean parent decision for the enum and then set the rule there
 					IDecision parent = ((IsSelectedFunction) enumDecision.getVisiblity()).getParameters().get(0);
 					Rule rule = new Rule(new IsSelectedFunction(parent), new SelectDecisionAction(target));
@@ -390,11 +390,11 @@ public abstract class TransformFMtoDMUtil {
 
 			} else if (!hasVirtualParent(fm, target) && isEnumSubFeature(fm, target)) {
 				EnumerationDecision enumDecision = findEnumDecisionByRangeValue(dm, target);
-				ARangeValue value = enumDecision.getRangeValue(targetFeature);
+				AbstractRangeValue value = enumDecision.getRangeValue(targetFeature);
 				Rule rule = new Rule(new IsSelectedFunction(source), new SetValueAction(enumDecision, value));
 				source.addRule(rule);
 				updateRules(source, rule);
-			} else if (target.getType() == ADecision.DecisionType.BOOLEAN) {
+			} else if (target.getType() == AbstractDecision.DecisionType.BOOLEAN) {
 				Rule rule = new Rule(new IsSelectedFunction(source), new SelectDecisionAction(target));
 				source.addRule(rule);
 				updateRules(source, rule);
@@ -419,7 +419,7 @@ public abstract class TransformFMtoDMUtil {
 
 	public static boolean hasVirtualParent(final FeatureModel fm, final IDecision decision) {
 		Feature feature = fm.getFeatureMap().get(
-				DecisionModelUtils.retriveFeatureName(decision, decision.getType() == ADecision.DecisionType.BOOLEAN));
+				DecisionModelUtils.retriveFeatureName(decision, decision.getType() == AbstractDecision.DecisionType.BOOLEAN));
 		Feature parent = feature.getParentFeature();
 		if (parent == null) {
 			return false;
@@ -451,13 +451,13 @@ public abstract class TransformFMtoDMUtil {
 				source.addRule(rule);
 				updateRules(source, rule);
 				EnumerationDecision enumDecision = findEnumDecisionByRangeValue(dm, source);
-				ARangeValue value = enumDecision.getRangeValue(sourceFeature);
+				AbstractRangeValue value = enumDecision.getRangeValue(sourceFeature);
 				rule = new Rule(new IsSelectedFunction(target), new DisAllowAction(enumDecision, value));
 				target.addRule(rule);
 				updateRules(target, rule);
 			} else if (!isEnumSubFeature(fm, source) && isEnumSubFeature(fm, target)) {
 				EnumerationDecision enumDecision = findEnumDecisionByRangeValue(dm, target);
-				ARangeValue value = enumDecision.getRangeValue(targetFeature);
+				AbstractRangeValue value = enumDecision.getRangeValue(targetFeature);
 				Rule rule = new Rule(new IsSelectedFunction(source), new DisAllowAction(enumDecision, value));
 				source.addRule(rule);
 				updateRules(target, rule);
@@ -467,8 +467,8 @@ public abstract class TransformFMtoDMUtil {
 			} else if (isEnumSubFeature(fm, source) && isEnumSubFeature(fm, target)) {
 				EnumerationDecision sourceEnumDecision = findEnumDecisionByRangeValue(dm, source);
 				EnumerationDecision targetEnumDecision = findEnumDecisionByRangeValue(dm, target);
-				ARangeValue sourceValue = sourceEnumDecision.getRangeValue(sourceFeature);
-				ARangeValue targetValue = targetEnumDecision.getRangeValue(targetFeature);
+				AbstractRangeValue sourceValue = sourceEnumDecision.getRangeValue(sourceFeature);
+				AbstractRangeValue targetValue = targetEnumDecision.getRangeValue(targetFeature);
 				Rule rule = new Rule(new IsSelectedFunction(source),
 						new DisAllowAction(targetEnumDecision, targetValue));
 				source.addRule(rule);
@@ -476,8 +476,8 @@ public abstract class TransformFMtoDMUtil {
 				rule = new Rule(new IsSelectedFunction(target), new DisAllowAction(sourceEnumDecision, sourceValue));
 				target.addRule(rule);
 				updateRules(target, rule);
-			} else if (source.getType() == ADecision.DecisionType.BOOLEAN
-					&& target.getType() == ADecision.DecisionType.BOOLEAN) {
+			} else if (source.getType() == AbstractDecision.DecisionType.BOOLEAN
+					&& target.getType() == AbstractDecision.DecisionType.BOOLEAN) {
 				Rule rule = new Rule(new IsSelectedFunction(source),
 						new DeSelectDecisionAction((BooleanDecision) target));
 				source.addRule(rule);
@@ -532,7 +532,7 @@ public abstract class TransformFMtoDMUtil {
 		// TODO: in another model as it is right now (Ubuntu_14_1)
 		// TODO: which is the best way to find out
 		List<EnumerationDecision> decisions = ((DecisionModel) dm).findWithVisibility(decision).stream()
-				.filter(d -> (d.getType() == ADecision.DecisionType.ENUM)).map(d -> (EnumerationDecision) d)
+				.filter(d -> (d.getType() == AbstractDecision.DecisionType.ENUM)).map(d -> (EnumerationDecision) d)
 				.collect(Collectors.toList());
 		if (!decisions.isEmpty()) {
 			return decisions.remove(0);
@@ -567,7 +567,7 @@ public abstract class TransformFMtoDMUtil {
 		// the enumeration
 		if (DecisionModelUtils.isNoneAction(rule.getAction())) {
 			EnumerationDecision enumDecision = (EnumerationDecision) rule.getAction().getVariable();
-			ARangeValue rangeValue = (ARangeValue) rule.getAction().getValue();
+			AbstractRangeValue rangeValue = (AbstractRangeValue) rule.getAction().getValue();
 			Rule r = new Rule(new IsSelectedFunction(decision), new DisAllowAction(enumDecision, rangeValue));
 			decision.addRule(r);
 			// and again invert the added rule
@@ -578,11 +578,11 @@ public abstract class TransformFMtoDMUtil {
 	public static void invertRule(final IDecision decision, final Rule rule) {
 		if (rule.getAction() instanceof DisAllowAction) {
 			DisAllowAction function = (DisAllowAction) rule.getAction();
-			IAction allow = new AllowAction(function.getVariable(), (ARangeValue) function.getValue());
+			IAction allow = new AllowAction(function.getVariable(), (AbstractRangeValue) function.getValue());
 			ICondition condition = invertCondition(rule.getCondition());
 			Rule r = new Rule(condition, allow);
 			decision.addRule(r);
-		} else if (rule.getAction() instanceof SelectDecisionAction && decision.getType() == ADecision.DecisionType.ENUM
+		} else if (rule.getAction() instanceof SelectDecisionAction && decision.getType() == AbstractDecision.DecisionType.ENUM
 				&& ((EnumerationDecision) decision).getCardinality().isAlternative()
 				&& !DecisionModelUtils.isNoneCondition(rule.getCondition())) {
 			SelectDecisionAction select = (SelectDecisionAction) rule.getAction();
@@ -609,13 +609,13 @@ public abstract class TransformFMtoDMUtil {
 
 	public static boolean isEnumSubFeature(final FeatureModel fm, final IDecision decision) {
 		Feature feature = fm.getFeatureMap().get(
-				DecisionModelUtils.retriveFeatureName(decision, decision.getType() == ADecision.DecisionType.ENUM));
+				DecisionModelUtils.retriveFeatureName(decision, decision.getType() == AbstractDecision.DecisionType.ENUM));
 		return isEnumSubFeature(feature);
 	}
 
 	public static boolean isEnumFeature(final FeatureModel fm, final IDecision decision) {
 		Feature feature = fm.getFeatureMap().get(
-				DecisionModelUtils.retriveFeatureName(decision, decision.getType() == ADecision.DecisionType.ENUM));
+				DecisionModelUtils.retriveFeatureName(decision, decision.getType() == AbstractDecision.DecisionType.ENUM));
 		return TraVarTUtils.isEnumerationType(feature);
 	}
 
@@ -646,7 +646,7 @@ public abstract class TransformFMtoDMUtil {
 		// add non option if it comes from a enum decision
 		if (feature.getParentGroup() != null
 				&& (!feature.getParentGroup().GROUPTYPE.equals(GroupType.MANDATORY) || isEnumSubFeature(feature))) {
-			ARangeValue noneOption = decision.getNoneOption();
+			AbstractRangeValue noneOption = decision.getNoneOption();
 			noneOption.enable();
 			decision.getRange().add(noneOption);
 			try {

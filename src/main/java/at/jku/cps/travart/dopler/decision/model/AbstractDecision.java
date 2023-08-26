@@ -1,8 +1,8 @@
 /*******************************************************************************
- * TODO: explanation what the class does
- *  
+ * An abstract implementation of a decision for a decision model.
+ *
  *  @author Kevin Feichtinger
- *  
+ *
  * Copyright 2023 Johannes Kepler University Linz
  * LIT Cyber-Physical Systems Lab
  * All rights reserved
@@ -18,7 +18,7 @@ import at.jku.cps.travart.dopler.decision.exc.ActionExecutionException;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
 
 @SuppressWarnings("rawtypes")
-public abstract class ADecision<T> implements IDecision<T> {
+public abstract class AbstractDecision<T> implements IDecision<T> {
 
 	public enum DecisionType {
 		BOOLEAN("Boolean"), NUMBER("Double"), STRING("String"), ENUM("Enumeration");
@@ -48,7 +48,7 @@ public abstract class ADecision<T> implements IDecision<T> {
 	private Set<Rule> rules;
 	private ICondition visibility;
 
-	protected ADecision(final String id, final DecisionType type) {
+	protected AbstractDecision(final String id, final DecisionType type) {
 		this.id = Objects.requireNonNull(id);
 		this.description = "";
 		this.question = "";
@@ -187,10 +187,10 @@ public abstract class ADecision<T> implements IDecision<T> {
 		if (this == obj) {
 			return true;
 		}
-		if (!(obj instanceof ADecision) || !this.getClass().equals(obj.getClass())) {
+		if (obj == null || !this.getClass().equals(obj.getClass())) {
 			return false;
 		}
-		ADecision other = (ADecision) obj;
+		AbstractDecision other = (AbstractDecision) obj;
 		return Objects.equals(id, other.id) && Objects.equals(type, other.type) && Objects.equals(rules, other.rules)
 				&& Objects.equals(visibility, other.visibility);
 	}

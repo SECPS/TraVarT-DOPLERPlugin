@@ -29,8 +29,8 @@ import at.jku.cps.travart.dopler.decision.exc.CircleInConditionException;
 import at.jku.cps.travart.dopler.decision.exc.ConditionCreationException;
 import at.jku.cps.travart.dopler.decision.factory.impl.DecisionModelFactory;
 import at.jku.cps.travart.dopler.decision.impl.DecisionModel;
-import at.jku.cps.travart.dopler.decision.model.ADecision;
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractDecision;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.AllowAction;
@@ -492,34 +492,34 @@ public class DecisionModelUtilsTest {
 
 	@Test
 	public void testBooleanDecisionType() {
-		assertTrue(new BooleanDecision("bd").getType() == ADecision.DecisionType.BOOLEAN);
-		assertFalse(new EnumerationDecision("test").getType() == ADecision.DecisionType.BOOLEAN);
-		assertFalse(new NumberDecision("nd").getType() == ADecision.DecisionType.BOOLEAN);
-		assertFalse(new StringDecision("sd").getType() == ADecision.DecisionType.BOOLEAN);
+		assertTrue(new BooleanDecision("bd").getType() == AbstractDecision.DecisionType.BOOLEAN);
+		assertFalse(new EnumerationDecision("test").getType() == AbstractDecision.DecisionType.BOOLEAN);
+		assertFalse(new NumberDecision("nd").getType() == AbstractDecision.DecisionType.BOOLEAN);
+		assertFalse(new StringDecision("sd").getType() == AbstractDecision.DecisionType.BOOLEAN);
 	}
 
 	@Test
 	public void testEnumDecisionType() {
-		assertTrue(new EnumerationDecision("test").getType() == ADecision.DecisionType.ENUM);
-		assertFalse(new BooleanDecision("bd").getType() == ADecision.DecisionType.ENUM);
-		assertFalse(new NumberDecision("nd").getType() == ADecision.DecisionType.ENUM);
-		assertFalse(new StringDecision("sd").getType() == ADecision.DecisionType.ENUM);
+		assertTrue(new EnumerationDecision("test").getType() == AbstractDecision.DecisionType.ENUM);
+		assertFalse(new BooleanDecision("bd").getType() == AbstractDecision.DecisionType.ENUM);
+		assertFalse(new NumberDecision("nd").getType() == AbstractDecision.DecisionType.ENUM);
+		assertFalse(new StringDecision("sd").getType() == AbstractDecision.DecisionType.ENUM);
 	}
 
 	@Test
 	public void testNumberDecisionType() {
-		assertTrue(new NumberDecision("nd").getType() == ADecision.DecisionType.NUMBER);
-		assertFalse(new BooleanDecision("bd").getType() == ADecision.DecisionType.NUMBER);
-		assertFalse(new EnumerationDecision("test").getType() == ADecision.DecisionType.NUMBER);
-		assertFalse(new StringDecision("sd").getType() == ADecision.DecisionType.NUMBER);
+		assertTrue(new NumberDecision("nd").getType() == AbstractDecision.DecisionType.NUMBER);
+		assertFalse(new BooleanDecision("bd").getType() == AbstractDecision.DecisionType.NUMBER);
+		assertFalse(new EnumerationDecision("test").getType() == AbstractDecision.DecisionType.NUMBER);
+		assertFalse(new StringDecision("sd").getType() == AbstractDecision.DecisionType.NUMBER);
 	}
 
 	@Test
 	public void testStringDecisionType() {
-		assertTrue(new StringDecision("sd").getType() == ADecision.DecisionType.STRING);
-		assertFalse(new NumberDecision("nd").getType() == ADecision.DecisionType.STRING);
-		assertFalse(new BooleanDecision("bd").getType() == ADecision.DecisionType.STRING);
-		assertFalse(new EnumerationDecision("test").getType() == ADecision.DecisionType.STRING);
+		assertTrue(new StringDecision("sd").getType() == AbstractDecision.DecisionType.STRING);
+		assertFalse(new NumberDecision("nd").getType() == AbstractDecision.DecisionType.STRING);
+		assertFalse(new BooleanDecision("bd").getType() == AbstractDecision.DecisionType.STRING);
+		assertFalse(new EnumerationDecision("test").getType() == AbstractDecision.DecisionType.STRING);
 	}
 
 	@Test
@@ -561,7 +561,7 @@ public class DecisionModelUtilsTest {
 		assertFalse(DecisionModelUtils.isEnumNoneOption(new EnumerationDecision("ed"), new DoubleValue(0)));
 		assertFalse(DecisionModelUtils.isEnumNoneOption(new EnumerationDecision("ed"), new StringValue("None")));
 		EnumerationDecision ed = new EnumerationDecision("ed");
-		ARangeValue<String> sv = ed.getNoneOption();
+		AbstractRangeValue<String> sv = ed.getNoneOption();
 		ed.getRange().add(sv);
 		assertTrue(DecisionModelUtils.isEnumNoneOption(ed, sv));
 		EnumerationDecision ed2 = new EnumerationDecision("ed2");
@@ -661,7 +661,7 @@ public class DecisionModelUtilsTest {
 
 		DecisionValueCondition dvc = new DecisionValueCondition(ed, sv);
 		assertFalse(DecisionModelUtils.isNoneCondition(dvc));
-		ARangeValue<String> sv2 = ed.getNoneOption();
+		AbstractRangeValue<String> sv2 = ed.getNoneOption();
 		ed.getRange().add(sv2);
 		dvc = new DecisionValueCondition(ed, sv2);
 		assertTrue(DecisionModelUtils.isNoneCondition(dvc));

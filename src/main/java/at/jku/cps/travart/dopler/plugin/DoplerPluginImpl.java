@@ -1,5 +1,5 @@
 /**
- * TODO: explanation what the class does
+ * Provides the actual plugin information for DOPLER.
  *
  * @author Kevin Feichtinger
 *

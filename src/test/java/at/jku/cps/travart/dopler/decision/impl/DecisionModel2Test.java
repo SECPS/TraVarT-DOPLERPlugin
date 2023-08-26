@@ -26,7 +26,7 @@ import at.jku.cps.travart.core.common.IConfigurable;
 import at.jku.cps.travart.dopler.decision.exc.ActionExecutionException;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
 import at.jku.cps.travart.dopler.decision.factory.impl.DecisionModelFactory;
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.impl.And;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
@@ -261,7 +261,7 @@ public class DecisionModel2Test {
 	@Test
 	public void testIsValidDisallowActionEnumDecision() throws RangeValueException {
 		bd.setSelected(true);
-		ARangeValue<String> ev = ed.getNoneOption();
+		AbstractRangeValue<String> ev = ed.getNoneOption();
 		StringValue sv = new StringValue("aValue");
 		ed.getRange().add(ev);
 		ed.getRange().add(sv);

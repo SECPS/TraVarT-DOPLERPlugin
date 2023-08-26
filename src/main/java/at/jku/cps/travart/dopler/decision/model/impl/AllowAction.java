@@ -13,7 +13,7 @@ import java.util.Objects;
 
 import at.jku.cps.travart.dopler.decision.exc.ActionExecutionException;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 import at.jku.cps.travart.dopler.decision.model.IAction;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 
@@ -25,9 +25,9 @@ public class AllowAction implements IAction {
 	private static final String RANGE_VALUE_ERROR = "Value %s is not part of decision %s";
 
 	private final IDecision decision;
-	private final ARangeValue value;
+	private final AbstractRangeValue value;
 
-	public AllowAction(final IDecision decision, final ARangeValue value) {
+	public AllowAction(final IDecision decision, final AbstractRangeValue value) {
 		this.decision = Objects.requireNonNull(decision);
 		this.value = Objects.requireNonNull(value);
 	}
@@ -56,7 +56,7 @@ public class AllowAction implements IAction {
 	}
 
 	@Override
-	public ARangeValue getValue() {
+	public AbstractRangeValue getValue() {
 		return value;
 	}
 

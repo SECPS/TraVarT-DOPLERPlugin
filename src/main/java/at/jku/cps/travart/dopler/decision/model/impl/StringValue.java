@@ -11,21 +11,21 @@ package at.jku.cps.travart.dopler.decision.model.impl;
 
 import java.util.Objects;
 
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 
-public final class StringValue extends ARangeValue<String> {
+public final class StringValue extends AbstractRangeValue<String> {
 
 	public StringValue(final String str) {
 		super(Objects.requireNonNull(str));
 	}
 
 	@Override
-	public boolean lessThan(final ARangeValue<String> other) {
+	public boolean lessThan(final AbstractRangeValue<String> other) {
 		return getValue().compareTo(other.getValue()) < 0;
 	}
 
 	@Override
-	public boolean greaterThan(final ARangeValue<String> other) {
+	public boolean greaterThan(final AbstractRangeValue<String> other) {
 		return getValue().compareTo(other.getValue()) > 0;
 	}
 

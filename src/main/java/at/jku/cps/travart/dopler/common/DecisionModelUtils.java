@@ -32,9 +32,9 @@ import at.jku.cps.travart.dopler.decision.exc.ConditionCreationException;
 import at.jku.cps.travart.dopler.decision.impl.DMCSVHeader;
 import at.jku.cps.travart.dopler.decision.impl.DecisionModel;
 import at.jku.cps.travart.dopler.decision.model.ABinaryCondition;
-import at.jku.cps.travart.dopler.decision.model.ADecision;
-import at.jku.cps.travart.dopler.decision.model.ADecision.DecisionType;
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractDecision;
+import at.jku.cps.travart.dopler.decision.model.AbstractDecision.DecisionType;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 import at.jku.cps.travart.dopler.decision.model.AUnaryCondition;
 import at.jku.cps.travart.dopler.decision.model.IAction;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
@@ -71,7 +71,7 @@ public final class DecisionModelUtils {
 		Builder builder = CSVFormat.EXCEL.builder();
 		builder.setDelimiter(DELIMITER);
 		builder.setHeader(DMCSVHeader.stringArray());
-		builder.setSkipHeaderRecord(false);
+		builder.setSkipHeaderRecord(true);
 		return builder.build();
 	}
 
@@ -146,7 +146,7 @@ public final class DecisionModelUtils {
 		return Objects.requireNonNull(decisions).stream().filter(d -> id.equals(d.getId())).findFirst();
 	}
 
-	private static <T> Set<T> getDecisionType(final IDecisionModel dm, final ADecision.DecisionType type,
+	private static <T> Set<T> getDecisionType(final IDecisionModel dm, final AbstractDecision.DecisionType type,
 			final Class<T> clazz) {
 		Set<T> decisions = new HashSet<>();
 		for (IDecision<?> decision : dm.getDecisions()) {
@@ -160,7 +160,7 @@ public final class DecisionModelUtils {
 	public static Set<String> getBooleanDecisionsAsNames(final IDecisionModel dm) {
 		Set<String> names = new HashSet<>();
 		for (IDecision<?> decision : dm.getDecisions()) {
-			if (decision.getType() == ADecision.DecisionType.BOOLEAN) {
+			if (decision.getType() == AbstractDecision.DecisionType.BOOLEAN) {
 				names.add(((BooleanDecision) decision).getId());
 			}
 		}
@@ -193,7 +193,7 @@ public final class DecisionModelUtils {
 	public static Set<String> getNumberDecisionsAsNames(final IDecisionModel dm) {
 		Set<String> names = new HashSet<>();
 		for (IDecision<?> decision : dm.getDecisions()) {
-			if (decision.getType() == ADecision.DecisionType.NUMBER) {
+			if (decision.getType() == AbstractDecision.DecisionType.NUMBER) {
 				names.add(((NumberDecision) decision).getId());
 			}
 		}
@@ -294,8 +294,8 @@ public final class DecisionModelUtils {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static boolean isEnumNoneOption(final IDecision decision, final IValue value) {
-		return decision.getType() == ADecision.DecisionType.ENUM && value instanceof ARangeValue
-				&& ((EnumerationDecision) decision).isNoneOption((ARangeValue) value);
+		return decision.getType() == AbstractDecision.DecisionType.ENUM && value instanceof AbstractRangeValue
+				&& ((EnumerationDecision) decision).isNoneOption((AbstractRangeValue) value);
 	}
 
 	/*
@@ -327,8 +327,8 @@ public final class DecisionModelUtils {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static boolean isNoneAction(final IAction action) {
-		return action.getVariable() instanceof IEnumerationDecision && action.getValue() instanceof ARangeValue
-				&& ((IEnumerationDecision) action.getVariable()).isNoneOption((ARangeValue) action.getValue());
+		return action.getVariable() instanceof IEnumerationDecision && action.getValue() instanceof AbstractRangeValue
+				&& ((IEnumerationDecision) action.getVariable()).isNoneOption((AbstractRangeValue) action.getValue());
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -345,7 +345,7 @@ public final class DecisionModelUtils {
 			condition = ((Not) condition).getOperand();
 		}
 		IDecision decision = ((DecisionValueCondition) condition).getDecision();
-		ARangeValue value = ((DecisionValueCondition) condition).getValue();
+		AbstractRangeValue value = ((DecisionValueCondition) condition).getValue();
 		return decision instanceof IEnumerationDecision && ((IEnumerationDecision) decision).isNoneOption(value);
 	}
 

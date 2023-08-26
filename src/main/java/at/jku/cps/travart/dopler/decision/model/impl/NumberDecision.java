@@ -15,16 +15,16 @@ import java.util.Objects;
 
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueNotEnabledException;
-import at.jku.cps.travart.dopler.decision.model.ADecision;
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractDecision;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 
-public class NumberDecision extends ADecision<Double> {
+public class NumberDecision extends AbstractDecision<Double> {
 
 	private static final String RANGE_VALUE_ERROR = "Value %s is not a range value of decision %s";
 	private static final String RANGE_VALUE_NOT_ENABLED_ERROR = "Value %s is not enabled. Can't be set for Number decision %s";
 
 	private Range<Double> range;
-	private ARangeValue<Double> value;
+	private AbstractRangeValue<Double> value;
 
 	public NumberDecision(final String id) {
 		super(id, DecisionType.NUMBER);
@@ -33,7 +33,7 @@ public class NumberDecision extends ADecision<Double> {
 	}
 
 	@Override
-	public ARangeValue<Double> getValue() {
+	public AbstractRangeValue<Double> getValue() {
 		return value;
 	}
 
@@ -42,7 +42,7 @@ public class NumberDecision extends ADecision<Double> {
 		if (value == null || Double.isNaN(value)) {
 			throw new RangeValueException(String.format(RANGE_VALUE_ERROR, value, getId()));
 		}
-		ARangeValue<Double> rangeValue = getRangeValue(value);
+		AbstractRangeValue<Double> rangeValue = getRangeValue(value);
 		if (rangeValue == null) {
 			throw new RangeValueException(String.format(RANGE_VALUE_ERROR, value, getId()));
 		}
@@ -66,9 +66,9 @@ public class NumberDecision extends ADecision<Double> {
 	}
 
 	@Override
-	public ARangeValue<Double> getRangeValue(final Double value) {
+	public AbstractRangeValue<Double> getRangeValue(final Double value) {
 		Double v = Objects.requireNonNull(value);
-		for (ARangeValue<Double> rangeValue : range) {
+		for (AbstractRangeValue<Double> rangeValue : range) {
 			if (rangeValue.getValue().equals(v)) {
 				return rangeValue;
 			}
@@ -77,7 +77,7 @@ public class NumberDecision extends ADecision<Double> {
 	}
 
 	@Override
-	public final ARangeValue<Double> getRangeValue(final String str) {
+	public final AbstractRangeValue<Double> getRangeValue(final String str) {
 		return getRangeValue(Double.parseDouble(str));
 	}
 
@@ -88,19 +88,19 @@ public class NumberDecision extends ADecision<Double> {
 		setIsTaken(false);
 	}
 
-	public ARangeValue<Double> getMinRangeValue() {
+	public AbstractRangeValue<Double> getMinRangeValue() {
 		if (range.isEmpty()) {
 			return new DoubleValue(0);
 		}
-		return range.stream().min(Comparator.comparing(ARangeValue<Double>::getValue))
+		return range.stream().min(Comparator.comparing(AbstractRangeValue<Double>::getValue))
 				.orElseThrow(NoSuchElementException::new);
 	}
 
-	public ARangeValue<Double> getMaxRangeValue() {
+	public AbstractRangeValue<Double> getMaxRangeValue() {
 		if (range.isEmpty()) {
 			return new DoubleValue(0);
 		}
-		return range.stream().max(Comparator.comparing(ARangeValue<Double>::getValue))
+		return range.stream().max(Comparator.comparing(AbstractRangeValue<Double>::getValue))
 				.orElseThrow(NoSuchElementException::new);
 	}
 }

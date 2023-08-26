@@ -17,8 +17,8 @@ import java.util.Set;
 import at.jku.cps.travart.dopler.decision.exc.ActionExecutionException;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
 import at.jku.cps.travart.dopler.decision.exc.UnsatisfiedCardinalityException;
-import at.jku.cps.travart.dopler.decision.model.ADecision;
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractDecision;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 import at.jku.cps.travart.dopler.decision.model.IAction;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.IValue;
@@ -27,9 +27,9 @@ import at.jku.cps.travart.dopler.decision.model.IValue;
 public class SetValueAction implements IAction {
 
 	private final IDecision decision;
-	private final ARangeValue value;
+	private final AbstractRangeValue value;
 
-	public SetValueAction(final IDecision decision, final ARangeValue value) {
+	public SetValueAction(final IDecision decision, final AbstractRangeValue value) {
 		this.decision = Objects.requireNonNull(decision);
 		this.value = Objects.requireNonNull(value);
 	}
@@ -37,12 +37,12 @@ public class SetValueAction implements IAction {
 	@Override
 	public void execute() throws ActionExecutionException {
 		try {
-			if (decision.getType() == ADecision.DecisionType.ENUM) {
+			if (decision.getType() == AbstractDecision.DecisionType.ENUM) {
 				EnumerationDecision enumDecision = (EnumerationDecision) decision;
 				if (enumDecision.getCardinality().isAlternative()) {
 					enumDecision.setValue((String) value.getValue());
 				} else {
-					Set<ARangeValue<String>> values = new HashSet<>(enumDecision.getValues());
+					Set<AbstractRangeValue<String>> values = new HashSet<>(enumDecision.getValues());
 					values.add(value);
 					enumDecision.setValues(values);
 				}
@@ -57,14 +57,14 @@ public class SetValueAction implements IAction {
 	@Override
 	public boolean isSatisfied() {
 		try {
-			if (!(decision.getType() == ADecision.DecisionType.ENUM)) {
+			if (!(decision.getType() == AbstractDecision.DecisionType.ENUM)) {
 				return decision.getValue().equals(value);
 			}
 			EnumerationDecision enumDecision = (EnumerationDecision) decision;
 			if (enumDecision.getCardinality().isAlternative()) {
 				return enumDecision.getValue().equals(value);
 			}
-			Set<ARangeValue<String>> values = new HashSet<>(enumDecision.getValues());
+			Set<AbstractRangeValue<String>> values = new HashSet<>(enumDecision.getValues());
 			return values.contains(value);
 		} catch (NoSuchElementException e) {
 			// if the value cannot be found in the list of values of the decision,

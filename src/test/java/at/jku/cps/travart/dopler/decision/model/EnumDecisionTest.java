@@ -191,7 +191,7 @@ public class EnumDecisionTest {
 		r1.add(t31);
 		d1.setRange(r1);
 		assertTrue(d1.getValues().isEmpty());
-		Set<ARangeValue<String>> s1 = new HashSet<>();
+		Set<AbstractRangeValue<String>> s1 = new HashSet<>();
 		s1.add(new StringValue(t11.toString()));
 		s1.add(new StringValue(t21.toString()));
 		d1.setValues(s1);
@@ -216,7 +216,7 @@ public class EnumDecisionTest {
 		r1.add(t31);
 		d1.setRange(r1);
 		assertTrue(d1.getValues().isEmpty());
-		Set<ARangeValue<String>> s1 = new HashSet<>();
+		Set<AbstractRangeValue<String>> s1 = new HashSet<>();
 		s1.add(t11);
 		s1.add(t21);
 		s1.add(t31);
@@ -244,7 +244,7 @@ public class EnumDecisionTest {
 	public void testGetValuesNoValues() {
 		EnumerationDecision d = new EnumerationDecision("test");
 		d.getRange().add(d.getNoneOption());
-		Set<ARangeValue<String>> set = new HashSet<>();
+		Set<AbstractRangeValue<String>> set = new HashSet<>();
 		set.add(d.getNoneOption());
 		assertEquals(set, d.getValues(),d.getValues() + " should equal " + set);
 	}
@@ -279,7 +279,7 @@ public class EnumDecisionTest {
 		r.add(t3);
 		d.setRange(r);
 		assertTrue(d.getValues().isEmpty());
-		Set<ARangeValue<String>> s = new HashSet<>();
+		Set<AbstractRangeValue<String>> s = new HashSet<>();
 		s.add(new StringValue(t1.toString()));
 		s.add(new StringValue(t2.toString()));
 		d.setValues(s);
@@ -291,7 +291,7 @@ public class EnumDecisionTest {
 	@Test
 	public void testSetValuesNotContainedInRange() throws RangeValueException, UnsatisfiedCardinalityException {
 		EnumerationDecision d = new EnumerationDecision("test");
-		Set<ARangeValue<String>> svset = new HashSet<>();
+		Set<AbstractRangeValue<String>> svset = new HashSet<>();
 		svset.add(new StringValue("sv1"));
 		assertThrows(RangeValueException.class, () ->d.setValues(svset));
 	}
@@ -310,7 +310,7 @@ public class EnumDecisionTest {
 		r.add(t3);
 		d.setRange(r);
 		assertTrue(d.getValues().isEmpty());
-		Set<ARangeValue<String>> s = new HashSet<>();
+		Set<AbstractRangeValue<String>> s = new HashSet<>();
 		s.add(new StringValue(t1.toString()));
 		s.add(new StringValue(t2.toString()));
 		d.setValues(s);

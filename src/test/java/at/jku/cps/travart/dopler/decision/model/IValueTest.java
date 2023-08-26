@@ -43,7 +43,7 @@ public class IValueTest {
 	@ParameterizedTest
 	@MethodSource("instancesToTest")
 	public void testSetValue(IValue val) throws RangeValueException {
-		if (!(val instanceof ADecision)) {
+		if (!(val instanceof AbstractDecision)) {
 			assertThrows(Throwable.class, ()->val.setValue(null));
 		} else if (val instanceof NumberDecision) {
 			val.setValue(new DoubleValue(2.5));

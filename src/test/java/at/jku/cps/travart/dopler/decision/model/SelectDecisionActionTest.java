@@ -25,7 +25,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.StringDecision;
 
 public class SelectDecisionActionTest {
 	private SelectDecisionAction s;
-	private ADecision<Boolean> d;
+	private AbstractDecision<Boolean> d;
 
 	@BeforeEach
 	public void setUp() throws Exception {
@@ -65,7 +65,7 @@ public class SelectDecisionActionTest {
 		assertEquals(s,s);
 		SelectDecisionAction s2 = new SelectDecisionAction(d);
 		assertEquals(s,s2);
-		ADecision<?> d2 = new StringDecision("test2");
+		AbstractDecision<?> d2 = new StringDecision("test2");
 		SelectDecisionAction s3 = new SelectDecisionAction(d2);
 		assertNotEquals(s,s3);
 	}

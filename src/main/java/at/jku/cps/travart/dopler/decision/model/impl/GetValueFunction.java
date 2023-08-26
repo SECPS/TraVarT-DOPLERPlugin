@@ -13,11 +13,11 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import at.jku.cps.travart.dopler.decision.model.AFunction;
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 
 @SuppressWarnings("rawtypes")
-public class GetValueFunction extends AFunction<ARangeValue> {
+public class GetValueFunction extends AFunction<AbstractRangeValue> {
 
 	public static final String FUNCTION_NAME = "getValue";
 
@@ -38,12 +38,12 @@ public class GetValueFunction extends AFunction<ARangeValue> {
 	}
 
 	@Override
-	public ARangeValue execute() {
+	public AbstractRangeValue execute() {
 		Object obj = parameter.getValue();
-		if (!(obj instanceof ARangeValue)) {
-			throw new IllegalStateException("Parameter has not returned a " + ARangeValue.class);
+		if (!(obj instanceof AbstractRangeValue)) {
+			throw new IllegalStateException("Parameter has not returned a " + AbstractRangeValue.class);
 		}
-		return (ARangeValue) obj;
+		return (AbstractRangeValue) obj;
 	}
 
 	@Override

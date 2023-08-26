@@ -20,9 +20,9 @@ import at.jku.cps.travart.dopler.common.DecisionModelUtils;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.exc.CircleInConditionException;
 import at.jku.cps.travart.dopler.decision.model.ABinaryCondition;
-import at.jku.cps.travart.dopler.decision.model.ADecision;
+import at.jku.cps.travart.dopler.decision.model.AbstractDecision;
 import at.jku.cps.travart.dopler.decision.model.AFunction;
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 import at.jku.cps.travart.dopler.decision.model.IAction;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
@@ -213,7 +213,7 @@ public abstract class TransformDMtoFMUtil {
 						mandatoryGroup.getFeatures().add(feature);
 					} else if (visiblity instanceof IsSelectedFunction) {
 						IsSelectedFunction isSelected = (IsSelectedFunction) visiblity;
-						ADecision parentD = (ADecision) isSelected.getParameters().get(0);
+						AbstractDecision parentD = (AbstractDecision) isSelected.getParameters().get(0);
 						String parentFName = retriveFeatureName(parentD);
 						Feature parentF = fm.getFeatureMap().get(parentFName);
 						if (parentF != feature) {
@@ -276,7 +276,7 @@ public abstract class TransformDMtoFMUtil {
 	}
 
 	public static String retriveFeatureName(final IDecision decision) {
-		return DecisionModelUtils.retriveFeatureName(decision, decision.getType() == ADecision.DecisionType.ENUM);
+		return DecisionModelUtils.retriveFeatureName(decision, decision.getType() == AbstractDecision.DecisionType.ENUM);
 	}
 
 	public static void createConstraints(final FeatureModel fm, final IDecisionModel dm) {
@@ -309,36 +309,36 @@ public abstract class TransformDMtoFMUtil {
 
 	public static void deriveCompareConstraints(final FeatureModel fm, final IDecision decision,
 			final ICondition condition, final IAction action) {
-		if (decision.getType() == ADecision.DecisionType.NUMBER && action instanceof DisAllowAction) {
+		if (decision.getType() == AbstractDecision.DecisionType.NUMBER && action instanceof DisAllowAction) {
 			NumberDecision numberDecision = (NumberDecision) decision;
 			ABinaryCondition binCondition = (ABinaryCondition) condition;
-			ARangeValue<Double> conditionValue = (ARangeValue<Double>) binCondition.getRight();
+			AbstractRangeValue<Double> conditionValue = (AbstractRangeValue<Double>) binCondition.getRight();
 			Feature disAllowFeature = fm.getFeatureMap().get(((DisAllowAction) action).getValue().toString());
 			LiteralConstraint disAllowLiteral = new LiteralConstraint(disAllowFeature.getFeatureName());
 			if (condition instanceof Equals) {
 				createExcludesConstraint(fm, numberDecision, disAllowLiteral, conditionValue);
 			} else if (condition instanceof Greater) {
-				Set<ARangeValue<Double>> values = numberDecision.getRange().stream()
+				Set<AbstractRangeValue<Double>> values = numberDecision.getRange().stream()
 						.filter(v -> v.getValue() > conditionValue.getValue()).collect(Collectors.toSet());
-				for (ARangeValue<Double> value : values) {
+				for (AbstractRangeValue<Double> value : values) {
 					createExcludesConstraint(fm, numberDecision, disAllowLiteral, value);
 				}
 			} else if (condition instanceof Less) {
-				Set<ARangeValue<Double>> values = numberDecision.getRange().stream()
+				Set<AbstractRangeValue<Double>> values = numberDecision.getRange().stream()
 						.filter(v -> v.getValue() < conditionValue.getValue()).collect(Collectors.toSet());
-				for (ARangeValue<Double> value : values) {
+				for (AbstractRangeValue<Double> value : values) {
 					createExcludesConstraint(fm, numberDecision, disAllowLiteral, value);
 				}
 			} else if (condition instanceof GreaterEquals) {
-				Set<ARangeValue<Double>> values = numberDecision.getRange().stream()
+				Set<AbstractRangeValue<Double>> values = numberDecision.getRange().stream()
 						.filter(v -> v.getValue() >= conditionValue.getValue()).collect(Collectors.toSet());
-				for (ARangeValue<Double> value : values) {
+				for (AbstractRangeValue<Double> value : values) {
 					createExcludesConstraint(fm, numberDecision, disAllowLiteral, value);
 				}
 			} else if (condition instanceof LessEquals) {
-				Set<ARangeValue<Double>> values = numberDecision.getRange().stream()
+				Set<AbstractRangeValue<Double>> values = numberDecision.getRange().stream()
 						.filter(v -> v.getValue() <= conditionValue.getValue()).collect(Collectors.toSet());
-				for (ARangeValue<Double> value : values) {
+				for (AbstractRangeValue<Double> value : values) {
 					createExcludesConstraint(fm, numberDecision, disAllowLiteral, value);
 				}
 			}
@@ -346,7 +346,7 @@ public abstract class TransformDMtoFMUtil {
 	}
 
 	public static void createExcludesConstraint(final FeatureModel fm, final NumberDecision numberDecision,
-			final LiteralConstraint disAllowLiteral, final ARangeValue<Double> value) {
+			final LiteralConstraint disAllowLiteral, final AbstractRangeValue<Double> value) {
 		Feature valueFeature = fm.getFeatureMap()
 				.get(numberDecision.getId() + DefaultDecisionModelTransformationProperties.CONFIGURATION_VALUE_SEPERATOR
 						+ value.getValue().toString());
@@ -360,13 +360,13 @@ public abstract class TransformDMtoFMUtil {
 			final ICondition condition, final IAction action) {
 		Constraint conditionConstraint = deriveConditionConstraint(fm, decision, condition);
 		// case: if decision is selected another one has to be selected as well: implies
-		if (condition instanceof IsSelectedFunction && action.getVariable() instanceof ADecision
+		if (condition instanceof IsSelectedFunction && action.getVariable() instanceof AbstractDecision
 				&& action.getValue().equals(BooleanValue.getTrue())) {
 			IsSelectedFunction isSelected = (IsSelectedFunction) condition;
-			ADecision conditionDecision = (ADecision) isSelected.getParameters().get(0);
+			AbstractDecision conditionDecision = (AbstractDecision) isSelected.getParameters().get(0);
 			String conditionFeatureName = retriveFeatureName(conditionDecision);
 			Feature conditionFeature = fm.getFeatureMap().get(conditionFeatureName);
-			ADecision variableDecision = (ADecision) action.getVariable();
+			AbstractDecision variableDecision = (AbstractDecision) action.getVariable();
 			String variableFeatureName = retriveFeatureName(variableDecision);
 			Feature variableFeature = fm.getFeatureMap().get(variableFeatureName);
 			if (variableFeature.getParentFeature() != conditionFeature
@@ -377,9 +377,9 @@ public abstract class TransformDMtoFMUtil {
 			}
 		}
 		// case: excludes constraint
-		else if (condition instanceof IsSelectedFunction && action.getVariable() instanceof ADecision
+		else if (condition instanceof IsSelectedFunction && action.getVariable() instanceof AbstractDecision
 				&& action.getValue().equals(BooleanValue.getFalse())) {
-			ADecision variableDecision = (ADecision) action.getVariable();
+			AbstractDecision variableDecision = (AbstractDecision) action.getVariable();
 			String featureName = retriveFeatureName(variableDecision);
 			Feature feature = fm.getFeatureMap().get(featureName);
 			Constraint constraint = new ImplicationConstraint(conditionConstraint,
@@ -389,7 +389,7 @@ public abstract class TransformDMtoFMUtil {
 		// case: if the action allows or disallows/sets a decision to a None value
 		else if (condition instanceof IsSelectedFunction && action instanceof SetValueAction
 				&& DecisionModelUtils.isNoneAction(action)) {
-			ADecision variableDecision = (ADecision) action.getVariable();
+			AbstractDecision variableDecision = (AbstractDecision) action.getVariable();
 			String featureName = retriveFeatureName(variableDecision);
 			// set cardinality of variable feature
 			Feature varFeature = fm.getFeatureMap().get(featureName);
@@ -402,7 +402,7 @@ public abstract class TransformDMtoFMUtil {
 		else if (condition instanceof Not && DecisionModelUtils.isNoneCondition(condition)
 				&& action instanceof SelectDecisionAction) {
 			String conditionFeatureName = retriveFeatureName(decision);
-			ADecision variableDecision = (ADecision) action.getVariable();
+			AbstractDecision variableDecision = (AbstractDecision) action.getVariable();
 			String variableDecisionFeatureName = retriveFeatureName(variableDecision);
 			Feature conditionFeature = fm.getFeatureMap().get(conditionFeatureName);
 			Feature variableFeature = fm.getFeatureMap().get(variableDecisionFeatureName);
@@ -412,13 +412,13 @@ public abstract class TransformDMtoFMUtil {
 		}
 		// case: if the condition is a enum value and sets the value of a different
 		// decision (Number/String decision)
-		else if (!(condition instanceof Not) && action.getVariable() instanceof ADecision
+		else if (!(condition instanceof Not) && action.getVariable() instanceof AbstractDecision
 				&& !DecisionModelUtils.isEnumDecisionConstraint(action.getVariable())
-				&& action.getValue() instanceof ARangeValue && !action.getValue().equals(BooleanValue.getTrue())
+				&& action.getValue() instanceof AbstractRangeValue && !action.getValue().equals(BooleanValue.getTrue())
 				&& !action.getValue().equals(BooleanValue.getFalse())) {
 			// create a new child feature for the feature the rule writes - if it is not a
 			// none value
-			ADecision variableDecision = (ADecision) action.getVariable();
+			AbstractDecision variableDecision = (AbstractDecision) action.getVariable();
 			// feature name
 			String variableDecisionFeatureName = retriveFeatureName(variableDecision);
 			// set cardinality of variable feature
@@ -495,7 +495,7 @@ public abstract class TransformDMtoFMUtil {
 			} else {
 				conditionConstraint = consumeToGroup(conditionLiterals, true, !hasNegativeLiteral(conditionConstraint));
 			}
-			ADecision variableDecision = (ADecision) action.getVariable();
+			AbstractDecision variableDecision = (AbstractDecision) action.getVariable();
 			String variableDecisionFeatureName = retriveFeatureName(variableDecision);
 			Feature variableFeature = fm.getFeatureMap().get(variableDecisionFeatureName);
 			LiteralConstraint variableLiteral = new LiteralConstraint(variableFeature.getFeatureName());
@@ -569,7 +569,7 @@ public abstract class TransformDMtoFMUtil {
 			return deriveConstraintRecursive(fm, binCondition.getLeft(), binCondition.getRight(), condition);
 		}
 		if (condition instanceof DecisionValueCondition) {
-			ARangeValue value = ((DecisionValueCondition) condition).getValue();
+			AbstractRangeValue value = ((DecisionValueCondition) condition).getValue();
 			Feature feature = fm.getFeatureMap().get(value.toString());
 			return new LiteralConstraint(feature.getFeatureName());
 		}
@@ -579,7 +579,7 @@ public abstract class TransformDMtoFMUtil {
 			Constraint literal;
 			if (operand instanceof IsSelectedFunction) {
 				IsSelectedFunction isSelected = (IsSelectedFunction) operand;
-				ADecision d = (ADecision) isSelected.getParameters().get(0);
+				AbstractDecision d = (AbstractDecision) isSelected.getParameters().get(0);
 				String featureName = retriveFeatureName(d);
 				Feature feature = fm.getFeatureMap().get(featureName);
 				literal = new LiteralConstraint(feature.getFeatureName());
@@ -590,7 +590,7 @@ public abstract class TransformDMtoFMUtil {
 		}
 		if (condition instanceof IsSelectedFunction) {
 			IsSelectedFunction isSelected = (IsSelectedFunction) condition;
-			ADecision d = (ADecision) isSelected.getParameters().get(0);
+			AbstractDecision d = (AbstractDecision) isSelected.getParameters().get(0);
 			String featureName = retriveFeatureName(d);
 			Feature feature = fm.getFeatureMap().get(featureName);
 			return new LiteralConstraint(feature.getFeatureName());

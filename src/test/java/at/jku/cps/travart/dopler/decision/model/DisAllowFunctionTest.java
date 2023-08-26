@@ -32,7 +32,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.StringValue;
 public class DisAllowFunctionTest {
 	private DisAllowAction da;
 	private EnumerationDecision dec;
-	private ARangeValue<String> v;
+	private AbstractRangeValue<String> v;
 
 	// sets up an EnumDecision "test" with a Range only containing a Value
 	// testVal. The DisallowFunction then disallows the testVal value.

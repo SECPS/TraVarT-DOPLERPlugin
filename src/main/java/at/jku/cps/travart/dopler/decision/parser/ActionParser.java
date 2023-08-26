@@ -17,7 +17,7 @@ import java.util.Queue;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.exc.InvalidActionException;
 import at.jku.cps.travart.dopler.decision.exc.ParserException;
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 import at.jku.cps.travart.dopler.decision.model.IAction;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
@@ -120,20 +120,20 @@ public class ActionParser {
 						action = new SelectDecisionAction((BooleanDecision) left);
 					} else if (right == ICondition.FALSE) {
 						action = new DeSelectDecisionAction((BooleanDecision) left);
-					} else if (right instanceof ARangeValue) {
-						action = new SetValueAction((IDecision) left, (ARangeValue) right);
+					} else if (right instanceof AbstractRangeValue) {
+						action = new SetValueAction((IDecision) left, (AbstractRangeValue) right);
 					}
 				} else if (isAllowFunction) {
 					Object left = actionElements.remove();
 					Object right = actionElements.remove();
-					if (left instanceof IDecision && right instanceof ARangeValue) {
-						action = new AllowAction((IDecision) left, (ARangeValue) right);
+					if (left instanceof IDecision && right instanceof AbstractRangeValue) {
+						action = new AllowAction((IDecision) left, (AbstractRangeValue) right);
 					}
 				} else if (isDisAllowFunction) {
 					Object left = actionElements.remove();
 					Object right = actionElements.remove();
-					if (left instanceof IDecision && right instanceof ARangeValue) {
-						action = new DisAllowAction((IDecision) left, (ARangeValue) right);
+					if (left instanceof IDecision && right instanceof AbstractRangeValue) {
+						action = new DisAllowAction((IDecision) left, (AbstractRangeValue) right);
 					}
 				}
 			}

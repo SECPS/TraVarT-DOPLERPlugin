@@ -21,8 +21,8 @@ import at.jku.cps.travart.dopler.common.DecisionModelUtils;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.exc.ActionExecutionException;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
-import at.jku.cps.travart.dopler.decision.model.ADecision;
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractDecision;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.And;
@@ -118,9 +118,9 @@ public final class DecisionModel implements IDecisionModel {
 	public Set<EnumerationDecision> findWithRangeValue(final IDecision decision) {
 		Set<EnumerationDecision> decisions = new HashSet<>();
 		for (IDecision d : getDecisions()) {
-			if (d.getType() == ADecision.DecisionType.ENUM) {
+			if (d.getType() == AbstractDecision.DecisionType.ENUM) {
 				EnumerationDecision enumDecision = (EnumerationDecision) d;
-				ARangeValue value = enumDecision.getRangeValue(DecisionModelUtils.retriveFeatureName(decision, true));
+				AbstractRangeValue value = enumDecision.getRangeValue(DecisionModelUtils.retriveFeatureName(decision, true));
 				if (value != null) {
 					decisions.add(enumDecision);
 				}

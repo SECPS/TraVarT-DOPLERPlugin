@@ -20,7 +20,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
-import at.jku.cps.travart.dopler.decision.model.ADecision.DecisionType;
+import at.jku.cps.travart.dopler.decision.model.AbstractDecision.DecisionType;
 import at.jku.cps.travart.dopler.decision.model.impl.AllowAction;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanValue;
@@ -61,7 +61,7 @@ public class ADecisionTest {
 	@SuppressWarnings("rawtypes")
 	@Test
 	public void isSelectedTest() {
-		ADecision d = new StringDecision("test");
+		AbstractDecision d = new StringDecision("test");
 		d.setSelected(true);
 		assertTrue(d.isSelected());
 		d.setSelected(false);
@@ -72,7 +72,7 @@ public class ADecisionTest {
 	public void containsRangeValueTest() {
 		EnumerationDecision e = new EnumerationDecision("test");
 		Range<String> eRange = new Range<>();
-		ARangeValue<String> f = new StringValue("First");
+		AbstractRangeValue<String> f = new StringValue("First");
 		eRange.add(f);
 		e.setRange(eRange);
 		assertTrue(e.getRange().contains(f));
@@ -83,7 +83,7 @@ public class ADecisionTest {
 	@SuppressWarnings("rawtypes")
 	@Test
 	public void getTypeTest() {
-		ADecision d = new StringDecision("test");
+		AbstractDecision d = new StringDecision("test");
 		assertEquals(DecisionType.STRING, d.getType());
 		d = new EnumerationDecision("test");
 		assertEquals(DecisionType.ENUM, d.getType());
@@ -96,7 +96,7 @@ public class ADecisionTest {
 	@SuppressWarnings("rawtypes")
 	@Test
 	public void getVisibilityTest() {
-		ADecision d = new StringDecision("test");
+		AbstractDecision d = new StringDecision("test");
 		d.setVisibility(ICondition.TRUE);
 		assertEquals(ICondition.TRUE, d.getVisiblity());
 	}
@@ -104,7 +104,7 @@ public class ADecisionTest {
 	@SuppressWarnings("rawtypes")
 	@Test
 	public void isVisibleTest() {
-		ADecision d = new StringDecision("test");
+		AbstractDecision d = new StringDecision("test");
 		d.setVisibility(ICondition.TRUE);
 		assertTrue(d.isVisible());
 		d.setVisibility(ICondition.FALSE);
@@ -114,15 +114,15 @@ public class ADecisionTest {
 	@SuppressWarnings("rawtypes")
 	@Test
 	public void toStringTest() {
-		ADecision d = new StringDecision("test");
+		AbstractDecision d = new StringDecision("test");
 		assertEquals("test", d.toString());
 	}
 
 	@SuppressWarnings("rawtypes")
 	@Test
 	public void equalsTest() {
-		ADecision d1 = new StringDecision("test");
-		ADecision d2 = new StringDecision("test");
+		AbstractDecision d1 = new StringDecision("test");
+		AbstractDecision d2 = new StringDecision("test");
 
 		assertTrue(d1.equals(d1));
 		assertTrue(d1.equals(d2));
@@ -134,8 +134,8 @@ public class ADecisionTest {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void setRuleTest() {
-		ADecision d = new EnumerationDecision("test");
-		ADecision b = new BooleanDecision("test");
+		AbstractDecision d = new EnumerationDecision("test");
+		AbstractDecision b = new BooleanDecision("test");
 		Set<Rule> rules = new HashSet<>();
 		Rule r1 = new Rule(new IsSelectedFunction(new BooleanDecision("test")),
 				new AllowAction(b, BooleanValue.getTrue()));
@@ -147,8 +147,8 @@ public class ADecisionTest {
 	@SuppressWarnings({ "rawtypes" })
 	@Test
 	public void addRuleTest() {
-		ADecision d = new EnumerationDecision("test");
-		ADecision b = new BooleanDecision("test");
+		AbstractDecision d = new EnumerationDecision("test");
+		AbstractDecision b = new BooleanDecision("test");
 		Rule r1 = new Rule(new IsSelectedFunction(b), new AllowAction(b, BooleanValue.getTrue()));
 		d.addRule(r1);
 		assertTrue(d.getRules().contains(r1));
@@ -160,8 +160,8 @@ public class ADecisionTest {
 	@SuppressWarnings({ "rawtypes" })
 	@Test
 	public void removeRuleTest() {
-		ADecision d = new EnumerationDecision("test");
-		ADecision b = new BooleanDecision("test");
+		AbstractDecision d = new EnumerationDecision("test");
+		AbstractDecision b = new BooleanDecision("test");
 		Rule r1 = new Rule(new IsSelectedFunction(b), new AllowAction(b, BooleanValue.getTrue()));
 		d.addRule(r1);
 		assertTrue(d.getRules().contains(r1));
@@ -172,10 +172,10 @@ public class ADecisionTest {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void executeRulesTest() throws RangeValueException {
-		ADecision d = new EnumerationDecision("test");
-		ADecision req = new BooleanDecision("isSet");
-		ADecision reqfalse = new BooleanDecision("isSet");
-		ADecision b = new BooleanDecision("test");
+		AbstractDecision d = new EnumerationDecision("test");
+		AbstractDecision req = new BooleanDecision("isSet");
+		AbstractDecision reqfalse = new BooleanDecision("isSet");
+		AbstractDecision b = new BooleanDecision("test");
 
 		reqfalse.setValue(false);
 		req.setValue(true);
@@ -197,8 +197,8 @@ public class ADecisionTest {
 		assertTrue(b.getValue().equals(BooleanValue.getTrue()));
 	}
 
-	private ADecision<Object> createNoTypeDecision(final String id, final Cardinality c, final DecisionType t) {
-		return new ADecision<>(id, t) {
+	private AbstractDecision<Object> createNoTypeDecision(final String id, final Cardinality c, final DecisionType t) {
+		return new AbstractDecision<>(id, t) {
 
 			@Override
 			public Range<Object> getRange() {
@@ -206,12 +206,12 @@ public class ADecisionTest {
 			}
 
 			@Override
-			public ARangeValue<Object> getRangeValue(final Object value) {
+			public AbstractRangeValue<Object> getRangeValue(final Object value) {
 				return null;
 			}
 
 			@Override
-			public ARangeValue<Object> getRangeValue(final String value) {
+			public AbstractRangeValue<Object> getRangeValue(final String value) {
 				// TODO Auto-generated method stub
 				return null;
 			}
@@ -225,7 +225,7 @@ public class ADecisionTest {
 			}
 
 			@Override
-			public ARangeValue<Object> getValue() {
+			public AbstractRangeValue<Object> getValue() {
 				return null;
 			}
 

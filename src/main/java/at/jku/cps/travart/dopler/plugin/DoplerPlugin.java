@@ -1,5 +1,5 @@
 /**
- * TODO: explanation what the class does
+ * The class implementing the Plugin class to enable code injection.
  *
  * @author Kevin Feichtinger
 *

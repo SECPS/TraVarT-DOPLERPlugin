@@ -28,9 +28,9 @@ import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.exc.ActionExecutionException;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
 import at.jku.cps.travart.dopler.decision.exc.UnsatisfiedCardinalityException;
-import at.jku.cps.travart.dopler.decision.model.ADecision;
-import at.jku.cps.travart.dopler.decision.model.ADecision.DecisionType;
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractDecision;
+import at.jku.cps.travart.dopler.decision.model.AbstractDecision.DecisionType;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.IValue;
 import at.jku.cps.travart.dopler.decision.model.impl.DeSelectDecisionAction;
@@ -140,7 +140,7 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 			decisionIterator.remove();
 //			if (decision.getType() != ADecision.DecisionType.ENUM) {
 			for (Object o : decision.getRange()) {
-				ARangeValue rangeValue = (ARangeValue) o;
+				AbstractRangeValue rangeValue = (AbstractRangeValue) o;
 				IValue prevValue = decision.getValue();
 				decision.setValue(rangeValue.getValue());
 				if (!canBeValid(decision)) {
@@ -250,9 +250,9 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 			};
 			decisionConfigurable.setSelected(decision.isSelected());
 			configuration.put(decisionConfigurable, decision.isSelected());
-			if (decision.getType() == ADecision.DecisionType.ENUM) {
+			if (decision.getType() == AbstractDecision.DecisionType.ENUM) {
 				EnumerationDecision enumDecision = (EnumerationDecision) decision;
-				for (ARangeValue value : enumDecision.getValues()) {
+				for (AbstractRangeValue value : enumDecision.getValues()) {
 					IConfigurable configurable = new IConfigurable() {
 						boolean selected;
 						String name = value.toString();
@@ -276,7 +276,7 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 					configuration.put(configurable, enumDecision.isSelected());
 				}
 			}
-			if (decision.getType() == ADecision.DecisionType.NUMBER) {
+			if (decision.getType() == AbstractDecision.DecisionType.NUMBER) {
 				NumberDecision numberDecision = (NumberDecision) decision;
 				IConfigurable configurable = new IConfigurable() {
 					boolean selected;
@@ -318,7 +318,7 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 					if (name.contains(DefaultDecisionModelTransformationProperties.CONFIGURATION_VALUE_SEPERATOR)) {
 						decision = dm.get(name.substring(0, name
 								.indexOf(DefaultDecisionModelTransformationProperties.CONFIGURATION_VALUE_SEPERATOR)));
-						ARangeValue value = decision.getRangeValue(name.substring(1 + name
+						AbstractRangeValue value = decision.getRangeValue(name.substring(1 + name
 								.indexOf(DefaultDecisionModelTransformationProperties.CONFIGURATION_VALUE_SEPERATOR)));
 						if (value != null) {
 							decision.setValue(value.getValue());
@@ -360,7 +360,7 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 									name.indexOf(
 											DefaultDecisionModelTransformationProperties.CONFIGURATION_VALUE_SEPERATOR)
 											- 1));
-							ARangeValue value = decision.getRangeValue(name.substring(name.indexOf(
+							AbstractRangeValue value = decision.getRangeValue(name.substring(name.indexOf(
 									DefaultDecisionModelTransformationProperties.CONFIGURATION_VALUE_SEPERATOR)));
 							decision.setValue(value);
 							afterValueSelection(dm, decision);
@@ -386,13 +386,13 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 				enumDecision.setSelected(decision.isSelected());
 			}
 			// add the value for a enum decision
-			for (ARangeValue<String> rangeValue : enumDecision.getRange()) {
+			for (AbstractRangeValue<String> rangeValue : enumDecision.getRange()) {
 				IDecision rangeDecision = dm.get(rangeValue.getValue());
 				if (rangeDecision == decision) {
 					if (enumDecision.getCardinality().isAlternative()) {
 						enumDecision.setValue(rangeValue.getValue());
 					} else if (enumDecision.getCardinality().isOr()) {
-						Set<ARangeValue<String>> values = new HashSet<>(enumDecision.getValues());
+						Set<AbstractRangeValue<String>> values = new HashSet<>(enumDecision.getValues());
 						values.add(rangeValue);
 						enumDecision.setValues(values);
 					}
@@ -405,9 +405,9 @@ public class DecisionModelSampler implements ISampler<IDecisionModel> {
 			throws RangeValueException, UnsatisfiedCardinalityException {
 		for (EnumerationDecision enumDecision : DecisionModelUtils.getEnumDecisions(dm)) {
 			// add the value for a enum decision
-			for (ARangeValue<String> rangeValue : enumDecision.getRange()) {
+			for (AbstractRangeValue<String> rangeValue : enumDecision.getRange()) {
 				if (rangeValue.getValue().equals(name)) {
-					Set<ARangeValue<String>> values = new HashSet<>(enumDecision.getValues());
+					Set<AbstractRangeValue<String>> values = new HashSet<>(enumDecision.getValues());
 					values.add(rangeValue);
 					enumDecision.setValues(values);
 				}

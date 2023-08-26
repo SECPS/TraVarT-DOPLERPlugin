@@ -13,7 +13,7 @@ import java.util.Objects;
 
 import at.jku.cps.travart.dopler.decision.exc.ActionExecutionException;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 import at.jku.cps.travart.dopler.decision.model.IAction;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
@@ -28,9 +28,9 @@ public class DisAllowAction implements IAction {
 	private static final String RANGE_VALUE_ERROR = "Value %s is not in range of decision %s";
 
 	private final IDecision decision;
-	private final ARangeValue value;
+	private final AbstractRangeValue value;
 
-	public DisAllowAction(final IDecision decision, final ARangeValue value) {
+	public DisAllowAction(final IDecision decision, final AbstractRangeValue value) {
 		if (!decision.getRange().contains(value)) {
 			throw new IllegalArgumentException(String.format(RANGE_VALUE_ERROR, value, decision));
 		}

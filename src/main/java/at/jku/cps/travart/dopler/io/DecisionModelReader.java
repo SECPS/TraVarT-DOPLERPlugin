@@ -30,8 +30,8 @@ import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.factory.impl.DecisionModelFactory;
 import at.jku.cps.travart.dopler.decision.impl.DMCSVHeader;
 import at.jku.cps.travart.dopler.decision.impl.DecisionModel;
-import at.jku.cps.travart.dopler.decision.model.ADecision;
-import at.jku.cps.travart.dopler.decision.model.ADecision.DecisionType;
+import at.jku.cps.travart.dopler.decision.model.AbstractDecision;
+import at.jku.cps.travart.dopler.decision.model.AbstractDecision.DecisionType;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Cardinality;
@@ -67,7 +67,7 @@ public class DecisionModelReader implements IReader<IDecisionModel> {
 			for (CSVRecord record : records) {
 				String id = record.get(DMCSVHeader.ID).trim();
 				String typeString = record.get(DMCSVHeader.TYPE).trim();
-				ADecision decision = null;
+				AbstractDecision decision = null;
 				if (DecisionType.BOOLEAN.equalString(typeString)) {
 					decision = factory.createBooleanDecision(id);
 				} else if (DecisionType.ENUM.equalString(typeString)) {

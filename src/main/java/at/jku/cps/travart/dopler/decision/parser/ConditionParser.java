@@ -15,7 +15,7 @@ import java.util.Objects;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.exc.ParserException;
 import at.jku.cps.travart.dopler.decision.model.AFunction;
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.And;
@@ -114,7 +114,7 @@ public class ConditionParser {
 				v = new LessEquals(v, r);
 			} else if (first.equals(GREATER)) {
 				// second is operand
-				ARangeValue value = null;
+				AbstractRangeValue value = null;
 				if (RulesParser.isDoubleRangeValue(symbol)) {
 					value = new DoubleValue(Double.parseDouble(symbol));
 				} else if (RulesParser.isStringRangeValue(dm, symbol)) {
@@ -126,7 +126,7 @@ public class ConditionParser {
 				v = new Greater(v, value);
 			} else if (first.equals(LESS)) {
 				// second is operand
-				ARangeValue value = null;
+				AbstractRangeValue value = null;
 				if (RulesParser.isDoubleRangeValue(symbol)) {
 					value = new DoubleValue(Double.parseDouble(symbol));
 				} else if (RulesParser.isStringRangeValue(dm, symbol)) {
@@ -145,10 +145,10 @@ public class ConditionParser {
 		ICondition v = factor();
 		if (symbol.equals(DECISION_VALUE_DELIMITER)) {
 			ICondition value = factor();
-			if (!(v instanceof IDecision) && !(value instanceof ARangeValue)) {
+			if (!(v instanceof IDecision) && !(value instanceof AbstractRangeValue)) {
 				throw new IllegalStateException(new ParserException("Expected a " + DecisionValueCondition.class));
 			}
-			v = new DecisionValueCondition((IDecision) v, (ARangeValue) value);
+			v = new DecisionValueCondition((IDecision) v, (AbstractRangeValue) value);
 		}
 		return v;
 	}
@@ -205,7 +205,7 @@ public class ConditionParser {
 			nextSymbol();
 			if (symbol.equals(DECISION_VALUE_DELIMITER)) {
 				ICondition value = factor();
-				v = new DecisionValueCondition(d, (ARangeValue) value);
+				v = new DecisionValueCondition(d, (AbstractRangeValue) value);
 			} else if (isTaken) {
 				v = new IsTakenFunction(d);
 			} else if (isSelected || symbol.equals(CLOSING_PARENTHESE)) {

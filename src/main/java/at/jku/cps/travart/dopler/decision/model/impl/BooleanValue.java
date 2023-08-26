@@ -9,9 +9,9 @@
  *******************************************************************************/
 package at.jku.cps.travart.dopler.decision.model.impl;
 
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 
-public final class BooleanValue extends ARangeValue<Boolean> {
+public final class BooleanValue extends AbstractRangeValue<Boolean> {
 
 	private static final String SET_VALUE_ERROR = "Boolean value is final in class %s. Use static methods getTrue() or getFalse() instead.";
 
@@ -36,12 +36,12 @@ public final class BooleanValue extends ARangeValue<Boolean> {
 	}
 
 	@Override
-	public boolean lessThan(ARangeValue<Boolean> other) {
+	public boolean lessThan(AbstractRangeValue<Boolean> other) {
 		return false;
 	}
 
 	@Override
-	public boolean greaterThan(ARangeValue<Boolean> other) {
+	public boolean greaterThan(AbstractRangeValue<Boolean> other) {
 		return false;
 	}
 

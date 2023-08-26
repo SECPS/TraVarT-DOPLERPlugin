@@ -16,11 +16,11 @@ import java.util.Set;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueNotEnabledException;
 import at.jku.cps.travart.dopler.decision.exc.UnsatisfiedCardinalityException;
-import at.jku.cps.travart.dopler.decision.model.ADecision;
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractDecision;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 import at.jku.cps.travart.dopler.decision.model.IEnumerationDecision;
 
-public class EnumerationDecision extends ADecision<String> implements IEnumerationDecision<String> {
+public class EnumerationDecision extends AbstractDecision<String> implements IEnumerationDecision<String> {
 
 	private static final String RANGE_VALUE_ERROR = "Value %s is not a range value of decision %s";
 	private static final String UNSATISFIED_CARDINALITY_ERROR = "Number of selected values does not satisfy cardinality of decision %s";
@@ -31,7 +31,7 @@ public class EnumerationDecision extends ADecision<String> implements IEnumerati
 
 	private Range<String> range;
 	// depending on cardinality a min or max selection is possible
-	private final Set<ARangeValue<String>> values;
+	private final Set<AbstractRangeValue<String>> values;
 	private Cardinality cardinality;
 
 	public EnumerationDecision(final String id) {
@@ -51,9 +51,9 @@ public class EnumerationDecision extends ADecision<String> implements IEnumerati
 	}
 
 	@Override
-	public ARangeValue<String> getRangeValue(final String value) {
+	public AbstractRangeValue<String> getRangeValue(final String value) {
 		String v = Objects.requireNonNull(value);
-		for (ARangeValue<String> rangeValue : range) {
+		for (AbstractRangeValue<String> rangeValue : range) {
 			if (rangeValue.getValue().equals(v)) {
 				return rangeValue;
 			}
@@ -82,11 +82,11 @@ public class EnumerationDecision extends ADecision<String> implements IEnumerati
 		values.clear();
 		setSelected(false);
 		setIsTaken(false);
-		range.forEach(ARangeValue::enable);
+		range.forEach(AbstractRangeValue::enable);
 	}
 
 	@Override
-	public ARangeValue<String> getValue() {
+	public AbstractRangeValue<String> getValue() {
 		if (values.isEmpty() && hasNoneOption()) {
 			values.add(getNoneOption());
 		}
@@ -98,7 +98,7 @@ public class EnumerationDecision extends ADecision<String> implements IEnumerati
 
 	@Override
 	public void setValue(final String value) throws RangeValueException {
-		ARangeValue<String> rangeValue = getRangeValue(value);
+		AbstractRangeValue<String> rangeValue = getRangeValue(value);
 		if (rangeValue == null) {
 			throw new RangeValueException(String.format(RANGE_VALUE_ERROR, value, getId()));
 		}
@@ -115,9 +115,9 @@ public class EnumerationDecision extends ADecision<String> implements IEnumerati
 	}
 
 	@Override
-	public void setValues(final Set<ARangeValue<String>> values)
+	public void setValues(final Set<AbstractRangeValue<String>> values)
 			throws RangeValueException, UnsatisfiedCardinalityException {
-		for (ARangeValue<String> value : values) {
+		for (AbstractRangeValue<String> value : values) {
 			if (!range.contains(value)) {
 				throw new RangeValueException(String.format(RANGE_VALUE_ERROR, value, getId()));
 			}
@@ -137,7 +137,7 @@ public class EnumerationDecision extends ADecision<String> implements IEnumerati
 	}
 
 	@Override
-	public Set<ARangeValue<String>> getValues() {
+	public Set<AbstractRangeValue<String>> getValues() {
 		if (values.isEmpty() && hasNoneOption()) {
 			values.add(getNoneOption());
 		}
@@ -150,7 +150,7 @@ public class EnumerationDecision extends ADecision<String> implements IEnumerati
 	}
 
 	@Override
-	public ARangeValue<String> getNoneOption() {
+	public AbstractRangeValue<String> getNoneOption() {
 		if (noneOption == null) {
 			noneOption = new StringValue(NONE_VALUE);
 		}
@@ -158,7 +158,7 @@ public class EnumerationDecision extends ADecision<String> implements IEnumerati
 	}
 
 	@Override
-	public boolean isNoneOption(final ARangeValue<String> value) {
+	public boolean isNoneOption(final AbstractRangeValue<String> value) {
 		return getNoneOption() == value;
 	}
 }

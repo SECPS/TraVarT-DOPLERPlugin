@@ -32,7 +32,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.StringValue;
 public class AllowFunctionTest {
 	private AllowAction da;
 	private EnumerationDecision dec;
-	private ARangeValue<String> v;
+	private AbstractRangeValue<String> v;
 
 	@BeforeEach
 	public void prepareObject() {

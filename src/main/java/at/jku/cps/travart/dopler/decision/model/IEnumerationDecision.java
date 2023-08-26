@@ -17,17 +17,17 @@ import at.jku.cps.travart.dopler.decision.model.impl.Cardinality;
 
 public interface IEnumerationDecision<T> extends IDecision<T> {
 
-	void setValues(Set<ARangeValue<T>> values) throws RangeValueException, UnsatisfiedCardinalityException;
+	void setValues(Set<AbstractRangeValue<T>> values) throws RangeValueException, UnsatisfiedCardinalityException;
 
-	Set<ARangeValue<T>> getValues();
+	Set<AbstractRangeValue<T>> getValues();
 
 	Cardinality getCardinality();
 
 	void setCardinality(Cardinality cardinality);
 
-	ARangeValue<String> getNoneOption();
+	AbstractRangeValue<String> getNoneOption();
 
-	boolean isNoneOption(ARangeValue<T> value);
+	boolean isNoneOption(AbstractRangeValue<T> value);
 
 	boolean hasNoneOption();
 }

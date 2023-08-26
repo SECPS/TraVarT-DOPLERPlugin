@@ -13,16 +13,16 @@ import java.util.Objects;
 
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueNotEnabledException;
-import at.jku.cps.travart.dopler.decision.model.ADecision;
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractDecision;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 
-public class StringDecision extends ADecision<String> {
+public class StringDecision extends AbstractDecision<String> {
 
 	private static final String RANGE_VALUE_NULL_ERROR = "Given value for decision %s is null";
 	private static final String RANGE_VALUE_NOT_ENABLED_ERROR = "Value %s is not enabled. Can't be set for String decision %s";
 
 	private Range<String> range;
-	private ARangeValue<String> value;
+	private AbstractRangeValue<String> value;
 
 	public StringDecision(final String id) {
 		super(id, DecisionType.STRING);
@@ -31,7 +31,7 @@ public class StringDecision extends ADecision<String> {
 	}
 
 	@Override
-	public ARangeValue<String> getValue() {
+	public AbstractRangeValue<String> getValue() {
 		return value;
 	}
 
@@ -40,7 +40,7 @@ public class StringDecision extends ADecision<String> {
 		if (value == null) {
 			throw new RangeValueException(String.format(RANGE_VALUE_NULL_ERROR, getId()));
 		}
-		ARangeValue<String> rangeValue = getRangeValue(value);
+		AbstractRangeValue<String> rangeValue = getRangeValue(value);
 		if (!rangeValue.isEnabled()) {
 			throw new RangeValueNotEnabledException(String.format(RANGE_VALUE_NOT_ENABLED_ERROR, value, getId()));
 		}
@@ -59,9 +59,9 @@ public class StringDecision extends ADecision<String> {
 	}
 
 	@Override
-	public ARangeValue<String> getRangeValue(final String str) {
+	public AbstractRangeValue<String> getRangeValue(final String str) {
 		String v = Objects.requireNonNull(str);
-		for (ARangeValue<String> r : range) {
+		for (AbstractRangeValue<String> r : range) {
 			if (r.getValue().equals(v)) {
 				return r;
 			}

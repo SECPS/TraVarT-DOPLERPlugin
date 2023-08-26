@@ -17,9 +17,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
-import at.jku.cps.travart.dopler.decision.model.ADecision;
-import at.jku.cps.travart.dopler.decision.model.ADecision.DecisionType;
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractDecision;
+import at.jku.cps.travart.dopler.decision.model.AbstractDecision.DecisionType;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 
 public class GetValueFunctionTest {
 	GetValueFunction gvf;
@@ -70,7 +70,7 @@ public class GetValueFunctionTest {
 
 	@Test
 	public void testExecuteARangeValue() {
-		ADecision<Object> ad = new ADecision<Object>("test", DecisionType.ENUM) {
+		AbstractDecision<Object> ad = new AbstractDecision<Object>("test", DecisionType.ENUM) {
 
 			@Override
 			public Range<Object> getRange() {
@@ -78,12 +78,12 @@ public class GetValueFunctionTest {
 			}
 
 			@Override
-			public ARangeValue<Object> getRangeValue(final Object value) {
+			public AbstractRangeValue<Object> getRangeValue(final Object value) {
 				return null;
 			}
 
 			@Override
-			public ARangeValue<Object> getRangeValue(final String value) {
+			public AbstractRangeValue<Object> getRangeValue(final String value) {
 				return null;
 			}
 
@@ -96,7 +96,7 @@ public class GetValueFunctionTest {
 			}
 
 			@Override
-			public ARangeValue<Object> getValue() {
+			public AbstractRangeValue<Object> getValue() {
 				return null;
 			}
 

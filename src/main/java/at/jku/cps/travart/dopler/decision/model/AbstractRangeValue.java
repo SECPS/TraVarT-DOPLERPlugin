@@ -12,16 +12,16 @@ package at.jku.cps.travart.dopler.decision.model;
 import java.util.Objects;
 
 @SuppressWarnings("rawtypes")
-public abstract class ARangeValue<T> implements IRangeValue<T> {
+public abstract class AbstractRangeValue<T> implements IRangeValue<T> {
 
 	private T value;
 	private boolean enabled;
 
-	protected ARangeValue() {
+	protected AbstractRangeValue() {
 		enabled = true;
 	}
 
-	protected ARangeValue(final T value) {
+	protected AbstractRangeValue(final T value) {
 		this();
 		this.value = value;
 	}
@@ -57,7 +57,7 @@ public abstract class ARangeValue<T> implements IRangeValue<T> {
 	}
 
 	@Override
-	public boolean equalTo(final ARangeValue<T> other) {
+	public boolean equalTo(final AbstractRangeValue<T> other) {
 		return getValue().equals(other.getValue());
 	}
 
@@ -74,7 +74,7 @@ public abstract class ARangeValue<T> implements IRangeValue<T> {
 		if ((obj == null) || (getClass() != obj.getClass())) {
 			return false;
 		}
-		ARangeValue other = (ARangeValue) obj;
+		AbstractRangeValue other = (AbstractRangeValue) obj;
 		return Objects.equals(value, other.value);
 	}
 }

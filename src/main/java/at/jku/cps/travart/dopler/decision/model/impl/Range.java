@@ -11,10 +11,10 @@ package at.jku.cps.travart.dopler.decision.model.impl;
 
 import java.util.LinkedHashSet;
 
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 import at.jku.cps.travart.dopler.decision.model.IRange;
 
-public class Range<T> extends LinkedHashSet<ARangeValue<T>> implements IRange<ARangeValue<T>> {
+public class Range<T> extends LinkedHashSet<AbstractRangeValue<T>> implements IRange<AbstractRangeValue<T>> {
 
 	private static final long serialVersionUID = 1L;
 

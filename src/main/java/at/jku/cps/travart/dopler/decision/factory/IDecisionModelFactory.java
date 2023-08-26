@@ -11,7 +11,7 @@ package at.jku.cps.travart.dopler.decision.factory;
 
 import at.jku.cps.travart.core.common.IFactory;
 import at.jku.cps.travart.dopler.decision.impl.DecisionModel;
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 import at.jku.cps.travart.dopler.decision.model.IAction;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
@@ -60,7 +60,7 @@ public interface IDecisionModelFactory extends IFactory<DecisionModel> {
 	@SuppressWarnings("rawtypes")
 	GetValueFunction createGetValueFunction(IDecision decision);
 
-	ICondition createEquals(ICondition getValue, ARangeValue<?> value);
+	ICondition createEquals(ICondition getValue, AbstractRangeValue<?> value);
 
 	IAction createSelectDecisionAction(BooleanDecision decision);
 

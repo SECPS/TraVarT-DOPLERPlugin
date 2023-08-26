@@ -10,7 +10,7 @@
 package at.jku.cps.travart.dopler.decision.model.impl;
 
 import at.jku.cps.travart.dopler.decision.model.ABinaryCondition;
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -23,13 +23,13 @@ public class Equals extends ABinaryCondition {
 
 	@Override
 	public boolean evaluate() {
-		if (getLeft() instanceof GetValueFunction && getRight() instanceof ARangeValue) {
+		if (getLeft() instanceof GetValueFunction && getRight() instanceof AbstractRangeValue) {
 			GetValueFunction function = (GetValueFunction) getLeft();
-			ARangeValue value = (ARangeValue) getRight();
+			AbstractRangeValue value = (AbstractRangeValue) getRight();
 			return function.execute().equalTo(value);
 		}
-		if (getLeft() instanceof ARangeValue && getRight() instanceof GetValueFunction) {
-			ARangeValue value = (ARangeValue) getLeft();
+		if (getLeft() instanceof AbstractRangeValue && getRight() instanceof GetValueFunction) {
+			AbstractRangeValue value = (AbstractRangeValue) getLeft();
 			GetValueFunction function = (GetValueFunction) getRight();
 			return function.execute().equalTo(value);
 		}

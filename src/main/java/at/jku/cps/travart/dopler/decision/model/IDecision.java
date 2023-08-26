@@ -1,8 +1,8 @@
 /*******************************************************************************
  * TODO: explanation what the class does
- *  
+ *
  *  @author Kevin Feichtinger
- *  
+ *
  * Copyright 2023 Johannes Kepler University Linz
  * LIT Cyber-Physical Systems Lab
  * All rights reserved
@@ -14,7 +14,7 @@ import java.util.Set;
 
 import at.jku.cps.travart.core.common.IConfigurable;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
-import at.jku.cps.travart.dopler.decision.model.ADecision.DecisionType;
+import at.jku.cps.travart.dopler.decision.model.AbstractDecision.DecisionType;
 import at.jku.cps.travart.dopler.decision.model.impl.Range;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
 
@@ -36,9 +36,9 @@ public interface IDecision<T> extends IConfigurable {
 
 	Range<T> getRange();
 
-	ARangeValue<T> getRangeValue(T value);
+	AbstractRangeValue<T> getRangeValue(T value);
 
-	ARangeValue<T> getRangeValue(String value);
+	AbstractRangeValue<T> getRangeValue(String value);
 
 	void setRange(Range<T> range);
 

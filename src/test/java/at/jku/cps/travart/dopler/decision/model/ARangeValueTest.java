@@ -22,7 +22,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.BooleanValue;
 import at.jku.cps.travart.dopler.decision.model.impl.DoubleValue;
 
 public class ARangeValueTest {
-	private ARangeValue<Double> rv;
+	private AbstractRangeValue<Double> rv;
 
 	@BeforeEach
 	public void setUp() throws Exception {
@@ -32,7 +32,7 @@ public class ARangeValueTest {
 	@SuppressWarnings({ "rawtypes" })
 	@Test
 	public void equalsTest() {
-		ARangeValue v = new ARangeValue() {
+		AbstractRangeValue v = new AbstractRangeValue() {
 
 			@Override
 			public boolean lessThan(final Object other) {
@@ -64,7 +64,7 @@ public class ARangeValueTest {
 	@Test
 	public void toStringTest_NoValue() {
 		@SuppressWarnings("rawtypes")
-		ARangeValue v = new ARangeValue() {
+		AbstractRangeValue v = new AbstractRangeValue() {
 
 			@Override
 			public boolean lessThan(final Object other) {
@@ -90,7 +90,7 @@ public class ARangeValueTest {
 	@SuppressWarnings({ "rawtypes" })
 	@Test
 	public void toStringTest() {
-		ARangeValue v = BooleanValue.getTrue();
+		AbstractRangeValue v = BooleanValue.getTrue();
 		assertEquals("true", v.toString());
 	}
 

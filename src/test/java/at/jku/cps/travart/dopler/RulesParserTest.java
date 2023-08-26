@@ -28,7 +28,7 @@ import at.jku.cps.travart.core.helpers.TraVarTUtils;
 import at.jku.cps.travart.dopler.common.DecisionModelUtils;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.impl.DMCSVHeader;
-import at.jku.cps.travart.dopler.decision.model.ADecision.DecisionType;
+import at.jku.cps.travart.dopler.decision.model.AbstractDecision.DecisionType;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;

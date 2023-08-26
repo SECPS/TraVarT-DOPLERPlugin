@@ -18,7 +18,7 @@ import at.jku.cps.travart.dopler.common.DecisionModelUtils;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.exc.NoActionInRuleException;
 import at.jku.cps.travart.dopler.decision.exc.ParserException;
-import at.jku.cps.travart.dopler.decision.model.ARangeValue;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 import at.jku.cps.travart.dopler.decision.model.IAction;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
@@ -48,7 +48,7 @@ public class RulesParser {
 	public static boolean isStringRangeValue(final IDecisionModel dm, final String symbol) {
 		for (EnumerationDecision enumDecision : DecisionModelUtils.getEnumDecisions(dm)) {
 			// add the value for a enum decision
-			for (ARangeValue<String> rangeValue : enumDecision.getRange()) {
+			for (AbstractRangeValue<String> rangeValue : enumDecision.getRange()) {
 				if (rangeValue.getValue().equals(symbol)) {
 					return true;
 				}
