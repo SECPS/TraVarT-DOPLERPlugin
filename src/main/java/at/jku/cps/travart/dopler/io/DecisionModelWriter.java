@@ -34,7 +34,7 @@ public class DecisionModelWriter implements IWriter<IDecisionModel> {
 	public void write(final IDecisionModel dm, final Path path) throws IOException {
 		Objects.requireNonNull(dm);
 		Objects.requireNonNull(path);
-		CSVFormat dmFormat = DecisionModelUtils.createCSVFormat();
+		CSVFormat dmFormat = DecisionModelUtils.createCSVFormat(false);
 		try (FileWriter out = new FileWriter(path.toFile(), StandardCharsets.UTF_8);
 				CSVPrinter printer = new CSVPrinter(out, dmFormat)) {
 			for (IDecision decision : dm.getDecisions()) {

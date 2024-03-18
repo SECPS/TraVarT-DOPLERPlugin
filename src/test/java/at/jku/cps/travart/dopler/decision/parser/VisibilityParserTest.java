@@ -37,7 +37,7 @@ public class VisibilityParserTest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		dmFormat = DecisionModelUtils.createCSVFormat();
+		dmFormat = DecisionModelUtils.createCSVFormat(true);
 		Path toRead = Paths
 				.get(new VisibilityParserTest().getClass().getClassLoader().getResource("DOPLERToolsDM.csv").toURI());
 		DecisionModelReader reader = new DecisionModelReader();
