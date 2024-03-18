@@ -60,7 +60,7 @@ public class DecisionModelReader implements IReader<IDecisionModel> {
 		DecisionModel dm = factory.create();
 		dm.setName(path.getFileName().toString());
 		dm.setSourceFile(path.toAbsolutePath().toString());
-		CSVFormat dmFormat = DecisionModelUtils.createCSVFormat();
+		CSVFormat dmFormat = DecisionModelUtils.createCSVFormat(true);
 
 		try (Reader in = new FileReader(path.toFile(), StandardCharsets.UTF_8)) {
 			Iterable<CSVRecord> records = dmFormat.parse(in);

@@ -90,7 +90,11 @@ public class ActionParser {
 				Object left = actionElements.remove();
 				if (left instanceof StringValue) {
 					IDecision d = dm.get(((StringValue) left).getValue());
-					actionElements.add(d);
+					if(Objects.isNull(d)){
+						actionElements.add(left);
+					}else {
+						actionElements.add(d);
+					}
 				} else {
 					actionElements.add(left);
 				}
@@ -113,7 +117,14 @@ public class ActionParser {
 				if (isAssign) {
 					Object left = actionElements.remove();
 					Object right = actionElements.remove();
-					if (!(left instanceof IDecision)) {
+					IDecision aLeftDecision = null;
+					if (left instanceof IDecision) {
+						aLeftDecision = (IDecision) left;
+					} else {
+						aLeftDecision = dm.get(left.toString());
+					}
+
+					if(Objects.isNull(aLeftDecision)){
 						throw new InvalidActionException("Lefthand operand is not a valid decision.");
 					}
 					if (right == ICondition.TRUE) {

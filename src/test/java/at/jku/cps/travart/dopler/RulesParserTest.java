@@ -47,7 +47,7 @@ public class RulesParserTest {
 	@BeforeEach
 	public void setUp() throws Exception {
 		filePath = Paths.get(RulesParserTest.class.getClassLoader().getResource("DOPLERToolsDM.csv").toURI());
-		dmFormat = DecisionModelUtils.createCSVFormat();
+		dmFormat = DecisionModelUtils.createCSVFormat(true);
 	}
 
 	private IDecisionModel getDecisionModel() {

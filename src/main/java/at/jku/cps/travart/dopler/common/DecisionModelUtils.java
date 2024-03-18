@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import at.jku.cps.travart.dopler.decision.model.impl.*;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVFormat.Builder;
 
@@ -42,23 +43,6 @@ import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.IEnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.IRangeValue;
 import at.jku.cps.travart.dopler.decision.model.IValue;
-import at.jku.cps.travart.dopler.decision.model.impl.And;
-import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
-import at.jku.cps.travart.dopler.decision.model.impl.DeSelectDecisionAction;
-import at.jku.cps.travart.dopler.decision.model.impl.DecisionValueCondition;
-import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
-import at.jku.cps.travart.dopler.decision.model.impl.Equals;
-import at.jku.cps.travart.dopler.decision.model.impl.Greater;
-import at.jku.cps.travart.dopler.decision.model.impl.GreaterEquals;
-import at.jku.cps.travart.dopler.decision.model.impl.IsSelectedFunction;
-import at.jku.cps.travart.dopler.decision.model.impl.IsTakenFunction;
-import at.jku.cps.travart.dopler.decision.model.impl.Less;
-import at.jku.cps.travart.dopler.decision.model.impl.LessEquals;
-import at.jku.cps.travart.dopler.decision.model.impl.Not;
-import at.jku.cps.travart.dopler.decision.model.impl.NumberDecision;
-import at.jku.cps.travart.dopler.decision.model.impl.Rule;
-import at.jku.cps.travart.dopler.decision.model.impl.SelectDecisionAction;
-import at.jku.cps.travart.dopler.decision.model.impl.StringDecision;
 
 public final class DecisionModelUtils {
 
@@ -67,11 +51,11 @@ public final class DecisionModelUtils {
 	private static final String ENUM_DECISION_CONSTRAINT_REGEX = "(and|or)#constr#([0-9]+)";
 	private static final String ENUM_DECISION_TRANSFORMED_REGEX = "#([0-9]+)$";
 
-	public static CSVFormat createCSVFormat() {
+	public static CSVFormat createCSVFormat(final boolean skipHeader) {
 		Builder builder = CSVFormat.EXCEL.builder();
 		builder.setDelimiter(DELIMITER);
 		builder.setHeader(DMCSVHeader.stringArray());
-		builder.setSkipHeaderRecord(true);
+		builder.setSkipHeaderRecord(skipHeader);
 		return builder.build();
 	}
 
@@ -383,25 +367,27 @@ public final class DecisionModelUtils {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public static Set<IDecision> retriveConditionDecisions(final ICondition condition) {
+	public static Set<IDecision> retriveConditionDecisions(final IDecisionModel decisionModel, final ICondition condition) {
 		Set<IDecision> decisions = new HashSet<>();
-		retriveConditionDecisionsRec(decisions, condition);
+		retriveConditionDecisionsRec(decisionModel, decisions, condition);
 		return decisions;
 	}
 
 	@SuppressWarnings("rawtypes")
-	private static void retriveConditionDecisionsRec(final Set<IDecision> decisions, final ICondition condition) {
+	private static void retriveConditionDecisionsRec(final IDecisionModel decisionModel, final Set<IDecision> decisions, final ICondition condition) {
 		if (condition instanceof AUnaryCondition) {
-			retriveConditionDecisionsRec(decisions, ((AUnaryCondition) condition).getOperand());
+			retriveConditionDecisionsRec(decisionModel, decisions, ((AUnaryCondition) condition).getOperand());
 		} else if (condition instanceof ABinaryCondition) {
-			retriveConditionDecisionsRec(decisions, ((ABinaryCondition) condition).getLeft());
-			retriveConditionDecisionsRec(decisions, ((ABinaryCondition) condition).getRight());
+			retriveConditionDecisionsRec(decisionModel, decisions, ((ABinaryCondition) condition).getLeft());
+			retriveConditionDecisionsRec(decisionModel, decisions, ((ABinaryCondition) condition).getRight());
 		} else if (condition instanceof DecisionValueCondition) {
 			decisions.add(((DecisionValueCondition) condition).getDecision());
 		} else if (condition instanceof IsTakenFunction) {
 			decisions.add(((IsTakenFunction) condition).getParameters().get(0));
 		} else if (condition instanceof IsSelectedFunction) {
 			decisions.add(((IsSelectedFunction) condition).getParameters().get(0));
+		} else if (condition instanceof StringValue){
+			decisions.add(decisionModel.get(((StringValue) condition).getValue()));
 		}
 	}
 

@@ -735,12 +735,12 @@ public class DecisionModelUtilsTest {
 		Set<IDecision> s = new HashSet<>();
 		s.add(bd1);
 		s.add(bd2);
-		assertEquals(s, DecisionModelUtils.retriveConditionDecisions(a2));
+		assertEquals(s, DecisionModelUtils.retriveConditionDecisions(dm, a2));
 	}
 
 	@Test
 	public void testRetriveConditionDecisionsNullCheck() {
-		assertTrue(DecisionModelUtils.retriveConditionDecisions(null).isEmpty(),
+		assertTrue(DecisionModelUtils.retriveConditionDecisions(dm,null).isEmpty(),
 				"Not passing anything should return an empty set.");
 	}
 

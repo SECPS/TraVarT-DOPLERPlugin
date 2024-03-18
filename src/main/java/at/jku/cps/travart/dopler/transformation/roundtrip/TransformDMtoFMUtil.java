@@ -477,7 +477,7 @@ public abstract class TransformDMtoFMUtil {
 			}
 		} else if (DecisionModelUtils.isComplexCondition(condition)
 				&& (action instanceof SelectDecisionAction || action instanceof DeSelectDecisionAction)) {
-			Set<IDecision> conditionDecisions = DecisionModelUtils.retriveConditionDecisions(condition);
+			Set<IDecision> conditionDecisions = DecisionModelUtils.retriveConditionDecisions(dm, condition);
 			List<LiteralConstraint> conditionLiterals = new ArrayList<>(conditionDecisions.size());
 			for (IDecision conditionDecision : conditionDecisions) {
 				String conditionFeatureName = retriveFeatureName(conditionDecision);
