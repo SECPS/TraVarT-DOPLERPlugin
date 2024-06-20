@@ -32,7 +32,7 @@
 		<dependency>
 			<groupId>at.jku.cps</groupId>
 			<artifactId>travart-core</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.2.0</version>
             <scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -44,6 +44,7 @@
             <groupId>io.github.universal-variability-language</groupId>
             <artifactId>uvl-metamodel</artifactId>
             <version>1.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.logicng</groupId>

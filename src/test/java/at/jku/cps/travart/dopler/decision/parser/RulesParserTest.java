@@ -1,8 +1,8 @@
 /*******************************************************************************
  * TODO: explanation what the class does
- *  
+ *
  *  @author Kevin Feichtinger
- *  
+ *
  * Copyright 2023 Johannes Kepler University Linz
  * LIT Cyber-Physical Systems Lab
  * All rights reserved
@@ -24,7 +24,7 @@ import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.exc.ParserException;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanDecision;
-import at.jku.cps.travart.dopler.io.DecisionModelReader;
+import at.jku.cps.travart.dopler.io.DecisionModelDeserializer;
 
 public class RulesParserTest {
 	RulesParser rp;
@@ -35,7 +35,7 @@ public class RulesParserTest {
 		Path toRead = Paths
 				.get(new RulesParserTest().getClass().getClassLoader().getResource("DOPLERToolsDM.csv").toURI());
 		try {
-			dm = (new DecisionModelReader()).read(toRead);
+			dm = (new DecisionModelDeserializer()).deserializeFromFile(toRead);
 			rp = new RulesParser(dm);
 		} catch (IOException | NotSupportedVariabilityTypeException e) {
 			e.printStackTrace();

@@ -16,11 +16,11 @@ import org.pf4j.Extension;
 
 import at.jku.cps.travart.core.common.IModelTransformer;
 import at.jku.cps.travart.core.common.IPlugin;
-import at.jku.cps.travart.core.common.IReader;
+import at.jku.cps.travart.core.common.IDeserializer;
 import at.jku.cps.travart.core.common.IStatistics;
-import at.jku.cps.travart.core.common.IWriter;
-import at.jku.cps.travart.dopler.io.DecisionModelReader;
-import at.jku.cps.travart.dopler.io.DecisionModelWriter;
+import at.jku.cps.travart.core.common.ISerializer;
+import at.jku.cps.travart.dopler.io.DecisionModelDeserializer;
+import at.jku.cps.travart.dopler.io.DecisionModelSerializer;
 import at.jku.cps.travart.dopler.transformation.DecisionModelTransformer;
 
 @Extension
@@ -35,8 +35,8 @@ public class DoplerPluginImpl implements IPlugin {
 	}
 
 	@Override
-	public IReader getReader() {
-		return new DecisionModelReader();
+	public IDeserializer getDeserializer() {
+		return new DecisionModelDeserializer();
 	}
 
 	@Override
@@ -45,8 +45,8 @@ public class DoplerPluginImpl implements IPlugin {
 	}
 
 	@Override
-	public IWriter getWriter() {
-		return new DecisionModelWriter();
+	public ISerializer getSerializer() {
+		return new DecisionModelSerializer();
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class DoplerPluginImpl implements IPlugin {
 
 	@Override
 	public List getSupportedFileExtensions() {
-		return Collections.unmodifiableList(List.of(DecisionModelReader.FILE_EXTENSION_CSV));
+		return Collections.unmodifiableList(List.of(DecisionModelDeserializer.FILE_EXTENSION_CSV));
 	}
 
 }

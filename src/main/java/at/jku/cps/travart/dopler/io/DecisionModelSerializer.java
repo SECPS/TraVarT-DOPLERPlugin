@@ -19,7 +19,9 @@ import java.util.Set;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
-import at.jku.cps.travart.core.common.IWriter;
+import at.jku.cps.travart.core.common.Format;
+import at.jku.cps.travart.core.common.ISerializer;
+import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import at.jku.cps.travart.dopler.common.DecisionModelUtils;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
@@ -28,15 +30,12 @@ import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
-public class DecisionModelWriter implements IWriter<IDecisionModel> {
+public class DecisionModelSerializer implements ISerializer<IDecisionModel> {
 
-	@Override
-	public void write(final IDecisionModel dm, final Path path) throws IOException {
+	public void serializeToWriter(final IDecisionModel dm, final Appendable writer) throws IOException {
 		Objects.requireNonNull(dm);
-		Objects.requireNonNull(path);
 		CSVFormat dmFormat = DecisionModelUtils.createCSVFormat(false);
-		try (FileWriter out = new FileWriter(path.toFile(), StandardCharsets.UTF_8);
-				CSVPrinter printer = new CSVPrinter(out, dmFormat)) {
+		try(CSVPrinter printer = new CSVPrinter(writer, dmFormat)) {
 			for (IDecision decision : dm.getDecisions()) {
 				Set<IValue> rangeSet = decision.getRange();
 				StringBuilder rangeSetBuilder = new StringBuilder();
@@ -70,7 +69,27 @@ public class DecisionModelWriter implements IWriter<IDecisionModel> {
 	}
 
 	@Override
-	public String getFileExtension() {
-		return ".csv";
+	public void serializeToFile(final IDecisionModel dm, final Path path) throws IOException {
+		Objects.requireNonNull(path);
+		try (FileWriter out = new FileWriter(path.toFile(), StandardCharsets.UTF_8)) {
+			serializeToWriter(dm, out);
+		}
+	}
+
+	@Override
+	public String serialize(final IDecisionModel model) throws NotSupportedVariabilityTypeException {
+		StringBuffer buf = new StringBuffer();
+		try {
+			serializeToWriter(model, buf);
+			return buf.toString();
+		} catch (IOException e) {
+			// cannot happen as we are not actually doing any IO
+			return null;
+		}
+	}
+
+	@Override
+	public Format getFormat() {
+		return DecisionModelDeserializer.CSV_FORMAT;
 	}
 }

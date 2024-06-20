@@ -1,8 +1,8 @@
 /*******************************************************************************
  * TODO: explanation what the class does
- *  
+ *
  *  @author Kevin Feichtinger
- *  
+ *
  * Copyright 2023 Johannes Kepler University Linz
  * LIT Cyber-Physical Systems Lab
  * All rights reserved
@@ -28,7 +28,7 @@ import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import at.jku.cps.travart.dopler.common.DecisionModelUtils;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.impl.DMCSVHeader;
-import at.jku.cps.travart.dopler.io.DecisionModelReader;
+import at.jku.cps.travart.dopler.io.DecisionModelDeserializer;
 
 public class VisibilityParserTest {
 	ConditionParser vp;
@@ -40,9 +40,9 @@ public class VisibilityParserTest {
 		dmFormat = DecisionModelUtils.createCSVFormat(true);
 		Path toRead = Paths
 				.get(new VisibilityParserTest().getClass().getClassLoader().getResource("DOPLERToolsDM.csv").toURI());
-		DecisionModelReader reader = new DecisionModelReader();
+		DecisionModelDeserializer reader = new DecisionModelDeserializer();
 		try {
-			dm = reader.read(toRead);
+			dm = reader.deserializeFromFile(toRead);
 			vp = new ConditionParser(dm);
 		} catch (IOException | NotSupportedVariabilityTypeException e) {
 			e.printStackTrace();

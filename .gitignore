@@ -4,3 +4,4 @@ target/**
 .git/**
 .settings/**
 .classpath
+.vscode/
