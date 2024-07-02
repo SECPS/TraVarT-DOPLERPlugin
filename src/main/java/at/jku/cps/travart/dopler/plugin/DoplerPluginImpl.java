@@ -51,6 +51,11 @@ public class DoplerPluginImpl implements IPlugin {
 
 	@Override
 	public String getName() {
+		return "Decision-Oriented Product Line Engineering for effective Reuse";
+	}
+
+	@Override
+	public String getAbbreviation() {
 		return "DOPLER";
 	}
 
