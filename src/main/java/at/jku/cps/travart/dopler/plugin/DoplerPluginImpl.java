@@ -16,11 +16,13 @@ import org.pf4j.Extension;
 
 import at.jku.cps.travart.core.common.IModelTransformer;
 import at.jku.cps.travart.core.common.IPlugin;
+import at.jku.cps.travart.core.common.IPrettyPrinter;
 import at.jku.cps.travart.core.common.IDeserializer;
 import at.jku.cps.travart.core.common.IStatistics;
 import at.jku.cps.travart.core.common.ISerializer;
 import at.jku.cps.travart.dopler.io.DecisionModelDeserializer;
 import at.jku.cps.travart.dopler.io.DecisionModelSerializer;
+import at.jku.cps.travart.dopler.printer.DoplerPrettyPrinter;
 import at.jku.cps.travart.dopler.transformation.DecisionModelTransformer;
 
 @Extension
@@ -47,6 +49,11 @@ public class DoplerPluginImpl implements IPlugin {
 	@Override
 	public ISerializer getSerializer() {
 		return new DecisionModelSerializer();
+	}
+
+	@Override
+	public IPrettyPrinter getPrinter() {
+		return new DoplerPrettyPrinter(new DecisionModelSerializer());
 	}
 
 	@Override
