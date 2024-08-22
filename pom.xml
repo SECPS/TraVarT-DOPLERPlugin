@@ -32,7 +32,7 @@
 		<dependency>
 			<groupId>at.jku.cps</groupId>
 			<artifactId>travart-core</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>2.0.0</version>
             <scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -44,11 +44,13 @@
             <groupId>io.github.universal-variability-language</groupId>
             <artifactId>uvl-metamodel</artifactId>
             <version>1.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.logicng</groupId>
             <artifactId>logicng-j11</artifactId>
             <version>2.4.3</version>
+            <scope>provided</scope>
         </dependency>
 		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
 		<dependency>

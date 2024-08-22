@@ -12,10 +12,9 @@ package at.jku.cps.travart.dopler.io;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.nio.charset.StandardCharsets;
+import java.io.StringReader;
 import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -23,7 +22,8 @@ import java.util.Set;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
-import at.jku.cps.travart.core.common.IReader;
+import at.jku.cps.travart.core.common.Format;
+import at.jku.cps.travart.core.common.IDeserializer;
 import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import at.jku.cps.travart.dopler.common.DecisionModelUtils;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
@@ -42,27 +42,28 @@ import at.jku.cps.travart.dopler.decision.parser.ConditionParser;
 import at.jku.cps.travart.dopler.decision.parser.RulesParser;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
-public class DecisionModelReader implements IReader<IDecisionModel> {
+public class DecisionModelDeserializer implements IDeserializer<IDecisionModel> {
 
 	public static final String FILE_EXTENSION_CSV = ".csv";
+	public static final Format CSV_FORMAT = new Format("csv", FILE_EXTENSION_CSV, true, true);
 
 	private static final String CARDINALITY_NOT_SUPPORTED_ERROR = "Cardinality %s not supported for decision of type %s";
 
 	private final DecisionModelFactory factory;
 
-	public DecisionModelReader() {
+	public DecisionModelDeserializer() {
 		factory = DecisionModelFactory.getInstance();
 	}
 
-	@Override
-	public IDecisionModel read(final Path path) throws IOException, NotSupportedVariabilityTypeException {
-		Objects.requireNonNull(path);
+	private interface ReaderFactoryOperator {
+		public Reader op() throws IOException;
+	}
+
+	private DecisionModel deserializeFromReaders(final ReaderFactoryOperator readerFactory) throws IOException, NotSupportedVariabilityTypeException {
 		DecisionModel dm = factory.create();
-		dm.setName(path.getFileName().toString());
-		dm.setSourceFile(path.toAbsolutePath().toString());
 		CSVFormat dmFormat = DecisionModelUtils.createCSVFormat(true);
 
-		try (Reader in = new FileReader(path.toFile(), StandardCharsets.UTF_8)) {
+		try (Reader in = readerFactory.op()) {
 			Iterable<CSVRecord> records = dmFormat.parse(in);
 			for (CSVRecord record : records) {
 				String id = record.get(DMCSVHeader.ID).trim();
@@ -113,7 +114,7 @@ public class DecisionModelReader implements IReader<IDecisionModel> {
 			}
 		}
 
-		try (Reader secondIn = new FileReader(path.toFile(), StandardCharsets.UTF_8)) {
+		try (Reader secondIn = readerFactory.op()) {
 			Iterable<CSVRecord> secondParse = dmFormat.parse(secondIn);
 			ConditionParser vParser = new ConditionParser(dm);
 			RulesParser rParser = new RulesParser(dm);
@@ -141,7 +142,32 @@ public class DecisionModelReader implements IReader<IDecisionModel> {
 	}
 
 	@Override
-	public Iterable<String> fileExtensions() {
-		return Collections.unmodifiableList(List.of(FILE_EXTENSION_CSV));
+	public IDecisionModel deserializeFromFile(final Path path) throws IOException, NotSupportedVariabilityTypeException {
+		Objects.requireNonNull(path);
+
+		DecisionModel dm = deserializeFromReaders(() -> new FileReader(path.toFile()));
+		dm.setName(path.getFileName().toString());
+		dm.setSourceFile(path.toAbsolutePath().toString());
+
+		return dm;
+	}
+
+	@Override
+	public IDecisionModel deserialize(final String serial, final Format format) throws NotSupportedVariabilityTypeException {
+		if (!format.equals(CSV_FORMAT)) {
+			throw new NotSupportedVariabilityTypeException("Unsupported format!");
+		}
+
+		try {
+			return deserializeFromReaders(() -> new StringReader(serial));
+		} catch (IOException e) {
+			// cannot happen as we are not actually doing any IO
+			return null;
+		}
+	}
+
+	@Override
+	public Iterable<Format> supportedFormats() {
+		return List.of(CSV_FORMAT);
 	}
 }

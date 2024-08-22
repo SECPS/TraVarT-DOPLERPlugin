@@ -1,8 +1,8 @@
 /*******************************************************************************
  * TODO: explanation what the class does
- *  
+ *
  *  @author Kevin Feichtinger
- *  
+ *
  * Copyright 2023 Johannes Kepler University Linz
  * LIT Cyber-Physical Systems Lab
  * All rights reserved
@@ -20,16 +20,16 @@ import org.junit.jupiter.api.Test;
 
 import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
-import at.jku.cps.travart.dopler.io.DecisionModelReader;
+import at.jku.cps.travart.dopler.io.DecisionModelDeserializer;
 
 public class DMReaderTest {
 
 	@Test
 	public void testInternalAsserts() {
 		IDecisionModel dm = null;
-		DecisionModelReader reader = new DecisionModelReader();
+		DecisionModelDeserializer reader = new DecisionModelDeserializer();
 		try {
-			dm = reader.read(Paths.get(DMReaderTest.class.getClassLoader().getResource("DOPLERToolsDM.csv").toURI()));
+			dm = reader.deserializeFromFile(Paths.get(DMReaderTest.class.getClassLoader().getResource("DOPLERToolsDM.csv").toURI()));
 		} catch (IOException e) {
 			fail("IO Exception occured while reading Decision Model");
 			e.printStackTrace();
