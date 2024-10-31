@@ -7,7 +7,7 @@
  * LIT Cyber-Physical Systems Lab
  * All rights reserved
  *******************************************************************************/
-package at.jku.cps.travart.dopler.transformation.old.oneway;
+package at.jku.cps.travart.dopler.transformation.old;
 
 import at.jku.cps.travart.core.common.IModelTransformer;
 import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;

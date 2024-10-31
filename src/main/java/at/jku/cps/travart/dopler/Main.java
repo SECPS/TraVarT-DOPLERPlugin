@@ -1,4 +1,4 @@
-package at.jku.cps.travart.dopler.transformation;
+package at.jku.cps.travart.dopler;
 
 public class Main {
 

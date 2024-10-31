@@ -12,8 +12,6 @@ package at.jku.cps.travart.dopler.transformation.old;
 import at.jku.cps.travart.core.common.IModelTransformer;
 import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
-import at.jku.cps.travart.dopler.transformation.old.oneway.DecisionModelOneWayTransformer;
-import at.jku.cps.travart.dopler.transformation.old.roundtrip.DecisionModelRoundtripTransformer;
 import de.vill.model.FeatureModel;
 
 public class DecisionModelTransformer implements IModelTransformer<IDecisionModel> {
