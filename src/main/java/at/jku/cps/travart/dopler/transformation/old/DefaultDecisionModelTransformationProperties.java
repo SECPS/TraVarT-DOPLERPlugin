@@ -7,7 +7,7 @@
  * LIT Cyber-Physical Systems Lab
  * All rights reserved
  *******************************************************************************/
-package at.jku.cps.travart.dopler.transformation;
+package at.jku.cps.travart.dopler.transformation.old;
 
 public final class DefaultDecisionModelTransformationProperties {
 

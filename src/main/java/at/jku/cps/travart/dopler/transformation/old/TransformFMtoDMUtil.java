@@ -7,7 +7,7 @@
  * LIT Cyber-Physical Systems Lab
  * All rights reserved
  *******************************************************************************/
-package at.jku.cps.travart.dopler.transformation.roundtrip;
+package at.jku.cps.travart.dopler.transformation.old.roundtrip;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,7 +50,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.SelectDecisionAction;
 import at.jku.cps.travart.dopler.decision.model.impl.SetValueAction;
 import at.jku.cps.travart.dopler.decision.model.impl.StringValue;
 import at.jku.cps.travart.dopler.decision.parser.ConditionParser;
-import at.jku.cps.travart.dopler.transformation.DefaultDecisionModelTransformationProperties;
+import at.jku.cps.travart.dopler.transformation.old.DefaultDecisionModelTransformationProperties;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import de.vill.model.Group.GroupType;

@@ -30,7 +30,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.NumberDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Range;
 import at.jku.cps.travart.dopler.decision.model.impl.StringDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.StringValue;
-import at.jku.cps.travart.dopler.transformation.roundtrip.TransformDMtoFMUtil;
+import at.jku.cps.travart.dopler.transformation.old.roundtrip.TransformDMtoFMUtil;
 import de.vill.model.FeatureModel;
 
 class TransformDMtoFMUtilTest {

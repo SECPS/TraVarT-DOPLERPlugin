@@ -23,7 +23,7 @@ import at.jku.cps.travart.core.common.ISerializer;
 import at.jku.cps.travart.dopler.io.DecisionModelDeserializer;
 import at.jku.cps.travart.dopler.io.DecisionModelSerializer;
 import at.jku.cps.travart.dopler.printer.DoplerPrettyPrinter;
-import at.jku.cps.travart.dopler.transformation.DecisionModelTransformer;
+import at.jku.cps.travart.dopler.transformation.old.DecisionModelTransformer;
 
 @Extension
 @SuppressWarnings("rawtypes")

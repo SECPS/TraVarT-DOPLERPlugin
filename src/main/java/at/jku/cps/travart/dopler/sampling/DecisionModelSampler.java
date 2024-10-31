@@ -38,7 +38,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.EnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.NumberDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
 import at.jku.cps.travart.dopler.decision.model.impl.SelectDecisionAction;
-import at.jku.cps.travart.dopler.transformation.DefaultDecisionModelTransformationProperties;
+import at.jku.cps.travart.dopler.transformation.old.DefaultDecisionModelTransformationProperties;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class DecisionModelSampler implements ISampler<IDecisionModel> {

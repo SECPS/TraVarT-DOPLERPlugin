@@ -7,7 +7,7 @@
  * LIT Cyber-Physical Systems Lab
  * All rights reserved
  *******************************************************************************/
-package at.jku.cps.travart.dopler.transformation.roundtrip;
+package at.jku.cps.travart.dopler.transformation.old.roundtrip;
 
 import at.jku.cps.travart.core.common.IModelTransformer;
 import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
@@ -17,6 +17,8 @@ import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.exc.CircleInConditionException;
 import at.jku.cps.travart.dopler.decision.exc.ConditionCreationException;
 import at.jku.cps.travart.dopler.decision.factory.impl.DecisionModelFactory;
+import at.jku.cps.travart.dopler.transformation.old.TransformDMtoFMUtil;
+import at.jku.cps.travart.dopler.transformation.old.TransformFMtoDMUtil;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 
