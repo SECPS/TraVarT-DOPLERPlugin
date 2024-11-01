@@ -12,6 +12,7 @@ package at.jku.cps.travart.dopler.plugin;
 import java.util.Collections;
 import java.util.List;
 
+import at.jku.cps.travart.dopler.transformation.oneway.OneWayTransformer;
 import org.pf4j.Extension;
 
 import at.jku.cps.travart.core.common.IModelTransformer;
@@ -23,7 +24,6 @@ import at.jku.cps.travart.core.common.ISerializer;
 import at.jku.cps.travart.dopler.io.DecisionModelDeserializer;
 import at.jku.cps.travart.dopler.io.DecisionModelSerializer;
 import at.jku.cps.travart.dopler.printer.DoplerPrettyPrinter;
-import at.jku.cps.travart.dopler.transformation.old.DecisionModelTransformer;
 
 @Extension
 @SuppressWarnings("rawtypes")
@@ -33,7 +33,7 @@ public class DoplerPluginImpl implements IPlugin {
 
 	@Override
 	public IModelTransformer getTransformer() {
-		return new DecisionModelTransformer();
+		return new OneWayTransformer();
 	}
 
 	@Override
