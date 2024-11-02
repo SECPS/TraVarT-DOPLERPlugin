@@ -10,8 +10,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -33,7 +33,7 @@ public abstract class TransformationTest {
         String transformedData = transform(pathToBeTransformed);
         String expectedModel = Files.readString(pathToBeTransformedIn);
 
-        String message = "\n" + "Expected: \n " + expectedModel + "\n" + "But was: \n " + transformedData;
+        String message = "\n\n" + "Expected: \n " + expectedModel + "\n\n" + "But was: \n" + transformedData;
         Assertions.assertEquals(expectedModel, transformedData, message);
     }
 
@@ -45,13 +45,13 @@ public abstract class TransformationTest {
     private Stream<Arguments> dataSourceMethod() throws IOException, NotSupportedVariabilityTypeException {
 
         //Collect files depending on getFromEnding()
-        Set<Path> filePathsSet;
+        List<Path> filePathsSet;
         try (Stream<Path> filePaths = Files.walk(Path.of(getPath())).filter(path -> Files.isRegularFile(path) && path.toString().endsWith(getFromEnding()))) {
-            filePathsSet = filePaths.collect(Collectors.toSet());
+            filePathsSet = filePaths.collect(Collectors.toList());
         }
 
         //Create Arguments
-        Set<Arguments> arguments = new HashSet<>();
+        List<Arguments> arguments = new ArrayList<>();
         for (Path pathToBeTransformed : filePathsSet) {
             String pathToBeTransformedIn = pathToBeTransformed.toString().replace(getFromEnding(), getToEnding());
             arguments.add(Arguments.of(pathToBeTransformed, Path.of(pathToBeTransformedIn)));

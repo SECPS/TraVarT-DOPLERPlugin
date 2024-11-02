@@ -9,11 +9,11 @@ public class RoundTripTransformer implements IModelTransformer<IDecisionModel> {
 
     @Override
     public FeatureModel transform(IDecisionModel model, String modelName, STRATEGY level) throws NotSupportedVariabilityTypeException {
-        return null;
+        throw new RuntimeException("Not implemented");
     }
 
     @Override
     public IDecisionModel transform(FeatureModel model, String modelName, STRATEGY level) throws NotSupportedVariabilityTypeException {
-        return null;
+        throw new RuntimeException("Not implemented");
     }
 }
