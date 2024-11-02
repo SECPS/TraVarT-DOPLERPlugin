@@ -9,11 +9,6 @@
     </option>
   </component>
   <component name="PDMPlugin">
-    <option name="customRuleSets">
-      <list>
-        <option value="C:\ProggenProjekte\TraVarT-DOPLERPlugin\codestyle\pmd-codestyle.xml" />
-      </list>
-    </option>
     <option name="options">
       <map>
         <entry key="Statistics URL" value="" />
