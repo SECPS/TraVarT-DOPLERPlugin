@@ -1,8 +1,8 @@
 /*******************************************************************************
  * TODO: explanation what the class does
- *  
+ *
  *  @author Kevin Feichtinger
- *  
+ *
  * Copyright 2023 Johannes Kepler University Linz
  * LIT Cyber-Physical Systems Lab
  * All rights reserved
@@ -16,52 +16,52 @@ import java.util.Objects;
 @SuppressWarnings("rawtypes")
 public abstract class AFunction<R> implements ICondition {
 
-	private final String name;
-	private List<IDecision> parameters;
+    private final String name;
+    private List<IDecision> parameters;
 
-	public AFunction(final String name, final List<IDecision> parameters) {
-		this.name = Objects.requireNonNull(name);
-		if (parameters.contains(null)) {
-			throw new NullPointerException();
-		}
-		this.parameters = Objects.requireNonNull(parameters);
-	}
+    public AFunction(final String name, final List<IDecision> parameters) {
+        this.name = Objects.requireNonNull(name);
+        if (parameters.contains(null)) {
+            throw new NullPointerException();
+        }
+        this.parameters = Objects.requireNonNull(parameters);
+    }
 
-	public AFunction(final String name, final IDecision... parameters) {
-		this(name, Arrays.asList(parameters));
-	}
+    public AFunction(final String name, final IDecision... parameters) {
+        this(name, Arrays.asList(parameters));
+    }
 
-	public abstract R execute();
+    public abstract R execute();
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public List<IDecision> getParameters() {
-		return parameters;
-	}
+    public List<IDecision> getParameters() {
+        return parameters;
+    }
 
-	public void setParameters(final List<IDecision> parameters) {
-		this.parameters = parameters;
-	}
+    public void setParameters(final List<IDecision> parameters) {
+        this.parameters = parameters;
+    }
 
-	@Override
-	public boolean equals(final Object o) {
-		if (!(o instanceof AFunction)) {
-			return false;
-		}
-		if (this == o) {
-			return true;
-		}
-		AFunction other = (AFunction) o;
-		if (this.name.equals(other.name) && this.parameters.equals(other.parameters)) {
-			return true;
-		}
-		return false;
-	}
+    @Override
+    public boolean equals(final Object o) {
+        if (!(o instanceof AFunction)) {
+            return false;
+        }
+        if (this == o) {
+            return true;
+        }
+        AFunction other = (AFunction) o;
+        if (this.name.equals(other.name) && this.parameters.equals(other.parameters)) {
+            return true;
+        }
+        return false;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(name, parameters);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, parameters);
+    }
 }

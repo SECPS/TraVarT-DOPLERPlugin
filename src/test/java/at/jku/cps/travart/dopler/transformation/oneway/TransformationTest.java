@@ -27,7 +27,8 @@ public abstract class TransformationTest {
      */
     @ParameterizedTest(name = "{1}")
     @MethodSource("dataSourceMethod")
-    void testTransformation(Path pathToBeTransformed, Path pathToBeTransformedIn) throws NotSupportedVariabilityTypeException, IOException {
+    void testTransformation(Path pathToBeTransformed, Path pathToBeTransformedIn)
+            throws NotSupportedVariabilityTypeException, IOException {
 
         //Transform model and create argument
         String transformedData = transform(pathToBeTransformed);
@@ -40,13 +41,15 @@ public abstract class TransformationTest {
     /**
      * Generates the data for the test method.
      *
-     * @return Set of Arguments. Each argument consists of the expected data from the file and the real transformed model.
+     * @return Set of Arguments. Each argument consists of the expected data from the file and the real transformed
+     * model.
      */
     private Stream<Arguments> dataSourceMethod() throws IOException, NotSupportedVariabilityTypeException {
 
         //Collect files depending on getFromEnding()
         List<Path> filePathsSet;
-        try (Stream<Path> filePaths = Files.walk(Path.of(getPath())).filter(path -> Files.isRegularFile(path) && path.toString().endsWith(getFromEnding()))) {
+        try (Stream<Path> filePaths = Files.walk(Path.of(getPath()))
+                .filter(path -> Files.isRegularFile(path) && path.toString().endsWith(getFromEnding()))) {
             filePathsSet = filePaths.collect(Collectors.toList());
         }
 

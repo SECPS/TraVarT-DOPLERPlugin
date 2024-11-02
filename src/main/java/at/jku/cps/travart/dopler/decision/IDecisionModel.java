@@ -1,75 +1,75 @@
 /*******************************************************************************
  * TODO: explanation what the class does
- *  
+ *
  *  @author Kevin Feichtinger
- *  
+ *
  * Copyright 2023 Johannes Kepler University Linz
  * LIT Cyber-Physical Systems Lab
  * All rights reserved
  *******************************************************************************/
 package at.jku.cps.travart.dopler.decision;
 
-import java.util.Collection;
-import java.util.Map;
-
 import at.jku.cps.travart.core.common.IConfigurable;
 import at.jku.cps.travart.core.common.IValidate;
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 
+import java.util.Collection;
+import java.util.Map;
+
 public interface IDecisionModel extends IValidate {
 
-	/**
-	 * Returns the factoryId which created this {@link IDecisionModel}.
-	 *
-	 * @return the factoryId
-	 */
-	String getFactoryId();
+    /**
+     * Returns the factoryId which created this {@link IDecisionModel}.
+     *
+     * @return the factoryId
+     */
+    String getFactoryId();
 
-	/**
-	 * Returns the file location where the model is stored.
-	 *
-	 * @return the file location.
-	 */
-	String getSourceFile();
+    /**
+     * Returns the file location where the model is stored.
+     *
+     * @return the file location.
+     */
+    String getSourceFile();
 
-	/**
-	 * Update the storage location of this {@link IDecisionModel}.
-	 *
-	 * @param sourceFile the location of this {@link IDecisionModel}.
-	 */
-	void setSourceFile(String sourceFile);
+    /**
+     * Update the storage location of this {@link IDecisionModel}.
+     *
+     * @param sourceFile the location of this {@link IDecisionModel}.
+     */
+    void setSourceFile(String sourceFile);
 
-	void setName(String name);
+    void setName(String name);
 
-	String getName();
+    String getName();
 
-	@SuppressWarnings("rawtypes")
-	void add(IDecision decision);
+    @SuppressWarnings("rawtypes")
+    void add(IDecision decision);
 
-	void addAll(Collection<IDecision<?>> decisions);
+    void addAll(Collection<IDecision<?>> decisions);
 
-	@SuppressWarnings("rawtypes")
-	boolean remove(IDecision decision);
+    @SuppressWarnings("rawtypes")
+    boolean remove(IDecision decision);
 
-	void clear();
+    void clear();
 
-	@SuppressWarnings("rawtypes")
-	IDecision get(String id);
+    @SuppressWarnings("rawtypes")
+    IDecision get(String id);
 
-	Collection<String> getDecisionNames();
+    Collection<String> getDecisionNames();
 
-	Collection<IDecision<?>> getDecisions();
+    Collection<IDecision<?>> getDecisions();
 
-	@SuppressWarnings("rawtypes")
-	boolean contains(IDecision decision);
+    @SuppressWarnings("rawtypes")
+    boolean contains(IDecision decision);
 
-	boolean containsAll(Collection<IDecision<?>> decisions);
+    boolean containsAll(Collection<IDecision<?>> decisions);
 
-	int size();
+    int size();
 
-	void reset() throws RangeValueException;
+    void reset() throws RangeValueException;
 
-	Map<IConfigurable, Boolean> getCurrentConfiguration();
+    Map<IConfigurable, Boolean> getCurrentConfiguration();
 
 }

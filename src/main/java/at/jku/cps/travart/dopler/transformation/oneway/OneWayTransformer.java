@@ -18,12 +18,15 @@ public class OneWayTransformer implements IModelTransformer<IDecisionModel> {
     }
 
     @Override
-    public FeatureModel transform(IDecisionModel model, String modelName, STRATEGY level) throws NotSupportedVariabilityTypeException {
+    public FeatureModel transform(IDecisionModel model, String modelName, STRATEGY level)
+            throws NotSupportedVariabilityTypeException {
         return dmToFmOneWayTransformer.transform(model, modelName, level);
     }
 
+
     @Override
-    public IDecisionModel transform(FeatureModel model, String modelName, STRATEGY level) throws NotSupportedVariabilityTypeException {
+    public IDecisionModel transform(FeatureModel model, String modelName, STRATEGY level)
+            throws NotSupportedVariabilityTypeException {
         return fmToDmOneWayTransformer.transform(model, modelName, level);
     }
 }

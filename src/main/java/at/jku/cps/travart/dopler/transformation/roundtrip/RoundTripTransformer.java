@@ -8,12 +8,14 @@ import de.vill.model.FeatureModel;
 public class RoundTripTransformer implements IModelTransformer<IDecisionModel> {
 
     @Override
-    public FeatureModel transform(IDecisionModel model, String modelName, STRATEGY level) throws NotSupportedVariabilityTypeException {
+    public FeatureModel transform(IDecisionModel model, String modelName, STRATEGY level)
+            throws NotSupportedVariabilityTypeException {
         throw new RuntimeException("Not implemented");
     }
 
     @Override
-    public IDecisionModel transform(FeatureModel model, String modelName, STRATEGY level) throws NotSupportedVariabilityTypeException {
+    public IDecisionModel transform(FeatureModel model, String modelName, STRATEGY level)
+            throws NotSupportedVariabilityTypeException {
         throw new RuntimeException("Not implemented");
     }
 }

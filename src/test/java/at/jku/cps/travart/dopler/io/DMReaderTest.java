@@ -27,7 +27,8 @@ public class DMReaderTest {
         IDecisionModel dm = null;
         DecisionModelDeserializer reader = new DecisionModelDeserializer();
         try {
-            dm = reader.deserializeFromFile(Paths.get(DMReaderTest.class.getClassLoader().getResource("DOPLERToolsDM.csv").toURI()));
+            dm = reader.deserializeFromFile(
+                    Paths.get(DMReaderTest.class.getClassLoader().getResource("DOPLERToolsDM.csv").toURI()));
         } catch (IOException e) {
             fail("IO Exception occured while reading Decision Model");
             e.printStackTrace();

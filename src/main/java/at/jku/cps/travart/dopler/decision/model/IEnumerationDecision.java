@@ -1,33 +1,33 @@
 /*******************************************************************************
  * TODO: explanation what the class does
- *  
+ *
  *  @author Kevin Feichtinger
- *  
+ *
  * Copyright 2023 Johannes Kepler University Linz
  * LIT Cyber-Physical Systems Lab
  * All rights reserved
  *******************************************************************************/
 package at.jku.cps.travart.dopler.decision.model;
 
-import java.util.Set;
-
 import at.jku.cps.travart.dopler.decision.exc.RangeValueException;
 import at.jku.cps.travart.dopler.decision.exc.UnsatisfiedCardinalityException;
 import at.jku.cps.travart.dopler.decision.model.impl.Cardinality;
 
+import java.util.Set;
+
 public interface IEnumerationDecision<T> extends IDecision<T> {
 
-	void setValues(Set<AbstractRangeValue<T>> values) throws RangeValueException, UnsatisfiedCardinalityException;
+    void setValues(Set<AbstractRangeValue<T>> values) throws RangeValueException, UnsatisfiedCardinalityException;
 
-	Set<AbstractRangeValue<T>> getValues();
+    Set<AbstractRangeValue<T>> getValues();
 
-	Cardinality getCardinality();
+    Cardinality getCardinality();
 
-	void setCardinality(Cardinality cardinality);
+    void setCardinality(Cardinality cardinality);
 
-	AbstractRangeValue<String> getNoneOption();
+    AbstractRangeValue<String> getNoneOption();
 
-	boolean isNoneOption(AbstractRangeValue<T> value);
+    boolean isNoneOption(AbstractRangeValue<T> value);
 
-	boolean hasNoneOption();
+    boolean hasNoneOption();
 }
