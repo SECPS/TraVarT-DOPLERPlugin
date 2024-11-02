@@ -4,7 +4,6 @@ import at.jku.cps.travart.core.common.IModelTransformer;
 import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.impl.DecisionModel;
-import at.jku.cps.travart.dopler.transformation.util.ITransformer;
 import de.vill.model.FeatureModel;
 
 public class OneWayTransformer implements IModelTransformer<IDecisionModel> {
@@ -16,6 +15,9 @@ public class OneWayTransformer implements IModelTransformer<IDecisionModel> {
 
     @Override
     public IDecisionModel transform(FeatureModel model, String modelName, STRATEGY level) throws NotSupportedVariabilityTypeException {
-        return new DecisionModel(modelName);
+        DecisionModel decisionModel = new DecisionModel(modelName);
+
+
+        return decisionModel;
     }
 }

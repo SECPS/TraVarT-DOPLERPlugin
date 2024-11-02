@@ -3,7 +3,6 @@ package at.jku.cps.travart.dopler.transformation.roundtrip;
 import at.jku.cps.travart.core.common.IModelTransformer;
 import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
-import at.jku.cps.travart.dopler.transformation.util.ITransformer;
 import de.vill.model.FeatureModel;
 
 public class RoundTripTransformer implements IModelTransformer<IDecisionModel> {

@@ -1,0 +1,48 @@
+features
+    "dm_DOPLERTools"
+        optional
+            ALL
+            CW
+                optional
+                    CW_authentication
+                    CW_autogenerate
+                    CW_decisionboard
+                    CW_documenation
+                    CW_flatfilegenerator
+                    CW_views
+                        or
+                            "Table-based"
+                            "Tree-based"
+                            "Graph-based"
+                    CW_requirementsView
+                    CW_sharepoint
+                    CW_wordgenerator
+                        optional
+                            CW_wordgenerator_wordAddIn
+                    CW_guidance
+                        alternative
+                            "After-first-selection"
+                            Always
+            Real CW_resolution_height
+            Real CW_resolution_width
+            DK
+                optional
+                    DK_builder
+                    DK_merger
+                    DK_metamodelling
+                    DK_rulelang_editor
+            DK_modelconverter
+            DK_sharepoint
+            PK
+            SERVER
+            ProprietaryTools
+
+constraints
+    ALL => DK & CW & PK
+    DK & CW & PK => ALL
+    DK_modelconverter => PK | DK
+    DK_sharepoint => PK | DK
+    ProprietaryTools => CW | DK
+    CW_resolution_height == 0.0
+    CW_resolution_width == 0.0
+

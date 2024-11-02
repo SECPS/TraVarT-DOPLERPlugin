@@ -22,22 +22,25 @@ public abstract class TransformationTest {
     /**
      * Compares the real model from the file with the transformed model.
      *
-     * @param expected Expected DOPLER model
-     * @param real     Real, transformed DOPLER model
+     * @param pathToBeTransformed   Expected model
+     * @param pathToBeTransformedIn Real, transformed model
      */
-    @ParameterizedTest
+    @ParameterizedTest(name = "{1}")
     @MethodSource("dataSourceMethod")
-    void testTransformation(String expected, String real) {
-        String message = "\n" + "Expected: \n " + expected + "\n" + "But was: \n " + real;
-        Assertions.assertEquals(expected, real, message);
+    void testTransformation(Path pathToBeTransformed, Path pathToBeTransformedIn) throws NotSupportedVariabilityTypeException, IOException {
+
+        //Transform model and create argument
+        String transformedData = transform(pathToBeTransformed);
+        String expectedModel = Files.readString(pathToBeTransformedIn);
+
+        String message = "\n" + "Expected: \n " + expectedModel + "\n" + "But was: \n " + transformedData;
+        Assertions.assertEquals(expectedModel, transformedData, message);
     }
 
     /**
      * Generates the data for the test method.
      *
      * @return Set of Arguments. Each argument consists of the expected data from the file and the real transformed model.
-     * @throws IOException                          Gets thrown if a file did not exist or could not be read
-     * @throws NotSupportedVariabilityTypeException Gets thrown if the model could not be transformed
      */
     private Stream<Arguments> dataSourceMethod() throws IOException, NotSupportedVariabilityTypeException {
 
@@ -49,14 +52,9 @@ public abstract class TransformationTest {
 
         //Create Arguments
         Set<Arguments> arguments = new HashSet<>();
-        for (Path path : filePathsSet) {
-            String doplerFilePath = path.toString().replace(getFromEnding(), getToEnding());
-
-            String expectedModel = Files.readString(Path.of(doplerFilePath));
-
-            //Transform model and create argument
-            String transformedData = transform(path);
-            arguments.add(Arguments.of(expectedModel, transformedData));
+        for (Path pathToBeTransformed : filePathsSet) {
+            String pathToBeTransformedIn = pathToBeTransformed.toString().replace(getFromEnding(), getToEnding());
+            arguments.add(Arguments.of(pathToBeTransformed, Path.of(pathToBeTransformedIn)));
         }
 
         return arguments.stream();
@@ -69,5 +67,4 @@ public abstract class TransformationTest {
     protected abstract String getFromEnding();
 
     protected abstract String getPath();
-
 }

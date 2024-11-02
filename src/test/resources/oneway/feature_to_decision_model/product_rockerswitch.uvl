@@ -1,0 +1,57 @@
+features
+        rockerswitch_product {extended__ true, abstract true}
+                optional
+                        Neutral {abstract true}
+                                optional
+                                        Neutral1_2
+                                        Neutral1_1
+                        Rocker {abstract true}
+                                optional
+                                        Rocker1_1
+                                        Rocker2_2
+                                        Rocker1_2
+                                        Rocker2_1
+                        Off {abstract true}
+                                optional
+                                        Off1_4
+                                        Off1_3
+                                        Off1_2
+                                        Off1_1
+                        Changeover {abstract true}
+                                optional
+                                        Changeover2
+                                        Changeover1
+                        Series
+                        Crossover
+                        Pole {abstract true}
+                                optional
+                                        Pole2_2
+                                        Pole1_2
+                                        Pole2_1
+                                        Pole1_1
+                mandatory
+                        Socket
+                        Screw {abstract true}
+                                mandatory
+                                        Screw1_1
+                                        Screw1_2
+                        O_Ring {abstract true}
+                                mandatory
+                                        O_Ring1_1
+                                        O_Ring1_2
+                        Claw {abstract true}
+                                mandatory
+                                        Claw1_1
+                                        Claw1_2
+
+constraints
+        Rocker1_1 => Pole1_1
+        Rocker2_2 => Pole2_2
+        Rocker1_2 => Pole2_1
+        Rocker2_1 => Pole2_1
+        Rocker => Pole
+        Off => Rocker
+        Off1_1 => Rocker1_1
+        Off1_2 => Rocker1_2
+        Changeover1 => Rocker1_1
+        (Changeover2 => Rocker1_1) & (Changeover2 => Rocker1_2)
