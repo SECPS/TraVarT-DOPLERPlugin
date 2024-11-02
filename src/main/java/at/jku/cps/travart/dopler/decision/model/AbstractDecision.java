@@ -22,7 +22,6 @@ public abstract class AbstractDecision<T> implements IDecision<T> {
 
     public enum DecisionType {
         BOOLEAN("Boolean"), NUMBER("Double"), STRING("String"), ENUM("Enumeration");
-
         private String type;
 
         DecisionType(final String type) {

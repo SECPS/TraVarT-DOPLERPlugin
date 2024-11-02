@@ -21,7 +21,6 @@ public class StringDecision extends AbstractDecision<String> {
     private static final String RANGE_VALUE_NULL_ERROR = "Given value for decision %s is null";
     private static final String RANGE_VALUE_NOT_ENABLED_ERROR =
             "Value %s is not enabled. Can't be set for String decision %s";
-
     private Range<String> range;
     private AbstractRangeValue<String> value;
 

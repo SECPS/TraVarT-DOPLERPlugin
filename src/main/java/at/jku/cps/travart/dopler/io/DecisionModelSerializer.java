@@ -34,7 +34,9 @@ import java.util.Set;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class DecisionModelSerializer implements ISerializer<IDecisionModel> {
+
     public class Record {
+
         public String id;
         public String question;
         public DecisionType type;

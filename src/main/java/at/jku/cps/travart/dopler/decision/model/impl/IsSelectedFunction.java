@@ -19,7 +19,6 @@ import java.util.Objects;
 public class IsSelectedFunction extends AFunction<Boolean> {
 
     public static final String FUNCTION_NAME = "isSelected";
-
     private final IDecision parameter;
 
     public IsSelectedFunction(final IDecision parameter) {
@@ -41,5 +40,4 @@ public class IsSelectedFunction extends AFunction<Boolean> {
     public String toString() {
         return FUNCTION_NAME + "(" + parameter + ")";
     }
-
 }

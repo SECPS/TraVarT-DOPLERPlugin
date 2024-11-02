@@ -41,5 +41,4 @@ public class DMReaderTest {
         }
         assertNotNull(dm);
     }
-
 }

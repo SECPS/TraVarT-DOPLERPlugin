@@ -20,7 +20,6 @@ import at.jku.cps.travart.dopler.decision.model.ICondition;
 public class CircleInConditionException extends Exception {
 
     private static final long serialVersionUID = -9211076567554989470L;
-
     private static final String CIRCLE_DETECTED_ERROR = "Circle in the Condition  %s";
 
     /**

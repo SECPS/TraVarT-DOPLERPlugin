@@ -17,9 +17,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-
 public class IActionTest {
-
 
     private IAction a = null;
     private static EnumerationDecision e = new EnumerationDecision("test");
@@ -61,7 +59,6 @@ public class IActionTest {
         a.getValue();
     }
 
-
     private static Stream<Arguments> instancesToTest() {
         Range<String> r = new Range<>();
         StringValue s = new StringValue("test");
@@ -71,5 +68,4 @@ public class IActionTest {
                 Arguments.of(new SelectDecisionAction(b)), Arguments.of(new DisAllowAction(e, s)),
                 Arguments.of(new SetValueAction(e, s)));
     }
-
 }

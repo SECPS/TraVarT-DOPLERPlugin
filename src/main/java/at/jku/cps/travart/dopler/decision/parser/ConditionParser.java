@@ -26,9 +26,7 @@ public class ConditionParser {
     private static final String REGEX =
             "(?<=\\.)|(?=\\.)|((?<=\\=)|(?=\\=)|(?<=\\<)|(?=\\<)|(?<=\\>)|(?=\\>))|((?<=\\|\\|)|(?=\\|\\|))|((?<=&&)|" +
                     "(?=&&))|((?<=!)|(?=!))|((?<=\\()|(?=\\())|((?<=\\))|(?=\\)))";
-
     private static final String EOF = "EOF";
-
     private static final String NOT = "!";
     private static final String OR = "||";
     private static final String AND = "&&";
@@ -39,17 +37,13 @@ public class ConditionParser {
     private static final Object CLOSING_PARENTHESE = ")";
     private static final String CLOSING_CURRLY_PARENTHESE = "}";
     private static final String DECISION_VALUE_DELIMITER = ".";
-
     private static final String TRUE = "true";
     private static final String FALSE = "false";
-
     private String[] input;
     private int index = 0;
     private String symbol;
-
     private boolean isTaken = false;
     private boolean isSelected = false;
-
     private final IDecisionModel dm;
 
     public ConditionParser(final IDecisionModel dm) {

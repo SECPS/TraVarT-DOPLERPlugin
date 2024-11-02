@@ -15,6 +15,7 @@ import at.jku.cps.travart.dopler.decision.model.ICondition;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class LessEquals extends ABinaryCondition {
+
     public static final String SYMBOL = "<=";
 
     public LessEquals(final ICondition left, final ICondition right) {

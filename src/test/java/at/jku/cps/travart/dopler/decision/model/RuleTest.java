@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RuleTest {
+
     Rule r;
     ICondition cond;
     IAction a;
@@ -86,5 +87,4 @@ public class RuleTest {
         r.setCondition(condition);
         assertEquals("if (" + condition.toString() + ") {\n" + a.toString() + "\n}\n", r.toString());
     }
-
 }

@@ -9,7 +9,6 @@ import java.util.List;
 public class FeatureHandler {
 
     private final GroupHandler groupHandler;
-
     /**
      * Temporary variable to save current decision model
      */
@@ -27,5 +26,4 @@ public class FeatureHandler {
 
         this.decisionModel = decisionModel;
     }
-
 }

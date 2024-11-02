@@ -30,6 +30,7 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class VisibilityParserTest {
+
     ConditionParser vp;
     IDecisionModel dm;
     CSVFormat dmFormat;
@@ -46,7 +47,6 @@ public class VisibilityParserTest {
         } catch (IOException | NotSupportedVariabilityTypeException e) {
             e.printStackTrace();
         }
-
     }
 
     @Test
@@ -68,5 +68,4 @@ public class VisibilityParserTest {
             vp.parse(visiblity);
         }
     }
-
 }

@@ -184,7 +184,6 @@ public class ADecisionTest {
 
     private AbstractDecision<Object> createNoTypeDecision(final String id, final Cardinality c, final DecisionType t) {
         return new AbstractDecision<>(id, t) {
-
             @Override
             public Range<Object> getRange() {
                 return null;

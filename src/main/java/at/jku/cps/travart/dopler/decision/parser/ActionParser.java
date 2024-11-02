@@ -26,23 +26,17 @@ import java.util.Queue;
 public class ActionParser {
 
     private static final int NECESSARY_ELEMENTS_FOR_ACTION = 2;
-
     private static final String REGEX = "(?<=\\.)|(?=\\.)|(?<=\\=)|(?=\\=)|((?<=\\()|(?=\\())|((?<=\\))|(?=\\)))";
-
     private static final String EOF = "EOF";
-
     private static final String ASSIGN = "=";
     private static final String DECISION_VALUE_DELIMITER = ".";
     private static final String OPEN_PARENTHESE = "(";
     private static final String CLOSING_PARENTHESE = ")";
-
     private static final String TRUE = "true";
     private static final String FALSE = "false";
-
     private String[] input;
     private int index = 0;
     private String symbol;
-
     private final IDecisionModel dm;
     private final Queue<Object> actionElements = new LinkedList<>();
 
@@ -91,7 +85,6 @@ public class ActionParser {
                 } else {
                     actionElements.add(left);
                 }
-
             } else if (symbol.equals(AllowAction.FUNCTION_NAME)) {
                 isAllowFunction = true;
             } else if (symbol.equals(DisAllowAction.FUNCTION_NAME)) {

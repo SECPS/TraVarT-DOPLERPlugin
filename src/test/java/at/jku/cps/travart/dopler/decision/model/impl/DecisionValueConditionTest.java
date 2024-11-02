@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DecisionValueConditionTest {
+
     private DecisionValueCondition dvc;
     private BooleanDecision bd;
 
@@ -68,5 +69,4 @@ public class DecisionValueConditionTest {
     public void testToString() {
         assertEquals(dvc.getDecision() + "." + dvc.getValue(), dvc.toString());
     }
-
 }

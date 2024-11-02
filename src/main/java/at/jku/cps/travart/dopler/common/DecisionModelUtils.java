@@ -30,7 +30,6 @@ import java.util.stream.Collectors;
 public final class DecisionModelUtils {
 
     private static final char DELIMITER = ';';
-
     private static final String ENUM_DECISION_CONSTRAINT_REGEX = "(and|or)#constr#([0-9]+)";
     private static final String ENUM_DECISION_TRANSFORMED_REGEX = "#([0-9]+)$";
 

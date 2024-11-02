@@ -29,7 +29,6 @@ import java.util.Set;
 public class RulesParser {
 
     private static final String NO_ACTION_IN_RULE = "A rule must have at least one action to perform!";
-
     private final IDecisionModel decisions;
 
     public RulesParser(final IDecisionModel decisions) {

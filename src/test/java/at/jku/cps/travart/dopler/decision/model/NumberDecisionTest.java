@@ -21,6 +21,7 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class NumberDecisionTest {
+
     private NumberDecision nd;
 
     @BeforeEach
@@ -160,6 +161,5 @@ public class NumberDecisionTest {
         nd.getRange().addAll(Arrays.asList(dvRange));
         assertEquals(dvRange[9], nd.getMaxRangeValue(),
                 "Highest value is " + dvRange[9] + " highest found is: " + nd.getMaxRangeValue());
-
     }
 }

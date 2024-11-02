@@ -13,6 +13,7 @@ import at.jku.cps.travart.dopler.decision.model.ABinaryCondition;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 
 public class And extends ABinaryCondition {
+
     public static final String SYMBOL = "&&";
 
     public And(ICondition left, ICondition right) {

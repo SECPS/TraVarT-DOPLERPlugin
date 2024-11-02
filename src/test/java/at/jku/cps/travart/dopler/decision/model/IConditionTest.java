@@ -40,6 +40,5 @@ public class IConditionTest {
                 Arguments.of(new And(ICondition.TRUE, ICondition.TRUE)),
                 Arguments.of(new Or(ICondition.TRUE, ICondition.TRUE)), Arguments.of(new Not(ICondition.TRUE)));
     }
-
 }
 

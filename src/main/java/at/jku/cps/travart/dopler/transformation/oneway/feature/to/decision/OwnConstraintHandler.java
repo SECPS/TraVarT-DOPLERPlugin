@@ -20,7 +20,6 @@ public class OwnConstraintHandler {
      */
     private IDecisionModel decisionModel;
 
-
     public void handleOwnConstraints(List<Constraint> ownConstraints, IDecisionModel decisionModel) {
         this.decisionModel = decisionModel;
 
@@ -29,11 +28,7 @@ public class OwnConstraintHandler {
             if (ownConstraint instanceof ImplicationConstraint) {
                 //handleImplicationConstraint((ImplicationConstraint) ownConstraint);
             }
-
-
         }
-
-
     }
 
     private void handleImplicationConstraint(ImplicationConstraint ownConstraint) {
@@ -43,15 +38,11 @@ public class OwnConstraintHandler {
         Feature leftFeature = left.getFeature();
         Feature rightFeature = right.getFeature();
 
-
         //Find decision depending on left feature
         Optional<IDecision<?>> first = decisionModel.getDecisions().stream()
                 .filter(iDecision -> iDecision.getId().equals(leftFeature.getParentFeature().getFeatureName()))
                 .findFirst();
 
-
         System.out.println();
-
     }
-
 }

@@ -11,5 +11,4 @@ public class DmToFmOneWayTransformer {
             throws NotSupportedVariabilityTypeException {
         throw new RuntimeException("Not implemented");
     }
-
 }

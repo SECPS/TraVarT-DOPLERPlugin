@@ -12,7 +12,6 @@ package at.jku.cps.travart.dopler.decision.model;
 public interface ICondition {
 
     ICondition TRUE = new ICondition() {
-
         @Override
         public boolean evaluate() {
             return true;
@@ -23,7 +22,6 @@ public interface ICondition {
             return "true";
         }
     };
-
     ICondition FALSE = new ICondition() {
         @Override
         public boolean evaluate() {

@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BooleanValueTest {
+
     private String noHierarchyError = "No hierarchy in boolean values, therefore false";
 
     @Test
@@ -81,5 +82,4 @@ public class BooleanValueTest {
         assertTrue(tr.evaluate(), "True should return true");
         assertFalse(fa.evaluate(), "False should return false");
     }
-
 }

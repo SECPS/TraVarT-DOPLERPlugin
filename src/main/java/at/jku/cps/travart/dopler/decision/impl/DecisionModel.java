@@ -30,10 +30,8 @@ public final class DecisionModel implements IDecisionModel {
 
     public static final String DEFAULT_NAME = "DecisionModel";
     private final String factoryId;
-
     private String sourceFile;
     private String name;
-
     private final HashMap<String, IDecision<?>> decisions;
 
     public DecisionModel(final String factoryId) {
@@ -177,7 +175,6 @@ public final class DecisionModel implements IDecisionModel {
                         }
                     }
                 }
-
             }
             return true;
         } catch (ActionExecutionException e) {
