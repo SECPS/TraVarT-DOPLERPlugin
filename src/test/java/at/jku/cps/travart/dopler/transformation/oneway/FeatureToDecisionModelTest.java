@@ -40,6 +40,6 @@ public class FeatureToDecisionModelTest extends TransformationTest {
 
     @Override
     protected String getPath() {
-        return "src/test/resources/oneway/feature_to_decision_model";
+        return "src/test/resources/oneway/feature/to/decision";
     }
 }
