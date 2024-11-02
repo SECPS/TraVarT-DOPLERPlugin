@@ -1,0 +1,17 @@
+namespace ASEJ1
+
+features
+	ASEJ1
+		mandatory
+			Strands
+			Modes
+				or
+					top
+					horizontal
+					bottom
+					vertical
+		optional
+			UI
+			TopFeeding3D
+			Thermal3D
+
