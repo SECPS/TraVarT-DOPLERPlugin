@@ -3,6 +3,7 @@ package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.model.IEnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.*;
+import at.jku.cps.travart.dopler.transformation.util.DecisionModelUtil;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import de.vill.model.Group;
@@ -67,59 +68,51 @@ class FeatureAndGroupHandler {
 
     private void handleOrGroup(Group group) {
         Feature parentFeature = group.getParentFeature();
-        String id = parentFeature.getFeatureName();
         Range<String> range = new Range<>();
         group.getFeatures().stream().map(Feature::getFeatureName).map(StringValue::new).forEach(range::add);
         Cardinality cardinality = new Cardinality(1, group.getFeatures().size());
 
-        EnumerationDecision decision = new EnumerationDecision(id);
-        DecisionModelUtil.resolveVisibility(decision, featureModel, parentFeature);
-        DecisionModelUtil.addToDecisionModel(decision, decisionModel);
+        EnumerationDecision decision = new EnumerationDecision("");
+        decision.setVisibility(DecisionModelUtil.resolveVisibility(featureModel, parentFeature));
+        decision.setId(DecisionModelUtil.resolveId(decisionModel, parentFeature));
         decision.setQuestion(String.format("Which %s?", decision.getId()));
         decision.setRange(range);
         decision.setCardinality(cardinality);
+
+        decisionModel.add(decision);
     }
 
     private void handleAlternativeGroup(Group group) {
         Feature parentFeature = group.getParentFeature();
-        String id = parentFeature.getFeatureName();
         Range<String> range = new Range<>();
         group.getFeatures().stream().map(Feature::getFeatureName).map(StringValue::new).forEach(range::add);
         Cardinality cardinality = new Cardinality(1, 1);
 
-        IEnumerationDecision<String> decision = new EnumerationDecision(id);
-        DecisionModelUtil.resolveVisibility(decision, featureModel, parentFeature);
-        DecisionModelUtil.addToDecisionModel(decision, decisionModel);
+        IEnumerationDecision<String> decision = new EnumerationDecision("");
+        decision.setVisibility(DecisionModelUtil.resolveVisibility(featureModel, parentFeature));
+        decision.setId(DecisionModelUtil.resolveId(decisionModel, parentFeature));
         decision.setQuestion(String.format("Which %s?", decision.getId()));
         decision.setRange(range);
         decision.setCardinality(cardinality);
+
+        decisionModel.add(decision);
     }
 
     private void handleOptionalGroup(Group group) {
         Feature parentFeature = group.getParentFeature();
         for (Feature feature : group.getFeatures()) {
             String id = feature.getFeatureName();
-            BooleanDecision decision = new BooleanDecision(id);
-            DecisionModelUtil.resolveVisibility(decision, featureModel, parentFeature);
-            DecisionModelUtil.addToDecisionModel(decision, decisionModel);
+            BooleanDecision decision = new BooleanDecision("");
+            decision.setVisibility(DecisionModelUtil.resolveVisibility(featureModel, parentFeature));
+            decision.setId(DecisionModelUtil.resolveId(decisionModel, feature));
             decision.setQuestion(String.format("%s?", decision.getId()));
+
+            decisionModel.add(decision);
         }
     }
 
     private void handleMandatoryGroup(Group group) {
         /** Only important for round trip */
-        if (true) {
-            return;
-        }
-
-        Feature parentFeature = group.getParentFeature();
-        for (Feature feature : group.getFeatures()) {
-            String id = feature.getFeatureName();
-            BooleanDecision decision = new BooleanDecision(id);
-            DecisionModelUtil.resolveVisibility(decision, featureModel, parentFeature);
-            DecisionModelUtil.addToDecisionModel(decision, decisionModel);
-            decision.setQuestion(String.format("%s?", decision.getId()));
-            decision.setVisibility(BooleanValue.getFalse());
-        }
+       return;
     }
 }
