@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ARangeValueTest {
+
     private AbstractRangeValue<Double> rv;
 
     @BeforeEach
@@ -99,5 +100,4 @@ public class ARangeValueTest {
         rv.disable();
         assertFalse(rv.isEnabled());
     }
-
 }

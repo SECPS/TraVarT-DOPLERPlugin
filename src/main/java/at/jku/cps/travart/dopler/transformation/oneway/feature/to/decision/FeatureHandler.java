@@ -27,5 +27,4 @@ public class FeatureHandler {
 
         this.decisionModel = decisionModel;
     }
-
 }

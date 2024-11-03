@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DecisionModelTest {
+
     private DecisionModelFactory factory;
     private DecisionModel dm;
 
@@ -157,7 +158,6 @@ public class DecisionModelTest {
                 !DecisionModelUtils.getStringDecisionsAsNames(dm).contains(d3.getId()) &&
                 !DecisionModelUtils.getStringDecisionsAsNames(dm).contains(d2.getId()) &&
                 !DecisionModelUtils.getStringDecisionsAsNames(dm).contains(d4.getId()));
-
     }
 
     @SuppressWarnings("unlikely-arg-type")
@@ -471,7 +471,6 @@ public class DecisionModelTest {
         assertThrows(IllegalArgumentException.class, () -> {
             d.addRule(new Rule(ICondition.TRUE, new DisAllowAction(d, new StringValue("NotInRange"))));
         }, "Should throw IllegalArgumentException because value is not part of decision range.");
-
     }
 
     @Test
@@ -524,5 +523,4 @@ public class DecisionModelTest {
         assertEquals("DecisionModel" + dm.getName() + "[" + d.toString() + "[selected=" + d.isSelected() + "; value=" +
                 d.getValue() + "] ]", dm.toString());
     }
-
 }

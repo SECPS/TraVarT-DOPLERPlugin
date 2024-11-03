@@ -177,7 +177,6 @@ public final class DecisionModel implements IDecisionModel {
                         }
                     }
                 }
-
             }
             return true;
         } catch (ActionExecutionException e) {

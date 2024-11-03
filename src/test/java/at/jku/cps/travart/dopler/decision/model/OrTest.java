@@ -9,7 +9,6 @@
  *******************************************************************************/
 package at.jku.cps.travart.dopler.decision.model;
 
-
 import at.jku.cps.travart.dopler.decision.exc.CircleInConditionException;
 import at.jku.cps.travart.dopler.decision.model.impl.Or;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OrTest {
+
     private Or or;
 
     @BeforeEach
@@ -51,5 +51,4 @@ public class OrTest {
         or.setLeft(ICondition.FALSE);
         assertTrue(or.evaluate());
     }
-
 }

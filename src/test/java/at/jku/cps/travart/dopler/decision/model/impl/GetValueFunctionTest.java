@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GetValueFunctionTest {
+
     GetValueFunction gvf;
     NumberDecision nd1;
 
@@ -100,16 +101,13 @@ public class GetValueFunctionTest {
             @Override
             public void setValue(final Object value) throws RangeValueException {
             }
-
         };
         gvf = new GetValueFunction(ad);
         assertThrows(IllegalStateException.class, () -> gvf.execute());
-
     }
 
     @Test
     public void testToString() {
         assertEquals("getValue(" + nd1.toString() + ")", gvf.toString());
     }
-
 }

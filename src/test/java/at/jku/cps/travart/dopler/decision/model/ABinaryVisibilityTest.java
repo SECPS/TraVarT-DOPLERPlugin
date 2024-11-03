@@ -95,7 +95,6 @@ public class ABinaryVisibilityTest {
         assertNotEquals(vis.hashCode(), vis2.hashCode());
         vis.setRight(new Or(ICondition.TRUE, ICondition.TRUE));
         assertEquals(vis.hashCode(), vis2.hashCode());
-
     }
 
     @Test

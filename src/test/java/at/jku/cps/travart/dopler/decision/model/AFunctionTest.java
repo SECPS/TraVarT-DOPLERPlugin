@@ -111,7 +111,6 @@ public class AFunctionTest {
                     // TODO Auto-generated method stub
                     return null;
                 }
-
             };
         });
     }
@@ -134,7 +133,6 @@ public class AFunctionTest {
                     // TODO Auto-generated method stub
                     return null;
                 }
-
             };
         });
     }
@@ -157,7 +155,6 @@ public class AFunctionTest {
                     // TODO Auto-generated method stub
                     return null;
                 }
-
             };
         });
     }

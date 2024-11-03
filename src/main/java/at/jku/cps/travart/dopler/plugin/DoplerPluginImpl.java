@@ -72,5 +72,4 @@ public class DoplerPluginImpl implements IPlugin {
     public List getSupportedFileExtensions() {
         return Collections.unmodifiableList(List.of(DecisionModelDeserializer.FILE_EXTENSION_CSV));
     }
-
 }

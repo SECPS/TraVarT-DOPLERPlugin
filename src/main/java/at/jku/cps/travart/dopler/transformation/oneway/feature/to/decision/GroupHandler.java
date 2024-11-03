@@ -46,7 +46,6 @@ public class GroupHandler {
             default:
                 throw new IllegalStateException("Unexpected value: " + group.GROUPTYPE);
         }
-
     }
 
     private void handleOrGroup(Group group) {

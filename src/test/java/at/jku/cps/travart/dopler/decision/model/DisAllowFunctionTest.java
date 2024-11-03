@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DisAllowFunctionTest {
+
     private DisAllowAction da;
     private EnumerationDecision dec;
     private AbstractRangeValue<String> v;
@@ -93,7 +94,6 @@ public class DisAllowFunctionTest {
             da = new DisAllowAction(dec, new StringValue("test"));
             da.execute();
         });
-
     }
 
     @Test

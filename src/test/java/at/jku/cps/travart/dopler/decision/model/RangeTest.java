@@ -21,6 +21,7 @@ import java.util.HashSet;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RangeTest {
+
     private Range<Double> r;
     private DoubleValue test = new DoubleValue(0d);
 
@@ -94,5 +95,4 @@ public class RangeTest {
         r2.add(dv1);
         assertNotEquals(r, r2);
     }
-
 }

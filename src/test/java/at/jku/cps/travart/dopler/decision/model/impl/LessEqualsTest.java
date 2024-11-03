@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LessEqualsTest {
+
     private LessEquals le;
 
     @BeforeEach
@@ -230,5 +231,4 @@ public class LessEqualsTest {
     public void testToStringFalseTrue() {
         assertEquals(ICondition.FALSE + " <= " + ICondition.TRUE, le.toString());
     }
-
 }

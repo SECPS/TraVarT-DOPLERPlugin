@@ -6,7 +6,6 @@ import de.vill.model.Feature;
 import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.ImplicationConstraint;
 import de.vill.model.constraint.LiteralConstraint;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,6 @@ public class OwnConstraintHandler {
      */
     private IDecisionModel decisionModel;
 
-
     public void handleOwnConstraints(List<Constraint> ownConstraints, IDecisionModel decisionModel) {
         this.decisionModel = decisionModel;
 
@@ -36,11 +34,10 @@ public class OwnConstraintHandler {
             if (constraint instanceof ImplicationConstraint) {
                 //handleImplicationConstraint((ImplicationConstraint) constraint);
             }
-
         }
     }
 
-    /** Decomposes the given (sometimes complex) constraint into several simpler ones.*/
+    /** Decomposes the given (sometimes complex) constraint into several simpler ones. */
     private List<Constraint> simplifyConstraint(Constraint constraint) {
         throw new RuntimeException("Not implemented");
     }
@@ -52,15 +49,11 @@ public class OwnConstraintHandler {
         Feature leftFeature = left.getFeature();
         Feature rightFeature = right.getFeature();
 
-
         //Find decision depending on left feature
         Optional<IDecision<?>> first = decisionModel.getDecisions().stream()
                 .filter(iDecision -> iDecision.getId().equals(leftFeature.getParentFeature().getFeatureName()))
                 .findFirst();
 
-
         System.out.println();
-
     }
-
 }

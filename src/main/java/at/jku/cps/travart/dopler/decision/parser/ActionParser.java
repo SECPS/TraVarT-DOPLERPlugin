@@ -91,7 +91,6 @@ public class ActionParser {
                 } else {
                     actionElements.add(left);
                 }
-
             } else if (symbol.equals(AllowAction.FUNCTION_NAME)) {
                 isAllowFunction = true;
             } else if (symbol.equals(DisAllowAction.FUNCTION_NAME)) {

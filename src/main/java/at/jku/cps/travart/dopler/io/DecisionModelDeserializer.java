@@ -56,6 +56,7 @@ public class DecisionModelDeserializer implements IDeserializer<IDecisionModel> 
     }
 
     private interface ReaderFactoryOperator {
+
         public Reader op() throws IOException;
     }
 

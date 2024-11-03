@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GreaterEqualsTest {
+
     private GreaterEquals ge;
 
     @BeforeEach
@@ -230,5 +231,4 @@ public class GreaterEqualsTest {
     public void testToStringFalseTrue() {
         assertEquals(ICondition.FALSE + " >= " + ICondition.TRUE, ge.toString(), "Text should be identical");
     }
-
 }
