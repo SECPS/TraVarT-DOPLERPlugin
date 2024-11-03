@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GreaterTest {
-
     private Greater g;
 
     @BeforeEach
@@ -233,4 +232,5 @@ public class GreaterTest {
     public void testToStringFalseTrue() {
         assertEquals(ICondition.FALSE + " > " + ICondition.TRUE, g.toString());
     }
+
 }

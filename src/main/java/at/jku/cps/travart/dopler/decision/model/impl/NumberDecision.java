@@ -23,6 +23,7 @@ public class NumberDecision extends AbstractDecision<Double> {
     private static final String RANGE_VALUE_ERROR = "Value %s is not a range value of decision %s";
     private static final String RANGE_VALUE_NOT_ENABLED_ERROR =
             "Value %s is not enabled. Can't be set for Number decision %s";
+
     private Range<Double> range;
     private AbstractRangeValue<Double> value;
 

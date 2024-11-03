@@ -19,7 +19,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AUnaryVisibilityTest {
-
     AUnaryCondition vis;
 
     @BeforeEach
@@ -103,4 +102,5 @@ public class AUnaryVisibilityTest {
         vis2.setOperand(new And(ICondition.TRUE, ICondition.TRUE));
         assertEquals(vis, vis2);
     }
+
 }

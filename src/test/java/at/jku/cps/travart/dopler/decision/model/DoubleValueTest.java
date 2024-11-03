@@ -49,5 +49,6 @@ public class DoubleValueTest {
         assertFalse(d1.evaluate());
         d1 = new DoubleValue(Double.NEGATIVE_INFINITY);
         assertFalse(d1.evaluate());
+
     }
 }

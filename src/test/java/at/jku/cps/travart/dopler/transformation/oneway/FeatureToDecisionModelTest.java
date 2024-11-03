@@ -15,6 +15,7 @@ public class FeatureToDecisionModelTest extends TransformationTest {
 
     private static final String STANDARD_MODEL_NAME = "Some name";
 
+
     /**
      * Transforms the given UVL model to a DOPLER model.
      */
@@ -42,4 +43,6 @@ public class FeatureToDecisionModelTest extends TransformationTest {
     protected String getPath() {
         return "src/test/resources/oneway/feature/to/decision";
     }
+
+
 }

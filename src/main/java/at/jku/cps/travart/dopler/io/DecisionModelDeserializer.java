@@ -45,8 +45,10 @@ public class DecisionModelDeserializer implements IDeserializer<IDecisionModel> 
 
     public static final String FILE_EXTENSION_CSV = ".csv";
     public static final Format CSV_FORMAT = new Format("csv", FILE_EXTENSION_CSV, true, true);
+
     private static final String CARDINALITY_NOT_SUPPORTED_ERROR =
             "Cardinality %s not supported for decision of type %s";
+
     private final DecisionModelFactory factory;
 
     public DecisionModelDeserializer() {
@@ -54,7 +56,6 @@ public class DecisionModelDeserializer implements IDeserializer<IDecisionModel> 
     }
 
     private interface ReaderFactoryOperator {
-
         public Reader op() throws IOException;
     }
 

@@ -15,7 +15,6 @@ import at.jku.cps.travart.dopler.decision.model.ICondition;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class Equals extends ABinaryCondition {
-
     public static final String SYMBOL = "==";
 
     public Equals(final ICondition left, final ICondition right) {

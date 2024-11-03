@@ -71,4 +71,5 @@ public interface IDecisionModel extends IValidate {
     void reset() throws RangeValueException;
 
     Map<IConfigurable, Boolean> getCurrentConfiguration();
+
 }

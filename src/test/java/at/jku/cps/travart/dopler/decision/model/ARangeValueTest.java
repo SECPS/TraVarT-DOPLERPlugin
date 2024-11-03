@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ARangeValueTest {
-
     private AbstractRangeValue<Double> rv;
 
     @BeforeEach
@@ -29,6 +28,7 @@ public class ARangeValueTest {
     @Test
     public void equalsTest() {
         AbstractRangeValue v = new AbstractRangeValue() {
+
             @Override
             public boolean lessThan(final Object other) {
                 // TODO Auto-generated method stub
@@ -59,6 +59,7 @@ public class ARangeValueTest {
     @Test
     public void toStringTest_NoValue() {
         @SuppressWarnings("rawtypes") AbstractRangeValue v = new AbstractRangeValue() {
+
             @Override
             public boolean lessThan(final Object other) {
                 // TODO Auto-generated method stub
@@ -98,4 +99,5 @@ public class ARangeValueTest {
         rv.disable();
         assertFalse(rv.isEnabled());
     }
+
 }

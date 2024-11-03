@@ -26,7 +26,6 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class RulesParserTest {
-
     RulesParser rp;
     IDecisionModel dm;
 
@@ -40,6 +39,7 @@ public class RulesParserTest {
         } catch (IOException | NotSupportedVariabilityTypeException e) {
             e.printStackTrace();
         }
+
     }
 
     @Test
@@ -75,4 +75,5 @@ public class RulesParserTest {
             rp.parse(d, CSVruleSplit).isEmpty();
         }
     }
+
 }

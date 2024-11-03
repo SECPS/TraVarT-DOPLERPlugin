@@ -1,5 +1,6 @@
 package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision;
 
+
 import at.jku.cps.travart.core.common.IModelTransformer;
 import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
@@ -12,6 +13,7 @@ public class FmToDmOneWayTransformer {
     private final GroupHandler groupHandler;
     private final FeatureHandler featureHandler;
     private final OwnConstraintHandler ownConstraintHandler;
+
 
     public FmToDmOneWayTransformer() {
         groupHandler = new GroupHandler();
@@ -31,4 +33,6 @@ public class FmToDmOneWayTransformer {
 
         return decisionModel;
     }
+
+
 }

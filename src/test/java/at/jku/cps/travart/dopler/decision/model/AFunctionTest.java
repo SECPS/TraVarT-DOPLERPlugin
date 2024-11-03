@@ -33,6 +33,7 @@ public class AFunctionTest {
     public void init() {
         b = new BooleanDecision("test");
         af = new AFunction("test", b) {
+
             @Override
             public boolean evaluate() {
                 return b.isSelected();
@@ -44,6 +45,7 @@ public class AFunctionTest {
             }
         };
         af2 = new AFunction("test", b) {
+
             @Override
             public boolean evaluate() {
                 return b.isSelected();
@@ -56,6 +58,7 @@ public class AFunctionTest {
         };
 
         af3 = new AFunction("test2", b) {
+
             @Override
             public boolean evaluate() {
                 return b.isSelected();
@@ -67,6 +70,7 @@ public class AFunctionTest {
             }
         };
         af4 = new AFunction("test2", new EnumerationDecision("test")) {
+
             @Override
             public boolean evaluate() {
                 return false;
@@ -78,6 +82,7 @@ public class AFunctionTest {
             }
         };
         af5 = new AFunction("test", new EnumerationDecision("test")) {
+
             @Override
             public boolean evaluate() {
                 return false;
@@ -94,6 +99,7 @@ public class AFunctionTest {
     public void noNullNameTest() {
         assertThrows(NullPointerException.class, () -> {
             new AFunction<>(null, new LinkedList<IDecision>()) {
+
                 @Override
                 public boolean evaluate() {
                     // TODO Auto-generated method stub
@@ -105,6 +111,7 @@ public class AFunctionTest {
                     // TODO Auto-generated method stub
                     return null;
                 }
+
             };
         });
     }
@@ -115,6 +122,7 @@ public class AFunctionTest {
         List<IDecision> l = null;
         assertThrows(NullPointerException.class, () -> {
             AFunction<IDecision> a = new AFunction<>("aName", l) {
+
                 @Override
                 public boolean evaluate() {
                     // TODO Auto-generated method stub
@@ -126,6 +134,7 @@ public class AFunctionTest {
                     // TODO Auto-generated method stub
                     return null;
                 }
+
             };
         });
     }
@@ -136,6 +145,7 @@ public class AFunctionTest {
         List<IDecision> l = null;
         assertThrows(NullPointerException.class, () -> {
             AFunction<IDecision> a = new AFunction<>("aName", null, null, null) {
+
                 @Override
                 public boolean evaluate() {
                     // TODO Auto-generated method stub
@@ -147,6 +157,7 @@ public class AFunctionTest {
                     // TODO Auto-generated method stub
                     return null;
                 }
+
             };
         });
     }

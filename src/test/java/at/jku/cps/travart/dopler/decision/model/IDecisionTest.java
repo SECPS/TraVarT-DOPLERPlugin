@@ -204,6 +204,7 @@ public class IDecisionTest {
         dec.reset();
         if (dec instanceof BooleanDecision) {
             assertNotNull(dec.getValue());
+
         } else if (dec instanceof NumberDecision) {
             dec.getValue();
             // just don't fail

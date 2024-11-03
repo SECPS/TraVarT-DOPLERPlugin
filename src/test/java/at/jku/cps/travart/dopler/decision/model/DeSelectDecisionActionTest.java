@@ -20,7 +20,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DeSelectDecisionActionTest {
-
     private DeSelectDecisionAction des;
     private BooleanDecision b;
     private final String testString = "test";
@@ -83,4 +82,5 @@ public class DeSelectDecisionActionTest {
     public void testToString() {
         assertEquals(testString + " = false;", des.toString());
     }
+
 }

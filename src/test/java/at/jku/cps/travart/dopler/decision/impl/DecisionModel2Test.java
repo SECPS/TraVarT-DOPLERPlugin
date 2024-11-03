@@ -59,6 +59,7 @@ public class DecisionModel2Test {
         assertThrows(NullPointerException.class, () -> {
             dm = new DecisionModel(null);
         });
+
     }
 
     @Test

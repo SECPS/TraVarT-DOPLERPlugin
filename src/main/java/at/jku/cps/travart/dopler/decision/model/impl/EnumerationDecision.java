@@ -28,7 +28,9 @@ public class EnumerationDecision extends AbstractDecision<String> implements IEn
     private static final String RANGE_VALUE_NOT_ENABLED_ERROR =
             "Value %s is not enabled. Can't be set for Enumeration decision %s";
     private static final String NONE_VALUE = "None";
+
     private static StringValue noneOption;
+
     private Range<String> range;
     // depending on cardinality a min or max selection is possible
     private final Set<AbstractRangeValue<String>> values;

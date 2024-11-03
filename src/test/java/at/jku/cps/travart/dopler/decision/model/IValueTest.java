@@ -47,8 +47,10 @@ public class IValueTest {
         }
     }
 
+
     private static Stream<Arguments> instancesToTest() {
         return Stream.of(Arguments.of(BooleanValue.getTrue()), Arguments.of(new DoubleValue(1.3)),
                 Arguments.of(new StringValue("test")));
     }
+
 }

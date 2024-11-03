@@ -10,7 +10,6 @@ import at.jku.cps.travart.dopler.io.DecisionModelSerializer.Record;
 import java.util.List;
 
 public class DoplerPrettyPrinter implements IPrettyPrinter<IDecisionModel> {
-
     private DecisionModelSerializer serializer;
 
     public DoplerPrettyPrinter(DecisionModelSerializer serializer) {
@@ -48,4 +47,6 @@ public class DoplerPrettyPrinter implements IPrettyPrinter<IDecisionModel> {
         throw new NotSupportedVariabilityTypeException(
                 "The dopler pretty printer does not support svg representation.");
     }
+
+
 }

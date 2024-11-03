@@ -27,7 +27,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SuppressWarnings("rawtypes")
 public class DecisionModelUtilsTest {
-
     private DecisionModelFactory factory;
     private DecisionModel dm;
 
@@ -36,6 +35,7 @@ public class DecisionModelUtilsTest {
         factory = DecisionModelFactory.getInstance();
         dm = factory.create();
         dm.setName("TestModel");
+
     }
 
     @Test
@@ -45,6 +45,7 @@ public class DecisionModelUtilsTest {
         assertThrows(ConditionCreationException.class, () -> {
             DecisionModelUtils.consumeToBinaryCondition(lDec, null, false);
         });
+
     }
 
     @Test
@@ -98,6 +99,7 @@ public class DecisionModelUtilsTest {
         assertThrows(ConditionCreationException.class, () -> {
             ICondition d1 = DecisionModelUtils.consumeToBinaryCondition(lDec, And.class, false);
         });
+
     }
 
     @Test
@@ -200,6 +202,7 @@ public class DecisionModelUtilsTest {
         Collection<String> cd = dm.getDecisionNames();
         assertTrue(cd.size() == 5 && cd.contains(sd1.getName()) && cd.contains(ed1.getName()) &&
                 cd.contains(nd1.getName()) && cd.contains(bd1.getName()) && cd.contains(bd2.getName()));
+
     }
 
     @Test
@@ -252,6 +255,7 @@ public class DecisionModelUtilsTest {
         dm.addAll(sd);
         Set<NumberDecision> cd = DecisionModelUtils.getNumberDecisions(dm);
         assertTrue(cd.size() == 1 && cd.contains(nd1));
+
     }
 
     @Test
@@ -531,6 +535,7 @@ public class DecisionModelUtilsTest {
         EnumerationDecision ed2 = new EnumerationDecision("ed2");
         ed2.getNoneOption();
         assertTrue(DecisionModelUtils.isEnumNoneOption(ed2, sv));
+
     }
 
     @Test
@@ -751,6 +756,7 @@ public class DecisionModelUtilsTest {
         assertThrows(IllegalArgumentException.class, () -> {
             DecisionModelUtils.retriveMandatoryVisibilityCondition(ICondition.FALSE);
         });
+
     }
 
     @Test
@@ -767,6 +773,7 @@ public class DecisionModelUtilsTest {
         assertThrows(IllegalArgumentException.class, () -> {
             DecisionModelUtils.retriveMandatoryVisibilityCondition(o);
         });
+
     }
 
     @Test
@@ -799,4 +806,5 @@ public class DecisionModelUtilsTest {
             DecisionModelUtils.retriveMandatoryVisibilityCondition(a);
         });
     }
+
 }

@@ -14,6 +14,7 @@ import java.util.Arrays;
 public enum DMCSVHeader {
     ID("ID"), QUESTION("Question"), TYPE("Type"), RANGE("Range"), CARDINALITY("Cardinality"), RULES("Constraint/Rule"),
     VISIBLITY("Visible/relevant if");
+
     private String header;
 
     public static String[] stringArray() {

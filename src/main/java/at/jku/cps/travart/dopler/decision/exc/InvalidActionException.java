@@ -20,4 +20,5 @@ public class InvalidActionException extends ParserException {
     public InvalidActionException(final String string) {
         super(string);
     }
+
 }

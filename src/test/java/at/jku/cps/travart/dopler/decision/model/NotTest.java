@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class NotTest {
-
     private Not n;
 
     @BeforeEach
@@ -48,4 +47,5 @@ public class NotTest {
         // tests default evaluation of Not
         assertFalse(n.evaluate());
     }
+
 }

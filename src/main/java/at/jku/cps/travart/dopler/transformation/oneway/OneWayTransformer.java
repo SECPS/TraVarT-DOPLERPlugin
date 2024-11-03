@@ -22,7 +22,7 @@ public class OneWayTransformer implements IModelTransformer<IDecisionModel> {
             throws NotSupportedVariabilityTypeException {
         return dmToFmOneWayTransformer.transform(model, modelName, level);
     }
-
+    
     @Override
     public IDecisionModel transform(FeatureModel model, String modelName, STRATEGY level)
             throws NotSupportedVariabilityTypeException {

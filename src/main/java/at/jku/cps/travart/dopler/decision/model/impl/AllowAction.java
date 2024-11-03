@@ -21,7 +21,9 @@ import java.util.Objects;
 public class AllowAction implements IAction {
 
     public static final String FUNCTION_NAME = "allow";
+
     private static final String RANGE_VALUE_ERROR = "Value %s is not part of decision %s";
+
     private final IDecision decision;
     private final AbstractRangeValue value;
 

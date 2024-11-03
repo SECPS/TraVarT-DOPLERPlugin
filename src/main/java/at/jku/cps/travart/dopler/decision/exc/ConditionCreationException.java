@@ -11,6 +11,7 @@ package at.jku.cps.travart.dopler.decision.exc;
 
 public class ConditionCreationException extends Exception {
 
+
     /**
      *
      */

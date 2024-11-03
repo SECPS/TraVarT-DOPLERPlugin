@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class EqualsTest {
-
     private Equals e;
 
     @BeforeEach
@@ -233,4 +232,5 @@ public class EqualsTest {
     public void testToStringFalseTrue() {
         assertEquals(ICondition.FALSE + " == " + ICondition.TRUE, e.toString());
     }
+
 }

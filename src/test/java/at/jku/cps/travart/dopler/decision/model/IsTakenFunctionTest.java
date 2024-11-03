@@ -80,5 +80,7 @@ public class IsTakenFunctionTest {
         IsTakenFunction fun3 = new IsTakenFunction(b3);
         assertEquals(fun, fun2);
         assertNotEquals(fun, fun3);
+
     }
+
 }

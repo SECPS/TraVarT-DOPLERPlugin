@@ -20,6 +20,7 @@ import java.util.Objects;
 public class GetValueFunction extends AFunction<AbstractRangeValue> {
 
     public static final String FUNCTION_NAME = "getValue";
+
     private final IDecision parameter;
 
     public GetValueFunction(final IDecision parameter) {

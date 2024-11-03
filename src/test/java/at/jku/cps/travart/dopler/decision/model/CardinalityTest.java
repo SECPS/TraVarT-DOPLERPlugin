@@ -47,6 +47,7 @@ public class CardinalityTest {
         assertEquals(1, c2.getMax());
         assertEquals(100, c3.getMax());
         assertEquals(60, c4.getMax());
+
     }
 
     @Test
@@ -121,7 +122,6 @@ public class CardinalityTest {
     }
 
     private static class TestThrowRunnable implements Executable {
-
         private final int min;
         private final int max;
 
@@ -133,6 +133,9 @@ public class CardinalityTest {
         @Override
         public void execute() throws Throwable {
             Cardinality allow = new Cardinality(min, max);
+
         }
+
     }
+
 }

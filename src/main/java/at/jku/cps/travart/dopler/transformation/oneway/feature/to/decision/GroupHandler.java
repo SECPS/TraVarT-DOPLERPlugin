@@ -10,6 +10,7 @@ import java.util.List;
 public class GroupHandler {
 
     private FeatureHandler featureHandler;
+
     /**
      * Temporary variable to save current decision model
      */
@@ -45,6 +46,7 @@ public class GroupHandler {
             default:
                 throw new IllegalStateException("Unexpected value: " + group.GROUPTYPE);
         }
+
     }
 
     private void handleOrGroup(Group group) {

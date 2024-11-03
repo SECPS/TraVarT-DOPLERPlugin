@@ -16,4 +16,5 @@ public interface IValue<T> {
     T getValue();
 
     void setValue(T value) throws RangeValueException;
+
 }

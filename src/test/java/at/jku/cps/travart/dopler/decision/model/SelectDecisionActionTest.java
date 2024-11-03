@@ -19,7 +19,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SelectDecisionActionTest {
-
     private SelectDecisionAction s;
     private AbstractDecision<Boolean> d;
 
@@ -65,4 +64,5 @@ public class SelectDecisionActionTest {
         SelectDecisionAction s3 = new SelectDecisionAction(d2);
         assertNotEquals(s, s3);
     }
+
 }

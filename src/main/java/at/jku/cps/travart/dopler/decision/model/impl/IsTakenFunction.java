@@ -19,6 +19,7 @@ import java.util.Objects;
 public class IsTakenFunction extends AFunction<Boolean> {
 
     public static final String FUNCTION_NAME = "isTaken";
+
     private final IDecision parameter;
 
     public IsTakenFunction(final IDecision parameter) {

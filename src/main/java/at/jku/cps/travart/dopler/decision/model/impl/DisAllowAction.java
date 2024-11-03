@@ -19,7 +19,9 @@ import java.util.Objects;
 public class DisAllowAction implements IAction {
 
     public static final String FUNCTION_NAME = "disAllow";
+
     private static final String RANGE_VALUE_ERROR = "Value %s is not in range of decision %s";
+
     private final IDecision decision;
     private final AbstractRangeValue value;
 

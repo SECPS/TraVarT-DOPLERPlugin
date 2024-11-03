@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SetValueActionTest {
-
     private SetValueAction sva;
     private SetValueAction sva2;
     private EnumerationDecision dec;
@@ -163,4 +162,5 @@ public class SetValueActionTest {
         assertNotNull(sva.toString());
         assertEquals(dec.toString() + " = " + sva.getValue().toString() + ";", sva.toString());
     }
+
 }

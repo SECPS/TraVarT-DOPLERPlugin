@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AllowFunctionTest {
-
     private AllowAction da;
     private EnumerationDecision dec;
     private AbstractRangeValue<String> v;
@@ -36,6 +35,7 @@ public class AllowFunctionTest {
     @Test
     public void noNullConditionTest() {
         assertThrows(NullPointerException.class, () -> new AllowAction(null, BooleanValue.getTrue()));
+
     }
 
     @Test

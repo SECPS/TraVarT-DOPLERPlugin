@@ -73,4 +73,5 @@ public class IsSelectedFunctionTest {
         assertEquals(fun, fun2);
         assertNotEquals(fun, fun3);
     }
+
 }

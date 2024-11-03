@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DisAllowActionTest {
-
     private DisAllowAction daa;
     private EnumerationDecision ed;
     private StringValue s;
@@ -145,4 +144,5 @@ public class DisAllowActionTest {
     public void testToString() {
         assertEquals("disAllow(" + daa.getVariable() + "." + daa.getValue() + ");", daa.toString());
     }
+
 }

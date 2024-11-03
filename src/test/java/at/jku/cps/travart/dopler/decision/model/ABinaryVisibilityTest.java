@@ -22,6 +22,7 @@ public class ABinaryVisibilityTest {
     public void testNullLeft() {
         assertThrows(NullPointerException.class, () -> {
             new ABinaryCondition(null, new Or(ICondition.TRUE, ICondition.TRUE)) {
+
                 @Override
                 public boolean evaluate() {
                     return false;
@@ -46,6 +47,7 @@ public class ABinaryVisibilityTest {
     public void testABinaryVisibility() {
         ABinaryCondition vis = new ABinaryCondition(new Or(ICondition.TRUE, ICondition.TRUE),
                 new Or(ICondition.TRUE, ICondition.TRUE)) {
+
             @Override
             public boolean evaluate() {
                 // TODO Auto-generated method stub
@@ -71,12 +73,14 @@ public class ABinaryVisibilityTest {
     @Test
     public void testHashCode() throws CircleInConditionException {
         ABinaryCondition vis = new ABinaryCondition(ICondition.TRUE, ICondition.TRUE) {
+
             @Override
             public boolean evaluate() {
                 return false;
             }
         };
         ABinaryCondition vis2 = new ABinaryCondition(ICondition.TRUE, ICondition.TRUE) {
+
             @Override
             public boolean evaluate() {
                 return false;
@@ -91,6 +95,7 @@ public class ABinaryVisibilityTest {
         assertNotEquals(vis.hashCode(), vis2.hashCode());
         vis.setRight(new Or(ICondition.TRUE, ICondition.TRUE));
         assertEquals(vis.hashCode(), vis2.hashCode());
+
     }
 
     @Test
@@ -119,6 +124,7 @@ public class ABinaryVisibilityTest {
     @Test
     public void testIsVisible() throws CircleInConditionException {
         ABinaryCondition vis = new ABinaryCondition(ICondition.FALSE, ICondition.FALSE) {
+
             @Override
             public boolean evaluate() {
                 if (getLeft() != null && getRight() != null) {
