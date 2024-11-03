@@ -6,7 +6,9 @@ import de.vill.model.Feature;
 import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.ImplicationConstraint;
 import de.vill.model.constraint.LiteralConstraint;
+import org.checkerframework.checker.units.qual.A;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,12 +25,23 @@ public class OwnConstraintHandler {
     public void handleOwnConstraints(List<Constraint> ownConstraints, IDecisionModel decisionModel) {
         this.decisionModel = decisionModel;
 
-        for (Constraint ownConstraint : ownConstraints) {
-
-            if (ownConstraint instanceof ImplicationConstraint) {
-                //handleImplicationConstraint((ImplicationConstraint) ownConstraint);
-            }
+        List<Constraint> simplifiedConstraints = new ArrayList<>();
+        for (Constraint constraint : ownConstraints) {
+            simplifiedConstraints.addAll(simplifyConstraint(constraint));
         }
+
+        for (Constraint constraint : simplifiedConstraints) {
+
+            if (constraint instanceof ImplicationConstraint) {
+                //handleImplicationConstraint((ImplicationConstraint) constraint);
+            }
+
+        }
+    }
+
+    /** Decomposes the given (sometimes complex) constraint into several simpler ones.*/
+    private List<Constraint> simplifyConstraint(Constraint constraint) {
+        throw new RuntimeException("Not implemented");
     }
 
     private void handleImplicationConstraint(ImplicationConstraint ownConstraint) {
