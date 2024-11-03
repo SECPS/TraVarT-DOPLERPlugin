@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="Meins">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/de.ovgu.featureide.lib.fm-v3.10.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/dopler-model.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/fm-metamodel-1.0-jar-with-dependencies.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/travart-core-2.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/uvl-parser-0.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/de.ovgu.featureide.lib.fm-v3.10.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/travart-core-2.0.0.jar!/" />
+    </SOURCES>
+  </library>
+</component>

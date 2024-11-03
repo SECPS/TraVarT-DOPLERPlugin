@@ -14,14 +14,14 @@ import java.util.Optional;
 /**
  * Adds the constraints from the feature model to the decision model.
  */
-public class OwnConstraintHandler {
+class OwnConstraintHandler {
 
     /**
      * Temporary variable to save current decision model
      */
-    private IDecisionModel decisionModel;
+    private IDecisionModel decisionModel = null;
 
-    public void handleOwnConstraints(List<Constraint> ownConstraints, IDecisionModel decisionModel) {
+    final void handleOwnConstraints(List<Constraint> ownConstraints, IDecisionModel decisionModel) {
         this.decisionModel = decisionModel;
 
         List<Constraint> simplifiedConstraints = new ArrayList<>();

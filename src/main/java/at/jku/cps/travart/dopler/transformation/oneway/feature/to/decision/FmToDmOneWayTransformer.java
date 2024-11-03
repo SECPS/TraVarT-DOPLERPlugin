@@ -9,18 +9,17 @@ import de.vill.model.FeatureModel;
 
 public class FmToDmOneWayTransformer {
 
-    private final GroupHandler groupHandler;
     private final FeatureHandler featureHandler;
     private final OwnConstraintHandler ownConstraintHandler;
 
     public FmToDmOneWayTransformer() {
-        groupHandler = new GroupHandler();
+        GroupHandler groupHandler = new GroupHandler();
         featureHandler = new FeatureHandler(groupHandler);
         groupHandler.setFeatureHandler(featureHandler);
         ownConstraintHandler = new OwnConstraintHandler();
     }
 
-    public IDecisionModel transform(FeatureModel featureModel, String modelName, IModelTransformer.STRATEGY level)
+    public final IDecisionModel transform(FeatureModel featureModel, String modelName, IModelTransformer.STRATEGY level)
             throws NotSupportedVariabilityTypeException {
         IDecisionModel decisionModel = new DecisionModel("", modelName);
 

@@ -9,24 +9,24 @@ import java.util.List;
 
 public class GroupHandler {
 
-    private FeatureHandler featureHandler;
+    private FeatureHandler featureHandler = null;
 
     /**
      * Temporary variable to save current decision model
      */
     private IDecisionModel decisionModel;
 
-    public GroupHandler() {
+    GroupHandler() {
         this.decisionModel = null;
     }
 
-    public void handleGroup(Group group, IDecisionModel decisionModel) {
+    final void handleGroup(Group group, IDecisionModel dm) {
         List<Feature> features = group.getFeatures();
         for (Feature feature : features) {
-            featureHandler.handleFeature(feature, decisionModel);
+            featureHandler.handleFeature(feature, dm);
         }
 
-        this.decisionModel = decisionModel;
+        this.decisionModel = dm;
 
         switch (group.GROUPTYPE) {
             case OR:
@@ -53,6 +53,7 @@ public class GroupHandler {
         Range<String> range = new Range<>();
         group.getFeatures().stream().map(Feature::getFeatureName).map(StringValue::new).forEach(range::add);
         Cardinality cardinality = new Cardinality(1, group.getFeatures().size());
+
 
         EnumerationDecision decision = new EnumerationDecision(id);
         decision.setQuestion("Or " + id);
@@ -89,7 +90,7 @@ public class GroupHandler {
         // If something is mandatory, no question is asked
     }
 
-    public void setFeatureHandler(FeatureHandler featureHandler) {
-        this.featureHandler = featureHandler;
+    final void setFeatureHandler(FeatureHandler fh) {
+        this.featureHandler = fh;
     }
 }
