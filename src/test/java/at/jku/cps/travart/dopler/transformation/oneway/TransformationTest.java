@@ -1,7 +1,7 @@
 package at.jku.cps.travart.dopler.transformation.oneway;
 
 import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
-import at.jku.cps.travart.dopler.transformation.Util;
+import at.jku.cps.travart.dopler.transformation.TestUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -35,19 +33,12 @@ public abstract class TransformationTest {
         String transformedModel = transform(pathToBeTransformed);
         String expectedModel = Files.readString(pathToBeTransformedIn);
 
-        String expected = sortModel(expectedModel);
-        String actual = sortModel(transformedModel);
+        //Sort models
+        String expected = TestUtils.sortModel(expectedModel);
+        String actual = TestUtils.sortModel(transformedModel);
 
         String message = String.format("%n%nExpected:%n %s%n%nBut was: %n%s", expected, actual);
         Assertions.assertEquals(expected, actual, message);
-    }
-
-    private static String sortModel(String model) {
-        String[] lines = model.split(System.lineSeparator());
-        String header = lines[0];
-        String[] linesWithoutHeader = Arrays.copyOfRange(lines, 1, lines.length);
-        Arrays.sort(linesWithoutHeader);
-        return String.join(System.lineSeparator(), Util.add2BeginningOfArray(linesWithoutHeader, header));
     }
 
     /**

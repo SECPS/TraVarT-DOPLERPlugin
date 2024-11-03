@@ -1,18 +1,18 @@
-package at.jku.cps.travart.dopler.transformation;
+package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision;
 
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
-import at.jku.cps.travart.dopler.decision.model.IEnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanValue;
 import at.jku.cps.travart.dopler.decision.model.impl.StringValue;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
+import de.vill.model.Group;
 
 import java.util.Optional;
 
 /** Set of utility methods for editing decision models */
-public final class DecisionModelUtil {
+final class DecisionModelUtil {
 
     private DecisionModelUtil() {
     }
@@ -22,33 +22,36 @@ public final class DecisionModelUtil {
     }
 
     public static void addToDecisionModel(IDecision<?> iDecision, IDecisionModel decisionModel) {
+
+        String id;
         if (findDecisionById(iDecision.getId(), decisionModel).isPresent()) {
-            iDecision.setId(iDecision.getId() + "Type");
+            id = iDecision.getId() + "Type";
+        } else {
+            id = iDecision.getId();
         }
+        iDecision.setId(id);
+
         decisionModel.add(iDecision);
     }
 
-    public static void resolveVisibilityBooleanDecision(IDecision<?> decision, Feature feature,
-                                                        FeatureModel featureModel) {
-        Feature parentFeature = feature.getParentFeature();
-        ICondition visibility;
-        if (featureModel.getRootFeature().equals(parentFeature)) {
-            visibility = BooleanValue.getTrue();
-        } else {
-            visibility = new StringValue(parentFeature.getFeatureName());
+    public static void resolveVisibility(IDecision<?> decision, FeatureModel featureModel, Feature parentFeature) {
+
+        //Search for non-mandatory parent
+        Feature importantParent = parentFeature;
+        while (null != importantParent.getParentGroup() &&
+                Group.GroupType.MANDATORY == importantParent.getParentGroup().GROUPTYPE) {
+            importantParent = importantParent.getParentFeature();
         }
 
-        decision.setVisibility(visibility);
-    }
-
-    public static void resolveVisibilityForEnumDecision(IEnumerationDecision<String> decision, Feature parentFeature,
-                                                        FeatureModel featureModel) {
         ICondition visibility;
-        if (featureModel.getRootFeature().equals(parentFeature)) {
+        boolean isRootFeature = featureModel.getRootFeature().equals(importantParent);
+        if (isRootFeature) {
+            //Decision for root feature is always taken. Visibility must therefore be true.
             visibility = BooleanValue.getTrue();
         } else {
-            visibility = new StringValue(parentFeature.getFeatureName());
+            visibility = new StringValue(importantParent.getFeatureName());
         }
+
         decision.setVisibility(visibility);
     }
 }
