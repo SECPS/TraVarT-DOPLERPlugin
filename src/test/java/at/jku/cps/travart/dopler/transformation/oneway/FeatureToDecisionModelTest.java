@@ -29,17 +29,17 @@ public class FeatureToDecisionModelTest extends TransformationTest {
     }
 
     @Override
-    protected String getToEnding() {
+    protected final String getToEnding() {
         return ".csv";
     }
 
     @Override
-    protected String getFromEnding() {
+    protected final String getFromEnding() {
         return ".uvl";
     }
 
     @Override
-    protected String getPath() {
+    protected final String getPath() {
         return "src/test/resources/oneway/feature/to/decision";
     }
 }

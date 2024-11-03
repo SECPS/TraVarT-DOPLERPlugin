@@ -1,8 +1,11 @@
 package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision;
 
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
+import at.jku.cps.travart.dopler.decision.model.IEnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.*;
+import at.jku.cps.travart.dopler.transformation.DecisionModelUtil;
 import de.vill.model.Feature;
+import de.vill.model.FeatureModel;
 import de.vill.model.Group;
 
 import java.util.List;
@@ -13,18 +16,25 @@ class FeatureAndGroupHandler {
      * Temporary variable to save current decision model
      */
     private IDecisionModel decisionModel;
+    private FeatureModel featureModel;
 
     FeatureAndGroupHandler() {
-        this.decisionModel = null;
+        decisionModel = null;
+        featureModel = null;
     }
 
-    final void handleGroup(Group group, IDecisionModel dm) {
-        List<Feature> features = group.getFeatures();
-        for (Feature feature : features) {
-            handleFeature(feature, dm);
-        }
+    final void handleFeature(Feature feature, IDecisionModel decisionModel, FeatureModel featureModel) {
+        this.decisionModel = decisionModel;
+        this.featureModel = featureModel;
 
-        this.decisionModel = dm;
+        //Handle groups of feature
+        List<Group> groups = feature.getChildren();
+        for (Group group : groups) {
+            handleGroup(group);
+        }
+    }
+
+    private void handleGroup(Group group) {
 
         switch (group.GROUPTYPE) {
             case OR:
@@ -44,55 +54,69 @@ class FeatureAndGroupHandler {
             default:
                 throw new IllegalStateException("Unexpected value: " + group.GROUPTYPE);
         }
-    }
 
-    void handleFeature(Feature feature, IDecisionModel decisionModel) {
-        List<Group> groups = feature.getChildren();
-        for (Group group : groups) {
-            handleGroup(group, decisionModel);
+        //Handle features of group
+        List<Feature> features = group.getFeatures();
+        for (Feature feature : features) {
+            handleFeature(feature, decisionModel, featureModel);
         }
-
-        this.decisionModel = decisionModel;
     }
 
     private void handleOrGroup(Group group) {
-        String id = group.getParentFeature().getFeatureName();
+        Feature parentFeature = group.getParentFeature();
+        String id = parentFeature.getFeatureName();
         Range<String> range = new Range<>();
         group.getFeatures().stream().map(Feature::getFeatureName).map(StringValue::new).forEach(range::add);
         Cardinality cardinality = new Cardinality(1, group.getFeatures().size());
 
         EnumerationDecision decision = new EnumerationDecision(id);
-        decision.setQuestion("Or " + id);
+        decision.setQuestion("Which " + id + "?");
         decision.setRange(range);
         decision.setCardinality(cardinality);
 
-        decisionModel.add(decision);
+        DecisionModelUtil.addToDecisionModel(decision, decisionModel);
+        DecisionModelUtil.resolveVisibilityForEnumDecision(decision, parentFeature, featureModel);
     }
 
     private void handleAlternativeGroup(Group group) {
-        String id = group.getParentFeature().getFeatureName();
+        Feature parentFeature = group.getParentFeature();
+        String id = parentFeature.getFeatureName();
         Range<String> range = new Range<>();
         group.getFeatures().stream().map(Feature::getFeatureName).map(StringValue::new).forEach(range::add);
         Cardinality cardinality = new Cardinality(1, 1);
 
-        EnumerationDecision decision = new EnumerationDecision(id);
-        decision.setQuestion("Alternative " + id);
+        IEnumerationDecision<String> decision = new EnumerationDecision(id);
+        decision.setQuestion("Which " + id + "?");
         decision.setRange(range);
         decision.setCardinality(cardinality);
 
-        decisionModel.add(decision);
+        DecisionModelUtil.addToDecisionModel(decision, decisionModel);
+        DecisionModelUtil.resolveVisibilityForEnumDecision(decision, parentFeature, featureModel);
     }
 
     private void handleOptionalGroup(Group group) {
         for (Feature feature : group.getFeatures()) {
             String id = feature.getFeatureName();
             BooleanDecision decision = new BooleanDecision(id);
-            decision.setQuestion("Optional " + id);
-            decisionModel.add(decision);
+            decision.setQuestion(id + "?");
+            DecisionModelUtil.addToDecisionModel(decision, decisionModel);
+            DecisionModelUtil.resolveVisibilityBooleanDecision(decision, feature, featureModel);
         }
     }
 
     private void handleMandatoryGroup(Group group) {
-        // If something is mandatory, no question is asked
+        /** Only important for round trip */
+        if (true) {
+            return;
+        }
+
+        for (Feature feature : group.getFeatures()) {
+            String id = feature.getFeatureName();
+            BooleanDecision decision = new BooleanDecision(id);
+            decision.setQuestion(id + "?");
+            decision.setVisibility(BooleanValue.getFalse());
+            DecisionModelUtil.addToDecisionModel(decision, decisionModel);
+            DecisionModelUtil.resolveVisibilityBooleanDecision(decision, feature, featureModel);
+        }
     }
 }

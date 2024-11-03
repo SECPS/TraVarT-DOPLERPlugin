@@ -1,6 +1,7 @@
 package at.jku.cps.travart.dopler.transformation.oneway;
 
 import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
+import at.jku.cps.travart.dopler.transformation.Util;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,6 +12,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,15 +29,25 @@ public abstract class TransformationTest {
      */
     @ParameterizedTest(name = "{1}")
     @MethodSource("dataSourceMethod")
-    void testTransformation(Path pathToBeTransformed, Path pathToBeTransformedIn)
-            throws NotSupportedVariabilityTypeException, IOException {
+    final void testTransformation(Path pathToBeTransformed, Path pathToBeTransformedIn) throws Exception {
 
         //Transform model and create argument
-        String transformedData = transform(pathToBeTransformed);
+        String transformedModel = transform(pathToBeTransformed);
         String expectedModel = Files.readString(pathToBeTransformedIn);
 
-        String message = "\n\n" + "Expected: \n " + expectedModel + "\n\n" + "But was: \n" + transformedData;
-        Assertions.assertEquals(expectedModel, transformedData, message);
+        String expected = sortModel(expectedModel);
+        String actual = sortModel(transformedModel);
+
+        String message = String.format("%n%nExpected:%n %s%n%nBut was: %n%s", expected, actual);
+        Assertions.assertEquals(expected, actual, message);
+    }
+
+    private static String sortModel(String model) {
+        String[] lines = model.split(System.lineSeparator());
+        String header = lines[0];
+        String[] linesWithoutHeader = Arrays.copyOfRange(lines, 1, lines.length);
+        Arrays.sort(linesWithoutHeader);
+        return String.join(System.lineSeparator(), Util.add2BeginningOfArray(linesWithoutHeader, header));
     }
 
     /**

@@ -22,7 +22,7 @@ public class FmToDmOneWayTransformer {
         IDecisionModel decisionModel = new DecisionModel("", modelName);
 
         Feature rootFeature = featureModel.getRootFeature();
-        featureAndGroupHandler.handleFeature(rootFeature, decisionModel);
+        featureAndGroupHandler.handleFeature(rootFeature, decisionModel, featureModel);
 
         ownConstraintHandler.handleOwnConstraints(featureModel.getOwnConstraints(), decisionModel);
 
