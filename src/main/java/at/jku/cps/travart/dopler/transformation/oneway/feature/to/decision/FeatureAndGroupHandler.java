@@ -7,23 +7,21 @@ import de.vill.model.Group;
 
 import java.util.List;
 
-public class GroupHandler {
-
-    private FeatureHandler featureHandler = null;
+class FeatureAndGroupHandler {
 
     /**
      * Temporary variable to save current decision model
      */
     private IDecisionModel decisionModel;
 
-    GroupHandler() {
+    FeatureAndGroupHandler() {
         this.decisionModel = null;
     }
 
     final void handleGroup(Group group, IDecisionModel dm) {
         List<Feature> features = group.getFeatures();
         for (Feature feature : features) {
-            featureHandler.handleFeature(feature, dm);
+            handleFeature(feature, dm);
         }
 
         this.decisionModel = dm;
@@ -48,12 +46,20 @@ public class GroupHandler {
         }
     }
 
+    void handleFeature(Feature feature, IDecisionModel decisionModel) {
+        List<Group> groups = feature.getChildren();
+        for (Group group : groups) {
+            handleGroup(group, decisionModel);
+        }
+
+        this.decisionModel = decisionModel;
+    }
+
     private void handleOrGroup(Group group) {
         String id = group.getParentFeature().getFeatureName();
         Range<String> range = new Range<>();
         group.getFeatures().stream().map(Feature::getFeatureName).map(StringValue::new).forEach(range::add);
         Cardinality cardinality = new Cardinality(1, group.getFeatures().size());
-
 
         EnumerationDecision decision = new EnumerationDecision(id);
         decision.setQuestion("Or " + id);
@@ -88,9 +94,5 @@ public class GroupHandler {
 
     private void handleMandatoryGroup(Group group) {
         // If something is mandatory, no question is asked
-    }
-
-    final void setFeatureHandler(FeatureHandler fh) {
-        this.featureHandler = fh;
     }
 }

@@ -9,14 +9,12 @@ import de.vill.model.FeatureModel;
 
 public class FmToDmOneWayTransformer {
 
-    private final FeatureHandler featureHandler;
+    private final FeatureAndGroupHandler featureAndGroupHandler;
     private final OwnConstraintHandler ownConstraintHandler;
 
     public FmToDmOneWayTransformer() {
-        GroupHandler groupHandler = new GroupHandler();
-        featureHandler = new FeatureHandler(groupHandler);
-        groupHandler.setFeatureHandler(featureHandler);
         ownConstraintHandler = new OwnConstraintHandler();
+        featureAndGroupHandler = new FeatureAndGroupHandler();
     }
 
     public final IDecisionModel transform(FeatureModel featureModel, String modelName, IModelTransformer.STRATEGY level)
@@ -24,7 +22,7 @@ public class FmToDmOneWayTransformer {
         IDecisionModel decisionModel = new DecisionModel("", modelName);
 
         Feature rootFeature = featureModel.getRootFeature();
-        featureHandler.handleFeature(rootFeature, decisionModel);
+        featureAndGroupHandler.handleFeature(rootFeature, decisionModel);
 
         ownConstraintHandler.handleOwnConstraints(featureModel.getOwnConstraints(), decisionModel);
 
