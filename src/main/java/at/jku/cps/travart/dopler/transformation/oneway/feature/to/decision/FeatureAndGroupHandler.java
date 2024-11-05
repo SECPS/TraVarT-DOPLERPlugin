@@ -73,7 +73,7 @@ class FeatureAndGroupHandler {
         Cardinality cardinality = new Cardinality(1, group.getFeatures().size());
 
         EnumerationDecision decision = new EnumerationDecision("");
-        decision.setVisibility(DecisionModelUtil.resolveVisibility(featureModel, parentFeature));
+        decision.setVisibility(DecisionModelUtil.resolveVisibility(featureModel, parentFeature, decisionModel));
         decision.setId(DecisionModelUtil.resolveId(decisionModel, parentFeature));
         decision.setQuestion(String.format("Which %s?", decision.getId()));
         decision.setRange(range);
@@ -89,7 +89,7 @@ class FeatureAndGroupHandler {
         Cardinality cardinality = new Cardinality(1, 1);
 
         IEnumerationDecision<String> decision = new EnumerationDecision("");
-        decision.setVisibility(DecisionModelUtil.resolveVisibility(featureModel, parentFeature));
+        decision.setVisibility(DecisionModelUtil.resolveVisibility(featureModel, parentFeature, decisionModel));
         decision.setId(DecisionModelUtil.resolveId(decisionModel, parentFeature));
         decision.setQuestion(String.format("Which %s?", decision.getId()));
         decision.setRange(range);
@@ -103,7 +103,7 @@ class FeatureAndGroupHandler {
         for (Feature feature : group.getFeatures()) {
             String id = feature.getFeatureName();
             BooleanDecision decision = new BooleanDecision("");
-            decision.setVisibility(DecisionModelUtil.resolveVisibility(featureModel, parentFeature));
+            decision.setVisibility(DecisionModelUtil.resolveVisibility(featureModel, parentFeature, decisionModel));
             decision.setId(DecisionModelUtil.resolveId(decisionModel, feature));
             decision.setQuestion(String.format("%s?", decision.getId()));
 

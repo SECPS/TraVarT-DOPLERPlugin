@@ -12,7 +12,7 @@ CharcoalType;Which CharcoalType?;Enumeration;CharcoalBone | CharcoalActive;1:1;;
 Mount;Which Mount?;Enumeration;IronFrame | Rack2 | Rack1;1:1;;true
 FreshwaterTankModule;Which FreshwaterTankModule?;Enumeration;FreshwaterTankSModule | FreshwaterTankXLModule;1:1;;true
 FilterTankModule;Which FilterTankModule?;Enumeration;FilterTankXLModule | FilterTankSModule;1:1;;true
-FilterTankXLModule;Which FilterTankXLModule?;Enumeration;CBFilterTankXLModule | CAFilterTankXLModule;1:1;;getValue(FilterTankModule) == FilterTankModule.FilterTankXLModule
-FilterTankSModule;Which FilterTankSModule?;Enumeration;CAFilterTankSModule | CBFilterTankSModule;1:1;;getValue(FilterTankModule) == FilterTankModule.FilterTankSModule
+FilterTankXLModule;Which FilterTankXLModule?;Enumeration;CBFilterTankXLModule | CAFilterTankXLModule;1:1;;FilterTankXLModule
+FilterTankSModule;Which FilterTankSModule?;Enumeration;CAFilterTankSModule | CBFilterTankSModule;1:1;;FilterTankSModule
 Tube3;Tube3?;Boolean;true | false;;;true
 FilterTank;Which FilterTank?;Enumeration;FilterTankS | FilterTankXL;1:1;;true
