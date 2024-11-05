@@ -57,6 +57,8 @@ public final class DecisionModelUtil {
         //Parent is not root. Look at parent group of parent
         switch (parent.getParentGroup().GROUPTYPE) {
             case OR:
+                throw new RuntimeException("Komplizierter als alternative, da mehrere möglichkeiten gewählt werden " +
+                        "dürfen");
             case OPTIONAL:
                 return handleBooleanDecision(parent);
             case ALTERNATIVE:

@@ -1,14 +1,5 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-ALL;Do you want all standard Tools?;Boolean;false | true;;"if (ALL) {
-DK = true;
-}
-if (ALL) {
-CW = true;
-}
-if (ALL) {
-PK = true;
-}
-";true
+ALL;Do you want all standard Tools?;Boolean;false | true;;"if (ALL) {DK = true;}if (ALL) {CW = true;}if (ALL) {PK = true;}";true
 CW;Do you want Product Derivation and Configuration Support?;Boolean;false | true;;;"!ALL"
 DK;Do you want variability modelling (DecisionKing)?;Boolean;false | true;;;"true"
 PK;Do you want support for derivation and project management (ProjectKing)?;Boolean;false | true;;;"true"
