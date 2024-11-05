@@ -1,7 +1,18 @@
 package at.jku.cps.travart.dopler.transformation;
 
+import at.jku.cps.travart.dopler.common.DecisionModelUtils;
+import at.jku.cps.travart.dopler.decision.impl.DMCSVHeader;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class TestUtils {
 
@@ -15,14 +26,29 @@ public class TestUtils {
         return newArray;
     }
 
-    public static String sortModel(String model) {
+    public static String sortModel(String model) throws IOException {
         //Sometimes \r is used as line separator
         String sanitisedModel = NEW_LINE_PATTERN.matcher(model).replaceAll(System.lineSeparator());
 
-        String[] lines = sanitisedModel.split(System.lineSeparator());
-        String header = lines[0];
-        String[] linesWithoutHeader = Arrays.copyOfRange(lines, 1, lines.length);
-        Arrays.sort(linesWithoutHeader);
-        return String.join(System.lineSeparator(), TestUtils.add2BeginningOfArray(linesWithoutHeader, header));
+        CSVParser parser = DecisionModelUtils.createCSVFormat(true).parse(new StringReader(sanitisedModel));
+
+        List<CSVRecord> records = parser.stream().collect(Collectors.toCollection(ArrayList::new));
+
+        records.sort(Comparator.comparing(o -> o.get(0)));
+
+        List<String> lines = new ArrayList<>();
+        for (CSVRecord record : records) {
+            List<String> line = new ArrayList<>();
+            List<String> temp2 = record.stream().collect(Collectors.toList());
+            for (String value : temp2) {
+                line.add(value.replace("\n", ""));
+            }
+
+            lines.add(String.join(";", line));
+        }
+
+        lines.add(0, String.join(";", DMCSVHeader.stringArray()));
+
+        return String.join(System.lineSeparator(), lines);
     }
 }

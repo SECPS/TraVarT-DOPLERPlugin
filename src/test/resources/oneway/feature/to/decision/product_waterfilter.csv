@@ -16,6 +16,3 @@ FilterTankXLModule;FilterTankXLModule?;Enumeration;CBFilterTankXLModule | CAFilt
 FilterTankSModule;FilterTankSModule?;Enumeration;CAFilterTankSModule | CBFilterTankSModule;1:1;if (FilterTankSModule.CAFilterTankSModule) { FilterTank = FilterTank.FilterTankS } if (FilterTankSModule.CAFilterTankSModule) { CharcoalType = CharcoalType.CharcoalActive } if (FilterTankSModule.CBFilterTankSModule) { FilterTank = FilterTank.FilterTankS } if (FilterTankSModule.CBFilterTankSModule) { CharcoalType = CharcoalType.CharcoalBone };getValue(FilterTankModule) == FilterTankModule.FilterTankSModule
 Tube3;Tube3?;Boolean;true | false;;;true
 FilterTank;FilterTank?;Enumeration;FilterTankS | FilterTankXL;1:1;if (FilterTank.FilterTankXL) { FreshwaterTankType = FreshwaterTankType.FreshwaterTankXL } if (FilterTank.FilterTankXL) { WastewaterTankXL = true };true
-
-
-

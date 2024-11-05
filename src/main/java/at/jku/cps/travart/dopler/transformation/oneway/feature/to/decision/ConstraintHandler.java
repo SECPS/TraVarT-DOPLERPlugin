@@ -1,7 +1,15 @@
 package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision;
 
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
+import at.jku.cps.travart.dopler.decision.model.IAction;
+import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
+import at.jku.cps.travart.dopler.decision.model.impl.DecisionValueCondition;
+import at.jku.cps.travart.dopler.decision.model.impl.Rule;
+import at.jku.cps.travart.dopler.decision.model.impl.SetValueAction;
+import at.jku.cps.travart.dopler.decision.model.impl.StringValue;
+import at.jku.cps.travart.dopler.transformation.util.DecisionModelUtil;
+import at.jku.cps.travart.dopler.transformation.util.Pair;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import de.vill.model.constraint.Constraint;
@@ -37,15 +45,67 @@ class ConstraintHandler {
 
         for (Constraint constraint : simplifiedConstraints) {
 
-            if (constraint instanceof ImplicationConstraint) {
-                //handleImplicationConstraint((ImplicationConstraint) constraint);
+            Optional<Pair<LiteralConstraint>> optional = isSimpleImplication(constraint);
+            if (optional.isPresent()) {
+                Pair<LiteralConstraint> literalConstraintPair = optional.get();
+
+                handleSimpleImplication(decisionModel, literalConstraintPair);
             }
         }
     }
 
+    private static void handleSimpleImplication(IDecisionModel decisionModel,
+                                                Pair<LiteralConstraint> literalConstraintPair) {
+        LiteralConstraint left = literalConstraintPair.getFirst();
+        LiteralConstraint right = literalConstraintPair.getSecond();
+
+        //Left side
+        Optional<IDecision<?>> decisionLeft =
+                DecisionModelUtil.findDecisionById(decisionModel, left.getFeature().getFeatureName());
+        Optional<IDecision<?>> valueLeft = DecisionModelUtil.findDecisionByValue(decisionModel, left.getLiteral());
+
+        ICondition condition;
+        if (decisionLeft.isPresent()) {
+            condition = new StringValue(left.getLiteral());
+        } else {
+            condition = new DecisionValueCondition(valueLeft.get(), new StringValue(left.getLiteral()));
+        }
+
+        //Right side
+        Optional<IDecision<?>> decisionRight =
+                DecisionModelUtil.findDecisionById(decisionModel, right.getFeature().getFeatureName());
+        Optional<IDecision<?>> valueRight = DecisionModelUtil.findDecisionByValue(decisionModel, right.getLiteral());
+        IAction action;
+        if (decisionRight.isPresent()) {
+            action = new SetValueAction(decisionRight.get(), new StringValue(right.getLiteral()));
+        } else {
+            action = new SetValueAction(valueRight.get(), new StringValue(right.getLiteral()));
+        }
+
+        //Add the constraint to the left decision
+        decisionLeft.or(() -> valueLeft).get().addRule(new Rule(condition, action));
+    }
+
+    private Optional<Pair<LiteralConstraint>> isSimpleImplication(Constraint constraint) {
+
+        if (constraint instanceof ImplicationConstraint) {
+
+            ImplicationConstraint implicationConstraint = (ImplicationConstraint) constraint;
+
+            Constraint left = implicationConstraint.getLeft();
+            Constraint right = implicationConstraint.getRight();
+
+            if (left instanceof LiteralConstraint && right instanceof LiteralConstraint) {
+                return Optional.of(new Pair<>((LiteralConstraint) left, (LiteralConstraint) right));
+            }
+        }
+
+        return Optional.empty();
+    }
+
     /** Decomposes the given (sometimes complex) constraint into several simpler ones. */
     private List<Constraint> simplifyConstraint(Constraint constraint) {
-        return new java.util.ArrayList<>();
+        return List.of(constraint);
     }
 
     private void handleImplicationConstraint(ImplicationConstraint ownConstraint) {
