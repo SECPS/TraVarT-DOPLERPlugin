@@ -3,7 +3,6 @@ package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.model.IEnumerationDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.*;
-import at.jku.cps.travart.dopler.transformation.util.DecisionModelUtil;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import de.vill.model.Group;
@@ -11,6 +10,9 @@ import de.vill.model.Group;
 import java.util.List;
 
 class FeatureAndGroupHandler {
+
+    private final VisibilityHandler visibilityHandler;
+    private final IdHandler idHandler;
 
     /**
      * Temporary variable to save current decision model
@@ -22,7 +24,9 @@ class FeatureAndGroupHandler {
      */
     private FeatureModel featureModel;
 
-    FeatureAndGroupHandler() {
+    FeatureAndGroupHandler(VisibilityHandler visibilityHandler, IdHandler idHandler) {
+        this.visibilityHandler = visibilityHandler;
+        this.idHandler = idHandler;
         decisionModel = null;
         featureModel = null;
     }
@@ -73,8 +77,8 @@ class FeatureAndGroupHandler {
         Cardinality cardinality = new Cardinality(1, group.getFeatures().size());
 
         EnumerationDecision decision = new EnumerationDecision("");
-        decision.setVisibility(DecisionModelUtil.resolveVisibility(featureModel, parentFeature, decisionModel));
-        decision.setId(DecisionModelUtil.resolveId(decisionModel, parentFeature));
+        decision.setVisibility(visibilityHandler.resolveVisibility(featureModel, parentFeature, decisionModel));
+        decision.setId(idHandler.resolveId(decisionModel, parentFeature));
         decision.setQuestion(String.format("Which %s?", decision.getId()));
         decision.setRange(range);
         decision.setCardinality(cardinality);
@@ -89,8 +93,8 @@ class FeatureAndGroupHandler {
         Cardinality cardinality = new Cardinality(1, 1);
 
         IEnumerationDecision<String> decision = new EnumerationDecision("");
-        decision.setVisibility(DecisionModelUtil.resolveVisibility(featureModel, parentFeature, decisionModel));
-        decision.setId(DecisionModelUtil.resolveId(decisionModel, parentFeature));
+        decision.setVisibility(visibilityHandler.resolveVisibility(featureModel, parentFeature, decisionModel));
+        decision.setId(idHandler.resolveId(decisionModel, parentFeature));
         decision.setQuestion(String.format("Which %s?", decision.getId()));
         decision.setRange(range);
         decision.setCardinality(cardinality);
@@ -103,8 +107,8 @@ class FeatureAndGroupHandler {
         for (Feature feature : group.getFeatures()) {
             String id = feature.getFeatureName();
             BooleanDecision decision = new BooleanDecision("");
-            decision.setVisibility(DecisionModelUtil.resolveVisibility(featureModel, parentFeature, decisionModel));
-            decision.setId(DecisionModelUtil.resolveId(decisionModel, feature));
+            decision.setVisibility(visibilityHandler.resolveVisibility(featureModel, parentFeature, decisionModel));
+            decision.setId(idHandler.resolveId(decisionModel, feature));
             decision.setQuestion(String.format("%s?", decision.getId()));
 
             decisionModel.add(decision);
@@ -113,6 +117,6 @@ class FeatureAndGroupHandler {
 
     private void handleMandatoryGroup(Group group) {
         /** Only important for round trip */
-       return;
+        return;
     }
 }

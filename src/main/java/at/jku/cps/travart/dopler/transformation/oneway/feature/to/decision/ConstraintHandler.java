@@ -3,6 +3,7 @@ package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 import de.vill.model.Feature;
+import de.vill.model.FeatureModel;
 import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.ImplicationConstraint;
 import de.vill.model.constraint.LiteralConstraint;
@@ -14,18 +15,23 @@ import java.util.Optional;
 /**
  * Adds the constraints from the feature model to the decision model.
  */
-class OwnConstraintHandler {
+class ConstraintHandler {
 
     /**
      * Temporary variable to save current decision model
      */
     private IDecisionModel decisionModel = null;
 
-    final void handleOwnConstraints(List<Constraint> ownConstraints, IDecisionModel decisionModel) {
+    /**
+     * Temporary variable to save feature decision model
+     */
+    private FeatureModel featureModel;
+
+    final void handleOwnConstraints(FeatureModel featureModel, IDecisionModel decisionModel) {
         this.decisionModel = decisionModel;
 
         List<Constraint> simplifiedConstraints = new ArrayList<>();
-        for (Constraint constraint : ownConstraints) {
+        for (Constraint constraint : featureModel.getConstraints()) {
             simplifiedConstraints.addAll(simplifyConstraint(constraint));
         }
 
