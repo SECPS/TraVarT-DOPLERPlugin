@@ -1,20 +1,16 @@
 package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision;
 
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
+import at.jku.cps.travart.dopler.decision.model.AbstractDecision;
 import at.jku.cps.travart.dopler.decision.model.IAction;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
-import at.jku.cps.travart.dopler.decision.model.impl.DecisionValueCondition;
-import at.jku.cps.travart.dopler.decision.model.impl.Rule;
-import at.jku.cps.travart.dopler.decision.model.impl.SetValueAction;
-import at.jku.cps.travart.dopler.decision.model.impl.StringValue;
+import at.jku.cps.travart.dopler.decision.model.impl.*;
 import at.jku.cps.travart.dopler.transformation.util.DecisionModelUtil;
 import at.jku.cps.travart.dopler.transformation.util.Pair;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
-import de.vill.model.constraint.Constraint;
-import de.vill.model.constraint.ImplicationConstraint;
-import de.vill.model.constraint.LiteralConstraint;
+import de.vill.model.constraint.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,24 +29,22 @@ class ConstraintHandler {
     /**
      * Temporary variable to save feature decision model
      */
-    private FeatureModel featureModel;
+    private FeatureModel featureModel = null;
 
     final void handleOwnConstraints(FeatureModel featureModel, IDecisionModel decisionModel) {
         this.decisionModel = decisionModel;
+        this.featureModel = featureModel;
 
         List<Constraint> simplifiedConstraints = new ArrayList<>();
         for (Constraint constraint : featureModel.getConstraints()) {
-            simplifiedConstraints.addAll(simplifyConstraint(constraint));
+            List<Constraint> temp = simplifyConstraint(constraint);
+            simplifiedConstraints.addAll(temp);
         }
 
         for (Constraint constraint : simplifiedConstraints) {
 
             Optional<Pair<LiteralConstraint>> optional = isSimpleImplication(constraint);
-            if (optional.isPresent()) {
-                Pair<LiteralConstraint> literalConstraintPair = optional.get();
-
-                handleSimpleImplication(decisionModel, literalConstraintPair);
-            }
+            optional.ifPresent(literalConstraintPair -> handleSimpleImplication(decisionModel, literalConstraintPair));
         }
     }
 
@@ -77,7 +71,12 @@ class ConstraintHandler {
         Optional<IDecision<?>> valueRight = DecisionModelUtil.findDecisionByValue(decisionModel, right.getLiteral());
         IAction action;
         if (decisionRight.isPresent()) {
-            action = new SetValueAction(decisionRight.get(), new StringValue(right.getLiteral()));
+
+            if (AbstractDecision.DecisionType.BOOLEAN == decisionRight.get().getType()) {
+                action = new SetValueAction(decisionRight.get(), BooleanValue.getTrue());
+            } else {
+                action = new SetValueAction(decisionRight.get(), new StringValue(right.getLiteral()));
+            }
         } else {
             action = new SetValueAction(valueRight.get(), new StringValue(right.getLiteral()));
         }
@@ -88,9 +87,15 @@ class ConstraintHandler {
 
     private Optional<Pair<LiteralConstraint>> isSimpleImplication(Constraint constraint) {
 
-        if (constraint instanceof ImplicationConstraint) {
+        Constraint innerConstraint = constraint;
 
-            ImplicationConstraint implicationConstraint = (ImplicationConstraint) constraint;
+        if(constraint instanceof ParenthesisConstraint){
+            innerConstraint = ((ParenthesisConstraint)constraint).getContent();
+        }
+
+        if (innerConstraint instanceof ImplicationConstraint) {
+
+            ImplicationConstraint implicationConstraint = (ImplicationConstraint) innerConstraint;
 
             Constraint left = implicationConstraint.getLeft();
             Constraint right = implicationConstraint.getRight();
@@ -103,8 +108,14 @@ class ConstraintHandler {
         return Optional.empty();
     }
 
-    /** Decomposes the given (sometimes complex) constraint into several simpler ones. */
+    /** Decomposes AND constraints constraint into several simpler ones. */
     private List<Constraint> simplifyConstraint(Constraint constraint) {
+
+        if (constraint instanceof AndConstraint) {
+            AndConstraint andConstraint = (AndConstraint) constraint;
+            return List.of(andConstraint.getLeft(), andConstraint.getRight());
+        }
+
         return List.of(constraint);
     }
 
