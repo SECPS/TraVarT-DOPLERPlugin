@@ -2,24 +2,18 @@ package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.cons
 
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import de.vill.model.FeatureModel;
-import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.ParenthesisConstraint;
 
-import java.util.Optional;
-
-public class ParenthesisMatcher implements Matcher<ParenthesisConstraint> {
+class ParenthesisMatcher extends Matcher<ParenthesisConstraint> {
 
     @Override
-    public Optional<ParenthesisConstraint> match(Constraint constraint) {
-        if (constraint instanceof ParenthesisConstraint) {
-            return Optional.of((ParenthesisConstraint) constraint);
-        }
-        return Optional.empty();
+    void startRoutine(ConstraintHandler constraintHandler, IDecisionModel decisionModel, FeatureModel featureModel,
+                      ParenthesisConstraint constraint) {
+        constraintHandler.handleConstraint(constraint.getContent());
     }
 
     @Override
-    public void startRoutine(ConstraintHandler constraintHandler, IDecisionModel decisionModel,
-                             FeatureModel featureModel, ParenthesisConstraint constraint) {
-        constraintHandler.handleConstraint(constraint.getContent());
+    Class<ParenthesisConstraint> getConstraintClass() {
+        return ParenthesisConstraint.class;
     }
 }

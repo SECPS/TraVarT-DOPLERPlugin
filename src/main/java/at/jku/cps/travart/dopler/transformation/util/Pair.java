@@ -1,6 +1,6 @@
 package at.jku.cps.travart.dopler.transformation.util;
 
-public class Pair <K>{
+public class Pair<K> {
 
     private final K first;
     private final K second;

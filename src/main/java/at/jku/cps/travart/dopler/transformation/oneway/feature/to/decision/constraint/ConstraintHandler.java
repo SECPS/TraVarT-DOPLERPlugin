@@ -5,7 +5,6 @@ import de.vill.model.FeatureModel;
 import de.vill.model.constraint.Constraint;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -23,7 +22,7 @@ public class ConstraintHandler {
      */
     private FeatureModel featureModel = null;
 
-    private final Set<Matcher<? extends Constraint>> matchers;
+    private final Set<Matcher<?>> matchers;
 
     public ConstraintHandler() {
         matchers = new HashSet<>();
@@ -42,13 +41,8 @@ public class ConstraintHandler {
     }
 
     void handleConstraint(Constraint constraint) {
-
-        for (Matcher matcher : matchers) {
-            Optional match = matcher.match(constraint);
-            if (match.isPresent()) {
-                matcher.startRoutine(this, decisionModel, featureModel, constraint);
-                break;
-            }
+        for (Matcher<? extends Constraint> matcher : matchers) {
+            matcher.match(this, decisionModel, featureModel, constraint);
         }
     }
 }

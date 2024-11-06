@@ -8,21 +8,12 @@ import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.*;
 import at.jku.cps.travart.dopler.transformation.util.DecisionModelUtil;
 import de.vill.model.FeatureModel;
-import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.ImplicationConstraint;
 import de.vill.model.constraint.LiteralConstraint;
 
 import java.util.Optional;
 
-public class SimpleImplicationConstraint implements Matcher<ImplicationConstraint> {
-
-    @Override
-    public Optional<ImplicationConstraint> match(Constraint constraint) {
-        if (constraint instanceof ImplicationConstraint) {
-            return Optional.of((ImplicationConstraint) constraint);
-        }
-        return Optional.empty();
-    }
+public class SimpleImplicationConstraint extends Matcher<ImplicationConstraint> {
 
     @Override
     public void startRoutine(ConstraintHandler constraintHandler, IDecisionModel decisionModel,
@@ -66,5 +57,10 @@ public class SimpleImplicationConstraint implements Matcher<ImplicationConstrain
 
         //Add the constraint to the left decision
         valueLeft.or(() -> decisionLeft).get().addRule(new Rule(condition, action));
+    }
+
+    @Override
+    Class<ImplicationConstraint> getConstraintClass() {
+        return ImplicationConstraint.class;
     }
 }
