@@ -11,11 +11,9 @@ package at.jku.cps.travart.dopler.decision.model;
 
 import at.jku.cps.travart.dopler.decision.exc.ActionExecutionException;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
+import com.google.common.annotations.VisibleForTesting;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @SuppressWarnings("rawtypes")
 public abstract class AbstractDecision<T> implements IDecision<T> {
@@ -53,7 +51,7 @@ public abstract class AbstractDecision<T> implements IDecision<T> {
         this.description = "";
         this.question = "";
         this.type = Objects.requireNonNull(type);
-        rules = new HashSet<>();
+        rules = new LinkedHashSet<>(); //Keeps order
         select = false;
         visibility = ICondition.TRUE;
     }
@@ -103,6 +101,7 @@ public abstract class AbstractDecision<T> implements IDecision<T> {
     }
 
     @Override
+    @VisibleForTesting
     public void setRules(final Set<Rule> rules) {
         this.rules = rules;
     }

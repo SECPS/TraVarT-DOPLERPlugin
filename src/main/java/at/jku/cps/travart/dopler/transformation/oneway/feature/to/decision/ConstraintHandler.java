@@ -59,10 +59,10 @@ class ConstraintHandler {
         Optional<IDecision<?>> valueLeft = DecisionModelUtil.findDecisionByValue(decisionModel, left.getLiteral());
 
         ICondition condition;
-        if (decisionLeft.isPresent()) {
-            condition = new StringValue(left.getLiteral());
-        } else {
+        if (valueLeft.isPresent()) {
             condition = new DecisionValueCondition(valueLeft.get(), new StringValue(left.getLiteral()));
+        } else {
+            condition = new StringValue(left.getLiteral());
         }
 
         //Right side
@@ -70,27 +70,26 @@ class ConstraintHandler {
                 DecisionModelUtil.findDecisionById(decisionModel, right.getFeature().getFeatureName());
         Optional<IDecision<?>> valueRight = DecisionModelUtil.findDecisionByValue(decisionModel, right.getLiteral());
         IAction action;
-        if (decisionRight.isPresent()) {
-
+        if (valueRight.isPresent()) {
+            action = new SetValueAction(valueRight.get(), new StringValue(right.getLiteral()));
+        } else {
             if (AbstractDecision.DecisionType.BOOLEAN == decisionRight.get().getType()) {
                 action = new SetValueAction(decisionRight.get(), BooleanValue.getTrue());
             } else {
                 action = new SetValueAction(decisionRight.get(), new StringValue(right.getLiteral()));
             }
-        } else {
-            action = new SetValueAction(valueRight.get(), new StringValue(right.getLiteral()));
         }
 
         //Add the constraint to the left decision
-        decisionLeft.or(() -> valueLeft).get().addRule(new Rule(condition, action));
+        valueLeft.or(() -> decisionLeft).get().addRule(new Rule(condition, action));
     }
 
     private Optional<Pair<LiteralConstraint>> isSimpleImplication(Constraint constraint) {
 
         Constraint innerConstraint = constraint;
 
-        if(constraint instanceof ParenthesisConstraint){
-            innerConstraint = ((ParenthesisConstraint)constraint).getContent();
+        if (constraint instanceof ParenthesisConstraint) {
+            innerConstraint = ((ParenthesisConstraint) constraint).getContent();
         }
 
         if (innerConstraint instanceof ImplicationConstraint) {

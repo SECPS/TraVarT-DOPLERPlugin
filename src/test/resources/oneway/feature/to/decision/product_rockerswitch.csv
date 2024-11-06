@@ -14,7 +14,7 @@ Off1_3;Off1_3?;Boolean;true | false;;;Off
 Off1_4;Off1_4?;Boolean;true | false;;;Off
 Changeover;Changeover?;Boolean;true | false;;;true
 Changeover1;Changeover1?;Boolean;true | false;;if (Changeover1) {Rocker1_1 = true;};Changeover
-Changeover2;Changeover2?;Boolean;true | false;;if (Changeover2) {Rocker1_2 = true;}if (Changeover2) {Rocker1_1 = true;};Changeover
+Changeover2;Changeover2?;Boolean;true | false;;if (Changeover2) {Rocker1_1 = true;}if (Changeover2) {Rocker1_2 = true;};Changeover
 Pole;Pole?;Boolean;true | false;;;true
 Pole1_1;Pole1_1?;Boolean;true | false;;;Pole
 Pole1_2;Pole1_2?;Boolean;true | false;;;Pole
