@@ -4,6 +4,7 @@ import at.jku.cps.travart.core.common.IModelTransformer;
 import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.impl.DecisionModel;
+import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.ConstraintHandler;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 
