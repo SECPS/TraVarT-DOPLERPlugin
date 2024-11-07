@@ -10,6 +10,7 @@ import at.jku.cps.travart.dopler.transformation.util.DecisionModelUtil;
 import de.vill.model.FeatureModel;
 import de.vill.model.constraint.ImplicationConstraint;
 import de.vill.model.constraint.LiteralConstraint;
+import edu.kit.dopler.model.Action;
 
 import java.util.Optional;
 
@@ -20,11 +21,13 @@ public class SimpleImplicationConstraint extends Matcher<ImplicationConstraint> 
                              FeatureModel featureModel, ImplicationConstraint constraint) {
 
         //Only for simple implicationConstraints
-        if (!(constraint.getLeft() instanceof LiteralConstraint &&
-                constraint.getRight() instanceof LiteralConstraint)) {
-            return;
+        if (constraint.getLeft() instanceof LiteralConstraint && constraint.getRight() instanceof LiteralConstraint) {
+            handleSimpleImplicationConstraint(decisionModel, constraint);
         }
+    }
 
+    private static void handleSimpleImplicationConstraint(IDecisionModel decisionModel,
+                                                          ImplicationConstraint constraint) {
         LiteralConstraint left = (LiteralConstraint) constraint.getLeft();
         LiteralConstraint right = (LiteralConstraint) constraint.getRight();
 
@@ -55,8 +58,10 @@ public class SimpleImplicationConstraint extends Matcher<ImplicationConstraint> 
             }
         }
 
+
         //Add the constraint to the left decision
-        valueLeft.or(() -> decisionLeft).get().addRule(new Rule(condition, action));
+        Rule rule = new Rule(condition, action);
+        valueLeft.or(() -> decisionLeft).get().addRule(rule);
     }
 
     @Override

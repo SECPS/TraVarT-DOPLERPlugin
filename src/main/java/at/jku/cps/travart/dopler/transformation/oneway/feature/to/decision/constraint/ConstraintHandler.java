@@ -15,16 +15,19 @@ public class ConstraintHandler {
     /**
      * Temporary variable to save current decision model
      */
-    private IDecisionModel decisionModel = null;
+    private IDecisionModel decisionModel;
 
     /**
      * Temporary variable to save feature decision model
      */
-    private FeatureModel featureModel = null;
+    private FeatureModel featureModel;
 
     private final Set<Matcher<?>> matchers;
 
     public ConstraintHandler() {
+        decisionModel = null;
+        featureModel = null;
+
         matchers = new HashSet<>();
         matchers.add(new AndMatcher());
         matchers.add(new ParenthesisMatcher());

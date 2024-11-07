@@ -8,10 +8,14 @@ abstract class Matcher<K extends Constraint> {
 
     void match(ConstraintHandler constraintHandler, IDecisionModel decisionModel, FeatureModel featureModel,
                Constraint constraint) {
-        Class<K> constraintClass = getConstraintClass();
-        if (constraintClass.isInstance(constraint)) {
-            startRoutine(constraintHandler, decisionModel, featureModel, constraintClass.cast(constraint));
+        if (isMatching(constraint)) {
+            startRoutine(constraintHandler, decisionModel, featureModel, getConstraintClass().cast(constraint));
         }
+    }
+
+    /** Override if child class should match more complex constraints */
+    protected boolean isMatching(Constraint constraint) {
+        return getConstraintClass().isInstance(constraint);
     }
 
     abstract void startRoutine(ConstraintHandler constraintHandler, IDecisionModel decisionModel,
