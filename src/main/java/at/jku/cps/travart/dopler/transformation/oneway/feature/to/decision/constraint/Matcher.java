@@ -6,11 +6,14 @@ import de.vill.model.constraint.Constraint;
 
 abstract class Matcher<K extends Constraint> {
 
-    void match(ConstraintHandler constraintHandler, IDecisionModel decisionModel, FeatureModel featureModel,
-               Constraint constraint) {
+    /** Try to match. If matched then start routine. */
+    boolean match(ConstraintHandler constraintHandler, IDecisionModel decisionModel, FeatureModel featureModel,
+                  Constraint constraint) {
         if (isMatching(constraint)) {
             startRoutine(constraintHandler, decisionModel, featureModel, getConstraintClass().cast(constraint));
+            return true;
         }
+        return false;
     }
 
     /** Override if child class should match more complex constraints */

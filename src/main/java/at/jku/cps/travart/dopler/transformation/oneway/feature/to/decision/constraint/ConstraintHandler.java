@@ -4,8 +4,8 @@ import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import de.vill.model.FeatureModel;
 import de.vill.model.constraint.Constraint;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Adds the constraints from the feature model to the decision model.
@@ -22,13 +22,15 @@ public class ConstraintHandler {
      */
     private FeatureModel featureModel;
 
-    private final Set<Matcher<?>> matchers;
+    private final List<Matcher<?>> matchers;
 
     public ConstraintHandler() {
         decisionModel = null;
         featureModel = null;
 
-        matchers = new HashSet<>();
+        matchers = new ArrayList<>();
+
+        //Order is important
         matchers.add(new AndMatcher());
         matchers.add(new ParenthesisMatcher());
         matchers.add(new SimpleImplicationConstraint());
@@ -45,7 +47,10 @@ public class ConstraintHandler {
 
     void handleConstraint(Constraint constraint) {
         for (Matcher<? extends Constraint> matcher : matchers) {
-            matcher.match(this, decisionModel, featureModel, constraint);
+            boolean matched = matcher.match(this, decisionModel, featureModel, constraint);
+            if (matched) {
+                break;
+            }
         }
     }
 }

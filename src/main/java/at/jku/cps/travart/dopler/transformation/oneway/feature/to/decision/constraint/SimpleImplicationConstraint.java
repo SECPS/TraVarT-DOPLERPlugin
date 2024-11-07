@@ -8,60 +8,67 @@ import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.*;
 import at.jku.cps.travart.dopler.transformation.util.DecisionModelUtil;
 import de.vill.model.FeatureModel;
+import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.ImplicationConstraint;
 import de.vill.model.constraint.LiteralConstraint;
-import edu.kit.dopler.model.Action;
 
 import java.util.Optional;
 
 public class SimpleImplicationConstraint extends Matcher<ImplicationConstraint> {
 
+    private static final String NOT_PRESENT_MESSAGE = "One should be present";
+
     @Override
     public void startRoutine(ConstraintHandler constraintHandler, IDecisionModel decisionModel,
                              FeatureModel featureModel, ImplicationConstraint constraint) {
-
-        //Only for simple implicationConstraints
-        if (constraint.getLeft() instanceof LiteralConstraint && constraint.getRight() instanceof LiteralConstraint) {
-            handleSimpleImplicationConstraint(decisionModel, constraint);
-        }
-    }
-
-    private static void handleSimpleImplicationConstraint(IDecisionModel decisionModel,
-                                                          ImplicationConstraint constraint) {
-        LiteralConstraint left = (LiteralConstraint) constraint.getLeft();
-        LiteralConstraint right = (LiteralConstraint) constraint.getRight();
-
         //Left side
-        Optional<IDecision<?>> decisionLeft =
-                DecisionModelUtil.findDecisionById(decisionModel, left.getFeature().getFeatureName());
-        Optional<IDecision<?>> valueLeft = DecisionModelUtil.findDecisionByValue(decisionModel, left.getLiteral());
+        LiteralConstraint left = (LiteralConstraint) constraint.getLeft();
+        Optional<IDecision<?>> decisionByIdLeft = DecisionModelUtil.findDecisionById(decisionModel, left.getLiteral());
+        Optional<IDecision<?>> decisionByValueLeft =
+                DecisionModelUtil.findDecisionByValue(decisionModel, left.getLiteral());
 
         ICondition condition;
-        if (valueLeft.isPresent()) {
-            condition = new DecisionValueCondition(valueLeft.get(), new StringValue(left.getLiteral()));
-        } else {
+        if (decisionByValueLeft.isPresent()) {
+            condition = new DecisionValueCondition(decisionByValueLeft.get(), new StringValue(left.getLiteral()));
+        } else if (decisionByIdLeft.isPresent()) {
             condition = new StringValue(left.getLiteral());
+        } else {
+            throw new RuntimeException(NOT_PRESENT_MESSAGE);
         }
+        IDecision<?> leftDecision = decisionByValueLeft.or(() -> decisionByIdLeft).get();
 
         //Right side
-        Optional<IDecision<?>> decisionRight =
-                DecisionModelUtil.findDecisionById(decisionModel, right.getFeature().getFeatureName());
-        Optional<IDecision<?>> valueRight = DecisionModelUtil.findDecisionByValue(decisionModel, right.getLiteral());
+        LiteralConstraint right = (LiteralConstraint) constraint.getRight();
+        Optional<IDecision<?>> decisionByIdRight =
+                DecisionModelUtil.findDecisionById(decisionModel, right.getLiteral());
+        Optional<IDecision<?>> decisionByValueRight =
+                DecisionModelUtil.findDecisionByValue(decisionModel, right.getLiteral());
+
         IAction action;
-        if (valueRight.isPresent()) {
-            action = new SetValueAction(valueRight.get(), new StringValue(right.getLiteral()));
+        if (decisionByValueRight.isPresent()) {
+            action = new SetValueAction(decisionByValueRight.get(), new StringValue(right.getLiteral()));
+        } else if (decisionByIdRight.isPresent()) {
+            //Boolean types get a true on the right side
+            action = AbstractDecision.DecisionType.BOOLEAN == decisionByIdRight.get().getType() ?
+                    new SetValueAction(decisionByIdRight.get(), BooleanValue.getTrue()) :
+                    new SetValueAction(decisionByIdRight.get(), new StringValue(right.getLiteral()));
         } else {
-            if (AbstractDecision.DecisionType.BOOLEAN == decisionRight.get().getType()) {
-                action = new SetValueAction(decisionRight.get(), BooleanValue.getTrue());
-            } else {
-                action = new SetValueAction(decisionRight.get(), new StringValue(right.getLiteral()));
-            }
+            throw new RuntimeException(NOT_PRESENT_MESSAGE);
         }
 
-
         //Add the constraint to the left decision
-        Rule rule = new Rule(condition, action);
-        valueLeft.or(() -> decisionLeft).get().addRule(rule);
+        leftDecision.addRule(new Rule(condition, action));
+    }
+
+    @Override
+    protected boolean isMatching(Constraint constraint) {
+        if (constraint instanceof ImplicationConstraint) {
+            ImplicationConstraint implicationConstraint = (ImplicationConstraint) constraint;
+            boolean leftIsLiteral = implicationConstraint.getLeft() instanceof LiteralConstraint;
+            boolean rightIsLiteral = implicationConstraint.getRight() instanceof LiteralConstraint;
+            return leftIsLiteral && rightIsLiteral;
+        }
+        return false;
     }
 
     @Override
