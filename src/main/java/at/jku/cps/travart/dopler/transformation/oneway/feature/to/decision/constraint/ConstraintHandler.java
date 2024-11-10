@@ -32,8 +32,9 @@ public class ConstraintHandler {
 
         //Order is important
         matchers.add(new AndMatcher());
+        //matchers.add(new OrMatcher());
         matchers.add(new ParenthesisMatcher());
-        matchers.add(new SimpleImplicationConstraint());
+        matchers.add(new ImplicationMatcher());
     }
 
     public void handleOwnConstraints(FeatureModel featureModel, IDecisionModel decisionModel) {

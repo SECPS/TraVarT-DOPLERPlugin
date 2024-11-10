@@ -11,9 +11,4 @@ class ParenthesisMatcher extends Matcher<ParenthesisConstraint> {
                       ParenthesisConstraint constraint) {
         constraintHandler.handleConstraint(constraint.getContent());
     }
-
-    @Override
-    Class<ParenthesisConstraint> getConstraintClass() {
-        return ParenthesisConstraint.class;
-    }
 }

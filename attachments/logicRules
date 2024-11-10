@@ -1,0 +1,31 @@
+Standard:
+&
+|
+<=>
+=>
+!
+()
+LITERAL
+Expression
+
+Expressions:
+==
+<
+<=
+>
+>=
+!=
+
+
+Idee:
+Formel in DNF bringen
+DNF wie unten abändern
+
+Example 7
+(A & B & C) | (D & E & F) | (G & H & I) [DNF]
+->
+!((A & B & C) | (D & E & F)) => (G & H & I)
+->
+!((A & B & C) | (D & E & F)) => G
+!((A & B & C) | (D & E & F)) => H
+!((A & B & C) | (D & E & F)) => I

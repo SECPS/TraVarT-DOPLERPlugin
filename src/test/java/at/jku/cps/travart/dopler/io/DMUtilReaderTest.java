@@ -20,7 +20,7 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class DMReaderTest {
+public class DMUtilReaderTest {
 
     @Test
     public void testInternalAsserts() {
@@ -28,7 +28,7 @@ public class DMReaderTest {
         DecisionModelDeserializer reader = new DecisionModelDeserializer();
         try {
             dm = reader.deserializeFromFile(
-                    Paths.get(DMReaderTest.class.getClassLoader().getResource("DOPLERToolsDM.csv").toURI()));
+                    Paths.get(DMUtilReaderTest.class.getClassLoader().getResource("DOPLERToolsDM.csv").toURI()));
         } catch (IOException e) {
             fail("IO Exception occured while reading Decision Model");
             e.printStackTrace();

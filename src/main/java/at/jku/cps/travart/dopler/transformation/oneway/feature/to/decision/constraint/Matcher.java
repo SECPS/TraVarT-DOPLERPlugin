@@ -4,6 +4,9 @@ import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import de.vill.model.FeatureModel;
 import de.vill.model.constraint.Constraint;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
+
 abstract class Matcher<K extends Constraint> {
 
     /** Try to match. If matched then start routine. */
@@ -24,5 +27,9 @@ abstract class Matcher<K extends Constraint> {
     abstract void startRoutine(ConstraintHandler constraintHandler, IDecisionModel decisionModel,
                                FeatureModel featureModel, K constraint);
 
-    abstract Class<K> getConstraintClass();
+    @SuppressWarnings("unchecked")
+    private Class<K> getConstraintClass() {
+        ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
+        return (Class<K>) parameterizedType.getActualTypeArguments()[0];
+    }
 }

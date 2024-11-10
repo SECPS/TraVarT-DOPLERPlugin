@@ -14,8 +14,4 @@ class AndMatcher extends Matcher<AndConstraint> {
         List.of(constraint.getLeft(), constraint.getRight()).forEach(constraintHandler::handleConstraint);
     }
 
-    @Override
-    Class<AndConstraint> getConstraintClass() {
-        return AndConstraint.class;
-    }
 }

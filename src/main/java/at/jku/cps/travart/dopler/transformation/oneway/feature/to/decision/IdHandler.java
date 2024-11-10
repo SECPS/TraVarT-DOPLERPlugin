@@ -1,7 +1,7 @@
 package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision;
 
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
-import at.jku.cps.travart.dopler.transformation.util.DecisionModelUtil;
+import at.jku.cps.travart.dopler.transformation.util.DMUtil;
 import de.vill.model.Feature;
 
 public class IdHandler {
@@ -11,7 +11,7 @@ public class IdHandler {
      */
     String resolveId(IDecisionModel decisionModel, Feature feature) {
         String id;
-        if (DecisionModelUtil.findDecisionById(decisionModel, feature.getFeatureName()).isPresent()) {
+        if (DMUtil.findDecisionById(decisionModel, feature.getFeatureName()).isPresent()) {
             id = feature.getFeatureName() + "Type";
         } else {
             id = feature.getFeatureName();

@@ -7,9 +7,9 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 /** Set of utility methods for editing decision models */
-public final class DecisionModelUtil {
+public final class DMUtil {
 
-    private DecisionModelUtil() {
+    private DMUtil() {
     }
 
     public static Optional<IDecision<?>> findDecisionById(IDecisionModel decisionModel, String id) {
