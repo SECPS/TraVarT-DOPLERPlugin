@@ -8,6 +8,7 @@ import java.util.Optional;
 public class ToDnfConverter {
 
     private final UnwantedConstraintsReplacer replacer;
+    private final DnfSimplifier dnfSimplifier;
 
     private final List<Rule> rules =
             List.of(new NotNotRule(), new MorgenOrRule(), new MorgenAndRule(), new DistributiveLeftRule(),
@@ -15,15 +16,21 @@ public class ToDnfConverter {
 
     ToDnfConverter() {
         replacer = new UnwantedConstraintsReplacer();
+        dnfSimplifier = new DnfSimplifier();
     }
 
     public Constraint convertToDnf(Constraint constraint) {
+
+        constraint = constraint.clone();
+
         Constraint sanitisedConstraint = replacer.replaceUnwantedConstraints(constraint);
         ParenthesisConstraint parenthesisConstraint = new ParenthesisConstraint(sanitisedConstraint);
 
-        doSomething(parenthesisConstraint);
+        for (int i = 0; i < 100; i++) {
+            doSomething(parenthesisConstraint);
+        }
 
-        return parenthesisConstraint.getContent();
+        return dnfSimplifier.simplifyDnf(parenthesisConstraint.getContent());
     }
 
     /** Find first matching rule */

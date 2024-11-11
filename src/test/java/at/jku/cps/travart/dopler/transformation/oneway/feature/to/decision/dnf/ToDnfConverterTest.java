@@ -14,6 +14,7 @@ class ToDnfConverterTest {
     private static final LiteralConstraint D = new LiteralConstraint("D");
     private static final LiteralConstraint E = new LiteralConstraint("E");
     private static final LiteralConstraint F = new LiteralConstraint("F");
+    private static final LiteralConstraint G = new LiteralConstraint("G");
 
     private final ToDnfConverter toDnfConverter;
     private final UnwantedConstraintsReplacer replacer;
@@ -50,31 +51,48 @@ class ToDnfConverterTest {
     @Test
     void toDnf4() {
         Constraint given = new AndConstraint(A, new OrConstraint(B, C));
-        Constraint real = toDnfConverter.convertToDnf(given);
-        Constraint expected = new OrConstraint(new AndConstraint(A, B), new AndConstraint(A, C));
-        Assertions.assertEquals(expected, real);
+        assertDnfs("(A&B)|(A&C)", given);
     }
 
     @Test
     void toDnf5() {
         Constraint given = new AndConstraint(new OrConstraint(A, B), C);
-        Constraint real = toDnfConverter.convertToDnf(given);
-        assertDnfs("A&C | B&C", real);
+        assertDnfs("A&C | B&C", given);
     }
 
     @Test
     void toDnf6() {
         Constraint given = new ImplicationConstraint(new ImplicationConstraint(A, B), new ImplicationConstraint(C, D));
-        Constraint real = toDnfConverter.convertToDnf(given);
-        assertDnfs("(A & !B) | !C | D", real);
+        assertDnfs("!C | D | (!B & A)", given);
     }
 
     @Test
     void toDnf7() {
         Constraint given = new NotConstraint(new EquivalenceConstraint(A, B));
+        assertDnfs("(!B&A) | (!A&B)", given);
+    }
 
-        Constraint real = toDnfConverter.convertToDnf(given);
-        assertDnfs("(A&!B) | (B&!A)", real);
+    @Test
+    void toDnf8() {
+        Constraint given = new AndConstraint(new EquivalenceConstraint(A, B), new EquivalenceConstraint(B, C));
+        assertDnfs("(A & B & C) | (!A & !B & !C)", given);
+    }
+
+    @Test
+    void toDnf9() {
+        Constraint given = new NotConstraint(
+                new EquivalenceConstraint(new ImplicationConstraint(new AndConstraint(A, B), B),
+                        new OrConstraint(C, A)));
+        assertDnfs("!A & !C", given);
+    }
+
+    @Test
+    void toDnf10() {
+        Constraint given = new AndConstraint(new OrConstraint(
+                new ImplicationConstraint(new NotConstraint(A), new AndConstraint(new NotConstraint(B), C)),
+                new NotConstraint(G)),
+                new NotConstraint(new EquivalenceConstraint(new ImplicationConstraint(D, E), new OrConstraint(F, G))));
+        assertDnfs("(!D & !G) | (!G & E) | (!E & A & D & G) | (!B & !E & C & D & G)", given);
     }
 
     @Test
@@ -104,27 +122,81 @@ class ToDnfConverterTest {
         Assertions.assertEquals(expected, real);
     }
 
-    private void assertDnfs(String expected, Constraint real) {
-        String realString = constraintToString(real);
+    @Test
+    void testReplace4() {
+        //(A => B) => (C => D)
+        Constraint givenConstraint =
+                new AndConstraint(new EquivalenceConstraint(A, B), new EquivalenceConstraint(B, C));
+        Constraint real = replacer.replaceUnwantedConstraints(givenConstraint);
+        Constraint expected = new AndConstraint(
+                new AndConstraint(new OrConstraint(new NotConstraint(A), B), new OrConstraint(new NotConstraint(B), A)),
+                new AndConstraint(new OrConstraint(new NotConstraint(B), C),
+                        new OrConstraint(new NotConstraint(C), B)));
+
+        Assertions.assertEquals(expected, real);
+    }
+
+    private void assertDnfs(String expected, Constraint given) {
+
+        Constraint dnf = toDnfConverter.convertToDnf(given);
+        String realString = constraintToString(dnf);
 
         Function<String, String> sanitise =
                 s -> s.replace(" ", "").replace("|", " | ").replace("(", "").replace(")", "");
 
-        Assertions.assertEquals(sanitise.apply(expected), sanitise.apply(realString));
+        String message = String.format("\nGiven:\n%s\n\nConverted to DNF:\n%s\n\nExpected:\n%s\n\n",
+                constraintToString(given).replace("!", "~"), dnfToString(dnf).replace("!", "~"),
+                expected.replace("!", "~"));
+
+        Assertions.assertEquals(sanitise.apply(expected), sanitise.apply(realString), message);
+    }
+
+    String dnfToString(Constraint dnf) {
+        String dnfAsString = constraintToStringDnf(dnf);
+        return "(" + dnfAsString.replace(" | ", ") | (") + ")";
+    }
+
+    String constraintToStringDnf(Constraint constraint) {
+        if (constraint instanceof AndConstraint) {
+            AndConstraint andConstraint = (AndConstraint) constraint;
+            return String.format("%s & %s", constraintToStringDnf(andConstraint.getLeft()),
+                    constraintToStringDnf(andConstraint.getRight()));
+        } else if (constraint instanceof OrConstraint) {
+            OrConstraint orConstraint = (OrConstraint) constraint;
+            return String.format("%s | %s", constraintToStringDnf(orConstraint.getLeft()),
+                    constraintToStringDnf(orConstraint.getRight()));
+        } else if (constraint instanceof NotConstraint) {
+            NotConstraint notConstraint = (NotConstraint) constraint;
+            return String.format("!%s", constraintToStringDnf(notConstraint.getContent()));
+        } else if (constraint instanceof LiteralConstraint) {
+            return constraint.toString();
+        } else if (constraint instanceof ExpressionConstraint) {
+            return constraint.toString();
+        } else {
+            throw new RuntimeException("Unexpected constraint");
+        }
     }
 
     String constraintToString(Constraint constraint) {
         if (constraint instanceof AndConstraint) {
             AndConstraint andConstraint = (AndConstraint) constraint;
-            return String.format("%s & %s", constraintToString(andConstraint.getLeft()),
+            return String.format("(%s & %s)", constraintToString(andConstraint.getLeft()),
                     constraintToString(andConstraint.getRight()));
         } else if (constraint instanceof OrConstraint) {
             OrConstraint orConstraint = (OrConstraint) constraint;
-            return String.format("%s | %s", constraintToString(orConstraint.getLeft()),
+            return String.format("(%s | %s)", constraintToString(orConstraint.getLeft()),
                     constraintToString(orConstraint.getRight()));
+        } else if (constraint instanceof ImplicationConstraint) {
+            ImplicationConstraint implicationConstraint = (ImplicationConstraint) constraint;
+            return String.format("(%s -> %s)", constraintToString(implicationConstraint.getLeft()),
+                    constraintToString(implicationConstraint.getRight()));
+        } else if (constraint instanceof EquivalenceConstraint) {
+            EquivalenceConstraint equivalenceConstraint = (EquivalenceConstraint) constraint;
+            return String.format("(%s <-> %s)", constraintToString(equivalenceConstraint.getLeft()),
+                    constraintToString(equivalenceConstraint.getRight()));
         } else if (constraint instanceof NotConstraint) {
             NotConstraint notConstraint = (NotConstraint) constraint;
-            return String.format("!%s", constraintToString(notConstraint.getContent()));
+            return String.format("!(%s)", constraintToString(notConstraint.getContent()));
         } else if (constraint instanceof LiteralConstraint) {
             return constraint.toString();
         } else if (constraint instanceof ExpressionConstraint) {
