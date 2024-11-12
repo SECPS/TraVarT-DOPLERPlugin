@@ -5,7 +5,9 @@ import at.jku.cps.travart.dopler.decision.model.IAction;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
 import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.DnfConverter;
+import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.DnfConverterImpl;
 import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.DnfSimplifier;
+import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.DnfSimplifierImpl;
 import de.vill.model.FeatureModel;
 import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.ImplicationConstraint;
@@ -25,8 +27,8 @@ public class ConstraintHandler {
     private final ConditionCreator conditionCreator;
 
     public ConstraintHandler() {
-        dnfConverter = new DnfConverter();
-        dnfSimplifier = new DnfSimplifier();
+        dnfConverter = new DnfConverterImpl();
+        dnfSimplifier = new DnfSimplifierImpl();
         actionCreator = new ActionCreator();
         conditionCreator = new ConditionCreator();
     }

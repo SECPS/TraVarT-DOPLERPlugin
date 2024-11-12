@@ -1,8 +1,6 @@
 package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.dnf;
 
-import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.DnfConverter;
-import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.DnfSimplifier;
-import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.UnwantedConstraintsReplacer;
+import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.*;
 import de.vill.model.constraint.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,9 +22,9 @@ class DnfConverterTest {
     private final DnfSimplifier dnfSimplifier;
 
     DnfConverterTest() {
-        dnfConverter = new DnfConverter();
-        replacer = new UnwantedConstraintsReplacer();
-        dnfSimplifier = new DnfSimplifier();
+        dnfConverter = new DnfConverterImpl();
+        replacer = new UnwantedConstraintsReplacerImpl();
+        dnfSimplifier = new DnfSimplifierImpl();
     }
 
     @Test

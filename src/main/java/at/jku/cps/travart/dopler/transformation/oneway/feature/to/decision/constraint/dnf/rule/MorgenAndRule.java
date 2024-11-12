@@ -1,4 +1,4 @@
-package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf;
+package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.rule;
 
 import de.vill.model.constraint.AndConstraint;
 import de.vill.model.constraint.Constraint;
@@ -7,6 +7,7 @@ import de.vill.model.constraint.OrConstraint;
 
 import java.util.Optional;
 
+/** !(A & B) ~> (!A | !B) */
 public class MorgenAndRule implements Rule {
 
     @Override
@@ -20,7 +21,6 @@ public class MorgenAndRule implements Rule {
                         new NotConstraint(andConstraint.getRight())));
             }
         }
-
         return Optional.empty();
     }
 }
