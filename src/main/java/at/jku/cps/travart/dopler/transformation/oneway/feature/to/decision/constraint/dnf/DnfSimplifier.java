@@ -1,9 +1,8 @@
-package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.dnf;
+package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf;
 
 import at.jku.cps.travart.dopler.transformation.util.UnexpectedTypeException;
 import com.google.common.annotations.VisibleForTesting;
 import de.vill.model.constraint.*;
-import edu.kit.dopler.model.AND;
 
 import java.util.*;
 
@@ -11,41 +10,33 @@ public class DnfSimplifier {
 
     private static final String UNEXPECTED_TYPE = "Unexpected type";
 
-    public List<List<Constraint>> simplifyDnf(Constraint constraint) {
-
-        //Early return of dnf is simple
+    List<List<Constraint>> simplifyDnf(Constraint constraint) {
+        List<List<Constraint>> dnf = new ArrayList<>();
 
         if (constraint instanceof AndConstraint) {
-            List<List<Constraint>> dnf = new ArrayList<>();
+            //Early return of dnf is only an AND
             List<Constraint> conjunction = new ArrayList<>();
             dnf.add(conjunction);
-
             AndConstraint andConstraint = (AndConstraint) constraint;
-
             Constraint left = andConstraint.getLeft();
             handleBranchInConjunction(left, conjunction);
-
             Constraint right = andConstraint.getRight();
             handleBranchInConjunction(right, conjunction);
-
-            return dnf;
         } else if (constraint instanceof NotConstraint || constraint instanceof LiteralConstraint ||
                 constraint instanceof ExpressionConstraint) {
-            List<List<Constraint>> dnf = new ArrayList<>();
+            //Early return of dnf is only a LITERAL
             List<Constraint> conjunction = new ArrayList<>();
             conjunction.add(constraint);
             dnf.add(conjunction);
-            return dnf;
+        } else {
+            //Convert dnf to list to better work on it
+            dnf = convertDnfToList(constraint);
+
+            //Simplify DNF
+            dnf = simplify(dnf);
         }
 
-        //Convert dnf to list to better work on it
-        List<List<Constraint>> dnf = convertDnfToList(constraint);
-
-        //Simplify DNF
-        return simplify(dnf);
-
-        //Convert DNF back to tree
-        //return createDnfFromList(simplifiedDnf);
+        return dnf;
     }
 
     private static void handleBranchInConjunction(Constraint constraint, List<Constraint> conjunction) {

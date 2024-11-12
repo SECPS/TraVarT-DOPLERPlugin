@@ -1,4 +1,4 @@
-package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.dnf;
+package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf;
 
 import de.vill.model.constraint.AndConstraint;
 import de.vill.model.constraint.Constraint;
@@ -7,17 +7,17 @@ import de.vill.model.constraint.OrConstraint;
 
 import java.util.Optional;
 
-public class MorgenOrRule implements Rule {
+public class MorgenAndRule implements Rule {
 
     @Override
     public Optional<Constraint> replace(Constraint constraint) {
         if (constraint instanceof NotConstraint) {
             NotConstraint notConstraint = (NotConstraint) constraint;
             Constraint content = notConstraint.getContent();
-            if (content instanceof OrConstraint) {
-                OrConstraint orConstraint = (OrConstraint) content;
-                return Optional.of(new AndConstraint(new NotConstraint(orConstraint.getLeft()),
-                        new NotConstraint(orConstraint.getRight())));
+            if (content instanceof AndConstraint) {
+                AndConstraint andConstraint = (AndConstraint) content;
+                return Optional.of(new OrConstraint(new NotConstraint(andConstraint.getLeft()),
+                        new NotConstraint(andConstraint.getRight())));
             }
         }
 
