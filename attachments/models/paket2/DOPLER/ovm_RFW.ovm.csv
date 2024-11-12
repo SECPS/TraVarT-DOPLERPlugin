@@ -1,0 +1,168 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+d_VP1:Type of vehicle;VP1:Type of vehicle?;Boolean;false | true;;;true
+d_VP1:Type of vehicle_0;Choose your VP1:Type of vehicle?;Enumeration;None | V3:Small truck 3,5t | V1:Medium-class car | V2:Upper-class car | V4:Big truck 7,5t;1:1;"if d_VP1:Type of vehicle_0.V2:Upper-class car {
+d_V2:Upper-class car = true;
+}
+if !d_VP1:Type of vehicle_0.V2:Upper-class car {
+d_V2:Upper-class car = false;
+}
+if d_VP1:Type of vehicle_0.V1:Medium-class car {
+d_V1:Medium-class car = true;
+}
+if !d_VP1:Type of vehicle_0.V1:Medium-class car {
+d_V1:Medium-class car = false;
+}
+if d_VP1:Type of vehicle_0.V3:Small truck 3,5t {
+d_V3:Small truck 3,5t = true;
+}
+if !d_VP1:Type of vehicle_0.V3:Small truck 3,5t {
+d_V3:Small truck 3,5t = false;
+}
+if !d_VP1:Type of vehicle_0.V4:Big truck 7,5t {
+d_V4:Big truck 7,5t = false;
+}
+if d_VP1:Type of vehicle_0.V4:Big truck 7,5t {
+d_V4:Big truck 7,5t = true;
+}
+";d_VP1:Type of vehicle
+d_V1:Medium-class car;V1:Medium-class car?;Boolean;false | true;;"if (d_V1:Medium-class car) {
+d_V26:No vehicles = true;
+}
+if (d_V1:Medium-class car) {
+d_V27:No cars = true;
+}
+if (d_V1:Medium-class car) {
+d_V41:No overtaking = true;
+}
+";false
+d_V2:Upper-class car;V2:Upper-class car?;Boolean;false | true;;;false
+d_V3:Small truck 3,5t;V3:Small truck 3,5t?;Boolean;false | true;;;false
+d_V4:Big truck 7,5t;V4:Big truck 7,5t?;Boolean;false | true;;"if (d_V4:Big truck 7,5t) {
+d_VP2:Activation_0 = V6:Durable;
+}
+";false
+d_VP2:Activation;VP2:Activation?;Boolean;false | true;;;true
+d_VP2:Activation_0;Choose your VP2:Activation?;Enumeration;V6:Durable | None | V5:Switchable;1:1;"if !d_VP2:Activation_0.V5:Switchable {
+d_V5:Switchable = false;
+}
+if d_VP2:Activation_0.V5:Switchable {
+d_V5:Switchable = true;
+}
+if !d_VP2:Activation_0.V6:Durable {
+d_V6:Durable = false;
+}
+if d_VP2:Activation_0.V6:Durable {
+d_V6:Durable = true;
+}
+";d_VP2:Activation
+d_V5:Switchable;V5:Switchable?;Boolean;false | true;;;false
+d_V6:Durable;V6:Durable?;Boolean;false | true;;;false
+d_VP3:Comfort functions;VP3:Comfort functions?;Boolean;false | true;;;true
+d_V7:No stopping warning;V7:No stopping warning?;Boolean;false | true;;"if (d_V7:No stopping warning) {
+disAllow(d_VP5:Behaviour at no stopping signs_0.V14:No warning);
+}
+";d_VP3:Comfort functions
+d_V8:Overspeed warning;V8:Overspeed warning?;Boolean;false | true;;"if (d_V8:Overspeed warning) {
+d_V19:City limit = true;
+}
+";d_VP3:Comfort functions
+d_V9:Sound at warning signs;V9:Sound at warning signs?;Boolean;false | true;;"if (d_V9:Sound at warning signs) {
+d_VP4:Behaviour at warning signs_0 = V12:Display and sound indication;
+}
+if (d_V9:Sound at warning signs) {
+disAllow(d_VP4:Behaviour at warning signs_0.V11:Show warning sign);
+}
+if (d_V9:Sound at warning signs) {
+d_V34:Danger = true;
+}
+";d_VP3:Comfort functions
+d_V10:Hazardous situation alarm;V10:Hazardous situation alarm?;Boolean;false | true;;"if (d_V10:Hazardous situation alarm) {
+d_V17:Emergency break = true;
+}
+if (d_V10:Hazardous situation alarm) {
+d_VP11:Indication  of hazardous situation_0 = V16:Display and sound indication;
+}
+";d_VP3:Comfort functions
+d_VP4:Behaviour at warning signs;VP4:Behaviour at warning signs?;Boolean;false | true;;;true
+d_VP4:Behaviour at warning signs_0;Choose your VP4:Behaviour at warning signs?;Enumeration;None | V11:Show warning sign | V12:Display and sound indication;1:1;"if !d_VP4:Behaviour at warning signs_0.V11:Show warning sign {
+d_V11:Show warning sign = false;
+}
+if d_VP4:Behaviour at warning signs_0.V11:Show warning sign {
+d_V11:Show warning sign = true;
+}
+if d_VP4:Behaviour at warning signs_0.V12:Display and sound indication {
+d_V12:Display and sound indication = true;
+}
+if !d_VP4:Behaviour at warning signs_0.V12:Display and sound indication {
+d_V12:Display and sound indication = false;
+}
+";d_VP4:Behaviour at warning signs
+d_V11:Show warning sign;V11:Show warning sign?;Boolean;false | true;;"if (d_V11:Show warning sign) {
+d_V9:Sound at warning signs = false;
+}
+if !d_V9:Sound at warning signs {
+allow(d_VP4:Behaviour at warning signs_0.V11:Show warning sign);
+}
+";false
+d_V12:Display and sound indication;V12:Display and sound indication?;Boolean;false | true;;;false
+d_VP5:Behaviour at no stopping signs;VP5:Behaviour at no stopping signs?;Boolean;false | true;;;true
+d_VP5:Behaviour at no stopping signs_0;Choose your VP5:Behaviour at no stopping signs?;Enumeration;None | V13:Warn for no stopping sign | V14:No warning;1:1;"if d_VP5:Behaviour at no stopping signs_0.V13:Warn for no stopping sign {
+d_V13:Warn for no stopping sign = true;
+}
+if !d_VP5:Behaviour at no stopping signs_0.V13:Warn for no stopping sign {
+d_V13:Warn for no stopping sign = false;
+}
+if d_VP5:Behaviour at no stopping signs_0.V14:No warning {
+d_V14:No warning = true;
+}
+if !d_VP5:Behaviour at no stopping signs_0.V14:No warning {
+d_V14:No warning = false;
+}
+";d_VP5:Behaviour at no stopping signs
+d_V13:Warn for no stopping sign;V13:Warn for no stopping sign?;Boolean;false | true;;;false
+d_V14:No warning;V14:No warning?;Boolean;false | true;;"if !d_V7:No stopping warning {
+allow(d_VP5:Behaviour at no stopping signs_0.V14:No warning);
+}
+if (d_V14:No warning) {
+d_V7:No stopping warning = false;
+}
+";false
+d_VP6:Behaviour in hazardous situations;VP6:Behaviour in hazardous situations?;Boolean;false | true;;;true
+d_VP11:Indication  of hazardous situation;VP11:Indication  of hazardous situation?;Boolean;false | true;;"if (d_VP11:Indication  of hazardous situation) {
+disAllow(d_VP11:Indication  of hazardous situation_0.None);
+}
+if !d_VP11:Indication  of hazardous situation {
+d_VP11:Indication  of hazardous situation_0 = None;
+}
+if !d_VP11:Indication  of hazardous situation {
+allow(d_VP11:Indication  of hazardous situation_0.None);
+}
+";d_VP6:Behaviour in hazardous situations
+d_VP11:Indication  of hazardous situation_0;Choose your VP11:Indication  of hazardous situation?;Enumeration;V15:Show on display | None | V16:Display and sound indication;1:1;"if !d_VP11:Indication  of hazardous situation_0.V16:Display and sound indication {
+d_V16:Display and sound indication = false;
+}
+if d_VP11:Indication  of hazardous situation_0.V16:Display and sound indication {
+d_V16:Display and sound indication = true;
+}
+if d_VP11:Indication  of hazardous situation_0.V15:Show on display {
+d_V15:Show on display = true;
+}
+if !d_VP11:Indication  of hazardous situation_0.V15:Show on display {
+d_V15:Show on display = false;
+}
+";d_VP11:Indication  of hazardous situation
+d_V15:Show on display;V15:Show on display?;Boolean;false | true;;;false
+d_V16:Display and sound indication;V16:Display and sound indication?;Boolean;false | true;;;false
+d_V17:Emergency break;V17:Emergency break?;Boolean;false | true;;;d_VP6:Behaviour in hazardous situations
+d_VP7:Other signs;VP7:Other signs?;Boolean;false | true;;;true
+d_V18:Road w/right of way start;V18:Road w/right of way start?;Boolean;false | true;;;d_VP7:Other signs
+d_V19:City limit;V19:City limit?;Boolean;false | true;;;d_VP7:Other signs
+d_VP8:Prohibition signs;VP8:Prohibition signs?;Boolean;false | true;;;true
+d_V26:No vehicles;V26:No vehicles?;Boolean;false | true;;;d_VP8:Prohibition signs
+d_V27:No cars;V27:No cars?;Boolean;false | true;;;d_VP8:Prohibition signs
+d_VP9:Warning signs;VP9:Warning signs?;Boolean;false | true;;;true
+d_V34:Danger;V34:Danger?;Boolean;false | true;;;d_VP9:Warning signs
+d_V35:Side winds;V35:Side winds?;Boolean;false | true;;;d_VP9:Warning signs
+d_VP10:Signs giving orders;VP10:Signs giving orders?;Boolean;false | true;;;true
+d_V40:Stop and give way;V40:Stop and give way?;Boolean;false | true;;;d_VP10:Signs giving orders
+d_V41:No overtaking;V41:No overtaking?;Boolean;false | true;;;d_VP10:Signs giving orders

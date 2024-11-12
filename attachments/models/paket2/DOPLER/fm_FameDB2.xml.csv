@@ -1,0 +1,119 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+d_DB;DB?;Boolean;false | true;;"if (d_DB) {
+d_BufferMgr = true;
+}
+if (d_DB) {
+d_Storage = true;
+}
+if (d_DB) {
+d_OS = true;
+}
+";true
+d_OS;OS?;Boolean;false | true;;;(false && d_DB)
+d_OS_0;Choose your OS?;Enumeration;NutOS | Win;1:1;"if d_OS_0.NutOS {
+d_NutOS = true;
+}
+if !d_OS_0.NutOS {
+d_NutOS = false;
+}
+if d_OS_0.Win {
+d_Win = true;
+}
+if !d_OS_0.Win {
+d_Win = false;
+}
+";d_OS
+d_NutOS;NutOS?;Boolean;false | true;;;false
+d_Win;Win?;Boolean;false | true;;;false
+d_BufferMgr;BufferMgr?;Boolean;false | true;;;(false && d_DB)
+d_BufferMgr_0;Choose your BufferMgr?;Enumeration;Persistent | InMemory;1:1;"if !d_BufferMgr_0.Persistent {
+d_Persistent = false;
+}
+if d_BufferMgr_0.Persistent {
+d_Persistent = true;
+}
+if d_BufferMgr_0.InMemory {
+d_InMemory = true;
+}
+if !d_BufferMgr_0.InMemory {
+d_InMemory = false;
+}
+";d_BufferMgr
+d_Persistent;Persistent?;Boolean;false | true;;"if (d_Persistent) {
+d_MemAlloc = true;
+}
+if (d_Persistent) {
+d_PageRepl = true;
+}
+";false
+d_MemAlloc;MemAlloc?;Boolean;false | true;;;(false && d_Persistent)
+d_MemAlloc_0;Choose your MemAlloc?;Enumeration;Dynamic | Static;1:1;"if !d_MemAlloc_0.Dynamic {
+d_Dynamic = false;
+}
+if d_MemAlloc_0.Dynamic {
+d_Dynamic = true;
+}
+if !d_MemAlloc_0.Static {
+d_Static = false;
+}
+if d_MemAlloc_0.Static {
+d_Static = true;
+}
+";d_MemAlloc
+d_Static;Static?;Boolean;false | true;;;false
+d_Dynamic;Dynamic?;Boolean;false | true;;;false
+d_PageRepl;PageRepl?;Boolean;false | true;;;(false && d_Persistent)
+d_PageRepl_0;Choose your PageRepl?;Enumeration;LFU | LRU;1:1;"if !d_PageRepl_0.LFU {
+d_LFU = false;
+}
+if d_PageRepl_0.LFU {
+d_LFU = true;
+}
+if d_PageRepl_0.LRU {
+d_LRU = true;
+}
+if !d_PageRepl_0.LRU {
+d_LRU = false;
+}
+";d_PageRepl
+d_LRU;LRU?;Boolean;false | true;;;false
+d_LFU;LFU?;Boolean;false | true;;;false
+d_InMemory;InMemory?;Boolean;false | true;;;false
+d_DebugLogging;DebugLogging?;Boolean;false | true;;;d_DB
+d_Storage;Storage?;Boolean;false | true;;"if (d_Storage) {
+d_Index = true;
+}
+if (d_Storage) {
+d_API = true;
+}
+";(false && d_DB)
+d_API;API?;Boolean;false | true;;;(false && d_Storage)
+d_API_0;Choose your API?;Enumeration;get | delete | put;1:3;"if d_API_0.get {
+d_get = true;
+}
+if d_API_0.delete {
+d_delete = true;
+}
+if d_API_0.put {
+d_put = true;
+}
+";d_API
+d_get;get?;Boolean;false | true;;;false
+d_put;put?;Boolean;false | true;;;false
+d_delete;delete?;Boolean;false | true;;;false
+d_Index;Index?;Boolean;false | true;;;(false && d_Storage)
+d_Index_0;Choose your Index?;Enumeration;BTree | Unindexed;1:1;"if d_Index_0.BTree {
+d_BTree = true;
+}
+if !d_Index_0.BTree {
+d_BTree = false;
+}
+if d_Index_0.Unindexed {
+d_Unindexed = true;
+}
+if !d_Index_0.Unindexed {
+d_Unindexed = false;
+}
+";d_Index
+d_BTree;BTree?;Boolean;false | true;;;false
+d_Unindexed;Unindexed?;Boolean;false | true;;;false

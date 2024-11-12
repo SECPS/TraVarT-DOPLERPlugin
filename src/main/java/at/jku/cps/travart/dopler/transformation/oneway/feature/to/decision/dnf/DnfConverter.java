@@ -19,7 +19,7 @@ public class DnfConverter {
         dnfSimplifier = new DnfSimplifier();
     }
 
-    public Constraint convertToDnf(Constraint constraint) {
+    public List<List<Constraint>> convertToDnf(Constraint constraint) {
 
         constraint = constraint.clone();
 
@@ -27,7 +27,7 @@ public class DnfConverter {
         ParenthesisConstraint parenthesisConstraint = new ParenthesisConstraint(sanitisedConstraint);
 
         for (int i = 0; i < 100; i++) {
-            doSomething(parenthesisConstraint);
+            convertRecursive(parenthesisConstraint);
         }
 
         return dnfSimplifier.simplifyDnf(parenthesisConstraint.getContent());
@@ -45,7 +45,7 @@ public class DnfConverter {
         return constraint;
     }
 
-    private void doSomething(Constraint constraint) {
+    private void convertRecursive(Constraint constraint) {
         if (constraint instanceof AndConstraint) {
             AndConstraint andConstraint = (AndConstraint) constraint;
 
@@ -58,8 +58,8 @@ public class DnfConverter {
             andConstraint.replaceConstraintSubPart(oldLeft, newLeft);
             andConstraint.replaceConstraintSubPart(oldRight, newRight);
 
-            doSomething(newLeft);
-            doSomething(newRight);
+            convertRecursive(newLeft);
+            convertRecursive(newRight);
         } else if (constraint instanceof OrConstraint) {
             OrConstraint orConstraint = (OrConstraint) constraint;
 
@@ -72,20 +72,20 @@ public class DnfConverter {
             orConstraint.replaceConstraintSubPart(oldLeft, newLeft);
             orConstraint.replaceConstraintSubPart(oldRight, newRight);
 
-            doSomething(newLeft);
-            doSomething(newRight);
+            convertRecursive(newLeft);
+            convertRecursive(newRight);
         } else if (constraint instanceof NotConstraint) {
             NotConstraint notConstraint = (NotConstraint) constraint;
             Constraint oldContent = notConstraint.getContent();
             Constraint newContent = checkForRules(oldContent);
             notConstraint.replaceConstraintSubPart(oldContent, newContent);
-            doSomething(newContent);
+            convertRecursive(newContent);
         } else if (constraint instanceof ParenthesisConstraint) {
             ParenthesisConstraint parenthesisConstraint = (ParenthesisConstraint) constraint;
             Constraint oldContent = parenthesisConstraint.getContent();
             Constraint newContent = checkForRules(oldContent);
             parenthesisConstraint.replaceConstraintSubPart(oldContent, newContent);
-            doSomething(newContent);
+            convertRecursive(newContent);
         } else if (constraint instanceof LiteralConstraint) {
             //Do nothing
         } else if (constraint instanceof ExpressionConstraint) {

@@ -18,16 +18,18 @@ class DnfConverterTest {
 
     private final DnfConverter dnfConverter;
     private final UnwantedConstraintsReplacer replacer;
+    private final DnfSimplifier dnfSimplifier;
 
     DnfConverterTest() {
         dnfConverter = new DnfConverter();
         replacer = new UnwantedConstraintsReplacer();
+        dnfSimplifier = new DnfSimplifier();
     }
 
     @Test
     void toDnf1() {
         Constraint given = new NotConstraint(new NotConstraint(A));
-        Constraint real = dnfConverter.convertToDnf(given);
+        Constraint real = dnfSimplifier.createDnfFromList(dnfConverter.convertToDnf(given));
         Constraint expected = A;
         Assertions.assertEquals(expected, real);
     }
@@ -35,7 +37,7 @@ class DnfConverterTest {
     @Test
     void toDnf2() {
         Constraint given = new NotConstraint(new OrConstraint(A, B));
-        Constraint real = dnfConverter.convertToDnf(given);
+        Constraint real = dnfSimplifier.createDnfFromList(dnfConverter.convertToDnf(given));
         Constraint expected = new AndConstraint(new NotConstraint(A), new NotConstraint(B));
         Assertions.assertEquals(expected, real);
     }
@@ -43,7 +45,7 @@ class DnfConverterTest {
     @Test
     void toDnf3() {
         Constraint given = new NotConstraint(new AndConstraint(A, B));
-        Constraint real = dnfConverter.convertToDnf(given);
+        Constraint real = dnfSimplifier.createDnfFromList(dnfConverter.convertToDnf(given));
         Constraint expected = new OrConstraint(new NotConstraint(A), new NotConstraint(B));
         Assertions.assertEquals(expected, real);
     }
@@ -157,7 +159,8 @@ class DnfConverterTest {
 
     private void assertDnfs(String expected, Constraint given) {
 
-        Constraint dnf = dnfConverter.convertToDnf(given);
+        Constraint dnf = dnfSimplifier.createDnfFromList(dnfConverter.convertToDnf(given));
+        ;
         String realString = constraintToString(dnf);
 
         Function<String, String> sanitise =

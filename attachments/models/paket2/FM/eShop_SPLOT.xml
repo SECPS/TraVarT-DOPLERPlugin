@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<featureModel>
+	<struct>
+		<and mandatory="true" name="eshop">
+			<feature mandatory="true" name="catalogo"/>
+			<or mandatory="true" name="pago">
+				<feature name="transferencias"/>
+				<feature name="tarjetacredito"/>
+			</or>
+			<alt mandatory="true" name="seguridad">
+				<feature name="alta"/>
+				<feature name="estandar"/>
+			</alt>
+			<and name="buscador">
+				<feature name="reportepublico"/>
+			</and>
+		</and>
+	</struct>
+	<constraints>
+		<rule>
+			<var>eshop</var>
+		</rule>
+		<rule>
+			<disj>
+				<not>
+					<var>alta</var>
+				</not>
+				<not>
+					<var>reportepublico</var>
+				</not>
+			</disj>
+		</rule>
+		<rule>
+			<disj>
+				<var>catalogo</var>
+				<disj>
+					<not>
+						<var>transferencias</var>
+					</not>
+					<disj>
+						<var>tarjetacredito</var>
+						<disj>
+							<var>pago</var>
+							<disj>
+								<var>alta</var>
+								<disj>
+									<var>estandar</var>
+									<disj>
+										<var>seguridad</var>
+										<disj>
+											<var>reportepublico</var>
+											<disj>
+												<var>buscador</var>
+												<var>eshop</var>
+											</disj>
+										</disj>
+									</disj>
+								</disj>
+							</disj>
+						</disj>
+					</disj>
+				</disj>
+			</disj>
+		</rule>
+		<rule>
+			<disj>
+				<not>
+					<var>tarjetacredito</var>
+				</not>
+				<var>alta</var>
+			</disj>
+		</rule>
+	</constraints>
+</featureModel>

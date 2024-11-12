@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<featureModel>
+	<struct>
+		<and mandatory="true" name="BankingSoftware">
+			<and mandatory="true" name="CoreBanking">
+				<and mandatory="true" name="OpenAccount">
+					<alt mandatory="true" name="AccountType">
+						<feature name="Saving"/>
+						<feature name="Current"/>
+					</alt>
+				</and>
+				<feature name="ActivateAccount"/>
+				<feature name="ReactivateAccount"/>
+				<feature name="CloseAccount"/>
+				<or name="FreezeAccount">
+					<feature name="Manual"/>
+					<feature name="Automatic"/>
+				</or>
+				<or name="AddBeneficiary">
+					<feature name="InterBank"/>
+					<feature name="IntraBank"/>
+				</or>
+				<and mandatory="true" name="ATMLogin">
+					<and mandatory="true" name="UserType">
+						<feature mandatory="true" name="Customer"/>
+					</and>
+				</and>
+				<and mandatory="true" name="BankEmployeeLogin">
+					<and mandatory="true" name="UserType_2">
+						<alt mandatory="true" name="Employee">
+							<feature name="Cleark"/>
+							<feature name="Manager"/>
+							<feature name="AssitManager"/>
+							<feature name="Accountent"/>
+						</alt>
+					</and>
+				</and>
+				<feature name="ChangeATMPin"/>
+				<feature name="ChangeMaxLimitForOnlineTransfer"/>
+				<feature name="ChangePassword"/>
+				<feature name="CheckingBalance"/>
+				<feature name="CheckingMoneyExchangeRate"/>
+				<alt mandatory="true" name="BankingMode">
+					<feature name="ATM"/>
+					<feature name="Bank"/>
+					<feature name="Online"/>
+				</alt>
+				<feature name="CreateDemandDraft"/>
+				<feature name="CreateDemandDraftOnline"/>
+				<feature name="CreditCardPayment"/>
+				<feature name="CurrencyExchange"/>
+				<feature name="DepositMoney"/>
+				<feature name="FastWithdrawal"/>
+				<feature name="InterBankTransfer"/>
+				<feature name="InternationalTransfer"/>
+				<feature name="IntraBankTransfer"/>
+				<feature name="LanguageSelection"/>
+				<feature name="MobileTopUp"/>
+				<feature name="MoneyExchange"/>
+				<feature mandatory="true" name="OnlineCustomerLogin"/>
+				<feature name="PayBills"/>
+				<feature name="PrintingBalanceAfterWithdraw"/>
+				<feature name="PrintingBankStatement"/>
+				<feature name="RemoveBeneficiary"/>
+				<feature name="UpdateContactDetails"/>
+				<feature name="UserInterface"/>
+				<feature name="WithdrawMoney"/>
+				<feature name="ChequeClearance"/>
+				<feature name="RegisterMobileNoForBanking"/>
+				<feature mandatory="true" name="ScanSignatureToAccount"/>
+				<feature name="AddAccountHolder"/>
+				<feature name="DeleteAccountHolder"/>
+				<and name="IssueChequeBook">
+					<or mandatory="true" name="ChequeBookType">
+						<feature name="Regular"/>
+						<feature name="Multicity"/>
+					</or>
+					<alt mandatory="true" name="Size">
+						<feature name="a15"/>
+						<feature name="a30"/>
+						<feature name="a50"/>
+						<feature name="a100"/>
+					</alt>
+				</and>
+				<feature name="CreateStandingInstruction"/>
+				<feature name="DeleteStandingInstruction"/>
+				<feature name="CreateECSTransaction"/>
+				<feature name="DeleteECSTransaction"/>
+				<feature name="CreatePayOrder"/>
+				<feature name="CreditThroughRTGS"/>
+				<feature name="CreditThroughNEFT"/>
+				<and name="ReconcilingCardsTransactions">
+					<alt mandatory="true" name="CardType">
+						<feature name="MasterCard"/>
+						<feature name="VisaCard"/>
+						<feature name="MastroCard"/>
+					</alt>
+				</and>
+				<feature name="ReconcilingATMTransactions"/>
+				<feature mandatory="true" name="ScanSignatureToAccount_1"/>
+				<feature name="MapDebitCardToAccount"/>
+				<feature name="MapChequeBookToAccount"/>
+				<feature name="AutoATMPinForDebitCard"/>
+				<feature name="CloseFixedDeposit"/>
+				<feature name="PreclosureFixedDeposit"/>
+				<feature mandatory="true" name="CreditInterestToAccount"/>
+				<feature name="CancelDemandDraft"/>
+				<feature name="CancelPayOrder"/>
+				<feature mandatory="true" name="LoadCashInATM"/>
+				<feature mandatory="true" name="DebitAnnualChargesOnDebitCard"/>
+			</and>
+			<and name="Loan">
+				<feature mandatory="true" name="ApplyForLoanOnline"/>
+				<feature mandatory="true" name="EMICalculator"/>
+				<feature mandatory="true" name="LoanEligibilityChecker"/>
+				<feature mandatory="true" name="UploadLoanDocuments"/>
+				<feature mandatory="true" name="VerifyLoanDocuments"/>
+				<alt mandatory="true" name="LoanType">
+					<feature name="Personal"/>
+					<feature name="GoldLoan"/>
+					<feature name="HomeLoan"/>
+					<feature name="VehicleLoan"/>
+					<feature name="LoanAgainstFD"/>
+					<feature name="LoanAgainstProperty"/>
+				</alt>
+				<feature mandatory="true" name="SanctionLoan"/>
+				<feature mandatory="true" name="DisburseLoanAmount"/>
+				<and mandatory="true" name="LoanRepayment">
+					<feature name="LoanRepaymentEMI"/>
+					<feature name="LoanRepaymentForecloser"/>
+					<alt mandatory="true" name="RepaymentMode">
+						<feature name="Cheque"/>
+						<feature name="ECS"/>
+						<feature name="Cash"/>
+					</alt>
+				</and>
+				<feature mandatory="true" name="AddCoBorrower"/>
+				<feature mandatory="true" name="VerifyLoanEligibility"/>
+				<feature name="AssetVerification"/>
+				<and mandatory="true" name="InitiateDefaulterProcess">
+					<feature mandatory="true" name="SendNotice"/>
+				</and>
+				<feature mandatory="true" name="InsureLoanWithThirdParty"/>
+			</and>
+			<and name="CreditCards">
+				<or mandatory="true" name="CardType_2">
+					<feature name="PlatinumCard"/>
+					<feature name="TitaniumCard"/>
+					<feature name="DinersClubCard"/>
+					<feature name="JetPrivilegeCard"/>
+					<feature name="InfiniaCard"/>
+					<feature name="RegaliaCard"/>
+					<feature name="SuperiaCard"/>
+					<feature name="TitaniumEdgeCard"/>
+					<feature name="SolitaireCard"/>
+				</or>
+				<or mandatory="true" name="PaymentMode">
+					<feature name="Visa"/>
+					<feature name="Mastro"/>
+					<feature name="Master"/>
+					<feature name="AmericanExpress"/>
+				</or>
+				<feature mandatory="true" name="ApplyForCrediCardOnline"/>
+				<feature mandatory="true" name="CheckCreditCardStatus"/>
+				<feature mandatory="true" name="EligibilityChecker"/>
+				<feature mandatory="true" name="UploadDocuments"/>
+				<feature mandatory="true" name="VerifyDocuments"/>
+				<feature name="CreditRewardPoints"/>
+				<feature name="RedemRewardPoints"/>
+				<feature name="ConvertTransactionToEMI"/>
+				<and name="PayCreditCardBill">
+					<or mandatory="true" name="PaymentChannel">
+						<feature name="Cheque_1"/>
+						<feature name="Cash_1"/>
+						<alt name="Online_1">
+							<feature name="NetBanking"/>
+							<feature name="DebitCard"/>
+						</alt>
+						<feature name="ATM_1"/>
+					</or>
+				</and>
+				<feature name="PayUtilityBills"/>
+				<feature mandatory="true" name="ViewAccountSummary"/>
+				<feature name="AddPayee"/>
+				<feature name="CreateStandingInstructionOnCreditCard"/>
+				<feature name="ViewUnbilledTransaction"/>
+				<feature name="eStatement"/>
+				<feature name="SendSMSAlerts"/>
+				<feature name="SendEmailAlerts"/>
+				<feature name="GenerateOTP"/>
+				<feature name="RegisterForEstatement"/>
+				<feature name="ApplyLateFees"/>
+				<feature mandatory="true" name="ApplyInterestOnOutstandingAmount"/>
+				<feature name="ApplyBalanceTransfer"/>
+				<feature name="ApplyProcessingFees"/>
+				<feature name="CreditBTAmountToOtherCard"/>
+				<feature name="CashWithdrawalFromCreditCard"/>
+				<feature name="ApplyChargesForCashWithdrawal"/>
+				<feature name="ReverseTransaction"/>
+				<feature mandatory="true" name="ApplyAnnualCharges"/>
+				<feature name="CancelStandingInstructionOnCreditCard"/>
+				<feature name="RequestDuplicateEstatement"/>
+				<feature mandatory="true" name="MarkDefaulter"/>
+				<feature mandatory="true" name="UnmarkDefaulter"/>
+				<feature mandatory="true" name="InitiateSettlementProcess"/>
+			</and>
+		</and>
+	</struct>
+	<constraints>
+		<rule>
+			<disj>
+				<not>
+					<var>LoanAgainstProperty</var>
+				</not>
+				<var>AssetVerification</var>
+			</disj>
+		</rule>
+		<rule>
+			<disj>
+				<not>
+					<var>HomeLoan</var>
+				</not>
+				<var>AssetVerification</var>
+			</disj>
+		</rule>
+		<rule>
+			<disj>
+				<not>
+					<var>LoanAgainstFD</var>
+				</not>
+				<var>AssetVerification</var>
+			</disj>
+		</rule>
+		<rule>
+			<disj>
+				<not>
+					<var>GoldLoan</var>
+				</not>
+				<var>AssetVerification</var>
+			</disj>
+		</rule>
+	</constraints>
+</featureModel>

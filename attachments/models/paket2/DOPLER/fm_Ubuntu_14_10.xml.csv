@@ -1,0 +1,1645 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+d_Accessibility;Accessibility?;Boolean;false | true;;;true
+d_Appearance;Appearance?;Boolean;false | true;;"if (d_Appearance) {
+d_Look = true;
+}
+if (d_Appearance) {
+d_Behaviour = true;
+}
+";d_Accessibility
+d_Look;Look?;Boolean;false | true;;"if (d_Look) {
+d_Background = true;
+}
+if (d_Look) {
+d_LauncherIconSize = true;
+}
+if (d_Look) {
+d_Theme = true;
+}
+";(false && d_Appearance)
+d_Background;Background?;Boolean;false | true;;;(false && d_Look)
+d_Background_0;Choose your Background?;Enumeration;DelicatePetals2560x1600 | PrecisePagolin2560x1600 | MorningDew2560x1600 | EarlyBlossom2560x1600 | Ubuntu2560x1600 | TwillightFrost2560x1600;1:1;"if !d_Background_0.DelicatePetals2560x1600 {
+d_DelicatePetals2560x1600 = false;
+}
+if d_Background_0.DelicatePetals2560x1600 {
+d_DelicatePetals2560x1600 = true;
+}
+if d_Background_0.Ubuntu2560x1600 {
+d_Ubuntu2560x1600 = true;
+}
+if d_Background_0.TwillightFrost2560x1600 {
+d_TwillightFrost2560x1600 = true;
+}
+if !d_Background_0.PrecisePagolin2560x1600 {
+d_PrecisePagolin2560x1600 = false;
+}
+if d_Background_0.PrecisePagolin2560x1600 {
+d_PrecisePagolin2560x1600 = true;
+}
+if !d_Background_0.TwillightFrost2560x1600 {
+d_TwillightFrost2560x1600 = false;
+}
+if d_Background_0.EarlyBlossom2560x1600 {
+d_EarlyBlossom2560x1600 = true;
+}
+if !d_Background_0.Ubuntu2560x1600 {
+d_Ubuntu2560x1600 = false;
+}
+if d_Background_0.MorningDew2560x1600 {
+d_MorningDew2560x1600 = true;
+}
+if !d_Background_0.EarlyBlossom2560x1600 {
+d_EarlyBlossom2560x1600 = false;
+}
+if !d_Background_0.MorningDew2560x1600 {
+d_MorningDew2560x1600 = false;
+}
+";d_Background
+d_TwillightFrost2560x1600;TwillightFrost2560x1600?;Boolean;false | true;;;false
+d_EarlyBlossom2560x1600;EarlyBlossom2560x1600?;Boolean;false | true;;;false
+d_Ubuntu2560x1600;Ubuntu2560x1600?;Boolean;false | true;;;false
+d_MorningDew2560x1600;MorningDew2560x1600?;Boolean;false | true;;;false
+d_PrecisePagolin2560x1600;PrecisePagolin2560x1600?;Boolean;false | true;;;false
+d_DelicatePetals2560x1600;DelicatePetals2560x1600?;Boolean;false | true;;;false
+d_Theme;Theme?;Boolean;false | true;;;(false && d_Look)
+d_Theme_0;Choose your Theme?;Enumeration;HighContrast1 | AmbianceDefault | Radiance | Adwaita;1:1;"if !d_Theme_0.HighContrast1 {
+d_HighContrast1 = false;
+}
+if d_Theme_0.HighContrast1 {
+d_HighContrast1 = true;
+}
+if d_Theme_0.Adwaita {
+d_Adwaita = true;
+}
+if !d_Theme_0.AmbianceDefault {
+d_AmbianceDefault = false;
+}
+if !d_Theme_0.Radiance {
+d_Radiance = false;
+}
+if !d_Theme_0.Adwaita {
+d_Adwaita = false;
+}
+if d_Theme_0.AmbianceDefault {
+d_AmbianceDefault = true;
+}
+if d_Theme_0.Radiance {
+d_Radiance = true;
+}
+";d_Theme
+d_Adwaita;Adwaita?;Boolean;false | true;;;false
+d_AmbianceDefault;AmbianceDefault?;Boolean;false | true;;;false
+d_Radiance;Radiance?;Boolean;false | true;;;false
+d_HighContrast1;HighContrast1?;Boolean;false | true;;;false
+d_LauncherIconSize;LauncherIconSize?;Boolean;false | true;;;(false && d_Look)
+d_LauncherIconSize_0;Choose your LauncherIconSize?;Enumeration;_48 | _32 | _64;1:1;"if !d_LauncherIconSize_0._32 {
+d__32 = false;
+}
+if d_LauncherIconSize_0._64 {
+d__64 = true;
+}
+if !d_LauncherIconSize_0._64 {
+d__64 = false;
+}
+if d_LauncherIconSize_0._32 {
+d__32 = true;
+}
+if d_LauncherIconSize_0._48 {
+d__48 = true;
+}
+if !d_LauncherIconSize_0._48 {
+d__48 = false;
+}
+";d_LauncherIconSize
+d__48;_48?;Boolean;false | true;;;false
+d__32;_32?;Boolean;false | true;;;false
+d__64;_64?;Boolean;false | true;;;false
+d_Behaviour;Behaviour?;Boolean;false | true;;"if (d_Behaviour) {
+d_ShowTheMenusForAWindow = true;
+}
+if (d_Behaviour) {
+d_RevealLocation = true;
+}
+if (d_Behaviour) {
+d_RevealSensitivity = true;
+}
+";(false && d_Appearance)
+d_AutoHideTheLauncher;AutoHideTheLauncher?;Boolean;false | true;;;d_Behaviour
+d_RevealLocation;RevealLocation?;Boolean;false | true;;;(false && d_Behaviour)
+d_RevealLocation_0;Choose your RevealLocation?;Enumeration;TopLeftCorner | Left1;1:1;"if !d_RevealLocation_0.TopLeftCorner {
+d_TopLeftCorner = false;
+}
+if d_RevealLocation_0.TopLeftCorner {
+d_TopLeftCorner = true;
+}
+if !d_RevealLocation_0.Left1 {
+d_Left1 = false;
+}
+if d_RevealLocation_0.Left1 {
+d_Left1 = true;
+}
+";d_RevealLocation
+d_Left1;Left1?;Boolean;false | true;;"if (d_Left1) {
+d_Left = true;
+}
+if (!d_Left1 && !d_Left2) {
+d_Left = false;
+}
+";false
+d_TopLeftCorner;TopLeftCorner?;Boolean;false | true;;;false
+d_RevealSensitivity;RevealSensitivity?;Boolean;false | true;;;(false && d_Behaviour)
+d_RevealSensitivity_0;Choose your RevealSensitivity?;Enumeration;Low | High;1:1;"if !d_RevealSensitivity_0.Low {
+d_Low = false;
+}
+if d_RevealSensitivity_0.Low {
+d_Low = true;
+}
+if !d_RevealSensitivity_0.High {
+d_High = false;
+}
+if d_RevealSensitivity_0.High {
+d_High = true;
+}
+";d_RevealSensitivity
+d_Low;Low?;Boolean;false | true;;;false
+d_High;High?;Boolean;false | true;;;false
+d_EnableWorkspaces;EnableWorkspaces?;Boolean;false | true;;;d_Behaviour
+d_AddShowDesktopIconToTheLauncher;AddShowDesktopIconToTheLauncher?;Boolean;false | true;;;d_Behaviour
+d_ShowTheMenusForAWindow;ShowTheMenusForAWindow?;Boolean;false | true;;;(false && d_Behaviour)
+d_ShowTheMenusForAWindow_0;Choose your ShowTheMenusForAWindow?;Enumeration;InTheMenuBar | InTheWindowsTitleBar;1:1;"if !d_ShowTheMenusForAWindow_0.InTheWindowsTitleBar {
+d_InTheWindowsTitleBar = false;
+}
+if d_ShowTheMenusForAWindow_0.InTheWindowsTitleBar {
+d_InTheWindowsTitleBar = true;
+}
+if !d_ShowTheMenusForAWindow_0.InTheMenuBar {
+d_InTheMenuBar = false;
+}
+if d_ShowTheMenusForAWindow_0.InTheMenuBar {
+d_InTheMenuBar = true;
+}
+";d_ShowTheMenusForAWindow
+d_InTheMenuBar;InTheMenuBar?;Boolean;false | true;;;false
+d_InTheWindowsTitleBar;InTheWindowsTitleBar?;Boolean;false | true;;;false
+d_BrightnessAndLock;BrightnessAndLock?;Boolean;false | true;;"if (d_BrightnessAndLock) {
+d_Brightness = true;
+}
+";d_Accessibility
+d_Brightness;Brightness?;Boolean;false | true;;"if (d_Brightness) {
+d_TurnScreenOffWhenInactiveFor = true;
+}
+";(false && d_BrightnessAndLock)
+d_DimSceenToSaveLeft;DimSceenToSaveLeft?;Boolean;false | true;;;d_Brightness
+d_TurnScreenOffWhenInactiveFor;TurnScreenOffWhenInactiveFor?;Boolean;false | true;;;(false && d_Brightness)
+d_TurnScreenOffWhenInactiveFor_0;Choose your TurnScreenOffWhenInactiveFor?;Enumeration;Never | _1Hour | _10Minutes | _1Minute | _3Minutes | _2Minutes | _30Minutes;1:1;"if !d_TurnScreenOffWhenInactiveFor_0._10Minutes {
+d__10Minutes = false;
+}
+if d_TurnScreenOffWhenInactiveFor_0._10Minutes {
+d__10Minutes = true;
+}
+if !d_TurnScreenOffWhenInactiveFor_0._1Hour {
+d__1Hour = false;
+}
+if !d_TurnScreenOffWhenInactiveFor_0.Never {
+d_Never = false;
+}
+if d_TurnScreenOffWhenInactiveFor_0._1Hour {
+d__1Hour = true;
+}
+if d_TurnScreenOffWhenInactiveFor_0.Never {
+d_Never = true;
+}
+if d_TurnScreenOffWhenInactiveFor_0._30Minutes {
+d__30Minutes = true;
+}
+if !d_TurnScreenOffWhenInactiveFor_0._30Minutes {
+d__30Minutes = false;
+}
+if d_TurnScreenOffWhenInactiveFor_0._1Minute {
+d__1Minute = true;
+}
+if !d_TurnScreenOffWhenInactiveFor_0._2Minutes {
+d__2Minutes = false;
+}
+if !d_TurnScreenOffWhenInactiveFor_0._1Minute {
+d__1Minute = false;
+}
+if d_TurnScreenOffWhenInactiveFor_0._2Minutes {
+d__2Minutes = true;
+}
+if d_TurnScreenOffWhenInactiveFor_0._3Minutes {
+d__3Minutes = true;
+}
+if !d_TurnScreenOffWhenInactiveFor_0._3Minutes {
+d__3Minutes = false;
+}
+";d_TurnScreenOffWhenInactiveFor
+d__2Minutes;_2Minutes?;Boolean;false | true;;;false
+d__1Hour;_1Hour?;Boolean;false | true;;;false
+d__10Minutes;_10Minutes?;Boolean;false | true;;;false
+d__30Minutes;_30Minutes?;Boolean;false | true;;;false
+d__1Minute;_1Minute?;Boolean;false | true;;;false
+d_Never;Never?;Boolean;false | true;;;false
+d__3Minutes;_3Minutes?;Boolean;false | true;;;false
+d_Lock1;Lock1?;Boolean;false | true;;"if (d_Lock1) {
+d_LockScreenAfter = true;
+}
+";d_BrightnessAndLock
+d_LockScreenAfter;LockScreenAfter?;Boolean;false | true;;;(false && d_Lock1)
+d_LockScreenAfter_0;Choose your LockScreenAfter?;Enumeration;_1Hour_ | _2Minutes_ | _30Minutes_ | _30Seconds | _5Minutes_ | ScreenTurnsOff | _1Minute_ | _10Minutes_;1:1;"if !d_LockScreenAfter_0._10Minutes_ {
+d__10Minutes_ = false;
+}
+if d_LockScreenAfter_0._10Minutes_ {
+d__10Minutes_ = true;
+}
+if d_LockScreenAfter_0._30Minutes_ {
+d__30Minutes_ = true;
+}
+if !d_LockScreenAfter_0._2Minutes_ {
+d__2Minutes_ = false;
+}
+if !d_LockScreenAfter_0._30Minutes_ {
+d__30Minutes_ = false;
+}
+if d_LockScreenAfter_0._2Minutes_ {
+d__2Minutes_ = true;
+}
+if !d_LockScreenAfter_0._30Seconds {
+d__30Seconds = false;
+}
+if d_LockScreenAfter_0._30Seconds {
+d__30Seconds = true;
+}
+if !d_LockScreenAfter_0._1Minute_ {
+d__1Minute_ = false;
+}
+if !d_LockScreenAfter_0._5Minutes_ {
+d__5Minutes_ = false;
+}
+if d_LockScreenAfter_0._5Minutes_ {
+d__5Minutes_ = true;
+}
+if !d_LockScreenAfter_0._1Hour_ {
+d__1Hour_ = false;
+}
+if d_LockScreenAfter_0._1Hour_ {
+d__1Hour_ = true;
+}
+if d_LockScreenAfter_0.ScreenTurnsOff {
+d_ScreenTurnsOff = true;
+}
+if !d_LockScreenAfter_0.ScreenTurnsOff {
+d_ScreenTurnsOff = false;
+}
+if d_LockScreenAfter_0._1Minute_ {
+d__1Minute_ = true;
+}
+";d_LockScreenAfter
+d__30Minutes_;_30Minutes_?;Boolean;false | true;;;false
+d__2Minutes_;_2Minutes_?;Boolean;false | true;;;false
+d__1Hour_;_1Hour_?;Boolean;false | true;;;false
+d__10Minutes_;_10Minutes_?;Boolean;false | true;;;false
+d_ScreenTurnsOff;ScreenTurnsOff?;Boolean;false | true;;;false
+d__1Minute_;_1Minute_?;Boolean;false | true;;;false
+d__30Seconds;_30Seconds?;Boolean;false | true;;;false
+d__5Minutes_;_5Minutes_?;Boolean;false | true;;;false
+d_RequireMyPasswordWhenWakingFromSuspend;RequireMyPasswordWhenWakingFromSuspend?;Boolean;false | true;;;d_BrightnessAndLock
+d_Displays;Displays?;Boolean;false | true;;"if (d_Displays) {
+d_Resolution = true;
+}
+if (d_Displays) {
+d_LauncherPlacement = true;
+}
+if (d_Displays) {
+d_ScaleAllWindowContentToMatch = true;
+}
+if (d_Displays) {
+d_ScaleForMenuAndTitleBars = true;
+}
+if (d_Displays) {
+d_Rotation = true;
+}
+";d_Accessibility
+d_Resolution;Resolution?;Boolean;false | true;;;(false && d_Displays)
+d_Resolution_0;Choose your Resolution?;Enumeration;_180Degres | Clockwise | Counterclockwise | Normal;1:1;"if !d_Resolution_0.Clockwise {
+d_Clockwise = false;
+}
+if d_Resolution_0.Counterclockwise {
+d_Counterclockwise = true;
+}
+if d_Resolution_0.Clockwise {
+d_Clockwise = true;
+}
+if !d_Resolution_0.Counterclockwise {
+d_Counterclockwise = false;
+}
+if !d_Resolution_0.Normal {
+d_Normal = false;
+}
+if d_Resolution_0.Normal {
+d_Normal = true;
+}
+if d_Resolution_0._180Degres {
+d__180Degres = true;
+}
+if !d_Resolution_0._180Degres {
+d__180Degres = false;
+}
+";d_Resolution
+d_Normal;Normal?;Boolean;false | true;;;false
+d_Clockwise;Clockwise?;Boolean;false | true;;;false
+d_Counterclockwise;Counterclockwise?;Boolean;false | true;;;false
+d__180Degres;_180Degres?;Boolean;false | true;;;false
+d_Rotation;Rotation?;Boolean;false | true;;;(false && d_Displays)
+d_LauncherPlacement;LauncherPlacement?;Boolean;false | true;;;(false && d_Displays)
+d_LauncherPlacement_0;Choose your LauncherPlacement?;Enumeration;BuiltInDisplay1 | AllDisplays;1:1;"if !d_LauncherPlacement_0.AllDisplays {
+d_AllDisplays = false;
+}
+if d_LauncherPlacement_0.AllDisplays {
+d_AllDisplays = true;
+}
+if !d_LauncherPlacement_0.BuiltInDisplay1 {
+d_BuiltInDisplay1 = false;
+}
+if d_LauncherPlacement_0.BuiltInDisplay1 {
+d_BuiltInDisplay1 = true;
+}
+";d_LauncherPlacement
+d_AllDisplays;AllDisplays?;Boolean;false | true;;;false
+d_BuiltInDisplay1;BuiltInDisplay1?;Boolean;false | true;;"if (!d_BuiltInDisplay2 && !d_BuiltInDisplay1) {
+d_BuiltInDisplay = false;
+}
+if (d_BuiltInDisplay1) {
+d_BuiltInDisplay = true;
+}
+";false
+d_StickyEdges;StickyEdges?;Boolean;false | true;;;d_Displays
+d_ScaleForMenuAndTitleBars;ScaleForMenuAndTitleBars?;Boolean;false | true;;;(false && d_Displays)
+d_ScaleAllWindowContentToMatch;ScaleAllWindowContentToMatch?;Boolean;false | true;;;(false && d_Displays)
+d_ScaleAllWindowContentToMatch_0;Choose your ScaleAllWindowContentToMatch?;Enumeration;BuiltInDisplay2 | DisplayWithLargestControls | DisplayWithSmallestControls;1:1;"if !d_ScaleAllWindowContentToMatch_0.DisplayWithSmallestControls {
+d_DisplayWithSmallestControls = false;
+}
+if !d_ScaleAllWindowContentToMatch_0.DisplayWithLargestControls {
+d_DisplayWithLargestControls = false;
+}
+if d_ScaleAllWindowContentToMatch_0.DisplayWithSmallestControls {
+d_DisplayWithSmallestControls = true;
+}
+if d_ScaleAllWindowContentToMatch_0.DisplayWithLargestControls {
+d_DisplayWithLargestControls = true;
+}
+if d_ScaleAllWindowContentToMatch_0.BuiltInDisplay2 {
+d_BuiltInDisplay2 = true;
+}
+if !d_ScaleAllWindowContentToMatch_0.BuiltInDisplay2 {
+d_BuiltInDisplay2 = false;
+}
+";d_ScaleAllWindowContentToMatch
+d_DisplayWithSmallestControls;DisplayWithSmallestControls?;Boolean;false | true;;;false
+d_DisplayWithLargestControls;DisplayWithLargestControls?;Boolean;false | true;;;false
+d_BuiltInDisplay2;BuiltInDisplay2?;Boolean;false | true;;"if (!d_BuiltInDisplay2 && !d_BuiltInDisplay1) {
+d_BuiltInDisplay = false;
+}
+if (d_BuiltInDisplay2) {
+d_BuiltInDisplay = true;
+}
+";false
+d_TextEntry;TextEntry?;Boolean;false | true;;"if (d_TextEntry) {
+d_TextEntry_4 = true;
+}
+if (d_TextEntry) {
+d_ShowInputCandidates = true;
+}
+if (d_TextEntry) {
+d_SwitchToPreviousSourceUsing = true;
+}
+if (d_TextEntry) {
+d_SwitchToNextSourceUsing = true;
+}
+";d_Accessibility
+d_SwitchToNextSourceUsing;SwitchToNextSourceUsing?;Boolean;false | true;;;(false && d_TextEntry)
+d_SwitchToNextSourceUsing_0;Choose your SwitchToNextSourceUsing?;Enumeration;Super_Space1 | New_Accelerator2;1:1;"if d_SwitchToNextSourceUsing_0.Super_Space1 {
+d_Super_Space1 = true;
+}
+if !d_SwitchToNextSourceUsing_0.Super_Space1 {
+d_Super_Space1 = false;
+}
+if d_SwitchToNextSourceUsing_0.New_Accelerator2 {
+d_New_Accelerator2 = true;
+}
+if !d_SwitchToNextSourceUsing_0.New_Accelerator2 {
+d_New_Accelerator2 = false;
+}
+";d_SwitchToNextSourceUsing
+d_Super_Space1;Super_Space1?;Boolean;false | true;;"if (!d_Super_Space2 && !d_Super_Space1) {
+d_Super_Space = false;
+}
+if (d_Super_Space1) {
+d_Super_Space = true;
+}
+";false
+d_New_Accelerator2;New_Accelerator2?;Boolean;false | true;;"if (d_New_Accelerator2) {
+d_New_Accelerator = true;
+}
+if (!d_New_Accelerator1 && !d_New_Accelerator2) {
+d_New_Accelerator = false;
+}
+";false
+d_SwitchToPreviousSourceUsing;SwitchToPreviousSourceUsing?;Boolean;false | true;;;(false && d_TextEntry)
+d_SwitchToPreviousSourceUsing_0;Choose your SwitchToPreviousSourceUsing?;Enumeration;New_Accelerator1 | Shift_Super_Space1;1:1;"if !d_SwitchToPreviousSourceUsing_0.New_Accelerator1 {
+d_New_Accelerator1 = false;
+}
+if !d_SwitchToPreviousSourceUsing_0.Shift_Super_Space1 {
+d_Shift_Super_Space1 = false;
+}
+if d_SwitchToPreviousSourceUsing_0.Shift_Super_Space1 {
+d_Shift_Super_Space1 = true;
+}
+if d_SwitchToPreviousSourceUsing_0.New_Accelerator1 {
+d_New_Accelerator1 = true;
+}
+";d_SwitchToPreviousSourceUsing
+d_New_Accelerator1;New_Accelerator1?;Boolean;false | true;;"if (d_New_Accelerator1) {
+d_New_Accelerator = true;
+}
+if (!d_New_Accelerator1 && !d_New_Accelerator2) {
+d_New_Accelerator = false;
+}
+";false
+d_Shift_Super_Space1;Shift_Super_Space1?;Boolean;false | true;;"if (d_Shift_Super_Space1) {
+d_Shift_Super_Space = true;
+}
+if (!d_Shift_Super_Space2 && !d_Shift_Super_Space1) {
+d_Shift_Super_Space = false;
+}
+";false
+d_AllowDifferentLayoutsForIndividualWindows1;AllowDifferentLayoutsForIndividualWindows1?;Boolean;false | true;;"if (d_AllowDifferentLayoutsForIndividualWindows1) {
+disAllow(d_AllowDifferentLayoutsForIndividualWindows1_0.None);
+}
+if !d_AllowDifferentLayoutsForIndividualWindows1 {
+d_AllowDifferentLayoutsForIndividualWindows1_0 = None;
+}
+if !d_AllowDifferentLayoutsForIndividualWindows1 {
+allow(d_AllowDifferentLayoutsForIndividualWindows1_0.None);
+}
+if (!d_AllowDifferentLayoutsForIndividualWindows1 && !d_AllowDifferentLayoutsForIndividualWindows2) {
+d_AllowDifferentLayoutsForIndividualWindows = false;
+}
+";d_TextEntry
+d_AllowDifferentLayoutsForIndividualWindows1_0;Choose your AllowDifferentLayoutsForIndividualWindows1?;Enumeration;None | NewWindowsUseTheCurrentSource | NewWindowsUseTheDefaultSource;1:1;"if d_AllowDifferentLayoutsForIndividualWindows1_0.NewWindowsUseTheCurrentSource {
+d_NewWindowsUseTheCurrentSource = true;
+}
+if !d_AllowDifferentLayoutsForIndividualWindows1_0.NewWindowsUseTheCurrentSource {
+d_NewWindowsUseTheCurrentSource = false;
+}
+if !d_AllowDifferentLayoutsForIndividualWindows1_0.None {
+d_AllowDifferentLayoutsForIndividualWindows = true;
+}
+if d_AllowDifferentLayoutsForIndividualWindows1_0.NewWindowsUseTheDefaultSource {
+d_NewWindowsUseTheDefaultSource = true;
+}
+if !d_AllowDifferentLayoutsForIndividualWindows1_0.NewWindowsUseTheDefaultSource {
+d_NewWindowsUseTheDefaultSource = false;
+}
+";d_AllowDifferentLayoutsForIndividualWindows1
+d_NewWindowsUseTheCurrentSource;NewWindowsUseTheCurrentSource?;Boolean;false | true;;;false
+d_NewWindowsUseTheDefaultSource;NewWindowsUseTheDefaultSource?;Boolean;false | true;;;false
+d_TextEntry_4;TextEntry_4?;Boolean;false | true;;;(false && d_TextEntry)
+d_TextEntry_4_0;Choose your TextEntry_4?;Enumeration;UseTheSameSourceForAllWindows | AllowDifferentSourcesForEachWindow;1:1;"if d_TextEntry_4_0.AllowDifferentSourcesForEachWindow {
+d_AllowDifferentSourcesForEachWindow = true;
+}
+if !d_TextEntry_4_0.AllowDifferentSourcesForEachWindow {
+d_AllowDifferentSourcesForEachWindow = false;
+}
+if d_TextEntry_4_0.UseTheSameSourceForAllWindows {
+d_UseTheSameSourceForAllWindows = true;
+}
+if !d_TextEntry_4_0.UseTheSameSourceForAllWindows {
+d_UseTheSameSourceForAllWindows = false;
+}
+";d_TextEntry_4
+d_AllowDifferentSourcesForEachWindow;AllowDifferentSourcesForEachWindow?;Boolean;false | true;;;false
+d_UseTheSameSourceForAllWindows;UseTheSameSourceForAllWindows?;Boolean;false | true;;;false
+d_ShowInputCandidates;ShowInputCandidates?;Boolean;false | true;;;(false && d_TextEntry)
+d_ShowInputCandidates_0;Choose your ShowInputCandidates?;Enumeration;Vertically | Horizontally;1:1;"if !d_ShowInputCandidates_0.Vertically {
+d_Vertically = false;
+}
+if !d_ShowInputCandidates_0.Horizontally {
+d_Horizontally = false;
+}
+if d_ShowInputCandidates_0.Vertically {
+d_Vertically = true;
+}
+if d_ShowInputCandidates_0.Horizontally {
+d_Horizontally = true;
+}
+";d_ShowInputCandidates
+d_Vertically;Vertically?;Boolean;false | true;;;false
+d_Horizontally;Horizontally?;Boolean;false | true;;;false
+d_UsingCustomFont;UsingCustomFont?;Boolean;false | true;;;d_TextEntry
+d_KeyboardSetting;KeyboardSetting?;Boolean;false | true;;"if (d_KeyboardSetting) {
+d_Typing1 = true;
+}
+";d_TextEntry
+d_Typing1;Typing1?;Boolean;false | true;;"if (d_Typing1) {
+d_Typing = true;
+}
+if (d_Typing1) {
+d_Typing1_1 = true;
+}
+if (!d_Typing2 && (!d_Typing1 && !d_Typing3)) {
+d_Typing = false;
+}
+";(false && d_KeyboardSetting)
+d_Typing1_1;Typing1_1?;Boolean;false | true;;;(false && d_Typing1)
+d_Typing1_1_0;Choose your Typing1_1?;Enumeration;RepeatKeys | CursorBlinking;1:1;"if !d_Typing1_1_0.RepeatKeys {
+d_RepeatKeys = false;
+}
+if d_Typing1_1_0.CursorBlinking {
+d_CursorBlinking = true;
+}
+if d_Typing1_1_0.RepeatKeys {
+d_RepeatKeys = true;
+}
+if !d_Typing1_1_0.CursorBlinking {
+d_CursorBlinking = false;
+}
+";d_Typing1_1
+d_CursorBlinking;CursorBlinking?;Boolean;false | true;;;false
+d_CursorBlinksInTextFields;CursorBlinksInTextFields?;Boolean;false | true;;;d_CursorBlinking
+d_Speed2;Speed2?;Boolean;false | true;;"if (!d_Speed1 && !d_Speed2) {
+d_Speed = false;
+}
+if !d_Speed2 {
+d_Speed2_0 = None;
+}
+if !d_Speed2 {
+allow(d_Speed2_0.None);
+}
+if (d_Speed2) {
+disAllow(d_Speed2_0.None);
+}
+";d_CursorBlinking
+d_Speed2_0;Choose your Speed2?;Enumeration;None | Slow2 | Fast2;1:1;"if d_Speed2_0.Fast2 {
+d_Fast2 = true;
+}
+if !d_Speed2_0.Fast2 {
+d_Fast2 = false;
+}
+if !d_Speed2_0.Slow2 {
+d_Slow2 = false;
+}
+if !d_Speed2_0.None {
+d_Speed = true;
+}
+if d_Speed2_0.Slow2 {
+d_Slow2 = true;
+}
+";d_Speed2
+d_Fast2;Fast2?;Boolean;false | true;;"if (!d_Fast1 && (!d_Fast3 && !d_Fast2)) {
+d_Fast = false;
+}
+if (d_Fast2) {
+d_Fast = true;
+}
+";false
+d_Slow2;Slow2?;Boolean;false | true;;"if (!d_Slow1 && (!d_Slow3 && !d_Slow2)) {
+d_Slow = false;
+}
+if (d_Slow2) {
+d_Slow = true;
+}
+";false
+d_RepeatKeys;RepeatKeys?;Boolean;false | true;;"if (d_RepeatKeys) {
+d_Delay2 = true;
+}
+if (d_RepeatKeys) {
+d_Speed1 = true;
+}
+";false
+d_KeyPressesRepeatWhenKeyIsHeldDown;KeyPressesRepeatWhenKeyIsHeldDown?;Boolean;false | true;;;d_RepeatKeys
+d_Delay2;Delay2?;Boolean;false | true;;"if (!d_Delay2 && !d_Delay1) {
+d_Delay = false;
+}
+";(false && d_RepeatKeys)
+d_Delay2_0;Choose your Delay2?;Enumeration;Long1 | Short4;1:1;"if !d_Delay2_0.Short4 {
+d_Short4 = false;
+}
+if !d_Delay2_0.Long1 {
+d_Long1 = false;
+}
+if d_Delay2_0.Short4 {
+d_Short4 = true;
+}
+if d_Delay2_0.Long1 {
+d_Long1 = true;
+}
+";d_Delay2
+d_Short4;Short4?;Boolean;false | true;;"if (!d_Short5 && (!d_Short3 && (!d_Short4 && (!d_Short2 && !d_Short1)))) {
+d_Short = false;
+}
+if (d_Short4) {
+d_Short = true;
+}
+";false
+d_Long1;Long1?;Boolean;false | true;;"if (d_Long1) {
+d_Long = true;
+}
+if (!d_Long1 && (!d_Long2 && (!d_Long3 && (!d_Long5 && !d_Long4)))) {
+d_Long = false;
+}
+";false
+d_Speed1;Speed1?;Boolean;false | true;;"if (!d_Speed1 && !d_Speed2) {
+d_Speed = false;
+}
+";(false && d_RepeatKeys)
+d_Speed1_0;Choose your Speed1?;Enumeration;Slow1 | Fast1;1:1;"if d_Speed1_0.Slow1 {
+d_Slow1 = true;
+}
+if !d_Speed1_0.Slow1 {
+d_Slow1 = false;
+}
+if d_Speed1_0.Fast1 {
+d_Fast1 = true;
+}
+if !d_Speed1_0.Fast1 {
+d_Fast1 = false;
+}
+";d_Speed1
+d_Fast1;Fast1?;Boolean;false | true;;"if (d_Fast1) {
+d_Fast = true;
+}
+if (!d_Fast1 && (!d_Fast3 && !d_Fast2)) {
+d_Fast = false;
+}
+";false
+d_Slow1;Slow1?;Boolean;false | true;;"if (!d_Slow1 && (!d_Slow3 && !d_Slow2)) {
+d_Slow = false;
+}
+if (d_Slow1) {
+d_Slow = true;
+}
+";false
+d_LayoutSettings;LayoutSettings?;Boolean;false | true;;"if !d_LayoutSettings {
+d_LayoutSettings_0 = None;
+}
+if !d_LayoutSettings {
+allow(d_LayoutSettings_0.None);
+}
+if (d_LayoutSettings) {
+disAllow(d_LayoutSettings_0.None);
+}
+";d_Typing1
+d_LayoutSettings_0;Choose your LayoutSettings?;Enumeration;None | UseTheSameLayoutForAllWindows | AllowDifferentLayoutsForIndividualWindows2;1:1;"if !d_LayoutSettings_0.UseTheSameLayoutForAllWindows {
+d_UseTheSameLayoutForAllWindows = false;
+}
+if d_LayoutSettings_0.UseTheSameLayoutForAllWindows {
+d_UseTheSameLayoutForAllWindows = true;
+}
+if !d_LayoutSettings_0.AllowDifferentLayoutsForIndividualWindows2 {
+d_AllowDifferentLayoutsForIndividualWindows2 = false;
+}
+if d_LayoutSettings_0.AllowDifferentLayoutsForIndividualWindows2 {
+d_AllowDifferentLayoutsForIndividualWindows2 = true;
+}
+if !d_LayoutSettings_0.None {
+d_AllowDifferentLayoutsForIndividualWindows = true;
+}
+";d_LayoutSettings
+d_AllowDifferentLayoutsForIndividualWindows2;AllowDifferentLayoutsForIndividualWindows2?;Boolean;false | true;;"if (!d_AllowDifferentLayoutsForIndividualWindows1 && !d_AllowDifferentLayoutsForIndividualWindows2) {
+d_AllowDifferentLayoutsForIndividualWindows = false;
+}
+if !d_AllowDifferentLayoutsForIndividualWindows2 {
+d_AllowDifferentLayoutsForIndividualWindows2_0 = None;
+}
+if !d_AllowDifferentLayoutsForIndividualWindows2 {
+allow(d_AllowDifferentLayoutsForIndividualWindows2_0.None);
+}
+if (d_AllowDifferentLayoutsForIndividualWindows2) {
+disAllow(d_AllowDifferentLayoutsForIndividualWindows2_0.None);
+}
+";false
+d_AllowDifferentLayoutsForIndividualWindows2_0;Choose your AllowDifferentLayoutsForIndividualWindows2?;Enumeration;NewWindowsUseTheDefaultLayout | NewWindowsUseThePreviousWindowsLayout | None;1:1;"if !d_AllowDifferentLayoutsForIndividualWindows2_0.NewWindowsUseThePreviousWindowsLayout {
+d_NewWindowsUseThePreviousWindowsLayout = false;
+}
+if d_AllowDifferentLayoutsForIndividualWindows2_0.NewWindowsUseThePreviousWindowsLayout {
+d_NewWindowsUseThePreviousWindowsLayout = true;
+}
+if d_AllowDifferentLayoutsForIndividualWindows2_0.NewWindowsUseTheDefaultLayout {
+d_NewWindowsUseTheDefaultLayout = true;
+}
+if !d_AllowDifferentLayoutsForIndividualWindows2_0.NewWindowsUseTheDefaultLayout {
+d_NewWindowsUseTheDefaultLayout = false;
+}
+";d_AllowDifferentLayoutsForIndividualWindows2
+d_NewWindowsUseTheDefaultLayout;NewWindowsUseTheDefaultLayout?;Boolean;false | true;;;false
+d_NewWindowsUseThePreviousWindowsLayout;NewWindowsUseThePreviousWindowsLayout?;Boolean;false | true;;;false
+d_UseTheSameLayoutForAllWindows;UseTheSameLayoutForAllWindows?;Boolean;false | true;;;false
+d_Shortcuts;Shortcuts?;Boolean;false | true;;;d_KeyboardSetting
+d_Launchers;Launchers?;Boolean;false | true;;"if (d_Launchers) {
+disAllow(d_Launchers_0.None);
+}
+if !d_Launchers {
+d_Launchers_0 = None;
+}
+if !d_Launchers {
+allow(d_Launchers_0.None);
+}
+";d_Shortcuts
+d_Launchers_0;Choose your Launchers?;Enumeration;LauncherTerminal | KeyToShowTheHUD | None;1:1;"if d_Launchers_0.KeyToShowTheHUD {
+d_KeyToShowTheHUD = true;
+}
+if !d_Launchers_0.KeyToShowTheHUD {
+d_KeyToShowTheHUD = false;
+}
+if d_Launchers_0.LauncherTerminal {
+d_LauncherTerminal = true;
+}
+if !d_Launchers_0.LauncherTerminal {
+d_LauncherTerminal = false;
+}
+";d_Launchers
+d_KeyToShowTheHUD;KeyToShowTheHUD?;Boolean;false | true;;"if (d_KeyToShowTheHUD) {
+d_Alt_T = true;
+}
+";false
+d_Alt_T;Alt_T?;Boolean;false | true;;;(false && d_KeyToShowTheHUD)
+d_LauncherTerminal;LauncherTerminal?;Boolean;false | true;;"if (d_LauncherTerminal) {
+d_Ctrl_Alt_T = true;
+}
+";false
+d_Ctrl_Alt_T;Ctrl_Alt_T?;Boolean;false | true;;;(false && d_LauncherTerminal)
+d_Navigation;Navigation?;Boolean;false | true;;"if (d_Navigation) {
+d_MoveWindowToWorkspace = true;
+}
+";d_Shortcuts
+d_MoveWindowToWorkspace;MoveWindowToWorkspace?;Boolean;false | true;;"if (d_MoveWindowToWorkspace) {
+d_Disabled1 = true;
+}
+";(false && d_Navigation)
+d_Disabled1;Disabled1?;Boolean;false | true;;"if (!d_Disabled10 && (!d_Disabled4 && (!d_Disabled3 && (!d_Disabled2 && (!d_Disabled1 && (!d_Disabled8 && (!d_Disabled7 && (!d_Disabled6 && (!d_Disabled9 && !d_Disabled5))))))))) {
+d_Disabled = false;
+}
+if (d_Disabled1) {
+d_Disabled = true;
+}
+";(false && d_MoveWindowToWorkspace)
+d_Screenshots;Screenshots?;Boolean;false | true;;"if !d_Screenshots {
+d_Screenshots_0 = None;
+}
+if !d_Screenshots {
+allow(d_Screenshots_0.None);
+}
+if (d_Screenshots) {
+disAllow(d_Screenshots_0.None);
+}
+";d_Shortcuts
+d_Screenshots_0;Choose your Screenshots?;Enumeration;None | CopyAScreenshotToClipboard | TakeAScreenshotOfAWindow | CopyAScreenshotOfAwindowToClipboard | TakeAScreenshot | TakeAScreenshotOfAnArea | CopyAScreenhotOfAnAreaToClipboard;1:1;"if d_Screenshots_0.CopyAScreenhotOfAnAreaToClipboard {
+d_CopyAScreenhotOfAnAreaToClipboard = true;
+}
+if d_Screenshots_0.TakeAScreenshotOfAnArea {
+d_TakeAScreenshotOfAnArea = true;
+}
+if !d_Screenshots_0.CopyAScreenshotToClipboard {
+d_CopyAScreenshotToClipboard = false;
+}
+if d_Screenshots_0.CopyAScreenshotToClipboard {
+d_CopyAScreenshotToClipboard = true;
+}
+if !d_Screenshots_0.CopyAScreenshotOfAwindowToClipboard {
+d_CopyAScreenshotOfAwindowToClipboard = false;
+}
+if d_Screenshots_0.CopyAScreenshotOfAwindowToClipboard {
+d_CopyAScreenshotOfAwindowToClipboard = true;
+}
+if !d_Screenshots_0.CopyAScreenhotOfAnAreaToClipboard {
+d_CopyAScreenhotOfAnAreaToClipboard = false;
+}
+if !d_Screenshots_0.TakeAScreenshotOfAnArea {
+d_TakeAScreenshotOfAnArea = false;
+}
+if !d_Screenshots_0.TakeAScreenshotOfAWindow {
+d_TakeAScreenshotOfAWindow = false;
+}
+if d_Screenshots_0.TakeAScreenshotOfAWindow {
+d_TakeAScreenshotOfAWindow = true;
+}
+if d_Screenshots_0.TakeAScreenshot {
+d_TakeAScreenshot = true;
+}
+if !d_Screenshots_0.TakeAScreenshot {
+d_TakeAScreenshot = false;
+}
+";d_Screenshots
+d_CopyAScreenhotOfAnAreaToClipboard;CopyAScreenhotOfAnAreaToClipboard?;Boolean;false | true;;"if (d_CopyAScreenhotOfAnAreaToClipboard) {
+d_Shift_Ctrl_Print = true;
+}
+";false
+d_Shift_Ctrl_Print;Shift_Ctrl_Print?;Boolean;false | true;;;(false && d_CopyAScreenhotOfAnAreaToClipboard)
+d_TakeAScreenshotOfAWindow;TakeAScreenshotOfAWindow?;Boolean;false | true;;"if (d_TakeAScreenshotOfAWindow) {
+d_Alt_Print = true;
+}
+";false
+d_Alt_Print;Alt_Print?;Boolean;false | true;;;(false && d_TakeAScreenshotOfAWindow)
+d_CopyAScreenshotOfAwindowToClipboard;CopyAScreenshotOfAwindowToClipboard?;Boolean;false | true;;"if (d_CopyAScreenshotOfAwindowToClipboard) {
+d_Ctrl_Alt_Print = true;
+}
+";false
+d_Ctrl_Alt_Print;Ctrl_Alt_Print?;Boolean;false | true;;;(false && d_CopyAScreenshotOfAwindowToClipboard)
+d_TakeAScreenshot;TakeAScreenshot?;Boolean;false | true;;"if (d_TakeAScreenshot) {
+d_Print = true;
+}
+";false
+d_Print;Print?;Boolean;false | true;;;(false && d_TakeAScreenshot)
+d_CopyAScreenshotToClipboard;CopyAScreenshotToClipboard?;Boolean;false | true;;"if (d_CopyAScreenshotToClipboard) {
+d_Ctrl_Print = true;
+}
+";false
+d_Ctrl_Print;Ctrl_Print?;Boolean;false | true;;;(false && d_CopyAScreenshotToClipboard)
+d_TakeAScreenshotOfAnArea;TakeAScreenshotOfAnArea?;Boolean;false | true;;"if (d_TakeAScreenshotOfAnArea) {
+d_Shift_Print = true;
+}
+";false
+d_Shift_Print;Shift_Print?;Boolean;false | true;;;(false && d_TakeAScreenshotOfAnArea)
+d_SoundAndMedia;SoundAndMedia?;Boolean;false | true;;;d_Shortcuts
+d_System;System?;Boolean;false | true;;"if (d_System) {
+disAllow(d_System_0.None);
+}
+if !d_System {
+d_System_0 = None;
+}
+if !d_System {
+allow(d_System_0.None);
+}
+";d_Shortcuts
+d_System_0;Choose your System?;Enumeration;None | LockScreen | LogOut;1:1;"if d_System_0.LockScreen {
+d_LockScreen = true;
+}
+if !d_System_0.LockScreen {
+d_LockScreen = false;
+}
+if !d_System_0.LogOut {
+d_LogOut = false;
+}
+if d_System_0.LogOut {
+d_LogOut = true;
+}
+";d_System
+d_LockScreen;LockScreen?;Boolean;false | true;;"if (d_LockScreen) {
+d_Ctrl_Alt_L = true;
+}
+";false
+d_Ctrl_Alt_L;Ctrl_Alt_L?;Boolean;false | true;;;(false && d_LockScreen)
+d_LogOut;LogOut?;Boolean;false | true;;"if (d_LogOut) {
+d_Ctr_Alt_Delete = true;
+}
+";false
+d_Ctr_Alt_Delete;Ctr_Alt_Delete?;Boolean;false | true;;;(false && d_LogOut)
+d_Typing2;Typing2?;Boolean;false | true;;"if !d_Typing2 {
+d_Typing2_0 = None;
+}
+if !d_Typing2 {
+allow(d_Typing2_0.None);
+}
+if (d_Typing2) {
+disAllow(d_Typing2_0.None);
+}
+if (!d_Typing2 && (!d_Typing1 && !d_Typing3)) {
+d_Typing = false;
+}
+";d_Shortcuts
+d_Typing2_0;Choose your Typing2?;Enumeration;ComposeKey | None | SwitchToPreviousSource | SwitchToNextSource | AlternativeCharactersKey;1:1;"if !d_Typing2_0.AlternativeCharactersKey {
+d_AlternativeCharactersKey = false;
+}
+if !d_Typing2_0.SwitchToPreviousSource {
+d_SwitchToPreviousSource = false;
+}
+if d_Typing2_0.SwitchToPreviousSource {
+d_SwitchToPreviousSource = true;
+}
+if d_Typing2_0.ComposeKey {
+d_ComposeKey = true;
+}
+if !d_Typing2_0.ComposeKey {
+d_ComposeKey = false;
+}
+if d_Typing2_0.AlternativeCharactersKey {
+d_AlternativeCharactersKey = true;
+}
+if d_Typing2_0.SwitchToNextSource {
+d_SwitchToNextSource = true;
+}
+if !d_Typing2_0.None {
+d_Typing = true;
+}
+if !d_Typing2_0.SwitchToNextSource {
+d_SwitchToNextSource = false;
+}
+";d_Typing2
+d_SwitchToNextSource;SwitchToNextSource?;Boolean;false | true;;"if (d_SwitchToNextSource) {
+d_Super_Space2 = true;
+}
+";false
+d_Super_Space2;Super_Space2?;Boolean;false | true;;"if (!d_Super_Space2 && !d_Super_Space1) {
+d_Super_Space = false;
+}
+if (d_Super_Space2) {
+d_Super_Space = true;
+}
+";(false && d_SwitchToNextSource)
+d_ComposeKey;ComposeKey?;Boolean;false | true;;"if (d_ComposeKey) {
+d_Disabled2 = true;
+}
+";false
+d_Disabled2;Disabled2?;Boolean;false | true;;"if (!d_Disabled10 && (!d_Disabled4 && (!d_Disabled3 && (!d_Disabled2 && (!d_Disabled1 && (!d_Disabled8 && (!d_Disabled7 && (!d_Disabled6 && (!d_Disabled9 && !d_Disabled5))))))))) {
+d_Disabled = false;
+}
+if (d_Disabled2) {
+d_Disabled = true;
+}
+";(false && d_ComposeKey)
+d_AlternativeCharactersKey;AlternativeCharactersKey?;Boolean;false | true;;"if (d_AlternativeCharactersKey) {
+d_Disabled3 = true;
+}
+";false
+d_Disabled3;Disabled3?;Boolean;false | true;;"if (!d_Disabled10 && (!d_Disabled4 && (!d_Disabled3 && (!d_Disabled2 && (!d_Disabled1 && (!d_Disabled8 && (!d_Disabled7 && (!d_Disabled6 && (!d_Disabled9 && !d_Disabled5))))))))) {
+d_Disabled = false;
+}
+if (d_Disabled3) {
+d_Disabled = true;
+}
+";(false && d_AlternativeCharactersKey)
+d_SwitchToPreviousSource;SwitchToPreviousSource?;Boolean;false | true;;"if (d_SwitchToPreviousSource) {
+d_Shift_Super_Space2 = true;
+}
+";false
+d_Shift_Super_Space2;Shift_Super_Space2?;Boolean;false | true;;"if (d_Shift_Super_Space2) {
+d_Shift_Super_Space = true;
+}
+if (!d_Shift_Super_Space2 && !d_Shift_Super_Space1) {
+d_Shift_Super_Space = false;
+}
+";(false && d_SwitchToPreviousSource)
+d_UniversalAccess2;UniversalAccess2?;Boolean;false | true;;"if (d_UniversalAccess2) {
+disAllow(d_UniversalAccess2_0.None);
+}
+if !d_UniversalAccess2 {
+d_UniversalAccess2_0 = None;
+}
+if !d_UniversalAccess2 {
+allow(d_UniversalAccess2_0.None);
+}
+if (!d_UniversalAccess2 && !d_UniversalAccess1) {
+d_UniversalAccess = false;
+}
+";d_Shortcuts
+d_UniversalAccess2_0;Choose your UniversalAccess2?;Enumeration;TurnOnScreenKeyboardOnOrOff | None | ZoomIn | ZoomOut | HighContrastOnOrOff | TurnZoomOnOrOff | DecreaseTextSize | TurnScreenReaderOnOrOff | IncreaseTextSize;1:1;"if d_UniversalAccess2_0.TurnOnScreenKeyboardOnOrOff {
+d_TurnOnScreenKeyboardOnOrOff = true;
+}
+if !d_UniversalAccess2_0.IncreaseTextSize {
+d_IncreaseTextSize = false;
+}
+if d_UniversalAccess2_0.HighContrastOnOrOff {
+d_HighContrastOnOrOff = true;
+}
+if !d_UniversalAccess2_0.TurnScreenReaderOnOrOff {
+d_TurnScreenReaderOnOrOff = false;
+}
+if d_UniversalAccess2_0.TurnScreenReaderOnOrOff {
+d_TurnScreenReaderOnOrOff = true;
+}
+if !d_UniversalAccess2_0.HighContrastOnOrOff {
+d_HighContrastOnOrOff = false;
+}
+if d_UniversalAccess2_0.TurnZoomOnOrOff {
+d_TurnZoomOnOrOff = true;
+}
+if !d_UniversalAccess2_0.TurnZoomOnOrOff {
+d_TurnZoomOnOrOff = false;
+}
+if d_UniversalAccess2_0.IncreaseTextSize {
+d_IncreaseTextSize = true;
+}
+if !d_UniversalAccess2_0.TurnOnScreenKeyboardOnOrOff {
+d_TurnOnScreenKeyboardOnOrOff = false;
+}
+if d_UniversalAccess2_0.ZoomOut {
+d_ZoomOut = true;
+}
+if !d_UniversalAccess2_0.ZoomOut {
+d_ZoomOut = false;
+}
+if !d_UniversalAccess2_0.None {
+d_UniversalAccess = true;
+}
+if d_UniversalAccess2_0.DecreaseTextSize {
+d_DecreaseTextSize = true;
+}
+if !d_UniversalAccess2_0.DecreaseTextSize {
+d_DecreaseTextSize = false;
+}
+if !d_UniversalAccess2_0.ZoomIn {
+d_ZoomIn = false;
+}
+if d_UniversalAccess2_0.ZoomIn {
+d_ZoomIn = true;
+}
+";d_UniversalAccess2
+d_TurnOnScreenKeyboardOnOrOff;TurnOnScreenKeyboardOnOrOff?;Boolean;false | true;;"if (d_TurnOnScreenKeyboardOnOrOff) {
+d_Disabled4 = true;
+}
+";false
+d_Disabled4;Disabled4?;Boolean;false | true;;"if (!d_Disabled10 && (!d_Disabled4 && (!d_Disabled3 && (!d_Disabled2 && (!d_Disabled1 && (!d_Disabled8 && (!d_Disabled7 && (!d_Disabled6 && (!d_Disabled9 && !d_Disabled5))))))))) {
+d_Disabled = false;
+}
+if (d_Disabled4) {
+d_Disabled = true;
+}
+";(false && d_TurnOnScreenKeyboardOnOrOff)
+d_DecreaseTextSize;DecreaseTextSize?;Boolean;false | true;;"if (d_DecreaseTextSize) {
+d_Disabled6 = true;
+}
+";false
+d_Disabled6;Disabled6?;Boolean;false | true;;"if (d_Disabled6) {
+d_Disabled = true;
+}
+if (!d_Disabled10 && (!d_Disabled4 && (!d_Disabled3 && (!d_Disabled2 && (!d_Disabled1 && (!d_Disabled8 && (!d_Disabled7 && (!d_Disabled6 && (!d_Disabled9 && !d_Disabled5))))))))) {
+d_Disabled = false;
+}
+";(false && d_DecreaseTextSize)
+d_IncreaseTextSize;IncreaseTextSize?;Boolean;false | true;;"if (d_IncreaseTextSize) {
+d_Disabled5 = true;
+}
+";false
+d_Disabled5;Disabled5?;Boolean;false | true;;"if (d_Disabled5) {
+d_Disabled = true;
+}
+if (!d_Disabled10 && (!d_Disabled4 && (!d_Disabled3 && (!d_Disabled2 && (!d_Disabled1 && (!d_Disabled8 && (!d_Disabled7 && (!d_Disabled6 && (!d_Disabled9 && !d_Disabled5))))))))) {
+d_Disabled = false;
+}
+";(false && d_IncreaseTextSize)
+d_ZoomIn;ZoomIn?;Boolean;false | true;;"if (d_ZoomIn) {
+d_Alt_Super_plusEqual = true;
+}
+";false
+d_Alt_Super_plusEqual;Alt_Super_plusEqual?;Boolean;false | true;;;(false && d_ZoomIn)
+d_TurnZoomOnOrOff;TurnZoomOnOrOff?;Boolean;false | true;;"if (d_TurnZoomOnOrOff) {
+d_Alt_Super_plus1 = true;
+}
+";false
+d_Alt_Super_plus1;Alt_Super_plus1?;Boolean;false | true;;"if (!d_Alt_Super_plus2 && !d_Alt_Super_plus1) {
+d_Alt_Super_plus = false;
+}
+if (d_Alt_Super_plus1) {
+d_Alt_Super_plus = true;
+}
+";(false && d_TurnZoomOnOrOff)
+d_TurnScreenReaderOnOrOff;TurnScreenReaderOnOrOff?;Boolean;false | true;;"if (d_TurnScreenReaderOnOrOff) {
+d_Alt_Super_plus2 = true;
+}
+";false
+d_Alt_Super_plus2;Alt_Super_plus2?;Boolean;false | true;;"if (!d_Alt_Super_plus2 && !d_Alt_Super_plus1) {
+d_Alt_Super_plus = false;
+}
+if (d_Alt_Super_plus2) {
+d_Alt_Super_plus = true;
+}
+";(false && d_TurnScreenReaderOnOrOff)
+d_ZoomOut;ZoomOut?;Boolean;false | true;;"if (d_ZoomOut) {
+d_Alt_Super_plusMinus = true;
+}
+";false
+d_Alt_Super_plusMinus;Alt_Super_plusMinus?;Boolean;false | true;;;(false && d_ZoomOut)
+d_HighContrastOnOrOff;HighContrastOnOrOff?;Boolean;false | true;;"if (d_HighContrastOnOrOff) {
+d_Disabled7 = true;
+}
+";false
+d_Disabled7;Disabled7?;Boolean;false | true;;"if (d_Disabled7) {
+d_Disabled = true;
+}
+if (!d_Disabled10 && (!d_Disabled4 && (!d_Disabled3 && (!d_Disabled2 && (!d_Disabled1 && (!d_Disabled8 && (!d_Disabled7 && (!d_Disabled6 && (!d_Disabled9 && !d_Disabled5))))))))) {
+d_Disabled = false;
+}
+";(false && d_HighContrastOnOrOff)
+d_Windows;Windows?;Boolean;false | true;;"if (d_Windows) {
+disAllow(d_Windows_0.None);
+}
+if !d_Windows {
+d_Windows_0 = None;
+}
+if !d_Windows {
+allow(d_Windows_0.None);
+}
+";d_Shortcuts
+d_Windows_0;Choose your Windows?;Enumeration;RaiseWindowAboveOtherWindows | ToggleFullscreenMode | ResizeWindow | ActivateTheWindowMenu | CloseWindow | MinimizeWindow | LowerWindowBelowOtherWindows | None | MaximiseWindow | MoveWindow | ToggleMaximisationState | RestoreWindow | ToggleShadedState;1:1;"if d_Windows_0.ResizeWindow {
+d_ResizeWindow = true;
+}
+if d_Windows_0.MoveWindow {
+d_MoveWindow = true;
+}
+if d_Windows_0.ActivateTheWindowMenu {
+d_ActivateTheWindowMenu = true;
+}
+if d_Windows_0.MaximiseWindow {
+d_MaximiseWindow = true;
+}
+if !d_Windows_0.MoveWindow {
+d_MoveWindow = false;
+}
+if !d_Windows_0.ActivateTheWindowMenu {
+d_ActivateTheWindowMenu = false;
+}
+if !d_Windows_0.ResizeWindow {
+d_ResizeWindow = false;
+}
+if !d_Windows_0.MaximiseWindow {
+d_MaximiseWindow = false;
+}
+if !d_Windows_0.RestoreWindow {
+d_RestoreWindow = false;
+}
+if !d_Windows_0.LowerWindowBelowOtherWindows {
+d_LowerWindowBelowOtherWindows = false;
+}
+if d_Windows_0.RestoreWindow {
+d_RestoreWindow = true;
+}
+if d_Windows_0.MinimizeWindow {
+d_MinimizeWindow = true;
+}
+if d_Windows_0.CloseWindow {
+d_CloseWindow = true;
+}
+if !d_Windows_0.MinimizeWindow {
+d_MinimizeWindow = false;
+}
+if !d_Windows_0.ToggleFullscreenMode {
+d_ToggleFullscreenMode = false;
+}
+if d_Windows_0.LowerWindowBelowOtherWindows {
+d_LowerWindowBelowOtherWindows = true;
+}
+if d_Windows_0.ToggleFullscreenMode {
+d_ToggleFullscreenMode = true;
+}
+if !d_Windows_0.CloseWindow {
+d_CloseWindow = false;
+}
+if d_Windows_0.ToggleMaximisationState {
+d_ToggleMaximisationState = true;
+}
+if !d_Windows_0.ToggleMaximisationState {
+d_ToggleMaximisationState = false;
+}
+if !d_Windows_0.ToggleShadedState {
+d_ToggleShadedState = false;
+}
+if d_Windows_0.ToggleShadedState {
+d_ToggleShadedState = true;
+}
+if d_Windows_0.RaiseWindowAboveOtherWindows {
+d_RaiseWindowAboveOtherWindows = true;
+}
+if !d_Windows_0.RaiseWindowAboveOtherWindows {
+d_RaiseWindowAboveOtherWindows = false;
+}
+";d_Windows
+d_ToggleMaximisationState;ToggleMaximisationState?;Boolean;false | true;;"if (d_ToggleMaximisationState) {
+d_Ctrl_Alt_S1 = true;
+}
+";false
+d_Ctrl_Alt_S1;Ctrl_Alt_S1?;Boolean;false | true;;"if (!d_Ctrl_Alt_S2 && !d_Ctrl_Alt_S1) {
+d_Ctrl_Alt_S = false;
+}
+if (d_Ctrl_Alt_S1) {
+d_Ctrl_Alt_S = true;
+}
+";(false && d_ToggleMaximisationState)
+d_ToggleShadedState;ToggleShadedState?;Boolean;false | true;;"if (d_ToggleShadedState) {
+d_Ctrl_Alt_S2 = true;
+}
+";false
+d_Ctrl_Alt_S2;Ctrl_Alt_S2?;Boolean;false | true;;"if (!d_Ctrl_Alt_S2 && !d_Ctrl_Alt_S1) {
+d_Ctrl_Alt_S = false;
+}
+if (d_Ctrl_Alt_S2) {
+d_Ctrl_Alt_S = true;
+}
+";(false && d_ToggleShadedState)
+d_MaximiseWindow;MaximiseWindow?;Boolean;false | true;;"if (d_MaximiseWindow) {
+d_Ctrl_Super_Up = true;
+}
+";false
+d_Ctrl_Super_Up;Ctrl_Super_Up?;Boolean;false | true;;;(false && d_MaximiseWindow)
+d_MoveWindow;MoveWindow?;Boolean;false | true;;"if (d_MoveWindow) {
+d_Alt_F7 = true;
+}
+";false
+d_Alt_F7;Alt_F7?;Boolean;false | true;;;(false && d_MoveWindow)
+d_MinimizeWindow;MinimizeWindow?;Boolean;false | true;;"if (d_MinimizeWindow) {
+d_Ctrl_Alt_0 = true;
+}
+";false
+d_Ctrl_Alt_0;Ctrl_Alt_0?;Boolean;false | true;;;(false && d_MinimizeWindow)
+d_ActivateTheWindowMenu;ActivateTheWindowMenu?;Boolean;false | true;;"if (d_ActivateTheWindowMenu) {
+d_Alt_Space = true;
+}
+";false
+d_Alt_Space;Alt_Space?;Boolean;false | true;;;(false && d_ActivateTheWindowMenu)
+d_ResizeWindow;ResizeWindow?;Boolean;false | true;;"if (d_ResizeWindow) {
+d_Alt_F8 = true;
+}
+";false
+d_Alt_F8;Alt_F8?;Boolean;false | true;;;(false && d_ResizeWindow)
+d_RaiseWindowAboveOtherWindows;RaiseWindowAboveOtherWindows?;Boolean;false | true;;"if (d_RaiseWindowAboveOtherWindows) {
+d_Disabled9 = true;
+}
+";false
+d_Disabled9;Disabled9?;Boolean;false | true;;"if (!d_Disabled10 && (!d_Disabled4 && (!d_Disabled3 && (!d_Disabled2 && (!d_Disabled1 && (!d_Disabled8 && (!d_Disabled7 && (!d_Disabled6 && (!d_Disabled9 && !d_Disabled5))))))))) {
+d_Disabled = false;
+}
+if (d_Disabled9) {
+d_Disabled = true;
+}
+";(false && d_RaiseWindowAboveOtherWindows)
+d_ToggleFullscreenMode;ToggleFullscreenMode?;Boolean;false | true;;"if (d_ToggleFullscreenMode) {
+d_Disabled8 = true;
+}
+";false
+d_Disabled8;Disabled8?;Boolean;false | true;;"if (d_Disabled8) {
+d_Disabled = true;
+}
+if (!d_Disabled10 && (!d_Disabled4 && (!d_Disabled3 && (!d_Disabled2 && (!d_Disabled1 && (!d_Disabled8 && (!d_Disabled7 && (!d_Disabled6 && (!d_Disabled9 && !d_Disabled5))))))))) {
+d_Disabled = false;
+}
+";(false && d_ToggleFullscreenMode)
+d_RestoreWindow;RestoreWindow?;Boolean;false | true;;"if (d_RestoreWindow) {
+d_Ctrl_Super_Down = true;
+}
+";false
+d_Ctrl_Super_Down;Ctrl_Super_Down?;Boolean;false | true;;;(false && d_RestoreWindow)
+d_CloseWindow;CloseWindow?;Boolean;false | true;;"if (d_CloseWindow) {
+d_Alt_F4 = true;
+}
+";false
+d_Alt_F4;Alt_F4?;Boolean;false | true;;;(false && d_CloseWindow)
+d_LowerWindowBelowOtherWindows;LowerWindowBelowOtherWindows?;Boolean;false | true;;"if (d_LowerWindowBelowOtherWindows) {
+d_Disabled10 = true;
+}
+";false
+d_Disabled10;Disabled10?;Boolean;false | true;;"if (!d_Disabled10 && (!d_Disabled4 && (!d_Disabled3 && (!d_Disabled2 && (!d_Disabled1 && (!d_Disabled8 && (!d_Disabled7 && (!d_Disabled6 && (!d_Disabled9 && !d_Disabled5))))))))) {
+d_Disabled = false;
+}
+if (d_Disabled10) {
+d_Disabled = true;
+}
+";(false && d_LowerWindowBelowOtherWindows)
+d_CustomShortcuts;CustomShortcuts?;Boolean;false | true;;;d_Shortcuts
+d_UniversalAccess1;UniversalAccess1?;Boolean;false | true;;"if (d_UniversalAccess1) {
+d_UniversalAccess = true;
+}
+if (!d_UniversalAccess2 && !d_UniversalAccess1) {
+d_UniversalAccess = false;
+}
+";d_Accessibility
+d_Seeing;Seeing?;Boolean;false | true;;;d_UniversalAccess1
+d_HighContrast2;HighContrast2?;Boolean;false | true;;;d_Seeing
+d_LargeText;LargeText?;Boolean;false | true;;;d_Seeing
+d_ScreenReader;ScreenReader?;Boolean;false | true;;;d_Seeing
+d_BeepOnCapsAndNumLock;BeepOnCapsAndNumLock?;Boolean;false | true;;;d_Seeing
+d_Hearing;Hearing?;Boolean;false | true;;;d_UniversalAccess1
+d_VisualAlerts;VisualAlerts?;Boolean;false | true;;"if !d_VisualAlerts {
+d_VisualAlerts_0 = None;
+}
+if !d_VisualAlerts {
+allow(d_VisualAlerts_0.None);
+}
+if (d_VisualAlerts) {
+disAllow(d_VisualAlerts_0.None);
+}
+";d_Hearing
+d_VisualAlerts_0;Choose your VisualAlerts?;Enumeration;None | FlashTheEntireScreen | FlashTheWindowTitle;1:1;"if !d_VisualAlerts_0.FlashTheEntireScreen {
+d_FlashTheEntireScreen = false;
+}
+if !d_VisualAlerts_0.FlashTheWindowTitle {
+d_FlashTheWindowTitle = false;
+}
+if d_VisualAlerts_0.FlashTheWindowTitle {
+d_FlashTheWindowTitle = true;
+}
+if d_VisualAlerts_0.FlashTheEntireScreen {
+d_FlashTheEntireScreen = true;
+}
+";d_VisualAlerts
+d_FlashTheWindowTitle;FlashTheWindowTitle?;Boolean;false | true;;;false
+d_FlashTheEntireScreen;FlashTheEntireScreen?;Boolean;false | true;;;false
+d_Typing3;Typing3?;Boolean;false | true;;"if (d_Typing3) {
+d_Typing = true;
+}
+if (!d_Typing2 && (!d_Typing1 && !d_Typing3)) {
+d_Typing = false;
+}
+";d_UniversalAccess1
+d_OnScreenKeyboard;OnScreenKeyboard?;Boolean;false | true;;;d_Typing3
+d_StickyKeys;StickyKeys?;Boolean;false | true;;;d_Typing3
+d_DisableIfTwoKeysArePressedTogether;DisableIfTwoKeysArePressedTogether?;Boolean;false | true;;;d_StickyKeys
+d_BeepWhenAModifierKeysIsPressed;BeepWhenAModifierKeysIsPressed?;Boolean;false | true;;;d_StickyKeys
+d_SlowKeys;SlowKeys?;Boolean;false | true;;"if (d_SlowKeys) {
+d_AcceptanceDelay3 = true;
+}
+";d_Typing3
+d_AcceptanceDelay3;AcceptanceDelay3?;Boolean;false | true;;"if (!d_AcceptanceDelay3 && (!d_AcceptanceDelay1 && !d_AcceptanceDelay2)) {
+d_AcceptanceDelay = false;
+}
+";(false && d_SlowKeys)
+d_AcceptanceDelay3_0;Choose your AcceptanceDelay3?;Enumeration;Long2 | Short5;1:1;"if d_AcceptanceDelay3_0.Long2 {
+d_Long2 = true;
+}
+if !d_AcceptanceDelay3_0.Long2 {
+d_Long2 = false;
+}
+if d_AcceptanceDelay3_0.Short5 {
+d_Short5 = true;
+}
+if !d_AcceptanceDelay3_0.Short5 {
+d_Short5 = false;
+}
+";d_AcceptanceDelay3
+d_Long2;Long2?;Boolean;false | true;;"if (d_Long2) {
+d_Long = true;
+}
+if (!d_Long1 && (!d_Long2 && (!d_Long3 && (!d_Long5 && !d_Long4)))) {
+d_Long = false;
+}
+";false
+d_Short5;Short5?;Boolean;false | true;;"if (!d_Short5 && (!d_Short3 && (!d_Short4 && (!d_Short2 && !d_Short1)))) {
+d_Short = false;
+}
+if (d_Short5) {
+d_Short = true;
+}
+";false
+d_BeepWhenAKeysIs;BeepWhenAKeysIs?;Boolean;false | true;;"if (d_BeepWhenAKeysIs) {
+disAllow(d_BeepWhenAKeysIs_0.None);
+}
+if !d_BeepWhenAKeysIs {
+d_BeepWhenAKeysIs_0 = None;
+}
+if !d_BeepWhenAKeysIs {
+allow(d_BeepWhenAKeysIs_0.None);
+}
+";d_SlowKeys
+d_BeepWhenAKeysIs_0;Choose your BeepWhenAKeysIs?;Enumeration;Pressed | None | Rejected | Accepted;1:3;"if d_BeepWhenAKeysIs_0.Accepted {
+d_Accepted = true;
+}
+if d_BeepWhenAKeysIs_0.Pressed {
+d_Pressed = true;
+}
+if d_BeepWhenAKeysIs_0.Rejected {
+d_Rejected = true;
+}
+";d_BeepWhenAKeysIs
+d_Accepted;Accepted?;Boolean;false | true;;;false
+d_Rejected;Rejected?;Boolean;false | true;;;false
+d_Pressed;Pressed?;Boolean;false | true;;;false
+d_BounceKeys;BounceKeys?;Boolean;false | true;;"if (d_BounceKeys) {
+d_AcceptanceDelay1 = true;
+}
+";d_Typing3
+d_AcceptanceDelay1;AcceptanceDelay1?;Boolean;false | true;;"if (!d_AcceptanceDelay3 && (!d_AcceptanceDelay1 && !d_AcceptanceDelay2)) {
+d_AcceptanceDelay = false;
+}
+";(false && d_BounceKeys)
+d_AcceptanceDelay1_0;Choose your AcceptanceDelay1?;Enumeration;Long3 | Short1;1:1;"if !d_AcceptanceDelay1_0.Short1 {
+d_Short1 = false;
+}
+if d_AcceptanceDelay1_0.Long3 {
+d_Long3 = true;
+}
+if !d_AcceptanceDelay1_0.Long3 {
+d_Long3 = false;
+}
+if d_AcceptanceDelay1_0.Short1 {
+d_Short1 = true;
+}
+";d_AcceptanceDelay1
+d_Long3;Long3?;Boolean;false | true;;"if (d_Long3) {
+d_Long = true;
+}
+if (!d_Long1 && (!d_Long2 && (!d_Long3 && (!d_Long5 && !d_Long4)))) {
+d_Long = false;
+}
+";false
+d_Short1;Short1?;Boolean;false | true;;"if (d_Short1) {
+d_Short = true;
+}
+if (!d_Short5 && (!d_Short3 && (!d_Short4 && (!d_Short2 && !d_Short1)))) {
+d_Short = false;
+}
+";false
+d_BeepWhenAKeyIsRejected;BeepWhenAKeyIsRejected?;Boolean;false | true;;;d_BounceKeys
+d_EnableByKeyboard;EnableByKeyboard?;Boolean;false | true;;;d_Typing3
+d_PointingAndClicking;PointingAndClicking?;Boolean;false | true;;;d_UniversalAccess1
+d_MouseKeys;MouseKeys?;Boolean;false | true;;;d_PointingAndClicking
+d_SimulatedSecondaryCLick;SimulatedSecondaryCLick?;Boolean;false | true;;;d_PointingAndClicking
+d_AcceptanceDelay2;AcceptanceDelay2?;Boolean;false | true;;"if (d_AcceptanceDelay2) {
+disAllow(d_AcceptanceDelay2_0.None);
+}
+if !d_AcceptanceDelay2 {
+d_AcceptanceDelay2_0 = None;
+}
+if !d_AcceptanceDelay2 {
+allow(d_AcceptanceDelay2_0.None);
+}
+if (!d_AcceptanceDelay3 && (!d_AcceptanceDelay1 && !d_AcceptanceDelay2)) {
+d_AcceptanceDelay = false;
+}
+";d_SimulatedSecondaryCLick
+d_AcceptanceDelay2_0;Choose your AcceptanceDelay2?;Enumeration;None | Long4 | Short2;1:1;"if !d_AcceptanceDelay2_0.Short2 {
+d_Short2 = false;
+}
+if d_AcceptanceDelay2_0.Short2 {
+d_Short2 = true;
+}
+if d_AcceptanceDelay2_0.Long4 {
+d_Long4 = true;
+}
+if !d_AcceptanceDelay2_0.None {
+d_AcceptanceDelay = true;
+}
+if !d_AcceptanceDelay2_0.Long4 {
+d_Long4 = false;
+}
+";d_AcceptanceDelay2
+d_Long4;Long4?;Boolean;false | true;;"if (d_Long4) {
+d_Long = true;
+}
+if (!d_Long1 && (!d_Long2 && (!d_Long3 && (!d_Long5 && !d_Long4)))) {
+d_Long = false;
+}
+";false
+d_Short2;Short2?;Boolean;false | true;;"if (d_Short2) {
+d_Short = true;
+}
+if (!d_Short5 && (!d_Short3 && (!d_Short4 && (!d_Short2 && !d_Short1)))) {
+d_Short = false;
+}
+";false
+d_HoverClick;HoverClick?;Boolean;false | true;;;d_PointingAndClicking
+d_Delay1;Delay1?;Boolean;false | true;;"if (!d_Delay2 && !d_Delay1) {
+d_Delay = false;
+}
+if (d_Delay1) {
+disAllow(d_Delay1_0.None);
+}
+if !d_Delay1 {
+d_Delay1_0 = None;
+}
+if !d_Delay1 {
+allow(d_Delay1_0.None);
+}
+";d_HoverClick
+d_Delay1_0;Choose your Delay1?;Enumeration;None | Short3 | Long5;1:1;"if d_Delay1_0.Short3 {
+d_Short3 = true;
+}
+if !d_Delay1_0.None {
+d_Delay = true;
+}
+if d_Delay1_0.Long5 {
+d_Long5 = true;
+}
+if !d_Delay1_0.Short3 {
+d_Short3 = false;
+}
+if !d_Delay1_0.Long5 {
+d_Long5 = false;
+}
+";d_Delay1
+d_Long5;Long5?;Boolean;false | true;;"if (d_Long5) {
+d_Long = true;
+}
+if (!d_Long1 && (!d_Long2 && (!d_Long3 && (!d_Long5 && !d_Long4)))) {
+d_Long = false;
+}
+";false
+d_Short3;Short3?;Boolean;false | true;;"if (!d_Short5 && (!d_Short3 && (!d_Short4 && (!d_Short2 && !d_Short1)))) {
+d_Short = false;
+}
+if (d_Short3) {
+d_Short = true;
+}
+";false
+d_MotionThreshold;MotionThreshold?;Boolean;false | true;;"if (d_MotionThreshold) {
+disAllow(d_MotionThreshold_0.None);
+}
+if !d_MotionThreshold {
+d_MotionThreshold_0 = None;
+}
+if !d_MotionThreshold {
+allow(d_MotionThreshold_0.None);
+}
+";d_HoverClick
+d_MotionThreshold_0;Choose your MotionThreshold?;Enumeration;Small | None | Large;1:1;"if d_MotionThreshold_0.Large {
+d_Large = true;
+}
+if !d_MotionThreshold_0.Small {
+d_Small = false;
+}
+if !d_MotionThreshold_0.Large {
+d_Large = false;
+}
+if d_MotionThreshold_0.Small {
+d_Small = true;
+}
+";d_MotionThreshold
+d_Large;Large?;Boolean;false | true;;;false
+d_Small;Small?;Boolean;false | true;;;false
+d_MouseSettings;MouseSettings?;Boolean;false | true;;"if (d_MouseSettings) {
+d_General = true;
+}
+";d_PointingAndClicking
+d_General;General?;Boolean;false | true;;"if (d_General) {
+d_PrimaryButton = true;
+}
+if (d_General) {
+d_DoubleClick = true;
+}
+";(false && d_MouseSettings)
+d_PrimaryButton;PrimaryButton?;Boolean;false | true;;;(false && d_General)
+d_PrimaryButton_0;Choose your PrimaryButton?;Enumeration;Left2 | Right;1:1;"if d_PrimaryButton_0.Left2 {
+d_Left2 = true;
+}
+if !d_PrimaryButton_0.Left2 {
+d_Left2 = false;
+}
+if d_PrimaryButton_0.Right {
+d_Right = true;
+}
+if !d_PrimaryButton_0.Right {
+d_Right = false;
+}
+";d_PrimaryButton
+d_Right;Right?;Boolean;false | true;;;false
+d_Left2;Left2?;Boolean;false | true;;"if (d_Left2) {
+d_Left = true;
+}
+if (!d_Left1 && !d_Left2) {
+d_Left = false;
+}
+";false
+d_DoubleClick;DoubleClick?;Boolean;false | true;;;(false && d_General)
+d_DoubleClick_0;Choose your DoubleClick?;Enumeration;Slow3 | Fast3;1:1;"if !d_DoubleClick_0.Slow3 {
+d_Slow3 = false;
+}
+if d_DoubleClick_0.Slow3 {
+d_Slow3 = true;
+}
+if !d_DoubleClick_0.Fast3 {
+d_Fast3 = false;
+}
+if d_DoubleClick_0.Fast3 {
+d_Fast3 = true;
+}
+";d_DoubleClick
+d_Slow3;Slow3?;Boolean;false | true;;"if (!d_Slow1 && (!d_Slow3 && !d_Slow2)) {
+d_Slow = false;
+}
+if (d_Slow3) {
+d_Slow = true;
+}
+";false
+d_Fast3;Fast3?;Boolean;false | true;;"if (d_Fast3) {
+d_Fast = true;
+}
+if (!d_Fast1 && (!d_Fast3 && !d_Fast2)) {
+d_Fast = false;
+}
+";false
+d_Touchpad;Touchpad?;Boolean;false | true;;"if (d_Touchpad) {
+d_PointerSpeed = true;
+}
+";d_MouseSettings
+d_PointerSpeed;PointerSpeed?;Boolean;false | true;;;(false && d_Touchpad)
+d_DisableWhileTyping;DisableWhileTyping?;Boolean;false | true;;;d_Touchpad
+d_TapTopClick;TapTopClick?;Boolean;false | true;;;d_Touchpad
+d_TwoFingerScroll;TwoFingerScroll?;Boolean;false | true;;;d_Touchpad
+d_NaturalScrolling;NaturalScrolling?;Boolean;false | true;;;d_Touchpad
+d_BuiltInDisplay;BuiltInDisplay?;Boolean;false | true;;;d_Accessibility
+d_Super_Space;Super_Space?;Boolean;false | true;;;d_Accessibility
+d_Shift_Super_Space;Shift_Super_Space?;Boolean;false | true;;;d_Accessibility
+d_New_Accelerator;New_Accelerator?;Boolean;false | true;;;d_Accessibility
+d_AllowDifferentLayoutsForIndividualWindows;AllowDifferentLayoutsForIndividualWindows?;Boolean;false | true;;;d_Accessibility
+d_Typing;Typing?;Boolean;false | true;;;d_Accessibility
+d_Short;Short?;Boolean;false | true;;;d_Accessibility
+d_Long;Long?;Boolean;false | true;;;d_Accessibility
+d_Speed;Speed?;Boolean;false | true;;;d_Accessibility
+d_Slow;Slow?;Boolean;false | true;;;d_Accessibility
+d_Fast;Fast?;Boolean;false | true;;;d_Accessibility
+d_UniversalAccess;UniversalAccess?;Boolean;false | true;;;d_Accessibility
+d_Disabled;Disabled?;Boolean;false | true;;;d_Accessibility
+d_Alt_Super_plus;Alt_Super_plus?;Boolean;false | true;;;d_Accessibility
+d_Ctrl_Alt_S;Ctrl_Alt_S?;Boolean;false | true;;;d_Accessibility
+d_HighContrast;HighContrast?;Boolean;false | true;;;d_Accessibility
+d_AcceptanceDelay;AcceptanceDelay?;Boolean;false | true;;;d_Accessibility
+d_Delay;Delay?;Boolean;false | true;;;d_Accessibility
+d_Left;Left?;Boolean;false | true;;;d_Accessibility

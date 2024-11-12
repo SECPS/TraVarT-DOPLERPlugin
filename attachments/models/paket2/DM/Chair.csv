@@ -1,0 +1,29 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+BaseType;Which Base type do you prefer?;Enumeration;Weeled | Fixed;1:1;;TRUE
+Weeled;What is the core focus for the Weeled chair?;Enumeration;Office | Mobility;1:1;if (Mobility) { Backrest = true };BaseType == Weeled
+Fixed;What is the core focus for the fixed chair?;Enumeration;Connector | 4-legs | 3-legs | 2-bars;1:1;"if (3-Legs) { SeatMaterial = SeatMesh; Backrest = false }";BaseType == Fixed
+Office;How many wheels should the chair have?;Enumeration;4-wheel | 5-wheel;1:1;;Weeled == Office
+Mobility;How should the Mobility chair be powered?;Enumeration;manuel | electric;1:1;;Weeled == Mobiliity
+Connector;Should the chair provide a connector to one of these options?;Enumeration;ConnectorAirplane | ConnectorCar | ConnectorRail;1:1;"if (ConnectorCar) { Standards = CarStandard }
+if (ConnectorAirplane) { Standards = FlightStandard }
+if (ConnectorRail) { SeatAdjustable = false }";Fixed == Connector
+2-Bars;Which type of a 2-bar setup should the chair have?;Enumeration;2BarsFixed | 2BarsRocking;1:1;"if (2BarsRocking) { Backrest = true; BackAdjustable = false }";Fixed == 2-Bars
+SeatMaterial;Which Material should the chair be made of?;Enumeration;SeatMesh | SeatWood | SeatPlastic | SeatCushion;1:1;"if (SeatMesh) { isTaken(BaseType }
+if (SeatMesh & BaseType = Weeled) { Weeled != Office }
+if (SeatMesh & BaseType = Fixed) { Fixed != Connector }";TRUE
+SeatAdjustable;Should the chair be adjustable?;Boolean;true | false;;;TRUE
+Backrest;Should the chair have a backrest?;Boolean;true | false;;;TRUE
+Headrest;Should the backrest have a headrest?;Boolean;true | false;;if (Headrest) { Height = Full-Height };Backrest
+BackMassage;Should the backrest provide a massage?;Boolean;true | false;;"if (BackMassage) { Height = Full-height; BackMaterial = BackCushion; Standard != CharStandard; BaseType != Weeled; isTaken(Fixed) }
+if (BackMassage & Fixed = Connector) { Connector != ConnectorCar; Connector != ConnectorRail }";Backrest
+BackAdjustable;Should the backrest be adjustable;Boolean;true | false;;if (BackAdjustable) { Height = Full-Height };Backrest
+Height;Which height should the backrest have?;Enumeration;Half-height | Full-height;1:1;;Backrest
+BackMaterial;Which Material should the backrest be made of?;Enumeration;BackMesh | BackWood | BackPlastic | BackCushion;1:1;;Backrest
+Armrest;Which type of Armrest should the chair provide?;Enumeration;None | ARestAdjustable | ARestFixed;1:1;;TRUE
+Standards;Which Standards should the chair fullfill?;Enumeration;None | FlightStandard | OfficeStandard;1:1;"if (FlightStandard) { Height = Full-height; BackMaterial = BackCushion; Headrest = true; SeatMaterial = SeatCushion; Armrest = ARestFixed; Connector = ConnectorAirplane; Allowed-weight = 300kg }
+if (CarStandard) { Connector = ConnectorCar; SeatMaterial = SeatCushion; BackMaterial = BackCushion; Allowed-weight = 200kg; Headrest = true; Height = Full-height; SeatAdjustable = true }
+if (OfficeStandard) { BackAdjustable = true; SeatAdjustable = true; Allowed-weight != 110kg; Allowed-weight != 140kg; Allowed-weight != 170kg; isTaken(BaseType) }
+if (OfficeStandard & BaseType = Weeled) { Weeled = Office }
+if (OfficeStandard & BaseType = Fixed) { Fixed != Connector; Fixed != 3-Legs }
+if (OfficeStandard & BaseType = Fixed & Fixed = 2-Bars) { 2-Bars = 2BarsFixed }";TRUE
+Allowed-weight;how much weight must the chair withstand?;Enumeration;110kg | 140kg | 170kg | 200kg | 300kg;1:1;"if (200kg || 300kg) { SeatMaterial != SeatMesh; BackMaterial != BackMesh }";TRUE

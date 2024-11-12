@@ -1,0 +1,64 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+d_Mobilephone;Mobilephone?;Boolean;false | true;;"if (d_Mobilephone) {
+d_Calls = true;
+}
+if (d_Mobilephone) {
+d_Screen = true;
+}
+";true
+d_Calls;Calls?;Boolean;false | true;;;(false && d_Mobilephone)
+d_GPS;GPS?;Boolean;false | true;;"if (d_GPS) {
+disAllow(d_Screen_0.Basic);
+}
+";d_Mobilephone
+d_Screen;Screen?;Boolean;false | true;;;(false && d_Mobilephone)
+d_Screen_0;Choose your Screen?;Enumeration;Basic | Colour | HighResolution;1:1;"if d_Screen_0.HighResolution {
+d_HighResolution = true;
+}
+if d_Screen_0.Basic {
+d_Basic = true;
+}
+if !d_Screen_0.Basic {
+d_Basic = false;
+}
+if d_Screen_0.Colour {
+d_Colour = true;
+}
+if !d_Screen_0.Colour {
+d_Colour = false;
+}
+if !d_Screen_0.HighResolution {
+d_HighResolution = false;
+}
+";d_Screen
+d_Basic;Basic?;Boolean;false | true;;"if (d_Basic) {
+d_GPS = false;
+}
+if !d_GPS {
+allow(d_Screen_0.Basic);
+}
+";false
+d_Colour;Colour?;Boolean;false | true;;;false
+d_HighResolution;HighResolution?;Boolean;false | true;;;false
+d_Media;Media?;Boolean;false | true;;"if (d_Media) {
+disAllow(d_Media_0.None);
+}
+if !d_Media {
+d_Media_0 = None;
+}
+if !d_Media {
+allow(d_Media_0.None);
+}
+";d_Mobilephone
+d_Media_0;Choose your Media?;Enumeration;None | Camera | MP3;1:2;"if d_Media_0.MP3 {
+d_MP3 = true;
+}
+if d_Media_0.Camera {
+d_Camera = true;
+}
+";d_Media
+d_Camera;Camera?;Boolean;false | true;;"if (d_Camera) {
+d_Screen_0 = HighResolution;
+}
+";false
+d_MP3;MP3?;Boolean;false | true;;;false

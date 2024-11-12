@@ -1,0 +1,82 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+d_eshop;eshop?;Boolean;false | true;;"if (d_eshop) {
+d_seguridad = true;
+}
+if (d_eshop) {
+d_catalogo = true;
+}
+if (d_eshop) {
+d_pago = true;
+}
+if (!d_seguridad && (!d_catalogo && (!d_eshop && (!d_buscador && (!d_tarjetacredito && (!d_reportepublico && (!d_estandar && (!d_pago && !d_alta)))))))) {
+d_transferencias = false;
+}
+if !d_eshop {
+d_eshop = true;
+}
+";true
+d_catalogo;catalogo?;Boolean;false | true;;"if (!d_seguridad && (!d_catalogo && (!d_eshop && (!d_buscador && (!d_tarjetacredito && (!d_reportepublico && (!d_estandar && (!d_pago && !d_alta)))))))) {
+d_transferencias = false;
+}
+";(false && d_eshop)
+d_pago;pago?;Boolean;false | true;;"if (!d_seguridad && (!d_catalogo && (!d_eshop && (!d_buscador && (!d_tarjetacredito && (!d_reportepublico && (!d_estandar && (!d_pago && !d_alta)))))))) {
+d_transferencias = false;
+}
+";(false && d_eshop)
+d_pago_0;Choose your pago?;Enumeration;tarjetacredito | transferencias;1:2;"if d_pago_0.transferencias {
+d_transferencias = true;
+}
+if d_pago_0.tarjetacredito {
+d_tarjetacredito = true;
+}
+";d_pago
+d_transferencias;transferencias?;Boolean;false | true;;;false
+d_tarjetacredito;tarjetacredito?;Boolean;false | true;;"if (d_tarjetacredito) {
+d_seguridad_0 = alta;
+}
+if (!d_seguridad && (!d_catalogo && (!d_eshop && (!d_buscador && (!d_tarjetacredito && (!d_reportepublico && (!d_estandar && (!d_pago && !d_alta)))))))) {
+d_transferencias = false;
+}
+";false
+d_seguridad;seguridad?;Boolean;false | true;;"if (!d_seguridad && (!d_catalogo && (!d_eshop && (!d_buscador && (!d_tarjetacredito && (!d_reportepublico && (!d_estandar && (!d_pago && !d_alta)))))))) {
+d_transferencias = false;
+}
+";(false && d_eshop)
+d_seguridad_0;Choose your seguridad?;Enumeration;alta | estandar;1:1;"if !d_seguridad_0.estandar {
+d_estandar = false;
+}
+if !d_seguridad_0.alta {
+d_alta = false;
+}
+if d_seguridad_0.alta {
+d_alta = true;
+}
+if d_seguridad_0.estandar {
+d_estandar = true;
+}
+";d_seguridad
+d_alta;alta?;Boolean;false | true;;"if (d_alta) {
+d_reportepublico = false;
+}
+if (!d_seguridad && (!d_catalogo && (!d_eshop && (!d_buscador && (!d_tarjetacredito && (!d_reportepublico && (!d_estandar && (!d_pago && !d_alta)))))))) {
+d_transferencias = false;
+}
+";false
+d_estandar;estandar?;Boolean;false | true;;"if (!d_seguridad && (!d_catalogo && (!d_eshop && (!d_buscador && (!d_tarjetacredito && (!d_reportepublico && (!d_estandar && (!d_pago && !d_alta)))))))) {
+d_transferencias = false;
+}
+";false
+d_buscador;buscador?;Boolean;false | true;;"if (!d_seguridad && (!d_catalogo && (!d_eshop && (!d_buscador && (!d_tarjetacredito && (!d_reportepublico && (!d_estandar && (!d_pago && !d_alta)))))))) {
+d_transferencias = false;
+}
+";d_eshop
+d_reportepublico;reportepublico?;Boolean;false | true;;"if (d_reportepublico) {
+disAllow(d_seguridad_0.alta);
+}
+if !d_reportepublico {
+allow(d_seguridad_0.alta);
+}
+if (!d_seguridad && (!d_catalogo && (!d_eshop && (!d_buscador && (!d_tarjetacredito && (!d_reportepublico && (!d_estandar && (!d_pago && !d_alta)))))))) {
+d_transferencias = false;
+}
+";d_buscador

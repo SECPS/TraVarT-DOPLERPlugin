@@ -1,6 +1,9 @@
 package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.dnf;
 
+import at.jku.cps.travart.dopler.transformation.util.UnexpectedTypeException;
+import com.google.common.annotations.VisibleForTesting;
 import de.vill.model.constraint.*;
+import edu.kit.dopler.model.AND;
 
 import java.util.*;
 
@@ -8,22 +11,62 @@ public class DnfSimplifier {
 
     private static final String UNEXPECTED_TYPE = "Unexpected type";
 
-    public Constraint simplifyDnf(Constraint constraint) {
+    public List<List<Constraint>> simplifyDnf(Constraint constraint) {
 
-        boolean dnfContainsNoOrs = constraint instanceof AndConstraint || constraint instanceof NotConstraint ||
-                constraint instanceof LiteralConstraint || constraint instanceof ExpressionConstraint;
-        if (dnfContainsNoOrs) {
-            return constraint;
+        //Early return of dnf is simple
+
+        if (constraint instanceof AndConstraint) {
+            List<List<Constraint>> dnf = new ArrayList<>();
+            List<Constraint> conjunction = new ArrayList<>();
+            dnf.add(conjunction);
+
+            AndConstraint andConstraint = (AndConstraint) constraint;
+
+            Constraint left = andConstraint.getLeft();
+            handleBranchInConjunction(left, conjunction);
+
+            Constraint right = andConstraint.getRight();
+            handleBranchInConjunction(right, conjunction);
+
+            return dnf;
+        } else if (constraint instanceof NotConstraint || constraint instanceof LiteralConstraint ||
+                constraint instanceof ExpressionConstraint) {
+            List<List<Constraint>> dnf = new ArrayList<>();
+            List<Constraint> conjunction = new ArrayList<>();
+            conjunction.add(constraint);
+            dnf.add(conjunction);
+            return dnf;
         }
 
-        List<List<Constraint>> dnf = new ArrayList<>();
+        //Convert dnf to list to better work on it
+        List<List<Constraint>> dnf = convertDnfToList(constraint);
 
+        //Simplify DNF
+        return simplify(dnf);
+
+        //Convert DNF back to tree
+        //return createDnfFromList(simplifiedDnf);
+    }
+
+    private static void handleBranchInConjunction(Constraint constraint, List<Constraint> conjunction) {
+        if (constraint instanceof AndConstraint) {
+            AndConstraint andConstraint = (AndConstraint) constraint;
+            handleBranchInConjunction(andConstraint.getLeft(), conjunction);
+            handleBranchInConjunction(andConstraint.getRight(), conjunction);
+        } else if (constraint instanceof NotConstraint || constraint instanceof LiteralConstraint ||
+                constraint instanceof ExpressionConstraint) {
+            conjunction.add(constraint);
+        } else {
+            throw new UnexpectedTypeException(constraint);
+        }
+    }
+
+    private List<List<Constraint>> convertDnfToList(Constraint constraint) {
+        List<List<Constraint>> dnf = new ArrayList<>();
         Stack<Constraint> stack = new Stack<>();
         stack.push(constraint);
-
         while (!stack.empty()) {
             Constraint currentConstraint = stack.pop();
-
             if (currentConstraint instanceof OrConstraint) {
                 OrConstraint orConstraint = (OrConstraint) currentConstraint;
                 handleBranchInDisjunction(orConstraint.getLeft(), stack, dnf);
@@ -32,9 +75,7 @@ public class DnfSimplifier {
                 throw new RuntimeException(UNEXPECTED_TYPE);
             }
         }
-
-        List<List<Constraint>> simplifiedDnf = simplify(dnf);
-        return createDnfFromList(simplifiedDnf);
+        return dnf;
     }
 
     private List<List<Constraint>> simplify(List<List<Constraint>> dnf) {
@@ -117,7 +158,8 @@ public class DnfSimplifier {
         }
     }
 
-    private Constraint createDnfFromList(List<List<Constraint>> dnf) {
+    @VisibleForTesting
+    public Constraint createDnfFromList(List<List<Constraint>> dnf) {
 
         //Sort dnf by name
         for (List<Constraint> constraints : dnf) {
@@ -125,12 +167,7 @@ public class DnfSimplifier {
         }
 
         //Sort dnf by size of conjunctions
-        dnf.sort(new Comparator<List<Constraint>>() {
-            @Override
-            public int compare(List<Constraint> o1, List<Constraint> o2) {
-                return o1.size() - o2.size();
-            }
-        });
+        dnf.sort(Comparator.comparingInt(List::size));
 
         //If the dnf only contains one conjunction
         if (1 == dnf.size()) {

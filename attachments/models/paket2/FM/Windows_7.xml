@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<featureModel>
+	<struct>
+		<or mandatory="true" name="Accessibility">
+			<or name="ConfigureVoiceRecognition">
+				<feature name="RunTheLearningModuleOfYourVoice"/>
+				<alt name="StartVoiceRecognition">
+					<feature name="OfficeMicrophone"/>
+					<feature name="MicrophoneOnHeadphones"/>
+					<feature name="Other"/>
+				</alt>
+				<feature name="VoiceRecognitionTutorial"/>
+				<alt name="ConfigureTheMicrophone">
+					<feature name="Other_"/>
+					<feature name="MicrophoneOnHeadphones_"/>
+					<feature name="OfficeMicrophone_"/>
+				</alt>
+			</or>
+			<or name="MakeTheKeyboardEasierToUse">
+				<and name="ControlTheMouseWithTheKeyboard_">
+					<feature mandatory="true" name="ActivateMouseKeys"/>
+				</and>
+				<or name="MakeEntryEasier">
+					<feature name="ActivateTheToggleButtons"/>
+					<feature name="ActivateRetentiveKeys"/>
+					<feature name="ActivateTheFilterKeys"/>
+				</or>
+			</or>
+			<or name="Readability">
+				<or name="HearTextAndDescriptionReadAloud">
+					<feature name="EnableAudioDescription"/>
+					<feature name="ActivateTheNarrator"/>
+				</or>
+				<or name="EnlargeTheItemDisplayedOnTheScreen">
+					<feature name="AdjustTextCLeartype"/>
+					<feature name="SetCustomTextSize"/>
+					<feature name="ColorCalibration"/>
+					<or name="AdjustTheResolution">
+						<and name="Display">
+							<feature mandatory="true" name="GenericPlugAndPlayMonitorOnStandardVGAGraphicsCard"/>
+						</and>
+						<alt name="Resolution">
+							<feature name="R800x600"/>
+							<feature name="R1366x768"/>
+							<feature name="R1024x768"/>
+						</alt>
+					</or>
+				</or>
+				<and name="EasyOnScreenPlayback">
+					<alt abstract="true" mandatory="true" name="EasyOnScreenPlayback_1">
+						<feature name="AverageOneHundredAndTwentyFivePerCent"/>
+						<feature name="SmallOneHundredPerCent"/>
+					</alt>
+					<and name="MagnifyingGlass">
+						<alt abstract="true" mandatory="true" name="MagnifyingGlass_1">
+							<feature name="ZoomOutOneHundredPercent"/>
+							<feature name="ZoomInOneThousandSixHundredPerCent"/>
+						</alt>
+						<alt name="Display_">
+							<feature name="FullScreenPreview"/>
+							<feature name="FullScreen"/>
+							<feature name="MagnifyingGlass_"/>
+							<feature name="Anchor"/>
+						</alt>
+						<or name="Parameter">
+							<feature name="TheMagnifyingGlassMustFollowTheInsertionPointOfTheText"/>
+							<feature name="FollowTheMousePointer"/>
+							<feature name="TrackSelectedItemThroughKeyboard"/>
+							<alt name="DisplayorFactorWhenZooming">
+								<feature name="LessTwentyFivePerCent"/>
+								<feature name="MoreFourHundredPerCent"/>
+							</alt>
+							<feature name="EnableColorInversion"/>
+						</or>
+					</and>
+				</and>
+				<alt name="HighContrast">
+					<alt name="AeroTheme">
+						<feature name="Architecture"/>
+						<feature name="Characters"/>
+						<feature name="Nature"/>
+						<feature name="Landscape"/>
+						<feature name="Windows7"/>
+						<feature name="Scene"/>
+					</alt>
+					<alt name="BasicThemeAndContrast">
+						<feature name="HighWhiteContrast"/>
+						<feature name="HighBlackCOntrast"/>
+						<feature name="HighContrastNumber2"/>
+						<feature name="HighContrastNumber1"/>
+						<feature name="ClassicWindows"/>
+					</alt>
+				</alt>
+			</or>
+			<feature name="MAkeTheMouseEasyToUse"/>
+		</or>
+	</struct>
+</featureModel>

@@ -1,0 +1,146 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+d_VMToolsRA;VMToolsRA?;Boolean;false | true;;"if (d_VMToolsRA) {
+d_VariabilityManagement = true;
+}
+";true
+d_VariabilityManagement;VariabilityManagement?;Boolean;false | true;;"if (d_VariabilityManagement) {
+d_VariabilityModeling = true;
+}
+if (d_VariabilityManagement) {
+d_DomainAssets = true;
+}
+if (d_VariabilityManagement) {
+d_Organizational = true;
+}
+";(false && d_VMToolsRA)
+d_VariabilityModeling;VariabilityModeling?;Boolean;false | true;;"if (d_VariabilityModeling) {
+d_VariabilityModelManagement = true;
+}
+if (d_VariabilityModeling) {
+d_CompositionRules = true;
+}
+";(false && d_VariabilityManagement)
+d_CompositionRules;CompositionRules?;Boolean;false | true;;"if (d_CompositionRules) {
+d_CompositionRules_2 = true;
+}
+";(false && d_VariabilityModeling)
+d_Cardinality;Cardinality?;Boolean;false | true;;;d_CompositionRules
+d_CompositionRules_2;CompositionRules_2?;Boolean;false | true;;;(false && d_CompositionRules)
+d_CompositionRules_2_0;Choose your CompositionRules_2?;Enumeration;Constraints | Dependency;1:2;"if d_CompositionRules_2_0.Dependency {
+d_Dependency = true;
+}
+if d_CompositionRules_2_0.Constraints {
+d_Constraints = true;
+}
+";d_CompositionRules_2
+d_Constraints;Constraints?;Boolean;false | true;;;false
+d_Dependency;Dependency?;Boolean;false | true;;;false
+d_Traceability;Traceability?;Boolean;false | true;;;d_VariabilityModeling
+d_VariabilityModelManagement;VariabilityModelManagement?;Boolean;false | true;;"if (d_VariabilityModelManagement) {
+d_Variants = true;
+}
+if (d_VariabilityModelManagement) {
+d_Notation = true;
+}
+if (d_VariabilityModelManagement) {
+d_VariationPoint = true;
+}
+";(false && d_VariabilityModeling)
+d_Notation;Notation?;Boolean;false | true;;;(false && d_VariabilityModelManagement)
+d_Notation_0;Choose your Notation?;Enumeration;Other | Orthodonal | DecisionModel | FeatureModel;1:1;"if d_Notation_0.Orthodonal {
+d_Orthodonal = true;
+}
+if !d_Notation_0.FeatureModel {
+d_FeatureModel = false;
+}
+if d_Notation_0.FeatureModel {
+d_FeatureModel = true;
+}
+if !d_Notation_0.DecisionModel {
+d_DecisionModel = false;
+}
+if !d_Notation_0.Orthodonal {
+d_Orthodonal = false;
+}
+if d_Notation_0.DecisionModel {
+d_DecisionModel = true;
+}
+if !d_Notation_0.Other {
+d_Other = false;
+}
+if d_Notation_0.Other {
+d_Other = true;
+}
+";d_Notation
+d_FeatureModel;FeatureModel?;Boolean;false | true;;;false
+d_DecisionModel;DecisionModel?;Boolean;false | true;;;false
+d_Orthodonal;Orthodonal?;Boolean;false | true;;;false
+d_Other;Other?;Boolean;false | true;;;false
+d_Variants;Variants?;Boolean;false | true;;;(false && d_VariabilityModelManagement)
+d_VariationPoint;VariationPoint?;Boolean;false | true;;;(false && d_VariabilityModelManagement)
+d_VariabilityValidation;VariabilityValidation?;Boolean;false | true;;"if (d_VariabilityValidation) {
+d_VariabilityValidation_2 = true;
+}
+";d_VariabilityManagement
+d_VerificationReports;VerificationReports?;Boolean;false | true;;;d_VariabilityValidation
+d_VariabilityValidation_2;VariabilityValidation_2?;Boolean;false | true;;;(false && d_VariabilityValidation)
+d_VariabilityValidation_2_0;Choose your VariabilityValidation_2?;Enumeration;LogicSolvers | Other_1 | Reasoners;1:3;"if d_VariabilityValidation_2_0.Other_1 {
+d_Other_1 = true;
+}
+if d_VariabilityValidation_2_0.LogicSolvers {
+d_LogicSolvers = true;
+}
+if d_VariabilityValidation_2_0.Reasoners {
+d_Reasoners = true;
+}
+";d_VariabilityValidation_2
+d_LogicSolvers;LogicSolvers?;Boolean;false | true;;;false
+d_Reasoners;Reasoners?;Boolean;false | true;;;false
+d_Other_1;Other_1?;Boolean;false | true;;;false
+d_VariabilityDecision;VariabilityDecision?;Boolean;false | true;;"if (d_VariabilityDecision) {
+d_VariabilityBindingManagement = true;
+}
+";d_VariabilityManagement
+d_VariabilityBindingManagement;VariabilityBindingManagement?;Boolean;false | true;;"if (d_VariabilityBindingManagement) {
+d_VariabilityMechanism = true;
+}
+if (d_VariabilityBindingManagement) {
+d_BindingTime = true;
+}
+";(false && d_VariabilityDecision)
+d_BindingTime;BindingTime?;Boolean;false | true;;;(false && d_VariabilityBindingManagement)
+d_BindingTime_0;Choose your BindingTime?;Enumeration;CompileTime | Other_2 | Runtime;1:3;"if d_BindingTime_0.Other_2 {
+d_Other_2 = true;
+}
+if d_BindingTime_0.CompileTime {
+d_CompileTime = true;
+}
+if d_BindingTime_0.Runtime {
+d_Runtime = true;
+}
+";d_BindingTime
+d_CompileTime;CompileTime?;Boolean;false | true;;;false
+d_Runtime;Runtime?;Boolean;false | true;;;false
+d_Other_2;Other_2?;Boolean;false | true;;;false
+d_VariabilityMechanism;VariabilityMechanism?;Boolean;false | true;;;(false && d_VariabilityBindingManagement)
+d_VariabilityEvolution;VariabilityEvolution?;Boolean;false | true;;"if (d_VariabilityEvolution) {
+d_VariabilityControlEvolution = true;
+}
+";d_VariabilityManagement
+d_VariabilityControlEvolution;VariabilityControlEvolution?;Boolean;false | true;;"if (d_VariabilityControlEvolution) {
+d_ImpactAnalysis = true;
+}
+";(false && d_VariabilityEvolution)
+d_ImpactAnalysis;ImpactAnalysis?;Boolean;false | true;;;(false && d_VariabilityControlEvolution)
+d_Organizational;Organizational?;Boolean;false | true;;;d_VMToolsRA
+d_PlanningManagement;PlanningManagement?;Boolean;false | true;;;d_Organizational
+d_CommunicationSharing;CommunicationSharing?;Boolean;false | true;;;d_Organizational
+d_Guidance;Guidance?;Boolean;false | true;;;d_Organizational
+d_TradeOffAnalysis;TradeOffAnalysis?;Boolean;false | true;;;d_Organizational
+d_NotifyingFeedback;NotifyingFeedback?;Boolean;false | true;;;d_Organizational
+d_DomainAnalysis;DomainAnalysis?;Boolean;false | true;;"if (d_DomainAnalysis) {
+d_DomainAssets = true;
+}
+";d_VMToolsRA
+d_DomainAssets;DomainAssets?;Boolean;false | true;;;(false && d_DomainAnalysis)
+d_RequirementSpecifications;RequirementSpecifications?;Boolean;false | true;;;d_DomainAnalysis

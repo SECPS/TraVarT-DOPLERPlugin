@@ -1,0 +1,128 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+d_VncViewer;VncViewer?;Boolean;false | true;;"if (d_VncViewer) {
+d_VncViewerMain = true;
+}
+";true
+d_VncViewerMain;VncViewerMain?;Boolean;false | true;;"if (d_VncViewerMain) {
+d_Base = true;
+}
+if (d_VncViewerMain) {
+d_Type = true;
+}
+";(false && d_VncViewer)
+d_Type;Type?;Boolean;false | true;;"if (d_Type) {
+d_Opt = true;
+}
+";(false && d_VncViewerMain)
+d_Opt;Opt?;Boolean;false | true;;;(false && d_Type)
+d_Opt_0;Choose your Opt?;Enumeration;ClipboardFeat | RecordingFeat | OptionsMenuFeatures | BOpt;1:4;"if d_Opt_0.RecordingFeat {
+d_RecordingFeat = true;
+}
+if d_Opt_0.BOpt {
+d_BOpt = true;
+}
+if d_Opt_0.ClipboardFeat {
+d_ClipboardFeat = true;
+}
+if d_Opt_0.OptionsMenuFeatures {
+d_OptionsMenuFeatures = true;
+}
+";d_Opt
+d_OptionsMenuFeatures;OptionsMenuFeatures?;Boolean;false | true;;"if (d_OptionsMenuFeatures) {
+d_OptionsFeat = true;
+}
+";false
+d_MOpt;MOpt?;Boolean;false | true;;"if !d_MOpt {
+d_MOpt_0 = None;
+}
+if !d_MOpt {
+allow(d_MOpt_0.None);
+}
+if (d_MOpt) {
+disAllow(d_MOpt_0.None);
+}
+";d_OptionsMenuFeatures
+d_MOpt_0;Choose your MOpt?;Enumeration;OpViewFeat | None | OpCopyRectFeat | OpRestrictedColorsFeat | OpCompressionFeat | OpEncodingFeat | OpMouse23Feat | OpCursorShapeFeat | OpShareFeat | OpJPEGqualityFeat;1:9;"if d_MOpt_0.OpCopyRectFeat {
+d_OpCopyRectFeat = true;
+}
+if d_MOpt_0.OpCursorShapeFeat {
+d_OpCursorShapeFeat = true;
+}
+if d_MOpt_0.OpViewFeat {
+d_OpViewFeat = true;
+}
+if d_MOpt_0.OpEncodingFeat {
+d_OpEncodingFeat = true;
+}
+if d_MOpt_0.OpJPEGqualityFeat {
+d_OpJPEGqualityFeat = true;
+}
+if d_MOpt_0.OpRestrictedColorsFeat {
+d_OpRestrictedColorsFeat = true;
+}
+if d_MOpt_0.OpShareFeat {
+d_OpShareFeat = true;
+}
+if d_MOpt_0.OpCompressionFeat {
+d_OpCompressionFeat = true;
+}
+if d_MOpt_0.OpMouse23Feat {
+d_OpMouse23Feat = true;
+}
+";d_MOpt
+d_OpEncodingFeat;OpEncodingFeat?;Boolean;false | true;;;false
+d_OpCompressionFeat;OpCompressionFeat?;Boolean;false | true;;;false
+d_OpJPEGqualityFeat;OpJPEGqualityFeat?;Boolean;false | true;;;false
+d_OpCursorShapeFeat;OpCursorShapeFeat?;Boolean;false | true;;;false
+d_OpCopyRectFeat;OpCopyRectFeat?;Boolean;false | true;;;false
+d_OpRestrictedColorsFeat;OpRestrictedColorsFeat?;Boolean;false | true;;;false
+d_OpMouse23Feat;OpMouse23Feat?;Boolean;false | true;;;false
+d_OpViewFeat;OpViewFeat?;Boolean;false | true;;;false
+d_OpShareFeat;OpShareFeat?;Boolean;false | true;;;false
+d_OptionsFeat;OptionsFeat?;Boolean;false | true;;;(false && d_OptionsMenuFeatures)
+d_BOpt;BOpt?;Boolean;false | true;;;false
+d_BOpt_0;Choose your BOpt?;Enumeration;AltTabButtonFeat | None | CtrlAltDelButtonFeat | ClipboardButtonFeat | DisconnectButtonFeat | AboutButtonFeat | RefreshButtonFeat | OptionsButtonFeat | RecordButtonFeat;1:8;"if d_BOpt_0.OptionsButtonFeat {
+d_OptionsButtonFeat = true;
+}
+if d_BOpt_0.RecordButtonFeat {
+d_RecordButtonFeat = true;
+}
+if d_BOpt_0.AboutButtonFeat {
+d_AboutButtonFeat = true;
+}
+if d_BOpt_0.AltTabButtonFeat {
+d_AltTabButtonFeat = true;
+}
+if d_BOpt_0.RefreshButtonFeat {
+d_RefreshButtonFeat = true;
+}
+if d_BOpt_0.DisconnectButtonFeat {
+d_DisconnectButtonFeat = true;
+}
+if d_BOpt_0.ClipboardButtonFeat {
+d_ClipboardButtonFeat = true;
+}
+if d_BOpt_0.CtrlAltDelButtonFeat {
+d_CtrlAltDelButtonFeat = true;
+}
+";d_BOpt
+d_AboutButtonFeat;AboutButtonFeat?;Boolean;false | true;;;false
+d_AltTabButtonFeat;AltTabButtonFeat?;Boolean;false | true;;;false
+d_RefreshButtonFeat;RefreshButtonFeat?;Boolean;false | true;;;false
+d_CtrlAltDelButtonFeat;CtrlAltDelButtonFeat?;Boolean;false | true;;;false
+d_RecordButtonFeat;RecordButtonFeat?;Boolean;false | true;;"if (d_RecordButtonFeat) {
+d_Opt_0 = RecordingFeat;
+}
+";false
+d_ClipboardButtonFeat;ClipboardButtonFeat?;Boolean;false | true;;"if (d_ClipboardButtonFeat) {
+d_Opt_0 = ClipboardFeat;
+}
+";false
+d_OptionsButtonFeat;OptionsButtonFeat?;Boolean;false | true;;"if (d_OptionsButtonFeat) {
+d_OptionsFeat = true;
+}
+";false
+d_DisconnectButtonFeat;DisconnectButtonFeat?;Boolean;false | true;;;false
+d_ClipboardFeat;ClipboardFeat?;Boolean;false | true;;;false
+d_RecordingFeat;RecordingFeat?;Boolean;false | true;;;false
+d_Base;Base?;Boolean;false | true;;;(false && d_VncViewerMain)

@@ -1,0 +1,528 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+d_Accessibility;Accessibility?;Boolean;false | true;;;true
+d_Accessibility_0;Choose your Accessibility?;Enumeration;Readability | ConfigureVoiceRecognition | MakeTheKeyboardEasierToUse | MAkeTheMouseEasyToUse;1:4;"if d_Accessibility_0.MakeTheKeyboardEasierToUse {
+d_MakeTheKeyboardEasierToUse = true;
+}
+if d_Accessibility_0.Readability {
+d_Readability = true;
+}
+if d_Accessibility_0.ConfigureVoiceRecognition {
+d_ConfigureVoiceRecognition = true;
+}
+if d_Accessibility_0.MAkeTheMouseEasyToUse {
+d_MAkeTheMouseEasyToUse = true;
+}
+";d_Accessibility
+d_ConfigureVoiceRecognition;ConfigureVoiceRecognition?;Boolean;false | true;;"if (d_ConfigureVoiceRecognition) {
+disAllow(d_ConfigureVoiceRecognition_0.None);
+}
+if !d_ConfigureVoiceRecognition {
+d_ConfigureVoiceRecognition_0 = None;
+}
+if !d_ConfigureVoiceRecognition {
+allow(d_ConfigureVoiceRecognition_0.None);
+}
+";false
+d_ConfigureVoiceRecognition_0;Choose your ConfigureVoiceRecognition?;Enumeration;VoiceRecognitionTutorial | None | StartVoiceRecognition | RunTheLearningModuleOfYourVoice | ConfigureTheMicrophone;1:4;"if d_ConfigureVoiceRecognition_0.StartVoiceRecognition {
+d_StartVoiceRecognition = true;
+}
+if d_ConfigureVoiceRecognition_0.RunTheLearningModuleOfYourVoice {
+d_RunTheLearningModuleOfYourVoice = true;
+}
+if d_ConfigureVoiceRecognition_0.ConfigureTheMicrophone {
+d_ConfigureTheMicrophone = true;
+}
+if d_ConfigureVoiceRecognition_0.VoiceRecognitionTutorial {
+d_VoiceRecognitionTutorial = true;
+}
+";d_ConfigureVoiceRecognition
+d_RunTheLearningModuleOfYourVoice;RunTheLearningModuleOfYourVoice?;Boolean;false | true;;;false
+d_StartVoiceRecognition;StartVoiceRecognition?;Boolean;false | true;;"if (d_StartVoiceRecognition) {
+disAllow(d_StartVoiceRecognition_0.None);
+}
+if !d_StartVoiceRecognition {
+d_StartVoiceRecognition_0 = None;
+}
+if !d_StartVoiceRecognition {
+allow(d_StartVoiceRecognition_0.None);
+}
+";false
+d_StartVoiceRecognition_0;Choose your StartVoiceRecognition?;Enumeration;Other | MicrophoneOnHeadphones | None | OfficeMicrophone;1:1;"if !d_StartVoiceRecognition_0.MicrophoneOnHeadphones {
+d_MicrophoneOnHeadphones = false;
+}
+if d_StartVoiceRecognition_0.MicrophoneOnHeadphones {
+d_MicrophoneOnHeadphones = true;
+}
+if d_StartVoiceRecognition_0.Other {
+d_Other = true;
+}
+if !d_StartVoiceRecognition_0.Other {
+d_Other = false;
+}
+if !d_StartVoiceRecognition_0.OfficeMicrophone {
+d_OfficeMicrophone = false;
+}
+if d_StartVoiceRecognition_0.OfficeMicrophone {
+d_OfficeMicrophone = true;
+}
+";d_StartVoiceRecognition
+d_OfficeMicrophone;OfficeMicrophone?;Boolean;false | true;;;false
+d_MicrophoneOnHeadphones;MicrophoneOnHeadphones?;Boolean;false | true;;;false
+d_Other;Other?;Boolean;false | true;;;false
+d_VoiceRecognitionTutorial;VoiceRecognitionTutorial?;Boolean;false | true;;;false
+d_ConfigureTheMicrophone;ConfigureTheMicrophone?;Boolean;false | true;;"if !d_ConfigureTheMicrophone {
+d_ConfigureTheMicrophone_0 = None;
+}
+if !d_ConfigureTheMicrophone {
+allow(d_ConfigureTheMicrophone_0.None);
+}
+if (d_ConfigureTheMicrophone) {
+disAllow(d_ConfigureTheMicrophone_0.None);
+}
+";false
+d_ConfigureTheMicrophone_0;Choose your ConfigureTheMicrophone?;Enumeration;None | Other_ | OfficeMicrophone_ | MicrophoneOnHeadphones_;1:1;"if !d_ConfigureTheMicrophone_0.Other_ {
+d_Other_ = false;
+}
+if !d_ConfigureTheMicrophone_0.MicrophoneOnHeadphones_ {
+d_MicrophoneOnHeadphones_ = false;
+}
+if d_ConfigureTheMicrophone_0.OfficeMicrophone_ {
+d_OfficeMicrophone_ = true;
+}
+if d_ConfigureTheMicrophone_0.MicrophoneOnHeadphones_ {
+d_MicrophoneOnHeadphones_ = true;
+}
+if d_ConfigureTheMicrophone_0.Other_ {
+d_Other_ = true;
+}
+if !d_ConfigureTheMicrophone_0.OfficeMicrophone_ {
+d_OfficeMicrophone_ = false;
+}
+";d_ConfigureTheMicrophone
+d_Other_;Other_?;Boolean;false | true;;;false
+d_MicrophoneOnHeadphones_;MicrophoneOnHeadphones_?;Boolean;false | true;;;false
+d_OfficeMicrophone_;OfficeMicrophone_?;Boolean;false | true;;;false
+d_MakeTheKeyboardEasierToUse;MakeTheKeyboardEasierToUse?;Boolean;false | true;;"if (d_MakeTheKeyboardEasierToUse) {
+disAllow(d_MakeTheKeyboardEasierToUse_0.None);
+}
+if !d_MakeTheKeyboardEasierToUse {
+d_MakeTheKeyboardEasierToUse_0 = None;
+}
+if !d_MakeTheKeyboardEasierToUse {
+allow(d_MakeTheKeyboardEasierToUse_0.None);
+}
+";false
+d_MakeTheKeyboardEasierToUse_0;Choose your MakeTheKeyboardEasierToUse?;Enumeration;None | MakeEntryEasier | ControlTheMouseWithTheKeyboard_;1:2;"if d_MakeTheKeyboardEasierToUse_0.ControlTheMouseWithTheKeyboard_ {
+d_ControlTheMouseWithTheKeyboard_ = true;
+}
+if d_MakeTheKeyboardEasierToUse_0.MakeEntryEasier {
+d_MakeEntryEasier = true;
+}
+";d_MakeTheKeyboardEasierToUse
+d_ControlTheMouseWithTheKeyboard_;ControlTheMouseWithTheKeyboard_?;Boolean;false | true;;"if (d_ControlTheMouseWithTheKeyboard_) {
+d_ActivateMouseKeys = true;
+}
+";false
+d_ActivateMouseKeys;ActivateMouseKeys?;Boolean;false | true;;;(false && d_ControlTheMouseWithTheKeyboard_)
+d_MakeEntryEasier;MakeEntryEasier?;Boolean;false | true;;"if (d_MakeEntryEasier) {
+disAllow(d_MakeEntryEasier_0.None);
+}
+if !d_MakeEntryEasier {
+d_MakeEntryEasier_0 = None;
+}
+if !d_MakeEntryEasier {
+allow(d_MakeEntryEasier_0.None);
+}
+";false
+d_MakeEntryEasier_0;Choose your MakeEntryEasier?;Enumeration;None | ActivateRetentiveKeys | ActivateTheToggleButtons | ActivateTheFilterKeys;1:3;"if d_MakeEntryEasier_0.ActivateTheFilterKeys {
+d_ActivateTheFilterKeys = true;
+}
+if d_MakeEntryEasier_0.ActivateRetentiveKeys {
+d_ActivateRetentiveKeys = true;
+}
+if d_MakeEntryEasier_0.ActivateTheToggleButtons {
+d_ActivateTheToggleButtons = true;
+}
+";d_MakeEntryEasier
+d_ActivateTheToggleButtons;ActivateTheToggleButtons?;Boolean;false | true;;;false
+d_ActivateRetentiveKeys;ActivateRetentiveKeys?;Boolean;false | true;;;false
+d_ActivateTheFilterKeys;ActivateTheFilterKeys?;Boolean;false | true;;;false
+d_Readability;Readability?;Boolean;false | true;;"if (d_Readability) {
+disAllow(d_Readability_0.None);
+}
+if !d_Readability {
+d_Readability_0 = None;
+}
+if !d_Readability {
+allow(d_Readability_0.None);
+}
+";false
+d_Readability_0;Choose your Readability?;Enumeration;None | EasyOnScreenPlayback | HearTextAndDescriptionReadAloud | EnlargeTheItemDisplayedOnTheScreen | HighContrast;1:4;"if d_Readability_0.HighContrast {
+d_HighContrast = true;
+}
+if d_Readability_0.EasyOnScreenPlayback {
+d_EasyOnScreenPlayback = true;
+}
+if d_Readability_0.HearTextAndDescriptionReadAloud {
+d_HearTextAndDescriptionReadAloud = true;
+}
+if d_Readability_0.EnlargeTheItemDisplayedOnTheScreen {
+d_EnlargeTheItemDisplayedOnTheScreen = true;
+}
+";d_Readability
+d_HearTextAndDescriptionReadAloud;HearTextAndDescriptionReadAloud?;Boolean;false | true;;"if !d_HearTextAndDescriptionReadAloud {
+d_HearTextAndDescriptionReadAloud_0 = None;
+}
+if !d_HearTextAndDescriptionReadAloud {
+allow(d_HearTextAndDescriptionReadAloud_0.None);
+}
+if (d_HearTextAndDescriptionReadAloud) {
+disAllow(d_HearTextAndDescriptionReadAloud_0.None);
+}
+";false
+d_HearTextAndDescriptionReadAloud_0;Choose your HearTextAndDescriptionReadAloud?;Enumeration;None | ActivateTheNarrator | EnableAudioDescription;1:2;"if d_HearTextAndDescriptionReadAloud_0.EnableAudioDescription {
+d_EnableAudioDescription = true;
+}
+if d_HearTextAndDescriptionReadAloud_0.ActivateTheNarrator {
+d_ActivateTheNarrator = true;
+}
+";d_HearTextAndDescriptionReadAloud
+d_EnableAudioDescription;EnableAudioDescription?;Boolean;false | true;;;false
+d_ActivateTheNarrator;ActivateTheNarrator?;Boolean;false | true;;;false
+d_EnlargeTheItemDisplayedOnTheScreen;EnlargeTheItemDisplayedOnTheScreen?;Boolean;false | true;;"if (d_EnlargeTheItemDisplayedOnTheScreen) {
+disAllow(d_EnlargeTheItemDisplayedOnTheScreen_0.None);
+}
+if !d_EnlargeTheItemDisplayedOnTheScreen {
+d_EnlargeTheItemDisplayedOnTheScreen_0 = None;
+}
+if !d_EnlargeTheItemDisplayedOnTheScreen {
+allow(d_EnlargeTheItemDisplayedOnTheScreen_0.None);
+}
+";false
+d_EnlargeTheItemDisplayedOnTheScreen_0;Choose your EnlargeTheItemDisplayedOnTheScreen?;Enumeration;None | AdjustTextCLeartype | SetCustomTextSize | ColorCalibration | AdjustTheResolution;1:4;"if d_EnlargeTheItemDisplayedOnTheScreen_0.SetCustomTextSize {
+d_SetCustomTextSize = true;
+}
+if d_EnlargeTheItemDisplayedOnTheScreen_0.AdjustTextCLeartype {
+d_AdjustTextCLeartype = true;
+}
+if d_EnlargeTheItemDisplayedOnTheScreen_0.ColorCalibration {
+d_ColorCalibration = true;
+}
+if d_EnlargeTheItemDisplayedOnTheScreen_0.AdjustTheResolution {
+d_AdjustTheResolution = true;
+}
+";d_EnlargeTheItemDisplayedOnTheScreen
+d_AdjustTextCLeartype;AdjustTextCLeartype?;Boolean;false | true;;;false
+d_SetCustomTextSize;SetCustomTextSize?;Boolean;false | true;;;false
+d_ColorCalibration;ColorCalibration?;Boolean;false | true;;;false
+d_AdjustTheResolution;AdjustTheResolution?;Boolean;false | true;;"if (d_AdjustTheResolution) {
+disAllow(d_AdjustTheResolution_0.None);
+}
+if !d_AdjustTheResolution {
+d_AdjustTheResolution_0 = None;
+}
+if !d_AdjustTheResolution {
+allow(d_AdjustTheResolution_0.None);
+}
+";false
+d_AdjustTheResolution_0;Choose your AdjustTheResolution?;Enumeration;None | Resolution | Display;1:2;"if d_AdjustTheResolution_0.Display {
+d_Display = true;
+}
+if d_AdjustTheResolution_0.Resolution {
+d_Resolution = true;
+}
+";d_AdjustTheResolution
+d_Display;Display?;Boolean;false | true;;"if (d_Display) {
+d_GenericPlugAndPlayMonitorOnStandardVGAGraphicsCard = true;
+}
+";false
+d_GenericPlugAndPlayMonitorOnStandardVGAGraphicsCard;GenericPlugAndPlayMonitorOnStandardVGAGraphicsCard?;Boolean;false | true;;;(false && d_Display)
+d_Resolution;Resolution?;Boolean;false | true;;"if !d_Resolution {
+d_Resolution_0 = None;
+}
+if !d_Resolution {
+allow(d_Resolution_0.None);
+}
+if (d_Resolution) {
+disAllow(d_Resolution_0.None);
+}
+";false
+d_Resolution_0;Choose your Resolution?;Enumeration;R800x600 | None | R1024x768 | R1366x768;1:1;"if d_Resolution_0.R800x600 {
+d_R800x600 = true;
+}
+if !d_Resolution_0.R800x600 {
+d_R800x600 = false;
+}
+if d_Resolution_0.R1366x768 {
+d_R1366x768 = true;
+}
+if !d_Resolution_0.R1366x768 {
+d_R1366x768 = false;
+}
+if !d_Resolution_0.R1024x768 {
+d_R1024x768 = false;
+}
+if d_Resolution_0.R1024x768 {
+d_R1024x768 = true;
+}
+";d_Resolution
+d_R800x600;R800x600?;Boolean;false | true;;;false
+d_R1366x768;R1366x768?;Boolean;false | true;;;false
+d_R1024x768;R1024x768?;Boolean;false | true;;;false
+d_EasyOnScreenPlayback;EasyOnScreenPlayback?;Boolean;false | true;;"if (d_EasyOnScreenPlayback) {
+d_EasyOnScreenPlayback_1 = true;
+}
+";false
+d_EasyOnScreenPlayback_1;EasyOnScreenPlayback_1?;Boolean;false | true;;;(false && d_EasyOnScreenPlayback)
+d_EasyOnScreenPlayback_1_0;Choose your EasyOnScreenPlayback_1?;Enumeration;AverageOneHundredAndTwentyFivePerCent | SmallOneHundredPerCent;1:1;"if d_EasyOnScreenPlayback_1_0.SmallOneHundredPerCent {
+d_SmallOneHundredPerCent = true;
+}
+if d_EasyOnScreenPlayback_1_0.AverageOneHundredAndTwentyFivePerCent {
+d_AverageOneHundredAndTwentyFivePerCent = true;
+}
+if !d_EasyOnScreenPlayback_1_0.AverageOneHundredAndTwentyFivePerCent {
+d_AverageOneHundredAndTwentyFivePerCent = false;
+}
+if !d_EasyOnScreenPlayback_1_0.SmallOneHundredPerCent {
+d_SmallOneHundredPerCent = false;
+}
+";d_EasyOnScreenPlayback_1
+d_AverageOneHundredAndTwentyFivePerCent;AverageOneHundredAndTwentyFivePerCent?;Boolean;false | true;;;false
+d_SmallOneHundredPerCent;SmallOneHundredPerCent?;Boolean;false | true;;;false
+d_MagnifyingGlass;MagnifyingGlass?;Boolean;false | true;;"if (d_MagnifyingGlass) {
+d_MagnifyingGlass_1 = true;
+}
+";d_EasyOnScreenPlayback
+d_MagnifyingGlass_1;MagnifyingGlass_1?;Boolean;false | true;;;(false && d_MagnifyingGlass)
+d_MagnifyingGlass_1_0;Choose your MagnifyingGlass_1?;Enumeration;ZoomOutOneHundredPercent | ZoomInOneThousandSixHundredPerCent;1:1;"if d_MagnifyingGlass_1_0.ZoomOutOneHundredPercent {
+d_ZoomOutOneHundredPercent = true;
+}
+if !d_MagnifyingGlass_1_0.ZoomOutOneHundredPercent {
+d_ZoomOutOneHundredPercent = false;
+}
+if !d_MagnifyingGlass_1_0.ZoomInOneThousandSixHundredPerCent {
+d_ZoomInOneThousandSixHundredPerCent = false;
+}
+if d_MagnifyingGlass_1_0.ZoomInOneThousandSixHundredPerCent {
+d_ZoomInOneThousandSixHundredPerCent = true;
+}
+";d_MagnifyingGlass_1
+d_ZoomOutOneHundredPercent;ZoomOutOneHundredPercent?;Boolean;false | true;;;false
+d_ZoomInOneThousandSixHundredPerCent;ZoomInOneThousandSixHundredPerCent?;Boolean;false | true;;;false
+d_Display_;Display_?;Boolean;false | true;;"if !d_Display_ {
+d_Display__0 = None;
+}
+if !d_Display_ {
+allow(d_Display__0.None);
+}
+if (d_Display_) {
+disAllow(d_Display__0.None);
+}
+";d_MagnifyingGlass
+d_Display__0;Choose your Display_?;Enumeration;None | Anchor | MagnifyingGlass_ | FullScreenPreview | FullScreen;1:1;"if !d_Display__0.FullScreenPreview {
+d_FullScreenPreview = false;
+}
+if !d_Display__0.FullScreen {
+d_FullScreen = false;
+}
+if d_Display__0.FullScreen {
+d_FullScreen = true;
+}
+if !d_Display__0.MagnifyingGlass_ {
+d_MagnifyingGlass_ = false;
+}
+if !d_Display__0.Anchor {
+d_Anchor = false;
+}
+if d_Display__0.FullScreenPreview {
+d_FullScreenPreview = true;
+}
+if d_Display__0.MagnifyingGlass_ {
+d_MagnifyingGlass_ = true;
+}
+if d_Display__0.Anchor {
+d_Anchor = true;
+}
+";d_Display_
+d_FullScreenPreview;FullScreenPreview?;Boolean;false | true;;;false
+d_FullScreen;FullScreen?;Boolean;false | true;;;false
+d_MagnifyingGlass_;MagnifyingGlass_?;Boolean;false | true;;;false
+d_Anchor;Anchor?;Boolean;false | true;;;false
+d_Parameter;Parameter?;Boolean;false | true;;"if (d_Parameter) {
+disAllow(d_Parameter_0.None);
+}
+if !d_Parameter {
+d_Parameter_0 = None;
+}
+if !d_Parameter {
+allow(d_Parameter_0.None);
+}
+";d_MagnifyingGlass
+d_Parameter_0;Choose your Parameter?;Enumeration;EnableColorInversion | TrackSelectedItemThroughKeyboard | None | FollowTheMousePointer | DisplayorFactorWhenZooming | TheMagnifyingGlassMustFollowTheInsertionPointOfTheText;1:5;"if d_Parameter_0.TheMagnifyingGlassMustFollowTheInsertionPointOfTheText {
+d_TheMagnifyingGlassMustFollowTheInsertionPointOfTheText = true;
+}
+if d_Parameter_0.DisplayorFactorWhenZooming {
+d_DisplayorFactorWhenZooming = true;
+}
+if d_Parameter_0.TrackSelectedItemThroughKeyboard {
+d_TrackSelectedItemThroughKeyboard = true;
+}
+if d_Parameter_0.FollowTheMousePointer {
+d_FollowTheMousePointer = true;
+}
+if d_Parameter_0.EnableColorInversion {
+d_EnableColorInversion = true;
+}
+";d_Parameter
+d_TheMagnifyingGlassMustFollowTheInsertionPointOfTheText;TheMagnifyingGlassMustFollowTheInsertionPointOfTheText?;Boolean;false | true;;;false
+d_FollowTheMousePointer;FollowTheMousePointer?;Boolean;false | true;;;false
+d_TrackSelectedItemThroughKeyboard;TrackSelectedItemThroughKeyboard?;Boolean;false | true;;;false
+d_DisplayorFactorWhenZooming;DisplayorFactorWhenZooming?;Boolean;false | true;;"if !d_DisplayorFactorWhenZooming {
+d_DisplayorFactorWhenZooming_0 = None;
+}
+if !d_DisplayorFactorWhenZooming {
+allow(d_DisplayorFactorWhenZooming_0.None);
+}
+if (d_DisplayorFactorWhenZooming) {
+disAllow(d_DisplayorFactorWhenZooming_0.None);
+}
+";false
+d_DisplayorFactorWhenZooming_0;Choose your DisplayorFactorWhenZooming?;Enumeration;None | LessTwentyFivePerCent | MoreFourHundredPerCent;1:1;"if !d_DisplayorFactorWhenZooming_0.MoreFourHundredPerCent {
+d_MoreFourHundredPerCent = false;
+}
+if d_DisplayorFactorWhenZooming_0.MoreFourHundredPerCent {
+d_MoreFourHundredPerCent = true;
+}
+if !d_DisplayorFactorWhenZooming_0.LessTwentyFivePerCent {
+d_LessTwentyFivePerCent = false;
+}
+if d_DisplayorFactorWhenZooming_0.LessTwentyFivePerCent {
+d_LessTwentyFivePerCent = true;
+}
+";d_DisplayorFactorWhenZooming
+d_LessTwentyFivePerCent;LessTwentyFivePerCent?;Boolean;false | true;;;false
+d_MoreFourHundredPerCent;MoreFourHundredPerCent?;Boolean;false | true;;;false
+d_EnableColorInversion;EnableColorInversion?;Boolean;false | true;;;false
+d_HighContrast;HighContrast?;Boolean;false | true;;"if !d_HighContrast {
+d_HighContrast_0 = None;
+}
+if !d_HighContrast {
+allow(d_HighContrast_0.None);
+}
+if (d_HighContrast) {
+disAllow(d_HighContrast_0.None);
+}
+";false
+d_HighContrast_0;Choose your HighContrast?;Enumeration;AeroTheme | BasicThemeAndContrast | None;1:1;"if d_HighContrast_0.AeroTheme {
+d_AeroTheme = true;
+}
+if !d_HighContrast_0.AeroTheme {
+d_AeroTheme = false;
+}
+if d_HighContrast_0.BasicThemeAndContrast {
+d_BasicThemeAndContrast = true;
+}
+if !d_HighContrast_0.BasicThemeAndContrast {
+d_BasicThemeAndContrast = false;
+}
+";d_HighContrast
+d_AeroTheme;AeroTheme?;Boolean;false | true;;"if !d_AeroTheme {
+d_AeroTheme_0 = None;
+}
+if !d_AeroTheme {
+allow(d_AeroTheme_0.None);
+}
+if (d_AeroTheme) {
+disAllow(d_AeroTheme_0.None);
+}
+";false
+d_AeroTheme_0;Choose your AeroTheme?;Enumeration;Nature | Landscape | None | Characters | Architecture | Scene | Windows7;1:1;"if d_AeroTheme_0.Architecture {
+d_Architecture = true;
+}
+if !d_AeroTheme_0.Architecture {
+d_Architecture = false;
+}
+if d_AeroTheme_0.Nature {
+d_Nature = true;
+}
+if !d_AeroTheme_0.Characters {
+d_Characters = false;
+}
+if !d_AeroTheme_0.Nature {
+d_Nature = false;
+}
+if d_AeroTheme_0.Characters {
+d_Characters = true;
+}
+if d_AeroTheme_0.Windows7 {
+d_Windows7 = true;
+}
+if !d_AeroTheme_0.Windows7 {
+d_Windows7 = false;
+}
+if d_AeroTheme_0.Scene {
+d_Scene = true;
+}
+if !d_AeroTheme_0.Landscape {
+d_Landscape = false;
+}
+if d_AeroTheme_0.Landscape {
+d_Landscape = true;
+}
+if !d_AeroTheme_0.Scene {
+d_Scene = false;
+}
+";d_AeroTheme
+d_Architecture;Architecture?;Boolean;false | true;;;false
+d_Characters;Characters?;Boolean;false | true;;;false
+d_Nature;Nature?;Boolean;false | true;;;false
+d_Landscape;Landscape?;Boolean;false | true;;;false
+d_Windows7;Windows7?;Boolean;false | true;;;false
+d_Scene;Scene?;Boolean;false | true;;;false
+d_BasicThemeAndContrast;BasicThemeAndContrast?;Boolean;false | true;;"if (d_BasicThemeAndContrast) {
+disAllow(d_BasicThemeAndContrast_0.None);
+}
+if !d_BasicThemeAndContrast {
+d_BasicThemeAndContrast_0 = None;
+}
+if !d_BasicThemeAndContrast {
+allow(d_BasicThemeAndContrast_0.None);
+}
+";false
+d_BasicThemeAndContrast_0;Choose your BasicThemeAndContrast?;Enumeration;None | HighBlackCOntrast | HighContrastNumber1 | HighWhiteContrast | ClassicWindows | HighContrastNumber2;1:1;"if d_BasicThemeAndContrast_0.HighBlackCOntrast {
+d_HighBlackCOntrast = true;
+}
+if d_BasicThemeAndContrast_0.ClassicWindows {
+d_ClassicWindows = true;
+}
+if !d_BasicThemeAndContrast_0.HighBlackCOntrast {
+d_HighBlackCOntrast = false;
+}
+if !d_BasicThemeAndContrast_0.HighWhiteContrast {
+d_HighWhiteContrast = false;
+}
+if d_BasicThemeAndContrast_0.HighContrastNumber2 {
+d_HighContrastNumber2 = true;
+}
+if !d_BasicThemeAndContrast_0.HighContrastNumber2 {
+d_HighContrastNumber2 = false;
+}
+if !d_BasicThemeAndContrast_0.HighContrastNumber1 {
+d_HighContrastNumber1 = false;
+}
+if d_BasicThemeAndContrast_0.HighContrastNumber1 {
+d_HighContrastNumber1 = true;
+}
+if d_BasicThemeAndContrast_0.HighWhiteContrast {
+d_HighWhiteContrast = true;
+}
+if !d_BasicThemeAndContrast_0.ClassicWindows {
+d_ClassicWindows = false;
+}
+";d_BasicThemeAndContrast
+d_HighWhiteContrast;HighWhiteContrast?;Boolean;false | true;;;false
+d_HighBlackCOntrast;HighBlackCOntrast?;Boolean;false | true;;;false
+d_HighContrastNumber2;HighContrastNumber2?;Boolean;false | true;;;false
+d_HighContrastNumber1;HighContrastNumber1?;Boolean;false | true;;;false
+d_ClassicWindows;ClassicWindows?;Boolean;false | true;;;false
+d_MAkeTheMouseEasyToUse;MAkeTheMouseEasyToUse?;Boolean;false | true;;;false

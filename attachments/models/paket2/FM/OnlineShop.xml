@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<featureModel>
+	<properties>
+		<graphics key="legendautolayout" value="true"/>
+		<graphics key="showshortnames" value="false"/>
+		<graphics key="layout" value="horizontal"/>
+		<graphics key="showcollapsedconstraints" value="true"/>
+		<graphics key="legendhidden" value="false"/>
+		<graphics key="layoutalgorithm" value="1"/>
+	</properties>
+	<struct>
+		<and abstract="true" mandatory="true" name="Onlineshop">
+			<alt abstract="true" mandatory="true" name="Payment">
+				<feature name="DebitCard"/>
+				<feature name="CreditCard"/>
+			</alt>
+			<and abstract="true" mandatory="true" name="ProductSelection">
+				<and mandatory="true" name="Catalog">
+					<feature name="Categories"/>
+					<feature name="Sort"/>
+				</and>
+				<feature name="Search"/>
+			</and>
+			<or abstract="true" name="UserManagement">
+				<feature name="Orders"/>
+				<feature name="Security"/>
+				<feature name="Payments"/>
+				<feature name="Wishlist"/>
+			</or>
+		</and>
+	</struct>
+	<constraints>
+		<rule>
+			<imp>
+				<var>Search</var>
+				<var>Security</var>
+			</imp>
+		</rule>
+		<rule>
+			<conj>
+				<imp>
+					<var>Security</var>
+					<not>
+						<var>Payments</var>
+					</not>
+				</imp>
+				<imp>
+					<var>Payments</var>
+					<not>
+						<var>Security</var>
+					</not>
+				</imp>
+			</conj>
+		</rule>
+		<rule>
+			<disj>
+				<var>Sort</var>
+				<var>Search</var>
+			</disj>
+		</rule>
+	</constraints>
+</featureModel>

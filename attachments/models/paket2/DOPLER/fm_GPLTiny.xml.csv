@@ -1,0 +1,43 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+d_GraphLibrary;GraphLibrary?;Boolean;false | true;;"if (d_GraphLibrary) {
+d_Edges = true;
+}
+";true
+d_Edges;Edges?;Boolean;false | true;;;(false && d_GraphLibrary)
+d_Edges_0;Choose your Edges?;Enumeration;Directed | Undirected;1:1;"if !d_Edges_0.Directed {
+d_Directed = false;
+}
+if d_Edges_0.Directed {
+d_Directed = true;
+}
+if !d_Edges_0.Undirected {
+d_Undirected = false;
+}
+if d_Edges_0.Undirected {
+d_Undirected = true;
+}
+";d_Edges
+d_Directed;Directed?;Boolean;false | true;;;false
+d_Undirected;Undirected?;Boolean;false | true;;;false
+d_Algorithms;Algorithms?;Boolean;false | true;;"if !d_Algorithms {
+d_Algorithms_0 = None;
+}
+if !d_Algorithms {
+allow(d_Algorithms_0.None);
+}
+if (d_Algorithms) {
+disAllow(d_Algorithms_0.None);
+}
+";d_GraphLibrary
+d_Algorithms_0;Choose your Algorithms?;Enumeration;None | Number | Cycle;1:2;"if d_Algorithms_0.Cycle {
+d_Cycle = true;
+}
+if d_Algorithms_0.Number {
+d_Number = true;
+}
+";d_Algorithms
+d_Number;Number?;Boolean;false | true;;;false
+d_Cycle;Cycle?;Boolean;false | true;;"if (d_Cycle) {
+d_Edges_0 = Directed;
+}
+";false

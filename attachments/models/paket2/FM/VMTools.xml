@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<featureModel>
+	<struct>
+		<and mandatory="true" name="VMToolsRA">
+			<and mandatory="true" name="VariabilityManagement">
+				<and mandatory="true" name="VariabilityModeling">
+					<and mandatory="true" name="CompositionRules">
+						<feature name="Cardinality"/>
+						<or abstract="true" mandatory="true" name="CompositionRules_2">
+							<feature name="Constraints"/>
+							<feature name="Dependency"/>
+						</or>
+					</and>
+					<feature name="Traceability"/>
+					<and mandatory="true" name="VariabilityModelManagement">
+						<alt mandatory="true" name="Notation">
+							<feature name="FeatureModel"/>
+							<feature name="DecisionModel"/>
+							<feature name="Orthodonal"/>
+							<feature name="Other"/>
+						</alt>
+						<feature mandatory="true" name="Variants"/>
+						<feature mandatory="true" name="VariationPoint"/>
+					</and>
+				</and>
+				<and name="VariabilityValidation">
+					<feature name="VerificationReports"/>
+					<or abstract="true" mandatory="true" name="VariabilityValidation_2">
+						<feature name="LogicSolvers"/>
+						<feature name="Reasoners"/>
+						<feature name="Other_1"/>
+					</or>
+				</and>
+				<and name="VariabilityDecision">
+					<and mandatory="true" name="VariabilityBindingManagement">
+						<or mandatory="true" name="BindingTime">
+							<feature name="CompileTime"/>
+							<feature name="Runtime"/>
+							<feature name="Other_2"/>
+						</or>
+						<feature mandatory="true" name="VariabilityMechanism"/>
+					</and>
+				</and>
+				<and name="VariabilityEvolution">
+					<and mandatory="true" name="VariabilityControlEvolution">
+						<feature mandatory="true" name="ImpactAnalysis"/>
+					</and>
+				</and>
+			</and>
+			<and name="Organizational">
+				<feature name="PlanningManagement"/>
+				<feature name="CommunicationSharing"/>
+				<feature name="Guidance"/>
+				<feature name="TradeOffAnalysis"/>
+				<feature name="NotifyingFeedback"/>
+			</and>
+			<and name="DomainAnalysis">
+				<feature mandatory="true" name="DomainAssets"/>
+				<feature name="RequirementSpecifications"/>
+			</and>
+		</and>
+	</struct>
+	<constraints>
+		<rule>
+			<disj>
+				<var>BindingTime</var>
+				<not>
+					<var>VariabilityMechanism</var>
+				</not>
+			</disj>
+		</rule>
+		<rule>
+			<disj>
+				<not>
+					<var>VariabilityManagement</var>
+				</not>
+				<var>DomainAssets</var>
+			</disj>
+		</rule>
+		<rule>
+			<disj>
+				<not>
+					<var>VariabilityManagement</var>
+				</not>
+				<var>Organizational</var>
+			</disj>
+		</rule>
+	</constraints>
+</featureModel>

@@ -1,0 +1,33 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+d_Messaging;Messaging?;Boolean;false | true;;;true
+d_Messaging_0;Choose your Messaging?;Enumeration;None | MMS | SMS;1:2;"if d_Messaging_0.SMS {
+d_SMS = true;
+}
+if d_Messaging_0.MMS {
+d_MMS = true;
+}
+";d_Messaging
+d_SMS;SMS?;Boolean;false | true;;;false
+d_MMS;MMS?;Boolean;false | true;;;false
+d_Utility Features;Utility Features?;Boolean;false | true;;;true
+d_Calculator;Calculator?;Boolean;false | true;;;d_Utility Features
+d_Currency Exchange;Currency Exchange?;Boolean;false | true;;"if (d_Currency Exchange) {
+d_Calculator = true;
+}
+";d_Utility Features
+d_OS;OS?;Boolean;false | true;;;true
+d_OS_0;Choose your OS?;Enumeration;None | WinCE | Symbian;1:1;"if d_OS_0.WinCE {
+d_WinCE = true;
+}
+if !d_OS_0.WinCE {
+d_WinCE = false;
+}
+if d_OS_0.Symbian {
+d_Symbian = true;
+}
+if !d_OS_0.Symbian {
+d_Symbian = false;
+}
+";d_OS
+d_Symbian;Symbian?;Boolean;false | true;;;false
+d_WinCE;WinCE?;Boolean;false | true;;;false

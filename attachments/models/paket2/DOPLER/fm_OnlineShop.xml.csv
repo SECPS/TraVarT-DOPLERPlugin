@@ -1,0 +1,80 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+d_Onlineshop;Onlineshop?;Boolean;false | true;;"if (d_Onlineshop) {
+d_ProductSelection = true;
+}
+if (d_Onlineshop) {
+d_Payment = true;
+}
+";true
+d_Payment;Payment?;Boolean;false | true;;;(false && d_Onlineshop)
+d_Payment_0;Choose your Payment?;Enumeration;DebitCard | CreditCard;1:1;"if d_Payment_0.DebitCard {
+d_DebitCard = true;
+}
+if !d_Payment_0.DebitCard {
+d_DebitCard = false;
+}
+if !d_Payment_0.CreditCard {
+d_CreditCard = false;
+}
+if d_Payment_0.CreditCard {
+d_CreditCard = true;
+}
+";d_Payment
+d_DebitCard;DebitCard?;Boolean;false | true;;;false
+d_CreditCard;CreditCard?;Boolean;false | true;;;false
+d_ProductSelection;ProductSelection?;Boolean;false | true;;"if (d_ProductSelection) {
+d_Catalog = true;
+}
+";(false && d_Onlineshop)
+d_Catalog;Catalog?;Boolean;false | true;;;(false && d_ProductSelection)
+d_Categories;Categories?;Boolean;false | true;;;d_Catalog
+d_Sort;Sort?;Boolean;false | true;;"if !d_Sort {
+d_Search = true;
+}
+";d_Catalog
+d_Search;Search?;Boolean;false | true;;"if (d_Search) {
+d_UserManagement_0 = Security;
+}
+if !d_Search {
+d_Sort = true;
+}
+";d_ProductSelection
+d_UserManagement;UserManagement?;Boolean;false | true;;"if !d_UserManagement {
+d_UserManagement_0 = None;
+}
+if !d_UserManagement {
+allow(d_UserManagement_0.None);
+}
+if (d_UserManagement) {
+disAllow(d_UserManagement_0.None);
+}
+";d_Onlineshop
+d_UserManagement_0;Choose your UserManagement?;Enumeration;Orders | None | Security | Payments | Wishlist;1:4;"if d_UserManagement_0.Payments {
+d_Payments = true;
+}
+if d_UserManagement_0.Wishlist {
+d_Wishlist = true;
+}
+if d_UserManagement_0.Security {
+d_Security = true;
+}
+if d_UserManagement_0.Orders {
+d_Orders = true;
+}
+";d_UserManagement
+d_Orders;Orders?;Boolean;false | true;;;false
+d_Security;Security?;Boolean;false | true;;"if !d_Security {
+allow(d_UserManagement_0.Payments);
+}
+if (d_Security) {
+disAllow(d_UserManagement_0.Payments);
+}
+";false
+d_Payments;Payments?;Boolean;false | true;;"if !d_Payments {
+allow(d_UserManagement_0.Security);
+}
+if (d_Payments) {
+disAllow(d_UserManagement_0.Security);
+}
+";false
+d_Wishlist;Wishlist?;Boolean;false | true;;;false

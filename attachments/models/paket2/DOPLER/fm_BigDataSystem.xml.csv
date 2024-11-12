@@ -1,0 +1,2911 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+d_BigDataSystem;BigDataSystem?;Boolean;false | true;;"if (d_BigDataSystem) {
+d_Infraestructure = true;
+}
+if (d_BigDataSystem) {
+d_Services_2 = true;
+}
+";true
+d_Infraestructure;Infraestructure?;Boolean;false | true;;"if (d_Infraestructure) {
+d_Network = true;
+}
+if (d_Infraestructure) {
+d_Data = true;
+}
+if (d_Infraestructure) {
+d_Storage = true;
+}
+";(false && d_BigDataSystem)
+d_Network;Network?;Boolean;false | true;;"if (d_Network) {
+d_Cable = true;
+}
+";(false && d_Infraestructure)
+d_Cable;Cable?;Boolean;false | true;;;(false && d_Network)
+d_Wireless;Wireless?;Boolean;false | true;;;d_Network
+d_Storage;Storage?;Boolean;false | true;;"if (d_Storage) {
+d_Networkattachstorage = true;
+}
+";(false && d_Infraestructure)
+d_Networkattachstorage;Networkattachstorage?;Boolean;false | true;;;(false && d_Storage)
+d_Directattachstorage;Directattachstorage?;Boolean;false | true;;;d_Storage
+d_Cloud;Cloud?;Boolean;false | true;;"if (d_Cloud) {
+d_Processing = true;
+}
+if (d_Cloud) {
+d_Architecture = true;
+}
+if (d_Cloud) {
+d_Type = true;
+}
+if (d_Cloud) {
+d_Storage_1 = true;
+}
+if (d_Cloud) {
+d_Intelligence = true;
+}
+";d_Storage
+d_Architecture;Architecture?;Boolean;false | true;;;(false && d_Cloud)
+d_Architecture_0;Choose your Architecture?;Enumeration;Kappa | Batch | Lambda;1:1;"if d_Architecture_0.Lambda {
+d_Lambda = true;
+}
+if !d_Architecture_0.Lambda {
+d_Lambda = false;
+}
+if !d_Architecture_0.Kappa {
+d_Kappa = false;
+}
+if !d_Architecture_0.Batch {
+d_Batch = false;
+}
+if d_Architecture_0.Kappa {
+d_Kappa = true;
+}
+if d_Architecture_0.Batch {
+d_Batch = true;
+}
+";d_Architecture
+d_Lambda;Lambda?;Boolean;false | true;;"if (d_Lambda) {
+d_Batchlayer = true;
+}
+if (d_Lambda) {
+d_Speedlayer = true;
+}
+if (d_Lambda) {
+d_Servinglayer = true;
+}
+";false
+d_Batchlayer;Batchlayer?;Boolean;false | true;;;(false && d_Lambda)
+d_Servinglayer;Servinglayer?;Boolean;false | true;;;(false && d_Lambda)
+d_Speedlayer;Speedlayer?;Boolean;false | true;;;(false && d_Lambda)
+d_Kappa;Kappa?;Boolean;false | true;;"if (d_Kappa) {
+d_Servinglayer_1 = true;
+}
+if (d_Kappa) {
+d_Realtimelayer = true;
+}
+";false
+d_Realtimelayer;Realtimelayer?;Boolean;false | true;;;(false && d_Kappa)
+d_Servinglayer_1;Servinglayer_1?;Boolean;false | true;;;(false && d_Kappa)
+d_Batch;Batch?;Boolean;false | true;;;false
+d_Type;Type?;Boolean;false | true;;;(false && d_Cloud)
+d_Type_0;Choose your Type?;Enumeration;Convergedpre_integratedsystems | Softwaresolution | Public | Opensource | Managedprivatecloud | Hybrid;1:1;"if d_Type_0.Public {
+d_Public = true;
+}
+if !d_Type_0.Opensource {
+d_Opensource = false;
+}
+if !d_Type_0.Public {
+d_Public = false;
+}
+if d_Type_0.Convergedpre_integratedsystems {
+d_Convergedpre_integratedsystems = true;
+}
+if !d_Type_0.Convergedpre_integratedsystems {
+d_Convergedpre_integratedsystems = false;
+}
+if d_Type_0.Managedprivatecloud {
+d_Managedprivatecloud = true;
+}
+if !d_Type_0.Softwaresolution {
+d_Softwaresolution = false;
+}
+if d_Type_0.Softwaresolution {
+d_Softwaresolution = true;
+}
+if !d_Type_0.Managedprivatecloud {
+d_Managedprivatecloud = false;
+}
+if d_Type_0.Hybrid {
+d_Hybrid = true;
+}
+if d_Type_0.Opensource {
+d_Opensource = true;
+}
+if !d_Type_0.Hybrid {
+d_Hybrid = false;
+}
+";d_Type
+d_Softwaresolution;Softwaresolution?;Boolean;false | true;;;false
+d_CAtechnologies;CAtechnologies?;Boolean;false | true;;;d_Softwaresolution
+d_Cisco;Cisco?;Boolean;false | true;;;d_Softwaresolution
+d_Dell;Dell?;Boolean;false | true;;;d_Softwaresolution
+d_IBM;IBM?;Boolean;false | true;;;d_Softwaresolution
+d_Redhat;Redhat?;Boolean;false | true;;;d_Softwaresolution
+d_VMWare;VMWare?;Boolean;false | true;;;d_Softwaresolution
+d_Oracle;Oracle?;Boolean;false | true;;;d_Softwaresolution
+d_Microsoft;Microsoft?;Boolean;false | true;;;d_Softwaresolution
+d_Convergedpre_integratedsystems;Convergedpre_integratedsystems?;Boolean;false | true;;;false
+d_BMC;BMC?;Boolean;false | true;;;d_Convergedpre_integratedsystems
+d_Cisco_1;Cisco_1?;Boolean;false | true;;;d_Convergedpre_integratedsystems
+d_CSC;CSC?;Boolean;false | true;;;d_Convergedpre_integratedsystems
+d_Dell_1;Dell_1?;Boolean;false | true;;;d_Convergedpre_integratedsystems
+d_IBM_1;IBM_1?;Boolean;false | true;;;d_Convergedpre_integratedsystems
+d_Microsoft_1;Microsoft_1?;Boolean;false | true;;;d_Convergedpre_integratedsystems
+d_NetApp;NetApp?;Boolean;false | true;;;d_Convergedpre_integratedsystems
+d_Oracle_1;Oracle_1?;Boolean;false | true;;;d_Convergedpre_integratedsystems
+d_VCE;VCE?;Boolean;false | true;;;d_Convergedpre_integratedsystems
+d_Managedprivatecloud;Managedprivatecloud?;Boolean;false | true;;;false
+d_Citrix;Citrix?;Boolean;false | true;;;d_Managedprivatecloud
+d_Cisco_2;Cisco_2?;Boolean;false | true;;;d_Managedprivatecloud
+d_CSC_1;CSC_1?;Boolean;false | true;;;d_Managedprivatecloud
+d_Dell_2;Dell_2?;Boolean;false | true;;;d_Managedprivatecloud
+d_EMC;EMC?;Boolean;false | true;;;d_Managedprivatecloud
+d_IBMmirantis;IBMmirantis?;Boolean;false | true;;;d_Managedprivatecloud
+d_Opensource;Opensource?;Boolean;false | true;;;false
+d_Openstack;Openstack?;Boolean;false | true;;;d_Opensource
+d_Apachecloudstack;Apachecloudstack?;Boolean;false | true;;;d_Opensource
+d_Public;Public?;Boolean;false | true;;;false
+d_MicrosoftAzure;MicrosoftAzure?;Boolean;false | true;;;d_Public
+d_Googlecloud;Googlecloud?;Boolean;false | true;;;d_Public
+d_Oraclecloud;Oraclecloud?;Boolean;false | true;;;d_Public
+d_AWS;AWS?;Boolean;false | true;;;d_Public
+d_Hybrid;Hybrid?;Boolean;false | true;;;false
+d_OpenStack;OpenStack?;Boolean;false | true;;"if (d_OpenStack) {
+d_OpenStackpubliccloudpassport = true;
+}
+";d_Hybrid
+d_OpenStackpubliccloudpassport;OpenStackpubliccloudpassport?;Boolean;false | true;;;(false && d_OpenStack)
+d_AWS_1;AWS_1?;Boolean;false | true;;"if (d_AWS_1) {
+d_Directconnect = true;
+}
+";d_Hybrid
+d_Directconnect;Directconnect?;Boolean;false | true;;;(false && d_AWS_1)
+d_Microsoftazure;Microsoftazure?;Boolean;false | true;;"if (d_Microsoftazure) {
+d_Expressroute = true;
+}
+";d_Hybrid
+d_Expressroute;Expressroute?;Boolean;false | true;;;(false && d_Microsoftazure)
+d_Googlecloud_1;Googlecloud_1?;Boolean;false | true;;"if (d_Googlecloud_1) {
+d_Dedicatedinterconnection = true;
+}
+";d_Hybrid
+d_Dedicatedinterconnection;Dedicatedinterconnection?;Boolean;false | true;;;(false && d_Googlecloud_1)
+d_Storage_1;Storage_1?;Boolean;false | true;;;(false && d_Cloud)
+d_Storage_1_0;Choose your Storage_1?;Enumeration;AWS_2 | Microsoftazure_1 | Googlecloud_2;1:1;"if !d_Storage_1_0.AWS_2 {
+d_AWS_2 = false;
+}
+if d_Storage_1_0.Microsoftazure_1 {
+d_Microsoftazure_1 = true;
+}
+if !d_Storage_1_0.Microsoftazure_1 {
+d_Microsoftazure_1 = false;
+}
+if d_Storage_1_0.AWS_2 {
+d_AWS_2 = true;
+}
+if d_Storage_1_0.Googlecloud_2 {
+d_Googlecloud_2 = true;
+}
+if !d_Storage_1_0.Googlecloud_2 {
+d_Googlecloud_2 = false;
+}
+";d_Storage_1
+d_AWS_2;AWS_2?;Boolean;false | true;;"if !d_AWS_2 {
+d_AWS_2_0 = None;
+}
+if !d_AWS_2 {
+allow(d_AWS_2_0.None);
+}
+if (d_AWS_2) {
+disAllow(d_AWS_2_0.None);
+}
+";false
+d_AWS_2_0;Choose your AWS_2?;Enumeration;None | DynamoDB | RedShift | S3;1:1;"if d_AWS_2_0.RedShift {
+d_RedShift = true;
+}
+if !d_AWS_2_0.DynamoDB {
+d_DynamoDB = false;
+}
+if d_AWS_2_0.DynamoDB {
+d_DynamoDB = true;
+}
+if !d_AWS_2_0.S3 {
+d_S3 = false;
+}
+if !d_AWS_2_0.RedShift {
+d_RedShift = false;
+}
+if d_AWS_2_0.S3 {
+d_S3 = true;
+}
+";d_AWS_2
+d_DynamoDB;DynamoDB?;Boolean;false | true;;;false
+d_RedShift;RedShift?;Boolean;false | true;;;false
+d_S3;S3?;Boolean;false | true;;;false
+d_Microsoftazure_1;Microsoftazure_1?;Boolean;false | true;;"if (d_Microsoftazure_1) {
+disAllow(d_Microsoftazure_1_0.None);
+}
+if !d_Microsoftazure_1 {
+d_Microsoftazure_1_0 = None;
+}
+if !d_Microsoftazure_1 {
+allow(d_Microsoftazure_1_0.None);
+}
+";false
+d_Microsoftazure_1_0;Choose your Microsoftazure_1?;Enumeration;None | DataLakeStore | SQLDW;1:1;"if !d_Microsoftazure_1_0.SQLDW {
+d_SQLDW = false;
+}
+if d_Microsoftazure_1_0.SQLDW {
+d_SQLDW = true;
+}
+if !d_Microsoftazure_1_0.DataLakeStore {
+d_DataLakeStore = false;
+}
+if d_Microsoftazure_1_0.DataLakeStore {
+d_DataLakeStore = true;
+}
+";d_Microsoftazure_1
+d_SQLDW;SQLDW?;Boolean;false | true;;;false
+d_DataLakeStore;DataLakeStore?;Boolean;false | true;;;false
+d_Googlecloud_2;Googlecloud_2?;Boolean;false | true;;"if (d_Googlecloud_2) {
+disAllow(d_Googlecloud_2_0.None);
+}
+if !d_Googlecloud_2 {
+d_Googlecloud_2_0 = None;
+}
+if !d_Googlecloud_2 {
+allow(d_Googlecloud_2_0.None);
+}
+";false
+d_Googlecloud_2_0;Choose your Googlecloud_2?;Enumeration;Bigtable | None | Datastore | Bigquery;1:1;"if d_Googlecloud_2_0.Bigquery {
+d_Bigquery = true;
+}
+if d_Googlecloud_2_0.Bigtable {
+d_Bigtable = true;
+}
+if !d_Googlecloud_2_0.Bigquery {
+d_Bigquery = false;
+}
+if !d_Googlecloud_2_0.Bigtable {
+d_Bigtable = false;
+}
+if d_Googlecloud_2_0.Datastore {
+d_Datastore = true;
+}
+if !d_Googlecloud_2_0.Datastore {
+d_Datastore = false;
+}
+";d_Googlecloud_2
+d_Bigtable;Bigtable?;Boolean;false | true;;;false
+d_Datastore;Datastore?;Boolean;false | true;;;false
+d_Bigquery;Bigquery?;Boolean;false | true;;;false
+d_Processing;Processing?;Boolean;false | true;;;(false && d_Cloud)
+d_Processing_0;Choose your Processing?;Enumeration;Microsoftazure_2 | AWS_3 | Googlecloud_3;1:1;"if !d_Processing_0.Microsoftazure_2 {
+d_Microsoftazure_2 = false;
+}
+if d_Processing_0.Googlecloud_3 {
+d_Googlecloud_3 = true;
+}
+if d_Processing_0.Microsoftazure_2 {
+d_Microsoftazure_2 = true;
+}
+if !d_Processing_0.Googlecloud_3 {
+d_Googlecloud_3 = false;
+}
+if d_Processing_0.AWS_3 {
+d_AWS_3 = true;
+}
+if !d_Processing_0.AWS_3 {
+d_AWS_3 = false;
+}
+";d_Processing
+d_AWS_3;AWS_3?;Boolean;false | true;;"if (d_AWS_3) {
+disAllow(d_AWS_3_0.None);
+}
+if !d_AWS_3 {
+d_AWS_3_0 = None;
+}
+if !d_AWS_3 {
+allow(d_AWS_3_0.None);
+}
+";false
+d_AWS_3_0;Choose your AWS_3?;Enumeration;None | Datapipeline | EMR | Kinesis;1:1;"if d_AWS_3_0.EMR {
+d_EMR = true;
+}
+if !d_AWS_3_0.EMR {
+d_EMR = false;
+}
+if d_AWS_3_0.Kinesis {
+d_Kinesis = true;
+}
+if d_AWS_3_0.Datapipeline {
+d_Datapipeline = true;
+}
+if !d_AWS_3_0.Datapipeline {
+d_Datapipeline = false;
+}
+if !d_AWS_3_0.Kinesis {
+d_Kinesis = false;
+}
+";d_AWS_3
+d_Datapipeline;Datapipeline?;Boolean;false | true;;;false
+d_Kinesis;Kinesis?;Boolean;false | true;;;false
+d_EMR;EMR?;Boolean;false | true;;;false
+d_Microsoftazure_2;Microsoftazure_2?;Boolean;false | true;;"if !d_Microsoftazure_2 {
+d_Microsoftazure_2_0 = None;
+}
+if !d_Microsoftazure_2 {
+allow(d_Microsoftazure_2_0.None);
+}
+if (d_Microsoftazure_2) {
+disAllow(d_Microsoftazure_2_0.None);
+}
+";false
+d_Microsoftazure_2_0;Choose your Microsoftazure_2?;Enumeration;Streamanalytics | None | HDInsight;1:1;"if !d_Microsoftazure_2_0.HDInsight {
+d_HDInsight = false;
+}
+if d_Microsoftazure_2_0.HDInsight {
+d_HDInsight = true;
+}
+if d_Microsoftazure_2_0.Streamanalytics {
+d_Streamanalytics = true;
+}
+if !d_Microsoftazure_2_0.Streamanalytics {
+d_Streamanalytics = false;
+}
+";d_Microsoftazure_2
+d_Streamanalytics;Streamanalytics?;Boolean;false | true;;;false
+d_HDInsight;HDInsight?;Boolean;false | true;;;false
+d_Googlecloud_3;Googlecloud_3?;Boolean;false | true;;"if !d_Googlecloud_3 {
+d_Googlecloud_3_0 = None;
+}
+if !d_Googlecloud_3 {
+allow(d_Googlecloud_3_0.None);
+}
+if (d_Googlecloud_3) {
+disAllow(d_Googlecloud_3_0.None);
+}
+";false
+d_Googlecloud_3_0;Choose your Googlecloud_3?;Enumeration;Dataflow | None | Dataproc | Pub_sub;1:1;"if !d_Googlecloud_3_0.Dataproc {
+d_Dataproc = false;
+}
+if d_Googlecloud_3_0.Dataproc {
+d_Dataproc = true;
+}
+if !d_Googlecloud_3_0.Dataflow {
+d_Dataflow = false;
+}
+if d_Googlecloud_3_0.Dataflow {
+d_Dataflow = true;
+}
+if !d_Googlecloud_3_0.Pub_sub {
+d_Pub_sub = false;
+}
+if d_Googlecloud_3_0.Pub_sub {
+d_Pub_sub = true;
+}
+";d_Googlecloud_3
+d_Dataproc;Dataproc?;Boolean;false | true;;;false
+d_Dataflow;Dataflow?;Boolean;false | true;;;false
+d_Pub_sub;Pub_sub?;Boolean;false | true;;;false
+d_Intelligence;Intelligence?;Boolean;false | true;;;(false && d_Cloud)
+d_Intelligence_0;Choose your Intelligence?;Enumeration;Googlecloud_4 | Microsoftazure_3 | AWS_4;1:1;"if d_Intelligence_0.Googlecloud_4 {
+d_Googlecloud_4 = true;
+}
+if !d_Intelligence_0.Googlecloud_4 {
+d_Googlecloud_4 = false;
+}
+if !d_Intelligence_0.AWS_4 {
+d_AWS_4 = false;
+}
+if d_Intelligence_0.AWS_4 {
+d_AWS_4 = true;
+}
+if d_Intelligence_0.Microsoftazure_3 {
+d_Microsoftazure_3 = true;
+}
+if !d_Intelligence_0.Microsoftazure_3 {
+d_Microsoftazure_3 = false;
+}
+";d_Intelligence
+d_AWS_4;AWS_4?;Boolean;false | true;;"if !d_AWS_4 {
+d_AWS_4_0 = None;
+}
+if !d_AWS_4 {
+allow(d_AWS_4_0.None);
+}
+if (d_AWS_4) {
+disAllow(d_AWS_4_0.None);
+}
+";false
+d_AWS_4_0;Choose your AWS_4?;Enumeration;None | Machinelearning | Quicksight;1:1;"if d_AWS_4_0.Machinelearning {
+d_Machinelearning = true;
+}
+if !d_AWS_4_0.Quicksight {
+d_Quicksight = false;
+}
+if d_AWS_4_0.Quicksight {
+d_Quicksight = true;
+}
+if !d_AWS_4_0.Machinelearning {
+d_Machinelearning = false;
+}
+";d_AWS_4
+d_Machinelearning;Machinelearning?;Boolean;false | true;;;false
+d_Quicksight;Quicksight?;Boolean;false | true;;;false
+d_Microsoftazure_3;Microsoftazure_3?;Boolean;false | true;;"if (d_Microsoftazure_3) {
+disAllow(d_Microsoftazure_3_0.None);
+}
+if !d_Microsoftazure_3 {
+d_Microsoftazure_3_0 = None;
+}
+if !d_Microsoftazure_3 {
+allow(d_Microsoftazure_3_0.None);
+}
+";false
+d_Microsoftazure_3_0;Choose your Microsoftazure_3?;Enumeration;None | Machinelearning_1 | Cognitiveservices;1:1;"if d_Microsoftazure_3_0.Cognitiveservices {
+d_Cognitiveservices = true;
+}
+if !d_Microsoftazure_3_0.Machinelearning_1 {
+d_Machinelearning_1 = false;
+}
+if d_Microsoftazure_3_0.Machinelearning_1 {
+d_Machinelearning_1 = true;
+}
+if !d_Microsoftazure_3_0.Cognitiveservices {
+d_Cognitiveservices = false;
+}
+";d_Microsoftazure_3
+d_Cognitiveservices;Cognitiveservices?;Boolean;false | true;;;false
+d_Machinelearning_1;Machinelearning_1?;Boolean;false | true;;;false
+d_Googlecloud_4;Googlecloud_4?;Boolean;false | true;;"if !d_Googlecloud_4 {
+d_Googlecloud_4_0 = None;
+}
+if !d_Googlecloud_4 {
+allow(d_Googlecloud_4_0.None);
+}
+if (d_Googlecloud_4) {
+disAllow(d_Googlecloud_4_0.None);
+}
+";false
+d_Googlecloud_4_0;Choose your Googlecloud_4?;Enumeration;None | Machinelearning_2 | NaturallanguageAPI | Datalab;1:1;"if !d_Googlecloud_4_0.Datalab {
+d_Datalab = false;
+}
+if d_Googlecloud_4_0.NaturallanguageAPI {
+d_NaturallanguageAPI = true;
+}
+if d_Googlecloud_4_0.Machinelearning_2 {
+d_Machinelearning_2 = true;
+}
+if d_Googlecloud_4_0.Datalab {
+d_Datalab = true;
+}
+if !d_Googlecloud_4_0.NaturallanguageAPI {
+d_NaturallanguageAPI = false;
+}
+if !d_Googlecloud_4_0.Machinelearning_2 {
+d_Machinelearning_2 = false;
+}
+";d_Googlecloud_4
+d_NaturallanguageAPI;NaturallanguageAPI?;Boolean;false | true;;;false
+d_Machinelearning_2;Machinelearning_2?;Boolean;false | true;;;false
+d_Datalab;Datalab?;Boolean;false | true;;;false
+d_Onpremise;Onpremise?;Boolean;false | true;;"if (d_Onpremise) {
+d_Technologies = true;
+}
+if (d_Onpremise) {
+d_Services = true;
+}
+";d_Storage
+d_Services;Services?;Boolean;false | true;;;(false && d_Onpremise)
+d_Services_0;Choose your Services?;Enumeration;Installation | Fileserver | Backupandreplication | Migration | Certifyingentitites | Cluster;1:6;"if d_Services_0.Backupandreplication {
+d_Backupandreplication = true;
+}
+if d_Services_0.Installation {
+d_Installation = true;
+}
+if d_Services_0.Cluster {
+d_Cluster = true;
+}
+if d_Services_0.Certifyingentitites {
+d_Certifyingentitites = true;
+}
+if d_Services_0.Migration {
+d_Migration = true;
+}
+if d_Services_0.Fileserver {
+d_Fileserver = true;
+}
+";d_Services
+d_Installation;Installation?;Boolean;false | true;;;false
+d_Migration;Migration?;Boolean;false | true;;;false
+d_Cluster;Cluster?;Boolean;false | true;;;false
+d_Fileserver;Fileserver?;Boolean;false | true;;;false
+d_Certifyingentitites;Certifyingentitites?;Boolean;false | true;;;false
+d_Backupandreplication;Backupandreplication?;Boolean;false | true;;;false
+d_Technologies;Technologies?;Boolean;false | true;;;(false && d_Onpremise)
+d_Technologies_0;Choose your Technologies?;Enumeration;Exchange | MicrosoftActiveDirectory | Windowsserver | Veeam | SAPbusinessone | Sharepoint;1:1;"if d_Technologies_0.Windowsserver {
+d_Windowsserver = true;
+}
+if !d_Technologies_0.Windowsserver {
+d_Windowsserver = false;
+}
+if d_Technologies_0.Sharepoint {
+d_Sharepoint = true;
+}
+if !d_Technologies_0.Veeam {
+d_Veeam = false;
+}
+if !d_Technologies_0.Sharepoint {
+d_Sharepoint = false;
+}
+if d_Technologies_0.Veeam {
+d_Veeam = true;
+}
+if !d_Technologies_0.MicrosoftActiveDirectory {
+d_MicrosoftActiveDirectory = false;
+}
+if d_Technologies_0.MicrosoftActiveDirectory {
+d_MicrosoftActiveDirectory = true;
+}
+if d_Technologies_0.Exchange {
+d_Exchange = true;
+}
+if !d_Technologies_0.Exchange {
+d_Exchange = false;
+}
+if d_Technologies_0.SAPbusinessone {
+d_SAPbusinessone = true;
+}
+if !d_Technologies_0.SAPbusinessone {
+d_SAPbusinessone = false;
+}
+";d_Technologies
+d_Windowsserver;Windowsserver?;Boolean;false | true;;;false
+d_MicrosoftActiveDirectory;MicrosoftActiveDirectory?;Boolean;false | true;;;false
+d_Exchange;Exchange?;Boolean;false | true;;;false
+d_Sharepoint;Sharepoint?;Boolean;false | true;;;false
+d_SAPbusinessone;SAPbusinessone?;Boolean;false | true;;;false
+d_Veeam;Veeam?;Boolean;false | true;;;false
+d_Data;Data?;Boolean;false | true;;"if (d_Data) {
+d_Mobility = true;
+}
+if (d_Data) {
+d_Category = true;
+}
+if (d_Data) {
+d_Processing_2 = true;
+}
+if (d_Data) {
+d_Sources = true;
+}
+";(false && d_Infraestructure)
+d_Sources;Sources?;Boolean;false | true;;;(false && d_Data)
+d_Sources_0;Choose your Sources?;Enumeration;Hardware | Software;1:1;"if d_Sources_0.Hardware {
+d_Hardware = true;
+}
+if d_Sources_0.Software {
+d_Software = true;
+}
+if !d_Sources_0.Software {
+d_Software = false;
+}
+if !d_Sources_0.Hardware {
+d_Hardware = false;
+}
+";d_Sources
+d_Hardware;Hardware?;Boolean;false | true;;;false
+d_Software;Software?;Boolean;false | true;;;false
+d_Mobility;Mobility?;Boolean;false | true;;;(false && d_Data)
+d_Mobility_0;Choose your Mobility?;Enumeration;Streaming | Hybrid_1 | Batch_1;1:1;"if !d_Mobility_0.Streaming {
+d_Streaming = false;
+}
+if d_Mobility_0.Streaming {
+d_Streaming = true;
+}
+if d_Mobility_0.Hybrid_1 {
+d_Hybrid_1 = true;
+}
+if !d_Mobility_0.Hybrid_1 {
+d_Hybrid_1 = false;
+}
+if d_Mobility_0.Batch_1 {
+d_Batch_1 = true;
+}
+if !d_Mobility_0.Batch_1 {
+d_Batch_1 = false;
+}
+";d_Mobility
+d_Batch_1;Batch_1?;Boolean;false | true;;;false
+d_Streaming;Streaming?;Boolean;false | true;;;false
+d_Hybrid_1;Hybrid_1?;Boolean;false | true;;;false
+d_Processing_2;Processing_2?;Boolean;false | true;;;(false && d_Data)
+d_Processing_2_0;Choose your Processing_2?;Enumeration;Raw | Processed | Analyzed;1:1;"if d_Processing_2_0.Raw {
+d_Raw = true;
+}
+if !d_Processing_2_0.Raw {
+d_Raw = false;
+}
+if d_Processing_2_0.Analyzed {
+d_Analyzed = true;
+}
+if !d_Processing_2_0.Analyzed {
+d_Analyzed = false;
+}
+if !d_Processing_2_0.Processed {
+d_Processed = false;
+}
+if d_Processing_2_0.Processed {
+d_Processed = true;
+}
+";d_Processing_2
+d_Raw;Raw?;Boolean;false | true;;;false
+d_Processed;Processed?;Boolean;false | true;;;false
+d_Analyzed;Analyzed?;Boolean;false | true;;;false
+d_Security;Security?;Boolean;false | true;;"if !d_Security {
+d_Security_0 = None;
+}
+if !d_Security {
+allow(d_Security_0.None);
+}
+if (d_Security) {
+disAllow(d_Security_0.None);
+}
+";d_Data
+d_Security_0;Choose your Security?;Enumeration;Untrusted | None | Trusted;1:1;"if !d_Security_0.Untrusted {
+d_Untrusted = false;
+}
+if d_Security_0.Untrusted {
+d_Untrusted = true;
+}
+if d_Security_0.Trusted {
+d_Trusted = true;
+}
+if !d_Security_0.Trusted {
+d_Trusted = false;
+}
+";d_Security
+d_Trusted;Trusted?;Boolean;false | true;;;false
+d_Untrusted;Untrusted?;Boolean;false | true;;;false
+d_Category;Category?;Boolean;false | true;;;(false && d_Data)
+d_Category_0;Choose your Category?;Enumeration;Nonstructured | Structured | Semistructured;1:1;"if !d_Category_0.Semistructured {
+d_Semistructured = false;
+}
+if !d_Category_0.Nonstructured {
+d_Nonstructured = false;
+}
+if d_Category_0.Nonstructured {
+d_Nonstructured = true;
+}
+if d_Category_0.Semistructured {
+d_Semistructured = true;
+}
+if d_Category_0.Structured {
+d_Structured = true;
+}
+if !d_Category_0.Structured {
+d_Structured = false;
+}
+";d_Category
+d_Structured;Structured?;Boolean;false | true;;"if (d_Structured) {
+d_Generation = true;
+}
+if (d_Structured) {
+d_Modality = true;
+}
+";false
+d_Modality;Modality?;Boolean;false | true;;"if (d_Modality) {
+d_Text = true;
+}
+";(false && d_Structured)
+d_Text;Text?;Boolean;false | true;;;(false && d_Modality)
+d_Semanticanalysis;Semanticanalysis?;Boolean;false | true;;;d_Text
+d_Emotionanalysis;Emotionanalysis?;Boolean;false | true;;;d_Text
+d_Multimediaanalysis;Multimediaanalysis?;Boolean;false | true;;;d_Text
+d_Generation;Generation?;Boolean;false | true;;;(false && d_Structured)
+d_Created;Created?;Boolean;false | true;;;d_Generation
+d_Provoked;Provoked?;Boolean;false | true;;;d_Generation
+d_Transactiondriven;Transactiondriven?;Boolean;false | true;;;d_Generation
+d_Compiled;Compiled?;Boolean;false | true;;;d_Generation
+d_Experimental;Experimental?;Boolean;false | true;;;d_Generation
+d_Nonstructured;Nonstructured?;Boolean;false | true;;"if (d_Nonstructured) {
+d_Generation_1 = true;
+}
+if (d_Nonstructured) {
+d_Modality_2 = true;
+}
+";false
+d_Modality_2;Modality_2?;Boolean;false | true;;;(false && d_Nonstructured)
+d_Modality_2_0;Choose your Modality_2?;Enumeration;PDF | Textprocessingfiles | Digitalimages | Email | Spreadsheets | Publications | Video | Audio;1:1;"if !d_Modality_2_0.Digitalimages {
+d_Digitalimages = false;
+}
+if d_Modality_2_0.Digitalimages {
+d_Digitalimages = true;
+}
+if d_Modality_2_0.Spreadsheets {
+d_Spreadsheets = true;
+}
+if d_Modality_2_0.Video {
+d_Video = true;
+}
+if !d_Modality_2_0.Spreadsheets {
+d_Spreadsheets = false;
+}
+if !d_Modality_2_0.Video {
+d_Video = false;
+}
+if d_Modality_2_0.Audio {
+d_Audio = true;
+}
+if d_Modality_2_0.PDF {
+d_PDF = true;
+}
+if !d_Modality_2_0.PDF {
+d_PDF = false;
+}
+if !d_Modality_2_0.Publications {
+d_Publications = false;
+}
+if d_Modality_2_0.Textprocessingfiles {
+d_Textprocessingfiles = true;
+}
+if d_Modality_2_0.Publications {
+d_Publications = true;
+}
+if !d_Modality_2_0.Textprocessingfiles {
+d_Textprocessingfiles = false;
+}
+if !d_Modality_2_0.Audio {
+d_Audio = false;
+}
+if d_Modality_2_0.Email {
+d_Email = true;
+}
+if !d_Modality_2_0.Email {
+d_Email = false;
+}
+";d_Modality_2
+d_Email;Email?;Boolean;false | true;;;false
+d_Textprocessingfiles;Textprocessingfiles?;Boolean;false | true;;;false
+d_PDF;PDF?;Boolean;false | true;;;false
+d_Spreadsheets;Spreadsheets?;Boolean;false | true;;;false
+d_Digitalimages;Digitalimages?;Boolean;false | true;;;false
+d_Semanticanalysis_1;Semanticanalysis_1?;Boolean;false | true;;;d_Digitalimages
+d_Emotionanalysis_1;Emotionanalysis_1?;Boolean;false | true;;;d_Digitalimages
+d_Multimediaanalysis_1;Multimediaanalysis_1?;Boolean;false | true;;;d_Digitalimages
+d_Video;Video?;Boolean;false | true;;;false
+d_Audio;Audio?;Boolean;false | true;;;false
+d_Semanticanalysis_2;Semanticanalysis_2?;Boolean;false | true;;;d_Audio
+d_Emotionanalysis_2;Emotionanalysis_2?;Boolean;false | true;;;d_Audio
+d_Multimediaanalysis_2;Multimediaanalysis_2?;Boolean;false | true;;;d_Audio
+d_Publications;Publications?;Boolean;false | true;;;false
+d_Generation_1;Generation_1?;Boolean;false | true;;;(false && d_Nonstructured)
+d_Captured;Captured?;Boolean;false | true;;;d_Generation_1
+d_Usergenerated;Usergenerated?;Boolean;false | true;;;d_Generation_1
+d_Semistructured;Semistructured?;Boolean;false | true;;"if (d_Semistructured) {
+d_Modality_3 = true;
+}
+";false
+d_Modality_3;Modality_3?;Boolean;false | true;;;(false && d_Semistructured)
+d_Modality_3_0;Choose your Modality_3?;Enumeration;JSON | XML | HTML;1:1;"if d_Modality_3_0.HTML {
+d_HTML = true;
+}
+if !d_Modality_3_0.JSON {
+d_JSON = false;
+}
+if d_Modality_3_0.XML {
+d_XML = true;
+}
+if !d_Modality_3_0.HTML {
+d_HTML = false;
+}
+if d_Modality_3_0.JSON {
+d_JSON = true;
+}
+if !d_Modality_3_0.XML {
+d_XML = false;
+}
+";d_Modality_3
+d_XML;XML?;Boolean;false | true;;;false
+d_HTML;HTML?;Boolean;false | true;;;false
+d_JSON;JSON?;Boolean;false | true;;;false
+d_Origin;Origin?;Boolean;false | true;;;d_Data
+d_Webandsocialmedia;Webandsocialmedia?;Boolean;false | true;;"if (d_Webandsocialmedia) {
+disAllow(d_Webandsocialmedia_0.None);
+}
+if !d_Webandsocialmedia {
+d_Webandsocialmedia_0 = None;
+}
+if !d_Webandsocialmedia {
+allow(d_Webandsocialmedia_0.None);
+}
+";d_Origin
+d_Webandsocialmedia_0;Choose your Webandsocialmedia?;Enumeration;Clicksonlinks | Text_1 | None | Webcontent | Publications_1;1:1;"if !d_Webandsocialmedia_0.Clicksonlinks {
+d_Clicksonlinks = false;
+}
+if d_Webandsocialmedia_0.Clicksonlinks {
+d_Clicksonlinks = true;
+}
+if !d_Webandsocialmedia_0.Publications_1 {
+d_Publications_1 = false;
+}
+if d_Webandsocialmedia_0.Text_1 {
+d_Text_1 = true;
+}
+if d_Webandsocialmedia_0.Publications_1 {
+d_Publications_1 = true;
+}
+if !d_Webandsocialmedia_0.Text_1 {
+d_Text_1 = false;
+}
+if d_Webandsocialmedia_0.Webcontent {
+d_Webcontent = true;
+}
+if !d_Webandsocialmedia_0.Webcontent {
+d_Webcontent = false;
+}
+";d_Webandsocialmedia
+d_Clicksonlinks;Clicksonlinks?;Boolean;false | true;;;false
+d_Text_1;Text_1?;Boolean;false | true;;;false
+d_Publications_1;Publications_1?;Boolean;false | true;;;false
+d_Webcontent;Webcontent?;Boolean;false | true;;;false
+d_M2M;M2M?;Boolean;false | true;;"if !d_M2M {
+d_M2M_0 = None;
+}
+if !d_M2M {
+allow(d_M2M_0.None);
+}
+if (d_M2M) {
+disAllow(d_M2M_0.None);
+}
+";d_Origin
+d_M2M_0;Choose your M2M?;Enumeration;None | GPSsignals | Digitalsensors | RFIDlectures;1:1;"if d_M2M_0.RFIDlectures {
+d_RFIDlectures = true;
+}
+if !d_M2M_0.RFIDlectures {
+d_RFIDlectures = false;
+}
+if d_M2M_0.GPSsignals {
+d_GPSsignals = true;
+}
+if !d_M2M_0.GPSsignals {
+d_GPSsignals = false;
+}
+if !d_M2M_0.Digitalsensors {
+d_Digitalsensors = false;
+}
+if d_M2M_0.Digitalsensors {
+d_Digitalsensors = true;
+}
+";d_M2M
+d_GPSsignals;GPSsignals?;Boolean;false | true;;;false
+d_Digitalsensors;Digitalsensors?;Boolean;false | true;;;false
+d_RFIDlectures;RFIDlectures?;Boolean;false | true;;;false
+d_Biometrics;Biometrics?;Boolean;false | true;;"if (d_Biometrics) {
+disAllow(d_Biometrics_0.None);
+}
+if !d_Biometrics {
+d_Biometrics_0 = None;
+}
+if !d_Biometrics {
+allow(d_Biometrics_0.None);
+}
+";d_Origin
+d_Biometrics_0;Choose your Biometrics?;Enumeration;Facerecognition | None | Fingerprint | Genetics;1:1;"if !d_Biometrics_0.Genetics {
+d_Genetics = false;
+}
+if !d_Biometrics_0.Facerecognition {
+d_Facerecognition = false;
+}
+if d_Biometrics_0.Facerecognition {
+d_Facerecognition = true;
+}
+if !d_Biometrics_0.Fingerprint {
+d_Fingerprint = false;
+}
+if d_Biometrics_0.Fingerprint {
+d_Fingerprint = true;
+}
+if d_Biometrics_0.Genetics {
+d_Genetics = true;
+}
+";d_Biometrics
+d_Facerecognition;Facerecognition?;Boolean;false | true;;;false
+d_Genetics;Genetics?;Boolean;false | true;;;false
+d_Fingerprint;Fingerprint?;Boolean;false | true;;;false
+d_Humangenerated;Humangenerated?;Boolean;false | true;;"if (d_Humangenerated) {
+disAllow(d_Humangenerated_0.None);
+}
+if !d_Humangenerated {
+d_Humangenerated_0 = None;
+}
+if !d_Humangenerated {
+allow(d_Humangenerated_0.None);
+}
+";d_Origin
+d_Humangenerated_0;Choose your Humangenerated?;Enumeration;None | Recordings | Email_1 | Books;1:1;"if d_Humangenerated_0.Books {
+d_Books = true;
+}
+if d_Humangenerated_0.Recordings {
+d_Recordings = true;
+}
+if !d_Humangenerated_0.Books {
+d_Books = false;
+}
+if !d_Humangenerated_0.Email_1 {
+d_Email_1 = false;
+}
+if d_Humangenerated_0.Email_1 {
+d_Email_1 = true;
+}
+if !d_Humangenerated_0.Recordings {
+d_Recordings = false;
+}
+";d_Humangenerated
+d_Recordings;Recordings?;Boolean;false | true;;;false
+d_Email_1;Email_1?;Boolean;false | true;;;false
+d_Books;Books?;Boolean;false | true;;;false
+d_Transactions;Transactions?;Boolean;false | true;;"if !d_Transactions {
+d_Transactions_0 = None;
+}
+if !d_Transactions {
+allow(d_Transactions_0.None);
+}
+if (d_Transactions) {
+disAllow(d_Transactions_0.None);
+}
+";d_Origin
+d_Transactions_0;Choose your Transactions?;Enumeration;None | Telecommunications | Healthcareclaims | Taxrecords;1:1;"if !d_Transactions_0.Healthcareclaims {
+d_Healthcareclaims = false;
+}
+if d_Transactions_0.Taxrecords {
+d_Taxrecords = true;
+}
+if !d_Transactions_0.Taxrecords {
+d_Taxrecords = false;
+}
+if d_Transactions_0.Healthcareclaims {
+d_Healthcareclaims = true;
+}
+if !d_Transactions_0.Telecommunications {
+d_Telecommunications = false;
+}
+if d_Transactions_0.Telecommunications {
+d_Telecommunications = true;
+}
+";d_Transactions
+d_Telecommunications;Telecommunications?;Boolean;false | true;;;false
+d_Healthcareclaims;Healthcareclaims?;Boolean;false | true;;;false
+d_Taxrecords;Taxrecords?;Boolean;false | true;;;false
+d_Services_2;Services_2?;Boolean;false | true;;"if (d_Services_2) {
+d_Interface = true;
+}
+if (d_Services_2) {
+d_Collecting = true;
+}
+if (d_Services_2) {
+d_Processing_3 = true;
+}
+if (d_Services_2) {
+d_Representation = true;
+}
+if (d_Services_2) {
+d_Preprocessing = true;
+}
+if (d_Services_2) {
+d_Storing = true;
+}
+";(false && d_BigDataSystem)
+d_Collecting;Collecting?;Boolean;false | true;;;(false && d_Services_2)
+d_Collecting_0;Choose your Collecting?;Enumeration;Trendandsearchtools | Databases | Onlineformsandsurveys | Digitalanalysistools;1:4;"if d_Collecting_0.Databases {
+d_Databases = true;
+}
+if d_Collecting_0.Digitalanalysistools {
+d_Digitalanalysistools = true;
+}
+if d_Collecting_0.Onlineformsandsurveys {
+d_Onlineformsandsurveys = true;
+}
+if d_Collecting_0.Trendandsearchtools {
+d_Trendandsearchtools = true;
+}
+";d_Collecting
+d_Digitalanalysistools;Digitalanalysistools?;Boolean;false | true;;"if (d_Digitalanalysistools) {
+disAllow(d_Digitalanalysistools_0.None);
+}
+if !d_Digitalanalysistools {
+d_Digitalanalysistools_0 = None;
+}
+if !d_Digitalanalysistools {
+allow(d_Digitalanalysistools_0.None);
+}
+";false
+d_Digitalanalysistools_0;Choose your Digitalanalysistools?;Enumeration;Hootsuit | FacebookInsights | None | Googleanalytics | TwitterAnalytics;1:1;"if d_Digitalanalysistools_0.FacebookInsights {
+d_FacebookInsights = true;
+}
+if !d_Digitalanalysistools_0.FacebookInsights {
+d_FacebookInsights = false;
+}
+if !d_Digitalanalysistools_0.TwitterAnalytics {
+d_TwitterAnalytics = false;
+}
+if d_Digitalanalysistools_0.TwitterAnalytics {
+d_TwitterAnalytics = true;
+}
+if !d_Digitalanalysistools_0.Hootsuit {
+d_Hootsuit = false;
+}
+if d_Digitalanalysistools_0.Hootsuit {
+d_Hootsuit = true;
+}
+if !d_Digitalanalysistools_0.Googleanalytics {
+d_Googleanalytics = false;
+}
+if d_Digitalanalysistools_0.Googleanalytics {
+d_Googleanalytics = true;
+}
+";d_Digitalanalysistools
+d_Googleanalytics;Googleanalytics?;Boolean;false | true;;;false
+d_Hootsuit;Hootsuit?;Boolean;false | true;;;false
+d_TwitterAnalytics;TwitterAnalytics?;Boolean;false | true;;;false
+d_FacebookInsights;FacebookInsights?;Boolean;false | true;;;false
+d_Onlineformsandsurveys;Onlineformsandsurveys?;Boolean;false | true;;"if (d_Onlineformsandsurveys) {
+d_Googleforms = true;
+}
+";false
+d_Googleforms;Googleforms?;Boolean;false | true;;;(false && d_Onlineformsandsurveys)
+d_Trendandsearchtools;Trendandsearchtools?;Boolean;false | true;;"if (d_Trendandsearchtools) {
+disAllow(d_Trendandsearchtools_0.None);
+}
+if !d_Trendandsearchtools {
+d_Trendandsearchtools_0 = None;
+}
+if !d_Trendandsearchtools {
+allow(d_Trendandsearchtools_0.None);
+}
+";false
+d_Trendandsearchtools_0;Choose your Trendandsearchtools?;Enumeration;None | Googletrends | Topsy;1:1;"if d_Trendandsearchtools_0.Topsy {
+d_Topsy = true;
+}
+if !d_Trendandsearchtools_0.Topsy {
+d_Topsy = false;
+}
+if !d_Trendandsearchtools_0.Googletrends {
+d_Googletrends = false;
+}
+if d_Trendandsearchtools_0.Googletrends {
+d_Googletrends = true;
+}
+";d_Trendandsearchtools
+d_Googletrends;Googletrends?;Boolean;false | true;;;false
+d_Topsy;Topsy?;Boolean;false | true;;;false
+d_Databases;Databases?;Boolean;false | true;;;false
+d_Storing;Storing?;Boolean;false | true;;"if (d_Storing) {
+d_NonSQL = true;
+}
+";(false && d_Services_2)
+d_SQL;SQL?;Boolean;false | true;;"if (d_SQL) {
+disAllow(d_SQL_0.None);
+}
+if !d_SQL {
+d_SQL_0 = None;
+}
+if !d_SQL {
+allow(d_SQL_0.None);
+}
+";d_Storing
+d_SQL_0;Choose your SQL?;Enumeration;None | Informix | Distributed | IBMDB2 | MicrosoftAccess | Oracle_2 | SQLServer;1:1;"if !d_SQL_0.MicrosoftAccess {
+d_MicrosoftAccess = false;
+}
+if d_SQL_0.IBMDB2 {
+d_IBMDB2 = true;
+}
+if !d_SQL_0.IBMDB2 {
+d_IBMDB2 = false;
+}
+if d_SQL_0.MicrosoftAccess {
+d_MicrosoftAccess = true;
+}
+if !d_SQL_0.Distributed {
+d_Distributed = false;
+}
+if !d_SQL_0.Oracle_2 {
+d_Oracle_2 = false;
+}
+if !d_SQL_0.Informix {
+d_Informix = false;
+}
+if d_SQL_0.Oracle_2 {
+d_Oracle_2 = true;
+}
+if d_SQL_0.Informix {
+d_Informix = true;
+}
+if !d_SQL_0.SQLServer {
+d_SQLServer = false;
+}
+if d_SQL_0.SQLServer {
+d_SQLServer = true;
+}
+if d_SQL_0.Distributed {
+d_Distributed = true;
+}
+";d_SQL
+d_Oracle_2;Oracle_2?;Boolean;false | true;;;false
+d_IBMDB2;IBMDB2?;Boolean;false | true;;;false
+d_SQLServer;SQLServer?;Boolean;false | true;;;false
+d_MicrosoftAccess;MicrosoftAccess?;Boolean;false | true;;;false
+d_Informix;Informix?;Boolean;false | true;;;false
+d_Distributed;Distributed?;Boolean;false | true;;"if (d_Distributed) {
+disAllow(d_Distributed_0.None);
+}
+if !d_Distributed {
+d_Distributed_0 = None;
+}
+if !d_Distributed {
+allow(d_Distributed_0.None);
+}
+";false
+d_Distributed_0;Choose your Distributed?;Enumeration;None | Greenplum | Vertica;1:1;"if !d_Distributed_0.Greenplum {
+d_Greenplum = false;
+}
+if !d_Distributed_0.Vertica {
+d_Vertica = false;
+}
+if d_Distributed_0.Greenplum {
+d_Greenplum = true;
+}
+if d_Distributed_0.Vertica {
+d_Vertica = true;
+}
+";d_Distributed
+d_Vertica;Vertica?;Boolean;false | true;;;false
+d_Greenplum;Greenplum?;Boolean;false | true;;;false
+d_NonSQL;NonSQL?;Boolean;false | true;;;(false && d_Storing)
+d_NonSQL_0;Choose your NonSQL?;Enumeration;XML_1 | Keyvalue | Columnar | Graphs | Document | In_memory;1:1;"if !d_NonSQL_0.XML_1 {
+d_XML_1 = false;
+}
+if d_NonSQL_0.Document {
+d_Document = true;
+}
+if !d_NonSQL_0.Document {
+d_Document = false;
+}
+if !d_NonSQL_0.Graphs {
+d_Graphs = false;
+}
+if d_NonSQL_0.Graphs {
+d_Graphs = true;
+}
+if d_NonSQL_0.Columnar {
+d_Columnar = true;
+}
+if !d_NonSQL_0.Keyvalue {
+d_Keyvalue = false;
+}
+if d_NonSQL_0.In_memory {
+d_In_memory = true;
+}
+if !d_NonSQL_0.Columnar {
+d_Columnar = false;
+}
+if d_NonSQL_0.Keyvalue {
+d_Keyvalue = true;
+}
+if !d_NonSQL_0.In_memory {
+d_In_memory = false;
+}
+if d_NonSQL_0.XML_1 {
+d_XML_1 = true;
+}
+";d_NonSQL
+d_Columnar;Columnar?;Boolean;false | true;;"if !d_Columnar {
+d_Columnar_0 = None;
+}
+if !d_Columnar {
+allow(d_Columnar_0.None);
+}
+if (d_Columnar) {
+disAllow(d_Columnar_0.None);
+}
+";false
+d_Columnar_0;Choose your Columnar?;Enumeration;ApacheCassandra | None | ApacheHBase;1:1;"if d_Columnar_0.ApacheHBase {
+d_ApacheHBase = true;
+}
+if !d_Columnar_0.ApacheHBase {
+d_ApacheHBase = false;
+}
+if !d_Columnar_0.ApacheCassandra {
+d_ApacheCassandra = false;
+}
+if d_Columnar_0.ApacheCassandra {
+d_ApacheCassandra = true;
+}
+";d_Columnar
+d_ApacheCassandra;ApacheCassandra?;Boolean;false | true;;;false
+d_ApacheHBase;ApacheHBase?;Boolean;false | true;;;false
+d_Document;Document?;Boolean;false | true;;"if !d_Document {
+d_Document_0 = None;
+}
+if !d_Document {
+allow(d_Document_0.None);
+}
+if (d_Document) {
+disAllow(d_Document_0.None);
+}
+";false
+d_Document_0;Choose your Document?;Enumeration;None | ApacheCouchDB | MongoDB;1:1;"if !d_Document_0.MongoDB {
+d_MongoDB = false;
+}
+if d_Document_0.MongoDB {
+d_MongoDB = true;
+}
+if !d_Document_0.ApacheCouchDB {
+d_ApacheCouchDB = false;
+}
+if d_Document_0.ApacheCouchDB {
+d_ApacheCouchDB = true;
+}
+";d_Document
+d_MongoDB;MongoDB?;Boolean;false | true;;;false
+d_ApacheCouchDB;ApacheCouchDB?;Boolean;false | true;;;false
+d_Graphs;Graphs?;Boolean;false | true;;"if !d_Graphs {
+d_Graphs_0 = None;
+}
+if !d_Graphs {
+allow(d_Graphs_0.None);
+}
+if (d_Graphs) {
+disAllow(d_Graphs_0.None);
+}
+";false
+d_Graphs_0;Choose your Graphs?;Enumeration;AmazonNeptune | None | Neo4j | MicrosoftHorton;1:1;"if !d_Graphs_0.AmazonNeptune {
+d_AmazonNeptune = false;
+}
+if d_Graphs_0.AmazonNeptune {
+d_AmazonNeptune = true;
+}
+if !d_Graphs_0.Neo4j {
+d_Neo4j = false;
+}
+if d_Graphs_0.Neo4j {
+d_Neo4j = true;
+}
+if !d_Graphs_0.MicrosoftHorton {
+d_MicrosoftHorton = false;
+}
+if d_Graphs_0.MicrosoftHorton {
+d_MicrosoftHorton = true;
+}
+";d_Graphs
+d_AmazonNeptune;AmazonNeptune?;Boolean;false | true;;;false
+d_Neo4j;Neo4j?;Boolean;false | true;;;false
+d_MicrosoftHorton;MicrosoftHorton?;Boolean;false | true;;;false
+d_Keyvalue;Keyvalue?;Boolean;false | true;;"if (d_Keyvalue) {
+disAllow(d_Keyvalue_0.None);
+}
+if !d_Keyvalue {
+d_Keyvalue_0 = None;
+}
+if !d_Keyvalue {
+allow(d_Keyvalue_0.None);
+}
+";false
+d_Keyvalue_0;Choose your Keyvalue?;Enumeration;None | Bashotechnologiesriak | Redis;1:1;"if !d_Keyvalue_0.Bashotechnologiesriak {
+d_Bashotechnologiesriak = false;
+}
+if d_Keyvalue_0.Bashotechnologiesriak {
+d_Bashotechnologiesriak = true;
+}
+if d_Keyvalue_0.Redis {
+d_Redis = true;
+}
+if !d_Keyvalue_0.Redis {
+d_Redis = false;
+}
+";d_Keyvalue
+d_Bashotechnologiesriak;Bashotechnologiesriak?;Boolean;false | true;;;false
+d_Redis;Redis?;Boolean;false | true;;;false
+d_XML_1;XML_1?;Boolean;false | true;;"if (d_XML_1) {
+disAllow(d_XML_1_0.None);
+}
+if !d_XML_1 {
+d_XML_1_0 = None;
+}
+if !d_XML_1 {
+allow(d_XML_1_0.None);
+}
+";false
+d_XML_1_0;Choose your XML_1?;Enumeration;None | Sedna | Marklogic;1:1;"if !d_XML_1_0.Sedna {
+d_Sedna = false;
+}
+if d_XML_1_0.Sedna {
+d_Sedna = true;
+}
+if d_XML_1_0.Marklogic {
+d_Marklogic = true;
+}
+if !d_XML_1_0.Marklogic {
+d_Marklogic = false;
+}
+";d_XML_1
+d_Marklogic;Marklogic?;Boolean;false | true;;;false
+d_Sedna;Sedna?;Boolean;false | true;;;false
+d_In_memory;In_memory?;Boolean;false | true;;"if !d_In_memory {
+d_In_memory_0 = None;
+}
+if !d_In_memory {
+allow(d_In_memory_0.None);
+}
+if (d_In_memory) {
+disAllow(d_In_memory_0.None);
+}
+";false
+d_In_memory_0;Choose your In_memory?;Enumeration;None | ArangoDB | InfinityDB | Apacheignite;1:1;"if d_In_memory_0.InfinityDB {
+d_InfinityDB = true;
+}
+if !d_In_memory_0.Apacheignite {
+d_Apacheignite = false;
+}
+if d_In_memory_0.Apacheignite {
+d_Apacheignite = true;
+}
+if !d_In_memory_0.ArangoDB {
+d_ArangoDB = false;
+}
+if d_In_memory_0.ArangoDB {
+d_ArangoDB = true;
+}
+if !d_In_memory_0.InfinityDB {
+d_InfinityDB = false;
+}
+";d_In_memory
+d_Apacheignite;Apacheignite?;Boolean;false | true;;;false
+d_ArangoDB;ArangoDB?;Boolean;false | true;;;false
+d_InfinityDB;InfinityDB?;Boolean;false | true;;;false
+d_Preprocessing;Preprocessing?;Boolean;false | true;;"if (d_Preprocessing) {
+d_Datatransfer = true;
+}
+if (d_Preprocessing) {
+d_Datacompression = true;
+}
+if (d_Preprocessing) {
+d_Datapreparation = true;
+}
+";(false && d_Services_2)
+d_Datatransfer;Datatransfer?;Boolean;false | true;;;(false && d_Preprocessing)
+d_Datacompression;Datacompression?;Boolean;false | true;;;(false && d_Preprocessing)
+d_Datapreparation;Datapreparation?;Boolean;false | true;;"if (d_Datapreparation) {
+d_Exploredata = true;
+}
+if (d_Datapreparation) {
+d_Preprocessingdata = true;
+}
+";(false && d_Preprocessing)
+d_Exploredata;Exploredata?;Boolean;false | true;;;(false && d_Datapreparation)
+d_Preprocessingdata;Preprocessingdata?;Boolean;false | true;;"if (d_Preprocessingdata) {
+d_Clean = true;
+}
+if (d_Preprocessingdata) {
+d_Package = true;
+}
+if (d_Preprocessingdata) {
+d_Integrate = true;
+}
+";(false && d_Datapreparation)
+d_Clean;Clean?;Boolean;false | true;;"if (d_Clean) {
+d_Duplicatesremoval = true;
+}
+if (d_Clean) {
+d_Analysis = true;
+}
+if (d_Clean) {
+d_Statisticmethod = true;
+}
+if (d_Clean) {
+d_Datatransformation = true;
+}
+if (d_Clean) {
+d_Tools = true;
+}
+";(false && d_Preprocessingdata)
+d_Analysis;Analysis?;Boolean;false | true;;;(false && d_Clean)
+d_Datatransformation;Datatransformation?;Boolean;false | true;;;(false && d_Clean)
+d_Duplicatesremoval;Duplicatesremoval?;Boolean;false | true;;;(false && d_Clean)
+d_Statisticmethod;Statisticmethod?;Boolean;false | true;;;(false && d_Clean)
+d_Average;Average?;Boolean;false | true;;;d_Statisticmethod
+d_Standarddeviation;Standarddeviation?;Boolean;false | true;;;d_Statisticmethod
+d_Ranges;Ranges?;Boolean;false | true;;;d_Statisticmethod
+d_Clusteralgorithms;Clusteralgorithms?;Boolean;false | true;;;d_Statisticmethod
+d_Techniques;Techniques?;Boolean;false | true;;"if !d_Techniques {
+d_Techniques_0 = None;
+}
+if !d_Techniques {
+allow(d_Techniques_0.None);
+}
+if (d_Techniques) {
+disAllow(d_Techniques_0.None);
+}
+";d_Clean
+d_Techniques_0;Choose your Techniques?;Enumeration;Handlemissingdata | None | Removeunwantedobservations | Fixstructuralerrors | Spellcheck | Getridofextraspaces | Deleteallformatting;1:6;"if d_Techniques_0.Handlemissingdata {
+d_Handlemissingdata = true;
+}
+if d_Techniques_0.Removeunwantedobservations {
+d_Removeunwantedobservations = true;
+}
+if d_Techniques_0.Deleteallformatting {
+d_Deleteallformatting = true;
+}
+if d_Techniques_0.Fixstructuralerrors {
+d_Fixstructuralerrors = true;
+}
+if d_Techniques_0.Getridofextraspaces {
+d_Getridofextraspaces = true;
+}
+if d_Techniques_0.Spellcheck {
+d_Spellcheck = true;
+}
+";d_Techniques
+d_Removeunwantedobservations;Removeunwantedobservations?;Boolean;false | true;;;false
+d_Duplicates;Duplicates?;Boolean;false | true;;;d_Removeunwantedobservations
+d_Irrelevant;Irrelevant?;Boolean;false | true;;;d_Removeunwantedobservations
+d_Fixstructuralerrors;Fixstructuralerrors?;Boolean;false | true;;;false
+d_Typos;Typos?;Boolean;false | true;;;d_Fixstructuralerrors
+d_Mislabeledclasses;Mislabeledclasses?;Boolean;false | true;;;d_Fixstructuralerrors
+d_Handlemissingdata;Handlemissingdata?;Boolean;false | true;;;false
+d_Drop;Drop?;Boolean;false | true;;;d_Handlemissingdata
+d_Input;Input?;Boolean;false | true;;;d_Handlemissingdata
+d_Getridofextraspaces;Getridofextraspaces?;Boolean;false | true;;;false
+d_Spellcheck;Spellcheck?;Boolean;false | true;;;false
+d_Deleteallformatting;Deleteallformatting?;Boolean;false | true;;;false
+d_Tools;Tools?;Boolean;false | true;;;(false && d_Clean)
+d_Tools_0;Choose your Tools?;Enumeration;TrifactaWrangle | Datacleaner | Cloudingo | Opendefine | Dataladder | TIBCOclairty | Winpure | Drake;1:8;"if d_Tools_0.Opendefine {
+d_Opendefine = true;
+}
+if d_Tools_0.Drake {
+d_Drake = true;
+}
+if d_Tools_0.Datacleaner {
+d_Datacleaner = true;
+}
+if d_Tools_0.Dataladder {
+d_Dataladder = true;
+}
+if d_Tools_0.TrifactaWrangle {
+d_TrifactaWrangle = true;
+}
+if d_Tools_0.TIBCOclairty {
+d_TIBCOclairty = true;
+}
+if d_Tools_0.Winpure {
+d_Winpure = true;
+}
+if d_Tools_0.Cloudingo {
+d_Cloudingo = true;
+}
+";d_Tools
+d_Opendefine;Opendefine?;Boolean;false | true;;;false
+d_TrifactaWrangle;TrifactaWrangle?;Boolean;false | true;;;false
+d_Drake;Drake?;Boolean;false | true;;;false
+d_TIBCOclairty;TIBCOclairty?;Boolean;false | true;;;false
+d_Winpure;Winpure?;Boolean;false | true;;;false
+d_Dataladder;Dataladder?;Boolean;false | true;;;false
+d_Datacleaner;Datacleaner?;Boolean;false | true;;;false
+d_Cloudingo;Cloudingo?;Boolean;false | true;;;false
+d_Integrate;Integrate?;Boolean;false | true;;;(false && d_Preprocessingdata)
+d_Package;Package?;Boolean;false | true;;;(false && d_Preprocessingdata)
+d_Processing_3;Processing_3?;Boolean;false | true;;"if (d_Processing_3) {
+d_Analyticstechniques = true;
+}
+if (d_Processing_3) {
+d_Analytics = true;
+}
+if (d_Processing_3) {
+d_Technique = true;
+}
+";(false && d_Services_2)
+d_Analytics;Analytics?;Boolean;false | true;;"if (d_Analytics) {
+d_Methodology_2 = true;
+}
+if (d_Analytics) {
+d_Types_2 = true;
+}
+if (d_Analytics) {
+d_Techniques_2 = true;
+}
+";(false && d_Processing_3)
+d_Techniques_2;Techniques_2?;Boolean;false | true;;"if (d_Techniques_2) {
+d_Objective = true;
+}
+";(false && d_Analytics)
+d_Objective;Objective?;Boolean;false | true;;;(false && d_Techniques_2)
+d_Objective_0;Choose your Objective?;Enumeration;Prescriptive | Descriptive | Predictive;1:3;"if d_Objective_0.Descriptive {
+d_Descriptive = true;
+}
+if d_Objective_0.Prescriptive {
+d_Prescriptive = true;
+}
+if d_Objective_0.Predictive {
+d_Predictive = true;
+}
+";d_Objective
+d_Descriptive;Descriptive?;Boolean;false | true;;"if !d_Descriptive {
+d_Descriptive_0 = None;
+}
+if !d_Descriptive {
+allow(d_Descriptive_0.None);
+}
+if (d_Descriptive) {
+disAllow(d_Descriptive_0.None);
+}
+";false
+d_Descriptive_0;Choose your Descriptive?;Enumeration;Variationrates | Factorialandclusteranalysis | None | Frequencytables | A_Btesting | Countssumsandaverages | Decisiontree;1:6;"if d_Descriptive_0.Frequencytables {
+d_Frequencytables = true;
+}
+if d_Descriptive_0.Factorialandclusteranalysis {
+d_Factorialandclusteranalysis = true;
+}
+if d_Descriptive_0.A_Btesting {
+d_A_Btesting = true;
+}
+if d_Descriptive_0.Variationrates {
+d_Variationrates = true;
+}
+if d_Descriptive_0.Decisiontree {
+d_Decisiontree = true;
+}
+if d_Descriptive_0.Countssumsandaverages {
+d_Countssumsandaverages = true;
+}
+";d_Descriptive
+d_Countssumsandaverages;Countssumsandaverages?;Boolean;false | true;;;false
+d_Variationrates;Variationrates?;Boolean;false | true;;;false
+d_Frequencytables;Frequencytables?;Boolean;false | true;;;false
+d_Alteryx;Alteryx?;Boolean;false | true;;;d_Frequencytables
+d_Excel;Excel?;Boolean;false | true;;;d_Frequencytables
+d_A_Btesting;A_Btesting?;Boolean;false | true;;;false
+d_Googleanalytics_1;Googleanalytics_1?;Boolean;false | true;;;d_A_Btesting
+d_Optimizely;Optimizely?;Boolean;false | true;;;d_A_Btesting
+d_VWO;VWO?;Boolean;false | true;;;d_A_Btesting
+d_Adobetarget;Adobetarget?;Boolean;false | true;;;d_A_Btesting
+d_Evergage;Evergage?;Boolean;false | true;;;d_A_Btesting
+d_Unbounce;Unbounce?;Boolean;false | true;;;d_A_Btesting
+d_Factorialandclusteranalysis;Factorialandclusteranalysis?;Boolean;false | true;;;false
+d_Decisiontree;Decisiontree?;Boolean;false | true;;;false
+d_Creatly;Creatly?;Boolean;false | true;;;d_Decisiontree
+d_Lucidchart;Lucidchart?;Boolean;false | true;;;d_Decisiontree
+d_Canva;Canva?;Boolean;false | true;;;d_Decisiontree
+d_Predictive;Predictive?;Boolean;false | true;;;false
+d_Temporalseries;Temporalseries?;Boolean;false | true;;;d_Predictive
+d_Regressiontechniques;Regressiontechniques?;Boolean;false | true;;;d_Predictive
+d_Neuralnetworks;Neuralnetworks?;Boolean;false | true;;;d_Predictive
+d_Machinelearning_3;Machinelearning_3?;Boolean;false | true;;"if (d_Machinelearning_3) {
+d_Deploy = true;
+}
+if (d_Machinelearning_3) {
+d_Types = true;
+}
+if (d_Machinelearning_3) {
+d_Develop = true;
+}
+if (d_Machinelearning_3) {
+d_Analyzedata = true;
+}
+if (d_Machinelearning_3) {
+d_Accessdata = true;
+}
+";d_Predictive
+d_Accessdata;Accessdata?;Boolean;false | true;;;(false && d_Machinelearning_3)
+d_Sensors;Sensors?;Boolean;false | true;;;d_Accessdata
+d_Files;Files?;Boolean;false | true;;;d_Accessdata
+d_Databases_1;Databases_1?;Boolean;false | true;;;d_Accessdata
+d_Analyzedata;Analyzedata?;Boolean;false | true;;;(false && d_Machinelearning_3)
+d_Dataexploration;Dataexploration?;Boolean;false | true;;;d_Analyzedata
+d_Preprocessing_1;Preprocessing_1?;Boolean;false | true;;;d_Analyzedata
+d_Domainspecificalgorithms;Domainspecificalgorithms?;Boolean;false | true;;;d_Analyzedata
+d_Develop;Develop?;Boolean;false | true;;;(false && d_Machinelearning_3)
+d_AImodel;AImodel?;Boolean;false | true;;;d_Develop
+d_Algorithmdevelopment;Algorithmdevelopment?;Boolean;false | true;;"if (d_Algorithmdevelopment) {
+disAllow(d_Algorithmdevelopment_0.None);
+}
+if !d_Algorithmdevelopment {
+d_Algorithmdevelopment_0 = None;
+}
+if !d_Algorithmdevelopment {
+allow(d_Algorithmdevelopment_0.None);
+}
+";d_Develop
+d_Algorithmdevelopment_0;Choose your Algorithmdevelopment?;Enumeration;Dimensionalityreduction | Deeplearning | Regularization | None | Clustering | Bayesiannetwork | Ensemble | Instancebased | Rulesystem | Neuralnetworks_1 | Decisiontree_1 | Regression;1:1;"if !d_Algorithmdevelopment_0.Neuralnetworks_1 {
+d_Neuralnetworks_1 = false;
+}
+if d_Algorithmdevelopment_0.Neuralnetworks_1 {
+d_Neuralnetworks_1 = true;
+}
+if !d_Algorithmdevelopment_0.Decisiontree_1 {
+d_Decisiontree_1 = false;
+}
+if !d_Algorithmdevelopment_0.Regression {
+d_Regression = false;
+}
+if d_Algorithmdevelopment_0.Regression {
+d_Regression = true;
+}
+if d_Algorithmdevelopment_0.Instancebased {
+d_Instancebased = true;
+}
+if d_Algorithmdevelopment_0.Decisiontree_1 {
+d_Decisiontree_1 = true;
+}
+if !d_Algorithmdevelopment_0.Instancebased {
+d_Instancebased = false;
+}
+if d_Algorithmdevelopment_0.Clustering {
+d_Clustering = true;
+}
+if !d_Algorithmdevelopment_0.Clustering {
+d_Clustering = false;
+}
+if !d_Algorithmdevelopment_0.Rulesystem {
+d_Rulesystem = false;
+}
+if !d_Algorithmdevelopment_0.Ensemble {
+d_Ensemble = false;
+}
+if d_Algorithmdevelopment_0.Ensemble {
+d_Ensemble = true;
+}
+if !d_Algorithmdevelopment_0.Dimensionalityreduction {
+d_Dimensionalityreduction = false;
+}
+if d_Algorithmdevelopment_0.Dimensionalityreduction {
+d_Dimensionalityreduction = true;
+}
+if d_Algorithmdevelopment_0.Rulesystem {
+d_Rulesystem = true;
+}
+if d_Algorithmdevelopment_0.Regularization {
+d_Regularization = true;
+}
+if !d_Algorithmdevelopment_0.Bayesiannetwork {
+d_Bayesiannetwork = false;
+}
+if d_Algorithmdevelopment_0.Bayesiannetwork {
+d_Bayesiannetwork = true;
+}
+if d_Algorithmdevelopment_0.Deeplearning {
+d_Deeplearning = true;
+}
+if !d_Algorithmdevelopment_0.Regularization {
+d_Regularization = false;
+}
+if !d_Algorithmdevelopment_0.Deeplearning {
+d_Deeplearning = false;
+}
+";d_Algorithmdevelopment
+d_Bayesiannetwork;Bayesiannetwork?;Boolean;false | true;;;false
+d_NaiveBayes;NaiveBayes?;Boolean;false | true;;;d_Bayesiannetwork
+d_GaussianNaiveBayes;GaussianNaiveBayes?;Boolean;false | true;;;d_Bayesiannetwork
+d_Averageonedependenceestimators;Averageonedependenceestimators?;Boolean;false | true;;;d_Bayesiannetwork
+d_Decisiontree_1;Decisiontree_1?;Boolean;false | true;;;false
+d_Classificationandregressiontree;Classificationandregressiontree?;Boolean;false | true;;;d_Decisiontree_1
+d_Conditionaldecisiontrees;Conditionaldecisiontrees?;Boolean;false | true;;;d_Decisiontree_1
+d_M5;M5?;Boolean;false | true;;;d_Decisiontree_1
+d_Dimensionalityreduction;Dimensionalityreduction?;Boolean;false | true;;;false
+d_Principalcomponentanalysis;Principalcomponentanalysis?;Boolean;false | true;;;d_Dimensionalityreduction
+d_Projectionpursuit;Projectionpursuit?;Boolean;false | true;;;d_Dimensionalityreduction
+d_Multidimensionalscaling;Multidimensionalscaling?;Boolean;false | true;;;d_Dimensionalityreduction
+d_Principalcomponentregression;Principalcomponentregression?;Boolean;false | true;;;d_Dimensionalityreduction
+d_Mixturediscriminantanalysis;Mixturediscriminantanalysis?;Boolean;false | true;;;d_Dimensionalityreduction
+d_Lineardiscriminantanalysis;Lineardiscriminantanalysis?;Boolean;false | true;;;d_Dimensionalityreduction
+d_Regularizeddiscriminantanalysis;Regularizeddiscriminantanalysis?;Boolean;false | true;;;d_Dimensionalityreduction
+d_Flexiblediscriminantanalysis;Flexiblediscriminantanalysis?;Boolean;false | true;;;d_Dimensionalityreduction
+d_Quadraticdiscriminantanalysis;Quadraticdiscriminantanalysis?;Boolean;false | true;;;d_Dimensionalityreduction
+d_Instancebased;Instancebased?;Boolean;false | true;;;false
+d_k_nearestneighbour;k_nearestneighbour?;Boolean;false | true;;;d_Instancebased
+d_Learningvectorquantization;Learningvectorquantization?;Boolean;false | true;;;d_Instancebased
+d_Self_organizingmap;Self_organizingmap?;Boolean;false | true;;;d_Instancebased
+d_Locallyweightedlearning;Locallyweightedlearning?;Boolean;false | true;;;d_Instancebased
+d_Clustering;Clustering?;Boolean;false | true;;;false
+d_k_Means;k_Means?;Boolean;false | true;;;d_Clustering
+d_k_Medians;k_Medians?;Boolean;false | true;;;d_Clustering
+d_Expectationmaximization;Expectationmaximization?;Boolean;false | true;;;d_Clustering
+d_Hierarchicalclustering;Hierarchicalclustering?;Boolean;false | true;;;d_Clustering
+d_Regression;Regression?;Boolean;false | true;;;false
+d_Linearregression;Linearregression?;Boolean;false | true;;;d_Regression
+d_Ordinaryleastsquaresregression;Ordinaryleastsquaresregression?;Boolean;false | true;;;d_Regression
+d_Stepwiseregression;Stepwiseregression?;Boolean;false | true;;;d_Regression
+d_Logisticregression;Logisticregression?;Boolean;false | true;;;d_Regression
+d_Multivariateadaptativeregressionsplines;Multivariateadaptativeregressionsplines?;Boolean;false | true;;;d_Regression
+d_Rulesystem;Rulesystem?;Boolean;false | true;;;false
+d_Cubist;Cubist?;Boolean;false | true;;;d_Rulesystem
+d_Onerule;Onerule?;Boolean;false | true;;;d_Rulesystem
+d_Zerorule;Zerorule?;Boolean;false | true;;;d_Rulesystem
+d_Repeatedincrementalpruningtoproduceerrorreduction;Repeatedincrementalpruningtoproduceerrorreduction?;Boolean;false | true;;;d_Rulesystem
+d_Regularization;Regularization?;Boolean;false | true;;;false
+d_Leastabsoluteshrinkageandselectionoperator;Leastabsoluteshrinkageandselectionoperator?;Boolean;false | true;;;d_Regularization
+d_Elasticnet;Elasticnet?;Boolean;false | true;;;d_Regularization
+d_Leastangleregression;Leastangleregression?;Boolean;false | true;;;d_Regularization
+d_Neuralnetworks_1;Neuralnetworks_1?;Boolean;false | true;;;false
+d_Radialbasisfunctionnetwork;Radialbasisfunctionnetwork?;Boolean;false | true;;;d_Neuralnetworks_1
+d_Perceptron;Perceptron?;Boolean;false | true;;;d_Neuralnetworks_1
+d_Back_propagation;Back_propagation?;Boolean;false | true;;;d_Neuralnetworks_1
+d_Hopfieldnetwork;Hopfieldnetwork?;Boolean;false | true;;;d_Neuralnetworks_1
+d_Ensemble;Ensemble?;Boolean;false | true;;;false
+d_Randomforest;Randomforest?;Boolean;false | true;;;d_Ensemble
+d_Gradientboostingmachines;Gradientboostingmachines?;Boolean;false | true;;;d_Ensemble
+d_Gradientboostingregressiontrees;Gradientboostingregressiontrees?;Boolean;false | true;;;d_Ensemble
+d_Boosting;Boosting?;Boolean;false | true;;;d_Ensemble
+d_Boostrappedaggregation;Boostrappedaggregation?;Boolean;false | true;;;d_Ensemble
+d_Deeplearning;Deeplearning?;Boolean;false | true;;;false
+d_DeepBoltzmannmachine;DeepBoltzmannmachine?;Boolean;false | true;;;d_Deeplearning
+d_Deepbeliefnetworks;Deepbeliefnetworks?;Boolean;false | true;;;d_Deeplearning
+d_Convolutionalneuralnetwork;Convolutionalneuralnetwork?;Boolean;false | true;;;d_Deeplearning
+d_StackedAuto_encoders;StackedAuto_encoders?;Boolean;false | true;;;d_Deeplearning
+d_Modelingandsimulation;Modelingandsimulation?;Boolean;false | true;;;d_Develop
+d_Deploy;Deploy?;Boolean;false | true;;;(false && d_Machinelearning_3)
+d_Desktop;Desktop?;Boolean;false | true;;;d_Deploy
+d_Enterprisesystems;Enterprisesystems?;Boolean;false | true;;;d_Deploy
+d_Embeddedsystems;Embeddedsystems?;Boolean;false | true;;;d_Deploy
+d_Graphanalysis;Graphanalysis?;Boolean;false | true;;"if !d_Graphanalysis {
+d_Graphanalysis_0 = None;
+}
+if !d_Graphanalysis {
+allow(d_Graphanalysis_0.None);
+}
+if (d_Graphanalysis) {
+disAllow(d_Graphanalysis_0.None);
+}
+";d_Machinelearning_3
+d_Graphanalysis_0;Choose your Graphanalysis?;Enumeration;Centralityanalysis | None | Communityanalysis | Connectivityanalysis | Pathanalysis;1:4;"if d_Graphanalysis_0.Pathanalysis {
+d_Pathanalysis = true;
+}
+if d_Graphanalysis_0.Centralityanalysis {
+d_Centralityanalysis = true;
+}
+if d_Graphanalysis_0.Connectivityanalysis {
+d_Connectivityanalysis = true;
+}
+if d_Graphanalysis_0.Communityanalysis {
+d_Communityanalysis = true;
+}
+";d_Graphanalysis
+d_Pathanalysis;Pathanalysis?;Boolean;false | true;;;false
+d_Connectivityanalysis;Connectivityanalysis?;Boolean;false | true;;;false
+d_Communityanalysis;Communityanalysis?;Boolean;false | true;;;false
+d_Centralityanalysis;Centralityanalysis?;Boolean;false | true;;;false
+d_Subgraphisomorphism;Subgraphisomorphism?;Boolean;false | true;;;d_Centralityanalysis
+d_Graphembedding;Graphembedding?;Boolean;false | true;;;d_Centralityanalysis
+d_Types;Types?;Boolean;false | true;;;(false && d_Machinelearning_3)
+d_Types_0;Choose your Types?;Enumeration;Byeffort | Supervised | Nonsupervised;1:1;"if !d_Types_0.Byeffort {
+d_Byeffort = false;
+}
+if d_Types_0.Byeffort {
+d_Byeffort = true;
+}
+if !d_Types_0.Supervised {
+d_Supervised = false;
+}
+if d_Types_0.Supervised {
+d_Supervised = true;
+}
+if !d_Types_0.Nonsupervised {
+d_Nonsupervised = false;
+}
+if d_Types_0.Nonsupervised {
+d_Nonsupervised = true;
+}
+";d_Types
+d_Supervised;Supervised?;Boolean;false | true;;;false
+d_Classification;Classification?;Boolean;false | true;;;d_Supervised
+d_Regression_1;Regression_1?;Boolean;false | true;;;d_Supervised
+d_Nonsupervised;Nonsupervised?;Boolean;false | true;;;false
+d_Clustering_1;Clustering_1?;Boolean;false | true;;;d_Nonsupervised
+d_Patternrecognition;Patternrecognition?;Boolean;false | true;;;d_Clustering_1
+d_Autoencoder;Autoencoder?;Boolean;false | true;;;d_Nonsupervised
+d_Byeffort;Byeffort?;Boolean;false | true;;;false
+d_NaturalLanguageProcessing;NaturalLanguageProcessing?;Boolean;false | true;;"if (d_NaturalLanguageProcessing) {
+d_Levelofcontent = true;
+}
+if (d_NaturalLanguageProcessing) {
+d_Methodology = true;
+}
+if (d_NaturalLanguageProcessing) {
+d_Techniques_3 = true;
+}
+if (d_NaturalLanguageProcessing) {
+d_NaturalLanguageProcessing_1 = true;
+}
+";d_Predictive
+d_NaturalLanguageProcessing_1;NaturalLanguageProcessing_1?;Boolean;false | true;;;(false && d_NaturalLanguageProcessing)
+d_NaturalLanguageProcessing_1_0;Choose your NaturalLanguageProcessing_1?;Enumeration;Topicsdetector | Documentsimilaritydetector | Automaticdocsclassifier | Automaticfeelinganalysisdetector | Ageandgenderdetector | ConcepttaggingNER;1:6;"if d_NaturalLanguageProcessing_1_0.Automaticfeelinganalysisdetector {
+d_Automaticfeelinganalysisdetector = true;
+}
+if d_NaturalLanguageProcessing_1_0.Automaticdocsclassifier {
+d_Automaticdocsclassifier = true;
+}
+if d_NaturalLanguageProcessing_1_0.Documentsimilaritydetector {
+d_Documentsimilaritydetector = true;
+}
+if d_NaturalLanguageProcessing_1_0.ConcepttaggingNER {
+d_ConcepttaggingNER = true;
+}
+if d_NaturalLanguageProcessing_1_0.Topicsdetector {
+d_Topicsdetector = true;
+}
+if d_NaturalLanguageProcessing_1_0.Ageandgenderdetector {
+d_Ageandgenderdetector = true;
+}
+";d_NaturalLanguageProcessing_1
+d_Automaticfeelinganalysisdetector;Automaticfeelinganalysisdetector?;Boolean;false | true;;"if !d_Automaticfeelinganalysisdetector {
+d_Automaticfeelinganalysisdetector_0 = None;
+}
+if !d_Automaticfeelinganalysisdetector {
+allow(d_Automaticfeelinganalysisdetector_0.None);
+}
+if (d_Automaticfeelinganalysisdetector) {
+disAllow(d_Automaticfeelinganalysisdetector_0.None);
+}
+";false
+d_Automaticfeelinganalysisdetector_0;Choose your Automaticfeelinganalysisdetector?;Enumeration;Userintention | None | Opinion | Awareness | Category_2 | Emotion;1:5;"if d_Automaticfeelinganalysisdetector_0.Emotion {
+d_Emotion = true;
+}
+if d_Automaticfeelinganalysisdetector_0.Userintention {
+d_Userintention = true;
+}
+if d_Automaticfeelinganalysisdetector_0.Awareness {
+d_Awareness = true;
+}
+if d_Automaticfeelinganalysisdetector_0.Category_2 {
+d_Category_2 = true;
+}
+if d_Automaticfeelinganalysisdetector_0.Opinion {
+d_Opinion = true;
+}
+";d_Automaticfeelinganalysisdetector
+d_Opinion;Opinion?;Boolean;false | true;;"if !d_Opinion {
+d_Opinion_0 = None;
+}
+if !d_Opinion {
+allow(d_Opinion_0.None);
+}
+if (d_Opinion) {
+disAllow(d_Opinion_0.None);
+}
+";false
+d_Opinion_0;Choose your Opinion?;Enumeration;Neutral | None | Positive | Negative;1:1;"if d_Opinion_0.Negative {
+d_Negative = true;
+}
+if d_Opinion_0.Positive {
+d_Positive = true;
+}
+if !d_Opinion_0.Positive {
+d_Positive = false;
+}
+if !d_Opinion_0.Negative {
+d_Negative = false;
+}
+if !d_Opinion_0.Neutral {
+d_Neutral = false;
+}
+if d_Opinion_0.Neutral {
+d_Neutral = true;
+}
+";d_Opinion
+d_Positive;Positive?;Boolean;false | true;;;false
+d_Negative;Negative?;Boolean;false | true;;;false
+d_Neutral;Neutral?;Boolean;false | true;;;false
+d_Emotion;Emotion?;Boolean;false | true;;"if !d_Emotion {
+d_Emotion_0 = None;
+}
+if !d_Emotion {
+allow(d_Emotion_0.None);
+}
+if (d_Emotion) {
+disAllow(d_Emotion_0.None);
+}
+";false
+d_Emotion_0;Choose your Emotion?;Enumeration;Satisfaction | Discomfort | Gratitude | None | Hapiness | Desire | Surprise | Rage | Sadness | Fear | Dislike;1:1;"if d_Emotion_0.Hapiness {
+d_Hapiness = true;
+}
+if !d_Emotion_0.Hapiness {
+d_Hapiness = false;
+}
+if !d_Emotion_0.Gratitude {
+d_Gratitude = false;
+}
+if d_Emotion_0.Gratitude {
+d_Gratitude = true;
+}
+if !d_Emotion_0.Sadness {
+d_Sadness = false;
+}
+if d_Emotion_0.Sadness {
+d_Sadness = true;
+}
+if !d_Emotion_0.Rage {
+d_Rage = false;
+}
+if d_Emotion_0.Discomfort {
+d_Discomfort = true;
+}
+if !d_Emotion_0.Discomfort {
+d_Discomfort = false;
+}
+if d_Emotion_0.Rage {
+d_Rage = true;
+}
+if !d_Emotion_0.Desire {
+d_Desire = false;
+}
+if d_Emotion_0.Desire {
+d_Desire = true;
+}
+if d_Emotion_0.Surprise {
+d_Surprise = true;
+}
+if d_Emotion_0.Satisfaction {
+d_Satisfaction = true;
+}
+if d_Emotion_0.Dislike {
+d_Dislike = true;
+}
+if !d_Emotion_0.Surprise {
+d_Surprise = false;
+}
+if !d_Emotion_0.Satisfaction {
+d_Satisfaction = false;
+}
+if !d_Emotion_0.Dislike {
+d_Dislike = false;
+}
+if !d_Emotion_0.Fear {
+d_Fear = false;
+}
+if d_Emotion_0.Fear {
+d_Fear = true;
+}
+";d_Emotion
+d_Hapiness;Hapiness?;Boolean;false | true;;;false
+d_Desire;Desire?;Boolean;false | true;;;false
+d_Surprise;Surprise?;Boolean;false | true;;;false
+d_Fear;Fear?;Boolean;false | true;;;false
+d_Sadness;Sadness?;Boolean;false | true;;;false
+d_Satisfaction;Satisfaction?;Boolean;false | true;;;false
+d_Gratitude;Gratitude?;Boolean;false | true;;;false
+d_Rage;Rage?;Boolean;false | true;;;false
+d_Discomfort;Discomfort?;Boolean;false | true;;;false
+d_Dislike;Dislike?;Boolean;false | true;;;false
+d_Userintention;Userintention?;Boolean;false | true;;"if (d_Userintention) {
+disAllow(d_Userintention_0.None);
+}
+if !d_Userintention {
+d_Userintention_0 = None;
+}
+if !d_Userintention {
+allow(d_Userintention_0.None);
+}
+";false
+d_Userintention_0;Choose your Userintention?;Enumeration;None | Complain | Question | Doubt | Suggest;1:4;"if d_Userintention_0.Suggest {
+d_Suggest = true;
+}
+if d_Userintention_0.Doubt {
+d_Doubt = true;
+}
+if d_Userintention_0.Question {
+d_Question = true;
+}
+if d_Userintention_0.Complain {
+d_Complain = true;
+}
+";d_Userintention
+d_Question;Question?;Boolean;false | true;;;false
+d_Doubt;Doubt?;Boolean;false | true;;;false
+d_Complain;Complain?;Boolean;false | true;;;false
+d_Suggest;Suggest?;Boolean;false | true;;;false
+d_Awareness;Awareness?;Boolean;false | true;;"if (d_Awareness) {
+disAllow(d_Awareness_0.None);
+}
+if !d_Awareness {
+d_Awareness_0 = None;
+}
+if !d_Awareness {
+allow(d_Awareness_0.None);
+}
+";false
+d_Awareness_0;Choose your Awareness?;Enumeration;None | Socialmovement | Peopleimplication;1:2;"if d_Awareness_0.Peopleimplication {
+d_Peopleimplication = true;
+}
+if d_Awareness_0.Socialmovement {
+d_Socialmovement = true;
+}
+";d_Awareness
+d_Peopleimplication;Peopleimplication?;Boolean;false | true;;;false
+d_Socialmovement;Socialmovement?;Boolean;false | true;;;false
+d_Category_2;Category_2?;Boolean;false | true;;"if (d_Category_2) {
+d_Industry = true;
+}
+";false
+d_Industry;Industry?;Boolean;false | true;;;(false && d_Category_2)
+d_Industry_0;Choose your Industry?;Enumeration;Consumption | Health | Banking | Telecommunication | Automotive;1:5;"if d_Industry_0.Automotive {
+d_Automotive = true;
+}
+if d_Industry_0.Health {
+d_Health = true;
+}
+if d_Industry_0.Consumption {
+d_Consumption = true;
+}
+if d_Industry_0.Telecommunication {
+d_Telecommunication = true;
+}
+if d_Industry_0.Banking {
+d_Banking = true;
+}
+";d_Industry
+d_Consumption;Consumption?;Boolean;false | true;;;false
+d_Automotive;Automotive?;Boolean;false | true;;;false
+d_Banking;Banking?;Boolean;false | true;;;false
+d_Health;Health?;Boolean;false | true;;;false
+d_Telecommunication;Telecommunication?;Boolean;false | true;;;false
+d_Automaticdocsclassifier;Automaticdocsclassifier?;Boolean;false | true;;;false
+d_Predict;Predict?;Boolean;false | true;;;d_Automaticdocsclassifier
+d_Train;Train?;Boolean;false | true;;;d_Automaticdocsclassifier
+d_Topicsdetector;Topicsdetector?;Boolean;false | true;;;false
+d_Documentsimilaritydetector;Documentsimilaritydetector?;Boolean;false | true;;;false
+d_Ageandgenderdetector;Ageandgenderdetector?;Boolean;false | true;;;false
+d_ConcepttaggingNER;ConcepttaggingNER?;Boolean;false | true;;"if !d_ConcepttaggingNER {
+d_ConcepttaggingNER_0 = None;
+}
+if !d_ConcepttaggingNER {
+allow(d_ConcepttaggingNER_0.None);
+}
+if (d_ConcepttaggingNER) {
+disAllow(d_ConcepttaggingNER_0.None);
+}
+";false
+d_ConcepttaggingNER_0;Choose your ConcepttaggingNER?;Enumeration;Indexing | Brand | Organization | None | Informationretrieval | Enrichtext | People;1:6;"if d_ConcepttaggingNER_0.Indexing {
+d_Indexing = true;
+}
+if d_ConcepttaggingNER_0.Enrichtext {
+d_Enrichtext = true;
+}
+if d_ConcepttaggingNER_0.People {
+d_People = true;
+}
+if d_ConcepttaggingNER_0.Informationretrieval {
+d_Informationretrieval = true;
+}
+if d_ConcepttaggingNER_0.Organization {
+d_Organization = true;
+}
+if d_ConcepttaggingNER_0.Brand {
+d_Brand = true;
+}
+";d_ConcepttaggingNER
+d_People;People?;Boolean;false | true;;;false
+d_Organization;Organization?;Boolean;false | true;;;false
+d_Brand;Brand?;Boolean;false | true;;;false
+d_Enrichtext;Enrichtext?;Boolean;false | true;;;false
+d_Indexing;Indexing?;Boolean;false | true;;;false
+d_Informationretrieval;Informationretrieval?;Boolean;false | true;;;false
+d_Techniques_3;Techniques_3?;Boolean;false | true;;;(false && d_NaturalLanguageProcessing)
+d_Techniques_3_0;Choose your Techniques_3?;Enumeration;Rapport | Bodyphisiology | Reframing | Reference | Covertorders | Dissociation | Anchoring;1:7;"if d_Techniques_3_0.Dissociation {
+d_Dissociation = true;
+}
+if d_Techniques_3_0.Covertorders {
+d_Covertorders = true;
+}
+if d_Techniques_3_0.Reference {
+d_Reference = true;
+}
+if d_Techniques_3_0.Anchoring {
+d_Anchoring = true;
+}
+if d_Techniques_3_0.Reframing {
+d_Reframing = true;
+}
+if d_Techniques_3_0.Bodyphisiology {
+d_Bodyphisiology = true;
+}
+if d_Techniques_3_0.Rapport {
+d_Rapport = true;
+}
+";d_Techniques_3
+d_Rapport;Rapport?;Boolean;false | true;;;false
+d_Covertorders;Covertorders?;Boolean;false | true;;;false
+d_Dissociation;Dissociation?;Boolean;false | true;;;false
+d_Reframing;Reframing?;Boolean;false | true;;;false
+d_Anchoring;Anchoring?;Boolean;false | true;;;false
+d_Reference;Reference?;Boolean;false | true;;;false
+d_Bodyphisiology;Bodyphisiology?;Boolean;false | true;;;false
+d_Ocularaccesses;Ocularaccesses?;Boolean;false | true;;;d_Bodyphisiology
+d_Methodology;Methodology?;Boolean;false | true;;;(false && d_NaturalLanguageProcessing)
+d_Methodology_0;Choose your Methodology?;Enumeration;Spelling | Resourceindexing | Resourceclassification | POStagging | Resourcesummarization | ConcepttaggingNER_2 | Exploitation;1:7;"if d_Methodology_0.Resourcesummarization {
+d_Resourcesummarization = true;
+}
+if d_Methodology_0.Exploitation {
+d_Exploitation = true;
+}
+if d_Methodology_0.Resourceclassification {
+d_Resourceclassification = true;
+}
+if d_Methodology_0.POStagging {
+d_POStagging = true;
+}
+if d_Methodology_0.ConcepttaggingNER_2 {
+d_ConcepttaggingNER_2 = true;
+}
+if d_Methodology_0.Resourceindexing {
+d_Resourceindexing = true;
+}
+if d_Methodology_0.Spelling {
+d_Spelling = true;
+}
+";d_Methodology
+d_Spelling;Spelling?;Boolean;false | true;;;false
+d_Tokenization;Tokenization?;Boolean;false | true;;"if (d_Tokenization) {
+disAllow(d_Tokenization_0.None);
+}
+if !d_Tokenization {
+d_Tokenization_0 = None;
+}
+if !d_Tokenization {
+allow(d_Tokenization_0.None);
+}
+";d_Spelling
+d_Tokenization_0;Choose your Tokenization?;Enumeration;Luceneanalyzers | None | OpenNLPTokenizer | Rosettebaselinguistics;1:1;"if !d_Tokenization_0.Rosettebaselinguistics {
+d_Rosettebaselinguistics = false;
+}
+if d_Tokenization_0.Rosettebaselinguistics {
+d_Rosettebaselinguistics = true;
+}
+if !d_Tokenization_0.OpenNLPTokenizer {
+d_OpenNLPTokenizer = false;
+}
+if d_Tokenization_0.OpenNLPTokenizer {
+d_OpenNLPTokenizer = true;
+}
+if !d_Tokenization_0.Luceneanalyzers {
+d_Luceneanalyzers = false;
+}
+if d_Tokenization_0.Luceneanalyzers {
+d_Luceneanalyzers = true;
+}
+";d_Tokenization
+d_Luceneanalyzers;Luceneanalyzers?;Boolean;false | true;;;false
+d_OpenNLPTokenizer;OpenNLPTokenizer?;Boolean;false | true;;;false
+d_Rosettebaselinguistics;Rosettebaselinguistics?;Boolean;false | true;;;false
+d_Lemmatization;Lemmatization?;Boolean;false | true;;"if (d_Lemmatization) {
+d_Luceneanalyzers_1 = true;
+}
+";d_Spelling
+d_Luceneanalyzers_1;Luceneanalyzers_1?;Boolean;false | true;;;(false && d_Lemmatization)
+d_Wordform;Wordform?;Boolean;false | true;;;d_Spelling
+d_Type_2;Type_2?;Boolean;false | true;;;d_Spelling
+d_Acronyms;Acronyms?;Boolean;false | true;;;d_Spelling
+d_Measureunits;Measureunits?;Boolean;false | true;;;d_Spelling
+d_POStagging;POStagging?;Boolean;false | true;;;false
+d_Sintacticcategory;Sintacticcategory?;Boolean;false | true;;;d_POStagging
+d_ConcepttaggingNER_2;ConcepttaggingNER_2?;Boolean;false | true;;;false
+d_Semanticcategory;Semanticcategory?;Boolean;false | true;;;d_ConcepttaggingNER_2
+d_Ontology;Ontology?;Boolean;false | true;;"if (d_Ontology) {
+d_Status = true;
+}
+if (d_Ontology) {
+d_Magnitude = true;
+}
+if (d_Ontology) {
+d_Name = true;
+}
+";d_ConcepttaggingNER_2
+d_Name;Name?;Boolean;false | true;;;(false && d_Ontology)
+d_Magnitude;Magnitude?;Boolean;false | true;;;(false && d_Ontology)
+d_Status;Status?;Boolean;false | true;;;(false && d_Ontology)
+d_Resourcesummarization;Resourcesummarization?;Boolean;false | true;;;false
+d_Richresource;Richresource?;Boolean;false | true;;;d_Resourcesummarization
+d_Resourceclassification;Resourceclassification?;Boolean;false | true;;;false
+d_Patternlace;Patternlace?;Boolean;false | true;;;d_Resourceclassification
+d_Resourceindexing;Resourceindexing?;Boolean;false | true;;;false
+d_Patternstructuring;Patternstructuring?;Boolean;false | true;;;d_Resourceindexing
+d_Exploitation;Exploitation?;Boolean;false | true;;;false
+d_Transformationrules;Transformationrules?;Boolean;false | true;;;d_Exploitation
+d_Levelofcontent;Levelofcontent?;Boolean;false | true;;;(false && d_NaturalLanguageProcessing)
+d_Levelofcontent_0;Choose your Levelofcontent?;Enumeration;Macrounderstanding | Microunderstanding;1:1;"if !d_Levelofcontent_0.Microunderstanding {
+d_Microunderstanding = false;
+}
+if d_Levelofcontent_0.Macrounderstanding {
+d_Macrounderstanding = true;
+}
+if d_Levelofcontent_0.Microunderstanding {
+d_Microunderstanding = true;
+}
+if !d_Levelofcontent_0.Macrounderstanding {
+d_Macrounderstanding = false;
+}
+";d_Levelofcontent
+d_Microunderstanding;Microunderstanding?;Boolean;false | true;;"if !d_Microunderstanding {
+d_Microunderstanding_0 = None;
+}
+if !d_Microunderstanding {
+allow(d_Microunderstanding_0.None);
+}
+if (d_Microunderstanding) {
+disAllow(d_Microunderstanding_0.None);
+}
+";false
+d_Microunderstanding_0;Choose your Microunderstanding?;Enumeration;Metadatafields | None | Actions | Entityrelationships | Extractingfacts | Entities;1:5;"if d_Microunderstanding_0.Metadatafields {
+d_Metadatafields = true;
+}
+if d_Microunderstanding_0.Entities {
+d_Entities = true;
+}
+if d_Microunderstanding_0.Entityrelationships {
+d_Entityrelationships = true;
+}
+if d_Microunderstanding_0.Extractingfacts {
+d_Extractingfacts = true;
+}
+if d_Microunderstanding_0.Actions {
+d_Actions = true;
+}
+";d_Microunderstanding
+d_Extractingfacts;Extractingfacts?;Boolean;false | true;;;false
+d_Entities;Entities?;Boolean;false | true;;;false
+d_Entityrelationships;Entityrelationships?;Boolean;false | true;;;false
+d_Actions;Actions?;Boolean;false | true;;;false
+d_Metadatafields;Metadatafields?;Boolean;false | true;;;false
+d_Macrounderstanding;Macrounderstanding?;Boolean;false | true;;"if (d_Macrounderstanding) {
+disAllow(d_Macrounderstanding_0.None);
+}
+if !d_Macrounderstanding {
+d_Macrounderstanding_0 = None;
+}
+if !d_Macrounderstanding {
+allow(d_Macrounderstanding_0.None);
+}
+";false
+d_Macrounderstanding_0;Choose your Macrounderstanding?;Enumeration;None | Clustering_2 | Topicanalysis | Similarity | Categorization | Wordcloud | Summarization;1:6;"if d_Macrounderstanding_0.Summarization {
+d_Summarization = true;
+}
+if d_Macrounderstanding_0.Clustering_2 {
+d_Clustering_2 = true;
+}
+if d_Macrounderstanding_0.Wordcloud {
+d_Wordcloud = true;
+}
+if d_Macrounderstanding_0.Topicanalysis {
+d_Topicanalysis = true;
+}
+if d_Macrounderstanding_0.Similarity {
+d_Similarity = true;
+}
+if d_Macrounderstanding_0.Categorization {
+d_Categorization = true;
+}
+";d_Macrounderstanding
+d_Clustering_2;Clustering_2?;Boolean;false | true;;;false
+d_Categorization;Categorization?;Boolean;false | true;;;false
+d_Similarity;Similarity?;Boolean;false | true;;;false
+d_Topicanalysis;Topicanalysis?;Boolean;false | true;;;false
+d_Wordcloud;Wordcloud?;Boolean;false | true;;;false
+d_Summarization;Summarization?;Boolean;false | true;;;false
+d_Prescriptive;Prescriptive?;Boolean;false | true;;"if !d_Prescriptive {
+d_Prescriptive_0 = None;
+}
+if !d_Prescriptive {
+allow(d_Prescriptive_0.None);
+}
+if (d_Prescriptive) {
+disAllow(d_Prescriptive_0.None);
+}
+";false
+d_Prescriptive_0;Choose your Prescriptive?;Enumeration;Regressiontechniques_1 | None | Associationrules | Geneticalgorithms | Conditionalprobability | MonteCarlomethod;1:5;"if d_Prescriptive_0.Conditionalprobability {
+d_Conditionalprobability = true;
+}
+if d_Prescriptive_0.Associationrules {
+d_Associationrules = true;
+}
+if d_Prescriptive_0.Geneticalgorithms {
+d_Geneticalgorithms = true;
+}
+if d_Prescriptive_0.Regressiontechniques_1 {
+d_Regressiontechniques_1 = true;
+}
+if d_Prescriptive_0.MonteCarlomethod {
+d_MonteCarlomethod = true;
+}
+";d_Prescriptive
+d_Conditionalprobability;Conditionalprobability?;Boolean;false | true;;;false
+d_Regressiontechniques_1;Regressiontechniques_1?;Boolean;false | true;;;false
+d_Associationrules;Associationrules?;Boolean;false | true;;;false
+d_MonteCarlomethod;MonteCarlomethod?;Boolean;false | true;;;false
+d_Geneticalgorithms;Geneticalgorithms?;Boolean;false | true;;;false
+d_Types_2;Types_2?;Boolean;false | true;;;(false && d_Analytics)
+d_Types_2_0;Choose your Types_2?;Enumeration;Quantitative | Qualitative;1:1;"if !d_Types_2_0.Quantitative {
+d_Quantitative = false;
+}
+if d_Types_2_0.Quantitative {
+d_Quantitative = true;
+}
+if !d_Types_2_0.Qualitative {
+d_Qualitative = false;
+}
+if d_Types_2_0.Qualitative {
+d_Qualitative = true;
+}
+";d_Types_2
+d_Quantitative;Quantitative?;Boolean;false | true;;"if (d_Quantitative) {
+d_Numericaldata = true;
+}
+";false
+d_Numericaldata;Numericaldata?;Boolean;false | true;;;(false && d_Quantitative)
+d_Qualitative;Qualitative?;Boolean;false | true;;"if (d_Qualitative) {
+d_Nonnumericaldata = true;
+}
+";false
+d_Nonnumericaldata;Nonnumericaldata?;Boolean;false | true;;;(false && d_Qualitative)
+d_Nonnumericaldata_0;Choose your Nonnumericaldata?;Enumeration;Text_2 | Images | Audio_1 | Video_1;1:1;"if d_Nonnumericaldata_0.Images {
+d_Images = true;
+}
+if !d_Nonnumericaldata_0.Text_2 {
+d_Text_2 = false;
+}
+if !d_Nonnumericaldata_0.Images {
+d_Images = false;
+}
+if d_Nonnumericaldata_0.Text_2 {
+d_Text_2 = true;
+}
+if !d_Nonnumericaldata_0.Audio_1 {
+d_Audio_1 = false;
+}
+if !d_Nonnumericaldata_0.Video_1 {
+d_Video_1 = false;
+}
+if d_Nonnumericaldata_0.Video_1 {
+d_Video_1 = true;
+}
+if d_Nonnumericaldata_0.Audio_1 {
+d_Audio_1 = true;
+}
+";d_Nonnumericaldata
+d_Text_2;Text_2?;Boolean;false | true;;;false
+d_Images;Images?;Boolean;false | true;;;false
+d_Audio_1;Audio_1?;Boolean;false | true;;;false
+d_Video_1;Video_1?;Boolean;false | true;;"if !d_Video_1 {
+d_Video_1_0 = None;
+}
+if !d_Video_1 {
+allow(d_Video_1_0.None);
+}
+if (d_Video_1) {
+disAllow(d_Video_1_0.None);
+}
+";false
+d_Video_1_0;Choose your Video_1?;Enumeration;None | Confirmatorydataanalysis | Exploratorydataanalysis;1:1;"if d_Video_1_0.Exploratorydataanalysis {
+d_Exploratorydataanalysis = true;
+}
+if !d_Video_1_0.Exploratorydataanalysis {
+d_Exploratorydataanalysis = false;
+}
+if !d_Video_1_0.Confirmatorydataanalysis {
+d_Confirmatorydataanalysis = false;
+}
+if d_Video_1_0.Confirmatorydataanalysis {
+d_Confirmatorydataanalysis = true;
+}
+";d_Video_1
+d_Exploratorydataanalysis;Exploratorydataanalysis?;Boolean;false | true;;;false
+d_Confirmatorydataanalysis;Confirmatorydataanalysis?;Boolean;false | true;;;false
+d_Methodology_2;Methodology_2?;Boolean;false | true;;;(false && d_Analytics)
+d_Methodology_2_0;Choose your Methodology_2?;Enumeration;Exploratorydataanalysis_1 | Confirmatorydataanalysis_1;1:1;"if !d_Methodology_2_0.Confirmatorydataanalysis_1 {
+d_Confirmatorydataanalysis_1 = false;
+}
+if d_Methodology_2_0.Confirmatorydataanalysis_1 {
+d_Confirmatorydataanalysis_1 = true;
+}
+if !d_Methodology_2_0.Exploratorydataanalysis_1 {
+d_Exploratorydataanalysis_1 = false;
+}
+if d_Methodology_2_0.Exploratorydataanalysis_1 {
+d_Exploratorydataanalysis_1 = true;
+}
+";d_Methodology_2
+d_Exploratorydataanalysis_1;Exploratorydataanalysis_1?;Boolean;false | true;;"if (d_Exploratorydataanalysis_1) {
+disAllow(d_Exploratorydataanalysis_1_0.None);
+}
+if !d_Exploratorydataanalysis_1 {
+d_Exploratorydataanalysis_1_0 = None;
+}
+if !d_Exploratorydataanalysis_1 {
+allow(d_Exploratorydataanalysis_1_0.None);
+}
+";false
+d_Exploratorydataanalysis_1_0;Choose your Exploratorydataanalysis_1?;Enumeration;Locationmeasurements | Formmeasurements | Dispersionmeasurements | None;1:1;"if !d_Exploratorydataanalysis_1_0.Locationmeasurements {
+d_Locationmeasurements = false;
+}
+if !d_Exploratorydataanalysis_1_0.Formmeasurements {
+d_Formmeasurements = false;
+}
+if d_Exploratorydataanalysis_1_0.Formmeasurements {
+d_Formmeasurements = true;
+}
+if !d_Exploratorydataanalysis_1_0.Dispersionmeasurements {
+d_Dispersionmeasurements = false;
+}
+if d_Exploratorydataanalysis_1_0.Locationmeasurements {
+d_Locationmeasurements = true;
+}
+if d_Exploratorydataanalysis_1_0.Dispersionmeasurements {
+d_Dispersionmeasurements = true;
+}
+";d_Exploratorydataanalysis_1
+d_Locationmeasurements;Locationmeasurements?;Boolean;false | true;;"if !d_Locationmeasurements {
+d_Locationmeasurements_0 = None;
+}
+if !d_Locationmeasurements {
+allow(d_Locationmeasurements_0.None);
+}
+if (d_Locationmeasurements) {
+disAllow(d_Locationmeasurements_0.None);
+}
+";false
+d_Locationmeasurements_0;Choose your Locationmeasurements?;Enumeration;Meancalculation | Minimum | None | Mode | Quantile | Maximum;1:5;"if d_Locationmeasurements_0.Meancalculation {
+d_Meancalculation = true;
+}
+if d_Locationmeasurements_0.Mode {
+d_Mode = true;
+}
+if d_Locationmeasurements_0.Maximum {
+d_Maximum = true;
+}
+if d_Locationmeasurements_0.Quantile {
+d_Quantile = true;
+}
+if d_Locationmeasurements_0.Minimum {
+d_Minimum = true;
+}
+";d_Locationmeasurements
+d_Meancalculation;Meancalculation?;Boolean;false | true;;;false
+d_Mode;Mode?;Boolean;false | true;;;false
+d_Minimum;Minimum?;Boolean;false | true;;;false
+d_Maximum;Maximum?;Boolean;false | true;;;false
+d_Quantile;Quantile?;Boolean;false | true;;;false
+d_Dispersionmeasurements;Dispersionmeasurements?;Boolean;false | true;;"if !d_Dispersionmeasurements {
+d_Dispersionmeasurements_0 = None;
+}
+if !d_Dispersionmeasurements {
+allow(d_Dispersionmeasurements_0.None);
+}
+if (d_Dispersionmeasurements) {
+disAllow(d_Dispersionmeasurements_0.None);
+}
+";false
+d_Dispersionmeasurements_0;Choose your Dispersionmeasurements?;Enumeration;None | Interquartilesrange | Standarddeviation_1 | Datarange | Variance;1:4;"if d_Dispersionmeasurements_0.Interquartilesrange {
+d_Interquartilesrange = true;
+}
+if d_Dispersionmeasurements_0.Standarddeviation_1 {
+d_Standarddeviation_1 = true;
+}
+if d_Dispersionmeasurements_0.Variance {
+d_Variance = true;
+}
+if d_Dispersionmeasurements_0.Datarange {
+d_Datarange = true;
+}
+";d_Dispersionmeasurements
+d_Interquartilesrange;Interquartilesrange?;Boolean;false | true;;;false
+d_Datarange;Datarange?;Boolean;false | true;;;false
+d_Variance;Variance?;Boolean;false | true;;;false
+d_Standarddeviation_1;Standarddeviation_1?;Boolean;false | true;;;false
+d_Formmeasurements;Formmeasurements?;Boolean;false | true;;"if !d_Formmeasurements {
+d_Formmeasurements_0 = None;
+}
+if !d_Formmeasurements {
+allow(d_Formmeasurements_0.None);
+}
+if (d_Formmeasurements) {
+disAllow(d_Formmeasurements_0.None);
+}
+";false
+d_Formmeasurements_0;Choose your Formmeasurements?;Enumeration;None | Assymetry | Kurtosis;1:2;"if d_Formmeasurements_0.Kurtosis {
+d_Kurtosis = true;
+}
+if d_Formmeasurements_0.Assymetry {
+d_Assymetry = true;
+}
+";d_Formmeasurements
+d_Assymetry;Assymetry?;Boolean;false | true;;;false
+d_Kurtosis;Kurtosis?;Boolean;false | true;;;false
+d_Confirmatorydataanalysis_1;Confirmatorydataanalysis_1?;Boolean;false | true;;;false
+d_Tools_2;Tools_2?;Boolean;false | true;;;d_Confirmatorydataanalysis_1
+d_SPSS;SPSS?;Boolean;false | true;;;d_Tools_2
+d_SAS;SAS?;Boolean;false | true;;;d_Tools_2
+d_SPAD;SPAD?;Boolean;false | true;;;d_Tools_2
+d_Statgraphics;Statgraphics?;Boolean;false | true;;;d_Tools_2
+d_Analyticstechniques;Analyticstechniques?;Boolean;false | true;;;(false && d_Processing_3)
+d_Analyticstechniques_0;Choose your Analyticstechniques?;Enumeration;Analysisoffeelingsandtext | Learningassociationrules | Splittesting | Datavisualization | Temporaryseriesanalysis;1:5;"if d_Analyticstechniques_0.Datavisualization {
+d_Datavisualization = true;
+}
+if d_Analyticstechniques_0.Analysisoffeelingsandtext {
+d_Analysisoffeelingsandtext = true;
+}
+if d_Analyticstechniques_0.Learningassociationrules {
+d_Learningassociationrules = true;
+}
+if d_Analyticstechniques_0.Splittesting {
+d_Splittesting = true;
+}
+if d_Analyticstechniques_0.Temporaryseriesanalysis {
+d_Temporaryseriesanalysis = true;
+}
+";d_Analyticstechniques
+d_Datavisualization;Datavisualization?;Boolean;false | true;;;false
+d_Splittesting;Splittesting?;Boolean;false | true;;;false
+d_Temporaryseriesanalysis;Temporaryseriesanalysis?;Boolean;false | true;;;false
+d_Analysisoffeelingsandtext;Analysisoffeelingsandtext?;Boolean;false | true;;;false
+d_Learningassociationrules;Learningassociationrules?;Boolean;false | true;;;false
+d_Technique;Technique?;Boolean;false | true;;;(false && d_Processing_3)
+d_Technique_0;Choose your Technique?;Enumeration;Stream | Hybrid_2 | Batch_2;1:3;"if d_Technique_0.Stream {
+d_Stream = true;
+}
+if d_Technique_0.Batch_2 {
+d_Batch_2 = true;
+}
+if d_Technique_0.Hybrid_2 {
+d_Hybrid_2 = true;
+}
+";d_Technique
+d_Stream;Stream?;Boolean;false | true;;"if (d_Stream) {
+d_Technology = true;
+}
+";false
+d_Metriccomputation;Metriccomputation?;Boolean;false | true;;;d_Stream
+d_Statuscollection;Statuscollection?;Boolean;false | true;;;d_Stream
+d_Filtering;Filtering?;Boolean;false | true;;;d_Stream
+d_Tokenization_2;Tokenization_2?;Boolean;false | true;;;d_Stream
+d_Annotation;Annotation?;Boolean;false | true;;;d_Stream
+d_Store;Store?;Boolean;false | true;;;d_Stream
+d_Technology;Technology?;Boolean;false | true;;;(false && d_Stream)
+d_Technology_0;Choose your Technology?;Enumeration;ApacheSamza | Apachestorm;1:1;"if d_Technology_0.ApacheSamza {
+d_ApacheSamza = true;
+}
+if d_Technology_0.Apachestorm {
+d_Apachestorm = true;
+}
+if !d_Technology_0.Apachestorm {
+d_Apachestorm = false;
+}
+if !d_Technology_0.ApacheSamza {
+d_ApacheSamza = false;
+}
+";d_Technology
+d_Apachestorm;Apachestorm?;Boolean;false | true;;;false
+d_Streams;Streams?;Boolean;false | true;;;d_Apachestorm
+d_Spouts;Spouts?;Boolean;false | true;;;d_Apachestorm
+d_Bolts;Bolts?;Boolean;false | true;;;d_Apachestorm
+d_Flume;Flume?;Boolean;false | true;;;d_Apachestorm
+d_Trident;Trident?;Boolean;false | true;;;d_Apachestorm
+d_S4;S4?;Boolean;false | true;;;d_Apachestorm
+d_ApacheSamza;ApacheSamza?;Boolean;false | true;;;false
+d_Kafka;Kafka?;Boolean;false | true;;;d_ApacheSamza
+d_YARN;YARN?;Boolean;false | true;;;d_ApacheSamza
+d_SamzaAPI;SamzaAPI?;Boolean;false | true;;;d_ApacheSamza
+d_Kestrel;Kestrel?;Boolean;false | true;;;d_ApacheSamza
+d_Batch_2;Batch_2?;Boolean;false | true;;"if (d_Batch_2) {
+d_Batch_2_1 = true;
+}
+if (d_Batch_2) {
+d_Technology_2 = true;
+}
+";false
+d_Batch_2_1;Batch_2_1?;Boolean;false | true;;;(false && d_Batch_2)
+d_Batch_2_1_0;Choose your Batch_2_1?;Enumeration;Combining | Filtering_1 | Prepare | Cleaning | Process | Aggregate | Readfile | Writeoutputfile | Replication;1:9;"if d_Batch_2_1_0.Cleaning {
+d_Cleaning = true;
+}
+if d_Batch_2_1_0.Filtering_1 {
+d_Filtering_1 = true;
+}
+if d_Batch_2_1_0.Aggregate {
+d_Aggregate = true;
+}
+if d_Batch_2_1_0.Combining {
+d_Combining = true;
+}
+if d_Batch_2_1_0.Readfile {
+d_Readfile = true;
+}
+if d_Batch_2_1_0.Prepare {
+d_Prepare = true;
+}
+if d_Batch_2_1_0.Process {
+d_Process = true;
+}
+if d_Batch_2_1_0.Replication {
+d_Replication = true;
+}
+if d_Batch_2_1_0.Writeoutputfile {
+d_Writeoutputfile = true;
+}
+";d_Batch_2_1
+d_Combining;Combining?;Boolean;false | true;;;false
+d_Cleaning;Cleaning?;Boolean;false | true;;;false
+d_Replication;Replication?;Boolean;false | true;;;false
+d_Filtering_1;Filtering_1?;Boolean;false | true;;;false
+d_Aggregate;Aggregate?;Boolean;false | true;;;false
+d_Prepare;Prepare?;Boolean;false | true;;;false
+d_Readfile;Readfile?;Boolean;false | true;;;false
+d_Process;Process?;Boolean;false | true;;;false
+d_Writeoutputfile;Writeoutputfile?;Boolean;false | true;;;false
+d_Technology_2;Technology_2?;Boolean;false | true;;;(false && d_Batch_2)
+d_Technology_2_0;Choose your Technology_2?;Enumeration;Hadoop | Azuredatalakeanalytics;1:1;"if !d_Technology_2_0.Hadoop {
+d_Hadoop = false;
+}
+if d_Technology_2_0.Hadoop {
+d_Hadoop = true;
+}
+if !d_Technology_2_0.Azuredatalakeanalytics {
+d_Azuredatalakeanalytics = false;
+}
+if d_Technology_2_0.Azuredatalakeanalytics {
+d_Azuredatalakeanalytics = true;
+}
+";d_Technology_2
+d_Hadoop;Hadoop?;Boolean;false | true;;;false
+d_HDFS;HDFS?;Boolean;false | true;;;d_Hadoop
+d_HBase;HBase?;Boolean;false | true;;;d_HDFS
+d_YARN_1;YARN_1?;Boolean;false | true;;;d_Hadoop
+d_MapReduce;MapReduce?;Boolean;false | true;;;d_Hadoop
+d_Hive;Hive?;Boolean;false | true;;;d_MapReduce
+d_Pig;Pig?;Boolean;false | true;;;d_MapReduce
+d_Cascading;Cascading?;Boolean;false | true;;;d_MapReduce
+d_Spark;Spark?;Boolean;false | true;;;d_MapReduce
+d_SparkSQLshark;SparkSQLshark?;Boolean;false | true;;;d_MapReduce
+d_Azuredatalakeanalytics;Azuredatalakeanalytics?;Boolean;false | true;;;false
+d_U_SQL;U_SQL?;Boolean;false | true;;;d_Azuredatalakeanalytics
+d_Hybrid_2;Hybrid_2?;Boolean;false | true;;"if (d_Hybrid_2) {
+d_Technology_3 = true;
+}
+if (d_Hybrid_2) {
+d_Hybrid_2_1 = true;
+}
+";false
+d_Hybrid_2_1;Hybrid_2_1?;Boolean;false | true;;;(false && d_Hybrid_2)
+d_Hybrid_2_1_0;Choose your Hybrid_2_1?;Enumeration;Enrichment | Validation | Transformation | Aggregation | Filtering_2 | Routing | Splitting | Patterndetection;1:8;"if d_Hybrid_2_1_0.Transformation {
+d_Transformation = true;
+}
+if d_Hybrid_2_1_0.Validation {
+d_Validation = true;
+}
+if d_Hybrid_2_1_0.Splitting {
+d_Splitting = true;
+}
+if d_Hybrid_2_1_0.Enrichment {
+d_Enrichment = true;
+}
+if d_Hybrid_2_1_0.Aggregation {
+d_Aggregation = true;
+}
+if d_Hybrid_2_1_0.Filtering_2 {
+d_Filtering_2 = true;
+}
+if d_Hybrid_2_1_0.Patterndetection {
+d_Patterndetection = true;
+}
+if d_Hybrid_2_1_0.Routing {
+d_Routing = true;
+}
+";d_Hybrid_2_1
+d_Transformation;Transformation?;Boolean;false | true;;;false
+d_Enrichment;Enrichment?;Boolean;false | true;;;false
+d_Aggregation;Aggregation?;Boolean;false | true;;;false
+d_Patterndetection;Patterndetection?;Boolean;false | true;;;false
+d_Splitting;Splitting?;Boolean;false | true;;;false
+d_Routing;Routing?;Boolean;false | true;;;false
+d_Validation;Validation?;Boolean;false | true;;;false
+d_Filtering_2;Filtering_2?;Boolean;false | true;;;false
+d_Technology_3;Technology_3?;Boolean;false | true;;;(false && d_Hybrid_2)
+d_Technology_3_0;Choose your Technology_3?;Enumeration;Apachespark | Apacheflink;1:1;"if d_Technology_3_0.Apachespark {
+d_Apachespark = true;
+}
+if !d_Technology_3_0.Apacheflink {
+d_Apacheflink = false;
+}
+if d_Technology_3_0.Apacheflink {
+d_Apacheflink = true;
+}
+if !d_Technology_3_0.Apachespark {
+d_Apachespark = false;
+}
+";d_Technology_3
+d_Apachespark;Apachespark?;Boolean;false | true;;;false
+d_Mlib;Mlib?;Boolean;false | true;;;d_Apachespark
+d_SparkSQL;SparkSQL?;Boolean;false | true;;;d_Apachespark
+d_GraphX;GraphX?;Boolean;false | true;;;d_Apachespark
+d_Sparkstreaming;Sparkstreaming?;Boolean;false | true;;;d_Apachespark
+d_Sparkcore;Sparkcore?;Boolean;false | true;;;d_Apachespark
+d_Apacheflink;Apacheflink?;Boolean;false | true;;;false
+d_DatastreamAPI;DatastreamAPI?;Boolean;false | true;;;d_Apacheflink
+d_DatasetAPI;DatasetAPI?;Boolean;false | true;;;d_Apacheflink
+d_TableAPI;TableAPI?;Boolean;false | true;;;d_Apacheflink
+d_Gelly;Gelly?;Boolean;false | true;;;d_Apacheflink
+d_FlinkML;FlinkML?;Boolean;false | true;;;d_Apacheflink
+d_Interface;Interface?;Boolean;false | true;;"if (d_Interface) {
+d_Reportinganddashboarding = true;
+}
+if (d_Interface) {
+d_Platform = true;
+}
+";(false && d_Services_2)
+d_Platform;Platform?;Boolean;false | true;;;(false && d_Interface)
+d_Platform_0;Choose your Platform?;Enumeration;Applicationinterface | Userinterface;1:2;"if d_Platform_0.Userinterface {
+d_Userinterface = true;
+}
+if d_Platform_0.Applicationinterface {
+d_Applicationinterface = true;
+}
+";d_Platform
+d_Userinterface;Userinterface?;Boolean;false | true;;"if (d_Userinterface) {
+d_Enduserapplication = true;
+}
+if (d_Userinterface) {
+d_Visualizationapplication = true;
+}
+";false
+d_Enduserapplication;Enduserapplication?;Boolean;false | true;;;(false && d_Userinterface)
+d_Visualizationapplication;Visualizationapplication?;Boolean;false | true;;;(false && d_Userinterface)
+d_Applicationinterface;Applicationinterface?;Boolean;false | true;;;false
+d_Reportinganddashboarding;Reportinganddashboarding?;Boolean;false | true;;;(false && d_Interface)
+d_Representation;Representation?;Boolean;false | true;;"if (d_Representation) {
+d_Tool = true;
+}
+if (d_Representation) {
+d_Type_3 = true;
+}
+";(false && d_Services_2)
+d_Type_3;Type_3?;Boolean;false | true;;;(false && d_Representation)
+d_Type_3_0;Choose your Type_3?;Enumeration;Table | Graphics | Maps | Infographic;1:4;"if d_Type_3_0.Graphics {
+d_Graphics = true;
+}
+if d_Type_3_0.Maps {
+d_Maps = true;
+}
+if d_Type_3_0.Table {
+d_Table = true;
+}
+if d_Type_3_0.Infographic {
+d_Infographic = true;
+}
+";d_Type_3
+d_Graphics;Graphics?;Boolean;false | true;;"if !d_Graphics {
+d_Graphics_0 = None;
+}
+if !d_Graphics {
+allow(d_Graphics_0.None);
+}
+if (d_Graphics) {
+disAllow(d_Graphics_0.None);
+}
+";false
+d_Graphics_0;Choose your Graphics?;Enumeration;None | Area | Cloudchart | Histogram | Circularview | Ganttdiagram | Barchart | Boxandwhiskerplot;1:7;"if d_Graphics_0.Histogram {
+d_Histogram = true;
+}
+if d_Graphics_0.Ganttdiagram {
+d_Ganttdiagram = true;
+}
+if d_Graphics_0.Cloudchart {
+d_Cloudchart = true;
+}
+if d_Graphics_0.Boxandwhiskerplot {
+d_Boxandwhiskerplot = true;
+}
+if d_Graphics_0.Barchart {
+d_Barchart = true;
+}
+if d_Graphics_0.Circularview {
+d_Circularview = true;
+}
+if d_Graphics_0.Area {
+d_Area = true;
+}
+";d_Graphics
+d_Area;Area?;Boolean;false | true;;;false
+d_Barchart;Barchart?;Boolean;false | true;;;false
+d_Boxandwhiskerplot;Boxandwhiskerplot?;Boolean;false | true;;;false
+d_Cloudchart;Cloudchart?;Boolean;false | true;;;false
+d_Circularview;Circularview?;Boolean;false | true;;;false
+d_Ganttdiagram;Ganttdiagram?;Boolean;false | true;;;false
+d_Histogram;Histogram?;Boolean;false | true;;;false
+d_Table;Table?;Boolean;false | true;;"if !d_Table {
+d_Table_0 = None;
+}
+if !d_Table {
+allow(d_Table_0.None);
+}
+if (d_Table) {
+disAllow(d_Table_0.None);
+}
+";false
+d_Table_0;Choose your Table?;Enumeration;None | Highlight | Text_3;1:2;"if d_Table_0.Highlight {
+d_Highlight = true;
+}
+if d_Table_0.Text_3 {
+d_Text_3 = true;
+}
+";d_Table
+d_Highlight;Highlight?;Boolean;false | true;;;false
+d_Text_3;Text_3?;Boolean;false | true;;;false
+d_Maps;Maps?;Boolean;false | true;;"if !d_Maps {
+d_Maps_0 = None;
+}
+if !d_Maps {
+allow(d_Maps_0.None);
+}
+if (d_Maps) {
+disAllow(d_Maps_0.None);
+}
+";false
+d_Maps_0;Choose your Maps?;Enumeration;None | Cartogram | Heat;1:2;"if d_Maps_0.Heat {
+d_Heat = true;
+}
+if d_Maps_0.Cartogram {
+d_Cartogram = true;
+}
+";d_Maps
+d_Cartogram;Cartogram?;Boolean;false | true;;;false
+d_Heat;Heat?;Boolean;false | true;;;false
+d_Infographic;Infographic?;Boolean;false | true;;;false
+d_Tool;Tool?;Boolean;false | true;;;(false && d_Representation)
+d_Tool_0;Choose your Tool?;Enumeration;Piktochart | Plotly | Tableau | Datawrapper | Qlik | Infogram;1:1;"if d_Tool_0.Infogram {
+d_Infogram = true;
+}
+if !d_Tool_0.Datawrapper {
+d_Datawrapper = false;
+}
+if d_Tool_0.Datawrapper {
+d_Datawrapper = true;
+}
+if !d_Tool_0.Qlik {
+d_Qlik = false;
+}
+if d_Tool_0.Qlik {
+d_Qlik = true;
+}
+if !d_Tool_0.Tableau {
+d_Tableau = false;
+}
+if !d_Tool_0.Plotly {
+d_Plotly = false;
+}
+if d_Tool_0.Plotly {
+d_Plotly = true;
+}
+if !d_Tool_0.Piktochart {
+d_Piktochart = false;
+}
+if d_Tool_0.Piktochart {
+d_Piktochart = true;
+}
+if d_Tool_0.Tableau {
+d_Tableau = true;
+}
+if !d_Tool_0.Infogram {
+d_Infogram = false;
+}
+";d_Tool
+d_Tableau;Tableau?;Boolean;false | true;;;false
+d_Qlik;Qlik?;Boolean;false | true;;;false
+d_Plotly;Plotly?;Boolean;false | true;;;false
+d_Datawrapper;Datawrapper?;Boolean;false | true;;;false
+d_Infogram;Infogram?;Boolean;false | true;;;false
+d_Piktochart;Piktochart?;Boolean;false | true;;;false

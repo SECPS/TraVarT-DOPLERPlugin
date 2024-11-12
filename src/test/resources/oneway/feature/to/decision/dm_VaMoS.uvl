@@ -7,7 +7,7 @@ features
                 mandatory
                     Camera_Resolution
                         alternative
-							"21M"
+							"21_MP"
 							"5_MP"
 							"31_MP"
 		mandatory

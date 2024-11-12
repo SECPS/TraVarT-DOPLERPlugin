@@ -1,0 +1,1167 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+d_eShop;eShop?;Boolean;false | true;;"if (d_eShop) {
+d_Business_management = true;
+}
+if (d_eShop) {
+d_Store_front = true;
+}
+";true
+d_Store_front;Store_front?;Boolean;false | true;;"if (d_Store_front) {
+d_Buy_paths = true;
+}
+if (d_Store_front) {
+d_Catalog = true;
+}
+";(false && d_eShop)
+d_Home_page;Home_page?;Boolean;false | true;;"if (d_Home_page) {
+d_sg_Home_page6 = true;
+}
+";d_Store_front
+d_sg_Home_page6;sg_Home_page6?;Boolean;false | true;;;(false && d_Home_page)
+d_sg_Home_page6_0;Choose your sg_Home_page6?;Enumeration;Static_content_7 | Dynamic_content8;1:2;"if d_sg_Home_page6_0.Static_content_7 {
+d_Static_content_7 = true;
+}
+if d_sg_Home_page6_0.Dynamic_content8 {
+d_Dynamic_content8 = true;
+}
+";d_sg_Home_page6
+d_Static_content_7;Static_content_7?;Boolean;false | true;;;false
+d_Dynamic_content8;Dynamic_content8?;Boolean;false | true;;"if (d_Dynamic_content8) {
+d_Content_type9 = true;
+}
+if (d_Dynamic_content8) {
+d_Variation_source13 = true;
+}
+";false
+d_Content_type9;Content_type9?;Boolean;false | true;;"if (d_Content_type9) {
+d_sg_Content_type910 = true;
+}
+";(false && d_Dynamic_content8)
+d_sg_Content_type910;sg_Content_type910?;Boolean;false | true;;;(false && d_Content_type9)
+d_sg_Content_type910_0;Choose your sg_Content_type910?;Enumeration;Special_offers | Welcome_message11;1:2;"if d_sg_Content_type910_0.Welcome_message11 {
+d_Welcome_message11 = true;
+}
+if d_sg_Content_type910_0.Special_offers {
+d_Special_offers = true;
+}
+";d_sg_Content_type910
+d_Welcome_message11;Welcome_message11?;Boolean;false | true;;;false
+d_Special_offers;Special_offers?;Boolean;false | true;;"if (d_Special_offers) {
+d_sg_Targeting_mechanisms251252_0 = Discounts;
+}
+";false
+d_Variation_source13;Variation_source13?;Boolean;false | true;;"if (d_Variation_source13) {
+d_sg_Variation_source1314 = true;
+}
+";(false && d_Dynamic_content8)
+d_sg_Variation_source1314;sg_Variation_source1314?;Boolean;false | true;;;(false && d_Variation_source13)
+d_sg_Variation_source1314_0;Choose your sg_Variation_source1314?;Enumeration;Time_dependent15 | Personalized16;1:2;"if d_sg_Variation_source1314_0.Time_dependent15 {
+d_Time_dependent15 = true;
+}
+if d_sg_Variation_source1314_0.Personalized16 {
+d_Personalized16 = true;
+}
+";d_sg_Variation_source1314
+d_Time_dependent15;Time_dependent15?;Boolean;false | true;;;false
+d_Personalized16;Personalized16?;Boolean;false | true;;;false
+d_Registration;Registration?;Boolean;false | true;;"if (d_Registration) {
+d_Registration_information23 = true;
+}
+if (d_Registration) {
+d_Registration_enforcement = true;
+}
+if !d_Registration {
+d_Wish_list_save_after_session = true;
+}
+";d_Store_front
+d_Registration_enforcement;Registration_enforcement?;Boolean;false | true;;"if (d_Registration_enforcement) {
+d_sg_Registration_enforcement19 = true;
+}
+";(false && d_Registration)
+d_sg_Registration_enforcement19;sg_Registration_enforcement19?;Boolean;false | true;;;(false && d_Registration_enforcement)
+d_sg_Registration_enforcement19_0;Choose your sg_Registration_enforcement19?;Enumeration;Register_to_browse20 | Register_to_buy | None22;1:3;"if d_sg_Registration_enforcement19_0.None22 {
+d_None22 = true;
+}
+if d_sg_Registration_enforcement19_0.Register_to_buy {
+d_Register_to_buy = true;
+}
+if d_sg_Registration_enforcement19_0.Register_to_browse20 {
+d_Register_to_browse20 = true;
+}
+";d_sg_Registration_enforcement19
+d_Register_to_browse20;Register_to_browse20?;Boolean;false | true;;;false
+d_Register_to_buy;Register_to_buy?;Boolean;false | true;;;false
+d_None22;None22?;Boolean;false | true;;;false
+d_Registration_information23;Registration_information23?;Boolean;false | true;;"if (d_Registration_information23) {
+d_Login_credentials24 = true;
+}
+";(false && d_Registration)
+d_Login_credentials24;Login_credentials24?;Boolean;false | true;;;(false && d_Registration_information23)
+d_Shipping_address;Shipping_address?;Boolean;false | true;;;d_Registration_information23
+d_Multiple_shipping_addresses26;Multiple_shipping_addresses26?;Boolean;false | true;;;d_Shipping_address
+d_Billing_address27;Billing_address27?;Boolean;false | true;;;d_Registration_information23
+d_Multiple_billing_addresses28;Multiple_billing_addresses28?;Boolean;false | true;;;d_Billing_address27
+d_Credit_card_information29;Credit_card_information29?;Boolean;false | true;;"if (d_Credit_card_information29) {
+d_Card_number31 = true;
+}
+if (d_Credit_card_information29) {
+d_Expiry_date32 = true;
+}
+if (d_Credit_card_information29) {
+d_Card_holder_name30 = true;
+}
+";d_Registration_information23
+d_Card_holder_name30;Card_holder_name30?;Boolean;false | true;;;(false && d_Credit_card_information29)
+d_Card_number31;Card_number31?;Boolean;false | true;;;(false && d_Credit_card_information29)
+d_Expiry_date32;Expiry_date32?;Boolean;false | true;;;(false && d_Credit_card_information29)
+d_Security_information33;Security_information33?;Boolean;false | true;;;d_Credit_card_information29
+d_Demographics34;Demographics34?;Boolean;false | true;;"if (d_Demographics34) {
+d_sg_Demographics3435 = true;
+}
+";d_Registration_information23
+d_sg_Demographics3435;sg_Demographics3435?;Boolean;false | true;;;(false && d_Demographics34)
+d_sg_Demographics3435_0;Choose your sg_Demographics3435?;Enumeration;Age36 | Education38 | Custom_Demographic_field39 | Income37;1:4;"if d_sg_Demographics3435_0.Education38 {
+d_Education38 = true;
+}
+if d_sg_Demographics3435_0.Custom_Demographic_field39 {
+d_Custom_Demographic_field39 = true;
+}
+if d_sg_Demographics3435_0.Age36 {
+d_Age36 = true;
+}
+if d_sg_Demographics3435_0.Income37 {
+d_Income37 = true;
+}
+";d_sg_Demographics3435
+d_Age36;Age36?;Boolean;false | true;;;false
+d_Income37;Income37?;Boolean;false | true;;;false
+d_Education38;Education38?;Boolean;false | true;;;false
+d_Custom_Demographic_field39;Custom_Demographic_field39?;Boolean;false | true;;;false
+d_Personal_Information40;Personal_Information40?;Boolean;false | true;;;d_Registration_information23
+d_Preferences;Preferences?;Boolean;false | true;;"if (d_Preferences) {
+d_sg_Preferences42 = true;
+}
+";d_Registration_information23
+d_sg_Preferences42;sg_Preferences42?;Boolean;false | true;;;(false && d_Preferences)
+d_sg_Preferences42_0;Choose your sg_Preferences42?;Enumeration;Site_layout43 | Language45 | List_size44;1:3;"if d_sg_Preferences42_0.Site_layout43 {
+d_Site_layout43 = true;
+}
+if d_sg_Preferences42_0.Language45 {
+d_Language45 = true;
+}
+if d_sg_Preferences42_0.List_size44 {
+d_List_size44 = true;
+}
+";d_sg_Preferences42
+d_Site_layout43;Site_layout43?;Boolean;false | true;;;false
+d_List_size44;List_size44?;Boolean;false | true;;;false
+d_Language45;Language45?;Boolean;false | true;;;false
+d_Reminders46;Reminders46?;Boolean;false | true;;;d_Registration_information23
+d_Quick_checkout_profile;Quick_checkout_profile?;Boolean;false | true;;;d_Registration_information23
+d_Custom_fields48;Custom_fields48?;Boolean;false | true;;;d_Registration_information23
+d_User_behaviour_tracking_information;User_behaviour_tracking_information?;Boolean;false | true;;"if (d_User_behaviour_tracking_information) {
+d_User_behaviour_tracking = true;
+}
+";d_Registration
+d_Catalog;Catalog?;Boolean;false | true;;"if (d_Catalog) {
+d_Product_Information = true;
+}
+";(false && d_Store_front)
+d_Product_Information;Product_Information?;Boolean;false | true;;"if (d_Product_Information) {
+d_Product_type = true;
+}
+if (d_Product_Information) {
+d_Basic_information = true;
+}
+";(false && d_Catalog)
+d_Product_type;Product_type?;Boolean;false | true;;"if (d_Product_type) {
+d_sg_Product_type53 = true;
+}
+";(false && d_Product_Information)
+d_sg_Product_type53;sg_Product_type53?;Boolean;false | true;;;(false && d_Product_type)
+d_sg_Product_type53_0;Choose your sg_Product_type53?;Enumeration;Services | Eletronic_goods | Physical_goods;1:3;"if d_sg_Product_type53_0.Services {
+d_Services = true;
+}
+if d_sg_Product_type53_0.Physical_goods {
+d_Physical_goods = true;
+}
+if d_sg_Product_type53_0.Eletronic_goods {
+d_Eletronic_goods = true;
+}
+";d_sg_Product_type53
+d_Eletronic_goods;Eletronic_goods?;Boolean;false | true;;"if (d_Eletronic_goods) {
+d_Size = true;
+}
+if (d_Eletronic_goods) {
+d_sg_Fulfillment211212_0 = Eletronic_goods_fulfillment;
+}
+";false
+d_Physical_goods;Physical_goods?;Boolean;false | true;;"if (d_Physical_goods) {
+d_Weight = true;
+}
+if (d_Physical_goods) {
+d_sg_Fulfillment211212_0 = Physical_goods_fulfillment;
+}
+if (d_Physical_goods) {
+d_Size = true;
+}
+";false
+d_Services;Services?;Boolean;false | true;;"if (d_Services) {
+d_sg_Fulfillment211212_0 = Services_fulfillment;
+}
+";false
+d_Basic_information;Basic_information?;Boolean;false | true;;;(false && d_Product_Information)
+d_Detailed_information;Detailed_information?;Boolean;false | true;;;d_Product_Information
+d_Warranty_information;Warranty_information?;Boolean;false | true;;;d_Product_Information
+d_Customer_reviews;Customer_reviews?;Boolean;false | true;;;d_Product_Information
+d_Associated_assets;Associated_assets?;Boolean;false | true;;"if (d_Associated_assets) {
+d_sg_Associated_assets62 = true;
+}
+";d_Product_Information
+d_sg_Associated_assets62;sg_Associated_assets62?;Boolean;false | true;;;(false && d_Associated_assets)
+d_sg_Associated_assets62_0;Choose your sg_Associated_assets62?;Enumeration;Media_files64 | Documents63;1:2;"if d_sg_Associated_assets62_0.Media_files64 {
+d_Media_files64 = true;
+}
+if d_sg_Associated_assets62_0.Documents63 {
+d_Documents63 = true;
+}
+";d_sg_Associated_assets62
+d_Documents63;Documents63?;Boolean;false | true;;;false
+d_Media_files64;Media_files64?;Boolean;false | true;;"if (d_Media_files64) {
+d_sg_Media_files6465 = true;
+}
+";false
+d_sg_Media_files6465;sg_Media_files6465?;Boolean;false | true;;;(false && d_Media_files64)
+d_sg_Media_files6465_0;Choose your sg_Media_files6465?;Enumeration;Video74 | Image66 | Sound75;1:3;"if d_sg_Media_files6465_0.Video74 {
+d_Video74 = true;
+}
+if d_sg_Media_files6465_0.Sound75 {
+d_Sound75 = true;
+}
+if d_sg_Media_files6465_0.Image66 {
+d_Image66 = true;
+}
+";d_sg_Media_files6465
+d_Image66;Image66?;Boolean;false | true;;"if (d_Image66) {
+d_sg_Image6667 = true;
+}
+";false
+d_sg_Image6667;sg_Image6667?;Boolean;false | true;;;(false && d_Image66)
+d_sg_Image6667_0;Choose your sg_Image6667?;Enumeration;a2D_image69 | Gallery73 | Thumbnail68 | a3D_image70 | a360_degrees_image71 | Different_perspectives72;1:6;"if d_sg_Image6667_0.a360_degrees_image71 {
+d_a360_degrees_image71 = true;
+}
+if d_sg_Image6667_0.a3D_image70 {
+d_a3D_image70 = true;
+}
+if d_sg_Image6667_0.Different_perspectives72 {
+d_Different_perspectives72 = true;
+}
+if d_sg_Image6667_0.Thumbnail68 {
+d_Thumbnail68 = true;
+}
+if d_sg_Image6667_0.Gallery73 {
+d_Gallery73 = true;
+}
+if d_sg_Image6667_0.a2D_image69 {
+d_a2D_image69 = true;
+}
+";d_sg_Image6667
+d_Thumbnail68;Thumbnail68?;Boolean;false | true;;;false
+d_a2D_image69;a2D_image69?;Boolean;false | true;;;false
+d_a3D_image70;a3D_image70?;Boolean;false | true;;;false
+d_a360_degrees_image71;a360_degrees_image71?;Boolean;false | true;;;false
+d_Different_perspectives72;Different_perspectives72?;Boolean;false | true;;;false
+d_Gallery73;Gallery73?;Boolean;false | true;;;false
+d_Video74;Video74?;Boolean;false | true;;;false
+d_Sound75;Sound75?;Boolean;false | true;;;false
+d_Product_variants;Product_variants?;Boolean;false | true;;;d_Product_Information
+d_Complex_product_configuration77;Complex_product_configuration77?;Boolean;false | true;;;d_Product_variants
+d_Size;Size?;Boolean;false | true;;;d_Product_Information
+d_Weight;Weight?;Boolean;false | true;;;d_Product_Information
+d_Availability;Availability?;Boolean;false | true;;"if (d_Availability) {
+d_Inventory_tracking = true;
+}
+";d_Product_Information
+d_Custom_fields;Custom_fields?;Boolean;false | true;;;d_Product_Information
+d_Categories;Categories?;Boolean;false | true;;"if (d_Categories) {
+d_categories_catalog = true;
+}
+";d_Catalog
+d_categories_catalog;categories_catalog?;Boolean;false | true;;;(false && d_Categories)
+d_Categories84;Categories84?;Boolean;false | true;;;d_categories_catalog
+d_Multi_level85;Multi_level85?;Boolean;false | true;;;d_Categories84
+d_Multiple_classification86;Multiple_classification86?;Boolean;false | true;;;d_Categories84
+d_Multiple_catalogs87;Multiple_catalogs87?;Boolean;false | true;;;d_Catalog
+d_Searching88;Searching88?;Boolean;false | true;;"if (d_Searching88) {
+d_sg_Searching8889 = true;
+}
+";d_Catalog
+d_sg_Searching8889;sg_Searching8889?;Boolean;false | true;;;(false && d_Searching88)
+d_sg_Searching8889_0;Choose your sg_Searching8889?;Enumeration;Advanced_search91 | Basic_search90;1:2;"if d_sg_Searching8889_0.Advanced_search91 {
+d_Advanced_search91 = true;
+}
+if d_sg_Searching8889_0.Basic_search90 {
+d_Basic_search90 = true;
+}
+";d_sg_Searching8889
+d_Basic_search90;Basic_search90?;Boolean;false | true;;;false
+d_Advanced_search91;Advanced_search91?;Boolean;false | true;;;false
+d_Browsing92;Browsing92?;Boolean;false | true;;"if (d_Browsing92) {
+d_Product_page93 = true;
+}
+";d_Catalog
+d_Product_page93;Product_page93?;Boolean;false | true;;;(false && d_Browsing92)
+d_Category_page;Category_page?;Boolean;false | true;;"if (d_Category_page) {
+d_Categories = true;
+}
+";d_Browsing92
+d_Index_page95;Index_page95?;Boolean;false | true;;;d_Browsing92
+d_Sorting_filters96;Sorting_filters96?;Boolean;false | true;;"if (d_Sorting_filters96) {
+d_sg_Sorting_filters9697 = true;
+}
+";d_Index_page95
+d_sg_Sorting_filters9697;sg_Sorting_filters9697?;Boolean;false | true;;;(false && d_Sorting_filters96)
+d_sg_Sorting_filters9697_0;Choose your sg_Sorting_filters9697?;Enumeration;Price_Quality_ratio_100 | Price98 | Quality99 | Manufacturer_name101 | Custom_filter102;1:5;"if d_sg_Sorting_filters9697_0.Price_Quality_ratio_100 {
+d_Price_Quality_ratio_100 = true;
+}
+if d_sg_Sorting_filters9697_0.Price98 {
+d_Price98 = true;
+}
+if d_sg_Sorting_filters9697_0.Quality99 {
+d_Quality99 = true;
+}
+if d_sg_Sorting_filters9697_0.Custom_filter102 {
+d_Custom_filter102 = true;
+}
+if d_sg_Sorting_filters9697_0.Manufacturer_name101 {
+d_Manufacturer_name101 = true;
+}
+";d_sg_Sorting_filters9697
+d_Price98;Price98?;Boolean;false | true;;;false
+d_Quality99;Quality99?;Boolean;false | true;;;false
+d_Price_Quality_ratio_100;Price_Quality_ratio_100?;Boolean;false | true;;;false
+d_Manufacturer_name101;Manufacturer_name101?;Boolean;false | true;;;false
+d_Custom_filter102;Custom_filter102?;Boolean;false | true;;;false
+d_Custom_views103;Custom_views103?;Boolean;false | true;;;d_Catalog
+d_Seasonal_product_views104;Seasonal_product_views104?;Boolean;false | true;;;d_Custom_views103
+d_Personalized_views105;Personalized_views105?;Boolean;false | true;;;d_Custom_views103
+d_Wish_list;Wish_list?;Boolean;false | true;;"if (d_Wish_list) {
+d_Wish_list_save_after_session = true;
+}
+";d_Store_front
+d_Wish_list_save_after_session;Wish_list_save_after_session?;Boolean;false | true;;"if !d_Wish_list_save_after_session {
+d_Registration = true;
+}
+";d_Wish_list
+d_E_mail_wish_list;E_mail_wish_list?;Boolean;false | true;;"if (d_E_mail_wish_list) {
+d_Registration = true;
+}
+";d_Wish_list
+d_Multiple_wish_lists109;Multiple_wish_lists109?;Boolean;false | true;;;d_Wish_list
+d_Permissions;Permissions?;Boolean;false | true;;"if (d_Permissions) {
+d_sg_Permissions111 = true;
+}
+if (d_Permissions) {
+d_Registration = true;
+}
+";d_Wish_list
+d_sg_Permissions111;sg_Permissions111?;Boolean;false | true;;;(false && d_Permissions)
+d_sg_Permissions111_0;Choose your sg_Permissions111?;Enumeration;Private_access114 | Restricted_access113 | Public_access112;1:3;"if d_sg_Permissions111_0.Private_access114 {
+d_Private_access114 = true;
+}
+if d_sg_Permissions111_0.Public_access112 {
+d_Public_access112 = true;
+}
+if d_sg_Permissions111_0.Restricted_access113 {
+d_Restricted_access113 = true;
+}
+";d_sg_Permissions111
+d_Public_access112;Public_access112?;Boolean;false | true;;;false
+d_Restricted_access113;Restricted_access113?;Boolean;false | true;;;false
+d_Private_access114;Private_access114?;Boolean;false | true;;;false
+d_Buy_paths;Buy_paths?;Boolean;false | true;;"if (d_Buy_paths) {
+d_Order_confirmation181 = true;
+}
+if (d_Buy_paths) {
+d_Shopping_cart116 = true;
+}
+if (d_Buy_paths) {
+d_Checkout121 = true;
+}
+";(false && d_Store_front)
+d_Shopping_cart116;Shopping_cart116?;Boolean;false | true;;"if (d_Shopping_cart116) {
+d_Inventory_management_policy117 = true;
+}
+if (d_Shopping_cart116) {
+d_Cart_content_page118 = true;
+}
+";(false && d_Buy_paths)
+d_Inventory_management_policy117;Inventory_management_policy117?;Boolean;false | true;;;(false && d_Shopping_cart116)
+d_Cart_content_page118;Cart_content_page118?;Boolean;false | true;;;(false && d_Shopping_cart116)
+d_Cart_summary_page119;Cart_summary_page119?;Boolean;false | true;;;d_Shopping_cart116
+d_Cart_save_after_session120;Cart_save_after_session120?;Boolean;false | true;;;d_Shopping_cart116
+d_Checkout121;Checkout121?;Boolean;false | true;;"if (d_Checkout121) {
+d_Payment_options159 = true;
+}
+if (d_Checkout121) {
+d_Taxation_options134 = true;
+}
+if (d_Checkout121) {
+d_Checkout_type122 = true;
+}
+";(false && d_Buy_paths)
+d_Checkout_type122;Checkout_type122?;Boolean;false | true;;"if (d_Checkout_type122) {
+d_sg_Checkout_type122123 = true;
+}
+";(false && d_Checkout121)
+d_sg_Checkout_type122123;sg_Checkout_type122123?;Boolean;false | true;;;(false && d_Checkout_type122)
+d_sg_Checkout_type122123_0;Choose your sg_Checkout_type122123?;Enumeration;Guest_checkout127 | Registered_checkout;1:2;"if d_sg_Checkout_type122123_0.Registered_checkout {
+d_Registered_checkout = true;
+}
+if d_sg_Checkout_type122123_0.Guest_checkout127 {
+d_Guest_checkout127 = true;
+}
+";d_sg_Checkout_type122123
+d_Registered_checkout;Registered_checkout?;Boolean;false | true;;"if (d_Registered_checkout) {
+d_Registration_enforcement = true;
+}
+if (d_Registered_checkout) {
+d_sg_Registration_enforcement19_0 = Register_to_buy;
+}
+";false
+d_Quick_checkout;Quick_checkout?;Boolean;false | true;;"if (d_Quick_checkout) {
+d_Quick_checkout_profile = true;
+}
+";d_Registered_checkout
+d_Enable_profile_update_on_checkout_126;Enable_profile_update_on_checkout_126?;Boolean;false | true;;;d_Quick_checkout
+d_Guest_checkout127;Guest_checkout127?;Boolean;false | true;;;false
+d_Shipping_options;Shipping_options?;Boolean;false | true;;"if (d_Shipping_options) {
+d_Shipping_cost_calculation133 = true;
+}
+if (d_Shipping_options) {
+d_shipping = true;
+}
+";d_Checkout121
+d_Quality_of_service_selection129;Quality_of_service_selection129?;Boolean;false | true;;;d_Shipping_options
+d_Carrier_selection130;Carrier_selection130?;Boolean;false | true;;;d_Shipping_options
+d_Gift_options131;Gift_options131?;Boolean;false | true;;;d_Shipping_options
+d_Multiple_shipments132;Multiple_shipments132?;Boolean;false | true;;;d_Shipping_options
+d_Shipping_cost_calculation133;Shipping_cost_calculation133?;Boolean;false | true;;;(false && d_Shipping_options)
+d_Taxation_options134;Taxation_options134?;Boolean;false | true;;"if (d_Taxation_options134) {
+d_sg_Taxation_options134135 = true;
+}
+";(false && d_Checkout121)
+d_sg_Taxation_options134135;sg_Taxation_options134135?;Boolean;false | true;;;(false && d_Taxation_options134)
+d_sg_Taxation_options134135_0;Choose your sg_Taxation_options134135?;Enumeration;Custom_taxation136 | Tax_gateways154;1:2;"if d_sg_Taxation_options134135_0.Custom_taxation136 {
+d_Custom_taxation136 = true;
+}
+if d_sg_Taxation_options134135_0.Tax_gateways154 {
+d_Tax_gateways154 = true;
+}
+";d_sg_Taxation_options134135
+d_Custom_taxation136;Custom_taxation136?;Boolean;false | true;;"if (d_Custom_taxation136) {
+d_Type137 = true;
+}
+if (d_Custom_taxation136) {
+d_Ammount_specification150 = true;
+}
+";false
+d_Type137;Type137?;Boolean;false | true;;"if (d_Type137) {
+d_sg_Type137138 = true;
+}
+";(false && d_Custom_taxation136)
+d_sg_Type137138;sg_Type137138?;Boolean;false | true;;;(false && d_Type137)
+d_sg_Type137138_0;Choose your sg_Type137138?;Enumeration;Rule_based_taxation140 | Fixed_rate_taxation139;1:2;"if d_sg_Type137138_0.Rule_based_taxation140 {
+d_Rule_based_taxation140 = true;
+}
+if d_sg_Type137138_0.Fixed_rate_taxation139 {
+d_Fixed_rate_taxation139 = true;
+}
+";d_sg_Type137138
+d_Fixed_rate_taxation139;Fixed_rate_taxation139?;Boolean;false | true;;;false
+d_Rule_based_taxation140;Rule_based_taxation140?;Boolean;false | true;;"if (d_Rule_based_taxation140) {
+d_Address142 = true;
+}
+if (d_Rule_based_taxation140) {
+d_Tax_codes141 = true;
+}
+";false
+d_Tax_codes141;Tax_codes141?;Boolean;false | true;;;(false && d_Rule_based_taxation140)
+d_Address142;Address142?;Boolean;false | true;;"if (d_Address142) {
+d_Shipping = true;
+}
+";(false && d_Rule_based_taxation140)
+d_Shipping;Shipping?;Boolean;false | true;;;(false && d_Address142)
+d_Billing144;Billing144?;Boolean;false | true;;;d_Address142
+d_Resolution145;Resolution145?;Boolean;false | true;;"if (d_Resolution145) {
+d_sg_Resolution145146 = true;
+}
+";d_Rule_based_taxation140
+d_sg_Resolution145146;sg_Resolution145146?;Boolean;false | true;;;(false && d_Resolution145)
+d_sg_Resolution145146_0;Choose your sg_Resolution145146?;Enumeration;Country147 | City149 | Region148;1:3;"if d_sg_Resolution145146_0.Region148 {
+d_Region148 = true;
+}
+if d_sg_Resolution145146_0.City149 {
+d_City149 = true;
+}
+if d_sg_Resolution145146_0.Country147 {
+d_Country147 = true;
+}
+";d_sg_Resolution145146
+d_Country147;Country147?;Boolean;false | true;;;false
+d_Region148;Region148?;Boolean;false | true;;;false
+d_City149;City149?;Boolean;false | true;;;false
+d_Ammount_specification150;Ammount_specification150?;Boolean;false | true;;"if (d_Ammount_specification150) {
+d_sg_Ammount_specification150151 = true;
+}
+";(false && d_Custom_taxation136)
+d_sg_Ammount_specification150151;sg_Ammount_specification150151?;Boolean;false | true;;;(false && d_Ammount_specification150)
+d_sg_Ammount_specification150151_0;Choose your sg_Ammount_specification150151?;Enumeration;Surcharge152 | Percentage153;1:2;"if d_sg_Ammount_specification150151_0.Percentage153 {
+d_Percentage153 = true;
+}
+if d_sg_Ammount_specification150151_0.Surcharge152 {
+d_Surcharge152 = true;
+}
+";d_sg_Ammount_specification150151
+d_Surcharge152;Surcharge152?;Boolean;false | true;;;false
+d_Percentage153;Percentage153?;Boolean;false | true;;;false
+d_Tax_gateways154;Tax_gateways154?;Boolean;false | true;;"if (d_Tax_gateways154) {
+d_sg_Tax_gateways154155 = true;
+}
+";false
+d_sg_Tax_gateways154155;sg_Tax_gateways154155?;Boolean;false | true;;;(false && d_Tax_gateways154)
+d_sg_Tax_gateways154155_0;Choose your sg_Tax_gateways154155?;Enumeration;CyberSource157 | Custom_tax_gateway158 | CertiTAX156;1:3;"if d_sg_Tax_gateways154155_0.CertiTAX156 {
+d_CertiTAX156 = true;
+}
+if d_sg_Tax_gateways154155_0.Custom_tax_gateway158 {
+d_Custom_tax_gateway158 = true;
+}
+if d_sg_Tax_gateways154155_0.CyberSource157 {
+d_CyberSource157 = true;
+}
+";d_sg_Tax_gateways154155
+d_CertiTAX156;CertiTAX156?;Boolean;false | true;;;false
+d_CyberSource157;CyberSource157?;Boolean;false | true;;;false
+d_Custom_tax_gateway158;Custom_tax_gateway158?;Boolean;false | true;;;false
+d_Payment_options159;Payment_options159?;Boolean;false | true;;"if (d_Payment_options159) {
+d_Payment_types160 = true;
+}
+";(false && d_Checkout121)
+d_Payment_types160;Payment_types160?;Boolean;false | true;;"if (d_Payment_types160) {
+d_sg_Payment_types160161 = true;
+}
+";(false && d_Payment_options159)
+d_sg_Payment_types160161;sg_Payment_types160161?;Boolean;false | true;;;(false && d_Payment_types160)
+d_sg_Payment_types160161_0;Choose your sg_Payment_types160161?;Enumeration;Fax_mail_order166 | Purchase_order167 | Credit_card163 | Phone_order169 | Gift_certificate168 | Custom_payment_type170 | COD162 | Eletronic_cheque165 | Debit_card164;1:9;"if d_sg_Payment_types160161_0.Fax_mail_order166 {
+d_Fax_mail_order166 = true;
+}
+if d_sg_Payment_types160161_0.Debit_card164 {
+d_Debit_card164 = true;
+}
+if d_sg_Payment_types160161_0.Phone_order169 {
+d_Phone_order169 = true;
+}
+if d_sg_Payment_types160161_0.COD162 {
+d_COD162 = true;
+}
+if d_sg_Payment_types160161_0.Credit_card163 {
+d_Credit_card163 = true;
+}
+if d_sg_Payment_types160161_0.Purchase_order167 {
+d_Purchase_order167 = true;
+}
+if d_sg_Payment_types160161_0.Gift_certificate168 {
+d_Gift_certificate168 = true;
+}
+if d_sg_Payment_types160161_0.Custom_payment_type170 {
+d_Custom_payment_type170 = true;
+}
+if d_sg_Payment_types160161_0.Eletronic_cheque165 {
+d_Eletronic_cheque165 = true;
+}
+";d_sg_Payment_types160161
+d_COD162;COD162?;Boolean;false | true;;;false
+d_Credit_card163;Credit_card163?;Boolean;false | true;;;false
+d_Debit_card164;Debit_card164?;Boolean;false | true;;;false
+d_Eletronic_cheque165;Eletronic_cheque165?;Boolean;false | true;;;false
+d_Fax_mail_order166;Fax_mail_order166?;Boolean;false | true;;;false
+d_Purchase_order167;Purchase_order167?;Boolean;false | true;;;false
+d_Gift_certificate168;Gift_certificate168?;Boolean;false | true;;;false
+d_Phone_order169;Phone_order169?;Boolean;false | true;;;false
+d_Custom_payment_type170;Custom_payment_type170?;Boolean;false | true;;;false
+d_Fraud_detection171;Fraud_detection171?;Boolean;false | true;;;d_Payment_options159
+d_Payment_gateways172;Payment_gateways172?;Boolean;false | true;;"if (d_Payment_gateways172) {
+d_sg_Payment_gateways172173 = true;
+}
+";d_Payment_options159
+d_sg_Payment_gateways172173;sg_Payment_gateways172173?;Boolean;false | true;;;(false && d_Payment_gateways172)
+d_sg_Payment_gateways172173_0;Choose your sg_Payment_gateways172173?;Enumeration;Verisign_Payflow_Pro179 | CyberSource175 | SkipJack178 | Custom_payment_gateway180 | Authorize_Net174 | LinkPoint176 | Paradata177;1:7;"if d_sg_Payment_gateways172173_0.CyberSource175 {
+d_CyberSource175 = true;
+}
+if d_sg_Payment_gateways172173_0.LinkPoint176 {
+d_LinkPoint176 = true;
+}
+if d_sg_Payment_gateways172173_0.Paradata177 {
+d_Paradata177 = true;
+}
+if d_sg_Payment_gateways172173_0.Authorize_Net174 {
+d_Authorize_Net174 = true;
+}
+if d_sg_Payment_gateways172173_0.Custom_payment_gateway180 {
+d_Custom_payment_gateway180 = true;
+}
+if d_sg_Payment_gateways172173_0.SkipJack178 {
+d_SkipJack178 = true;
+}
+if d_sg_Payment_gateways172173_0.Verisign_Payflow_Pro179 {
+d_Verisign_Payflow_Pro179 = true;
+}
+";d_sg_Payment_gateways172173
+d_Authorize_Net174;Authorize_Net174?;Boolean;false | true;;;false
+d_CyberSource175;CyberSource175?;Boolean;false | true;;;false
+d_LinkPoint176;LinkPoint176?;Boolean;false | true;;;false
+d_Paradata177;Paradata177?;Boolean;false | true;;;false
+d_SkipJack178;SkipJack178?;Boolean;false | true;;;false
+d_Verisign_Payflow_Pro179;Verisign_Payflow_Pro179?;Boolean;false | true;;;false
+d_Custom_payment_gateway180;Custom_payment_gateway180?;Boolean;false | true;;;false
+d_Order_confirmation181;Order_confirmation181?;Boolean;false | true;;"if (d_Order_confirmation181) {
+d_sg_Order_confirmation181182 = true;
+}
+";(false && d_Buy_paths)
+d_sg_Order_confirmation181182;sg_Order_confirmation181182?;Boolean;false | true;;;(false && d_Order_confirmation181)
+d_sg_Order_confirmation181182_0;Choose your sg_Order_confirmation181182?;Enumeration;E_mail184 | Phone185 | Eletronic_page183 | Mail186;1:4;"if d_sg_Order_confirmation181182_0.Mail186 {
+d_Mail186 = true;
+}
+if d_sg_Order_confirmation181182_0.Eletronic_page183 {
+d_Eletronic_page183 = true;
+}
+if d_sg_Order_confirmation181182_0.E_mail184 {
+d_E_mail184 = true;
+}
+if d_sg_Order_confirmation181182_0.Phone185 {
+d_Phone185 = true;
+}
+";d_sg_Order_confirmation181182
+d_Eletronic_page183;Eletronic_page183?;Boolean;false | true;;;false
+d_E_mail184;E_mail184?;Boolean;false | true;;;false
+d_Phone185;Phone185?;Boolean;false | true;;;false
+d_Mail186;Mail186?;Boolean;false | true;;;false
+d_Customer_service;Customer_service?;Boolean;false | true;;"if (d_Customer_service) {
+d_sg_Customer_service188 = true;
+}
+";d_Store_front
+d_sg_Customer_service188;sg_Customer_service188?;Boolean;false | true;;;(false && d_Customer_service)
+d_sg_Customer_service188_0;Choose your sg_Customer_service188?;Enumeration;Product_returns191 | Shipment_status_tracking_199 | Order_status_review192 | Question_and_feedback_forms189;1:4;"if d_sg_Customer_service188_0.Question_and_feedback_forms189 {
+d_Question_and_feedback_forms189 = true;
+}
+if d_sg_Customer_service188_0.Product_returns191 {
+d_Product_returns191 = true;
+}
+if d_sg_Customer_service188_0.Order_status_review192 {
+d_Order_status_review192 = true;
+}
+if d_sg_Customer_service188_0.Shipment_status_tracking_199 {
+d_Shipment_status_tracking_199 = true;
+}
+";d_sg_Customer_service188
+d_Question_and_feedback_forms189;Question_and_feedback_forms189?;Boolean;false | true;;;false
+d_Question_and_feedback_tracking190;Question_and_feedback_tracking190?;Boolean;false | true;;;d_Question_and_feedback_forms189
+d_Product_returns191;Product_returns191?;Boolean;false | true;;;false
+d_Order_status_review192;Order_status_review192?;Boolean;false | true;;"if (d_Order_status_review192) {
+d_Filtering_criteria193 = true;
+}
+";false
+d_Filtering_criteria193;Filtering_criteria193?;Boolean;false | true;;"if (d_Filtering_criteria193) {
+d_sg_Filtering_criteria193194 = true;
+}
+";(false && d_Order_status_review192)
+d_sg_Filtering_criteria193194;sg_Filtering_criteria193194?;Boolean;false | true;;;(false && d_Filtering_criteria193)
+d_sg_Filtering_criteria193194_0;Choose your sg_Filtering_criteria193194?;Enumeration;Order_date196 | Order_status197 | Order_number195;1:3;"if d_sg_Filtering_criteria193194_0.Order_number195 {
+d_Order_number195 = true;
+}
+if d_sg_Filtering_criteria193194_0.Order_date196 {
+d_Order_date196 = true;
+}
+if d_sg_Filtering_criteria193194_0.Order_status197 {
+d_Order_status197 = true;
+}
+";d_sg_Filtering_criteria193194
+d_Order_number195;Order_number195?;Boolean;false | true;;;false
+d_Order_date196;Order_date196?;Boolean;false | true;;;false
+d_Order_status197;Order_status197?;Boolean;false | true;;;false
+d_Request_order_hardcopy198;Request_order_hardcopy198?;Boolean;false | true;;;d_Order_status_review192
+d_Shipment_status_tracking_199;Shipment_status_tracking_199?;Boolean;false | true;;"if (d_Shipment_status_tracking_199) {
+d_sg_Shipment_status_tracking_199200 = true;
+}
+";false
+d_sg_Shipment_status_tracking_199200;sg_Shipment_status_tracking_199200?;Boolean;false | true;;;(false && d_Shipment_status_tracking_199)
+d_sg_Shipment_status_tracking_199200_0;Choose your sg_Shipment_status_tracking_199200?;Enumeration;Internal_tracking201 | Partner_tracking202;1:2;"if d_sg_Shipment_status_tracking_199200_0.Partner_tracking202 {
+d_Partner_tracking202 = true;
+}
+if d_sg_Shipment_status_tracking_199200_0.Internal_tracking201 {
+d_Internal_tracking201 = true;
+}
+";d_sg_Shipment_status_tracking_199200
+d_Internal_tracking201;Internal_tracking201?;Boolean;false | true;;;false
+d_Partner_tracking202;Partner_tracking202?;Boolean;false | true;;;false
+d_User_behaviour_tracking;User_behaviour_tracking?;Boolean;false | true;;"if (d_User_behaviour_tracking) {
+d_Behaviour_tracked204 = true;
+}
+";d_Store_front
+d_Behaviour_tracked204;Behaviour_tracked204?;Boolean;false | true;;"if (d_Behaviour_tracked204) {
+d_sg_Behaviour_tracked204205 = true;
+}
+";(false && d_User_behaviour_tracking)
+d_sg_Behaviour_tracked204205;sg_Behaviour_tracked204205?;Boolean;false | true;;;(false && d_Behaviour_tracked204)
+d_sg_Behaviour_tracked204205_0;Choose your sg_Behaviour_tracked204205?;Enumeration;Previous_purchases | Locally_visited_pages | External_referring_pages;1:3;"if d_sg_Behaviour_tracked204205_0.Locally_visited_pages {
+d_Locally_visited_pages = true;
+}
+if d_sg_Behaviour_tracked204205_0.External_referring_pages {
+d_External_referring_pages = true;
+}
+if d_sg_Behaviour_tracked204205_0.Previous_purchases {
+d_Previous_purchases = true;
+}
+";d_sg_Behaviour_tracked204205
+d_Locally_visited_pages;Locally_visited_pages?;Boolean;false | true;;"if (!d_External_referring_pages && !d_Locally_visited_pages) {
+d_Previously_visited_pages = false;
+}
+";false
+d_External_referring_pages;External_referring_pages?;Boolean;false | true;;"if (!d_External_referring_pages && !d_Locally_visited_pages) {
+d_Previously_visited_pages = false;
+}
+";false
+d_Previous_purchases;Previous_purchases?;Boolean;false | true;;;false
+d_Business_management;Business_management?;Boolean;false | true;;"if (d_Business_management) {
+d_Order_management210 = true;
+}
+if (d_Business_management) {
+d_Administration319 = true;
+}
+";(false && d_eShop)
+d_Order_management210;Order_management210?;Boolean;false | true;;"if (d_Order_management210) {
+d_Fulfillment211 = true;
+}
+";(false && d_Business_management)
+d_Fulfillment211;Fulfillment211?;Boolean;false | true;;"if (d_Fulfillment211) {
+d_sg_Fulfillment211212 = true;
+}
+";(false && d_Order_management210)
+d_sg_Fulfillment211212;sg_Fulfillment211212?;Boolean;false | true;;;(false && d_Fulfillment211)
+d_sg_Fulfillment211212_0;Choose your sg_Fulfillment211212?;Enumeration;Physical_goods_fulfillment | Eletronic_goods_fulfillment | Services_fulfillment;1:3;"if d_sg_Fulfillment211212_0.Physical_goods_fulfillment {
+d_Physical_goods_fulfillment = true;
+}
+if d_sg_Fulfillment211212_0.Eletronic_goods_fulfillment {
+d_Eletronic_goods_fulfillment = true;
+}
+if d_sg_Fulfillment211212_0.Services_fulfillment {
+d_Services_fulfillment = true;
+}
+";d_sg_Fulfillment211212
+d_Physical_goods_fulfillment;Physical_goods_fulfillment?;Boolean;false | true;;"if (d_Physical_goods_fulfillment) {
+d_shipping = true;
+}
+if (d_Physical_goods_fulfillment) {
+d_Warehouse_management = true;
+}
+";false
+d_Warehouse_management;Warehouse_management?;Boolean;false | true;;;(false && d_Physical_goods_fulfillment)
+d_shipping;shipping?;Boolean;false | true;;"if (d_shipping) {
+d_sg_shipping216 = true;
+}
+";(false && d_Physical_goods_fulfillment)
+d_sg_shipping216;sg_shipping216?;Boolean;false | true;;;(false && d_shipping)
+d_sg_shipping216_0;Choose your sg_shipping216?;Enumeration;Shipping_gateways226 | Custom_shipping_method217;1:2;"if d_sg_shipping216_0.Shipping_gateways226 {
+d_Shipping_gateways226 = true;
+}
+if d_sg_shipping216_0.Custom_shipping_method217 {
+d_Custom_shipping_method217 = true;
+}
+";d_sg_shipping216
+d_Custom_shipping_method217;Custom_shipping_method217?;Boolean;false | true;;"if (d_Custom_shipping_method217) {
+d_Pricing218 = true;
+}
+";false
+d_Pricing218;Pricing218?;Boolean;false | true;;"if (d_Pricing218) {
+d_Flat_rate219 = true;
+}
+";(false && d_Custom_shipping_method217)
+d_Flat_rate219;Flat_rate219?;Boolean;false | true;;;(false && d_Pricing218)
+d_Rate_factors220;Rate_factors220?;Boolean;false | true;;"if (d_Rate_factors220) {
+d_sg_Rate_factors220221 = true;
+}
+";d_Pricing218
+d_sg_Rate_factors220221;sg_Rate_factors220221?;Boolean;false | true;;;(false && d_Rate_factors220)
+d_sg_Rate_factors220221_0;Choose your sg_Rate_factors220221?;Enumeration;Quantity_purchased222 | Weight224 | Product_classification225 | Order_total223;1:4;"if d_sg_Rate_factors220221_0.Quantity_purchased222 {
+d_Quantity_purchased222 = true;
+}
+if d_sg_Rate_factors220221_0.Weight224 {
+d_Weight224 = true;
+}
+if d_sg_Rate_factors220221_0.Order_total223 {
+d_Order_total223 = true;
+}
+if d_sg_Rate_factors220221_0.Product_classification225 {
+d_Product_classification225 = true;
+}
+";d_sg_Rate_factors220221
+d_Quantity_purchased222;Quantity_purchased222?;Boolean;false | true;;;false
+d_Order_total223;Order_total223?;Boolean;false | true;;;false
+d_Weight224;Weight224?;Boolean;false | true;;;false
+d_Product_classification225;Product_classification225?;Boolean;false | true;;;false
+d_Shipping_gateways226;Shipping_gateways226?;Boolean;false | true;;"if (d_Shipping_gateways226) {
+d_sg_Shipping_gateways226227 = true;
+}
+";false
+d_sg_Shipping_gateways226227;sg_Shipping_gateways226227?;Boolean;false | true;;;(false && d_Shipping_gateways226)
+d_sg_Shipping_gateways226227_0;Choose your sg_Shipping_gateways226227?;Enumeration;Custom_shipping_gateway232 | UPS229 | USPS230 | Canada_Post231 | FedEX228;1:5;"if d_sg_Shipping_gateways226227_0.Canada_Post231 {
+d_Canada_Post231 = true;
+}
+if d_sg_Shipping_gateways226227_0.FedEX228 {
+d_FedEX228 = true;
+}
+if d_sg_Shipping_gateways226227_0.USPS230 {
+d_USPS230 = true;
+}
+if d_sg_Shipping_gateways226227_0.UPS229 {
+d_UPS229 = true;
+}
+if d_sg_Shipping_gateways226227_0.Custom_shipping_gateway232 {
+d_Custom_shipping_gateway232 = true;
+}
+";d_sg_Shipping_gateways226227
+d_FedEX228;FedEX228?;Boolean;false | true;;;false
+d_UPS229;UPS229?;Boolean;false | true;;;false
+d_USPS230;USPS230?;Boolean;false | true;;;false
+d_Canada_Post231;Canada_Post231?;Boolean;false | true;;;false
+d_Custom_shipping_gateway232;Custom_shipping_gateway232?;Boolean;false | true;;;false
+d_Eletronic_goods_fulfillment;Eletronic_goods_fulfillment?;Boolean;false | true;;"if (d_Eletronic_goods_fulfillment) {
+d_File_repository234 = true;
+}
+if (d_Eletronic_goods_fulfillment) {
+d_License_management235 = true;
+}
+";false
+d_File_repository234;File_repository234?;Boolean;false | true;;;(false && d_Eletronic_goods_fulfillment)
+d_License_management235;License_management235?;Boolean;false | true;;;(false && d_Eletronic_goods_fulfillment)
+d_Services_fulfillment;Services_fulfillment?;Boolean;false | true;;;false
+d_Appointment_scheduling237;Appointment_scheduling237?;Boolean;false | true;;;d_Services_fulfillment
+d_Resource_planning238;Resource_planning238?;Boolean;false | true;;;d_Services_fulfillment
+d_Targeting239;Targeting239?;Boolean;false | true;;"if (d_Targeting239) {
+d_Display_and_notification291 = true;
+}
+if (d_Targeting239) {
+d_Targeting_criteria240 = true;
+}
+if (d_Targeting239) {
+d_Targeting_mechanisms251 = true;
+}
+";d_Business_management
+d_Targeting_criteria240;Targeting_criteria240?;Boolean;false | true;;"if (d_Targeting_criteria240) {
+d_sg_Targeting_criteria240241 = true;
+}
+";(false && d_Targeting239)
+d_sg_Targeting_criteria240241;sg_Targeting_criteria240241?;Boolean;false | true;;;(false && d_Targeting_criteria240)
+d_sg_Targeting_criteria240241_0;Choose your sg_Targeting_criteria240241?;Enumeration;targeting_criteria_previous_purchases | Customer_preferences | Wish_list_content | Demographics244 | Personal_information243 | Shopping_cart_content246 | Previously_visited_pages | Custom_target_criteria250 | Date_and_time249;1:9;"if d_sg_Targeting_criteria240241_0.Personal_information243 {
+d_Personal_information243 = true;
+}
+if d_sg_Targeting_criteria240241_0.Previously_visited_pages {
+d_Previously_visited_pages = true;
+}
+if d_sg_Targeting_criteria240241_0.Date_and_time249 {
+d_Date_and_time249 = true;
+}
+if d_sg_Targeting_criteria240241_0.Custom_target_criteria250 {
+d_Custom_target_criteria250 = true;
+}
+if d_sg_Targeting_criteria240241_0.Customer_preferences {
+d_Customer_preferences = true;
+}
+if d_sg_Targeting_criteria240241_0.Wish_list_content {
+d_Wish_list_content = true;
+}
+if d_sg_Targeting_criteria240241_0.Shopping_cart_content246 {
+d_Shopping_cart_content246 = true;
+}
+if d_sg_Targeting_criteria240241_0.Demographics244 {
+d_Demographics244 = true;
+}
+if d_sg_Targeting_criteria240241_0.targeting_criteria_previous_purchases {
+d_targeting_criteria_previous_purchases = true;
+}
+";d_sg_Targeting_criteria240241
+d_Customer_preferences;Customer_preferences?;Boolean;false | true;;"if (d_Customer_preferences) {
+d_Preferences = true;
+}
+";false
+d_Personal_information243;Personal_information243?;Boolean;false | true;;;false
+d_Demographics244;Demographics244?;Boolean;false | true;;;false
+d_targeting_criteria_previous_purchases;targeting_criteria_previous_purchases?;Boolean;false | true;;;false
+d_Shopping_cart_content246;Shopping_cart_content246?;Boolean;false | true;;;false
+d_Wish_list_content;Wish_list_content?;Boolean;false | true;;"if (d_Wish_list_content) {
+d_Wish_list = true;
+}
+";false
+d_Previously_visited_pages;Previously_visited_pages?;Boolean;false | true;;;false
+d_Date_and_time249;Date_and_time249?;Boolean;false | true;;;false
+d_Custom_target_criteria250;Custom_target_criteria250?;Boolean;false | true;;;false
+d_Targeting_mechanisms251;Targeting_mechanisms251?;Boolean;false | true;;"if (d_Targeting_mechanisms251) {
+d_sg_Targeting_mechanisms251252 = true;
+}
+";(false && d_Targeting239)
+d_sg_Targeting_mechanisms251252;sg_Targeting_mechanisms251252?;Boolean;false | true;;;(false && d_Targeting_mechanisms251)
+d_sg_Targeting_mechanisms251252_0;Choose your sg_Targeting_mechanisms251252?;Enumeration;Sell_strategies284 | Advertisements253 | Discounts;1:3;"if d_sg_Targeting_mechanisms251252_0.Sell_strategies284 {
+d_Sell_strategies284 = true;
+}
+if d_sg_Targeting_mechanisms251252_0.Advertisements253 {
+d_Advertisements253 = true;
+}
+if d_sg_Targeting_mechanisms251252_0.Discounts {
+d_Discounts = true;
+}
+";d_sg_Targeting_mechanisms251252
+d_Advertisements253;Advertisements253?;Boolean;false | true;;"if (d_Advertisements253) {
+d_Advertisement_sources258 = true;
+}
+if (d_Advertisements253) {
+d_Advertisement_types254 = true;
+}
+";false
+d_Advertisement_types254;Advertisement_types254?;Boolean;false | true;;"if (d_Advertisement_types254) {
+d_sg_Advertisement_types254255 = true;
+}
+";(false && d_Advertisements253)
+d_sg_Advertisement_types254255;sg_Advertisement_types254255?;Boolean;false | true;;;(false && d_Advertisement_types254)
+d_sg_Advertisement_types254255_0;Choose your sg_Advertisement_types254255?;Enumeration;Pop_up_ads257 | Banner_ads256;1:2;"if d_sg_Advertisement_types254255_0.Banner_ads256 {
+d_Banner_ads256 = true;
+}
+if d_sg_Advertisement_types254255_0.Pop_up_ads257 {
+d_Pop_up_ads257 = true;
+}
+";d_sg_Advertisement_types254255
+d_Banner_ads256;Banner_ads256?;Boolean;false | true;;;false
+d_Pop_up_ads257;Pop_up_ads257?;Boolean;false | true;;;false
+d_Advertisement_sources258;Advertisement_sources258?;Boolean;false | true;;"if (d_Advertisement_sources258) {
+d_sg_Advertisement_sources258259 = true;
+}
+";(false && d_Advertisements253)
+d_sg_Advertisement_sources258259;sg_Advertisement_sources258259?;Boolean;false | true;;;(false && d_Advertisement_sources258)
+d_sg_Advertisement_sources258259_0;Choose your sg_Advertisement_sources258259?;Enumeration;House_advertisements260 | Paid_advertisements261;1:2;"if d_sg_Advertisement_sources258259_0.Paid_advertisements261 {
+d_Paid_advertisements261 = true;
+}
+if d_sg_Advertisement_sources258259_0.House_advertisements260 {
+d_House_advertisements260 = true;
+}
+";d_sg_Advertisement_sources258259
+d_House_advertisements260;House_advertisements260?;Boolean;false | true;;;false
+d_Paid_advertisements261;Paid_advertisements261?;Boolean;false | true;;"if (d_Paid_advertisements261) {
+d_Advertisement_management_interface262 = true;
+}
+";false
+d_Advertisement_management_interface262;Advertisement_management_interface262?;Boolean;false | true;;;(false && d_Paid_advertisements261)
+d_Advertisement_response_tracking263;Advertisement_response_tracking263?;Boolean;false | true;;;d_Advertisements253
+d_Context_sensitive_ads264;Context_sensitive_ads264?;Boolean;false | true;;;d_Advertisements253
+d_Discounts;Discounts?;Boolean;false | true;;"if (d_Discounts) {
+d_Handling_multiple_discounts283 = true;
+}
+if (d_Discounts) {
+d_Graduation_by278 = true;
+}
+if (d_Discounts) {
+d_Discount_conditions266 = true;
+}
+if (d_Discounts) {
+d_Award270 = true;
+}
+if (d_Discounts) {
+d_Eligibility_requirements275 = true;
+}
+";false
+d_Discount_conditions266;Discount_conditions266?;Boolean;false | true;;"if (d_Discount_conditions266) {
+d_Time_scope268 = true;
+}
+if (d_Discount_conditions266) {
+d_Product_and_quantity_scope267 = true;
+}
+";(false && d_Discounts)
+d_Product_and_quantity_scope267;Product_and_quantity_scope267?;Boolean;false | true;;;(false && d_Discount_conditions266)
+d_Time_scope268;Time_scope268?;Boolean;false | true;;;(false && d_Discount_conditions266)
+d_Purchase_value_scope269;Purchase_value_scope269?;Boolean;false | true;;;d_Discount_conditions266
+d_Award270;Award270?;Boolean;false | true;;"if (d_Award270) {
+d_sg_Award270271 = true;
+}
+";(false && d_Discounts)
+d_sg_Award270271;sg_Award270271?;Boolean;false | true;;;(false && d_Award270)
+d_sg_Award270271_0;Choose your sg_Award270271?;Enumeration;Fixed_discount273 | Percentage_discount272 | Free_item274;1:3;"if d_sg_Award270271_0.Percentage_discount272 {
+d_Percentage_discount272 = true;
+}
+if d_sg_Award270271_0.Free_item274 {
+d_Free_item274 = true;
+}
+if d_sg_Award270271_0.Fixed_discount273 {
+d_Fixed_discount273 = true;
+}
+";d_sg_Award270271
+d_Percentage_discount272;Percentage_discount272?;Boolean;false | true;;;false
+d_Fixed_discount273;Fixed_discount273?;Boolean;false | true;;;false
+d_Free_item274;Free_item274?;Boolean;false | true;;;false
+d_Eligibility_requirements275;Eligibility_requirements275?;Boolean;false | true;;;(false && d_Discounts)
+d_Customer_segments276;Customer_segments276?;Boolean;false | true;;;d_Eligibility_requirements275
+d_Shipping_address277;Shipping_address277?;Boolean;false | true;;;d_Eligibility_requirements275
+d_Graduation_by278;Graduation_by278?;Boolean;false | true;;"if (d_Graduation_by278) {
+d_sg_Graduation_by278279 = true;
+}
+";(false && d_Discounts)
+d_sg_Graduation_by278279;sg_Graduation_by278279?;Boolean;false | true;;;(false && d_Graduation_by278)
+d_sg_Graduation_by278279_0;Choose your sg_Graduation_by278279?;Enumeration;Purchase_value280 | Quantity281;1:2;"if d_sg_Graduation_by278279_0.Purchase_value280 {
+d_Purchase_value280 = true;
+}
+if d_sg_Graduation_by278279_0.Quantity281 {
+d_Quantity281 = true;
+}
+";d_sg_Graduation_by278279
+d_Purchase_value280;Purchase_value280?;Boolean;false | true;;;false
+d_Quantity281;Quantity281?;Boolean;false | true;;;false
+d_Coupons282;Coupons282?;Boolean;false | true;;;d_Discounts
+d_Handling_multiple_discounts283;Handling_multiple_discounts283?;Boolean;false | true;;;(false && d_Discounts)
+d_Sell_strategies284;Sell_strategies284?;Boolean;false | true;;"if (d_Sell_strategies284) {
+d_sg_Sell_strategies284285 = true;
+}
+";false
+d_sg_Sell_strategies284285;sg_Sell_strategies284285?;Boolean;false | true;;;(false && d_Sell_strategies284)
+d_sg_Sell_strategies284285_0;Choose your sg_Sell_strategies284285?;Enumeration;Product_kitting286 | Up_selling287 | Cross_selling289;1:3;"if d_sg_Sell_strategies284285_0.Up_selling287 {
+d_Up_selling287 = true;
+}
+if d_sg_Sell_strategies284285_0.Cross_selling289 {
+d_Cross_selling289 = true;
+}
+if d_sg_Sell_strategies284285_0.Product_kitting286 {
+d_Product_kitting286 = true;
+}
+";d_sg_Sell_strategies284285
+d_Product_kitting286;Product_kitting286?;Boolean;false | true;;;false
+d_Up_selling287;Up_selling287?;Boolean;false | true;;"if (d_Up_selling287) {
+d_Substitute_products288 = true;
+}
+";false
+d_Substitute_products288;Substitute_products288?;Boolean;false | true;;;(false && d_Up_selling287)
+d_Cross_selling289;Cross_selling289?;Boolean;false | true;;"if (d_Cross_selling289) {
+d_Past_customers_also_bought290 = true;
+}
+";false
+d_Past_customers_also_bought290;Past_customers_also_bought290?;Boolean;false | true;;;(false && d_Cross_selling289)
+d_Display_and_notification291;Display_and_notification291?;Boolean;false | true;;"if (d_Display_and_notification291) {
+d_sg_Display_and_notification291292 = true;
+}
+";(false && d_Targeting239)
+d_sg_Display_and_notification291292;sg_Display_and_notification291292?;Boolean;false | true;;;(false && d_Display_and_notification291)
+d_sg_Display_and_notification291292_0;Choose your sg_Display_and_notification291292?;Enumeration;Product_flagging294 | Assignment_to_page_types_for_display293 | E_mails295;1:3;"if d_sg_Display_and_notification291292_0.E_mails295 {
+d_E_mails295 = true;
+}
+if d_sg_Display_and_notification291292_0.Assignment_to_page_types_for_display293 {
+d_Assignment_to_page_types_for_display293 = true;
+}
+if d_sg_Display_and_notification291292_0.Product_flagging294 {
+d_Product_flagging294 = true;
+}
+";d_sg_Display_and_notification291292
+d_Assignment_to_page_types_for_display293;Assignment_to_page_types_for_display293?;Boolean;false | true;;;false
+d_Product_flagging294;Product_flagging294?;Boolean;false | true;;;false
+d_E_mails295;E_mails295?;Boolean;false | true;;;false
+d_Personalized;Personalized?;Boolean;false | true;;;d_E_mails295
+d_Response_tracking297;Response_tracking297?;Boolean;false | true;;;d_E_mails295
+d_Campaigns298;Campaigns298?;Boolean;false | true;;;d_Targeting239
+d_Affiliates299;Affiliates299?;Boolean;false | true;;"if (d_Affiliates299) {
+d_Affiliate_registration300 = true;
+}
+if (d_Affiliates299) {
+d_Commission_tracking301 = true;
+}
+";d_Business_management
+d_Affiliate_registration300;Affiliate_registration300?;Boolean;false | true;;;(false && d_Affiliates299)
+d_Commission_tracking301;Commission_tracking301?;Boolean;false | true;;;(false && d_Affiliates299)
+d_Inventory_tracking;Inventory_tracking?;Boolean;false | true;;;d_Business_management
+d_Allow_backorders303;Allow_backorders303?;Boolean;false | true;;;d_Inventory_tracking
+d_Procurement;Procurement?;Boolean;false | true;;"if (d_Procurement) {
+d_Stock_replenishment305 = true;
+}
+";d_Business_management
+d_Stock_replenishment305;Stock_replenishment305?;Boolean;false | true;;"if (d_Stock_replenishment305) {
+d_Manual306 = true;
+}
+";(false && d_Procurement)
+d_Manual306;Manual306?;Boolean;false | true;;;(false && d_Stock_replenishment305)
+d_Automatic;Automatic?;Boolean;false | true;;"if (d_Automatic) {
+d_Non_repudiation_service308 = true;
+}
+";d_Stock_replenishment305
+d_Non_repudiation_service308;Non_repudiation_service308?;Boolean;false | true;;;(false && d_Automatic)
+d_Reporting_and_analysis;Reporting_and_analysis?;Boolean;false | true;;"if (d_Reporting_and_analysis) {
+d_Report_formats_311 = true;
+}
+if (d_Reporting_and_analysis) {
+d_Report_types310 = true;
+}
+if (d_Reporting_and_analysis) {
+d_Level_of_detail312 = true;
+}
+";d_Business_management
+d_Report_types310;Report_types310?;Boolean;false | true;;;(false && d_Reporting_and_analysis)
+d_Report_formats_311;Report_formats_311?;Boolean;false | true;;;(false && d_Reporting_and_analysis)
+d_Level_of_detail312;Level_of_detail312?;Boolean;false | true;;;(false && d_Reporting_and_analysis)
+d_External_systems_integration313;External_systems_integration313?;Boolean;false | true;;"if (d_External_systems_integration313) {
+d_sg_External_systems_integration313314 = true;
+}
+";d_Business_management
+d_sg_External_systems_integration313314;sg_External_systems_integration313314?;Boolean;false | true;;;(false && d_External_systems_integration313)
+d_sg_External_systems_integration313314_0;Choose your sg_External_systems_integration313314?;Enumeration;Inventory_management_system316 | Procurement_system | Fulfillment_system | External_distributor_system318;1:4;"if d_sg_External_systems_integration313314_0.External_distributor_system318 {
+d_External_distributor_system318 = true;
+}
+if d_sg_External_systems_integration313314_0.Procurement_system {
+d_Procurement_system = true;
+}
+if d_sg_External_systems_integration313314_0.Fulfillment_system {
+d_Fulfillment_system = true;
+}
+if d_sg_External_systems_integration313314_0.Inventory_management_system316 {
+d_Inventory_management_system316 = true;
+}
+";d_sg_External_systems_integration313314
+d_Fulfillment_system;Fulfillment_system?;Boolean;false | true;;;false
+d_Inventory_management_system316;Inventory_management_system316?;Boolean;false | true;;;false
+d_Procurement_system;Procurement_system?;Boolean;false | true;;;false
+d_External_distributor_system318;External_distributor_system318?;Boolean;false | true;;;false
+d_Administration319;Administration319?;Boolean;false | true;;"if (d_Administration319) {
+d_Content_management320 = true;
+}
+if (d_Administration319) {
+d_Store_administration325 = true;
+}
+";(false && d_Business_management)
+d_Content_management320;Content_management320?;Boolean;false | true;;"if (d_Content_management320) {
+d_Product_database_management321 = true;
+}
+if (d_Content_management320) {
+d_Presentation_options322 = true;
+}
+if (d_Content_management320) {
+d_General_layout_management323 = true;
+}
+";(false && d_Administration319)
+d_Product_database_management321;Product_database_management321?;Boolean;false | true;;;(false && d_Content_management320)
+d_Presentation_options322;Presentation_options322?;Boolean;false | true;;;(false && d_Content_management320)
+d_General_layout_management323;General_layout_management323?;Boolean;false | true;;;(false && d_Content_management320)
+d_Content_approval324;Content_approval324?;Boolean;false | true;;;d_Content_management320
+d_Store_administration325;Store_administration325?;Boolean;false | true;;"if (d_Store_administration325) {
+d_Site_search326 = true;
+}
+if (d_Store_administration325) {
+d_Search_engine_registration327 = true;
+}
+if (d_Store_administration325) {
+d_Domain_name_setup328 = true;
+}
+";(false && d_Administration319)
+d_Site_search326;Site_search326?;Boolean;false | true;;;(false && d_Store_administration325)
+d_Search_engine_registration327;Search_engine_registration327?;Boolean;false | true;;;(false && d_Store_administration325)
+d_Domain_name_setup328;Domain_name_setup328?;Boolean;false | true;;;(false && d_Store_administration325)

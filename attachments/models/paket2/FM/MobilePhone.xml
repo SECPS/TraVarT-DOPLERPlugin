@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<featureModel>
+	<struct>
+		<and mandatory="true" name="Mobilephone">
+			<feature mandatory="true" name="Calls"/>
+			<feature name="GPS"/>
+			<alt mandatory="true" name="Screen">
+				<feature name="Basic"/>
+				<feature name="Colour"/>
+				<feature name="HighResolution"/>
+			</alt>
+			<or name="Media">
+				<feature name="Camera"/>
+				<feature name="MP3"/>
+			</or>
+		</and>
+	</struct>
+	<constraints>
+		<rule>
+			<disj>
+				<not>
+					<var>GPS</var>
+				</not>
+				<not>
+					<var>Basic</var>
+				</not>
+			</disj>
+		</rule>
+		<rule>
+			<disj>
+				<var>HighResolution</var>
+				<not>
+					<var>Camera</var>
+				</not>
+			</disj>
+		</rule>
+	</constraints>
+</featureModel>

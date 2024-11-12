@@ -1,0 +1,1574 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+d_DellLaptops_Notebooks;DellLaptops_Notebooks?;Boolean;false | true;;"if (d_DellLaptops_Notebooks) {
+d_Processor = true;
+}
+if (d_DellLaptops_Notebooks) {
+d_LaptopWeight = true;
+}
+if (d_DellLaptops_Notebooks) {
+d_Price = true;
+}
+if (d_DellLaptops_Notebooks) {
+d_ProductCategory = true;
+}
+if (d_DellLaptops_Notebooks) {
+d_OperatingSystem = true;
+}
+if (d_DellLaptops_Notebooks) {
+d_HardDrive = true;
+}
+if (d_DellLaptops_Notebooks) {
+d_Memory = true;
+}
+";true
+d_ProductCategory;ProductCategory?;Boolean;false | true;;;(false && d_DellLaptops_Notebooks)
+d_ProductCategory_0;Choose your ProductCategory?;Enumeration;StudioLaptops | MiniNotebooks | Adamo | XPSLaptops | InspironLaptops | StudioXPSLaptops;1:1;"if !d_ProductCategory_0.MiniNotebooks {
+d_MiniNotebooks = false;
+}
+if !d_ProductCategory_0.Adamo {
+d_Adamo = false;
+}
+if d_ProductCategory_0.Adamo {
+d_Adamo = true;
+}
+if d_ProductCategory_0.XPSLaptops {
+d_XPSLaptops = true;
+}
+if d_ProductCategory_0.StudioXPSLaptops {
+d_StudioXPSLaptops = true;
+}
+if !d_ProductCategory_0.StudioXPSLaptops {
+d_StudioXPSLaptops = false;
+}
+if !d_ProductCategory_0.StudioLaptops {
+d_StudioLaptops = false;
+}
+if d_ProductCategory_0.StudioLaptops {
+d_StudioLaptops = true;
+}
+if !d_ProductCategory_0.XPSLaptops {
+d_XPSLaptops = false;
+}
+if d_ProductCategory_0.MiniNotebooks {
+d_MiniNotebooks = true;
+}
+if d_ProductCategory_0.InspironLaptops {
+d_InspironLaptops = true;
+}
+if !d_ProductCategory_0.InspironLaptops {
+d_InspironLaptops = false;
+}
+";d_ProductCategory
+d_MiniNotebooks;MiniNotebooks?;Boolean;false | true;;"if !d_MiniNotebooks {
+allow(d_Processor_0.IntelPentiumDualcore);
+}
+if (d_MiniNotebooks) {
+disAllow(d_OpticalDrive_0.BluRayDisc);
+}
+if (d_MiniNotebooks) {
+disAllow(d_HardDrive_0.a320GB);
+}
+if (d_MiniNotebooks) {
+disAllow(d_OpticalDrive_0.DVD_ROMDriveandDVD__RW);
+}
+if !d_MiniNotebooks {
+allow(d_OperatingSystem_0.WindowsVista64bit);
+}
+if !d_MiniNotebooks {
+allow(d_Price_0.Morethan_1200);
+}
+if (d_MiniNotebooks) {
+disAllow(d_Memory_0.a3GB);
+}
+if !d_MiniNotebooks {
+allow(d_Processor_0.IntelCeleron);
+}
+if (d_MiniNotebooks) {
+disAllow(d_OpticalDrive_0.CD_DVD_RW);
+}
+if !d_MiniNotebooks {
+allow(d_LaptopWeight_0.DesktopReplacement);
+}
+if !d_MiniNotebooks {
+allow(d_HardDrive_0.a500GB);
+}
+if !d_MiniNotebooks {
+allow(d_Processor_0.IntelCore2Duo);
+}
+if (d_MiniNotebooks) {
+disAllow(d_Price_0._800__1200);
+}
+if (d_MiniNotebooks) {
+disAllow(d_OpticalDrive_0.DVD__RWandCD_RWCombo);
+}
+if (d_MiniNotebooks) {
+disAllow(d_LaptopWeight_0.DesktopReplacement);
+}
+if (d_MiniNotebooks) {
+disAllow(d_Memory_0.Morethan4GB);
+}
+if (d_MiniNotebooks) {
+disAllow(d_HardDrive_0.a128GBSolidState);
+}
+if (d_MiniNotebooks) {
+disAllow(d_Memory_0.a4GB);
+}
+if !d_MiniNotebooks {
+allow(d_HardDrive_0.a250GB);
+}
+if (d_MiniNotebooks) {
+disAllow(d_Processor_0.IntelPentiumDualcore);
+}
+if !d_MiniNotebooks {
+allow(d_OpticalDrive_0.DVD_ROMDriveandDVD__RW);
+}
+if (d_MiniNotebooks) {
+disAllow(d_Processor_0.IntelCeleron);
+}
+if !d_MiniNotebooks {
+allow(d_OpticalDrive_0.BluRayDisc);
+}
+if (d_MiniNotebooks) {
+disAllow(d_OperatingSystem_0.WindowsVista64bit);
+}
+if (d_MiniNotebooks) {
+disAllow(d_Price_0.Morethan_1200);
+}
+if !d_MiniNotebooks {
+allow(d_Memory_0.a3GB);
+}
+if !d_MiniNotebooks {
+allow(d_HardDrive_0.a320GB);
+}
+if !d_MiniNotebooks {
+allow(d_OpticalDrive_0.CD_DVD_RW);
+}
+if !d_MiniNotebooks {
+allow(d_LaptopWeight_0.Light);
+}
+if !d_MiniNotebooks {
+allow(d_OpticalDrive_0.DVD__RWandCD_RWCombo);
+}
+if (d_MiniNotebooks) {
+disAllow(d_Processor_0.IntelCore2Duo);
+}
+if !d_MiniNotebooks {
+allow(d_Price_0._800__1200);
+}
+if (d_MiniNotebooks) {
+disAllow(d_HardDrive_0.a250GB);
+}
+if (d_MiniNotebooks) {
+disAllow(d_HardDrive_0.a500GB);
+}
+if (d_MiniNotebooks) {
+disAllow(d_LaptopWeight_0.Light);
+}
+if !d_MiniNotebooks {
+allow(d_Memory_0.Morethan4GB);
+}
+if !d_MiniNotebooks {
+allow(d_Memory_0.a4GB);
+}
+if !d_MiniNotebooks {
+allow(d_HardDrive_0.a128GBSolidState);
+}
+";false
+d_InspironLaptops;InspironLaptops?;Boolean;false | true;;"if (d_InspironLaptops) {
+disAllow(d_Memory_0.Morethan4GB);
+}
+if !d_InspironLaptops {
+allow(d_OperatingSystem_0.UbuntuLinux);
+}
+if (d_InspironLaptops) {
+disAllow(d_Memory_0.a1GB);
+}
+if (d_InspironLaptops) {
+disAllow(d_LaptopWeight_0.DesktopReplacement);
+}
+if !d_InspironLaptops {
+allow(d_OperatingSystem_0.WindowsVista64bit);
+}
+if !d_InspironLaptops {
+allow(d_Price_0.Morethan_1200);
+}
+if !d_InspironLaptops {
+allow(d_HardDrive_0.a80GB);
+}
+if !d_InspironLaptops {
+allow(d_LaptopWeight_0.UltraLight);
+}
+if !d_InspironLaptops {
+allow(d_OpticalDrive_0.DVD_ROMDriveandDVD__RW);
+}
+if (d_InspironLaptops) {
+disAllow(d_Processor_0.IntelAtom);
+}
+if !d_InspironLaptops {
+allow(d_OperatingSystem_0.WindowsXPHome);
+}
+if (d_InspironLaptops) {
+disAllow(d_HardDrive_0.a120GB);
+}
+if !d_InspironLaptops {
+allow(d_OpticalDrive_0.DVD__RWandCD_RWCombo);
+}
+if !d_InspironLaptops {
+allow(d_Memory_0.Morethan4GB);
+}
+if (d_InspironLaptops) {
+disAllow(d_OpticalDrive_0.BluRayDisc);
+}
+if !d_InspironLaptops {
+allow(d_HardDrive_0.a128GBSolidState);
+}
+if (d_InspironLaptops) {
+disAllow(d_OperatingSystem_0.UbuntuLinux);
+}
+if (d_InspironLaptops) {
+disAllow(d_OperatingSystem_0.WindowsVista64bit);
+}
+if !d_InspironLaptops {
+allow(d_Memory_0.a1GB);
+}
+if !d_InspironLaptops {
+allow(d_LaptopWeight_0.DesktopReplacement);
+}
+if (d_InspironLaptops) {
+disAllow(d_Price_0.Morethan_1200);
+}
+if (d_InspironLaptops) {
+disAllow(d_HardDrive_0.a80GB);
+}
+if (d_InspironLaptops) {
+disAllow(d_LaptopWeight_0.UltraLight);
+}
+if (d_InspironLaptops) {
+disAllow(d_OpticalDrive_0.DVD_ROMDriveandDVD__RW);
+}
+if (d_InspironLaptops) {
+disAllow(d_OperatingSystem_0.WindowsXPHome);
+}
+if !d_InspironLaptops {
+allow(d_HardDrive_0.a120GB);
+}
+if !d_InspironLaptops {
+allow(d_Processor_0.IntelAtom);
+}
+if !d_InspironLaptops {
+allow(d_OpticalDrive_0.BluRayDisc);
+}
+if (d_InspironLaptops) {
+disAllow(d_OpticalDrive_0.DVD__RWandCD_RWCombo);
+}
+if (d_InspironLaptops) {
+disAllow(d_HardDrive_0.a128GBSolidState);
+}
+";false
+d_StudioLaptops;StudioLaptops?;Boolean;false | true;;"if (d_StudioLaptops) {
+disAllow(d_Memory_0.a2GB);
+}
+if !d_StudioLaptops {
+allow(d_Memory_0.a1GB);
+}
+if (d_StudioLaptops) {
+disAllow(d_Price_0.Morethan_1200);
+}
+if !d_StudioLaptops {
+allow(d_Price_0.Lessthan_400);
+}
+if !d_StudioLaptops {
+allow(d_HardDrive_0.a160GB);
+}
+if (d_StudioLaptops) {
+disAllow(d_HardDrive_0.a80GB);
+}
+if (d_StudioLaptops) {
+disAllow(d_Processor_0.IntelCeleron);
+}
+if (d_StudioLaptops) {
+disAllow(d_Processor_0.IntelAtom);
+}
+if (d_StudioLaptops) {
+disAllow(d_HardDrive_0.a120GB);
+}
+if !d_StudioLaptops {
+allow(d_OperatingSystem_0.WindowsXPHome);
+}
+if !d_StudioLaptops {
+allow(d_OperatingSystem_0.UbuntuLinux);
+}
+if !d_StudioLaptops {
+allow(d_Memory_0.Morethan4GB);
+}
+if !d_StudioLaptops {
+allow(d_HardDrive_0.a128GBSolidState);
+}
+if !d_StudioLaptops {
+allow(d_Memory_0.a2GB);
+}
+if !d_StudioLaptops {
+allow(d_Price_0.Morethan_1200);
+}
+if (d_StudioLaptops) {
+disAllow(d_Memory_0.a1GB);
+}
+if (d_StudioLaptops) {
+disAllow(d_HardDrive_0.a160GB);
+}
+if !d_StudioLaptops {
+allow(d_HardDrive_0.a80GB);
+}
+if (d_StudioLaptops) {
+disAllow(d_Price_0.Lessthan_400);
+}
+if !d_StudioLaptops {
+allow(d_Processor_0.IntelCeleron);
+}
+if !d_StudioLaptops {
+allow(d_Processor_0.IntelAtom);
+}
+if (d_StudioLaptops) {
+disAllow(d_OperatingSystem_0.UbuntuLinux);
+}
+if !d_StudioLaptops {
+allow(d_HardDrive_0.a120GB);
+}
+if (d_StudioLaptops) {
+disAllow(d_OperatingSystem_0.WindowsXPHome);
+}
+if (d_StudioLaptops) {
+disAllow(d_HardDrive_0.a128GBSolidState);
+}
+if (d_StudioLaptops) {
+disAllow(d_Memory_0.Morethan4GB);
+}
+";false
+d_XPSLaptops;XPSLaptops?;Boolean;false | true;;"if !d_XPSLaptops {
+allow(d_OperatingSystem_0.WindowsXPHome);
+}
+if (d_XPSLaptops) {
+disAllow(d_HardDrive_0.a120GB);
+}
+if (d_XPSLaptops) {
+disAllow(d_HardDrive_0.a128GBSolidState);
+}
+if !d_XPSLaptops {
+allow(d_OperatingSystem_0.UbuntuLinux);
+}
+if !d_XPSLaptops {
+allow(d_HardDrive_0.a80GB);
+}
+if (d_XPSLaptops) {
+disAllow(d_Price_0.Lessthan_400);
+}
+if (d_XPSLaptops) {
+disAllow(d_OpticalDrive_0.DVD__RWandCD_RWCombo);
+}
+if (d_XPSLaptops) {
+disAllow(d_Processor_0.IntelPentiumDualcore);
+}
+if !d_XPSLaptops {
+allow(d_Processor_0.IntelCeleron);
+}
+if !d_XPSLaptops {
+allow(d_Memory_0.a1GB);
+}
+if (d_XPSLaptops) {
+disAllow(d_Memory_0.a2GB);
+}
+if (d_XPSLaptops) {
+disAllow(d_OpticalDrive_0.DVD_ROMDriveandDVD__RW);
+}
+if !d_XPSLaptops {
+allow(d_HardDrive_0.a160GB);
+}
+if !d_XPSLaptops {
+allow(d_Processor_0.IntelAtom);
+}
+if (d_XPSLaptops) {
+disAllow(d_OperatingSystem_0.WindowsXPHome);
+}
+if !d_XPSLaptops {
+allow(d_HardDrive_0.a120GB);
+}
+if !d_XPSLaptops {
+allow(d_HardDrive_0.a128GBSolidState);
+}
+if (d_XPSLaptops) {
+disAllow(d_OperatingSystem_0.UbuntuLinux);
+}
+if !d_XPSLaptops {
+allow(d_Memory_0.a2GB);
+}
+if !d_XPSLaptops {
+allow(d_Price_0.Lessthan_400);
+}
+if !d_XPSLaptops {
+allow(d_OpticalDrive_0.DVD__RWandCD_RWCombo);
+}
+if (d_XPSLaptops) {
+disAllow(d_Processor_0.IntelCeleron);
+}
+if (d_XPSLaptops) {
+disAllow(d_HardDrive_0.a80GB);
+}
+if !d_XPSLaptops {
+allow(d_OpticalDrive_0.DVD_ROMDriveandDVD__RW);
+}
+if (d_XPSLaptops) {
+disAllow(d_Memory_0.a1GB);
+}
+if !d_XPSLaptops {
+allow(d_Processor_0.IntelPentiumDualcore);
+}
+if (d_XPSLaptops) {
+disAllow(d_Processor_0.IntelAtom);
+}
+if (d_XPSLaptops) {
+disAllow(d_HardDrive_0.a160GB);
+}
+";false
+d_Adamo;Adamo?;Boolean;false | true;;"if !d_Adamo {
+allow(d_LaptopWeight_0.DesktopReplacement);
+}
+if (d_Adamo) {
+disAllow(d_Processor_0.IntelAtom);
+}
+if (d_Adamo) {
+disAllow(d_LaptopWeight_0.Light);
+}
+if (d_Adamo) {
+disAllow(d_Price_0._800__1200);
+}
+if !d_Adamo {
+allow(d_Memory_0.Morethan4GB);
+}
+if !d_Adamo {
+allow(d_HardDrive_0.a160GB);
+}
+if (d_Adamo) {
+disAllow(d_OpticalDrive_0.DVD_ROMDriveandDVD__RW);
+}
+if (d_Adamo) {
+disAllow(d_OperatingSystem_0.WindowsXPHome);
+}
+if !d_Adamo {
+allow(d_OpticalDrive_0.DVD__RWandCD_RWCombo);
+}
+if !d_Adamo {
+allow(d_HardDrive_0.a120GB);
+}
+if !d_Adamo {
+allow(d_HardDrive_0.a250GB);
+}
+if !d_Adamo {
+allow(d_Processor_0.IntelPentiumDualcore);
+}
+if !d_Adamo {
+allow(d_Memory_0.a1GB);
+}
+if !d_Adamo {
+allow(d_Price_0._400__800);
+}
+if !d_Adamo {
+allow(d_HardDrive_0.a80GB);
+}
+if (d_Adamo) {
+disAllow(d_OpticalDrive_0.BluRayDisc);
+}
+if !d_Adamo {
+allow(d_HardDrive_0.a320GB);
+}
+if !d_Adamo {
+allow(d_Processor_0.IntelCeleron);
+}
+if !d_Adamo {
+allow(d_Memory_0.a3GB);
+}
+if (d_Adamo) {
+disAllow(d_Price_0.Lessthan_400);
+}
+if !d_Adamo {
+allow(d_OperatingSystem_0.UbuntuLinux);
+}
+if (d_Adamo) {
+disAllow(d_OpticalDrive_0.CD_DVD_RW);
+}
+if !d_Adamo {
+allow(d_HardDrive_0.a500GB);
+}
+if (d_Adamo) {
+disAllow(d_LaptopWeight_0.DesktopReplacement);
+}
+if !d_Adamo {
+allow(d_LaptopWeight_0.Light);
+}
+if !d_Adamo {
+allow(d_Processor_0.IntelAtom);
+}
+if !d_Adamo {
+allow(d_Price_0._800__1200);
+}
+if (d_Adamo) {
+disAllow(d_Memory_0.Morethan4GB);
+}
+if (d_Adamo) {
+disAllow(d_HardDrive_0.a160GB);
+}
+if (d_Adamo) {
+disAllow(d_OpticalDrive_0.DVD__RWandCD_RWCombo);
+}
+if (d_Adamo) {
+disAllow(d_Processor_0.IntelPentiumDualcore);
+}
+if !d_Adamo {
+allow(d_OperatingSystem_0.WindowsXPHome);
+}
+if (d_Adamo) {
+disAllow(d_HardDrive_0.a250GB);
+}
+if (d_Adamo) {
+disAllow(d_HardDrive_0.a120GB);
+}
+if (d_Adamo) {
+disAllow(d_Memory_0.a1GB);
+}
+if (d_Adamo) {
+disAllow(d_Price_0._400__800);
+}
+if !d_Adamo {
+allow(d_OpticalDrive_0.BluRayDisc);
+}
+if !d_Adamo {
+allow(d_OpticalDrive_0.DVD_ROMDriveandDVD__RW);
+}
+if (d_Adamo) {
+disAllow(d_HardDrive_0.a80GB);
+}
+if (d_Adamo) {
+disAllow(d_HardDrive_0.a320GB);
+}
+if (d_Adamo) {
+disAllow(d_Processor_0.IntelCeleron);
+}
+if (d_Adamo) {
+disAllow(d_Memory_0.a3GB);
+}
+if !d_Adamo {
+allow(d_Price_0.Lessthan_400);
+}
+if (d_Adamo) {
+disAllow(d_HardDrive_0.a500GB);
+}
+if (d_Adamo) {
+disAllow(d_OperatingSystem_0.UbuntuLinux);
+}
+if !d_Adamo {
+allow(d_OpticalDrive_0.CD_DVD_RW);
+}
+";false
+d_StudioXPSLaptops;StudioXPSLaptops?;Boolean;false | true;;"if !d_StudioXPSLaptops {
+allow(d_HardDrive_0.a250GB);
+}
+if (d_StudioXPSLaptops) {
+disAllow(d_Processor_0.IntelAtom);
+}
+if !d_StudioXPSLaptops {
+allow(d_Price_0.Lessthan_400);
+}
+if (d_StudioXPSLaptops) {
+disAllow(d_OperatingSystem_0.UbuntuLinux);
+}
+if !d_StudioXPSLaptops {
+allow(d_LaptopWeight_0.DesktopReplacement);
+}
+if !d_StudioXPSLaptops {
+allow(d_OpticalDrive_0.BluRayDisc);
+}
+if !d_StudioXPSLaptops {
+allow(d_HardDrive_0.a80GB);
+}
+if !d_StudioXPSLaptops {
+allow(d_Processor_0.IntelCeleron);
+}
+if (d_StudioXPSLaptops) {
+disAllow(d_Price_0._400__800);
+}
+if !d_StudioXPSLaptops {
+allow(d_Memory_0.a3GB);
+}
+if (d_StudioXPSLaptops) {
+disAllow(d_OpticalDrive_0.DVD_ROMDriveandDVD__RW);
+}
+if !d_StudioXPSLaptops {
+allow(d_Price_0.Morethan_1200);
+}
+if !d_StudioXPSLaptops {
+allow(d_Memory_0.a1GB);
+}
+if (d_StudioXPSLaptops) {
+disAllow(d_Memory_0.a2GB);
+}
+if !d_StudioXPSLaptops {
+allow(d_HardDrive_0.a160GB);
+}
+if (d_StudioXPSLaptops) {
+disAllow(d_Memory_0.Morethan4GB);
+}
+if (d_StudioXPSLaptops) {
+disAllow(d_OperatingSystem_0.WindowsXPHome);
+}
+if (d_StudioXPSLaptops) {
+disAllow(d_HardDrive_0.a128GBSolidState);
+}
+if !d_StudioXPSLaptops {
+allow(d_HardDrive_0.a120GB);
+}
+if (d_StudioXPSLaptops) {
+disAllow(d_OpticalDrive_0.DVD__RWandCD_RWCombo);
+}
+if (d_StudioXPSLaptops) {
+disAllow(d_Processor_0.IntelPentiumDualcore);
+}
+if (d_StudioXPSLaptops) {
+disAllow(d_HardDrive_0.a250GB);
+}
+if !d_StudioXPSLaptops {
+allow(d_OperatingSystem_0.UbuntuLinux);
+}
+if !d_StudioXPSLaptops {
+allow(d_Processor_0.IntelAtom);
+}
+if (d_StudioXPSLaptops) {
+disAllow(d_Price_0.Lessthan_400);
+}
+if (d_StudioXPSLaptops) {
+disAllow(d_LaptopWeight_0.DesktopReplacement);
+}
+if (d_StudioXPSLaptops) {
+disAllow(d_OpticalDrive_0.BluRayDisc);
+}
+if (d_StudioXPSLaptops) {
+disAllow(d_Processor_0.IntelCeleron);
+}
+if !d_StudioXPSLaptops {
+allow(d_Processor_0.IntelPentiumDualcore);
+}
+if !d_StudioXPSLaptops {
+allow(d_Price_0._400__800);
+}
+if (d_StudioXPSLaptops) {
+disAllow(d_HardDrive_0.a80GB);
+}
+if !d_StudioXPSLaptops {
+allow(d_Memory_0.a2GB);
+}
+if (d_StudioXPSLaptops) {
+disAllow(d_Memory_0.a3GB);
+}
+if !d_StudioXPSLaptops {
+allow(d_OpticalDrive_0.DVD_ROMDriveandDVD__RW);
+}
+if (d_StudioXPSLaptops) {
+disAllow(d_Price_0.Morethan_1200);
+}
+if (d_StudioXPSLaptops) {
+disAllow(d_Memory_0.a1GB);
+}
+if (d_StudioXPSLaptops) {
+disAllow(d_HardDrive_0.a160GB);
+}
+if !d_StudioXPSLaptops {
+allow(d_HardDrive_0.a128GBSolidState);
+}
+if !d_StudioXPSLaptops {
+allow(d_Memory_0.Morethan4GB);
+}
+if !d_StudioXPSLaptops {
+allow(d_OperatingSystem_0.WindowsXPHome);
+}
+if (d_StudioXPSLaptops) {
+disAllow(d_HardDrive_0.a120GB);
+}
+if !d_StudioXPSLaptops {
+allow(d_OpticalDrive_0.DVD__RWandCD_RWCombo);
+}
+";false
+d_OperatingSystem;OperatingSystem?;Boolean;false | true;;;(false && d_DellLaptops_Notebooks)
+d_OperatingSystem_0;Choose your OperatingSystem?;Enumeration;UbuntuLinux | WindowsXPHome | Windows8 | WindowsVista64bit | Windows7;1:1;"if !d_OperatingSystem_0.UbuntuLinux {
+d_UbuntuLinux = false;
+}
+if d_OperatingSystem_0.WindowsVista64bit {
+d_WindowsVista64bit = true;
+}
+if !d_OperatingSystem_0.Windows7 {
+d_Windows7 = false;
+}
+if !d_OperatingSystem_0.WindowsVista64bit {
+d_WindowsVista64bit = false;
+}
+if d_OperatingSystem_0.UbuntuLinux {
+d_UbuntuLinux = true;
+}
+if d_OperatingSystem_0.Windows7 {
+d_Windows7 = true;
+}
+if !d_OperatingSystem_0.Windows8 {
+d_Windows8 = false;
+}
+if d_OperatingSystem_0.Windows8 {
+d_Windows8 = true;
+}
+if d_OperatingSystem_0.WindowsXPHome {
+d_WindowsXPHome = true;
+}
+if !d_OperatingSystem_0.WindowsXPHome {
+d_WindowsXPHome = false;
+}
+";d_OperatingSystem
+d_WindowsVista64bit;WindowsVista64bit?;Boolean;false | true;;"if (d_WindowsVista64bit) {
+disAllow(d_ProductCategory_0.InspironLaptops);
+}
+if !d_WindowsVista64bit {
+allow(d_ProductCategory_0.InspironLaptops);
+}
+if !d_WindowsVista64bit {
+allow(d_ProductCategory_0.MiniNotebooks);
+}
+if (d_WindowsVista64bit) {
+disAllow(d_ProductCategory_0.MiniNotebooks);
+}
+";false
+d_WindowsXPHome;WindowsXPHome?;Boolean;false | true;;"if !d_WindowsXPHome {
+allow(d_ProductCategory_0.Adamo);
+}
+if !d_WindowsXPHome {
+allow(d_ProductCategory_0.XPSLaptops);
+}
+if !d_WindowsXPHome {
+allow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if (d_WindowsXPHome) {
+disAllow(d_ProductCategory_0.XPSLaptops);
+}
+if (d_WindowsXPHome) {
+disAllow(d_ProductCategory_0.StudioLaptops);
+}
+if !d_WindowsXPHome {
+allow(d_ProductCategory_0.StudioLaptops);
+}
+if (d_WindowsXPHome) {
+disAllow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if (d_WindowsXPHome) {
+disAllow(d_ProductCategory_0.InspironLaptops);
+}
+if !d_WindowsXPHome {
+allow(d_ProductCategory_0.InspironLaptops);
+}
+if (d_WindowsXPHome) {
+disAllow(d_ProductCategory_0.Adamo);
+}
+";false
+d_UbuntuLinux;UbuntuLinux?;Boolean;false | true;;"if !d_UbuntuLinux {
+allow(d_ProductCategory_0.StudioLaptops);
+}
+if !d_UbuntuLinux {
+allow(d_ProductCategory_0.Adamo);
+}
+if !d_UbuntuLinux {
+allow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if (d_UbuntuLinux) {
+disAllow(d_ProductCategory_0.Adamo);
+}
+if (d_UbuntuLinux) {
+disAllow(d_ProductCategory_0.StudioLaptops);
+}
+if (d_UbuntuLinux) {
+disAllow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if !d_UbuntuLinux {
+allow(d_ProductCategory_0.InspironLaptops);
+}
+if (d_UbuntuLinux) {
+disAllow(d_ProductCategory_0.InspironLaptops);
+}
+if !d_UbuntuLinux {
+allow(d_ProductCategory_0.XPSLaptops);
+}
+if (d_UbuntuLinux) {
+disAllow(d_ProductCategory_0.XPSLaptops);
+}
+";false
+d_Windows7;Windows7?;Boolean;false | true;;;false
+d_Windows8;Windows8?;Boolean;false | true;;;false
+d_HardDrive;HardDrive?;Boolean;false | true;;;(false && d_DellLaptops_Notebooks)
+d_HardDrive_0;Choose your HardDrive?;Enumeration;a80GB | a160GB | a320GB | a120GB | a500GB | a250GB | a128GBSolidState;1:1;"if !d_HardDrive_0.a128GBSolidState {
+d_a128GBSolidState = false;
+}
+if d_HardDrive_0.a128GBSolidState {
+d_a128GBSolidState = true;
+}
+if d_HardDrive_0.a250GB {
+d_a250GB = true;
+}
+if d_HardDrive_0.a320GB {
+d_a320GB = true;
+}
+if !d_HardDrive_0.a250GB {
+d_a250GB = false;
+}
+if !d_HardDrive_0.a160GB {
+d_a160GB = false;
+}
+if d_HardDrive_0.a500GB {
+d_a500GB = true;
+}
+if !d_HardDrive_0.a320GB {
+d_a320GB = false;
+}
+if !d_HardDrive_0.a500GB {
+d_a500GB = false;
+}
+if !d_HardDrive_0.a80GB {
+d_a80GB = false;
+}
+if d_HardDrive_0.a80GB {
+d_a80GB = true;
+}
+if d_HardDrive_0.a160GB {
+d_a160GB = true;
+}
+if !d_HardDrive_0.a120GB {
+d_a120GB = false;
+}
+if d_HardDrive_0.a120GB {
+d_a120GB = true;
+}
+";d_HardDrive
+d_a500GB;a500GB?;Boolean;false | true;;"if !d_a500GB {
+allow(d_ProductCategory_0.MiniNotebooks);
+}
+if !d_a500GB {
+allow(d_ProductCategory_0.Adamo);
+}
+if (d_a500GB) {
+disAllow(d_ProductCategory_0.Adamo);
+}
+if (d_a500GB) {
+disAllow(d_ProductCategory_0.MiniNotebooks);
+}
+";false
+d_a320GB;a320GB?;Boolean;false | true;;"if !d_a320GB {
+allow(d_ProductCategory_0.MiniNotebooks);
+}
+if !d_a320GB {
+allow(d_ProductCategory_0.Adamo);
+}
+if (d_a320GB) {
+disAllow(d_ProductCategory_0.Adamo);
+}
+if (d_a320GB) {
+disAllow(d_ProductCategory_0.MiniNotebooks);
+}
+";false
+d_a250GB;a250GB?;Boolean;false | true;;"if !d_a250GB {
+allow(d_ProductCategory_0.MiniNotebooks);
+}
+if !d_a250GB {
+allow(d_ProductCategory_0.Adamo);
+}
+if (d_a250GB) {
+disAllow(d_ProductCategory_0.Adamo);
+}
+if (d_a250GB) {
+disAllow(d_ProductCategory_0.MiniNotebooks);
+}
+if !d_a250GB {
+allow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if (d_a250GB) {
+disAllow(d_ProductCategory_0.StudioXPSLaptops);
+}
+";false
+d_a160GB;a160GB?;Boolean;false | true;;"if (d_a160GB) {
+disAllow(d_ProductCategory_0.StudioLaptops);
+}
+if (d_a160GB) {
+disAllow(d_ProductCategory_0.XPSLaptops);
+}
+if (d_a160GB) {
+disAllow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if !d_a160GB {
+allow(d_ProductCategory_0.XPSLaptops);
+}
+if !d_a160GB {
+allow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if !d_a160GB {
+allow(d_ProductCategory_0.StudioLaptops);
+}
+if (d_a160GB) {
+disAllow(d_ProductCategory_0.Adamo);
+}
+if !d_a160GB {
+allow(d_ProductCategory_0.Adamo);
+}
+";false
+d_a128GBSolidState;a128GBSolidState?;Boolean;false | true;;"if (d_a128GBSolidState) {
+disAllow(d_ProductCategory_0.InspironLaptops);
+}
+if !d_a128GBSolidState {
+allow(d_ProductCategory_0.InspironLaptops);
+}
+if (d_a128GBSolidState) {
+disAllow(d_ProductCategory_0.StudioLaptops);
+}
+if !d_a128GBSolidState {
+allow(d_ProductCategory_0.StudioLaptops);
+}
+if !d_a128GBSolidState {
+allow(d_ProductCategory_0.XPSLaptops);
+}
+if !d_a128GBSolidState {
+allow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if (d_a128GBSolidState) {
+disAllow(d_ProductCategory_0.XPSLaptops);
+}
+if (d_a128GBSolidState) {
+disAllow(d_ProductCategory_0.MiniNotebooks);
+}
+if (d_a128GBSolidState) {
+disAllow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if !d_a128GBSolidState {
+allow(d_ProductCategory_0.MiniNotebooks);
+}
+";false
+d_a120GB;a120GB?;Boolean;false | true;;"if (d_a120GB) {
+disAllow(d_ProductCategory_0.XPSLaptops);
+}
+if !d_a120GB {
+allow(d_ProductCategory_0.Adamo);
+}
+if (d_a120GB) {
+disAllow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if !d_a120GB {
+allow(d_ProductCategory_0.XPSLaptops);
+}
+if (d_a120GB) {
+disAllow(d_ProductCategory_0.Adamo);
+}
+if !d_a120GB {
+allow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if !d_a120GB {
+allow(d_ProductCategory_0.StudioLaptops);
+}
+if (d_a120GB) {
+disAllow(d_ProductCategory_0.InspironLaptops);
+}
+if (d_a120GB) {
+disAllow(d_ProductCategory_0.StudioLaptops);
+}
+if !d_a120GB {
+allow(d_ProductCategory_0.InspironLaptops);
+}
+";false
+d_a80GB;a80GB?;Boolean;false | true;;"if (d_a80GB) {
+disAllow(d_ProductCategory_0.XPSLaptops);
+}
+if (d_a80GB) {
+disAllow(d_ProductCategory_0.Adamo);
+}
+if (d_a80GB) {
+disAllow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if !d_a80GB {
+allow(d_ProductCategory_0.StudioLaptops);
+}
+if !d_a80GB {
+allow(d_ProductCategory_0.Adamo);
+}
+if (d_a80GB) {
+disAllow(d_ProductCategory_0.StudioLaptops);
+}
+if !d_a80GB {
+allow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if !d_a80GB {
+allow(d_ProductCategory_0.InspironLaptops);
+}
+if (d_a80GB) {
+disAllow(d_ProductCategory_0.InspironLaptops);
+}
+if !d_a80GB {
+allow(d_ProductCategory_0.XPSLaptops);
+}
+";false
+d_OpticalDrive;OpticalDrive?;Boolean;false | true;;"if (d_OpticalDrive) {
+disAllow(d_OpticalDrive_0.None);
+}
+if !d_OpticalDrive {
+d_OpticalDrive_0 = None;
+}
+if !d_OpticalDrive {
+allow(d_OpticalDrive_0.None);
+}
+";d_DellLaptops_Notebooks
+d_OpticalDrive_0;Choose your OpticalDrive?;Enumeration;CD_DVD_RW | DVD__RWandCD_RWCombo | None | BluRayDisc | DVD_ROMDriveandDVD__RW;1:1;"if d_OpticalDrive_0.DVD_ROMDriveandDVD__RW {
+d_DVD_ROMDriveandDVD__RW = true;
+}
+if !d_OpticalDrive_0.DVD_ROMDriveandDVD__RW {
+d_DVD_ROMDriveandDVD__RW = false;
+}
+if d_OpticalDrive_0.DVD__RWandCD_RWCombo {
+d_DVD__RWandCD_RWCombo = true;
+}
+if !d_OpticalDrive_0.DVD__RWandCD_RWCombo {
+d_DVD__RWandCD_RWCombo = false;
+}
+if d_OpticalDrive_0.BluRayDisc {
+d_BluRayDisc = true;
+}
+if !d_OpticalDrive_0.BluRayDisc {
+d_BluRayDisc = false;
+}
+if !d_OpticalDrive_0.CD_DVD_RW {
+d_CD_DVD_RW = false;
+}
+if d_OpticalDrive_0.CD_DVD_RW {
+d_CD_DVD_RW = true;
+}
+";d_OpticalDrive
+d_CD_DVD_RW;CD_DVD_RW?;Boolean;false | true;;"if (d_CD_DVD_RW) {
+disAllow(d_ProductCategory_0.Adamo);
+}
+if (d_CD_DVD_RW) {
+disAllow(d_ProductCategory_0.MiniNotebooks);
+}
+if !d_CD_DVD_RW {
+allow(d_ProductCategory_0.Adamo);
+}
+if !d_CD_DVD_RW {
+allow(d_ProductCategory_0.MiniNotebooks);
+}
+";false
+d_DVD_ROMDriveandDVD__RW;DVD_ROMDriveandDVD__RW?;Boolean;false | true;;"if (d_DVD_ROMDriveandDVD__RW) {
+disAllow(d_ProductCategory_0.MiniNotebooks);
+}
+if (d_DVD_ROMDriveandDVD__RW) {
+disAllow(d_ProductCategory_0.XPSLaptops);
+}
+if !d_DVD_ROMDriveandDVD__RW {
+allow(d_ProductCategory_0.XPSLaptops);
+}
+if (d_DVD_ROMDriveandDVD__RW) {
+disAllow(d_ProductCategory_0.Adamo);
+}
+if !d_DVD_ROMDriveandDVD__RW {
+allow(d_ProductCategory_0.Adamo);
+}
+if !d_DVD_ROMDriveandDVD__RW {
+allow(d_ProductCategory_0.MiniNotebooks);
+}
+if !d_DVD_ROMDriveandDVD__RW {
+allow(d_ProductCategory_0.InspironLaptops);
+}
+if (d_DVD_ROMDriveandDVD__RW) {
+disAllow(d_ProductCategory_0.InspironLaptops);
+}
+if (d_DVD_ROMDriveandDVD__RW) {
+disAllow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if !d_DVD_ROMDriveandDVD__RW {
+allow(d_ProductCategory_0.StudioXPSLaptops);
+}
+";false
+d_DVD__RWandCD_RWCombo;DVD__RWandCD_RWCombo?;Boolean;false | true;;"if !d_DVD__RWandCD_RWCombo {
+allow(d_ProductCategory_0.MiniNotebooks);
+}
+if (d_DVD__RWandCD_RWCombo) {
+disAllow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if !d_DVD__RWandCD_RWCombo {
+allow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if (d_DVD__RWandCD_RWCombo) {
+disAllow(d_ProductCategory_0.InspironLaptops);
+}
+if !d_DVD__RWandCD_RWCombo {
+allow(d_ProductCategory_0.InspironLaptops);
+}
+if (d_DVD__RWandCD_RWCombo) {
+disAllow(d_ProductCategory_0.XPSLaptops);
+}
+if (d_DVD__RWandCD_RWCombo) {
+disAllow(d_ProductCategory_0.Adamo);
+}
+if !d_DVD__RWandCD_RWCombo {
+allow(d_ProductCategory_0.XPSLaptops);
+}
+if !d_DVD__RWandCD_RWCombo {
+allow(d_ProductCategory_0.Adamo);
+}
+if (d_DVD__RWandCD_RWCombo) {
+disAllow(d_ProductCategory_0.MiniNotebooks);
+}
+";false
+d_BluRayDisc;BluRayDisc?;Boolean;false | true;;"if !d_BluRayDisc {
+allow(d_ProductCategory_0.InspironLaptops);
+}
+if (d_BluRayDisc) {
+disAllow(d_ProductCategory_0.InspironLaptops);
+}
+if !d_BluRayDisc {
+allow(d_ProductCategory_0.MiniNotebooks);
+}
+if (d_BluRayDisc) {
+disAllow(d_ProductCategory_0.MiniNotebooks);
+}
+if !d_BluRayDisc {
+allow(d_ProductCategory_0.Adamo);
+}
+if (d_BluRayDisc) {
+disAllow(d_ProductCategory_0.Adamo);
+}
+if (d_BluRayDisc) {
+disAllow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if !d_BluRayDisc {
+allow(d_ProductCategory_0.StudioXPSLaptops);
+}
+";false
+d_LaptopWeight;LaptopWeight?;Boolean;false | true;;;(false && d_DellLaptops_Notebooks)
+d_LaptopWeight_0;Choose your LaptopWeight?;Enumeration;DesktopReplacement | Light | UltraLight;1:1;"if !d_LaptopWeight_0.DesktopReplacement {
+d_DesktopReplacement = false;
+}
+if d_LaptopWeight_0.DesktopReplacement {
+d_DesktopReplacement = true;
+}
+if d_LaptopWeight_0.UltraLight {
+d_UltraLight = true;
+}
+if !d_LaptopWeight_0.UltraLight {
+d_UltraLight = false;
+}
+if d_LaptopWeight_0.Light {
+d_Light = true;
+}
+if !d_LaptopWeight_0.Light {
+d_Light = false;
+}
+";d_LaptopWeight
+d_UltraLight;UltraLight?;Boolean;false | true;;"if (d_UltraLight) {
+disAllow(d_ProductCategory_0.InspironLaptops);
+}
+if !d_UltraLight {
+allow(d_ProductCategory_0.InspironLaptops);
+}
+";false
+d_Light;Light?;Boolean;false | true;;"if (d_Light) {
+disAllow(d_ProductCategory_0.Adamo);
+}
+if (d_Light) {
+disAllow(d_ProductCategory_0.MiniNotebooks);
+}
+if !d_Light {
+allow(d_ProductCategory_0.MiniNotebooks);
+}
+if !d_Light {
+allow(d_ProductCategory_0.Adamo);
+}
+";false
+d_DesktopReplacement;DesktopReplacement?;Boolean;false | true;;"if !d_DesktopReplacement {
+allow(d_ProductCategory_0.InspironLaptops);
+}
+if (d_DesktopReplacement) {
+disAllow(d_ProductCategory_0.InspironLaptops);
+}
+if (d_DesktopReplacement) {
+disAllow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if !d_DesktopReplacement {
+allow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if !d_DesktopReplacement {
+allow(d_ProductCategory_0.MiniNotebooks);
+}
+if (d_DesktopReplacement) {
+disAllow(d_ProductCategory_0.MiniNotebooks);
+}
+if (d_DesktopReplacement) {
+disAllow(d_ProductCategory_0.Adamo);
+}
+if !d_DesktopReplacement {
+allow(d_ProductCategory_0.Adamo);
+}
+";false
+d_Memory;Memory?;Boolean;false | true;;;(false && d_DellLaptops_Notebooks)
+d_Memory_0;Choose your Memory?;Enumeration;a3GB | a4GB | a1GB | a2GB | Morethan4GB;1:1;"if !d_Memory_0.a2GB {
+d_a2GB = false;
+}
+if d_Memory_0.a3GB {
+d_a3GB = true;
+}
+if d_Memory_0.a2GB {
+d_a2GB = true;
+}
+if !d_Memory_0.Morethan4GB {
+d_Morethan4GB = false;
+}
+if !d_Memory_0.a3GB {
+d_a3GB = false;
+}
+if !d_Memory_0.a4GB {
+d_a4GB = false;
+}
+if !d_Memory_0.a1GB {
+d_a1GB = false;
+}
+if d_Memory_0.a4GB {
+d_a4GB = true;
+}
+if d_Memory_0.a1GB {
+d_a1GB = true;
+}
+if d_Memory_0.Morethan4GB {
+d_Morethan4GB = true;
+}
+";d_Memory
+d_Morethan4GB;Morethan4GB?;Boolean;false | true;;"if !d_Morethan4GB {
+allow(d_ProductCategory_0.MiniNotebooks);
+}
+if !d_Morethan4GB {
+allow(d_ProductCategory_0.InspironLaptops);
+}
+if (d_Morethan4GB) {
+disAllow(d_ProductCategory_0.InspironLaptops);
+}
+if !d_Morethan4GB {
+allow(d_ProductCategory_0.StudioLaptops);
+}
+if !d_Morethan4GB {
+allow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if !d_Morethan4GB {
+allow(d_ProductCategory_0.Adamo);
+}
+if (d_Morethan4GB) {
+disAllow(d_ProductCategory_0.StudioLaptops);
+}
+if (d_Morethan4GB) {
+disAllow(d_ProductCategory_0.MiniNotebooks);
+}
+if (d_Morethan4GB) {
+disAllow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if (d_Morethan4GB) {
+disAllow(d_ProductCategory_0.Adamo);
+}
+";false
+d_a4GB;a4GB?;Boolean;false | true;;"if !d_a4GB {
+allow(d_ProductCategory_0.MiniNotebooks);
+}
+if (d_a4GB) {
+disAllow(d_ProductCategory_0.MiniNotebooks);
+}
+";false
+d_a3GB;a3GB?;Boolean;false | true;;"if (d_a3GB) {
+disAllow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if !d_a3GB {
+allow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if (d_a3GB) {
+disAllow(d_ProductCategory_0.MiniNotebooks);
+}
+if (d_a3GB) {
+disAllow(d_ProductCategory_0.Adamo);
+}
+if !d_a3GB {
+allow(d_ProductCategory_0.MiniNotebooks);
+}
+if !d_a3GB {
+allow(d_ProductCategory_0.Adamo);
+}
+";false
+d_a2GB;a2GB?;Boolean;false | true;;"if (d_a2GB) {
+disAllow(d_ProductCategory_0.XPSLaptops);
+}
+if (d_a2GB) {
+disAllow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if !d_a2GB {
+allow(d_ProductCategory_0.XPSLaptops);
+}
+if (d_a2GB) {
+disAllow(d_ProductCategory_0.StudioLaptops);
+}
+if !d_a2GB {
+allow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if !d_a2GB {
+allow(d_ProductCategory_0.StudioLaptops);
+}
+";false
+d_a1GB;a1GB?;Boolean;false | true;;"if !d_a1GB {
+allow(d_ProductCategory_0.XPSLaptops);
+}
+if !d_a1GB {
+allow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if !d_a1GB {
+allow(d_ProductCategory_0.Adamo);
+}
+if (d_a1GB) {
+disAllow(d_ProductCategory_0.XPSLaptops);
+}
+if (d_a1GB) {
+disAllow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if (d_a1GB) {
+disAllow(d_ProductCategory_0.Adamo);
+}
+if (d_a1GB) {
+disAllow(d_ProductCategory_0.StudioLaptops);
+}
+if !d_a1GB {
+allow(d_ProductCategory_0.StudioLaptops);
+}
+if (d_a1GB) {
+disAllow(d_ProductCategory_0.InspironLaptops);
+}
+if !d_a1GB {
+allow(d_ProductCategory_0.InspironLaptops);
+}
+";false
+d_Processor;Processor?;Boolean;false | true;;;(false && d_DellLaptops_Notebooks)
+d_Processor_0;Choose your Processor?;Enumeration;IntelCeleron | IntelAtom | IntelPentiumDualcore | IntelCore2Duo;1:1;"if !d_Processor_0.IntelPentiumDualcore {
+d_IntelPentiumDualcore = false;
+}
+if !d_Processor_0.IntelCore2Duo {
+d_IntelCore2Duo = false;
+}
+if d_Processor_0.IntelPentiumDualcore {
+d_IntelPentiumDualcore = true;
+}
+if !d_Processor_0.IntelCeleron {
+d_IntelCeleron = false;
+}
+if d_Processor_0.IntelCeleron {
+d_IntelCeleron = true;
+}
+if d_Processor_0.IntelCore2Duo {
+d_IntelCore2Duo = true;
+}
+if !d_Processor_0.IntelAtom {
+d_IntelAtom = false;
+}
+if d_Processor_0.IntelAtom {
+d_IntelAtom = true;
+}
+";d_Processor
+d_IntelCore2Duo;IntelCore2Duo?;Boolean;false | true;;"if !d_IntelCore2Duo {
+allow(d_ProductCategory_0.MiniNotebooks);
+}
+if (d_IntelCore2Duo) {
+disAllow(d_ProductCategory_0.MiniNotebooks);
+}
+";false
+d_IntelPentiumDualcore;IntelPentiumDualcore?;Boolean;false | true;;"if !d_IntelPentiumDualcore {
+allow(d_ProductCategory_0.MiniNotebooks);
+}
+if !d_IntelPentiumDualcore {
+allow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if !d_IntelPentiumDualcore {
+allow(d_ProductCategory_0.Adamo);
+}
+if (d_IntelPentiumDualcore) {
+disAllow(d_ProductCategory_0.MiniNotebooks);
+}
+if (d_IntelPentiumDualcore) {
+disAllow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if (d_IntelPentiumDualcore) {
+disAllow(d_ProductCategory_0.Adamo);
+}
+if !d_IntelPentiumDualcore {
+allow(d_ProductCategory_0.XPSLaptops);
+}
+if (d_IntelPentiumDualcore) {
+disAllow(d_ProductCategory_0.XPSLaptops);
+}
+";false
+d_IntelCeleron;IntelCeleron?;Boolean;false | true;;"if !d_IntelCeleron {
+allow(d_ProductCategory_0.MiniNotebooks);
+}
+if (d_IntelCeleron) {
+disAllow(d_ProductCategory_0.MiniNotebooks);
+}
+if !d_IntelCeleron {
+allow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if !d_IntelCeleron {
+allow(d_ProductCategory_0.Adamo);
+}
+if (d_IntelCeleron) {
+disAllow(d_ProductCategory_0.XPSLaptops);
+}
+if (d_IntelCeleron) {
+disAllow(d_ProductCategory_0.Adamo);
+}
+if !d_IntelCeleron {
+allow(d_ProductCategory_0.XPSLaptops);
+}
+if !d_IntelCeleron {
+allow(d_ProductCategory_0.StudioLaptops);
+}
+if (d_IntelCeleron) {
+disAllow(d_ProductCategory_0.StudioLaptops);
+}
+if (d_IntelCeleron) {
+disAllow(d_ProductCategory_0.StudioXPSLaptops);
+}
+";false
+d_IntelAtom;IntelAtom?;Boolean;false | true;;"if (d_IntelAtom) {
+disAllow(d_ProductCategory_0.InspironLaptops);
+}
+if !d_IntelAtom {
+allow(d_ProductCategory_0.XPSLaptops);
+}
+if !d_IntelAtom {
+allow(d_ProductCategory_0.InspironLaptops);
+}
+if !d_IntelAtom {
+allow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if (d_IntelAtom) {
+disAllow(d_ProductCategory_0.XPSLaptops);
+}
+if (d_IntelAtom) {
+disAllow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if !d_IntelAtom {
+allow(d_ProductCategory_0.StudioLaptops);
+}
+if (d_IntelAtom) {
+disAllow(d_ProductCategory_0.StudioLaptops);
+}
+if (d_IntelAtom) {
+disAllow(d_ProductCategory_0.Adamo);
+}
+if !d_IntelAtom {
+allow(d_ProductCategory_0.Adamo);
+}
+";false
+d_Price;Price?;Boolean;false | true;;;(false && d_DellLaptops_Notebooks)
+d_Price_0;Choose your Price?;Enumeration;_800__1200 | Morethan_1200 | Lessthan_400 | _400__800;1:1;"if !d_Price_0._800__1200 {
+d__800__1200 = false;
+}
+if d_Price_0.Morethan_1200 {
+d_Morethan_1200 = true;
+}
+if d_Price_0._400__800 {
+d__400__800 = true;
+}
+if !d_Price_0.Morethan_1200 {
+d_Morethan_1200 = false;
+}
+if !d_Price_0._400__800 {
+d__400__800 = false;
+}
+if d_Price_0.Lessthan_400 {
+d_Lessthan_400 = true;
+}
+if !d_Price_0.Lessthan_400 {
+d_Lessthan_400 = false;
+}
+if d_Price_0._800__1200 {
+d__800__1200 = true;
+}
+";d_Price
+d_Lessthan_400;Lessthan_400?;Boolean;false | true;;"if (d_Lessthan_400) {
+disAllow(d_ProductCategory_0.StudioLaptops);
+}
+if !d_Lessthan_400 {
+allow(d_ProductCategory_0.StudioLaptops);
+}
+if (d_Lessthan_400) {
+disAllow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if !d_Lessthan_400 {
+allow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if (d_Lessthan_400) {
+disAllow(d_ProductCategory_0.XPSLaptops);
+}
+if (d_Lessthan_400) {
+disAllow(d_ProductCategory_0.Adamo);
+}
+if !d_Lessthan_400 {
+allow(d_ProductCategory_0.XPSLaptops);
+}
+if !d_Lessthan_400 {
+allow(d_ProductCategory_0.Adamo);
+}
+";false
+d__400__800;_400__800?;Boolean;false | true;;"if !d__400__800 {
+allow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if (d__400__800) {
+disAllow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if (d__400__800) {
+disAllow(d_ProductCategory_0.Adamo);
+}
+if !d__400__800 {
+allow(d_ProductCategory_0.Adamo);
+}
+";false
+d__800__1200;_800__1200?;Boolean;false | true;;"if (d__800__1200) {
+disAllow(d_ProductCategory_0.MiniNotebooks);
+}
+if !d__800__1200 {
+allow(d_ProductCategory_0.MiniNotebooks);
+}
+if !d__800__1200 {
+allow(d_ProductCategory_0.Adamo);
+}
+if (d__800__1200) {
+disAllow(d_ProductCategory_0.Adamo);
+}
+";false
+d_Morethan_1200;Morethan_1200?;Boolean;false | true;;"if !d_Morethan_1200 {
+allow(d_ProductCategory_0.MiniNotebooks);
+}
+if (d_Morethan_1200) {
+disAllow(d_ProductCategory_0.MiniNotebooks);
+}
+if (d_Morethan_1200) {
+disAllow(d_ProductCategory_0.InspironLaptops);
+}
+if !d_Morethan_1200 {
+allow(d_ProductCategory_0.InspironLaptops);
+}
+if !d_Morethan_1200 {
+allow(d_ProductCategory_0.StudioLaptops);
+}
+if (d_Morethan_1200) {
+disAllow(d_ProductCategory_0.StudioLaptops);
+}
+if (d_Morethan_1200) {
+disAllow(d_ProductCategory_0.StudioXPSLaptops);
+}
+if !d_Morethan_1200 {
+allow(d_ProductCategory_0.StudioXPSLaptops);
+}
+";false
