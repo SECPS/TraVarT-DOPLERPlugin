@@ -5,7 +5,7 @@ import de.vill.model.constraint.*;
 import java.util.List;
 import java.util.Optional;
 
-public class ToDnfConverter {
+public class DnfConverter {
 
     private final UnwantedConstraintsReplacer replacer;
     private final DnfSimplifier dnfSimplifier;
@@ -14,7 +14,7 @@ public class ToDnfConverter {
             List.of(new NotNotRule(), new MorgenOrRule(), new MorgenAndRule(), new DistributiveLeftRule(),
                     new DistributiveRightRule());
 
-    ToDnfConverter() {
+    public DnfConverter() {
         replacer = new UnwantedConstraintsReplacer();
         dnfSimplifier = new DnfSimplifier();
     }
@@ -91,7 +91,7 @@ public class ToDnfConverter {
         } else if (constraint instanceof ExpressionConstraint) {
             //Do nothing
         } else {
-            throw new RuntimeException("Unexpected constraint");
+            throw new RuntimeException("Unexpected constraint: " + constraint.getClass());
         }
     }
 }

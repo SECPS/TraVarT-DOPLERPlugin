@@ -1,6 +1,7 @@
 package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint;
 
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
+import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.dnf.DnfConverter;
 import de.vill.model.FeatureModel;
 import de.vill.model.constraint.Constraint;
 
@@ -24,6 +25,8 @@ public class ConstraintHandler {
 
     private final List<Matcher<?>> matchers;
 
+    private final DnfConverter dnfConverter;
+
     public ConstraintHandler() {
         decisionModel = null;
         featureModel = null;
@@ -35,6 +38,7 @@ public class ConstraintHandler {
         //matchers.add(new OrMatcher());
         matchers.add(new ParenthesisMatcher());
         matchers.add(new ImplicationMatcher());
+        dnfConverter = new DnfConverter();
     }
 
     public void handleOwnConstraints(FeatureModel featureModel, IDecisionModel decisionModel) {
@@ -42,7 +46,8 @@ public class ConstraintHandler {
         this.featureModel = featureModel;
 
         for (Constraint constraint : featureModel.getConstraints()) {
-            handleConstraint(constraint);
+            dnfConverter.convertToDnf(constraint);
+
         }
     }
 

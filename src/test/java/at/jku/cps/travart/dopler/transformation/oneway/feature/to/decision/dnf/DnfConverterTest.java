@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.function.Function;
 
-class ToDnfConverterTest {
+class DnfConverterTest {
 
     private static final LiteralConstraint A = new LiteralConstraint("A");
     private static final LiteralConstraint B = new LiteralConstraint("B");
@@ -16,18 +16,18 @@ class ToDnfConverterTest {
     private static final LiteralConstraint F = new LiteralConstraint("F");
     private static final LiteralConstraint G = new LiteralConstraint("G");
 
-    private final ToDnfConverter toDnfConverter;
+    private final DnfConverter dnfConverter;
     private final UnwantedConstraintsReplacer replacer;
 
-    ToDnfConverterTest() {
-        toDnfConverter = new ToDnfConverter();
+    DnfConverterTest() {
+        dnfConverter = new DnfConverter();
         replacer = new UnwantedConstraintsReplacer();
     }
 
     @Test
     void toDnf1() {
         Constraint given = new NotConstraint(new NotConstraint(A));
-        Constraint real = toDnfConverter.convertToDnf(given);
+        Constraint real = dnfConverter.convertToDnf(given);
         Constraint expected = A;
         Assertions.assertEquals(expected, real);
     }
@@ -35,7 +35,7 @@ class ToDnfConverterTest {
     @Test
     void toDnf2() {
         Constraint given = new NotConstraint(new OrConstraint(A, B));
-        Constraint real = toDnfConverter.convertToDnf(given);
+        Constraint real = dnfConverter.convertToDnf(given);
         Constraint expected = new AndConstraint(new NotConstraint(A), new NotConstraint(B));
         Assertions.assertEquals(expected, real);
     }
@@ -43,7 +43,7 @@ class ToDnfConverterTest {
     @Test
     void toDnf3() {
         Constraint given = new NotConstraint(new AndConstraint(A, B));
-        Constraint real = toDnfConverter.convertToDnf(given);
+        Constraint real = dnfConverter.convertToDnf(given);
         Constraint expected = new OrConstraint(new NotConstraint(A), new NotConstraint(B));
         Assertions.assertEquals(expected, real);
     }
@@ -136,9 +136,28 @@ class ToDnfConverterTest {
         Assertions.assertEquals(expected, real);
     }
 
+    @Test
+    void testReplace5() {
+        //(A => B) & (A => B)
+        Constraint given = new AndConstraint(new ParenthesisConstraint(new ImplicationConstraint(A, B)),
+                new ParenthesisConstraint(new ImplicationConstraint(A, C)));
+        Assertions.assertEquals("((!(A) | B) & (!(A) | C))",
+                constraintToString(replacer.replaceUnwantedConstraints(given)));
+    }
+
+    @Test
+    void testReplace6() {
+        //(Changeover2 => Rocker1_1) & (Changeover2 => Rocker1_2)
+        Constraint given = new AndConstraint(
+                new ImplicationConstraint(new LiteralConstraint("Changeover2"), new LiteralConstraint("Rocker1_1")),
+                new ImplicationConstraint(new LiteralConstraint("Changeover2"), new LiteralConstraint("Rocker1_2")));
+        Assertions.assertEquals("((!(Changeover2) | Rocker1_1) & (!(Changeover2) | Rocker1_2))",
+                constraintToString(replacer.replaceUnwantedConstraints(given)));
+    }
+
     private void assertDnfs(String expected, Constraint given) {
 
-        Constraint dnf = toDnfConverter.convertToDnf(given);
+        Constraint dnf = dnfConverter.convertToDnf(given);
         String realString = constraintToString(dnf);
 
         Function<String, String> sanitise =

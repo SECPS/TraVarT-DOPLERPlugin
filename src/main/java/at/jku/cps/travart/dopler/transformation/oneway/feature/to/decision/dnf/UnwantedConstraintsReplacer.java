@@ -86,7 +86,7 @@ public class UnwantedConstraintsReplacer {
                     new ImplicationConstraint(equivalenceConstraint.getRight(), equivalenceConstraint.getLeft()));
         } else if (constraint instanceof ParenthesisConstraint) {
             //(A) -> A
-            return ((ParenthesisConstraint) constraint).getContent();
+            return replaceChild(((ParenthesisConstraint) constraint).getContent());
         } else if (constraint instanceof AndConstraint) {
             //Do nothing
             return constraint;
@@ -106,5 +106,4 @@ public class UnwantedConstraintsReplacer {
             throw new RuntimeException("Unexpected constraint");
         }
     }
-
 }
