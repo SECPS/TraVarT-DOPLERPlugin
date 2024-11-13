@@ -21,4 +21,4 @@ constraints
     !Sort => Search
     Search => Security
     Security => !Payments
-    Payments => Security
+    Payments => !Security

@@ -51,7 +51,7 @@ class ActionCreator {
         } else if (decisionByIdRight.isPresent()) {
             //Boolean types get a true on the right side
             action = AbstractDecision.DecisionType.BOOLEAN == decisionByIdRight.get().getType() ?
-                    new DisAllowAction(decisionByIdRight.get(), BooleanValue.getTrue()) :
+                    new SetValueAction(decisionByIdRight.get(), BooleanValue.getFalse()) :
                     new DisAllowAction(decisionByIdRight.get(), new StringValue(literal));
         } else {
             throw new DecisionNotPresentException(literal);

@@ -22,7 +22,7 @@ public class Or extends ABinaryCondition {
 
     @Override
     public String toString() {
-        return String.format("%s " + SYMBOL + " %s", getLeft(), getRight());
+        return String.format("(%s " + SYMBOL + " %s)", getLeft(), getRight());
     }
 
     @Override

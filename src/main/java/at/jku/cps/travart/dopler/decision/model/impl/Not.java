@@ -9,6 +9,7 @@
  *******************************************************************************/
 package at.jku.cps.travart.dopler.decision.model.impl;
 
+import at.jku.cps.travart.dopler.decision.model.ABinaryCondition;
 import at.jku.cps.travart.dopler.decision.model.AUnaryCondition;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 

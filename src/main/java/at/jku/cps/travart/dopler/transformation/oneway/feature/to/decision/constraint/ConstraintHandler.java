@@ -8,13 +8,16 @@ import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.const
 import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.DnfConverterImpl;
 import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.DnfSimplifier;
 import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.DnfSimplifierImpl;
+import com.google.common.collect.Lists;
 import de.vill.model.FeatureModel;
+import de.vill.model.constraint.AndConstraint;
 import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.ImplicationConstraint;
 import de.vill.model.constraint.NotConstraint;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Adds the constraints from the feature model to the decision model.
@@ -48,7 +51,9 @@ public class ConstraintHandler {
     private List<ImplicationConstraint> normaliseConstraints(FeatureModel featureModel) {
         List<ImplicationConstraint> implicationConstraints = new ArrayList<>();
 
-        for (Constraint constraint : featureModel.getConstraints()) {
+        //Remove root ands from the constraints
+        List<Constraint> sanitisedConstrains = removeAnds(featureModel);
+        for (Constraint constraint : sanitisedConstrains) {
             List<List<Constraint>> dnf = dnfConverter.convertToDnf(constraint);
 
             if (1 == dnf.size()) { // Contains no OR
@@ -72,6 +77,24 @@ public class ConstraintHandler {
             }
         }
         return implicationConstraints;
+    }
+
+    private static List<Constraint> removeAnds(FeatureModel featureModel) {
+        Stack<Constraint> stack = new Stack<>();
+        featureModel.getConstraints().forEach(stack::push);
+        List<Constraint> sanitisedConstrains = new ArrayList<>();
+        while (!stack.empty()) {
+            Constraint current = stack.pop();
+            if (current instanceof AndConstraint) {
+                AndConstraint andConstraint = (AndConstraint) current;
+                stack.push(andConstraint.getLeft());
+                stack.push(andConstraint.getRight());
+            } else {
+                sanitisedConstrains.add(current);
+            }
+        }
+        sanitisedConstrains = Lists.reverse(sanitisedConstrains);
+        return sanitisedConstrains;
     }
 
     private List<Rule> createRules(IDecisionModel decisionModel, List<ImplicationConstraint> implicationConstraints) {
