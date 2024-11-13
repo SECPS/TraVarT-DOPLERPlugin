@@ -4,7 +4,7 @@ import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.transformation.util.DMUtil;
 import de.vill.model.Feature;
 
-public class IdHandler {
+class IdHandler {
 
     /**
      * Resolves the id of the given decision. The id changes, if a decision with this name already exists.

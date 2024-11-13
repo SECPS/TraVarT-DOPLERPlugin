@@ -15,10 +15,11 @@ public class DistributiveRightRule implements Rule {
             AndConstraint andConstraint = (AndConstraint) constraint;
             if (andConstraint.getRight() instanceof OrConstraint) {
                 OrConstraint orConstraint = (OrConstraint) andConstraint.getRight();
-                Constraint a = andConstraint.getLeft();
-                Constraint b = orConstraint.getLeft();
-                Constraint c = orConstraint.getRight();
-                return Optional.of(new OrConstraint(new AndConstraint(a, b), new AndConstraint(a, c)));
+                Constraint aConstraint = andConstraint.getLeft();
+                Constraint bConstraint = orConstraint.getLeft();
+                Constraint cConstraint = orConstraint.getRight();
+                return Optional.of(new OrConstraint(new AndConstraint(aConstraint, bConstraint),
+                        new AndConstraint(aConstraint, cConstraint)));
             }
         }
         return Optional.empty();

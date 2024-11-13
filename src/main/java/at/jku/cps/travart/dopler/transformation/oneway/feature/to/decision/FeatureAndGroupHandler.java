@@ -31,7 +31,7 @@ class FeatureAndGroupHandler {
         featureModel = null;
     }
 
-    final void handleFeature(Feature feature, IDecisionModel decisionModel, FeatureModel featureModel) {
+    void handleFeature(Feature feature, IDecisionModel decisionModel, FeatureModel featureModel) {
         this.decisionModel = decisionModel;
         this.featureModel = featureModel;
 

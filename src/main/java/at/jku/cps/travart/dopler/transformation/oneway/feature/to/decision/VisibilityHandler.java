@@ -17,7 +17,7 @@ class VisibilityHandler {
      * Resolves the visibility of the given decision. The visibility depends on the parents of the group from which the
      * decision originates.
      */
-    final ICondition resolveVisibility(FeatureModel featureModel, Feature feature, IDecisionModel decisionModel) {
+    ICondition resolveVisibility(FeatureModel featureModel, Feature feature, IDecisionModel decisionModel) {
 
         //Search for non-mandatory parent
         Feature parent = feature;

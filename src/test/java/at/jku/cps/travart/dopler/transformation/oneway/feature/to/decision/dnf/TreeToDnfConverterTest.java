@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.function.Function;
 
-class DnfConverterTest {
+class TreeToDnfConverterTest {
 
     private static final LiteralConstraint A = new LiteralConstraint("A");
     private static final LiteralConstraint B = new LiteralConstraint("B");
@@ -17,20 +17,22 @@ class DnfConverterTest {
     private static final LiteralConstraint G = new LiteralConstraint("G");
     private static final LiteralConstraint O = new LiteralConstraint("O");
 
-    private final DnfConverter dnfConverter;
+    private final TreeToDnfConverter treeToDnfConverter;
     private final UnwantedConstraintsReplacer replacer;
     private final DnfSimplifier dnfSimplifier;
+    private final DnfToTreeConverter dnfToTreeConverter;
 
-    DnfConverterTest() {
-        dnfConverter = new DnfConverterImpl();
+    TreeToDnfConverterTest() {
+        treeToDnfConverter = new TreeToDnfConverterImpl();
         replacer = new UnwantedConstraintsReplacerImpl();
         dnfSimplifier = new DnfSimplifierImpl();
+        dnfToTreeConverter = new DnfToTreeConverterImpl();
     }
 
     @Test
     void toDnf1() {
         Constraint given = new NotConstraint(new NotConstraint(A));
-        Constraint real = dnfSimplifier.createDnfFromList(dnfConverter.convertToDnf(given));
+        Constraint real = dnfToTreeConverter.createDnfFromList(treeToDnfConverter.convertToDnf(given));
         Constraint expected = A;
         Assertions.assertEquals(expected, real);
     }
@@ -38,7 +40,7 @@ class DnfConverterTest {
     @Test
     void toDnf2() {
         Constraint given = new NotConstraint(new OrConstraint(A, B));
-        Constraint real = dnfSimplifier.createDnfFromList(dnfConverter.convertToDnf(given));
+        Constraint real = dnfToTreeConverter.createDnfFromList(treeToDnfConverter.convertToDnf(given));
         Constraint expected = new AndConstraint(new NotConstraint(A), new NotConstraint(B));
         Assertions.assertEquals(expected, real);
     }
@@ -46,7 +48,7 @@ class DnfConverterTest {
     @Test
     void toDnf3() {
         Constraint given = new NotConstraint(new AndConstraint(A, B));
-        Constraint real = dnfSimplifier.createDnfFromList(dnfConverter.convertToDnf(given));
+        Constraint real = dnfToTreeConverter.createDnfFromList(treeToDnfConverter.convertToDnf(given));
         Constraint expected = new OrConstraint(new NotConstraint(A), new NotConstraint(B));
         Assertions.assertEquals(expected, real);
     }
@@ -161,9 +163,8 @@ class DnfConverterTest {
     }
 
     private void assertDnfs(String expected, Constraint given) {
+        Constraint dnf = dnfToTreeConverter.createDnfFromList(treeToDnfConverter.convertToDnf(given));
 
-        Constraint dnf = dnfSimplifier.createDnfFromList(dnfConverter.convertToDnf(given));
-        ;
         String realString = constraintToString(dnf);
 
         Function<String, String> sanitise =
