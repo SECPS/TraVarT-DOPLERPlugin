@@ -11,6 +11,7 @@ class IdHandler {
      */
     String resolveId(IDecisionModel decisionModel, Feature feature) {
         String id;
+        //If decision already exist then append Type to the id.
         if (DMUtil.findDecisionById(decisionModel, feature.getFeatureName()).isPresent()) {
             id = feature.getFeatureName() + "Type";
         } else {

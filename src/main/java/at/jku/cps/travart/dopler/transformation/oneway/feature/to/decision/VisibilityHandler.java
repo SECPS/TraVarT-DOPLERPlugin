@@ -5,6 +5,7 @@ import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.*;
 import at.jku.cps.travart.dopler.transformation.util.DMUtil;
+import at.jku.cps.travart.dopler.transformation.util.DecisionNotPresentException;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import de.vill.model.Group;
@@ -57,7 +58,7 @@ class VisibilityHandler {
                 DMUtil.findDecisionById(decisionModel, parentOfParent.getFeatureName());
 
         if (parentOfParentDecision.isEmpty()) {
-            throw new RuntimeException("Decision should exist");
+            throw new DecisionNotPresentException(parentOfParent.getFeatureName());
         }
 
         ICondition left = new GetValueFunction(new StringDecision(parentOfParent.getFeatureName()));

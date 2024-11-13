@@ -11,6 +11,9 @@ import java.util.List;
 
 class FeatureAndGroupHandler {
 
+    private static final String ENUM_QUESTION = "Which %s?";
+    private static final String BOOLEAN_QUESTION = "%s?";
+
     private final VisibilityHandler visibilityHandler;
     private final IdHandler idHandler;
 
@@ -43,7 +46,6 @@ class FeatureAndGroupHandler {
     }
 
     private void handleGroup(Group group) {
-
         switch (group.GROUPTYPE) {
             case OR:
                 handleOrGroup(group);
@@ -70,6 +72,7 @@ class FeatureAndGroupHandler {
         }
     }
 
+    /** Create a single decision for the or-group */
     private void handleOrGroup(Group group) {
         Feature parentFeature = group.getParentFeature();
         Range<String> range = new Range<>();
@@ -79,13 +82,14 @@ class FeatureAndGroupHandler {
         EnumerationDecision decision = new EnumerationDecision("");
         decision.setVisibility(visibilityHandler.resolveVisibility(featureModel, parentFeature, decisionModel));
         decision.setId(idHandler.resolveId(decisionModel, parentFeature));
-        decision.setQuestion(String.format("Which %s?", decision.getId()));
+        decision.setQuestion(String.format(ENUM_QUESTION, decision.getId()));
         decision.setRange(range);
         decision.setCardinality(cardinality);
 
         decisionModel.add(decision);
     }
 
+    /** Create a single decision for the alternative-group */
     private void handleAlternativeGroup(Group group) {
         Feature parentFeature = group.getParentFeature();
         Range<String> range = new Range<>();
@@ -95,28 +99,27 @@ class FeatureAndGroupHandler {
         IEnumerationDecision<String> decision = new EnumerationDecision("");
         decision.setVisibility(visibilityHandler.resolveVisibility(featureModel, parentFeature, decisionModel));
         decision.setId(idHandler.resolveId(decisionModel, parentFeature));
-        decision.setQuestion(String.format("Which %s?", decision.getId()));
+        decision.setQuestion(String.format(ENUM_QUESTION, decision.getId()));
         decision.setRange(range);
         decision.setCardinality(cardinality);
 
         decisionModel.add(decision);
     }
 
+    /** Create a decision for each child in the optional-group */
     private void handleOptionalGroup(Group group) {
         Feature parentFeature = group.getParentFeature();
         for (Feature feature : group.getFeatures()) {
-            String id = feature.getFeatureName();
             BooleanDecision decision = new BooleanDecision("");
             decision.setVisibility(visibilityHandler.resolveVisibility(featureModel, parentFeature, decisionModel));
             decision.setId(idHandler.resolveId(decisionModel, feature));
-            decision.setQuestion(String.format("%s?", decision.getId()));
-
+            decision.setQuestion(String.format(BOOLEAN_QUESTION, decision.getId()));
             decisionModel.add(decision);
         }
     }
 
+    /** Create a decision for each child in the mandatory-group */
     private void handleMandatoryGroup(Group group) {
-        /** Only important for round trip */
-        return;
+        //Only important for round trip
     }
 }

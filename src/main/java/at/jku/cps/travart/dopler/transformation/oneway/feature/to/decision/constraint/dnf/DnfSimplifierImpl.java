@@ -119,7 +119,7 @@ public class DnfSimplifierImpl implements DnfSimplifier {
         }
     }
 
-    /** Simplifies the given dnf with three rules */
+    /** Simplifies the given dnf with three rules. */
     private List<List<Constraint>> simplify(List<List<Constraint>> dnf) {
         return removeAlreadyCoveredConjunctions(removeRepeatingLiterals(removeAlwaysFalseConjunctions(dnf)));
     }
@@ -155,7 +155,7 @@ public class DnfSimplifierImpl implements DnfSimplifier {
         return simplifiedDnf;
     }
 
-    /** Remove conjunctions that are always false */
+    /** Remove conjunctions that are always false. */
     private static List<List<Constraint>> removeAlwaysFalseConjunctions(List<List<Constraint>> dnf) {
         List<List<Constraint>> simplifiedDnf = new ArrayList<>();
 

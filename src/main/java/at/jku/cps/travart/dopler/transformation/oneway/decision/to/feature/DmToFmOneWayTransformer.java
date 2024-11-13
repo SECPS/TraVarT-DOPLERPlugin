@@ -7,8 +7,7 @@ import de.vill.model.FeatureModel;
 
 public class DmToFmOneWayTransformer {
 
-    public FeatureModel transform(IDecisionModel model, String modelName, IModelTransformer.STRATEGY level)
-            throws NotSupportedVariabilityTypeException {
+    public FeatureModel transform(IDecisionModel model, String modelName, IModelTransformer.STRATEGY level) {
         throw new RuntimeException("Not implemented");
     }
 }
