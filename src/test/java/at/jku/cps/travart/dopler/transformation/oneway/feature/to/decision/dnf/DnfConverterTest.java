@@ -14,8 +14,8 @@ class DnfConverterTest {
     private static final LiteralConstraint C = new LiteralConstraint("C");
     private static final LiteralConstraint D = new LiteralConstraint("D");
     private static final LiteralConstraint E = new LiteralConstraint("E");
-    private static final LiteralConstraint F = new LiteralConstraint("F");
     private static final LiteralConstraint G = new LiteralConstraint("G");
+    private static final LiteralConstraint O = new LiteralConstraint("O");
 
     private final DnfConverter dnfConverter;
     private final UnwantedConstraintsReplacer replacer;
@@ -94,8 +94,10 @@ class DnfConverterTest {
         Constraint given = new AndConstraint(new OrConstraint(
                 new ImplicationConstraint(new NotConstraint(A), new AndConstraint(new NotConstraint(B), C)),
                 new NotConstraint(G)),
-                new NotConstraint(new EquivalenceConstraint(new ImplicationConstraint(D, E), new OrConstraint(F, G))));
-        assertDnfs("(!D & !G) | (!G & E) | (!E & A & D & G) | (!B & !E & C & D & G)", given);
+                new NotConstraint(new EquivalenceConstraint(new ImplicationConstraint(D, E), new OrConstraint(O, G))));
+        String expected = "(!D & !G & !O) | (!G & !O & E) | (!E & !G & D & O) | (!E & A & D & O) | (!E & A & D & G) " +
+                "| (!B & !E & C & D & O) | (!B & !E & C & D & G)";
+        assertDnfs(expected, given);
     }
 
     @Test
