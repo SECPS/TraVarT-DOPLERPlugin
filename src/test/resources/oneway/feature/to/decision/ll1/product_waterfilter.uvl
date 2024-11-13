@@ -4,8 +4,8 @@ features
                         WastewaterTankXLModule 
                         Valve {abstract true}
                                 optional
-                                        Valve2 
-                                        Valve1 
+                                        Valve1
+                                        Valve2
                         Nanofilter 
                                 mandatory
                                         NanofilterMaterial 
@@ -23,8 +23,8 @@ features
                         Mount {abstract true}
                                 alternative
                                         IronFrame 
-                                        Rack2 
-                                        Rack1 
+                                        Rack1
+                                        Rack2
                         FreshwaterTankModule {abstract true}
                                 alternative
                                         FreshwaterTankSModule 
