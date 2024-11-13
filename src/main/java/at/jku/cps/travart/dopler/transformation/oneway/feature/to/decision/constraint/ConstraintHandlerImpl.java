@@ -61,7 +61,7 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
                 //TODO
                 throw new RuntimeException("DNF to short");
             } else { //Contains at least one OR
-                List<Constraint> rightSide = dnf.get(dnf.size() - 1);
+                List<Constraint> rightSide = dnf.getLast();
                 List<List<Constraint>> leftSide = new ArrayList<>(dnf);
                 leftSide.remove(rightSide);
 
@@ -86,8 +86,7 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
         List<Constraint> sanitisedConstrains = new ArrayList<>();
         while (!stack.empty()) {
             Constraint current = stack.pop();
-            if (current instanceof AndConstraint) {
-                AndConstraint andConstraint = (AndConstraint) current;
+            if (current instanceof AndConstraint andConstraint) {
                 stack.push(andConstraint.getLeft());
                 stack.push(andConstraint.getRight());
             } else {

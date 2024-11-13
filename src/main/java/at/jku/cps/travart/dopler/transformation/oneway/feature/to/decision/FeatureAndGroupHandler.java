@@ -47,22 +47,12 @@ class FeatureAndGroupHandler {
 
     private void handleGroup(Group group) {
         switch (group.GROUPTYPE) {
-            case OR:
-                handleOrGroup(group);
-                break;
-            case ALTERNATIVE:
-                handleAlternativeGroup(group);
-                break;
-            case MANDATORY:
-                handleMandatoryGroup(group);
-                break;
-            case OPTIONAL:
-                handleOptionalGroup(group);
-                break;
-            case GROUP_CARDINALITY:
-                throw new IllegalStateException("Unexpected value: " + group.GROUPTYPE);
-            default:
-                throw new IllegalStateException("Unexpected value: " + group.GROUPTYPE);
+            case OR -> handleOrGroup(group);
+            case ALTERNATIVE -> handleAlternativeGroup(group);
+            case MANDATORY -> handleMandatoryGroup(group);
+            case OPTIONAL -> handleOptionalGroup(group);
+            case GROUP_CARDINALITY -> throw new IllegalStateException("Unexpected value: " + group.GROUPTYPE);
+            default -> throw new IllegalStateException("Unexpected value: " + group.GROUPTYPE);
         }
 
         //Handle features of group

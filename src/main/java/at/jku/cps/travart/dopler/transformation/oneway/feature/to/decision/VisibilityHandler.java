@@ -34,20 +34,14 @@ class VisibilityHandler {
         }
 
         //Parent is not root. Look at parent group of parent
-        switch (parent.getParentGroup().GROUPTYPE) {
-            case OR:
-                throw new RuntimeException(
-                        "Komplizierter als 'alternative', da mehrere möglichkeiten gewählt werden dürfen");
-            case OPTIONAL:
-                return handleBooleanDecision(parent);
-            case ALTERNATIVE:
-            case MANDATORY:
-                return handleEnumDecision(parent, decisionModel);
-            case GROUP_CARDINALITY:
-                throw new IllegalStateException("Unexpected value: " + parent.getParentGroup().GROUPTYPE);
-            default:
-                throw new IllegalStateException("Unexpected value: " + parent.getParentGroup().GROUPTYPE);
-        }
+        return switch (parent.getParentGroup().GROUPTYPE) {
+            case OR -> throw new RuntimeException(
+                    "Komplizierter als 'alternative', da mehrere möglichkeiten gewählt werden dürfen");
+            case OPTIONAL -> handleBooleanDecision(parent);
+            case ALTERNATIVE, MANDATORY -> handleEnumDecision(parent, decisionModel);
+            case GROUP_CARDINALITY ->
+                    throw new IllegalStateException("Unexpected value: " + parent.getParentGroup().GROUPTYPE);
+        };
     }
 
     private ICondition handleEnumDecision(Feature parent, IDecisionModel decisionModel) {

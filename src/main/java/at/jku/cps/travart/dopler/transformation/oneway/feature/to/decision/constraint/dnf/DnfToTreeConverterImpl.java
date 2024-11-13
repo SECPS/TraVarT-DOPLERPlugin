@@ -22,7 +22,7 @@ public class DnfToTreeConverterImpl implements DnfToTreeConverter {
 
         //If the dnf only contains one conjunction
         if (1 == dnf.size()) {
-            List<Constraint> constraints = dnf.get(0);
+            List<Constraint> constraints = dnf.getFirst();
             return createConjunction(constraints);
         }
 
@@ -38,7 +38,7 @@ public class DnfToTreeConverterImpl implements DnfToTreeConverter {
 
         //If the conjunction only contains one literal
         if (1 == constraints.size()) {
-            return constraints.get(0);
+            return constraints.getFirst();
         }
 
         //If the conjunction only contains several literal

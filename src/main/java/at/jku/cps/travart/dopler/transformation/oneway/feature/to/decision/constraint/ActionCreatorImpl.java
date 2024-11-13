@@ -22,26 +22,22 @@ class ActionCreatorImpl implements ActionCreator {
 
     @Override
     public IAction createAction(IDecisionModel decisionModel, Constraint right) {
-        IAction action;
-        if (right instanceof LiteralConstraint) {
-            action = handleLiteral(decisionModel, (LiteralConstraint) right);
-        } else if (right instanceof NotConstraint) {
-            action = handleNot(decisionModel, (NotConstraint) right);
-        } else if (right instanceof ExpressionConstraint) {
-            //TODO
-            throw new UnexpectedTypeException(right);
-        } else {
-            throw new UnexpectedTypeException(right);
-        }
-        return action;
+        return switch (right) {
+            case LiteralConstraint literalConstraint -> handleLiteral(decisionModel, literalConstraint);
+            case NotConstraint notConstraint -> handleNot(decisionModel, notConstraint);
+            case ExpressionConstraint expressionConstraint -> {
+                //TODO
+                throw new UnexpectedTypeException(right);
+            }
+            case null, default -> throw new UnexpectedTypeException(right);
+        };
     }
 
     private static IAction handleNot(IDecisionModel decisionModel, NotConstraint right) {
         IAction action;
-        if (!(right.getContent() instanceof LiteralConstraint)) {
+        if (!(right.getContent() instanceof LiteralConstraint literalConstraint)) {
             throw new UnexpectedTypeException(right.getContent());
         }
-        LiteralConstraint literalConstraint = (LiteralConstraint) right.getContent();
 
         String literal = literalConstraint.getLiteral();
         Optional<IDecision<?>> decisionByIdRight = DMUtil.findDecisionById(decisionModel, literal);

@@ -15,19 +15,13 @@ class ConditionCreatorImpl implements ConditionCreator {
 
     @Override
     public ICondition createCondition(IDecisionModel decisionModel, Constraint left) {
-        ICondition condition;
-        if (left instanceof NotConstraint) {
-            condition = handleNot(decisionModel, (NotConstraint) left);
-        } else if (left instanceof LiteralConstraint) {
-            condition = handleLiteral(decisionModel, (LiteralConstraint) left);
-        } else if (left instanceof OrConstraint) {
-            condition = handleOr(decisionModel, (OrConstraint) left);
-        } else if (left instanceof AndConstraint) {
-            condition = handleAnd(decisionModel, (AndConstraint) left);
-        } else {
-            throw new UnexpectedTypeException(left);
-        }
-        return condition;
+        return switch (left) {
+            case NotConstraint notConstraint -> handleNot(decisionModel, notConstraint);
+            case LiteralConstraint literalConstraint -> handleLiteral(decisionModel, literalConstraint);
+            case OrConstraint orConstraint -> handleOr(decisionModel, orConstraint);
+            case AndConstraint andConstraint -> handleAnd(decisionModel, andConstraint);
+            case null, default -> throw new UnexpectedTypeException(left);
+        };
     }
 
     private ICondition handleNot(IDecisionModel decisionModel, NotConstraint left) {

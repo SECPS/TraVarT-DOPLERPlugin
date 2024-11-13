@@ -24,27 +24,23 @@ public class UnwantedConstraintsReplacerImpl implements UnwantedConstraintsRepla
     }
 
     private Constraint convertIfNeeded(Constraint constraint) {
-        if (constraint instanceof ImplicationConstraint) {
-            //A => B -> !A | B
-            ImplicationConstraint implicationConstraint = (ImplicationConstraint) constraint;
-            return new OrConstraint(new NotConstraint(implicationConstraint.getLeft()),
-                    implicationConstraint.getRight());
-        } else if (constraint instanceof EquivalenceConstraint) {
-            //A <=> B -> A => B & B => A
-            EquivalenceConstraint equivalenceConstraint = (EquivalenceConstraint) constraint;
-            return new AndConstraint(
+        //A => B -> !A | B
+        //A <=> B -> A => B & B => A
+        //(A) -> A
+        return switch (constraint) {
+            case ImplicationConstraint implicationConstraint ->
+                    new OrConstraint(new NotConstraint(implicationConstraint.getLeft()),
+                            implicationConstraint.getRight());
+            case EquivalenceConstraint equivalenceConstraint -> new AndConstraint(
                     new ImplicationConstraint(equivalenceConstraint.getLeft(), equivalenceConstraint.getRight()),
                     new ImplicationConstraint(equivalenceConstraint.getRight(), equivalenceConstraint.getLeft()));
-        } else if (constraint instanceof ParenthesisConstraint) {
-            //(A) -> A
-            return convertIfNeeded(((ParenthesisConstraint) constraint).getContent());
-        } else if ((((constraint instanceof AndConstraint || constraint instanceof OrConstraint) ||
-                constraint instanceof NotConstraint) || constraint instanceof LiteralConstraint) ||
-                constraint instanceof ExpressionConstraint) {
-            //Do nothing
-            return constraint;
-        } else {
-            throw new UnexpectedTypeException(constraint);
-        }
+            case ParenthesisConstraint parenthesisConstraint -> convertIfNeeded(parenthesisConstraint.getContent());
+            case AndConstraint andConstraint -> constraint;
+            case OrConstraint orConstraint -> constraint;
+            case NotConstraint notConstraint -> constraint;
+            case LiteralConstraint literalConstraint -> constraint;
+            case ExpressionConstraint expressionConstraint -> constraint;
+            case null, default -> throw new UnexpectedTypeException(constraint);
+        };
     }
 }

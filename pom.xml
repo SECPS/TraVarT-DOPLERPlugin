@@ -1,15 +1,16 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>at.jku.cps</groupId>
-	<version>1.0-SNAPSHOT</version>
-	<artifactId>dopler-decision</artifactId>
-	<name>TraVarT - DOPLER - decision</name>
-	<description>TraVarT - Transforming Variability Artifacts - DOPLER - decision</description>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>at.jku.cps</groupId>
+    <version>1.0-SNAPSHOT</version>
+    <artifactId>dopler-decision</artifactId>
+    <name>TraVarT - DOPLER - decision</name>
+    <description>TraVarT - Transforming Variability Artifacts - DOPLER - decision</description>
 
-	<properties>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
-		<plugin.id>dopler-decision-plugin</plugin.id>
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <plugin.id>dopler-decision-plugin</plugin.id>
         <plugin.class>at.jku.cps.travart.dopler.plugin.DoplerPlugin</plugin.class>
         <plugin.version>0.0.1</plugin.version>
         <plugin.provider>CPS</plugin.provider>
@@ -18,22 +19,22 @@
         <deploy.disabled>true</deploy.disabled>
         <source.disabled>true</source.disabled>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-	</properties>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
 
-	<dependencies>
-		 <!-- https://mvnrepository.com/artifact/org.pf4j/pf4j -->
-	     <dependency>
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.pf4j/pf4j -->
+        <dependency>
             <groupId>org.pf4j</groupId>
             <artifactId>pf4j</artifactId>
             <version>3.7.0</version>
             <scope>provided</scope>
         </dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-csv</artifactId>
-			<version>1.9.0</version>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.9.0</version>
+        </dependency>
         <dependency>
             <groupId>io.github.universal-variability-language</groupId>
             <artifactId>uvl-metamodel</artifactId>
@@ -46,20 +47,20 @@
             <version>2.4.3</version>
             <scope>provided</scope>
         </dependency>
-		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter</artifactId>
-			<version>5.9.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-params</artifactId>
-			<version>5.9.1</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
-	<build>
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.9.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>5.9.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -112,6 +113,8 @@
                     <annotationProcessors>
                         <annotationProcessor>org.pf4j.processor.ExtensionAnnotationProcessor</annotationProcessor>
                     </annotationProcessors>
+                    <source>21</source>
+                    <target>21</target>
                 </configuration>
             </plugin>
         </plugins>
