@@ -1,6 +1,7 @@
 package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision;
 
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
+import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.*;
@@ -35,16 +36,31 @@ class VisibilityHandler {
 
         //Parent is not root. Look at parent group of parent
         return switch (parent.getParentGroup().GROUPTYPE) {
-            case OR -> throw new RuntimeException(
-                    "Komplizierter als 'alternative', da mehrere möglichkeiten gewählt werden dürfen");
             case OPTIONAL -> handleBooleanDecision(parent);
-            case ALTERNATIVE, MANDATORY -> handleEnumDecision(parent, decisionModel);
-            case GROUP_CARDINALITY ->
+            case ALTERNATIVE -> handleAlternative(parent, decisionModel);
+            case OR -> handleOr(parent, decisionModel);
+            case GROUP_CARDINALITY, MANDATORY ->
                     throw new IllegalStateException("Unexpected value: " + parent.getParentGroup().GROUPTYPE);
         };
     }
 
-    private ICondition handleEnumDecision(Feature parent, IDecisionModel decisionModel) {
+    //Always returns decision.value
+    private ICondition handleOr(Feature parent, IDecisionModel decisionModel) {
+        Feature parentOfParent = parent.getParentFeature();
+        Optional<IDecision<?>> parentOfParentDecision =
+                DMUtil.findDecisionById(decisionModel, parentOfParent.getFeatureName());
+
+        if (parentOfParentDecision.isEmpty()) {
+            throw new DecisionNotPresentException(parentOfParent.getFeatureName());
+        }
+
+        IDecision<?> decision = parentOfParentDecision.get();
+        AbstractRangeValue<String> value = new StringValue(parent.getFeatureName());
+        return new DecisionValueCondition(decision, value);
+    }
+
+    //Always getValue(decision) = value
+    private ICondition handleAlternative(Feature parent, IDecisionModel decisionModel) {
         Feature parentOfParent = parent.getParentFeature();
 
         //getValue(parentOfParent) == parentOfParent.parent

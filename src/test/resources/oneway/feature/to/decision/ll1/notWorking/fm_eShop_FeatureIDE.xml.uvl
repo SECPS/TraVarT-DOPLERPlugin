@@ -1,0 +1,530 @@
+namespace eShop
+
+features
+	eShop {abstract}	
+		mandatory
+			Store_front {abstract}	
+				mandatory
+					Catalog {abstract}	
+						mandatory
+							Product_Information {abstract}	
+								mandatory
+									Product_type {abstract}	
+										mandatory
+											sg_Product_type53 {abstract}	
+												or
+													Eletronic_goods
+													Physical_goods
+													Services
+									Basic_information
+
+								optional
+									Detailed_information
+									Warranty_information
+									Customer_reviews
+									Associated_assets {abstract}	
+										mandatory
+											sg_Associated_assets62 {abstract}	
+												or
+													Documents63
+													Media_files64 {abstract}	
+														mandatory
+															sg_Media_files6465 {abstract}	
+																or
+																	Image66 {abstract}	
+																		mandatory
+																			sg_Image6667 {abstract}	
+																				or
+																					Thumbnail68
+																					a2D_image69
+																					a3D_image70
+																					a360_degrees_image71
+																					Different_perspectives72
+																					Gallery73
+																	Video74
+																	Sound75
+									Product_variants {abstract}	
+										optional
+											Complex_product_configuration77
+									Size
+									Weight
+									Availability
+									Custom_fields
+
+						optional
+							Categories {abstract}	
+								mandatory
+									categories_catalog {abstract}	
+										optional
+											Categories84 {abstract}	
+												optional
+													Multi_level85
+													Multiple_classification86
+							Multiple_catalogs87
+							Searching88 {abstract}	
+								mandatory
+									sg_Searching8889 {abstract}	
+										or
+											Basic_search90
+											Advanced_search91
+							Browsing92 {abstract}	
+								mandatory
+									Product_page93
+
+								optional
+									Category_page
+									Index_page95 {abstract}	
+										optional
+											Sorting_filters96 {abstract}	
+												mandatory
+													sg_Sorting_filters9697 {abstract}	
+														or
+															Price98
+															Quality99
+															Price_Quality_ratio_100
+															Manufacturer_name101
+															Custom_filter102
+							Custom_views103 {abstract}	
+								optional
+									Seasonal_product_views104
+									Personalized_views105
+					Buy_paths {abstract}	
+						mandatory
+							Shopping_cart116 {abstract}	
+								mandatory
+									Inventory_management_policy117
+									Cart_content_page118
+
+								optional
+									Cart_summary_page119
+									Cart_save_after_session120
+							Checkout121 {abstract}	
+								mandatory
+									Checkout_type122 {abstract}	
+										mandatory
+											sg_Checkout_type122123 {abstract}	
+												or
+													Registered_checkout {abstract}	
+														optional
+															Quick_checkout {abstract}	
+																optional
+																	Enable_profile_update_on_checkout_126
+													Guest_checkout127
+									Taxation_options134 {abstract}	
+										mandatory
+											sg_Taxation_options134135 {abstract}	
+												or
+													Custom_taxation136 {abstract}	
+														mandatory
+															Type137 {abstract}	
+																mandatory
+																	sg_Type137138 {abstract}	
+																		or
+																			Fixed_rate_taxation139
+																			Rule_based_taxation140 {abstract}	
+																				mandatory
+																					Tax_codes141
+																					Address142 {abstract}	
+																						mandatory
+																							Shipping
+
+																						optional
+																							Billing144
+
+																				optional
+																					Resolution145 {abstract}	
+																						mandatory
+																							sg_Resolution145146 {abstract}	
+																								or
+																									Country147
+																									Region148
+																									City149
+															Ammount_specification150 {abstract}	
+																mandatory
+																	sg_Ammount_specification150151 {abstract}	
+																		or
+																			Surcharge152
+																			Percentage153
+													Tax_gateways154 {abstract}	
+														mandatory
+															sg_Tax_gateways154155 {abstract}	
+																or
+																	CertiTAX156
+																	CyberSource157
+																	Custom_tax_gateway158
+									Payment_options159 {abstract}	
+										mandatory
+											Payment_types160 {abstract}	
+												mandatory
+													sg_Payment_types160161 {abstract}	
+														or
+															COD162
+															Credit_card163
+															Debit_card164
+															Eletronic_cheque165
+															Fax_mail_order166
+															Purchase_order167
+															Gift_certificate168
+															Phone_order169
+															Custom_payment_type170
+
+										optional
+											Fraud_detection171
+											Payment_gateways172 {abstract}	
+												mandatory
+													sg_Payment_gateways172173 {abstract}	
+														or
+															Authorize_Net174
+															CyberSource175
+															LinkPoint176
+															Paradata177
+															SkipJack178
+															Verisign_Payflow_Pro179
+															Custom_payment_gateway180
+
+								optional
+									Shipping_options {abstract}	
+										mandatory
+											Shipping_cost_calculation133
+
+										optional
+											Quality_of_service_selection129
+											Carrier_selection130
+											Gift_options131
+											Multiple_shipments132
+							Order_confirmation181 {abstract}	
+								mandatory
+									sg_Order_confirmation181182 {abstract}	
+										or
+											Eletronic_page183
+											E_mail184
+											Phone185
+											Mail186
+
+				optional
+					Home_page {abstract}	
+						mandatory
+							sg_Home_page6 {abstract}	
+								or
+									Static_content_7
+									Dynamic_content8 {abstract}	
+										mandatory
+											Content_type9 {abstract}	
+												mandatory
+													sg_Content_type910 {abstract}	
+														or
+															Welcome_message11
+															Special_offers
+											Variation_source13 {abstract}	
+												mandatory
+													sg_Variation_source1314 {abstract}	
+														or
+															Time_dependent15
+															Personalized16
+					Registration {abstract}	
+						mandatory
+							Registration_enforcement {abstract}	
+								mandatory
+									sg_Registration_enforcement19 {abstract}	
+										or
+											Register_to_browse20
+											Register_to_buy
+											None22
+							Registration_information23 {abstract}	
+								mandatory
+									Login_credentials24
+
+								optional
+									Shipping_address {abstract}	
+										optional
+											Multiple_shipping_addresses26
+									Billing_address27 {abstract}	
+										optional
+											Multiple_billing_addresses28
+									Credit_card_information29 {abstract}	
+										mandatory
+											Card_holder_name30
+											Card_number31
+											Expiry_date32
+
+										optional
+											Security_information33
+									Demographics34 {abstract}	
+										mandatory
+											sg_Demographics3435 {abstract}	
+												or
+													Age36
+													Income37
+													Education38
+													Custom_Demographic_field39
+									Personal_Information40
+									Preferences {abstract}	
+										mandatory
+											sg_Preferences42 {abstract}	
+												or
+													Site_layout43
+													List_size44
+													Language45
+									Reminders46
+									Quick_checkout_profile
+									Custom_fields48
+
+						optional
+							User_behaviour_tracking_information
+					Wish_list {abstract}	
+						optional
+							Wish_list_save_after_session
+							E_mail_wish_list
+							Multiple_wish_lists109
+							Permissions {abstract}	
+								mandatory
+									sg_Permissions111 {abstract}	
+										or
+											Public_access112
+											Restricted_access113
+											Private_access114
+					Customer_service {abstract}	
+						mandatory
+							sg_Customer_service188 {abstract}	
+								or
+									Question_and_feedback_forms189 {abstract}	
+										optional
+											Question_and_feedback_tracking190
+									Product_returns191
+									Order_status_review192 {abstract}	
+										mandatory
+											Filtering_criteria193 {abstract}	
+												mandatory
+													sg_Filtering_criteria193194 {abstract}	
+														or
+															Order_number195
+															Order_date196
+															Order_status197
+
+										optional
+											Request_order_hardcopy198
+									Shipment_status_tracking_199 {abstract}	
+										mandatory
+											sg_Shipment_status_tracking_199200 {abstract}	
+												or
+													Internal_tracking201
+													Partner_tracking202
+					User_behaviour_tracking {abstract}	
+						mandatory
+							Behaviour_tracked204 {abstract}	
+								mandatory
+									sg_Behaviour_tracked204205 {abstract}	
+										or
+											Locally_visited_pages
+											External_referring_pages
+											Previous_purchases
+			Business_management {abstract}	
+				mandatory
+					Order_management210 {abstract}	
+						mandatory
+							Fulfillment211 {abstract}	
+								mandatory
+									sg_Fulfillment211212 {abstract}	
+										or
+											Physical_goods_fulfillment {abstract}	
+												mandatory
+													Warehouse_management
+													shipping {abstract}	
+														mandatory
+															sg_shipping216 {abstract}	
+																or
+																	Custom_shipping_method217 {abstract}	
+																		mandatory
+																			Pricing218 {abstract}	
+																				mandatory
+																					Flat_rate219
+
+																				optional
+																					Rate_factors220 {abstract}	
+																						mandatory
+																							sg_Rate_factors220221 {abstract}	
+																								or
+																									Quantity_purchased222
+																									Order_total223
+																									Weight224
+																									Product_classification225
+																	Shipping_gateways226 {abstract}	
+																		mandatory
+																			sg_Shipping_gateways226227 {abstract}	
+																				or
+																					FedEX228
+																					UPS229
+																					USPS230
+																					Canada_Post231
+																					Custom_shipping_gateway232
+											Eletronic_goods_fulfillment {abstract}	
+												mandatory
+													File_repository234
+													License_management235
+											Services_fulfillment {abstract}	
+												optional
+													Appointment_scheduling237
+													Resource_planning238
+					Administration319 {abstract}	
+						mandatory
+							Content_management320 {abstract}	
+								mandatory
+									Product_database_management321
+									Presentation_options322
+									General_layout_management323
+
+								optional
+									Content_approval324
+							Store_administration325 {abstract}	
+								mandatory
+									Site_search326
+									Search_engine_registration327
+									Domain_name_setup328
+
+				optional
+					Targeting239 {abstract}	
+						mandatory
+							Targeting_criteria240 {abstract}	
+								mandatory
+									sg_Targeting_criteria240241 {abstract}	
+										or
+											Customer_preferences
+											Personal_information243
+											Demographics244
+											targeting_criteria_previous_purchases
+											Shopping_cart_content246
+											Wish_list_content
+											Previously_visited_pages
+											Date_and_time249
+											Custom_target_criteria250
+							Targeting_mechanisms251 {abstract}	
+								mandatory
+									sg_Targeting_mechanisms251252 {abstract}	
+										or
+											Advertisements253 {abstract}	
+												mandatory
+													Advertisement_types254 {abstract}	
+														mandatory
+															sg_Advertisement_types254255 {abstract}	
+																or
+																	Banner_ads256
+																	Pop_up_ads257
+													Advertisement_sources258 {abstract}	
+														mandatory
+															sg_Advertisement_sources258259 {abstract}	
+																or
+																	House_advertisements260
+																	Paid_advertisements261 {abstract}	
+																		mandatory
+																			Advertisement_management_interface262
+
+												optional
+													Advertisement_response_tracking263
+													Context_sensitive_ads264
+											Discounts {abstract}	
+												mandatory
+													Discount_conditions266 {abstract}	
+														mandatory
+															Product_and_quantity_scope267
+															Time_scope268
+
+														optional
+															Purchase_value_scope269
+													Award270 {abstract}	
+														mandatory
+															sg_Award270271 {abstract}	
+																or
+																	Percentage_discount272
+																	Fixed_discount273
+																	Free_item274
+													Eligibility_requirements275 {abstract}	
+														optional
+															Customer_segments276
+															Shipping_address277
+													Graduation_by278 {abstract}	
+														mandatory
+															sg_Graduation_by278279 {abstract}	
+																or
+																	Purchase_value280
+																	Quantity281
+													Handling_multiple_discounts283
+
+												optional
+													Coupons282
+											Sell_strategies284 {abstract}	
+												mandatory
+													sg_Sell_strategies284285 {abstract}	
+														or
+															Product_kitting286
+															Up_selling287 {abstract}	
+																mandatory
+																	Substitute_products288
+															Cross_selling289 {abstract}	
+																mandatory
+																	Past_customers_also_bought290
+							Display_and_notification291 {abstract}	
+								mandatory
+									sg_Display_and_notification291292 {abstract}	
+										or
+											Assignment_to_page_types_for_display293
+											Product_flagging294
+											E_mails295 {abstract}	
+												optional
+													Personalized
+													Response_tracking297
+
+						optional
+							Campaigns298
+					Affiliates299 {abstract}	
+						mandatory
+							Affiliate_registration300
+							Commission_tracking301
+					Inventory_tracking {abstract}	
+						optional
+							Allow_backorders303
+					Procurement {abstract}	
+						mandatory
+							Stock_replenishment305 {abstract}	
+								mandatory
+									Manual306
+
+								optional
+									Automatic {abstract}	
+										mandatory
+											Non_repudiation_service308
+					Reporting_and_analysis {abstract}	
+						mandatory
+							Report_types310
+							Report_formats_311
+							Level_of_detail312
+					External_systems_integration313 {abstract}	
+						mandatory
+							sg_External_systems_integration313314 {abstract}	
+								or
+									Fulfillment_system
+									Inventory_management_system316
+									Procurement_system
+									External_distributor_system318
+
+constraints
+	!Special_offers | Discounts
+	!Registered_checkout | Registration_enforcement
+	!Registered_checkout | Register_to_buy
+	!Customer_preferences | Preferences
+	!Quick_checkout | Quick_checkout_profile
+	!User_behaviour_tracking_information | User_behaviour_tracking
+	!Eletronic_goods | Eletronic_goods_fulfillment
+	!Physical_goods | Physical_goods_fulfillment
+	!Services | Services_fulfillment
+	!Physical_goods | Size
+	!Eletronic_goods | Size
+	!Physical_goods | Weight
+	!Availability | Inventory_tracking
+	!Category_page | Categories
+	!Wish_list | Wish_list_save_after_session
+	Registration | Wish_list_save_after_session
+	!E_mail_wish_list | Registration
+	!Permissions | Registration
+	!Shipping_options | shipping
+	!Wish_list_content | Wish_list
+	!Previously_visited_pages | Locally_visited_pages | External_referring_pages
