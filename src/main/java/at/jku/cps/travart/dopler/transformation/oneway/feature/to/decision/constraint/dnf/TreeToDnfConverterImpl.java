@@ -25,12 +25,10 @@ public class TreeToDnfConverterImpl implements TreeToDnfConverter {
 
     @Override
     public List<List<Constraint>> convertToDnf(Constraint constraint) {
-        Constraint clonedConstraint = constraint.clone();
-
-        Constraint sanitisedConstraint = replacer.replaceUnwantedConstraints(clonedConstraint);
+        Constraint sanitisedConstraint = replacer.replaceUnwantedConstraints(constraint.clone());
         ParenthesisConstraint parenthesisConstraint = new ParenthesisConstraint(sanitisedConstraint);
 
-        for (int i = 0; i < getDepth(constraint); i++) {
+        for (int i = 0; i < getDepth(parenthesisConstraint); i++) {
             convertRecursive(parenthesisConstraint);
         }
 
@@ -71,6 +69,7 @@ public class TreeToDnfConverterImpl implements TreeToDnfConverter {
 
     /** Calculate the depth of the given constraint. */
     private int getDepth(Constraint constraint) {
-        return constraint.getConstraintSubParts().stream().mapToInt(this::getDepth).max().orElse(1);
+        //TODO Hier stimmt was nicht
+        return constraint.getConstraintSubParts().stream().mapToInt(this::getDepth).max().orElse(10);
     }
 }

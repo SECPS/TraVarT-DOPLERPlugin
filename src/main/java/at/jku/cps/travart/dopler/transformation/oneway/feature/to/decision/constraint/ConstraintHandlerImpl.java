@@ -8,7 +8,6 @@ import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.const
 import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.DnfToTreeConverterImpl;
 import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.TreeToDnfConverter;
 import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.TreeToDnfConverterImpl;
-import com.google.common.collect.Lists;
 import de.vill.model.FeatureModel;
 import de.vill.model.constraint.AndConstraint;
 import de.vill.model.constraint.Constraint;
@@ -29,6 +28,7 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
     private final ActionCreator actionCreator;
     private final ConditionCreator conditionCreator;
 
+    /** Constructor of {@link ConstraintHandlerImpl} */
     public ConstraintHandlerImpl() {
         treeToDnfConverter = new TreeToDnfConverterImpl();
         actionCreator = new ActionCreatorImpl();
@@ -44,20 +44,21 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
         //Create rules from the implications
         List<Rule> rules = createRules(decisionModel, implicationConstraints);
 
-        //Ann the created rules to the decisions
+        //Distribute the created rules to the decisions
         distributeRules(rules);
     }
 
-    /** Converts the constraints in a normalised form. The form follows this pattern: {@code !(A & ... & Z) => ALPHA} */
+    /**
+     * Converts the {@link Constraint}s of the given FM in a normalised form. The form follows this pattern:
+     * {@code !(A & ... & Z) => ALPHA}.
+     */
     private List<ImplicationConstraint> normaliseConstraints(FeatureModel featureModel) {
         List<ImplicationConstraint> implicationConstraints = new ArrayList<>();
 
-        //Remove root ands from the constraints
-        List<Constraint> sanitisedConstrains = removeAnds(featureModel);
-        for (Constraint constraint : sanitisedConstrains) {
+        for (Constraint constraint : getSanitasiedConstraints(featureModel)) {
             List<List<Constraint>> dnf = treeToDnfConverter.convertToDnf(constraint);
 
-            if (1 == dnf.size()) { // Contains no OR
+            if (1 == dnf.size()) { // DNF contains no OR
                 //TODO
                 throw new RuntimeException("DNF to short");
             } else { //Contains at least one OR
@@ -65,24 +66,34 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
                 List<List<Constraint>> leftSide = new ArrayList<>(dnf);
                 leftSide.remove(rightSide);
 
+                //Convert dnf to several implications
                 for (Constraint right : rightSide) {
-
-                    //Remove double negation on the left side
-                    Constraint left = new NotConstraint(dnfToTreeConverter.createDnfFromList(leftSide));
-                    if (((NotConstraint) left).getContent() instanceof NotConstraint) {
-                        left = ((NotConstraint) ((NotConstraint) left).getContent()).getContent();
-                    }
-
-                    implicationConstraints.add(new ImplicationConstraint(left, right));
+                    implicationConstraints.add(new ImplicationConstraint(createLeft(leftSide), right));
                 }
             }
         }
         return implicationConstraints;
     }
 
-    private static List<Constraint> removeAnds(FeatureModel featureModel) {
+    /** Converts the given left side of the DNF to a tree and removes double negation if needed. */
+    private Constraint createLeft(List<List<Constraint>> leftSide) {
+        Constraint left = new NotConstraint(dnfToTreeConverter.createDnfFromList(leftSide));
+        if (((NotConstraint) left).getContent() instanceof NotConstraint) {
+            left = ((NotConstraint) ((NotConstraint) left).getContent()).getContent();
+        }
+        return left;
+    }
+
+    /**
+     * If the {@link Constraint}s in the given  {@link FeatureModel} has {@link AndConstraint}s as roots, then split
+     * them up into several {@link Constraint}s. E.g.: {@code (A => B) & (C => D) ~> A => B, C => D}
+     *
+     * @return {@link List} of all constraints in the given {@link FeatureModel} where no root {@link Constraint} is a
+     * {@link AndConstraint}
+     */
+    private static List<Constraint> getSanitasiedConstraints(FeatureModel featureModel) {
         Stack<Constraint> stack = new Stack<>();
-        featureModel.getConstraints().forEach(stack::push);
+        featureModel.getConstraints().reversed().forEach(stack::push);
         List<Constraint> sanitisedConstrains = new ArrayList<>();
         while (!stack.empty()) {
             Constraint current = stack.pop();
@@ -93,26 +104,22 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
                 sanitisedConstrains.add(current);
             }
         }
-        sanitisedConstrains = Lists.reverse(sanitisedConstrains);
         return sanitisedConstrains;
     }
 
+    /** Create {@link Rule}s for the DM from the normalised {@link Constraint}s from the FM. */
     private List<Rule> createRules(IDecisionModel decisionModel, List<ImplicationConstraint> implicationConstraints) {
         List<Rule> rules = new ArrayList<>();
-
         for (ImplicationConstraint implicationConstraint : implicationConstraints) {
             ICondition condition = conditionCreator.createCondition(decisionModel, implicationConstraint.getLeft());
             IAction action = actionCreator.createAction(decisionModel, implicationConstraint.getRight());
             rules.add(new Rule(condition, action));
         }
-
         return rules;
     }
 
     /** Distribute the generated rules to the decisions */
     private void distributeRules(List<Rule> rules) {
-        for (Rule rule : rules) {
-            rule.getAction().getVariable().addRule(rule);
-        }
+        rules.forEach(rule -> rule.getAction().getVariable().addRule(rule));
     }
 }
