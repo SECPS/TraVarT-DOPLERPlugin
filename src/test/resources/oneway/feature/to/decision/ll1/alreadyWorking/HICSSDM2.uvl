@@ -5,21 +5,21 @@ features
 		or
 			SV_Solution	
 				alternative
-					BMD¦
+					BMD
 					BMDCRM
 			CV_Documents	
 				or
-					scan new
-					import external
+					scan_new
+					import_external
 					archive
-					read existing
+					read_existing
 			CV_Claims	
 				or
 					journal
-					task manager
+					task_manager
 			SV	
 				alternative
-					Particular Packages
+					Particular_Packages
 					Solution
 			CV_Customer	
 				or
@@ -27,13 +27,13 @@ features
 					phone
 			CV	
 				or
-					Document Management
-					Claims Management
-					Customer Management
+					Document_Management
+					Claims_Management
+					Customer_Management
 			SV_Particular_Package	
 				or
 					Organizer
-					Label Printing
+					Label_Printing
 					Else
 					Docs
-					Standard Letter
+					Standard_Letter

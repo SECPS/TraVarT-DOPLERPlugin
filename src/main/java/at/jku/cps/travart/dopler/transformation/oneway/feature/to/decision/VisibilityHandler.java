@@ -6,7 +6,6 @@ import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.*;
 import at.jku.cps.travart.dopler.transformation.util.DMUtil;
-import at.jku.cps.travart.dopler.transformation.util.DecisionNotPresentException;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import de.vill.model.Group;
@@ -38,20 +37,20 @@ class VisibilityHandler {
         return switch (parent.getParentGroup().GROUPTYPE) {
             case OPTIONAL -> handleBooleanDecision(parent);
             case ALTERNATIVE -> handleAlternative(parent, decisionModel);
-            case OR -> handleOr(parent, decisionModel);
+            case OR -> handleOr(parent, decisionModel, featureModel);
             case GROUP_CARDINALITY, MANDATORY ->
                     throw new IllegalStateException("Unexpected value: " + parent.getParentGroup().GROUPTYPE);
         };
     }
 
     //Always returns decision.value
-    private ICondition handleOr(Feature parent, IDecisionModel decisionModel) {
+    private ICondition handleOr(Feature parent, IDecisionModel decisionModel, FeatureModel featureModel) {
         Feature parentOfParent = parent.getParentFeature();
+
         Optional<IDecision<?>> parentOfParentDecision =
                 DMUtil.findDecisionById(decisionModel, parentOfParent.getFeatureName());
-
         if (parentOfParentDecision.isEmpty()) {
-            throw new DecisionNotPresentException(parentOfParent.getFeatureName());
+            return BooleanValue.getTrue();
         }
 
         IDecision<?> decision = parentOfParentDecision.get();
@@ -59,7 +58,7 @@ class VisibilityHandler {
         return new DecisionValueCondition(decision, value);
     }
 
-    //Always getValue(decision) = value
+    //Always returns getValue(decision) = value
     private ICondition handleAlternative(Feature parent, IDecisionModel decisionModel) {
         Feature parentOfParent = parent.getParentFeature();
 
@@ -68,7 +67,7 @@ class VisibilityHandler {
                 DMUtil.findDecisionById(decisionModel, parentOfParent.getFeatureName());
 
         if (parentOfParentDecision.isEmpty()) {
-            throw new DecisionNotPresentException(parentOfParent.getFeatureName());
+            return BooleanValue.getTrue();
         }
 
         ICondition left = new GetValueFunction(new StringDecision(parentOfParent.getFeatureName()));

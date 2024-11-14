@@ -42,7 +42,7 @@ features
 					Retailer
 					Private
 			Unregister
-			HelpandSupport	
+			HelpAndSupport
 				or
 					Email
 					FAQ
@@ -50,7 +50,6 @@ features
 					Chat
 			Sell
 			Buy
-
 		optional
 			CommunityForum
 

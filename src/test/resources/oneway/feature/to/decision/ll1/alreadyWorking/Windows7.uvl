@@ -35,7 +35,7 @@ features
 							ActivateTheNarrator
 					EnlargeTheItemDisplayedOnTheScreen	
 						or
-							AdjustTextCLeartype
+							AdjustTextCleartype
 							SetCustomTextSize
 							ColorCalibration
 							AdjustTheResolution	
@@ -75,7 +75,7 @@ features
 											TheMagnifyingGlassMustFollowTheInsertionPointOfTheText
 											FollowTheMousePointer
 											TrackSelectedItemThroughKeyboard
-											DisplayorFactorWhenZooming	
+											DisplayorFactorWhenZooming
 												alternative
 													LessTwentyFivePerCent
 													MoreFourHundredPerCent
@@ -93,7 +93,7 @@ features
 							BasicThemeAndContrast	
 								alternative
 									HighWhiteContrast
-									HighBlackCOntrast
+									HighBlackContrast
 									HighContrastNumber2
 									HighContrastNumber1
 									ClassicWindows
