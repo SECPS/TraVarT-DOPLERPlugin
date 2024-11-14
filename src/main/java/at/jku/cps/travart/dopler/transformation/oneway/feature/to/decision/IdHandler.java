@@ -7,16 +7,15 @@ import de.vill.model.Feature;
 class IdHandler {
 
     /**
-     * Resolves the id of the given decision. The id changes, if a decision with this name already exists.
+     * Resolves the id of the given decision. The id changes, if a decision or value with this name already exists.
      */
     String resolveId(IDecisionModel decisionModel, Feature feature) {
-        String id;
-        //If decision already exist then append Type to the id.
-        if (DMUtil.findDecisionById(decisionModel, feature.getFeatureName()).isPresent()) {
-            id = feature.getFeatureName() + "Type";
-        } else {
-            id = feature.getFeatureName();
-        }
-        return id;
+        String featureName = feature.getFeatureName();
+
+        //If decision or value already exists then append Type to the id.
+        boolean decisionOrValueAlreadyExists = DMUtil.findDecisionById(decisionModel, featureName).isPresent() ||
+                DMUtil.findDecisionByValue(decisionModel, featureName).isPresent();
+
+        return decisionOrValueAlreadyExists ? featureName + "Type" : featureName;
     }
 }
