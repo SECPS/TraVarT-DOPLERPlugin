@@ -1,7 +1,7 @@
-namespace __Root__
+namespace Root
 
 features
-	__Root__ {abstract}	
+	Root {abstract}
 		optional
 			CONFIG_IFUPDOWN_UDHCPC_CMD_OPTIONS
 			CONFIG_UDHCPC

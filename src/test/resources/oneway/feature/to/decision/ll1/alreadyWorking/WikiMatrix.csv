@@ -1,0 +1,9 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+Language;Language?;Boolean;true | false;;if (Unicode) {Language = true;};true
+LanguageType;Which LanguageType?;Enumeration;Java | Python | PHP | Perl;1:1;if (StorageType.FileRCS) {LanguageType = Perl;}if (LicenseCostFeeType.US) {LanguageType = Java;}if (License.GPL2) {LanguageType = PHP;}if (StorageType.Database) {disAllow(LanguageType.Python);};Language
+License;Which License?;Enumeration;Commercial | NoLimit | GPL | GPL2;1:1;if (LicenseCostFeeType.US) {License = Commercial;}if (LicenseCostFeeType.DifferentLicenses) {disAllow(License.GPL);}if (Unicode) {disAllow(License.NoLimit);};true
+LicenseCostFee;LicenseCostFee?;Boolean;true | false;;;true
+LicenseCostFeeType;Which LicenseCostFeeType?;Enumeration;DifferentLicenses | US | Community;1:1;if (StorageType.FileRCS) {LicenseCostFeeType = Community;}if (License.Commercial) {LicenseCostFeeType = US;}if (LanguageType.Java) {LicenseCostFeeType = US;}if (License.NoLimit) {disAllow(LicenseCostFeeType.DifferentLicenses);};LicenseCostFee
+Storage;Storage?;Boolean;true | false;;if (!LicenseCostFee) {Storage = true;}if (Unicode) {Storage = true;}if (License.GPL) {Storage = true;};true
+StorageType;Which StorageType?;Enumeration;Files | Database | FileRCS;1:1;if (LicenseCostFeeType.Community) {StorageType = FileRCS;}if (LanguageType.Perl) {StorageType = FileRCS;}if (LicenseCostFee) {disAllow(StorageType.Files);};Storage
+Unicode;Unicode?;Boolean;true | false;;if (Storage) {Unicode = true;}if (Language) {Unicode = true;};true

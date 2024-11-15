@@ -23,9 +23,9 @@ features
 									HighContrast1
 							LauncherIconSize	
 								alternative
-									_48
-									_32
-									_64
+									x_48
+									x_32
+									x_64
 					Behaviour	
 						mandatory
 							RevealLocation	
@@ -51,13 +51,13 @@ features
 						mandatory
 							TurnScreenOffWhenInactiveFor	
 								alternative
-									_2Minutes
-									_1Hour
-									_10Minutes
-									_30Minutes
-									_1Minute
+									x_2Minutes
+									x_1Hour
+									x_10Minutes
+									x_30Minutes
+									x_1Minute
 									Never
-									_3Minutes
+									x_3Minutes
 
 						optional
 							DimSceenToSaveLeft
@@ -67,14 +67,14 @@ features
 						mandatory
 							LockScreenAfter	
 								alternative
-									_30Minutes_
-									_2Minutes_
-									_1Hour_
-									_10Minutes_
+									x_30Minutes_
+									x_2Minutes_
+									x_1Hour_
+									x_10Minutes_
 									ScreenTurnsOff
-									_1Minute_
-									_30Seconds
-									_5Minutes_
+									x_1Minute_
+									x_30Seconds
+									x_5Minutes_
 					RequireMyPasswordWhenWakingFromSuspend
 			Displays	
 				mandatory
@@ -83,7 +83,7 @@ features
 							Normal
 							Clockwise
 							Counterclockwise
-							_180Degres
+							x_180Degres
 					Rotation
 					LauncherPlacement	
 						alternative

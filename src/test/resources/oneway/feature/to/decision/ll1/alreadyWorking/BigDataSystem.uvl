@@ -31,7 +31,7 @@ features
 													Realtimelayer
 													Servinglayer_1
 											Batch
-									Type	
+									Typee	
 										alternative
 											Softwaresolution	
 												optional
@@ -490,7 +490,7 @@ features
 																			Desktop
 																			Enterprisesystems
 																			Embeddedsystems
-																	Types	
+																	Typees	
 																		alternative
 																			Supervised	
 																				optional
@@ -595,7 +595,7 @@ features
 																						mandatory
 																							Luceneanalyzers_1
 																					Wordform
-																					Type_2
+																					Typee_2
 																					Acronyms
 																					Measureunits
 																			POStagging	
@@ -645,7 +645,7 @@ features
 															Associationrules
 															MonteCarlomethod
 															Geneticalgorithms
-									Types_2	
+									Typees_2	
 										alternative
 											Quantitative	
 												mandatory
@@ -796,7 +796,7 @@ features
 							Reportinganddashboarding
 					Representation	
 						mandatory
-							Type_3	
+							Typee_3	
 								or
 									Graphics	
 										or
