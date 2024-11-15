@@ -5,9 +5,9 @@ features
 		mandatory
 			Payment {abstract}	
 				alternative
-					Debit Card
-					Credit Card
-			Product Selection {abstract}	
+					DebitCard
+					CreditCard
+			ProductSelection {abstract}
 				mandatory
 					Catalog	
 						optional

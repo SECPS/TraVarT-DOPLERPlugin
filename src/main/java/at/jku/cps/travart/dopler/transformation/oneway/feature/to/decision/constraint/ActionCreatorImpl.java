@@ -1,7 +1,6 @@
 package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint;
 
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
-import at.jku.cps.travart.dopler.decision.model.AbstractDecision;
 import at.jku.cps.travart.dopler.decision.model.IAction;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanValue;
@@ -33,29 +32,6 @@ class ActionCreatorImpl implements ActionCreator {
         };
     }
 
-    private static IAction handleNot(IDecisionModel decisionModel, NotConstraint right) {
-        IAction action;
-        if (!(right.getContent() instanceof LiteralConstraint literalConstraint)) {
-            throw new UnexpectedTypeException(right.getContent());
-        }
-
-        String literal = literalConstraint.getLiteral();
-        Optional<IDecision<?>> decisionByIdRight = DMUtil.findDecisionById(decisionModel, literal);
-        Optional<IDecision<?>> decisionByValueRight = DMUtil.findDecisionByValue(decisionModel, literal);
-
-        if (decisionByValueRight.isPresent()) {
-            action = new DisAllowAction(decisionByValueRight.get(), new StringValue(literal));
-        } else if (decisionByIdRight.isPresent()) {
-            //Boolean types get a true on the right side
-            action = AbstractDecision.DecisionType.BOOLEAN == decisionByIdRight.get().getType() ?
-                    new SetValueAction(decisionByIdRight.get(), BooleanValue.getFalse()) :
-                    new DisAllowAction(decisionByIdRight.get(), new StringValue(literal));
-        } else {
-            throw new DecisionNotPresentException(literal);
-        }
-        return action;
-    }
-
     private static IAction handleLiteral(IDecisionModel decisionModel, LiteralConstraint right) {
         IAction action;
         String literal = right.getLiteral();
@@ -66,9 +42,42 @@ class ActionCreatorImpl implements ActionCreator {
             action = new SetValueAction(decisionByValue.get(), new StringValue(literal));
         } else if (decisionById.isPresent()) {
             //Boolean types get a true on the right side
-            boolean isBoolean = AbstractDecision.DecisionType.BOOLEAN == decisionById.get().getType();
-            action = new SetValueAction(decisionById.get(),
-                    isBoolean ? BooleanValue.getTrue() : new StringValue(literal));
+            action = switch (decisionById.get().getType()) {
+                case BOOLEAN -> new SetValueAction(decisionById.get(), BooleanValue.getTrue());
+                case ENUM -> new SetValueAction(decisionById.get(), new StringValue(literal));
+                case null, default -> throw new UnexpectedTypeException(decisionById.get().getType());
+            };
+        } else {
+            throw new DecisionNotPresentException(literal);
+        }
+        return action;
+    }
+
+    private static IAction handleNot(IDecisionModel decisionModel, NotConstraint right) {
+        IAction action;
+
+        //NotConstraint should contain a literal (thanks to working on DNFs)
+        if (!(right.getContent() instanceof LiteralConstraint literalConstraint)) {
+            throw new UnexpectedTypeException(right.getContent());
+        }
+
+        String literal = literalConstraint.getLiteral();
+        Optional<IDecision<?>> decisionById = DMUtil.findDecisionById(decisionModel, literal);
+        Optional<IDecision<?>> decisionByValue = DMUtil.findDecisionByValue(decisionModel, literal);
+
+        if (decisionByValue.isPresent()) {
+            action = new DisAllowAction(decisionByValue.get(), new StringValue(literal));
+        } else if (decisionById.isPresent()) {
+            action = switch (decisionById.get().getType()) {
+                case BOOLEAN -> new SetValueAction(decisionById.get(), BooleanValue.getFalse());
+                case ENUM -> throw new RuntimeException("Cant disallow complete decisions atm");
+                case null, default -> throw new UnexpectedTypeException(decisionById.get().getType());
+
+                //TODO
+                //Problem in branch ENUM: there is no action to disallow taking enum decisions. Only boolean decisions.
+                //Should look something like:
+                //action = new DisallowAction(decisionById.get())
+            };
         } else {
             throw new DecisionNotPresentException(literal);
         }

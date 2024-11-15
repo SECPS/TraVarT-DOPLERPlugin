@@ -6,6 +6,7 @@ import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.*;
 import at.jku.cps.travart.dopler.transformation.util.DMUtil;
+import at.jku.cps.travart.dopler.transformation.util.UnexpectedTypeException;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import de.vill.model.Group;
@@ -18,9 +19,9 @@ class VisibilityHandler {
      * Resolves the visibility of the given decision. The visibility depends on the parents of the group from which the
      * decision originates.
      */
-    ICondition resolveVisibility(FeatureModel featureModel, Feature feature, IDecisionModel decisionModel) {
+    ICondition resolveVisibility(FeatureModel featureModel, IDecisionModel decisionModel, Feature feature) {
 
-        //Search for non-mandatory parent
+        //Search for first non-mandatory parent
         Feature parent = feature;
         while (null != parent.getParentGroup() && Group.GroupType.MANDATORY == parent.getParentGroup().GROUPTYPE) {
             parent = parent.getParentFeature();
@@ -37,14 +38,13 @@ class VisibilityHandler {
         return switch (parent.getParentGroup().GROUPTYPE) {
             case OPTIONAL -> handleBooleanDecision(parent);
             case ALTERNATIVE -> handleAlternative(parent, decisionModel);
-            case OR -> handleOr(parent, decisionModel, featureModel);
-            case GROUP_CARDINALITY, MANDATORY ->
-                    throw new IllegalStateException("Unexpected value: " + parent.getParentGroup().GROUPTYPE);
+            case OR -> handleOr(parent, decisionModel);
+            case GROUP_CARDINALITY, MANDATORY -> throw new UnexpectedTypeException(parent.getParentGroup());
         };
     }
 
-    //Always returns decision.value
-    private ICondition handleOr(Feature parent, IDecisionModel decisionModel, FeatureModel featureModel) {
+    /** Returns {@code decision.value}, because you can choose several enums from the decision */
+    private ICondition handleOr(Feature parent, IDecisionModel decisionModel) {
         Feature parentOfParent = parent.getParentFeature();
 
         Optional<IDecision<?>> parentOfParentDecision =
@@ -58,14 +58,12 @@ class VisibilityHandler {
         return new DecisionValueCondition(decision, value);
     }
 
-    //Always returns getValue(decision) = value
+    /** Returns {@code getValue(decision) = value}, because you can only choose one enum from the decision */
     private ICondition handleAlternative(Feature parent, IDecisionModel decisionModel) {
         Feature parentOfParent = parent.getParentFeature();
 
-        //getValue(parentOfParent) == parentOfParent.parent
         Optional<IDecision<?>> parentOfParentDecision =
                 DMUtil.findDecisionById(decisionModel, parentOfParent.getFeatureName());
-
         if (parentOfParentDecision.isEmpty()) {
             return BooleanValue.getTrue();
         }
@@ -77,6 +75,7 @@ class VisibilityHandler {
         return new Equals(left, right);
     }
 
+    /** Returns {@code decision}, because you can only choose one enum from the decision */
     private static ICondition handleBooleanDecision(Feature parent) {
         return new StringValue(parent.getFeatureName());
     }

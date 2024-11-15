@@ -7,14 +7,14 @@ features
 				or
 					SMS
 					MMS
-			Utility Features	
+			UtilityFeatures
 				optional
 					Calculator
-					Currency Exchange
+					CurrencyExchange
 			OS	
 				alternative
 					Symbian
 					WinCE
 
 constraints
-	Currency Exchange => Calculator
+	CurrencyExchange => Calculator

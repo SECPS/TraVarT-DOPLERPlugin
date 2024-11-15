@@ -1,16 +1,16 @@
 namespace Eclipse
 
 features
-	Eclipse	
+	Eclipse
 		optional
 			JDT
 			CDT
 			AJDT
-			FeatureModeling	
+			FeatureModeling
 				optional
 					CIDE
 					FAMILIAR
-					FeatureIDE	
+					FeatureIDE
 						or
 							AHEAD
 							FeatureHouse

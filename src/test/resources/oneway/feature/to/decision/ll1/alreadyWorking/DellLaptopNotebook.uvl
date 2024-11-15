@@ -48,8 +48,8 @@ features
 			Price	
 				alternative
 					Lessthan_400
-					_400__800
-					_800__1200
+					x_400__800
+					x_800__1200
 					Morethan_1200
 
 		optional
@@ -119,7 +119,7 @@ constraints
 	!StudioXPSLaptops | !Morethan_1200
 	!MiniNotebooks | !IntelPentiumDualcore
 	!MiniNotebooks | !IntelCore2Duo
-	!MiniNotebooks | !_800__1200
+	!MiniNotebooks | !x_800__1200
 	!MiniNotebooks | !IntelCeleron
 	!MiniNotebooks | !Light
 	!MiniNotebooks | !BluRayDisc
@@ -135,7 +135,7 @@ constraints
 	!Adamo | !CD_DVD_RW
 	!Adamo | !DesktopReplacement
 	!Adamo | !Light
-	!StudioXPSLaptops | !_400__800
+	!StudioXPSLaptops | !x_400__800
 	!StudioXPSLaptops | !Lessthan_400
 	!Adamo | !Morethan4GB
 	!StudioXPSLaptops | !IntelAtom
@@ -153,9 +153,9 @@ constraints
 	!MiniNotebooks | !a250GB
 	!Adamo | !IntelAtom
 	!MiniNotebooks | !a320GB
-	!Adamo | !_800__1200
+	!Adamo | !x_800__1200
 	!MiniNotebooks | !a500GB
-	!Adamo | !_400__800
+	!Adamo | !x_400__800
 	!MiniNotebooks | !DVD__RWandCD_RWCombo
 	!MiniNotebooks | !DVD_ROMDriveandDVD__RW
 	!MiniNotebooks | !CD_DVD_RW

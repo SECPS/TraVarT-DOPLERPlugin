@@ -5,7 +5,7 @@ features
 		mandatory
 			VncViewerMain {abstract}	
 				mandatory
-					Type {abstract}	
+					Typee {abstract}	
 						mandatory
 							Opt {abstract}	
 								or
