@@ -5,11 +5,10 @@ import at.jku.cps.travart.dopler.decision.model.AbstractRangeValue;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.*;
-import at.jku.cps.travart.dopler.transformation.util.DMUtil;
+import at.jku.cps.travart.dopler.transformation.util.MyUtil;
 import at.jku.cps.travart.dopler.transformation.util.UnexpectedTypeException;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
-import de.vill.model.Group;
 
 import java.util.Optional;
 
@@ -22,24 +21,19 @@ class VisibilityHandler {
     ICondition resolveVisibility(FeatureModel featureModel, IDecisionModel decisionModel, Feature feature) {
 
         //Search for first non-mandatory parent
-        Feature parent = feature;
-        while (null != parent.getParentGroup() && Group.GroupType.MANDATORY == parent.getParentGroup().GROUPTYPE) {
-            parent = parent.getParentFeature();
-        }
+        Optional<Feature> parent = MyUtil.findFirstNonMandatoryParent(featureModel, feature);
 
-        //Parent is root
-        boolean isRootFeature = featureModel.getRootFeature().equals(parent);
-        if (isRootFeature) {
-            //Decision for root feature is always taken. Visibility must therefore be true.
+        //Parent is root. Decision for root feature is always taken. Visibility must therefore be true.
+        if (parent.isEmpty()) {
             return BooleanValue.getTrue();
         }
 
         //Parent is not root. Look at parent group of parent
-        return switch (parent.getParentGroup().GROUPTYPE) {
-            case OPTIONAL -> handleBooleanDecision(parent);
-            case ALTERNATIVE -> handleAlternative(parent, decisionModel);
-            case OR -> handleOr(parent, decisionModel);
-            case GROUP_CARDINALITY, MANDATORY -> throw new UnexpectedTypeException(parent.getParentGroup());
+        return switch (parent.get().getParentGroup().GROUPTYPE) {
+            case OPTIONAL -> handleBooleanDecision(parent.get());
+            case ALTERNATIVE -> handleAlternative(parent.get(), decisionModel);
+            case OR -> handleOr(parent.get(), decisionModel);
+            case GROUP_CARDINALITY, MANDATORY -> throw new UnexpectedTypeException(parent.get().getParentGroup());
         };
     }
 
@@ -48,7 +42,7 @@ class VisibilityHandler {
         Feature parentOfParent = parent.getParentFeature();
 
         Optional<IDecision<?>> parentOfParentDecision =
-                DMUtil.findDecisionById(decisionModel, parentOfParent.getFeatureName());
+                MyUtil.findDecisionById(decisionModel, parentOfParent.getFeatureName());
         if (parentOfParentDecision.isEmpty()) {
             return BooleanValue.getTrue();
         }
@@ -63,7 +57,7 @@ class VisibilityHandler {
         Feature parentOfParent = parent.getParentFeature();
 
         Optional<IDecision<?>> parentOfParentDecision =
-                DMUtil.findDecisionById(decisionModel, parentOfParent.getFeatureName());
+                MyUtil.findDecisionById(decisionModel, parentOfParent.getFeatureName());
         if (parentOfParentDecision.isEmpty()) {
             return BooleanValue.getTrue();
         }

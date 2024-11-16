@@ -1,7 +1,7 @@
 package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision;
 
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
-import at.jku.cps.travart.dopler.transformation.util.DMUtil;
+import at.jku.cps.travart.dopler.transformation.util.MyUtil;
 import de.vill.model.Feature;
 
 class IdHandler {
@@ -13,8 +13,8 @@ class IdHandler {
         String featureName = feature.getFeatureName();
 
         //If decision or value already exists then append Type to the id.
-        boolean decisionOrValueAlreadyExists = DMUtil.findDecisionById(decisionModel, featureName).isPresent() ||
-                DMUtil.findDecisionByValue(decisionModel, featureName).isPresent();
+        boolean decisionOrValueAlreadyExists = MyUtil.findDecisionById(decisionModel, featureName).isPresent() ||
+                MyUtil.findDecisionByValue(decisionModel, featureName).isPresent();
 
         return decisionOrValueAlreadyExists ? featureName + "Type" : featureName;
     }

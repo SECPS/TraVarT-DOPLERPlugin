@@ -4,7 +4,8 @@ import at.jku.cps.travart.dopler.transformation.util.UnexpectedTypeException;
 import de.vill.model.constraint.*;
 
 /**
- * Implementation of {@link UnwantedConstraintsReplacer}
+ * Implementation of {@link UnwantedConstraintsReplacer} Replaces unwanted constraints like "=>", "<=>" and "()" and
+ * replaces them with different ones.
  */
 public class UnwantedConstraintsReplacerImpl implements UnwantedConstraintsReplacer {
 

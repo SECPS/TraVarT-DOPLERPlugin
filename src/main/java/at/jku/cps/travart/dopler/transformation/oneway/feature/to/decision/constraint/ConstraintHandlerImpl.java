@@ -8,14 +8,16 @@ import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.const
 import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.DnfToTreeConverterImpl;
 import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.TreeToDnfConverter;
 import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.TreeToDnfConverterImpl;
+import at.jku.cps.travart.dopler.transformation.util.FeatureNotPresentException;
+import at.jku.cps.travart.dopler.transformation.util.MyUtil;
+import at.jku.cps.travart.dopler.transformation.util.UnexpectedTypeException;
+import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
-import de.vill.model.constraint.AndConstraint;
-import de.vill.model.constraint.Constraint;
-import de.vill.model.constraint.ImplicationConstraint;
-import de.vill.model.constraint.NotConstraint;
+import de.vill.model.constraint.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Stack;
 
 /**
@@ -57,6 +59,8 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
 
         for (Constraint constraint : getSanitasiedConstraints(featureModel)) {
             List<List<Constraint>> dnf = treeToDnfConverter.convertToDnf(constraint);
+
+            dnf = replaceLiteralsFromMandatoryFeatures(featureModel, dnf);
 
             if (1 == dnf.size()) { // DNF contains no OR
                 //TODO
@@ -121,5 +125,44 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
     /** Distribute the generated rules to the decisions */
     private void distributeRules(List<Rule> rules) {
         rules.forEach(rule -> rule.getAction().getVariable().addRule(rule));
+    }
+
+    private List<List<Constraint>> replaceLiteralsFromMandatoryFeatures(FeatureModel featureModel,
+                                                                        List<List<Constraint>> dnf) {
+        List<List<Constraint>> newDnf = new ArrayList<>();
+
+        for (List<Constraint> conjunction : dnf) {
+            List<Constraint> newConjunction = new ArrayList<>();
+            for (Constraint constraint : conjunction) {
+                if (constraint instanceof LiteralConstraint literalConstraint) {
+                    newConjunction.add(replace(featureModel, literalConstraint));
+                } else if (constraint instanceof NotConstraint notConstraint &&
+                        notConstraint.getContent() instanceof LiteralConstraint literalConstraint) {
+                    newConjunction.add(new NotConstraint(replace(featureModel, literalConstraint)));
+                } else {
+                    throw new UnexpectedTypeException(constraint);
+                }
+            }
+            newDnf.add(newConjunction);
+        }
+
+        return newDnf;
+    }
+
+    private Constraint replace(FeatureModel featureModel, LiteralConstraint literalConstraint) {
+        String literal = literalConstraint.getLiteral();
+        Optional<Feature> feature = MyUtil.findFeatureWithName(featureModel, literal);
+
+        if (feature.isEmpty()) {
+            throw new FeatureNotPresentException(literal);
+        }
+
+        Optional<Feature> nonMandatoryParent = MyUtil.findFirstNonMandatoryParent(featureModel, feature.get());
+
+        if (nonMandatoryParent.isEmpty()) {
+            throw new RuntimeException("First non mandatory parent is root");
+        }
+
+        return new LiteralConstraint(nonMandatoryParent.get().getFeatureName());
     }
 }

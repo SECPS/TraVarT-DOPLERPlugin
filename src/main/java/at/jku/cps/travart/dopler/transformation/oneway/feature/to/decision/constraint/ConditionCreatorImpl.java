@@ -4,7 +4,7 @@ import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
 import at.jku.cps.travart.dopler.decision.model.impl.*;
-import at.jku.cps.travart.dopler.transformation.util.DMUtil;
+import at.jku.cps.travart.dopler.transformation.util.MyUtil;
 import at.jku.cps.travart.dopler.transformation.util.DecisionNotPresentException;
 import at.jku.cps.travart.dopler.transformation.util.UnexpectedTypeException;
 import de.vill.model.constraint.*;
@@ -39,8 +39,8 @@ class ConditionCreatorImpl implements ConditionCreator {
     private static ICondition handleLiteral(IDecisionModel decisionModel, LiteralConstraint left) {
         ICondition condition;
         String literal = left.getLiteral();
-        Optional<IDecision<?>> decisionById = DMUtil.findDecisionById(decisionModel, literal);
-        Optional<IDecision<?>> decisionByValue = DMUtil.findDecisionByValue(decisionModel, literal);
+        Optional<IDecision<?>> decisionById = MyUtil.findDecisionById(decisionModel, literal);
+        Optional<IDecision<?>> decisionByValue = MyUtil.findDecisionByValue(decisionModel, literal);
 
         if (decisionByValue.isPresent()) {
             condition = new DecisionValueCondition(decisionByValue.get(), new StringValue(literal));

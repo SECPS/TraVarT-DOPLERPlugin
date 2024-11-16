@@ -7,7 +7,7 @@ import at.jku.cps.travart.dopler.decision.model.impl.BooleanValue;
 import at.jku.cps.travart.dopler.decision.model.impl.DisAllowAction;
 import at.jku.cps.travart.dopler.decision.model.impl.SetValueAction;
 import at.jku.cps.travart.dopler.decision.model.impl.StringValue;
-import at.jku.cps.travart.dopler.transformation.util.DMUtil;
+import at.jku.cps.travart.dopler.transformation.util.MyUtil;
 import at.jku.cps.travart.dopler.transformation.util.DecisionNotPresentException;
 import at.jku.cps.travart.dopler.transformation.util.UnexpectedTypeException;
 import de.vill.model.constraint.Constraint;
@@ -35,8 +35,8 @@ class ActionCreatorImpl implements ActionCreator {
     private static IAction handleLiteral(IDecisionModel decisionModel, LiteralConstraint right) {
         IAction action;
         String literal = right.getLiteral();
-        Optional<IDecision<?>> decisionById = DMUtil.findDecisionById(decisionModel, literal);
-        Optional<IDecision<?>> decisionByValue = DMUtil.findDecisionByValue(decisionModel, literal);
+        Optional<IDecision<?>> decisionById = MyUtil.findDecisionById(decisionModel, literal);
+        Optional<IDecision<?>> decisionByValue = MyUtil.findDecisionByValue(decisionModel, literal);
 
         if (decisionByValue.isPresent()) {
             action = new SetValueAction(decisionByValue.get(), new StringValue(literal));
@@ -62,15 +62,15 @@ class ActionCreatorImpl implements ActionCreator {
         }
 
         String literal = literalConstraint.getLiteral();
-        Optional<IDecision<?>> decisionById = DMUtil.findDecisionById(decisionModel, literal);
-        Optional<IDecision<?>> decisionByValue = DMUtil.findDecisionByValue(decisionModel, literal);
+        Optional<IDecision<?>> decisionById = MyUtil.findDecisionById(decisionModel, literal);
+        Optional<IDecision<?>> decisionByValue = MyUtil.findDecisionByValue(decisionModel, literal);
 
         if (decisionByValue.isPresent()) {
             action = new DisAllowAction(decisionByValue.get(), new StringValue(literal));
         } else if (decisionById.isPresent()) {
             action = switch (decisionById.get().getType()) {
                 case BOOLEAN -> new SetValueAction(decisionById.get(), BooleanValue.getFalse());
-                case ENUM -> throw new RuntimeException("Cant disallow complete decisions atm");
+                case ENUM -> throw new RuntimeException("Can not disallow taking complete enum decisions!");
                 case null, default -> throw new UnexpectedTypeException(decisionById.get().getType());
 
                 //TODO

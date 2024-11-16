@@ -2,7 +2,7 @@ package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.cons
 
 import de.vill.model.constraint.Constraint;
 
-/** Replaces unwanted constraints like "=>", "<=>" and "()" and replaces them with different ones. */
+/** Replaces unwanted constraints and replaces them with different ones. */
 public interface UnwantedConstraintsReplacer {
 
     /**
