@@ -12,10 +12,9 @@ features
 				alternative
 					alta
 					estandar
-
 		optional
 			buscador	
-				optional5
+				optional
 					reportepublico
 
 constraints

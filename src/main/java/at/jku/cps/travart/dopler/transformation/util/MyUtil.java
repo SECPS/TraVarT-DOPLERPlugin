@@ -2,10 +2,10 @@ package at.jku.cps.travart.dopler.transformation.util;
 
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.model.IDecision;
-import de.ovgu.featureide.fm.core.constraint.analysis.Restriction;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import de.vill.model.Group;
+import de.vill.model.constraint.LiteralConstraint;
 
 import java.util.Optional;
 import java.util.Stack;
@@ -56,5 +56,18 @@ public final class MyUtil {
         }
 
         return Optional.of(parent);
+    }
+
+    public static Optional<LiteralConstraint> findFirstNonMandatoryParent(FeatureModel featureModel,
+                                                                          LiteralConstraint literalConstraint) {
+        String literal = literalConstraint.getLiteral();
+        Optional<Feature> feature = findFeatureWithName(featureModel, literal);
+
+        if (feature.isEmpty()) {
+            throw new FeatureNotPresentException(literal);
+        }
+
+        Optional<Feature> firstNonMandatoryParent = findFirstNonMandatoryParent(featureModel, feature.get());
+        return firstNonMandatoryParent.map(value -> new LiteralConstraint(value.getFeatureName()));
     }
 }

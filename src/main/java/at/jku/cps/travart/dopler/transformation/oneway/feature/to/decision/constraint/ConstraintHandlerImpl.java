@@ -3,21 +3,18 @@ package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.cons
 import at.jku.cps.travart.dopler.decision.IDecisionModel;
 import at.jku.cps.travart.dopler.decision.model.IAction;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
+import at.jku.cps.travart.dopler.decision.model.impl.BooleanValue;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
 import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.DnfToTreeConverter;
 import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.DnfToTreeConverterImpl;
 import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.TreeToDnfConverter;
 import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.TreeToDnfConverterImpl;
-import at.jku.cps.travart.dopler.transformation.util.FeatureNotPresentException;
-import at.jku.cps.travart.dopler.transformation.util.MyUtil;
-import at.jku.cps.travart.dopler.transformation.util.UnexpectedTypeException;
-import de.vill.model.Feature;
+import at.jku.cps.travart.dopler.transformation.util.Pair;
 import de.vill.model.FeatureModel;
 import de.vill.model.constraint.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Stack;
 
 /**
@@ -41,10 +38,20 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
     @Override
     public void handleOwnConstraints(FeatureModel featureModel, IDecisionModel decisionModel) {
         //Bring constraints into normalised form
-        List<ImplicationConstraint> implicationConstraints = normaliseConstraints(featureModel);
+        Pair<List<ImplicationConstraint>, List<List<Constraint>>> normalisedConstraints =
+                normaliseConstraints(featureModel);
 
         //Create rules from the implications
-        List<Rule> rules = createRules(decisionModel, implicationConstraints);
+        List<Rule> rules = createRules(decisionModel, featureModel, normalisedConstraints.getFirst());
+
+        //Rest
+        for (List<Constraint> conjunction : normalisedConstraints.getSecond()) {
+            for (Constraint constraint : conjunction) {
+                ICondition condition = BooleanValue.getTrue();
+                IAction action = actionCreator.createAction(decisionModel, featureModel, constraint);
+                rules.add(new Rule(condition, action));
+            }
+        }
 
         //Distribute the created rules to the decisions
         distributeRules(rules);
@@ -52,20 +59,21 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
 
     /**
      * Converts the {@link Constraint}s of the given FM in a normalised form. The form follows this pattern:
-     * {@code !(A & ... & Z) => ALPHA}.
+     * {@code !(A & ... & Z) => ALPHA}. Alpha is always a {@link NotConstraint} with a {@link LiteralConstraint} inside
+     * or a {@link LiteralConstraint}.
      */
-    private List<ImplicationConstraint> normaliseConstraints(FeatureModel featureModel) {
+    private Pair<List<ImplicationConstraint>, List<List<Constraint>>> normaliseConstraints(FeatureModel featureModel) {
         List<ImplicationConstraint> implicationConstraints = new ArrayList<>();
+        List<List<Constraint>> rest = new ArrayList<>();
 
         for (Constraint constraint : getSanitasiedConstraints(featureModel)) {
             List<List<Constraint>> dnf = treeToDnfConverter.convertToDnf(constraint);
 
-            dnf = replaceLiteralsFromMandatoryFeatures(featureModel, dnf);
-
-            if (1 == dnf.size()) { // DNF contains no OR
-                //TODO
-                throw new RuntimeException("DNF to short");
-            } else { //Contains at least one OR
+            if (1 == dnf.size()) {
+                // DNF contains no OR
+                rest.add(dnf.getFirst());
+            } else {
+                //Contains at least one OR
                 List<Constraint> rightSide = dnf.getLast();
                 List<List<Constraint>> leftSide = new ArrayList<>(dnf);
                 leftSide.remove(rightSide);
@@ -76,7 +84,8 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
                 }
             }
         }
-        return implicationConstraints;
+
+        return new Pair<>(implicationConstraints, rest);
     }
 
     /** Converts the given left side of the DNF to a tree and removes double negation if needed. */
@@ -112,11 +121,13 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
     }
 
     /** Create {@link Rule}s for the DM from the normalised {@link Constraint}s from the FM. */
-    private List<Rule> createRules(IDecisionModel decisionModel, List<ImplicationConstraint> implicationConstraints) {
+    private List<Rule> createRules(IDecisionModel decisionModel, FeatureModel featureModel,
+                                   List<ImplicationConstraint> implicationConstraints) {
         List<Rule> rules = new ArrayList<>();
         for (ImplicationConstraint implicationConstraint : implicationConstraints) {
-            ICondition condition = conditionCreator.createCondition(decisionModel, implicationConstraint.getLeft());
-            IAction action = actionCreator.createAction(decisionModel, implicationConstraint.getRight());
+            ICondition condition =
+                    conditionCreator.createCondition(decisionModel, featureModel, implicationConstraint.getLeft());
+            IAction action = actionCreator.createAction(decisionModel, featureModel, implicationConstraint.getRight());
             rules.add(new Rule(condition, action));
         }
         return rules;
@@ -125,44 +136,5 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
     /** Distribute the generated rules to the decisions */
     private void distributeRules(List<Rule> rules) {
         rules.forEach(rule -> rule.getAction().getVariable().addRule(rule));
-    }
-
-    private List<List<Constraint>> replaceLiteralsFromMandatoryFeatures(FeatureModel featureModel,
-                                                                        List<List<Constraint>> dnf) {
-        List<List<Constraint>> newDnf = new ArrayList<>();
-
-        for (List<Constraint> conjunction : dnf) {
-            List<Constraint> newConjunction = new ArrayList<>();
-            for (Constraint constraint : conjunction) {
-                if (constraint instanceof LiteralConstraint literalConstraint) {
-                    newConjunction.add(replace(featureModel, literalConstraint));
-                } else if (constraint instanceof NotConstraint notConstraint &&
-                        notConstraint.getContent() instanceof LiteralConstraint literalConstraint) {
-                    newConjunction.add(new NotConstraint(replace(featureModel, literalConstraint)));
-                } else {
-                    throw new UnexpectedTypeException(constraint);
-                }
-            }
-            newDnf.add(newConjunction);
-        }
-
-        return newDnf;
-    }
-
-    private Constraint replace(FeatureModel featureModel, LiteralConstraint literalConstraint) {
-        String literal = literalConstraint.getLiteral();
-        Optional<Feature> feature = MyUtil.findFeatureWithName(featureModel, literal);
-
-        if (feature.isEmpty()) {
-            throw new FeatureNotPresentException(literal);
-        }
-
-        Optional<Feature> nonMandatoryParent = MyUtil.findFirstNonMandatoryParent(featureModel, feature.get());
-
-        if (nonMandatoryParent.isEmpty()) {
-            throw new RuntimeException("First non mandatory parent is root");
-        }
-
-        return new LiteralConstraint(nonMandatoryParent.get().getFeatureName());
     }
 }

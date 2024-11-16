@@ -1,11 +1,11 @@
 package at.jku.cps.travart.dopler.transformation.util;
 
-public class Pair<K> {
+public class Pair<K, L> {
 
     private final K first;
-    private final K second;
+    private final L second;
 
-    public Pair(K first, K second) {
+    public Pair(K first, L second) {
         this.first = first;
         this.second = second;
     }
@@ -14,7 +14,7 @@ public class Pair<K> {
         return first;
     }
 
-    public K getSecond() {
+    public L getSecond() {
         return second;
     }
 }

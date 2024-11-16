@@ -7,9 +7,10 @@ import at.jku.cps.travart.dopler.decision.model.impl.BooleanValue;
 import at.jku.cps.travart.dopler.decision.model.impl.DisAllowAction;
 import at.jku.cps.travart.dopler.decision.model.impl.SetValueAction;
 import at.jku.cps.travart.dopler.decision.model.impl.StringValue;
-import at.jku.cps.travart.dopler.transformation.util.MyUtil;
 import at.jku.cps.travart.dopler.transformation.util.DecisionNotPresentException;
+import at.jku.cps.travart.dopler.transformation.util.MyUtil;
 import at.jku.cps.travart.dopler.transformation.util.UnexpectedTypeException;
+import de.vill.model.FeatureModel;
 import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.ExpressionConstraint;
 import de.vill.model.constraint.LiteralConstraint;
@@ -20,10 +21,10 @@ import java.util.Optional;
 class ActionCreatorImpl implements ActionCreator {
 
     @Override
-    public IAction createAction(IDecisionModel decisionModel, Constraint right) {
+    public IAction createAction(IDecisionModel decisionModel, FeatureModel featureModel, Constraint right) {
         return switch (right) {
-            case LiteralConstraint literalConstraint -> handleLiteral(decisionModel, literalConstraint);
-            case NotConstraint notConstraint -> handleNot(decisionModel, notConstraint);
+            case LiteralConstraint literalConstraint -> handleLiteral(decisionModel, featureModel, literalConstraint);
+            case NotConstraint notConstraint -> handleNot(decisionModel, featureModel, notConstraint);
             case ExpressionConstraint expressionConstraint -> {
                 //TODO
                 throw new UnexpectedTypeException(right);
@@ -32,16 +33,25 @@ class ActionCreatorImpl implements ActionCreator {
         };
     }
 
-    private static IAction handleLiteral(IDecisionModel decisionModel, LiteralConstraint right) {
+    private static IAction handleLiteral(IDecisionModel decisionModel, FeatureModel featureModel,
+                                         LiteralConstraint literalConstraint) {
         IAction action;
-        String literal = right.getLiteral();
+        Optional<LiteralConstraint> firstNonMandatoryParent =
+                MyUtil.findFirstNonMandatoryParent(featureModel, literalConstraint);
+        if (firstNonMandatoryParent.isEmpty()) {
+            //TODO Hier müsste eine Aktion hinkommen, die immer wahr ist.
+            throw new RuntimeException("Could not find non mandatory parent to replace action");
+        } else {
+            literalConstraint = firstNonMandatoryParent.get();
+        }
+
+        String literal = literalConstraint.getLiteral();
         Optional<IDecision<?>> decisionById = MyUtil.findDecisionById(decisionModel, literal);
         Optional<IDecision<?>> decisionByValue = MyUtil.findDecisionByValue(decisionModel, literal);
 
         if (decisionByValue.isPresent()) {
             action = new SetValueAction(decisionByValue.get(), new StringValue(literal));
         } else if (decisionById.isPresent()) {
-            //Boolean types get a true on the right side
             action = switch (decisionById.get().getType()) {
                 case BOOLEAN -> new SetValueAction(decisionById.get(), BooleanValue.getTrue());
                 case ENUM -> new SetValueAction(decisionById.get(), new StringValue(literal));
@@ -50,15 +60,26 @@ class ActionCreatorImpl implements ActionCreator {
         } else {
             throw new DecisionNotPresentException(literal);
         }
+
         return action;
     }
 
-    private static IAction handleNot(IDecisionModel decisionModel, NotConstraint right) {
+    private static IAction handleNot(IDecisionModel decisionModel, FeatureModel featureModel,
+                                     NotConstraint notConstraint) {
         IAction action;
 
         //NotConstraint should contain a literal (thanks to working on DNFs)
-        if (!(right.getContent() instanceof LiteralConstraint literalConstraint)) {
-            throw new UnexpectedTypeException(right.getContent());
+        if (!(notConstraint.getContent() instanceof LiteralConstraint literalConstraint)) {
+            throw new UnexpectedTypeException(notConstraint.getContent());
+        }
+
+        Optional<LiteralConstraint> firstNonMandatoryParent =
+                MyUtil.findFirstNonMandatoryParent(featureModel, literalConstraint);
+        if (firstNonMandatoryParent.isEmpty()) {
+            //TODO Hier müsste eine Aktion hinkommen, die immer falsch ist.
+            throw new RuntimeException("Could not find non mandatory parent to replace action");
+        } else {
+            literalConstraint = firstNonMandatoryParent.get();
         }
 
         String literal = literalConstraint.getLiteral();
