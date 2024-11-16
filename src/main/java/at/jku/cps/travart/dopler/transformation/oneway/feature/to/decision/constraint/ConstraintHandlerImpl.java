@@ -5,10 +5,7 @@ import at.jku.cps.travart.dopler.decision.model.IAction;
 import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanValue;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
-import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.DnfToTreeConverter;
-import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.DnfToTreeConverterImpl;
-import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.TreeToDnfConverter;
-import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.TreeToDnfConverterImpl;
+import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.*;
 import at.jku.cps.travart.dopler.transformation.util.Pair;
 import de.vill.model.FeatureModel;
 import de.vill.model.constraint.*;
@@ -26,6 +23,7 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
     private final DnfToTreeConverter dnfToTreeConverter;
     private final ActionCreator actionCreator;
     private final ConditionCreator conditionCreator;
+    private final DnfAlwaysTrueAndFalseRemover dnfAlwaysTrueAndFalseRemover;
 
     /** Constructor of {@link ConstraintHandlerImpl} */
     public ConstraintHandlerImpl() {
@@ -33,6 +31,7 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
         actionCreator = new ActionCreatorImpl();
         conditionCreator = new ConditionCreatorImpl();
         dnfToTreeConverter = new DnfToTreeConverterImpl();
+        dnfAlwaysTrueAndFalseRemover = new DnfAlwaysTrueAndFalseRemover();
     }
 
     @Override
@@ -44,12 +43,11 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
         //Create rules from the implications
         List<Rule> rules = createRules(decisionModel, featureModel, normalisedConstraints.getFirst());
 
-        //Rest
+        //Create rules from the rest
         for (List<Constraint> conjunction : normalisedConstraints.getSecond()) {
             for (Constraint constraint : conjunction) {
-                ICondition condition = BooleanValue.getTrue();
-                IAction action = actionCreator.createAction(decisionModel, featureModel, constraint);
-                rules.add(new Rule(condition, action));
+                IAction action = actionCreator.createAction(decisionModel, constraint);
+                rules.add(new Rule(BooleanValue.getTrue(), action));
             }
         }
 
@@ -67,12 +65,13 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
         List<List<Constraint>> rest = new ArrayList<>();
 
         for (Constraint constraint : getSanitasiedConstraints(featureModel)) {
-            List<List<Constraint>> dnf = treeToDnfConverter.convertToDnf(constraint);
+            List<List<Constraint>> dnf = dnfAlwaysTrueAndFalseRemover.removeAlwaysTruOrFalseConstraints(featureModel,
+                    treeToDnfConverter.convertToDnf(constraint));
 
             if (1 == dnf.size()) {
                 // DNF contains no OR
                 rest.add(dnf.getFirst());
-            } else {
+            } else if (1 < dnf.size()) {
                 //Contains at least one OR
                 List<Constraint> rightSide = dnf.getLast();
                 List<List<Constraint>> leftSide = new ArrayList<>(dnf);
@@ -124,10 +123,9 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
     private List<Rule> createRules(IDecisionModel decisionModel, FeatureModel featureModel,
                                    List<ImplicationConstraint> implicationConstraints) {
         List<Rule> rules = new ArrayList<>();
-        for (ImplicationConstraint implicationConstraint : implicationConstraints) {
-            ICondition condition =
-                    conditionCreator.createCondition(decisionModel, featureModel, implicationConstraint.getLeft());
-            IAction action = actionCreator.createAction(decisionModel, featureModel, implicationConstraint.getRight());
+        for (ImplicationConstraint implication : implicationConstraints) {
+            ICondition condition = conditionCreator.createCondition(decisionModel, featureModel, implication.getLeft());
+            IAction action = actionCreator.createAction(decisionModel, implication.getRight());
             rules.add(new Rule(condition, action));
         }
         return rules;

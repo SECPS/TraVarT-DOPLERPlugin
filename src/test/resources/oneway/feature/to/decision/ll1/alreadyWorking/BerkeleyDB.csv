@@ -29,7 +29,7 @@ featureLoggingFinest;featureLoggingFinest?;Boolean;true | false;;;FLogging
 featureLoggingInfo;featureLoggingInfo?;Boolean;true | false;;;FLogging
 featureLoggingSevere;featureLoggingSevere?;Boolean;true | false;;;FLogging
 featureLookAheadCache;featureLookAheadCache?;Boolean;true | false;;;FPersistencyFeatures.Cleaner
-featureMemoryBudget;featureMemoryBudget?;Boolean;true | false;;if (!(((!featureEvictorDaemon && !FEvictor) && !featureLookAheadCache) && !featureStatisticsEnvCaching)) {featureMemoryBudget = true;}if (FDbOperationType.featureDeleteDb) {featureMemoryBudget = true;}if (FConcurrencyType.featureLatch) {featureMemoryBudget = true;}if (featureLoggingInfo) {featureMemoryBudget = true;};true
+featureMemoryBudget;featureMemoryBudget?;Boolean;true | false;;if (!(((!FEvictor && !featureEvictorDaemon) && !featureLookAheadCache) && !featureStatisticsEnvCaching)) {featureMemoryBudget = true;}if (FDbOperationType.featureDeleteDb) {featureMemoryBudget = true;}if (FConcurrencyType.featureLatch) {featureMemoryBudget = true;}if (featureLoggingInfo) {featureMemoryBudget = true;};true
 featureStatisticsEnvCaching;featureStatisticsEnvCaching?;Boolean;true | false;;;FStatisticsFeatures.EnvStats
 featureStatisticsEnvCheckpointer;featureStatisticsEnvCheckpointer?;Boolean;true | false;;;FStatisticsFeatures.EnvStats
 featureStatisticsEnvCleaner;featureStatisticsEnvCleaner?;Boolean;true | false;;;FStatisticsFeatures.EnvStats

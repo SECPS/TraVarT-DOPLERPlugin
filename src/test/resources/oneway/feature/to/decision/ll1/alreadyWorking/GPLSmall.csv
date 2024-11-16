@@ -1,6 +1,6 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
 Alg;Which Alg?;Enumeration;Number | Connected | StrongConnect | Cycle | MSTPrim | MSTKruskal | ShortestPath;1:7;if (Alg.MSTKruskal) {disAllow(Alg.MSTPrim);};true
-Gtp;Which Gtp?;Enumeration;Directed | Undirected;1:1;if (Alg.Number) {Gtp = Gtp;}if (Alg.Connected) {Gtp = Undirected;}if (Alg.StrongConnect) {Gtp = Directed;}if (Alg.Cycle) {Gtp = Gtp;}if (!(!Alg.MSTKruskal && !Alg.MSTPrim)) {Gtp = Undirected;}if (Alg.ShortestPath) {Gtp = Directed;};true
+Gtp;Which Gtp?;Enumeration;Directed | Undirected;1:1;if (Alg.Connected) {Gtp = Undirected;}if (Alg.StrongConnect) {Gtp = Directed;}if (!(!Alg.MSTKruskal && !Alg.MSTPrim)) {Gtp = Undirected;}if (Alg.ShortestPath) {Gtp = Directed;};true
 Src;Src?;Boolean;true | false;;if (Alg.Number) {Src = true;}if (Alg.Connected) {Src = true;};true
 SrcType;Which SrcType?;Enumeration;BFS | DFS;1:1;if (Alg.StrongConnect) {SrcType = DFS;}if (Alg.Cycle) {SrcType = DFS;};Src
 Wgt;Which Wgt?;Enumeration;Weighted | Unweighted;1:1;if (!(!Alg.MSTKruskal && !Alg.MSTPrim)) {Wgt = Weighted;}if (Alg.ShortestPath) {Wgt = Weighted;};true

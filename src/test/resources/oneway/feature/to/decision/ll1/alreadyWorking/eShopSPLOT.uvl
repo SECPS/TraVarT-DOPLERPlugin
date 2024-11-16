@@ -16,9 +16,11 @@ features
 			buscador	
 				optional
 					reportepublico
+				mandatory
+					register
 
 constraints
-	eshop
+	eshop & register
 	!alta | !reportepublico
 	catalogo | !transferencias | tarjetacredito | pago | alta | estandar | seguridad | reportepublico | buscador | eshop
 	!tarjetacredito | alta
