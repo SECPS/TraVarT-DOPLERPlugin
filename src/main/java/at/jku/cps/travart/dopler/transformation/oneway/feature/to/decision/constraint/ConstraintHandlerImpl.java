@@ -6,6 +6,8 @@ import at.jku.cps.travart.dopler.decision.model.ICondition;
 import at.jku.cps.travart.dopler.decision.model.impl.BooleanValue;
 import at.jku.cps.travart.dopler.decision.model.impl.Rule;
 import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.*;
+import at.jku.cps.travart.dopler.transformation.util.DnfAlwaysFalseException;
+import at.jku.cps.travart.dopler.transformation.util.DnfAlwaysTrueException;
 import at.jku.cps.travart.dopler.transformation.util.Pair;
 import de.vill.model.FeatureModel;
 import de.vill.model.constraint.*;
@@ -65,10 +67,20 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
         List<List<Constraint>> rest = new ArrayList<>();
 
         for (Constraint constraint : getSanitasiedConstraints(featureModel)) {
-            List<List<Constraint>> dnf = dnfAlwaysTrueAndFalseRemover.removeAlwaysTruOrFalseConstraints(featureModel,
-                    treeToDnfConverter.convertToDnf(constraint));
+            List<List<Constraint>> unSanitisedDef = treeToDnfConverter.convertToDnf(constraint);
 
-            if (1 == dnf.size()) {
+            List<List<Constraint>> dnf;
+            try {
+                dnf = dnfAlwaysTrueAndFalseRemover.removeAlwaysTruOrFalseConstraints(featureModel, unSanitisedDef);
+            } catch (DnfAlwaysFalseException e) {
+                throw new RuntimeException(e);
+            } catch (DnfAlwaysTrueException e) {
+                continue;
+            }
+
+            if (dnf.isEmpty()) {
+                throw new RuntimeException("DNF is empty. Constraint is always false.");
+            } else if (1 == dnf.size()) {
                 // DNF contains no OR
                 rest.add(dnf.getFirst());
             } else if (1 < dnf.size()) {

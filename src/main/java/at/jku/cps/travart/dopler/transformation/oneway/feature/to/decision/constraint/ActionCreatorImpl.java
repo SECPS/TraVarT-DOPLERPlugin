@@ -25,7 +25,7 @@ class ActionCreatorImpl implements ActionCreator {
             case LiteralConstraint literalConstraint -> handleLiteral(decisionModel, literalConstraint);
             case NotConstraint notConstraint -> handleNot(decisionModel, notConstraint);
             case ExpressionConstraint expressionConstraint -> {
-                //TODO
+                //TODO What to do with ExpressionConstraints?
                 throw new UnexpectedTypeException(constraint);
             }
             case null, default -> throw new UnexpectedTypeException(constraint);
