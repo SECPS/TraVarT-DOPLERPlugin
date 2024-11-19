@@ -1,0 +1,35 @@
+UseTheComputerWithoutAMouseOrKeyboard;UseTheComputerWithoutAMouseOrKeyboard?;Boolean;true | false;;;edu.kit.dopler.model.BooleanLiteralExpression@64b7225f
+MousePointerType;Which MousePointerType?;Enumeration;"LargerWhite | LargeWhite | LargerInverted | LargerBlack | LargeInverted | StandardBlack | LargeBlack | StandardWhite | StandardInverted | ";1:1;;edu.kit.dopler.model.StringLiteralExpression@33db72bd
+MakeEntryEasierType;Which MakeEntryEasierType?;Enumeration;"ActivateTheFilterKeys | ConfigureTheRetentiveKeys | ActivateTheToggleKeys | ConfigureTheFilterKeys | ActivateTheRetentiveKeys | ";1:5;;edu.kit.dopler.model.Equals@7f92b990
+EasyToManageWindows;EasyToManageWindows?;Boolean;true | false;;;edu.kit.dopler.model.StringLiteralExpression@31e04b13
+ReplaceSoundByOtherWrittenOrVisualMethodsType;Which ReplaceSoundByOtherWrittenOrVisualMethodsType?;Enumeration;"AudioDevicesAndSoundThemes_ | ChooseAVisualWarning | ActivateSubtilesForSpokenDialogue | ";1:3;;edu.kit.dopler.model.StringLiteralExpression@6c1832aa
+MakeTheKeyboardEasierToUseType;Which MakeTheKeyboardEasierToUseType?;Enumeration;"MakeUsingKeyboardShortcutsEasier | SeeAsWell_ | EasyToManageWindows_ | ControlTheMouseWithTheKeyboard_ | MakeEntryEasier | ";1:5;;edu.kit.dopler.model.StringLiteralExpression@4beeb0e
+OnlineSupportTechnologies;OnlineSupportTechnologies?;Boolean;true | false;;;edu.kit.dopler.model.StringLiteralExpression@6e8a9c30
+ImproveTheReadabilityOfTheComputerType;Which ImproveTheReadabilityOfTheComputerType?;Enumeration;"EnchargeTheItemsDisplayOnTheScreen | HighContrast | MakeTheElementOnTheScreenEasierToSee | ";1:3;;edu.kit.dopler.model.StringLiteralExpression@5d01ea21
+EasyToManageWindowsType;Which EasyToManageWindowsType?;Enumeration;"ActivateAWindowsByClickingOnItWithTheMouse_ | PreventWindowsFromBeingAutomaticallyReorganized_ | ";1:2;;edu.kit.dopler.model.StringLiteralExpression@70211e49
+SeeAsWell;SeeAsWell?;Boolean;true | false;;;edu.kit.dopler.model.StringLiteralExpression@3b46dd8
+HighContrastType;Which HighContrastType?;Enumeration;"ChooseAHighContrastSet | EnableOrDisableHighContrast | ";1:2;;edu.kit.dopler.model.Equals@39651a82
+ControlTheMouseWithTheKeyboard_Type;Which ControlTheMouseWithTheKeyboard_Type?;Enumeration;"ConfigureMouseKeys_ | ActivateMouseKey_ | ";1:2;;edu.kit.dopler.model.Equals@6be7bf6d
+SeeAsWell_Type;Which SeeAsWell_Type?;Enumeration;"AddADvorakKeyboard | KeyboardSetting | ";1:2;;edu.kit.dopler.model.Equals@134c370e
+ControlTheMouseWithTheKeyboardType;Which ControlTheMouseWithTheKeyboardType?;Enumeration;"ConfigureMouseKeys | ActivateMouseKey | ";1:2;;edu.kit.dopler.model.StringLiteralExpression@33364212
+MouseSetting;MouseSetting?;Boolean;true | false;;;edu.kit.dopler.model.StringLiteralExpression@2216effc
+AdjustSchedulingLimitAndFlashingVisualType;Which AdjustSchedulingLimitAndFlashingVisualType?;Enumeration;"HowLongTheNotificationBoxesShouldRemainOpen | DisableAllUnnecessaryAnimations | ";1:2;;edu.kit.dopler.model.StringLiteralExpression@745c2004
+ChooseAVisualWarningType;Which ChooseAVisualWarningType?;Enumeration;"Nothing | MakeTheDesktopBlink | FlashTheActiveLegendeBar | FlashTheActiveWindows | ";1:1;;edu.kit.dopler.model.Equals@6da9dc6
+OthersPrograms;OthersPrograms?;Boolean;true | false;;;edu.kit.dopler.model.StringLiteralExpression@7fd69dd
+MakeTheElementOnTheScreenEasierToSeeType;Which MakeTheElementOnTheScreenEasierToSeeType?;Enumeration;"DisableAllUnnecessaryAnimations_ | AdjustTheColorAndTransparencyOfWindowsBorders | MakeTheFocusRectangleThicker | AdjustTheDisplayEffect | RemoveBackgroundImages | ";1:5;;edu.kit.dopler.model.Equals@12010fd1
+MakeTheMouseEasierToUse;MakeTheMouseEasierToUse?;Boolean;true | false;;;edu.kit.dopler.model.BooleanLiteralExpression@7c84195
+AudioDevicesAndSoundThemes;AudioDevicesAndSoundThemes?;Boolean;true | false;;;edu.kit.dopler.model.StringLiteralExpression@552ed807
+ImproveTheReadabilityOfTheComputer;ImproveTheReadabilityOfTheComputer?;Boolean;true | false;;;edu.kit.dopler.model.BooleanLiteralExpression@3971f0fe
+MakeTheKeyboardEasierToUse;MakeTheKeyboardEasierToUse?;Boolean;true | false;;;edu.kit.dopler.model.BooleanLiteralExpression@23940f86
+ConfigureVoiceSynthesis;ConfigureVoiceSynthesis?;Boolean;true | false;;;edu.kit.dopler.model.StringLiteralExpression@66153688
+AvoidUsingMouseAndKeyboardType;Which AvoidUsingMouseAndKeyboardType?;Enumeration;"SpeakIntoAMicrophoneToControlComputer | UseVoiceRecognition | ";1:2;;edu.kit.dopler.model.Equals@455824ad
+HearTheTextReadAloud_1;Which HearTheTextReadAloud_1?;Enumeration;"EnableAudioDescription | ActivateTheNarrator | ";1:2;;edu.kit.dopler.model.StringLiteralExpression@7318daf8
+EnchargeTheItemsDisplayOnTheScreenType;Which EnchargeTheItemsDisplayOnTheScreenType?;Enumeration;"ChangeTheSizeOfTextAndIcons | ActivateMagnifyingGlass | ";1:2;;edu.kit.dopler.model.Equals@70f31322
+UseTheComputerWithoutAMouseOrKeyboardType;Which UseTheComputerWithoutAMouseOrKeyboardType?;Enumeration;"GrabUsingAPointingDevice | AvoidUsingMouseAndKeyboard | ";1:2;;edu.kit.dopler.model.StringLiteralExpression@3f1ddac2
+ControlTheMouseWithTheKeyboard;ControlTheMouseWithTheKeyboard?;Boolean;true | false;;;edu.kit.dopler.model.StringLiteralExpression@3be4fcc0
+MousePointer;MousePointer?;Boolean;true | false;;;edu.kit.dopler.model.StringLiteralExpression@e1e2e5e
+UseTheComputerWithoutAScreen;UseTheComputerWithoutAScreen?;Boolean;true | false;;;edu.kit.dopler.model.BooleanLiteralExpression@661c46bc
+ReplaceSoundByOtherWrittenOrVisualMethods;ReplaceSoundByOtherWrittenOrVisualMethods?;Boolean;true | false;;;edu.kit.dopler.model.BooleanLiteralExpression@37864b77
+HearTheTextReadAloud;HearTheTextReadAloud?;Boolean;true | false;;;edu.kit.dopler.model.StringLiteralExpression@2b98b3bb
+MakingTasksEasierToAccomplish;MakingTasksEasierToAccomplish?;Boolean;true | false;;;edu.kit.dopler.model.BooleanLiteralExpression@540b0448
+AdjustSchedulingLimitAndFlashingVisual;AdjustSchedulingLimitAndFlashingVisual?;Boolean;true | false;;;edu.kit.dopler.model.StringLiteralExpression@50a691d3

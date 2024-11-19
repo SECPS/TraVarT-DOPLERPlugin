@@ -1,7 +1,7 @@
 package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.dnf;
 
-import at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.constraint.dnf.*;
 import de.vill.model.constraint.*;
+import edu.kit.dopler.transformation.oneway.feature.to.decision.constraint.dnf.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

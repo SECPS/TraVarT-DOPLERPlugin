@@ -1,11 +1,12 @@
 package at.jku.cps.travart.dopler.transformation.oneway;
 
 import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
-import at.jku.cps.travart.dopler.decision.IDecisionModel;
-import at.jku.cps.travart.dopler.io.DecisionModelSerializer;
-import at.jku.cps.travart.dopler.printer.DoplerPrettyPrinter;
+import edu.kit.dopler.io.DecisionModelWriter;
+import edu.kit.dopler.model.Dopler;
+import edu.kit.dopler.printer.DoplerPrettyPrinter;
 import de.vill.main.UVLModelFactory;
 import de.vill.model.FeatureModel;
+import edu.kit.dopler.transformation.oneway.OneWayTransformer;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -23,9 +24,12 @@ public class FeatureToDecisionModelTest extends TransformationTest {
         UVLModelFactory uvlModelFactory = new UVLModelFactory();
         FeatureModel featureModel = uvlModelFactory.parse(Files.readString(model));
         OneWayTransformer oneWayTransformer = new OneWayTransformer();
-        IDecisionModel decisionModel = oneWayTransformer.transform(featureModel, STANDARD_MODEL_NAME);
-        DoplerPrettyPrinter doplerPrettyPrinter = new DoplerPrettyPrinter(new DecisionModelSerializer());
-        return doplerPrettyPrinter.toText(decisionModel);
+        Dopler decisionModel = oneWayTransformer.transform(featureModel, STANDARD_MODEL_NAME);
+
+        DecisionModelWriter decisionModelWriter = new DecisionModelWriter();
+        decisionModelWriter.write(decisionModel, Path.of("src/test/resources/oneway/TEMP.txt"));
+
+        return Files.readString(Path.of("src/test/resources/oneway/TEMP.txt"));
     }
 
     @Override

@@ -1,7 +1,6 @@
 package at.jku.cps.travart.dopler.transformation;
 
-import at.jku.cps.travart.dopler.common.DecisionModelUtils;
-import at.jku.cps.travart.dopler.decision.impl.DMCSVHeader;
+import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
@@ -30,7 +29,7 @@ public class TestUtils {
         //Sometimes \r is used as line separator
         String sanitisedModel = NEW_LINE_PATTERN.matcher(model).replaceAll(System.lineSeparator());
 
-        CSVParser parser = DecisionModelUtils.createCSVFormat(true).parse(new StringReader(sanitisedModel));
+        CSVParser parser = createCSVFormat(true).parse(new StringReader(sanitisedModel));
 
         List<CSVRecord> records = parser.stream().collect(Collectors.toCollection(ArrayList::new));
 
@@ -51,4 +50,15 @@ public class TestUtils {
 
         return String.join(System.lineSeparator(), lines);
     }
+
+
+    public static CSVFormat createCSVFormat(final boolean skipHeader) {
+        CSVFormat.Builder builder = CSVFormat.EXCEL.builder();
+        builder.setDelimiter(DELIMITER);
+        builder.setHeader(DMCSVHeader.stringArray());
+        builder.setSkipHeaderRecord(skipHeader);
+        return builder.build();
+    }
+
+    private static final char DELIMITER = ';';
 }
