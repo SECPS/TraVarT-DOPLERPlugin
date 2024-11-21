@@ -25,5 +25,8 @@ public abstract class AbstractValue<T> implements IValue<T> {
         this.value = Objects.requireNonNull(value);
     }
 
-
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
 }

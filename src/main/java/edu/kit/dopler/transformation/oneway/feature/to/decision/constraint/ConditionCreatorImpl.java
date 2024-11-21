@@ -52,9 +52,7 @@ class ConditionCreatorImpl implements ConditionCreator {
         Optional<IDecision<?>> decisionByValue = MyUtil.findDecisionByValue(decisionModel, literal);
 
         if (decisionByValue.isPresent()) {
-            IExpression left = new StringLiteralExpression(decisionByValue.get().getDisplayId());
-            IExpression right = new StringLiteralExpression(literal);
-            condition = new Equals(left, right);
+            return new StringLiteralExpression(decisionByValue.get().getDisplayId() + "." + literal);
         } else if (decisionById.isPresent()) {
             condition = new StringLiteralExpression(literal);
         } else {

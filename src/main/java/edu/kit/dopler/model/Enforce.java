@@ -41,4 +41,9 @@ public abstract class Enforce extends ValueRestrictionAction{
     public IValue<?> getValue() {
         return value;
     }
+
+    @Override
+    public String toString() {
+        return "%s = %s;".formatted(getDecision().getDisplayId(), value);
+    }
 }

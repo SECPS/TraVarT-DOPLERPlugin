@@ -327,4 +327,9 @@ public abstract class Decision<T> implements IDecision<T> {
 	public int getId() {
 		return id;
 	}
+
+	@Override
+	public String toString() {
+		return displayId;
+	}
 }

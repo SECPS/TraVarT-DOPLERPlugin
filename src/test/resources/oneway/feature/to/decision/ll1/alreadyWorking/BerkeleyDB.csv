@@ -6,7 +6,7 @@ FDbOperationType;Which FDbOperationType?;Enumeration;featureDeleteDb | featureTr
 FEvictor;FEvictor?;Boolean;true | false;;if (FDbOperationType.featureDeleteDb) {FEvictor = true;}if (FConcurrencyType.featureLatch) {FEvictor = true;}if (featureLoggingFine) {FEvictor = true;}if (featureMemoryBudget) {FEvictor = true;}if (featureStatisticsEnvEvictor) {FEvictor = true;};true
 FIOFeature;Which FIOFeature?;Enumeration;NIO | IO;1:1;;true
 FLogging;FLogging?;Boolean;true | false;;;true
-FNIOType;Which FNIOType?;Enumeration;featureNIO | featureChunkedNIO;1:1;;getValue(FIOFeature) == FIOFeature.NIO
+FNIOType;Which FNIOType?;Enumeration;featureNIO | featureChunkedNIO;1:1;;FIOFeature.NIO
 FPersistencyFeatures;FPersistencyFeatures?;Boolean;true | false;;;true
 FPersistencyFeaturesType;Which FPersistencyFeaturesType?;Enumeration;featureChecksum | featureFileHandleCache | featureHandleFullDiscError | featureEnvironmentLock | Checkpointer | Cleaner;1:6;if (FConcurrencyType.featureLatch) {FPersistencyFeaturesType = featureFileHandleCache;}if (featureLoggingSevere) {FPersistencyFeaturesType = featureEnvironmentLock;}if (featureLoggingInfo) {FPersistencyFeaturesType = featureChecksum;};FPersistencyFeatures
 FStatistics;FStatistics?;Boolean;true | false;;;true
@@ -16,7 +16,7 @@ featureCleanerDaemon;featureCleanerDaemon?;Boolean;true | false;;;FPersistencyFe
 featureCriticalEviction;featureCriticalEviction?;Boolean;true | false;;;FEvictor
 featureCustomizableCheckpointerBytes;featureCustomizableCheckpointerBytes?;Boolean;true | false;;;FPersistencyFeatures.Checkpointer
 featureCustomizableCheckpointerTime;featureCustomizableCheckpointerTime?;Boolean;true | false;;if (featureCustomizableCheckpointerBytes) {featureCustomizableCheckpointerTime = true;};FPersistencyFeatures.Checkpointer
-featureDirectNIO;featureDirectNIO?;Boolean;true | false;;;getValue(FIOFeature) == FIOFeature.NIO
+featureDirectNIO;featureDirectNIO?;Boolean;true | false;;;FIOFeature.NIO
 featureEvictorDaemon;featureEvictorDaemon?;Boolean;true | false;;;FEvictor
 featureINCompressor;featureINCompressor?;Boolean;true | false;;if (featureCriticalEviction) {featureINCompressor = true;}if (FDbOperationType.featureDeleteDb) {featureINCompressor = true;}if (FConcurrencyType.featureLatch) {featureINCompressor = true;}if (featureLoggingFine) {featureINCompressor = true;}if (featureStatisticsEnvINCompressor) {featureINCompressor = true;}if (featureVerifier) {featureINCompressor = true;};true
 featureLoggingConfig;featureLoggingConfig?;Boolean;true | false;;;FLogging
@@ -37,6 +37,6 @@ featureStatisticsEnvEvictor;featureStatisticsEnvEvictor?;Boolean;true | false;;;
 featureStatisticsEnvFSync;featureStatisticsEnvFSync?;Boolean;true | false;;;FStatisticsFeatures.EnvStats
 featureStatisticsEnvINCompressor;featureStatisticsEnvINCompressor?;Boolean;true | false;;;FStatisticsFeatures.EnvStats
 featureStatisticsEnvLog;featureStatisticsEnvLog?;Boolean;true | false;;;FStatisticsFeatures.EnvStats
-featureSynchronizedIO;featureSynchronizedIO?;Boolean;true | false;;;getValue(FIOFeature) == FIOFeature.IO
+featureSynchronizedIO;featureSynchronizedIO?;Boolean;true | false;;;FIOFeature.IO
 featureTreeVisitor;featureTreeVisitor?;Boolean;true | false;;if (FConcurrencyType.featureLatch) {featureTreeVisitor = true;}if (FStatisticsFeatures.featureStatisticsDatabase) {featureTreeVisitor = true;}if (featureVerifier) {featureTreeVisitor = true;};true
 featureVerifier;featureVerifier?;Boolean;true | false;;if (FConcurrencyType.featureLatch) {featureVerifier = true;};true

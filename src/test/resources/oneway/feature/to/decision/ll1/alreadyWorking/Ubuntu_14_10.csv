@@ -8,7 +8,7 @@ AddShowDesktopIconToTheLauncher;AddShowDesktopIconToTheLauncher?;Boolean;true | 
 AllowDifferentLayoutsForIndividualWindows;AllowDifferentLayoutsForIndividualWindows?;Boolean;true | false;;if (AllowDifferentLayoutsForIndividualWindows1) {AllowDifferentLayoutsForIndividualWindows = true;}if (LayoutSettingsType.AllowDifferentLayoutsForIndividualWindows2) {AllowDifferentLayoutsForIndividualWindows = true;};true
 AllowDifferentLayoutsForIndividualWindows1;AllowDifferentLayoutsForIndividualWindows1?;Boolean;true | false;;if (!(LayoutSettingsType.AllowDifferentLayoutsForIndividualWindows2 || !AllowDifferentLayoutsForIndividualWindows)) {AllowDifferentLayoutsForIndividualWindows1 = true;};TextEntry
 AllowDifferentLayoutsForIndividualWindows1Type;Which AllowDifferentLayoutsForIndividualWindows1Type?;Enumeration;NewWindowsUseTheCurrentSource | NewWindowsUseTheDefaultSource;1:1;;AllowDifferentLayoutsForIndividualWindows1
-AllowDifferentLayoutsForIndividualWindows2Type;Which AllowDifferentLayoutsForIndividualWindows2Type?;Enumeration;NewWindowsUseTheDefaultLayout | NewWindowsUseThePreviousWindowsLayout;1:1;;getValue(LayoutSettings) == LayoutSettings.AllowDifferentLayoutsForIndividualWindows2
+AllowDifferentLayoutsForIndividualWindows2Type;Which AllowDifferentLayoutsForIndividualWindows2Type?;Enumeration;NewWindowsUseTheDefaultLayout | NewWindowsUseThePreviousWindowsLayout;1:1;;LayoutSettings.AllowDifferentLayoutsForIndividualWindows2
 Alt_Super_plus;Alt_Super_plus?;Boolean;true | false;;if (UniversalAccess2Type.TurnZoomOnOrOff) {Alt_Super_plus = true;}if (UniversalAccess2Type.TurnScreenReaderOnOrOff) {Alt_Super_plus = true;};true
 Appearance;Appearance?;Boolean;true | false;;;true
 AutoHideTheLauncher;AutoHideTheLauncher?;Boolean;true | false;;;Appearance
@@ -22,12 +22,12 @@ BounceKeys;BounceKeys?;Boolean;true | false;;if (!((SlowKeys || AcceptanceDelay2
 BrightnessAndLock;BrightnessAndLock?;Boolean;true | false;;;true
 BuiltInDisplay;BuiltInDisplay?;Boolean;true | false;;if (LauncherPlacement.BuiltInDisplay1) {BuiltInDisplay = true;}if (ScaleAllWindowContentToMatch.BuiltInDisplay2) {BuiltInDisplay = true;};true
 Ctrl_Alt_S;Ctrl_Alt_S?;Boolean;true | false;;if (WindowsType.ToggleShadedState) {Ctrl_Alt_S = true;}if (WindowsType.ToggleMaximisationState) {Ctrl_Alt_S = true;};true
-CursorBlinksInTextFields;CursorBlinksInTextFields?;Boolean;true | false;;;getValue(Typing1_1) == Typing1_1.CursorBlinking
+CursorBlinksInTextFields;CursorBlinksInTextFields?;Boolean;true | false;;;Typing1_1.CursorBlinking
 CustomShortcuts;CustomShortcuts?;Boolean;true | false;;;Shortcuts
 Delay;Delay?;Boolean;true | false;;if (Delay1) {Delay = true;}if (Typing1_1.RepeatKeys) {Delay = true;};true
 Delay1;Delay1?;Boolean;true | false;;if (!(Typing1_1.RepeatKeys || !Delay)) {Delay1 = true;};HoverClick
 Delay1Type;Which Delay1Type?;Enumeration;Long5 | Short3;1:1;;Delay1
-Delay2;Which Delay2?;Enumeration;Short4 | Long1;1:1;if (!((((Delay1Type.Long5 || AcceptanceDelay2Type.Long4) || AcceptanceDelay1.Long3) || AcceptanceDelay3.Long2) || !Long)) {Delay2 = Long1;};getValue(Typing1_1) == Typing1_1.RepeatKeys
+Delay2;Which Delay2?;Enumeration;Short4 | Long1;1:1;if (!((((Delay1Type.Long5 || AcceptanceDelay2Type.Long4) || AcceptanceDelay1.Long3) || AcceptanceDelay3.Long2) || !Long)) {Delay2 = Long1;};Typing1_1.RepeatKeys
 DimSceenToSaveLeft;DimSceenToSaveLeft?;Boolean;true | false;;;BrightnessAndLock
 DisableIfTwoKeysArePressedTogether;DisableIfTwoKeysArePressedTogether?;Boolean;true | false;;;StickyKeys
 DisableWhileTyping;DisableWhileTyping?;Boolean;true | false;;;Touchpad
@@ -41,7 +41,7 @@ Hearing;Hearing?;Boolean;true | false;;;UniversalAccess1
 HighContrast;HighContrast?;Boolean;true | false;;;true
 HighContrast2;HighContrast2?;Boolean;true | false;;;Seeing
 HoverClick;HoverClick?;Boolean;true | false;;;PointingAndClicking
-KeyPressesRepeatWhenKeyIsHeldDown;KeyPressesRepeatWhenKeyIsHeldDown?;Boolean;true | false;;;getValue(Typing1_1) == Typing1_1.RepeatKeys
+KeyPressesRepeatWhenKeyIsHeldDown;KeyPressesRepeatWhenKeyIsHeldDown?;Boolean;true | false;;;Typing1_1.RepeatKeys
 KeyboardSetting;KeyboardSetting?;Boolean;true | false;;if (!((Typing3 || Typing2) || !Typing)) {KeyboardSetting = true;};TextEntry
 LargeText;LargeText?;Boolean;true | false;;;Seeing
 LauncherIconSize;Which LauncherIconSize?;Enumeration;x_48 | x_32 | x_64;1:1;;Appearance
@@ -83,8 +83,8 @@ Slow;Slow?;Boolean;true | false;;if (Speed2Type.Slow2) {Slow = true;}if (DoubleC
 SlowKeys;SlowKeys?;Boolean;true | false;;;Typing3
 SoundAndMedia;SoundAndMedia?;Boolean;true | false;;;Shortcuts
 Speed;Speed?;Boolean;true | false;;if (Typing1_1.RepeatKeys) {Speed = true;}if (Speed2) {Speed = true;};true
-Speed1;Which Speed1?;Enumeration;Fast1 | Slow1;1:1;if (!((DoubleClick.Fast3 || Speed2Type.Fast2) || !Fast)) {Speed1 = Fast1;}if (!((DoubleClick.Slow3 || Speed2Type.Slow2) || !Slow)) {Speed1 = Slow1;};getValue(Typing1_1) == Typing1_1.RepeatKeys
-Speed2;Speed2?;Boolean;true | false;;;getValue(Typing1_1) == Typing1_1.CursorBlinking
+Speed1;Which Speed1?;Enumeration;Fast1 | Slow1;1:1;if (!((DoubleClick.Fast3 || Speed2Type.Fast2) || !Fast)) {Speed1 = Fast1;}if (!((DoubleClick.Slow3 || Speed2Type.Slow2) || !Slow)) {Speed1 = Slow1;};Typing1_1.RepeatKeys
+Speed2;Speed2?;Boolean;true | false;;;Typing1_1.CursorBlinking
 Speed2Type;Which Speed2Type?;Enumeration;Fast2 | Slow2;1:1;;Speed2
 StickyEdges;StickyEdges?;Boolean;true | false;;;Displays
 StickyKeys;StickyKeys?;Boolean;true | false;;;Typing3

@@ -71,7 +71,7 @@ class FeatureAndGroupHandler {
         String description = "";
         IExpression visibilityCondition =
                 visibilityHandler.resolveVisibility(featureModel, decisionModel, parentFeature);
-        Set<Rule> rules = new HashSet<>();
+        Set<Rule> rules = new LinkedHashSet<>();
 
         Set<EnumerationLiteral> collect = new LinkedHashSet<>();
         group.getFeatures().stream().map(Feature::getFeatureName).map(EnumerationLiteral::new).forEach(collect::add);
@@ -94,7 +94,7 @@ class FeatureAndGroupHandler {
         String description = "";
         IExpression visibilityCondition =
                 visibilityHandler.resolveVisibility(featureModel, decisionModel, parentFeature);
-        Set<Rule> rules = new HashSet<>();
+        Set<Rule> rules = new LinkedHashSet<>();
         Set<EnumerationLiteral> collect = new LinkedHashSet<>();
         group.getFeatures().stream().map(Feature::getFeatureName).map(EnumerationLiteral::new).forEach(collect::add);
         Enumeration enumeration = new Enumeration(collect);
@@ -116,7 +116,7 @@ class FeatureAndGroupHandler {
             String question = String.format(BOOLEAN_QUESTION, id);
             String description = "";
             IExpression visibility = visibilityHandler.resolveVisibility(featureModel, decisionModel, parentFeature);
-            Set<Rule> rules = new HashSet<>();
+            Set<Rule> rules = new LinkedHashSet<>();
             BooleanDecision decision = new BooleanDecision(id, question, description, visibility, rules);
             decisionModel.addDecision(decision);
         }

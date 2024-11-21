@@ -26,6 +26,7 @@ public class DecisionModelWriter {
 		CSVFormat dmFormat = CSVUtils.createCSVFormat();
 		try (FileWriter out = new FileWriter(path.toFile(), StandardCharsets.UTF_8);
 				CSVPrinter printer = new CSVPrinter(out, dmFormat)) {
+            printer.printRecord();  //Needed for first line
 			for (Object obj : dm.getDecisions()) {
 				assert obj instanceof IDecision;
 				IDecision decision = (IDecision) obj;
@@ -82,7 +83,7 @@ public class DecisionModelWriter {
 			int i = 0;
 			for (EnumerationLiteral literal : enumeration) {
 				builder.append(literal.getValue());
-				if (i != enumeration.size()) {
+				if (i + 1 < enumeration.size()) {
 					builder.append(" | ");
 				}
 				i++;

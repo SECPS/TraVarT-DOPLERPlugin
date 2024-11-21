@@ -53,8 +53,11 @@ public class AND extends BinaryExpression{
         getLeftExpression().toSMTStream(builder, callingDecision);
         getRightExpression().toSMTStream(builder, callingDecision);
         builder.add(")");
+    }
 
-
+    @Override
+    public String toString() {
+        return "(%s && %s)".formatted(getLeftExpression(), getRightExpression());
     }
 
 

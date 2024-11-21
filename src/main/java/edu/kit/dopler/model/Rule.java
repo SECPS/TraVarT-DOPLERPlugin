@@ -42,4 +42,14 @@ public class Rule {
 
     }
 
+    @Override
+    public String toString() {
+        StringBuilder actionsString = new StringBuilder();
+        for (IAction action : actions) {
+            actionsString.append(action.toString());
+        }
+
+        return "if (%s) {%s}".formatted(condition, actionsString);
+    }
+
 }

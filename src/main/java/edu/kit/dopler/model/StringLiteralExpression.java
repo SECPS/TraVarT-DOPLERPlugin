@@ -12,7 +12,6 @@ public class StringLiteralExpression extends LiteralExpression{
         this.literal = literal;
     }
 
-
     @Override
     public boolean evaluate() {
         return false;
@@ -46,5 +45,10 @@ public class StringLiteralExpression extends LiteralExpression{
            throw new InvalidTypeInLiteralExpressionCheckException("Parameter was not of Type StringValue in Equals");
        }
 
+    }
+
+    @Override
+    public String toString() {
+        return literal;
     }
 }

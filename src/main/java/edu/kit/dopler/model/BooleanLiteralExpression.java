@@ -58,4 +58,9 @@ public class BooleanLiteralExpression extends LiteralExpression{
         }
 
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(literal);
+    }
 }

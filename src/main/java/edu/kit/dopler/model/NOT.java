@@ -23,5 +23,8 @@ public class NOT extends UnaryExpression{
         builder.add(")");
     }
 
-
+    @Override
+    public String toString() {
+        return "!%s".formatted(getChild());
+    }
 }

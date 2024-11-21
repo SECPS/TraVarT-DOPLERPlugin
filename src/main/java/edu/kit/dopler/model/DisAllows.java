@@ -37,4 +37,9 @@ public class DisAllows extends ValueRestrictionAction{
         builder.add("true");
         builder.add(")");
     }
+
+    @Override
+    public String toString() {
+        return "disAllow(%s.%s);".formatted(getDecision(), disAllowValue);
+    }
 }

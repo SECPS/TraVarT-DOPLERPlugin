@@ -44,9 +44,7 @@ class VisibilityHandler {
         }
 
         IDecision<?> decision = parentOfParentDecision.get();
-        IExpression left = new StringLiteralExpression(decision.getDisplayId());
-        IExpression right = new StringLiteralExpression(parent.getFeatureName());
-        return new Equals(left, right);
+        return new StringLiteralExpression(decision.getDisplayId() + "." + parent.getFeatureName());
     }
 
     /** Returns {@code getValue(decision) = value}, because you can only choose one enum from the decision */
@@ -63,9 +61,7 @@ class VisibilityHandler {
         //IExpression right = new DecisionValueCondition(parentOfParentDecision.get(), new StringValue(parent
         // .getFeatureName()));
 
-        IExpression left = new StringLiteralExpression(parentOfParent.getFeatureName());
-        IExpression right = new StringLiteralExpression(parent.getFeatureName());
-        return new Equals(left, right);
+        return new StringLiteralExpression(parentOfParent.getFeatureName() + "." + parent.getFeatureName());
     }
 
     /** Returns {@code decision}, because you can only choose one enum from the decision */

@@ -40,14 +40,14 @@ public abstract class TransformationTest {
         String message = String.format("%n%nExpected:%n %s%n%nBut was: %n%s", expected, actual);
         Assertions.assertEquals(expected, actual, message);
     }
-
+    
     /**
      * Generates the data for the test method.
      *
      * @return Set of Arguments. Each argument consists of the expected data from the file and the real transformed
      * model.
      */
-    private Stream<Arguments> dataSourceMethod() throws IOException, NotSupportedVariabilityTypeException {
+    private Stream<Arguments> dataSourceMethod() throws IOException {
 
         //Collect files depending on getFromEnding()
         List<Path> filePathsSet;
