@@ -6,9 +6,9 @@ import de.vill.model.Group;
 import edu.kit.dopler.model.*;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 class FeatureAndGroupHandler {
 
@@ -72,9 +72,10 @@ class FeatureAndGroupHandler {
         IExpression visibilityCondition =
                 visibilityHandler.resolveVisibility(featureModel, decisionModel, parentFeature);
         Set<Rule> rules = new HashSet<>();
-        Enumeration enumeration = new Enumeration(
-                group.getFeatures().stream().map(Feature::getFeatureName).map(EnumerationLiteral::new)
-                        .collect(Collectors.toSet()));
+
+        Set<EnumerationLiteral> collect = new LinkedHashSet<>();
+        group.getFeatures().stream().map(Feature::getFeatureName).map(EnumerationLiteral::new).forEach(collect::add);
+        Enumeration enumeration = new Enumeration(collect);
         int minCardinality = 1;
         int maxCardinality = group.getFeatures().size();
         EnumerationDecision enumerationDecision =
@@ -94,9 +95,9 @@ class FeatureAndGroupHandler {
         IExpression visibilityCondition =
                 visibilityHandler.resolveVisibility(featureModel, decisionModel, parentFeature);
         Set<Rule> rules = new HashSet<>();
-        Enumeration enumeration = new Enumeration(
-                group.getFeatures().stream().map(Feature::getFeatureName).map(EnumerationLiteral::new)
-                        .collect(Collectors.toSet()));
+        Set<EnumerationLiteral> collect = new LinkedHashSet<>();
+        group.getFeatures().stream().map(Feature::getFeatureName).map(EnumerationLiteral::new).forEach(collect::add);
+        Enumeration enumeration = new Enumeration(collect);
         int minCardinality = 1;
         int maxCardinality = 1;
         EnumerationDecision enumerationDecision =
