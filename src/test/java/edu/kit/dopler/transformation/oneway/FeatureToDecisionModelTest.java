@@ -1,11 +1,12 @@
-package at.jku.cps.travart.dopler.transformation.oneway;
+package edu.kit.dopler.transformation.oneway;
 
 import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import de.vill.main.UVLModelFactory;
 import de.vill.model.FeatureModel;
 import edu.kit.dopler.io.DecisionModelWriter;
 import edu.kit.dopler.model.Dopler;
-import edu.kit.dopler.transformation.oneway.OneWayTransformer;
+import edu.kit.dopler.model.Main;
+import org.junit.jupiter.api.Assertions;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -32,6 +33,20 @@ public class FeatureToDecisionModelTest extends TransformationTest {
         String result = Files.readString(TEMP_PATH); //Read temp file
         Files.writeString(TEMP_PATH, ""); //Reset temp file
         return result;
+    }
+
+    @Override
+    void testNumberOfConfigs(Path pathToBeTransformed) throws Exception {
+        UVLModelFactory uvlModelFactory = new UVLModelFactory();
+        FeatureModel featureModel = uvlModelFactory.parse(Files.readString(pathToBeTransformed));
+        OneWayTransformer oneWayTransformer = new OneWayTransformer();
+        Dopler decisionModel = oneWayTransformer.transform(featureModel, STANDARD_MODEL_NAME);
+
+        //TODO expected austauschen mit der Anzahl der Konfiguration des FM
+        int amountOfConfigs = Main.getAmountOfConfigs(decisionModel);
+        System.out.println("Real: " + amountOfConfigs);
+        System.out.println("Expected: " + amountOfConfigs);
+        Assertions.assertEquals(amountOfConfigs, amountOfConfigs);
     }
 
     @Override

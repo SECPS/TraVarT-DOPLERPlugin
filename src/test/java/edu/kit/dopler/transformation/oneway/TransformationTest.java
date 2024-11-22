@@ -1,7 +1,7 @@
-package at.jku.cps.travart.dopler.transformation.oneway;
+package edu.kit.dopler.transformation.oneway;
 
 import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
-import at.jku.cps.travart.dopler.transformation.TestUtils;
+import edu.kit.dopler.transformation.TestUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,13 +11,18 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public abstract class TransformationTest {
+abstract class TransformationTest {
+
+    private static final String DATA_SOURCE_METHOD = "dataSourceMethod";
+    private static final long TIMEOUT_TIME = 0L;
 
     /**
      * Compares the real model from the file with the transformed model.
@@ -26,9 +31,8 @@ public abstract class TransformationTest {
      * @param pathToBeTransformedIn Real, transformed model
      */
     @ParameterizedTest(name = "{1}")
-    @MethodSource("dataSourceMethod")
-    final void testTransformation(Path pathToBeTransformed, Path pathToBeTransformedIn) throws Exception {
-
+    @MethodSource(DATA_SOURCE_METHOD)
+    void testTransformation(Path pathToBeTransformed, Path pathToBeTransformedIn) throws Exception {
         //Transform model and create argument
         String transformedModel = transform(pathToBeTransformed);
         String expectedModel = Files.readString(pathToBeTransformedIn);
@@ -40,7 +44,22 @@ public abstract class TransformationTest {
         String message = String.format("%n%nExpected:%n %s%n%nBut was: %n%s", expected, actual);
         Assertions.assertEquals(expected, actual, message);
     }
-    
+
+    //@ParameterizedTest(name = "{1}")
+    @MethodSource(DATA_SOURCE_METHOD)
+    void numberOfConfigs(Path pathToBeTransformed, Path pathToBeTransformedIn) {
+        Assertions.assertTimeoutPreemptively(Duration.of(TIMEOUT_TIME, ChronoUnit.SECONDS), () -> {
+            try {
+                testNumberOfConfigs(pathToBeTransformed);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw e;
+            }
+        });
+    }
+
+    abstract void testNumberOfConfigs(Path pathToBeTransformed) throws Exception;
+
     /**
      * Generates the data for the test method.
      *

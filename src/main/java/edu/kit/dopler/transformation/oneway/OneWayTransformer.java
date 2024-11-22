@@ -1,9 +1,9 @@
 package edu.kit.dopler.transformation.oneway;
 
 import at.jku.cps.travart.core.common.IModelTransformer;
-import at.jku.cps.travart.core.sampler.DefaultCoreModelSampler;
 import de.vill.model.FeatureModel;
 import edu.kit.dopler.model.Dopler;
+import edu.kit.dopler.model.Main;
 import edu.kit.dopler.transformation.oneway.decision.to.feature.DmToFmOneWayTransformer;
 import edu.kit.dopler.transformation.oneway.feature.to.decision.FmToDmOneWayTransformer;
 
@@ -25,13 +25,10 @@ public class OneWayTransformer implements IModelTransformer<Dopler> {
     @Override
     public Dopler transform(FeatureModel model, String modelName, STRATEGY level) {
 
-        DefaultCoreModelSampler defaultCoreModelSampler = new DefaultCoreModelSampler();
-
+        //DefaultCoreModelSampler defaultCoreModelSampler = new DefaultCoreModelSampler();
         //try {
         //    Set<Map<IConfigurable, Boolean>> maps = defaultCoreModelSampler.sampleValidConfigurations(model);
-        //
         //    System.out.println(maps.size());
-        //
         //} catch (NotSupportedVariabilityTypeException e) {
         //    throw new RuntimeException(e);
         //}

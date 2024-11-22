@@ -1,9 +1,6 @@
-package at.jku.cps.travart.dopler.transformation.oneway;
+package edu.kit.dopler.transformation.oneway;
 
 import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
-import de.vill.model.FeatureModel;
-import edu.kit.dopler.model.Dopler;
-import edu.kit.dopler.transformation.oneway.OneWayTransformer;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -11,6 +8,11 @@ import java.nio.file.Path;
 public class DecisionToFeatureModelTest extends TransformationTest {
 
     private static final String STANDARD_MODEL_NAME = "Some name";
+
+    @Override
+    void testNumberOfConfigs(Path pathToBeTransformed) {
+
+    }
 
     /**
      * Transforms the given DOPLER model to a UVL model.

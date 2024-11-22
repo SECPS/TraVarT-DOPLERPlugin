@@ -1,3 +1,17 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla
+ * Public License, v. 2.0. If a copy of the MPL was not distributed
+ * with this file, You can obtain one at
+ * https://mozilla.org/MPL/2.0/.
+ *
+ * Contributors: 
+ * 	@author Fabian Eger
+ * 	@author Kevin Feichtinger
+ *
+ * Copyright 2024 Karlsruhe Institute of Technology (KIT)
+ * KASTEL - Dependability of Software-intensive Systems
+ * All rights reserved
+ *******************************************************************************/
 package edu.kit.dopler.io;
 
 import java.io.FileWriter;
@@ -8,7 +22,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVFormat.Builder;
 import org.apache.commons.csv.CSVPrinter;
 
 import edu.kit.dopler.exceptions.UnknownDecisionTypeException;
@@ -26,7 +39,7 @@ public class DecisionModelWriter {
 		CSVFormat dmFormat = CSVUtils.createCSVFormat();
 		try (FileWriter out = new FileWriter(path.toFile(), StandardCharsets.UTF_8);
 				CSVPrinter printer = new CSVPrinter(out, dmFormat)) {
-            printer.printRecord();  //Needed for first line
+			printer.printRecord();
 			for (Object obj : dm.getDecisions()) {
 				assert obj instanceof IDecision;
 				IDecision decision = (IDecision) obj;
@@ -36,8 +49,7 @@ public class DecisionModelWriter {
 				String cardinalityString = createCardinalityString(decision);
 
 				printer.printRecord(decision.getDisplayId(), decision.getQuestion(), decision.getDecisionType(),
-						rangeString, cardinalityString, rulesString,
-						decision.getVisibilityCondition());
+						rangeString, cardinalityString, rulesString, decision.getVisibilityCondition());
 			}
 		} catch (Exception e) {
 			throw new IOException(e);
@@ -83,7 +95,7 @@ public class DecisionModelWriter {
 			int i = 0;
 			for (EnumerationLiteral literal : enumeration) {
 				builder.append(literal.getValue());
-				if (i + 1 < enumeration.size()) {
+				if (i +1 < enumeration.size()) {
 					builder.append(" | ");
 				}
 				i++;

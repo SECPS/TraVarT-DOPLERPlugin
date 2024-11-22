@@ -1,4 +1,4 @@
-package at.jku.cps.travart.dopler.transformation.oneway.feature.to.decision.dnf;
+package edu.kit.dopler.transformation.oneway;
 
 import de.vill.model.constraint.*;
 import edu.kit.dopler.transformation.oneway.feature.to.decision.constraint.dnf.*;
