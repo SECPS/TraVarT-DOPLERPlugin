@@ -1,0 +1,36 @@
+namespace DB
+
+features
+	DB {abstract}	
+		mandatory
+			OS {abstract}	
+				alternative
+					NutOS
+					Win
+			BufferMgr {abstract}	
+				alternative
+					Persistent {abstract}	
+						mandatory
+							MemAlloc {abstract}	
+								alternative
+									Static
+									Dynamic
+							PageRepl {abstract}	
+								alternative
+									LRU
+									LFU
+					InMemory
+			Storage {abstract}	
+				mandatory
+					API {abstract}	
+						or
+							get
+							put
+							delete
+					Index {abstract}	
+						alternative
+							BTree
+							Unindexed
+
+		optional
+			DebugLogging

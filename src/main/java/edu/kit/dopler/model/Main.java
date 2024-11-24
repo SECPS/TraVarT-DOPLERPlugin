@@ -38,8 +38,6 @@ public class Main {
 		try {
 			Stream.Builder<String> builder = dopler.toSMTStream();
 
-			System.out.println(getAmountOfConfigs(dopler));
-
 			// builder.add("(assert (= DECISION_1_TAKEN_POST true))");
 			builder.add("(check-sat)");
 			dopler.createGetValueOFEndConstants(builder);
@@ -58,7 +56,6 @@ public class Main {
 			}
 
 		} catch (Exception e) {
-			System.out.println(e);
 		}
 
 	}
@@ -96,7 +93,6 @@ public class Main {
 
 	public static int getAmountOfConfigs(Dopler dopler) {
 		int amount = getAmountOfConfigs(dopler, dopler.toSMTStream());
-		System.out.println(amount);
 		return amount;
 	}
 
@@ -104,7 +100,6 @@ public class Main {
 		Stream.Builder<String> builder = dopler.toSMTStream();
 		builder.add(asserts);
 		int amount = getAmountOfConfigs(dopler, builder);
-		System.out.println(amount);
 		return amount;
 	}
 
@@ -135,7 +130,6 @@ public class Main {
 				} else if (line.equals(" ")) {
 
 				} else {
-					System.out.println(line);
 					String[] result = line.split("[\\(\\)]");
 
 					if (result.length == 3) {
@@ -154,8 +148,6 @@ public class Main {
 				}
 			}
 			asserts += ")))";
-
-			System.out.println(amount);
 		} while (true);
 
 	}
@@ -171,7 +163,7 @@ public class Main {
 		String[] command = { "/Documents/z3/z3/build/z3", "-in", "-smt2" };
 
 		ProcessBuilder processBuilder = new ProcessBuilder();
-		processBuilder.command("../../Documents/z3/z3/build/z3", "-in", "-smt2");
+		processBuilder.command("z3/bin/z3.exe", "-in", "-smt2");
 		Process process;
 		try {
 			process = processBuilder.start();

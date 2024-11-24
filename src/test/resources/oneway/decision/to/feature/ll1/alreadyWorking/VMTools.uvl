@@ -1,0 +1,78 @@
+namespace VMToolsRA
+
+features
+	VMToolsRA	
+		mandatory
+			VariabilityManagement	
+				mandatory
+					VariabilityModeling	
+						mandatory
+							CompositionRules	
+								mandatory
+									CompositionRules_2 {abstract}	
+										or
+											Constraints
+											Dependency
+
+								optional
+									Cardinality
+							VariabilityModelManagement	
+								mandatory
+									Notation	
+										alternative
+											FeatureModel
+											DecisionModel
+											Orthodonal
+											Other
+									Variants
+									VariationPoint
+
+						optional
+							Traceability
+
+				optional
+					VariabilityValidation	
+						mandatory
+							VariabilityValidation_2 {abstract}	
+								or
+									LogicSolvers
+									Reasoners
+									Other_1
+
+						optional
+							VerificationReports
+					VariabilityDecision	
+						mandatory
+							VariabilityBindingManagement	
+								mandatory
+									BindingTime	
+										or
+											CompileTime
+											Runtime
+											Other_2
+									VariabilityMechanism
+					VariabilityEvolution	
+						mandatory
+							VariabilityControlEvolution	
+								mandatory
+									ImpactAnalysis
+
+		optional
+			Organizational	
+				optional
+					PlanningManagement
+					CommunicationSharing
+					Guidance
+					TradeOffAnalysis
+					NotifyingFeedback
+			DomainAnalysis	
+				mandatory
+					DomainAssets
+
+				optional
+					RequirementSpecifications
+
+constraints
+	BindingTime | !VariabilityMechanism
+	!VariabilityManagement | DomainAssets
+	!VariabilityManagement | Organizational

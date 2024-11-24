@@ -1,36 +1,53 @@
 package edu.kit.dopler.transformation.oneway;
 
-import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
+import at.jku.cps.travart.core.sampler.DefaultCoreModelSampler;
+import de.vill.model.FeatureModel;
+import edu.kit.dopler.io.DecisionModelReader;
+import edu.kit.dopler.model.Dopler;
+import edu.kit.dopler.model.Main;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class DecisionToFeatureModelTest extends TransformationTest {
+class DecisionToFeatureModelTest extends TransformationTest<Dopler, FeatureModel> {
 
     private static final String STANDARD_MODEL_NAME = "Some name";
+    private static final Path TEST_DATA_PATH = Path.of("src/test/resources/oneway/decision/to/feature");
 
     @Override
-    void testNumberOfConfigs(Path pathToBeTransformed) {
-
-    }
-
-    /**
-     * Transforms the given DOPLER model to a UVL model.
-     */
-    @Override
-    protected String transform(Path model) throws NotSupportedVariabilityTypeException, IOException {
-        //DecisionModelDeserializer decisionModelDeserializer = new DecisionModelDeserializer();
-        //Dopler decisionModel = decisionModelDeserializer.deserializeFromFile(model);
-        //OneWayTransformer oneWayTransformer = new OneWayTransformer();
-        //FeatureModel featureModel = oneWayTransformer.transform(decisionModel, STANDARD_MODEL_NAME);
-        //return featureModel.toString();
-
-        return "";
+    protected String getExpectedModel(Path pathOfExpectedModel) throws IOException {
+        return Files.readString(pathOfExpectedModel);
     }
 
     @Override
-    protected String getPath() {
-        return "src/test/resources/oneway/decision/to/feature";
+    protected String convertToModelToString(FeatureModel featureModel) {
+        return featureModel.toString();
+    }
+
+    @Override
+    protected Path getTestDataPath() {
+        return TEST_DATA_PATH;
+    }
+
+    @Override
+    protected Dopler getModelToTransform(Path pathOfModelToBeTransformed) throws Exception {
+        return new DecisionModelReader().read(pathOfModelToBeTransformed);
+    }
+
+    @Override
+    protected FeatureModel transformModel(Dopler modelToBeTransformed) throws Exception {
+        return new OneWayTransformer().transform(modelToBeTransformed, STANDARD_MODEL_NAME);
+    }
+
+    @Override
+    protected int getAmountOfConfigsOfToModel(FeatureModel featureModel) throws Exception {
+        return new DefaultCoreModelSampler().sampleValidConfigurations(featureModel).size();
+    }
+
+    @Override
+    protected int getAmountOfConfigsOfFromModel(Dopler dopler) {
+        return Main.getAmountOfConfigs(dopler);
     }
 
     @Override

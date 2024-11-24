@@ -1,0 +1,12 @@
+features
+        truck_product {extended__ true, abstract true}
+                mandatory
+                        Chassis
+                        Cabin
+                        Body {abstract true}
+                                alternative
+                                        Tank
+                                        OpenTop
+                                        Dumper
+                                        StakeBed
+

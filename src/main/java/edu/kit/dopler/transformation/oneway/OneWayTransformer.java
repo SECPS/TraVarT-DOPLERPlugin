@@ -24,15 +24,6 @@ public class OneWayTransformer implements IModelTransformer<Dopler> {
 
     @Override
     public Dopler transform(FeatureModel model, String modelName, STRATEGY level) {
-
-        //DefaultCoreModelSampler defaultCoreModelSampler = new DefaultCoreModelSampler();
-        //try {
-        //    Set<Map<IConfigurable, Boolean>> maps = defaultCoreModelSampler.sampleValidConfigurations(model);
-        //    System.out.println(maps.size());
-        //} catch (NotSupportedVariabilityTypeException e) {
-        //    throw new RuntimeException(e);
-        //}
-
         return fmToDmOneWayTransformer.transform(model, modelName);
     }
 }

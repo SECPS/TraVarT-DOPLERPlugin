@@ -1,0 +1,27 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+ALL;ALL?;Boolean;true | false;;"if (ALL) {DK = true;}if (ALL) {CW = true;}if (ALL) {PK = true;}";true
+CW;CW?;Boolean;true | false;;;"!ALL"
+CW_authentication;CW_authentication?;Boolean;true | false;;;CW
+CW_autogenerate;CW_autogenerate?;Boolean;true | false;;;CW
+CW_decisionboard;CW_decisionboard?;Boolean;true | false;;;CW
+CW_documenation;CW_documenation?;Boolean;true | false;;;CW
+CW_flatfilegenerator;CW_flatfilegenerator?;Boolean;true | false;;;CW
+CW_views;Which CW_views?;Enumeration;Table-based | Tree-based | Graph-based;1:3;;CW
+CW_requirementsView;CW_requirementsView?;Boolean;true | false;;;CW
+CW_sharepoint;CW_sharepoint?;Boolean;true | false;;;CW
+CW_wordgenerator;CW_wordgenerator?;Boolean;true | false;;;CW
+CW_wordgenerator_wordAddIn;CW_wordgenerator_wordAddIn?;Boolean;true | false;;;CW_wordgenerator
+CW_guidance;Which CW_guidance?;Enumeration;After-first-selection | Always;1:1;;CW
+CW_resolution;Which CW_resolution?;Enumeration;1400x1050 | 800x600 | 1280x1024 | 1900x1080 | 1024x768 | 1600x1200;1:1;"if CW_resolution.800x600 {CW_resolution_height = 600.0;}if CW_resolution.1280x1024 {CW_resolution_width = 1280.0;}if CW_resolution.1280x1024 {CW_resolution_height = 1024.0;}if CW_resolution.1600x1200 {CW_resolution_width = 1600.0;}if CW_resolution.1900x1080 {CW_resolution_width = 1900.0;}if CW_resolution.1600x1200 {CW_resolution_height = 1200.0;}if CW_resolution.1400x1050 {CW_resolution_width = 1400.0;}if CW_resolution.800x600 {CW_resolution_width = 800.0;}if CW_resolution.1024x768 {CW_resolution_width = 1024.0;}if CW_resolution.1900x1080 {CW_resolution_height = 1080.0;}if CW_resolution.1400x1050 {CW_resolution_height = 1050.0;}if CW_resolution.1024x768 {CW_resolution_height = 768.0;}";CW
+CW_resolution_height;nothing;Double;;;;false
+CW_resolution_width;nothing;Double;;;;false
+DK;DK?;Boolean;true | false;;;"!ALL"
+DK_builder;DK_builder?;Boolean;true | false;;;DK
+DK_merger;DK_merger?;Boolean;true | false;;;DK
+DK_metamodelling;DK_metamodelling?;Boolean;true | false;;;DK
+DK_modelconverter;DK_modelconverter?;Boolean;true | false;;;(isTaken(PK) && PK) || (isTaken(DK) && DK)
+DK_rulelang_editor;DK_rulelang_editor?;Boolean;true | false;;;DK
+DK_sharepoint;DK_sharepoint?;Boolean;true | false;;;DK || PK
+PK;PK?;Boolean;true | false;;;"!ALL"
+SERVER;SERVER?;Boolean;true | false;;;true
+ProprietaryTools;ProprietaryTools?;Boolean;true | false;;;(isTaken(CW) && CW) || (isTaken(DK) && DK)

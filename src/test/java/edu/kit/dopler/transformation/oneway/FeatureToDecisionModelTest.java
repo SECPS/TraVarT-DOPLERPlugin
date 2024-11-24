@@ -1,66 +1,69 @@
 package edu.kit.dopler.transformation.oneway;
 
 import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
+import at.jku.cps.travart.core.sampler.DefaultCoreModelSampler;
 import de.vill.main.UVLModelFactory;
 import de.vill.model.FeatureModel;
 import edu.kit.dopler.io.DecisionModelWriter;
 import edu.kit.dopler.model.Dopler;
 import edu.kit.dopler.model.Main;
-import org.junit.jupiter.api.Assertions;
+import edu.kit.dopler.transformation.TestUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class FeatureToDecisionModelTest extends TransformationTest {
+class FeatureToDecisionModelTest extends TransformationTest<FeatureModel, Dopler> {
 
     private static final String STANDARD_MODEL_NAME = "Some name";
     private static final Path TEMP_PATH = Path.of("src/test/resources/oneway/TEMP.txt");
+    private static final Path TEST_DATA_PATH = Path.of("src/test/resources/oneway/feature/to/decision");
 
-    /**
-     * Transforms the given UVL model to a DOPLER model.
-     */
     @Override
-    protected String transform(Path model) throws NotSupportedVariabilityTypeException, IOException {
-        UVLModelFactory uvlModelFactory = new UVLModelFactory();
-        FeatureModel featureModel = uvlModelFactory.parse(Files.readString(model));
-        OneWayTransformer oneWayTransformer = new OneWayTransformer();
-        Dopler decisionModel = oneWayTransformer.transform(featureModel, STANDARD_MODEL_NAME);
+    protected String getExpectedModel(Path pathOfExpectedModel) throws IOException {
+        return TestUtils.sortDecisionModel(Files.readString(pathOfExpectedModel));
+    }
 
-        DecisionModelWriter decisionModelWriter = new DecisionModelWriter();
-        decisionModelWriter.write(decisionModel, TEMP_PATH); //Save in temp file
-
+    @Override
+    protected String convertToModelToString(Dopler dopler) throws Exception {
+        new DecisionModelWriter().write(dopler, TEMP_PATH);
         String result = Files.readString(TEMP_PATH); //Read temp file
         Files.writeString(TEMP_PATH, ""); //Reset temp file
-        return result;
+        return TestUtils.sortDecisionModel(result);
     }
 
     @Override
-    void testNumberOfConfigs(Path pathToBeTransformed) throws Exception {
-        UVLModelFactory uvlModelFactory = new UVLModelFactory();
-        FeatureModel featureModel = uvlModelFactory.parse(Files.readString(pathToBeTransformed));
-        OneWayTransformer oneWayTransformer = new OneWayTransformer();
-        Dopler decisionModel = oneWayTransformer.transform(featureModel, STANDARD_MODEL_NAME);
-
-        //TODO expected austauschen mit der Anzahl der Konfiguration des FM
-        int amountOfConfigs = Main.getAmountOfConfigs(decisionModel);
-        System.out.println("Real: " + amountOfConfigs);
-        System.out.println("Expected: " + amountOfConfigs);
-        Assertions.assertEquals(amountOfConfigs, amountOfConfigs);
-    }
-
-    @Override
-    protected final String getToEnding() {
+    protected String getToEnding() {
         return ".csv";
     }
 
     @Override
-    protected final String getFromEnding() {
+    protected String getFromEnding() {
         return ".uvl";
     }
 
     @Override
-    protected final String getPath() {
-        return "src/test/resources/oneway/feature/to/decision";
+    protected Path getTestDataPath() {
+        return TEST_DATA_PATH;
+    }
+
+    @Override
+    protected FeatureModel getModelToTransform(Path pathOfModelToBeTransformed) throws Exception {
+        return new UVLModelFactory().parse(Files.readString(pathOfModelToBeTransformed));
+    }
+
+    @Override
+    protected Dopler transformModel(FeatureModel modelToBeTransformed) throws NotSupportedVariabilityTypeException {
+        return new OneWayTransformer().transform(modelToBeTransformed, STANDARD_MODEL_NAME);
+    }
+
+    @Override
+    protected int getAmountOfConfigsOfToModel(Dopler dopler) {
+        return Main.getAmountOfConfigs(dopler);
+    }
+
+    @Override
+    protected int getAmountOfConfigsOfFromModel(FeatureModel featureModel) throws Exception {
+        return new DefaultCoreModelSampler().sampleValidConfigurations(featureModel).size();
     }
 }

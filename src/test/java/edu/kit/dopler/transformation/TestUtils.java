@@ -25,7 +25,7 @@ public class TestUtils {
         return newArray;
     }
 
-    public static String sortModel(String model) throws IOException {
+    public static String sortDecisionModel(String model) throws IOException {
         //Sometimes \r is used as line separator
         String sanitisedModel = NEW_LINE_PATTERN.matcher(model).replaceAll(System.lineSeparator());
 

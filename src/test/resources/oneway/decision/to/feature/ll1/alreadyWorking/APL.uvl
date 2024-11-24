@@ -1,0 +1,43 @@
+namespace APL
+
+features
+	APL {abstract}	
+		mandatory
+			mainAPL {abstract}	
+				mandatory
+					Java {abstract}	
+						mandatory
+							mainJava {abstract}	
+								mandatory
+									jak2java
+									bali
+
+								optional
+									reform
+									jedi
+
+				optional
+					Xml {abstract}	
+						alternative
+							xc
+							xak
+					cpp
+					Gui {abstract}	
+						mandatory
+							mainGUI {abstract}	
+								optional
+									me
+									mmatrix
+									guidsl
+									web
+					drc
+					bc {abstract}	
+						mandatory
+							bcjak2java
+					aj {abstract}	
+						mandatory
+							jak2aj
+
+constraints
+	bc => mmatrix
+	me => mmatrix

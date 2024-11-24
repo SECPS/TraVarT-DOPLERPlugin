@@ -1,0 +1,7 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+Categories;Categories?;Boolean;true | false;;;true
+Payment;Which Payment?;Enumeration;DebitCard | CreditCard;1:1;;true
+Search;Search?;Boolean;true | false;;if (!Sort) {Search = true;};true
+Sort;Sort?;Boolean;true | false;;;true
+UserManagement;UserManagement?;Boolean;true | false;;;true
+UserManagementType;Which UserManagementType?;Enumeration;Orders | Security | Payments | Wishlist;1:4;if (Search) {UserManagementType = Security;}if (UserManagementType.Payments) {disAllow(UserManagementType.Security);}if (UserManagementType.Security) {disAllow(UserManagementType.Payments);};UserManagement

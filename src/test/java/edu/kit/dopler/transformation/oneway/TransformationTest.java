@@ -1,7 +1,5 @@
 package edu.kit.dopler.transformation.oneway;
 
-import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
-import edu.kit.dopler.transformation.TestUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,50 +13,47 @@ import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-abstract class TransformationTest {
+abstract class TransformationTest<FromModel, ToModel> {
 
-    private static final String DATA_SOURCE_METHOD = "dataSourceMethod";
-    private static final long TIMEOUT_TIME = 0L;
+    private static final long TIMEOUT_TIME = 1L;
 
     /**
      * Compares the real model from the file with the transformed model.
      *
-     * @param pathToBeTransformed   Expected model
-     * @param pathToBeTransformedIn Real, transformed model
+     * @param pathOfTheBeTransformedModel Expected model
+     * @param pathOfExpectedModel         Real, transformed model
      */
     @ParameterizedTest(name = "{1}")
-    @MethodSource(DATA_SOURCE_METHOD)
-    void testTransformation(Path pathToBeTransformed, Path pathToBeTransformedIn) throws Exception {
-        //Transform model and create argument
-        String transformedModel = transform(pathToBeTransformed);
-        String expectedModel = Files.readString(pathToBeTransformedIn);
+    @MethodSource("dataSourceMethod")
+    void testTransformation(Path pathOfTheBeTransformedModel, Path pathOfExpectedModel) throws Exception {
+        FromModel modelToTransform = getModelToTransform(pathOfTheBeTransformedModel);
 
-        //Sort models
-        String expected = TestUtils.sortModel(expectedModel);
-        String actual = TestUtils.sortModel(transformedModel);
+        String transformedModel = convertToModelToString(transformModel(modelToTransform));
+        String expectedModel = getExpectedModel(pathOfExpectedModel);
 
-        String message = String.format("%n%nExpected:%n %s%n%nBut was: %n%s", expected, actual);
-        Assertions.assertEquals(expected, actual, message);
+        String message = String.format("%n%nExpected:%n %s%n%nBut was: %n%s", expectedModel, transformedModel);
+        Assertions.assertEquals(expectedModel, transformedModel, message);
     }
 
-    //@ParameterizedTest(name = "{1}")
-    @MethodSource(DATA_SOURCE_METHOD)
-    void numberOfConfigs(Path pathToBeTransformed, Path pathToBeTransformedIn) {
-        Assertions.assertTimeoutPreemptively(Duration.of(TIMEOUT_TIME, ChronoUnit.SECONDS), () -> {
-            try {
-                testNumberOfConfigs(pathToBeTransformed);
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw e;
-            }
+    @ParameterizedTest(name = "{1}")
+    @MethodSource("dataSourceMethod")
+    void testNumberOfConfigs(Path pathToBeTransformed, Path pathToBeTransformedIn) throws Exception {
+        FromModel modelToBeTransformed = getModelToTransform(pathToBeTransformed);
+        ToModel transformedModel = transformModel(modelToBeTransformed);
+
+        Assertions.assertTimeoutPreemptively(Duration.of(TIMEOUT_TIME, ChronoUnit.MILLIS), () -> {
+            int amountOfConfigsExpected = getAmountOfConfigsOfFromModel(modelToBeTransformed);
+            int amountOfConfigsReal = getAmountOfConfigsOfToModel(transformedModel);
+            Assertions.assertEquals(amountOfConfigsExpected, amountOfConfigsReal);
         });
     }
 
-    abstract void testNumberOfConfigs(Path pathToBeTransformed) throws Exception;
+    protected abstract int getAmountOfConfigsOfToModel(ToModel toModel) throws Exception;
+
+    protected abstract int getAmountOfConfigsOfFromModel(FromModel fromModel) throws Exception;
 
     /**
      * Generates the data for the test method.
@@ -70,9 +65,9 @@ abstract class TransformationTest {
 
         //Collect files depending on getFromEnding()
         List<Path> filePathsSet;
-        try (Stream<Path> filePaths = Files.walk(Path.of(getPath()))
+        try (Stream<Path> filePaths = Files.walk(getTestDataPath())
                 .filter(path -> Files.isRegularFile(path) && path.toString().endsWith(getFromEnding()))) {
-            filePathsSet = filePaths.collect(Collectors.toList());
+            filePathsSet = filePaths.toList();
         }
 
         //Create Arguments
@@ -85,11 +80,17 @@ abstract class TransformationTest {
         return arguments.stream();
     }
 
-    protected abstract String transform(Path model) throws NotSupportedVariabilityTypeException, IOException;
-
     protected abstract String getToEnding();
 
     protected abstract String getFromEnding();
 
-    protected abstract String getPath();
+    protected abstract Path getTestDataPath();
+
+    protected abstract FromModel getModelToTransform(Path pathOfModelToBeTransformed) throws Exception;
+
+    protected abstract ToModel transformModel(FromModel modelToBeTransformed) throws Exception;
+
+    protected abstract String getExpectedModel(Path pathOfExpectedModel) throws Exception;
+
+    protected abstract String convertToModelToString(ToModel toModel) throws Exception;
 }
