@@ -17,40 +17,26 @@ class FeatureAndGroupHandler {
     private final VisibilityHandler visibilityHandler;
     private final IdHandler idHandler;
 
-    /**
-     * Temporary variable to save current decision model
-     */
-    private Dopler decisionModel;
-
-    /**
-     * Temporary variable to save feature decision model
-     */
-    private FeatureModel featureModel;
-
     FeatureAndGroupHandler(VisibilityHandler visibilityHandler, IdHandler idHandler) {
         this.visibilityHandler = visibilityHandler;
         this.idHandler = idHandler;
-        decisionModel = null;
-        featureModel = null;
     }
 
     void handleFeature(Feature feature, Dopler decisionModel, FeatureModel featureModel) {
-        this.decisionModel = decisionModel;
-        this.featureModel = featureModel;
 
         //Handle groups of feature
         List<Group> groups = feature.getChildren();
         for (Group group : groups) {
-            handleGroup(group);
+            handleGroup(featureModel, decisionModel, group);
         }
     }
 
-    private void handleGroup(Group group) {
+    private void handleGroup(FeatureModel featureModel, Dopler decisionModel, Group group) {
         switch (group.GROUPTYPE) {
-            case OR -> handleOrGroup(group);
-            case ALTERNATIVE -> handleAlternativeGroup(group);
+            case OR -> handleOrGroup(featureModel, decisionModel, group);
+            case ALTERNATIVE -> handleAlternativeGroup(group, decisionModel, featureModel);
             case MANDATORY -> handleMandatoryGroup(group);
-            case OPTIONAL -> handleOptionalGroup(group);
+            case OPTIONAL -> handleOptionalGroup(group, decisionModel, featureModel);
             case GROUP_CARDINALITY -> throw new IllegalStateException("Unexpected value: " + group.GROUPTYPE);
             default -> throw new IllegalStateException("Unexpected value: " + group.GROUPTYPE);
         }
@@ -63,18 +49,16 @@ class FeatureAndGroupHandler {
     }
 
     /** Create a single decision for the or-group */
-    private void handleOrGroup(Group group) {
-        Feature parentFeature = group.getParentFeature();
-        String displayId = idHandler.resolveId(decisionModel, parentFeature);
+    private void handleOrGroup(FeatureModel featureModel, Dopler decisionModel, Group group) {
+        String displayId = idHandler.resolveId(decisionModel, group.getParentFeature());
         String question = String.format(ENUM_QUESTION, displayId);
         String description = "";
         IExpression visibilityCondition =
-                visibilityHandler.resolveVisibility(featureModel, decisionModel, parentFeature);
+                visibilityHandler.resolveVisibility(featureModel, decisionModel, group.getParentFeature());
         Set<Rule> rules = new LinkedHashSet<>();
-
-        Set<EnumerationLiteral> collect = new LinkedHashSet<>();
-        group.getFeatures().stream().map(Feature::getFeatureName).map(EnumerationLiteral::new).forEach(collect::add);
-        Enumeration enumeration = new Enumeration(collect);
+        Set<EnumerationLiteral> literals = new LinkedHashSet<>();
+        group.getFeatures().stream().map(Feature::getFeatureName).map(EnumerationLiteral::new).forEach(literals::add);
+        Enumeration enumeration = new Enumeration(literals);
         int minCardinality = 1;
         int maxCardinality = group.getFeatures().size();
         EnumerationDecision enumerationDecision =
@@ -85,18 +69,16 @@ class FeatureAndGroupHandler {
     }
 
     /** Create a single decision for the alternative-group */
-    private void handleAlternativeGroup(Group group) {
-        Feature parentFeature = group.getParentFeature();
-
-        String displayId = idHandler.resolveId(decisionModel, parentFeature);
+    private void handleAlternativeGroup(Group group, Dopler decisionModel, FeatureModel featureModel) {
+        String displayId = idHandler.resolveId(decisionModel, group.getParentFeature());
         String question = String.format(ENUM_QUESTION, displayId);
         String description = "";
         IExpression visibilityCondition =
-                visibilityHandler.resolveVisibility(featureModel, decisionModel, parentFeature);
+                visibilityHandler.resolveVisibility(featureModel, decisionModel, group.getParentFeature());
         Set<Rule> rules = new LinkedHashSet<>();
-        Set<EnumerationLiteral> collect = new LinkedHashSet<>();
-        group.getFeatures().stream().map(Feature::getFeatureName).map(EnumerationLiteral::new).forEach(collect::add);
-        Enumeration enumeration = new Enumeration(collect);
+        Set<EnumerationLiteral> literals = new LinkedHashSet<>();
+        group.getFeatures().stream().map(Feature::getFeatureName).map(EnumerationLiteral::new).forEach(literals::add);
+        Enumeration enumeration = new Enumeration(literals);
         int minCardinality = 1;
         int maxCardinality = 1;
         EnumerationDecision enumerationDecision =
@@ -107,10 +89,9 @@ class FeatureAndGroupHandler {
     }
 
     /** Create a decision for each child in the optional-group */
-    private void handleOptionalGroup(Group group) {
+    private void handleOptionalGroup(Group group, Dopler decisionModel, FeatureModel featureModel) {
         Feature parentFeature = group.getParentFeature();
         for (Feature feature : group.getFeatures()) {
-
             String id = idHandler.resolveId(decisionModel, feature);
             String question = String.format(BOOLEAN_QUESTION, id);
             String description = "";

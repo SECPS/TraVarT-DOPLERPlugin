@@ -18,6 +18,7 @@ public class FmToDmOneWayTransformer {
 
     public Dopler transform(FeatureModel featureModel, String modelName) {
         Dopler decisionModel = new Dopler();
+        decisionModel.setName(modelName);
 
         Feature rootFeature = featureModel.getRootFeature();
         featureAndGroupHandler.handleFeature(rootFeature, decisionModel, featureModel);
