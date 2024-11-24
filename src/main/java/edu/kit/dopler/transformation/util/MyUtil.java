@@ -5,6 +5,8 @@ import de.vill.model.FeatureModel;
 import de.vill.model.Group;
 import de.vill.model.constraint.LiteralConstraint;
 import edu.kit.dopler.model.*;
+import edu.kit.dopler.transformation.exceptions.FeatureNotPresentException;
+import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 
 import java.util.Optional;
 import java.util.Stack;

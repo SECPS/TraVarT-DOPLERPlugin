@@ -8,7 +8,7 @@
 package edu.kit.dopler.plugin;
 
 import at.jku.cps.travart.core.common.*;
-import edu.kit.dopler.transformation.oneway.OneWayTransformer;
+import edu.kit.dopler.transformation.OneWayTransformer;
 import org.pf4j.Extension;
 
 import java.util.List;
