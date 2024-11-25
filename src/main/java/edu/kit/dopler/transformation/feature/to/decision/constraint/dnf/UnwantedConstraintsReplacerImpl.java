@@ -1,6 +1,5 @@
 package edu.kit.dopler.transformation.feature.to.decision.constraint.dnf;
 
-import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 import de.vill.model.constraint.*;
 
 /**
@@ -16,18 +15,20 @@ public class UnwantedConstraintsReplacerImpl implements UnwantedConstraintsRepla
         return parenthesisConstraint.getContent();
     }
 
+    /** Go through the tree of the given {@link Constraint} and replace recursively all unwanted ones. */
     private void convertRecursive(Constraint constraint) {
         for (Constraint oldChild : constraint.getConstraintSubParts()) {
-            Constraint newChild = convertIfNeeded(oldChild);
+            Constraint newChild = createNewChild(oldChild);
             constraint.replaceConstraintSubPart(oldChild, newChild);
             convertRecursive(newChild);
         }
     }
 
-    private Constraint convertIfNeeded(Constraint constraint) {
-        //A => B -> !A | B
-        //A <=> B -> A => B & B => A
-        //(A) -> A
+    private Constraint createNewChild(Constraint constraint) {
+        //Replacing rules:
+        // A => B  ~> !A | B
+        // A <=> B ~> A => B & B => A
+        // (A)     ~> A
         return switch (constraint) {
             case ImplicationConstraint implicationConstraint ->
                     new OrConstraint(new NotConstraint(implicationConstraint.getLeft()),
@@ -35,13 +36,8 @@ public class UnwantedConstraintsReplacerImpl implements UnwantedConstraintsRepla
             case EquivalenceConstraint equivalenceConstraint -> new AndConstraint(
                     new ImplicationConstraint(equivalenceConstraint.getLeft(), equivalenceConstraint.getRight()),
                     new ImplicationConstraint(equivalenceConstraint.getRight(), equivalenceConstraint.getLeft()));
-            case ParenthesisConstraint parenthesisConstraint -> convertIfNeeded(parenthesisConstraint.getContent());
-            case AndConstraint andConstraint -> constraint;
-            case OrConstraint orConstraint -> constraint;
-            case NotConstraint notConstraint -> constraint;
-            case LiteralConstraint literalConstraint -> constraint;
-            case ExpressionConstraint expressionConstraint -> constraint;
-            case null, default -> throw new UnexpectedTypeException(constraint);
+            case ParenthesisConstraint parenthesisConstraint -> createNewChild(parenthesisConstraint.getContent());
+            default -> constraint;
         };
     }
 }

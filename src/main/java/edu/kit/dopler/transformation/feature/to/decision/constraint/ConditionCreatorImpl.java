@@ -9,7 +9,7 @@ import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 
 import java.util.Optional;
 
-class ConditionCreatorImpl implements ConditionCreator {
+public class ConditionCreatorImpl implements ConditionCreator {
 
     @Override
     public IExpression createCondition(Dopler decisionModel, FeatureModel featureModel, Constraint left) {

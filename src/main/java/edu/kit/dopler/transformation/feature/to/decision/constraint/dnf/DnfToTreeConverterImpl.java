@@ -7,12 +7,13 @@ import de.vill.model.constraint.OrConstraint;
 import java.util.Comparator;
 import java.util.List;
 
+/** This class is responsible for converting a DNF in the list-representation into a DNF in the tree-representation. */
 public class DnfToTreeConverterImpl implements DnfToTreeConverter {
 
     @Override
     public Constraint createDnfFromList(List<List<Constraint>> dnf) {
 
-        //Sort dnf by name
+        //Sort conjunctions by the name of the literals
         for (List<Constraint> constraints : dnf) {
             constraints.sort(Comparator.comparing(Constraint::toString));
         }
@@ -22,8 +23,7 @@ public class DnfToTreeConverterImpl implements DnfToTreeConverter {
 
         //If the dnf only contains one conjunction
         if (1 == dnf.size()) {
-            List<Constraint> constraints = dnf.getFirst();
-            return createConjunction(constraints);
+            return createConjunction(dnf.getFirst());
         }
 
         //If the dnf contains several conjunctions

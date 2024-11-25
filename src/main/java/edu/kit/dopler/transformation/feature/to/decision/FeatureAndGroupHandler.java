@@ -4,11 +4,16 @@ import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import de.vill.model.Group;
 import edu.kit.dopler.model.*;
+import edu.kit.dopler.transformation.feature.to.decision.constraint.ConstraintHandler;
 
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
+/**
+ * This class is responsible for creating the {@link Decision}s. The rules are only later filled into the model (see
+ * {@link ConstraintHandler}). How it works: for each group in the {@link FeatureModel} one or more {@link Decision}s
+ * (depending on the type of the group) are created.
+ */
 class FeatureAndGroupHandler {
 
     private static final String ENUM_QUESTION = "Which %s?";
@@ -17,20 +22,20 @@ class FeatureAndGroupHandler {
     private final VisibilityHandler visibilityHandler;
     private final IdHandler idHandler;
 
+    /** Constructor of {@link FeatureAndGroupHandler} */
     FeatureAndGroupHandler(VisibilityHandler visibilityHandler, IdHandler idHandler) {
         this.visibilityHandler = visibilityHandler;
         this.idHandler = idHandler;
     }
 
+    /** Checks all groups of the given feature. */
     void handleFeature(Feature feature, Dopler decisionModel, FeatureModel featureModel) {
-
-        //Handle groups of feature
-        List<Group> groups = feature.getChildren();
-        for (Group group : groups) {
+        for (Group group : feature.getChildren()) {
             handleGroup(featureModel, decisionModel, group);
         }
     }
 
+    /** Create a decision from the given group. Also check all features inside the group for more groups. */
     private void handleGroup(FeatureModel featureModel, Dopler decisionModel, Group group) {
         switch (group.GROUPTYPE) {
             case OR -> handleOrGroup(featureModel, decisionModel, group);
@@ -42,8 +47,7 @@ class FeatureAndGroupHandler {
         }
 
         //Handle features of group
-        List<Feature> features = group.getFeatures();
-        for (Feature feature : features) {
+        for (Feature feature : group.getFeatures()) {
             handleFeature(feature, decisionModel, featureModel);
         }
     }

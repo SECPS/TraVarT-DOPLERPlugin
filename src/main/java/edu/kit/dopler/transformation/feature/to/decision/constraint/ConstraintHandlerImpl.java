@@ -5,7 +5,9 @@ import de.vill.model.constraint.*;
 import edu.kit.dopler.model.*;
 import edu.kit.dopler.transformation.exceptions.DnfAlwaysFalseException;
 import edu.kit.dopler.transformation.exceptions.DnfAlwaysTrueException;
-import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.*;
+import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.DnfAlwaysTrueAndFalseRemover;
+import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.DnfToTreeConverter;
+import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.TreeToDnfConverter;
 import edu.kit.dopler.transformation.util.Pair;
 
 import java.util.ArrayList;
@@ -25,12 +27,14 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
     private final DnfAlwaysTrueAndFalseRemover dnfAlwaysTrueAndFalseRemover;
 
     /** Constructor of {@link ConstraintHandlerImpl} */
-    public ConstraintHandlerImpl() {
-        treeToDnfConverter = new TreeToDnfConverterImpl();
-        actionCreator = new ActionCreatorImpl();
-        conditionCreator = new ConditionCreatorImpl();
-        dnfToTreeConverter = new DnfToTreeConverterImpl();
-        dnfAlwaysTrueAndFalseRemover = new DnfAlwaysTrueAndFalseRemoverImpl();
+    public ConstraintHandlerImpl(TreeToDnfConverter treeToDnfConverter, DnfToTreeConverter dnfToTreeConverter,
+                                 ActionCreator actionCreator, ConditionCreator conditionCreator,
+                                 DnfAlwaysTrueAndFalseRemover dnfAlwaysTrueAndFalseRemover) {
+        this.treeToDnfConverter = treeToDnfConverter;
+        this.dnfToTreeConverter = dnfToTreeConverter;
+        this.actionCreator = actionCreator;
+        this.conditionCreator = conditionCreator;
+        this.dnfAlwaysTrueAndFalseRemover = dnfAlwaysTrueAndFalseRemover;
     }
 
     @Override

@@ -12,11 +12,9 @@ public class MorgenOrRule implements Rule {
 
     @Override
     public Optional<Constraint> replace(Constraint constraint) {
-        if (constraint instanceof NotConstraint) {
-            NotConstraint notConstraint = (NotConstraint) constraint;
+        if (constraint instanceof NotConstraint notConstraint) {
             Constraint content = notConstraint.getContent();
-            if (content instanceof OrConstraint) {
-                OrConstraint orConstraint = (OrConstraint) content;
+            if (content instanceof OrConstraint orConstraint) {
                 return Optional.of(new AndConstraint(new NotConstraint(orConstraint.getLeft()),
                         new NotConstraint(orConstraint.getRight())));
             }

@@ -8,18 +8,15 @@ import edu.kit.dopler.transformation.exceptions.ConjunctionAlwaysFalseException;
 import edu.kit.dopler.transformation.exceptions.ConjunctionAlwaysTrueException;
 import edu.kit.dopler.transformation.exceptions.DnfAlwaysFalseException;
 import edu.kit.dopler.transformation.exceptions.DnfAlwaysTrueException;
-import edu.kit.dopler.transformation.util.*;
+import edu.kit.dopler.transformation.util.MyUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/** Implementation of {@link DnfAlwaysTrueAndFalseRemover}. */
 public class DnfAlwaysTrueAndFalseRemoverImpl implements DnfAlwaysTrueAndFalseRemover {
 
-    /**
-     * Removes conjunctions from the DNF that are always false and removes Literals from conjunctions that are always
-     * true. Special cases exist, if the conjunctions in the DNF or DNF itself become empty.
-     */
     @Override
     public List<List<Constraint>> removeAlwaysTruOrFalseConstraints(FeatureModel featureModel,
                                                                     List<List<Constraint>> dnf)
@@ -31,7 +28,7 @@ public class DnfAlwaysTrueAndFalseRemoverImpl implements DnfAlwaysTrueAndFalseRe
             try {
                 newDnf.add(createNewConjunction(featureModel, conjunction));
             } catch (ConjunctionAlwaysTrueException e) {
-                throw new DnfAlwaysTrueException(dnf);
+                throw new DnfAlwaysTrueException(e, dnf);
             } catch (ConjunctionAlwaysFalseException e) {
                 //Don't add conjunction to the new DNF
             }

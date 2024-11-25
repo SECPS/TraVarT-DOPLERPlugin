@@ -22,7 +22,7 @@ class TreeToDnfConverterTest {
     private final DnfToTreeConverter dnfToTreeConverter;
 
     TreeToDnfConverterTest() {
-        treeToDnfConverter = new TreeToDnfConverterImpl();
+        treeToDnfConverter = new TreeToDnfConverterImpl(new UnwantedConstraintsReplacerImpl(), new DnfSimplifierImpl());
         replacer = new UnwantedConstraintsReplacerImpl();
         dnfToTreeConverter = new DnfToTreeConverterImpl();
     }

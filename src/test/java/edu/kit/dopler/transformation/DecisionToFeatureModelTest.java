@@ -37,7 +37,7 @@ class DecisionToFeatureModelTest extends TransformationTest<Dopler, FeatureModel
 
     @Override
     protected FeatureModel transformModel(Dopler modelToBeTransformed) throws Exception {
-        return new OneWayTransformer().transform(modelToBeTransformed, STANDARD_MODEL_NAME);
+        return new Transformer().transform(modelToBeTransformed, STANDARD_MODEL_NAME);
     }
 
     @Override

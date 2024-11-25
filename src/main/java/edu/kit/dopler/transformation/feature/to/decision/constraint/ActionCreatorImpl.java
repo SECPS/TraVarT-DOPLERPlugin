@@ -11,7 +11,7 @@ import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 
 import java.util.Optional;
 
-class ActionCreatorImpl implements ActionCreator {
+public class ActionCreatorImpl implements ActionCreator {
 
     @Override
     public IAction createAction(Dopler decisionModel, Constraint constraint) {

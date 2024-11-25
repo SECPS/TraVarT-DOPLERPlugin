@@ -53,7 +53,7 @@ class FeatureToDecisionModelTest extends TransformationTest<FeatureModel, Dopler
 
     @Override
     protected Dopler transformModel(FeatureModel modelToBeTransformed) throws NotSupportedVariabilityTypeException {
-        return new OneWayTransformer().transform(modelToBeTransformed, STANDARD_MODEL_NAME);
+        return new Transformer().transform(modelToBeTransformed, STANDARD_MODEL_NAME);
     }
 
     @Override

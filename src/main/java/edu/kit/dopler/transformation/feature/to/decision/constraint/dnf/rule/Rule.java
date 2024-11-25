@@ -10,8 +10,8 @@ import java.util.Optional;
 public interface Rule {
 
     /**
-     * Check if the {@link Rule} matches the given {@link Constraint}. If the {@link Constraint} matches, then return a
-     * new {@link Constraint} that replaces the old one. Both are semantically equal.
+     * Check if the {@link Rule} matches the given {@link Constraint}. If it's matching, then return a new
+     * {@link Constraint} that replaces the old one. Both are semantically equal.
      *
      * @param constraint {@link Constraint} to replace (if {@link Rule} matches)
      *

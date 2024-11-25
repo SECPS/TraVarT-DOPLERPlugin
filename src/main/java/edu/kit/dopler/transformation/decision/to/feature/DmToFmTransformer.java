@@ -10,12 +10,12 @@ import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DmToFmOneWayTransformer {
+public class DmToFmTransformer {
 
     private final TreeBuilder treeBuilder;
     private final ConstraintHandler2 constraintHandler;
 
-    public DmToFmOneWayTransformer() {
+    public DmToFmTransformer() {
         treeBuilder = new TreeBuilder();
         constraintHandler = new ConstraintHandler2();
     }

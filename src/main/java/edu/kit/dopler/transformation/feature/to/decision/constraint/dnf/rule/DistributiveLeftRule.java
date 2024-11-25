@@ -11,10 +11,8 @@ public class DistributiveLeftRule implements Rule {
 
     @Override
     public Optional<Constraint> replace(Constraint constraint) {
-        if (constraint instanceof AndConstraint) {
-            AndConstraint andConstraint = (AndConstraint) constraint;
-            if (andConstraint.getLeft() instanceof OrConstraint) {
-                OrConstraint orConstraint = (OrConstraint) andConstraint.getLeft();
+        if (constraint instanceof AndConstraint andConstraint) {
+            if (andConstraint.getLeft() instanceof OrConstraint orConstraint) {
                 Constraint aConstraint = orConstraint.getLeft();
                 Constraint bConstraint = orConstraint.getRight();
                 Constraint cConstraint = andConstraint.getRight();

@@ -17,10 +17,12 @@ public class TreeToDnfConverterImpl implements TreeToDnfConverter {
             List.of(new NotNotRule(), new MorgenOrRule(), new MorgenAndRule(), new DistributiveLeftRule(),
                     new DistributiveRightRule());
 
-    /** Constructor of {@link TreeToDnfConverterImpl} */
-    public TreeToDnfConverterImpl() {
-        replacer = new UnwantedConstraintsReplacerImpl();
-        dnfSimplifier = new DnfSimplifierImpl();
+    /**
+     * Constructor of {@link TreeToDnfConverterImpl}
+     */
+    public TreeToDnfConverterImpl(UnwantedConstraintsReplacer replacer, DnfSimplifier dnfSimplifier) {
+        this.replacer = replacer;
+        this.dnfSimplifier = dnfSimplifier;
     }
 
     @Override

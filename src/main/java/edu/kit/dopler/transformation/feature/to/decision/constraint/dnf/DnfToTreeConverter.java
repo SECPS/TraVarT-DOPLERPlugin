@@ -10,7 +10,7 @@ import java.util.List;
 public interface DnfToTreeConverter {
 
     /**
-     * Converts a DNF from a {@link List} constaining {@link List}s to a tree.
+     * Converts a DNF from a {@link List} containing {@link List}s to a tree.
      *
      * @param dnf DNF to convert as a {@link List}.
      *

@@ -2,14 +2,26 @@ package edu.kit.dopler.transformation.exceptions;
 
 import de.vill.model.constraint.Constraint;
 
+import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This exception should be thrown if a DNF is always false.
+ */
 public class DnfAlwaysFalseException extends Exception {
 
     private final List<List<Constraint>> dnf;
 
+    /**
+     * Constructor of {@link DnfAlwaysFalseException}
+     *
+     * @param dnf DNF that is always false
+     */
     public DnfAlwaysFalseException(List<List<Constraint>> dnf) {
-        this.dnf = dnf;
+        this.dnf = new ArrayList<>();
+        for (List<Constraint> constraints : dnf) {
+            this.dnf.add(new ArrayList<>(constraints));
+        }
     }
 
     @Override

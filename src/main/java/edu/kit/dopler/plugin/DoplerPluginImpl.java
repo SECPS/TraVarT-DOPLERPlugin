@@ -8,7 +8,7 @@
 package edu.kit.dopler.plugin;
 
 import at.jku.cps.travart.core.common.*;
-import edu.kit.dopler.transformation.OneWayTransformer;
+import edu.kit.dopler.transformation.Transformer;
 import org.pf4j.Extension;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class DoplerPluginImpl implements IPlugin {
 
     @Override
     public IModelTransformer getTransformer() {
-        return new OneWayTransformer();
+        return new Transformer();
     }
 
     @Override

@@ -3,38 +3,39 @@ package edu.kit.dopler.transformation.feature.to.decision;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import edu.kit.dopler.model.*;
-import edu.kit.dopler.transformation.util.MyUtil;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
+import edu.kit.dopler.transformation.util.MyUtil;
 
 import java.util.Optional;
 
+/** This class is responsible for creating the visibility expressions for the decisions. */
 class VisibilityHandler {
 
     /**
-     * Resolves the visibility of the given decision. The visibility depends on the parents of the group from which the
-     * decision originates.
+     * Resolves the visibility of a decision. The visibility depends on the parent feature of the group from which the
+     * decision originates. If the parent feature is the root of the {@link FeatureModel}, a
+     * {@link BooleanLiteralExpression} with the value {@code true} is returned.
      */
     IExpression resolveVisibility(FeatureModel featureModel, Dopler decisionModel, Feature feature) {
+        Optional<Feature> firstNonMandatoryParent = MyUtil.findFirstNonMandatoryParent(featureModel, feature);
 
-        //Search for first non-mandatory parent
-        Optional<Feature> parent = MyUtil.findFirstNonMandatoryParent(featureModel, feature);
-
-        //Parent is root. Decision for root feature is always taken. Visibility must therefore be true.
-        if (parent.isEmpty()) {
-            return new BooleanLiteralExpression(true);
-        }
-
-        //Parent is not root. Look at parent group of parent
-        return switch (parent.get().getParentGroup().GROUPTYPE) {
-            case OPTIONAL -> handleBooleanDecision(parent.get());
-            case ALTERNATIVE -> handleAlternative(parent.get(), decisionModel);
-            case OR -> handleOr(parent.get(), decisionModel);
-            case GROUP_CARDINALITY, MANDATORY -> throw new UnexpectedTypeException(parent.get().getParentGroup());
-        };
+        // If parent is empty, then parent is root.
+        // -> Decision for root feature is always taken. Visibility must therefore be true.
+        // If parent is present, then parent is not root.
+        // -> Look at parent group of parent
+        return firstNonMandatoryParent.map(parent -> switch (parent.getParentGroup().GROUPTYPE) {
+            case OPTIONAL -> handleOptionalFeature(parent);
+            case ALTERNATIVE, OR -> handleAlternativeAndOrFeature(parent, decisionModel);
+            case GROUP_CARDINALITY, MANDATORY -> throw new UnexpectedTypeException(parent.getParentGroup());
+        }).orElseGet(() -> new BooleanLiteralExpression(true));
     }
 
-    /** Returns {@code decision.value}, because you can choose several enums from the decision */
-    private IExpression handleOr(Feature parent, Dopler decisionModel) {
+    /**
+     * Returns a {@link StringLiteralExpression} containing {@code decision.value}, where {@code value} is the name of
+     * the given feature and {@code decision} is the name of the parent of the given feature. If the parent is the root
+     * of the model, then a {@link BooleanLiteralExpression} with the value {@code true} is returned.
+     */
+    private IExpression handleAlternativeAndOrFeature(Feature parent, Dopler decisionModel) {
         Feature parentOfParent = parent.getParentFeature();
 
         Optional<IDecision<?>> parentOfParentDecision =
@@ -42,30 +43,12 @@ class VisibilityHandler {
         if (parentOfParentDecision.isEmpty()) {
             return new BooleanLiteralExpression(true);
         }
-
-        IDecision<?> decision = parentOfParentDecision.get();
-        return new StringLiteralExpression(decision.getDisplayId() + "." + parent.getFeatureName());
-    }
-
-    /** Returns {@code getValue(decision) = value}, because you can only choose one enum from the decision */
-    private IExpression handleAlternative(Feature parent, Dopler decisionModel) {
-        Feature parentOfParent = parent.getParentFeature();
-
-        Optional<IDecision<?>> parentOfParentDecision =
-                MyUtil.findDecisionById(decisionModel, parentOfParent.getFeatureName());
-        if (parentOfParentDecision.isEmpty()) {
-            return new BooleanLiteralExpression(true);
-        }
-
-        //IExpression left = new GetValueFunction(new StringDecision(parentOfParent.getFeatureName()));
-        //IExpression right = new DecisionValueCondition(parentOfParentDecision.get(), new StringValue(parent
-        // .getFeatureName()));
 
         return new StringLiteralExpression(parentOfParent.getFeatureName() + "." + parent.getFeatureName());
     }
 
-    /** Returns {@code decision}, because you can only choose one enum from the decision */
-    private static IExpression handleBooleanDecision(Feature parent) {
+    /** Returns a {@link StringLiteralExpression} only containing the name of the given feature. */
+    private static IExpression handleOptionalFeature(Feature parent) {
         return new StringLiteralExpression(parent.getFeatureName());
     }
 }

@@ -2,14 +2,29 @@ package edu.kit.dopler.transformation.exceptions;
 
 import de.vill.model.constraint.Constraint;
 
+import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This exception should be thrown if a DNF is always true.
+ */
 public class DnfAlwaysTrueException extends Exception {
 
     private final List<List<Constraint>> dnf;
 
-    public DnfAlwaysTrueException(List<List<Constraint>> dnf) {
-        this.dnf = dnf;
+    /**
+     * Constructor of {@link DnfAlwaysTrueException}
+     *
+     * @param conjunctionAlwaysTrueException Cause of this exception.
+     * @param dnf                            DNF that is always true
+     */
+    public DnfAlwaysTrueException(ConjunctionAlwaysTrueException conjunctionAlwaysTrueException,
+                                  List<List<Constraint>> dnf) {
+        super(conjunctionAlwaysTrueException);
+        this.dnf = new ArrayList<>();
+        for (List<Constraint> constraints : dnf) {
+            this.dnf.add(new ArrayList<>(constraints));
+        }
     }
 
     @Override

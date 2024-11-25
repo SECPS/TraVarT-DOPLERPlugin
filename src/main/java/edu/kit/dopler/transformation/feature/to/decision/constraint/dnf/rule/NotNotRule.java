@@ -10,10 +10,8 @@ public class NotNotRule implements Rule {
 
     @Override
     public Optional<Constraint> replace(Constraint constraint) {
-        if (constraint instanceof NotConstraint) {
-            NotConstraint notConstraint = (NotConstraint) constraint;
-            if (notConstraint.getContent() instanceof NotConstraint) {
-                NotConstraint content = (NotConstraint) notConstraint.getContent();
+        if (constraint instanceof NotConstraint notConstraint) {
+            if (notConstraint.getContent() instanceof NotConstraint content) {
                 return Optional.ofNullable(content.getContent());
             }
         }
