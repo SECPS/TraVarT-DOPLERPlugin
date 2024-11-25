@@ -15,7 +15,7 @@ import java.nio.file.Path;
 class FeatureToDecisionModelTest extends TransformationTest<FeatureModel, Dopler> {
 
     private static final String STANDARD_MODEL_NAME = "Some name";
-    private static final Path TEMP_PATH = Path.of("src/test/resources/oneway/TEMP.txt");
+    private static final Path TEMP_PATH = Path.of("src/test/resources/oneway/.temporary.txt");
     private static final Path TEST_DATA_PATH = Path.of("src/test/resources/oneway/feature/to/decision");
 
     @Override
