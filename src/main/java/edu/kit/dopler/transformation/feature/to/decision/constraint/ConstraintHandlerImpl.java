@@ -51,6 +51,7 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
             return dnfAlwaysTrueAndFalseRemover.removeAlwaysTruOrFalseConstraints(featureModel, dnf);
         } catch (DnfAlwaysFalseException e) {
             //Constraint is always false. Model is invalid.
+            //TODO: ein Widerspruch sollte hier erstellt werden
             throw new RuntimeException(e);
         } catch (DnfAlwaysTrueException e) {
             //Constraint is always true. No rule should be generated. Return empty DNF.
@@ -85,7 +86,7 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
         return Optional.empty();
     }
 
-    /** Converts the given left side of the DNF to a tree and removes double negation if needed. */
+    /** Converts the given left side of the DNF to a tree and removes double negations if needed. */
     private Constraint createLeft(List<List<Constraint>> leftSide) {
         Constraint left = new NotConstraint(dnfToTreeConverter.createDnfFromList(leftSide));
         if (((NotConstraint) left).getContent() instanceof NotConstraint) {

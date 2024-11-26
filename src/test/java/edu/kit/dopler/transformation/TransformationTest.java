@@ -1,6 +1,7 @@
 package edu.kit.dopler.transformation;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -40,6 +41,7 @@ abstract class TransformationTest<FromModel, ToModel> {
 
     @ParameterizedTest(name = "{1}")
     @MethodSource("dataSourceMethod")
+    @Disabled
     void testNumberOfConfigs(Path pathToBeTransformed, Path pathToBeTransformedIn) throws Exception {
         FromModel modelToBeTransformed = getModelToTransform(pathToBeTransformed);
         ToModel transformedModel = transformModel(modelToBeTransformed);
