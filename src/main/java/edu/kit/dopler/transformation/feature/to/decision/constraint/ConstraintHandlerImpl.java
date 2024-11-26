@@ -1,19 +1,17 @@
 package edu.kit.dopler.transformation.feature.to.decision.constraint;
 
 import de.vill.model.FeatureModel;
-import de.vill.model.constraint.*;
+import de.vill.model.constraint.AndConstraint;
+import de.vill.model.constraint.Constraint;
+import de.vill.model.constraint.NotConstraint;
 import edu.kit.dopler.model.*;
 import edu.kit.dopler.transformation.exceptions.DnfAlwaysFalseException;
 import edu.kit.dopler.transformation.exceptions.DnfAlwaysTrueException;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.DnfAlwaysTrueAndFalseRemover;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.DnfToTreeConverter;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.TreeToDnfConverter;
-import edu.kit.dopler.transformation.util.Pair;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Implementation of {@link ConstraintHandler}.
@@ -39,65 +37,52 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
 
     @Override
     public void handleOwnConstraints(FeatureModel featureModel, Dopler decisionModel) {
-        //Bring constraints into normalised form
-        Pair<List<ImplicationConstraint>, List<List<Constraint>>> normalisedConstraints =
-                normaliseConstraints(featureModel);
-
-        //Create rules from the implications
-        List<Rule> rules = createRules(decisionModel, featureModel, normalisedConstraints.getFirst());
-
-        //Create rules from the rest
-        for (List<Constraint> conjunction : normalisedConstraints.getSecond()) {
-            for (Constraint constraint : conjunction) {
-                IAction action = actionCreator.createAction(decisionModel, constraint);
-                rules.add(new Rule(new BooleanLiteralExpression(true), Set.of(action)));
-            }
+        for (Constraint constraint : getSanitizedConstraints(featureModel)) {
+            List<List<Constraint>> dnf = convertConstraintIntoDnf(featureModel, constraint);
+            Optional<Rule> rule = createRuleFromDnf(featureModel, decisionModel, dnf);
+            rule.ifPresent(this::distributeRule);
         }
-
-        //Distribute the created rules to the decisions
-        distributeRules(rules);
     }
 
-    /**
-     * Converts the {@link Constraint}s of the given FM in a normalised form. The form follows this pattern:
-     * {@code !(A & ... & Z) => ALPHA}. Alpha is always a {@link NotConstraint} with a {@link LiteralConstraint} inside
-     * or a {@link LiteralConstraint}.
-     */
-    private Pair<List<ImplicationConstraint>, List<List<Constraint>>> normaliseConstraints(FeatureModel featureModel) {
-        List<ImplicationConstraint> implicationConstraints = new ArrayList<>();
-        List<List<Constraint>> rest = new ArrayList<>();
+    /** Converts the given constraint into DNF. */
+    private List<List<Constraint>> convertConstraintIntoDnf(FeatureModel featureModel, Constraint constraint) {
+        try {
+            List<List<Constraint>> dnf = treeToDnfConverter.convertToDnf(constraint);
+            return dnfAlwaysTrueAndFalseRemover.removeAlwaysTruOrFalseConstraints(featureModel, dnf);
+        } catch (DnfAlwaysFalseException e) {
+            //Constraint is always false. Model is invalid.
+            throw new RuntimeException(e);
+        } catch (DnfAlwaysTrueException e) {
+            //Constraint is always true. No rule should be generated. Return empty DNF.
+            return new ArrayList<>();
+        }
+    }
 
-        for (Constraint constraint : getSanitasiedConstraints(featureModel)) {
-            List<List<Constraint>> unSanitisedDef = treeToDnfConverter.convertToDnf(constraint);
-
-            List<List<Constraint>> dnf;
-            try {
-                dnf = dnfAlwaysTrueAndFalseRemover.removeAlwaysTruOrFalseConstraints(featureModel, unSanitisedDef);
-            } catch (DnfAlwaysFalseException e) {
-                throw new RuntimeException(e);
-            } catch (DnfAlwaysTrueException e) {
-                continue;
+    /** Converts the given constraint in DNF into a {@link Rule} from the decision model. */
+    private Optional<Rule> createRuleFromDnf(FeatureModel featureModel, Dopler decisionModel,
+                                             List<List<Constraint>> dnf) {
+        // DNF contains no OR
+        if (1 == dnf.size()) {
+            Set<IAction> actions = new LinkedHashSet<>();
+            for (Constraint constraint : dnf.getFirst()) {
+                actions.add(actionCreator.createAction(decisionModel, constraint));
             }
-
-            if (dnf.isEmpty()) {
-                throw new RuntimeException("DNF is empty. Constraint is always false.");
-            } else if (1 == dnf.size()) {
-                // DNF contains no OR
-                rest.add(dnf.getFirst());
-            } else if (1 < dnf.size()) {
-                //Contains at least one OR
-                List<Constraint> rightSide = dnf.getLast();
-                List<List<Constraint>> leftSide = new ArrayList<>(dnf);
-                leftSide.remove(rightSide);
-
-                //Convert dnf to several implications
-                for (Constraint right : rightSide) {
-                    implicationConstraints.add(new ImplicationConstraint(createLeft(leftSide), right));
-                }
-            }
+            return Optional.of(new Rule(new BooleanLiteralExpression(true), actions));
         }
 
-        return new Pair<>(implicationConstraints, rest);
+        //DNF contains at least one OR
+        if (1 < dnf.size()) {
+            //Outer right conjunction contains the actions
+            Set<IAction> actions = new LinkedHashSet<>();
+            for (Constraint constraint : dnf.removeLast()) {
+                actions.add(actionCreator.createAction(decisionModel, constraint));
+            }
+
+            //All the other conjunctions create the condition
+            IExpression condition = conditionCreator.createCondition(decisionModel, featureModel, createLeft(dnf));
+            return Optional.of(new Rule(condition, actions));
+        }
+        return Optional.empty();
     }
 
     /** Converts the given left side of the DNF to a tree and removes double negation if needed. */
@@ -116,7 +101,7 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
      * @return {@link List} of all constraints in the given {@link FeatureModel} where no root {@link Constraint} is a
      * {@link AndConstraint}
      */
-    private static List<Constraint> getSanitasiedConstraints(FeatureModel featureModel) {
+    private static List<Constraint> getSanitizedConstraints(FeatureModel featureModel) {
         Stack<Constraint> stack = new Stack<>();
         featureModel.getConstraints().reversed().forEach(stack::push);
         List<Constraint> sanitisedConstrains = new ArrayList<>();
@@ -132,22 +117,13 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
         return sanitisedConstrains;
     }
 
-    /** Create {@link Rule}s for the DM from the normalised {@link Constraint}s from the FM. */
-    private List<Rule> createRules(Dopler decisionModel, FeatureModel featureModel,
-                                   List<ImplicationConstraint> implicationConstraints) {
-        List<Rule> rules = new ArrayList<>();
-        for (ImplicationConstraint implication : implicationConstraints) {
-            IExpression condition =
-                    conditionCreator.createCondition(decisionModel, featureModel, implication.getLeft());
-            IAction action = actionCreator.createAction(decisionModel, implication.getRight());
-            rules.add(new Rule(condition, Set.of(action)));
-        }
-        return rules;
-    }
-
     /** Distribute the generated rules to the decisions */
-    private void distributeRules(List<Rule> rules) {
-        rules.forEach(rule -> rule.getActions()
-                .forEach(iAction -> ((ValueRestrictionAction) iAction).getDecision().addRule(rule)));
+    private void distributeRule(Rule rule) {
+        Optional<IAction> firstAction = rule.getActions().stream().findFirst();
+        if (firstAction.isPresent()) {
+            ((ValueRestrictionAction) firstAction.get()).getDecision().addRule(rule);
+        } else {
+            throw new RuntimeException("Actions are empty but should contain at least one element.");
+        }
     }
 }
