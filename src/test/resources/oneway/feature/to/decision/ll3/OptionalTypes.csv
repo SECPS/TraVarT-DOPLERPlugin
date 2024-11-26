@@ -1,0 +1,10 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+AString;What A?;String;;;;true
+AAString;What AA?;String;;;;A
+ABString;What AB?;String;;;;A
+BNumber;How much B?;Double;;;;true
+BANumber;How much BA?;Double;;;;B
+BBNumber;How much BB?;Double;;;;B
+C;C?;Boolean;true | false;;;true
+CA;CA?;Boolean;true | false;;;C
+CB;CB?;Boolean;true | false;;;C

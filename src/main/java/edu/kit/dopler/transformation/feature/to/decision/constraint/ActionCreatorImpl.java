@@ -6,11 +6,14 @@ import de.vill.model.constraint.LiteralConstraint;
 import de.vill.model.constraint.NotConstraint;
 import edu.kit.dopler.model.*;
 import edu.kit.dopler.transformation.exceptions.DecisionNotPresentException;
-import edu.kit.dopler.transformation.util.MyUtil;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
+import edu.kit.dopler.transformation.util.MyUtil;
 
 import java.util.Optional;
 
+/**
+ * Implementation of {@link ActionCreator}
+ */
 public class ActionCreatorImpl implements ActionCreator {
 
     @Override
@@ -20,7 +23,7 @@ public class ActionCreatorImpl implements ActionCreator {
             case NotConstraint notConstraint -> handleNot(decisionModel, notConstraint);
             case ExpressionConstraint expressionConstraint -> {
                 //TODO What to do with ExpressionConstraints?
-                throw new UnexpectedTypeException(constraint);
+                throw new UnexpectedTypeException(expressionConstraint);
             }
             case null, default -> throw new UnexpectedTypeException(constraint);
         };

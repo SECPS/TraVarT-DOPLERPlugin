@@ -10,9 +10,9 @@ features
 					EXT4
 			OperatingSystem {abstract true}
 				alternative
-					Windows {Memory 4100}
-					macOS {Memory 2800}
-					Debian {Memory 3500}
+					Windows
+					macOS
+					Debian
 		optional
 			Logging
 

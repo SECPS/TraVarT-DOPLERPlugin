@@ -6,7 +6,6 @@ import de.vill.model.Group;
 import de.vill.model.constraint.LiteralConstraint;
 import edu.kit.dopler.model.*;
 import edu.kit.dopler.transformation.exceptions.FeatureNotPresentException;
-import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 
 import java.util.Optional;
 import java.util.Stack;
@@ -36,10 +35,9 @@ public final class MyUtil {
                         }
                     }
                 }
-                case BooleanDecision booleanDecision -> {
+                case null, default -> {
                     return false;
                 }
-                case null, default -> throw new UnexpectedTypeException(decision);
             }
 
             return false;

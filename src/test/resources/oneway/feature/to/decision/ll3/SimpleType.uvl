@@ -1,0 +1,7 @@
+features
+	RootFeature
+		mandatory
+			String A
+			Integer  B
+			Real  C
+			Boolean D

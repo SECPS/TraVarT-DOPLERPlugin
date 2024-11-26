@@ -27,7 +27,7 @@ public final class CSVUtils {
 		Builder builder = CSVFormat.EXCEL.builder();
 		builder.setDelimiter(DELIMITER);
 		builder.setHeader(CSVHeader.stringArray());
-		builder.setSkipHeaderRecord(true);
+		builder.setSkipHeaderRecord(false);
 		return builder.build();
 	}
 }
