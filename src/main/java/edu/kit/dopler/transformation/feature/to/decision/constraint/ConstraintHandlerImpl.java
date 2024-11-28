@@ -118,7 +118,7 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
         return sanitisedConstrains;
     }
 
-    /** Distribute the generated rules to the decisions */
+    /** Distribute the generated rule to a decision */
     private void distributeRule(Rule rule) {
         Optional<IAction> firstAction = rule.getActions().stream().findFirst();
         if (firstAction.isPresent()) {

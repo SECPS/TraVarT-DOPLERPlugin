@@ -15,16 +15,19 @@ public class FmToDmTransformer {
 
     private final FeatureAndGroupHandler featureAndGroupHandler;
     private final ConstraintHandler constraintHandler;
+    private final AttributeHandler attributeHandler;
 
     /**
      * Constructor of {@link FmToDmTransformer}
      */
     public FmToDmTransformer() {
+        ConditionCreatorImpl conditionCreator = new ConditionCreatorImpl();
+        ActionCreatorImpl actionCreator = new ActionCreatorImpl();
         constraintHandler = new ConstraintHandlerImpl(
                 new TreeToDnfConverterImpl(new UnwantedConstraintsReplacerImpl(), new DnfSimplifierImpl()),
-                new DnfToTreeConverterImpl(), new ActionCreatorImpl(), new ConditionCreatorImpl(),
-                new DnfAlwaysTrueAndFalseRemoverImpl());
-        featureAndGroupHandler = new FeatureAndGroupHandler(new VisibilityHandler(), new IdHandler());
+                new DnfToTreeConverterImpl(), actionCreator, conditionCreator, new DnfAlwaysTrueAndFalseRemoverImpl());
+        featureAndGroupHandler = new FeatureAndGroupHandlerImpl(new VisibilityHandler(), new IdHandler());
+        attributeHandler = new AttributeHandlerImpl(conditionCreator);
     }
 
     /**
@@ -46,7 +49,7 @@ public class FmToDmTransformer {
 
         Feature rootFeature = featureModel.getRootFeature();
         featureAndGroupHandler.handleFeature(rootFeature, decisionModel, featureModel);
-
+        attributeHandler.handleAttributes(decisionModel, featureModel);
         constraintHandler.handleOwnConstraints(featureModel, decisionModel);
 
         return decisionModel;
