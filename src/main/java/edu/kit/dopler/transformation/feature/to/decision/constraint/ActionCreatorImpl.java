@@ -1,7 +1,6 @@
 package edu.kit.dopler.transformation.feature.to.decision.constraint;
 
 import de.vill.model.constraint.Constraint;
-import de.vill.model.constraint.ExpressionConstraint;
 import de.vill.model.constraint.LiteralConstraint;
 import de.vill.model.constraint.NotConstraint;
 import edu.kit.dopler.model.*;
@@ -21,10 +20,6 @@ public class ActionCreatorImpl implements ActionCreator {
         return switch (constraint) {
             case LiteralConstraint literalConstraint -> handleLiteral(decisionModel, literalConstraint);
             case NotConstraint notConstraint -> handleNot(decisionModel, notConstraint);
-            case ExpressionConstraint expressionConstraint -> {
-                //TODO What to do with ExpressionConstraints?
-                throw new UnexpectedTypeException(expressionConstraint);
-            }
             case null, default -> throw new UnexpectedTypeException(constraint);
         };
     }

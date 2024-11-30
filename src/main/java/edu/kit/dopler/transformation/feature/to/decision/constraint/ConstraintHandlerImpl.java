@@ -3,10 +3,13 @@ package edu.kit.dopler.transformation.feature.to.decision.constraint;
 import de.vill.model.FeatureModel;
 import de.vill.model.constraint.AndConstraint;
 import de.vill.model.constraint.Constraint;
+import de.vill.model.constraint.ExpressionConstraint;
 import de.vill.model.constraint.NotConstraint;
 import edu.kit.dopler.model.*;
+import edu.kit.dopler.transformation.exceptions.DecisionNotPresentException;
 import edu.kit.dopler.transformation.exceptions.DnfAlwaysFalseException;
 import edu.kit.dopler.transformation.exceptions.DnfAlwaysTrueException;
+import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.DnfAlwaysTrueAndFalseRemover;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.DnfToTreeConverter;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.TreeToDnfConverter;
@@ -62,6 +65,20 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
     /** Converts the given constraint in DNF into a {@link Rule} from the decision model. */
     private Optional<Rule> createRuleFromDnf(FeatureModel featureModel, Dopler decisionModel,
                                              List<List<Constraint>> dnf) {
+
+        //Check if dnf contains any ExpressionConstraints
+        boolean isSpecial = dnf.stream().flatMap(Collection::stream)
+                .anyMatch(constraint -> constraint instanceof ExpressionConstraint);
+
+        //Special case if dnf contains attribute constraints
+        //Needed because there is no way to model expressions like "A = 10" as actions
+        if (isSpecial) {
+            IExpression condition = conditionCreator.createCondition(decisionModel, featureModel,
+                    new NotConstraint(dnfToTreeConverter.createDnfFromList(dnf)));
+            Set<IAction> contradiction = createContradiction(decisionModel);
+            return Optional.of(new Rule(condition, contradiction));
+        }
+
         // DNF contains no OR
         if (1 == dnf.size()) {
             Set<IAction> actions = new LinkedHashSet<>();
@@ -126,5 +143,25 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
         } else {
             throw new RuntimeException("Actions are empty but should contain at least one element.");
         }
+    }
+
+    /** Creates a set of {@link IAction}s that contradict each other. */
+    private Set<IAction> createContradiction(Dopler decisionModel) {
+        //Use the first decision to create contradiction
+        Optional<IDecision<?>> decision = decisionModel.getDecisions().stream().findFirst();
+        if (decision.isEmpty()) {
+            throw new DecisionNotPresentException("First");
+        }
+
+        return switch (decision.get()) {
+            case BooleanDecision booleanDecision ->
+                    Set.of(new BooleanEnforce(booleanDecision, new BooleanValue(Boolean.TRUE)),
+                            new BooleanEnforce(booleanDecision, new BooleanValue(Boolean.FALSE)));
+            case StringDecision stringDecision -> Set.of(new StringEnforce(stringDecision, new StringValue("true")),
+                    new StringEnforce(stringDecision, new StringValue("false")));
+            case NumberDecision numberDecision -> Set.of(new NumberEnforce(numberDecision, new DoubleValue(1.0)),
+                    new NumberEnforce(numberDecision, new DoubleValue(-1.0)));
+            default -> throw new UnexpectedTypeException(decision.get());
+        };
     }
 }

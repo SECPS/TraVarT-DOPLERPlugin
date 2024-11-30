@@ -49,21 +49,23 @@ class AttributeHandlerImpl implements AttributeHandler {
         Map<String, Attribute> attributes = feature.getAttributes();
 
         for (Map.Entry<String, Attribute> entry : attributes.entrySet()) {
-            //TODO: booleans are ignored for now
-            if (!"boolean".equals(entry.getValue().getType())) {
-                String attributeName = entry.getKey();
-                Attribute attribute = entry.getValue();
+            String attributeName = entry.getKey();
+            Attribute attribute = entry.getValue();
 
-                if (!decisionExists(decisionModel, attributeName)) {
-                    createAttributeDecision(decisionModel, attribute, attributeName);
-                }
+            //Booleans are skipped for now
+            if ("boolean".equals(attribute.getType())) {
+                continue;
+            }
 
-                Optional<IDecision<?>> attributeDecision = MyUtil.findDecisionById(decisionModel, attributeName);
-                if (attributeDecision.isPresent()) {
-                    createRule(decisionModel, feature, attribute, attributeDecision.get(), featureModel);
-                } else {
-                    throw new DecisionNotPresentException(attributeName);
-                }
+            if (!decisionExists(decisionModel, attributeName)) {
+                createAttributeDecision(decisionModel, attribute, attributeName);
+            }
+
+            Optional<IDecision<?>> attributeDecision = MyUtil.findDecisionById(decisionModel, attributeName);
+            if (attributeDecision.isPresent()) {
+                createRule(decisionModel, feature, attribute, attributeDecision.get(), featureModel);
+            } else {
+                throw new DecisionNotPresentException(attributeName);
             }
         }
     }

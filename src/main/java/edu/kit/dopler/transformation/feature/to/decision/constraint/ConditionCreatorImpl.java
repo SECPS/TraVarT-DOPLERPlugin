@@ -2,13 +2,15 @@ package edu.kit.dopler.transformation.feature.to.decision.constraint;
 
 import de.vill.model.FeatureModel;
 import de.vill.model.constraint.*;
+import de.vill.model.expression.Expression;
 import edu.kit.dopler.model.*;
 import edu.kit.dopler.transformation.exceptions.DecisionNotPresentException;
-import edu.kit.dopler.transformation.util.MyUtil;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
+import edu.kit.dopler.transformation.util.MyUtil;
 
 import java.util.Optional;
 
+/** Implementation of ConditionCreator */
 public class ConditionCreatorImpl implements ConditionCreator {
 
     @Override
@@ -18,6 +20,7 @@ public class ConditionCreatorImpl implements ConditionCreator {
             case LiteralConstraint literalConstraint -> handleLiteral(decisionModel, featureModel, literalConstraint);
             case OrConstraint orConstraint -> handleOr(decisionModel, featureModel, orConstraint);
             case AndConstraint andConstraint -> handleAnd(decisionModel, featureModel, andConstraint);
+            case ExpressionConstraint expressionConstraint -> handleExpressionConstraint(expressionConstraint);
             case null, default -> throw new UnexpectedTypeException(left);
         };
     }
@@ -39,15 +42,16 @@ public class ConditionCreatorImpl implements ConditionCreator {
     private static IExpression handleLiteral(Dopler decisionModel, FeatureModel featureModel,
                                              LiteralConstraint literalConstraint) {
 
+        LiteralConstraint firstNonMandatoryParent;
         Optional<LiteralConstraint> replaced = MyUtil.findFirstNonMandatoryParent(featureModel, literalConstraint);
         if (replaced.isEmpty()) {
             return new BooleanLiteralExpression(true);
         } else {
-            literalConstraint = replaced.get();
+            firstNonMandatoryParent = replaced.get();
         }
 
         IExpression condition;
-        String literal = literalConstraint.getLiteral();
+        String literal = firstNonMandatoryParent.getLiteral();
         Optional<IDecision<?>> decisionById = MyUtil.findDecisionById(decisionModel, literal);
         Optional<IDecision<?>> decisionByValue = MyUtil.findDecisionByValue(decisionModel, literal);
 
@@ -59,5 +63,33 @@ public class ConditionCreatorImpl implements ConditionCreator {
             throw new DecisionNotPresentException(literal);
         }
         return condition;
+    }
+
+    private IExpression handleExpressionConstraint(ExpressionConstraint constraint) {
+        return switch (constraint) {
+            case EqualEquationConstraint ignored ->
+                    new Equals(handleExpression(constraint.getLeft()), handleExpression(constraint.getRight()));
+            case NotEqualsEquationConstraint ignored -> new NOT(new Equals(handleExpression(constraint.getLeft()),
+                    handleExpression(constraint.getRight())));
+            case GreaterEquationConstraint ignored ->
+                    new GreatherThan(handleExpression(constraint.getLeft()), handleExpression(constraint.getRight()));
+            case GreaterEqualsEquationConstraint ignored ->
+                    new OR(new Equals(handleExpression(constraint.getLeft()), handleExpression(constraint.getRight())),
+                            new GreatherThan(handleExpression(constraint.getLeft()),
+                                    handleExpression(constraint.getRight())));
+            case LowerEquationConstraint ignored ->
+                    new LessThan(handleExpression(constraint.getLeft()), handleExpression(constraint.getRight()));
+            case LowerEqualsEquationConstraint ignored ->
+                    new OR(new Equals(handleExpression(constraint.getLeft()), handleExpression(constraint.getRight())),
+                            new LessThan(handleExpression(constraint.getLeft()),
+                                    handleExpression(constraint.getRight())));
+            case null, default -> throw new UnexpectedTypeException(constraint);
+        };
+    }
+
+    private IExpression handleExpression(Expression expression) {
+        //TODO: hier müsste man durch die Expression durch gehen und diese richtig übersetzen mit speziellen fällen
+        // für z.B. sum.
+        return new StringLiteralExpression(expression.toString(false, ""));
     }
 }
