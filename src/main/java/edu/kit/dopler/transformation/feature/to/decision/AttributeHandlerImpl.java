@@ -46,17 +46,28 @@ class AttributeHandlerImpl implements AttributeHandler {
     @SuppressWarnings("rawtypes") //Attributes are returned with no type from the feature
     private void handleFeatureWithAttribute(Dopler decisionModel, FeatureModel featureModel, Feature feature) {
 
+        //This map saves the rules that are added to the decisions with the attributes
+        Map<IDecision<?>, List<IAction>> rulesMap = new HashMap<>();
+
+        //Create new decisions and fill map
         Map<String, Attribute> attributes = feature.getAttributes();
         for (Attribute attribute : attributes.values()) {
             IDecision attributeDecision = createAttributeDecision(attribute, feature);
             decisionModel.addDecision(attributeDecision);
-            createRule(decisionModel, feature, attribute, attributeDecision, featureModel);
+
+            IDecision<?> targetDecision = getTargetDecision(decisionModel, feature);
+            rulesMap.putIfAbsent(targetDecision, new ArrayList<>());
+            rulesMap.get(targetDecision).add(createAction(attribute, attributeDecision));
+        }
+
+        //Give decisions that contains the attributes new rules
+        for (Map.Entry<IDecision<?>, List<IAction>> entry : rulesMap.entrySet()) {
+            entry.getKey().addRule(new Rule(conditionCreator.createCondition(decisionModel, featureModel,
+                    new LiteralConstraint(feature.getFeatureName())), new LinkedHashSet<>(entry.getValue())));
         }
     }
 
-    private void createRule(Dopler decisionModel, Feature feature, Attribute<?> attribute,
-                            IDecision<?> attributeDecision, FeatureModel featureModel) {
-
+    private static IDecision<?> getTargetDecision(Dopler decisionModel, Feature feature) {
         //Decision, that gets the rule
         Optional<IDecision<?>> targetDecision = MyUtil.findDecisionByValue(decisionModel, feature.getFeatureName())
                 .or(() -> MyUtil.findDecisionById(decisionModel, feature.getFeatureName()));
@@ -64,11 +75,11 @@ class AttributeHandlerImpl implements AttributeHandler {
             //TODO Exception here will be thrown if a mandatory feature has a attribute
             throw new DecisionNotPresentException(feature.getFeatureName());
         }
+        return targetDecision.get();
+    }
 
-        IExpression condition = conditionCreator.createCondition(decisionModel, featureModel,
-                new LiteralConstraint(feature.getFeatureName()));
-
-        IAction action = switch (attributeDecision) {
+    private IAction createAction(Attribute<?> attribute, IDecision<?> attributeDecision) {
+        return switch (attributeDecision) {
             case StringDecision stringDecision ->
                     new StringEnforce(stringDecision, new StringValue(attribute.getValue().toString()));
             case NumberDecision numberDecision -> new NumberEnforce(numberDecision,
@@ -77,8 +88,6 @@ class AttributeHandlerImpl implements AttributeHandler {
                     new BooleanValue(Boolean.valueOf(attribute.getValue().toString())));
             default -> throw new UnexpectedTypeException(attributeDecision);
         };
-
-        targetDecision.get().addRule(new Rule(condition, Set.of(action)));
     }
 
     private IDecision<?> createAttributeDecision(Attribute<?> attribute, Feature feature) {

@@ -1,13 +1,13 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-A;A?;Boolean;true | false;;if (A) {A#key1 = true;}if (A) {A#key2 = 42.0;}if (A) {A#key3 = "Hello World";};true
+A;A?;Boolean;true | false;;if (A) {A#key1 = true;A#key2 = 42.0;A#key3 = "Hello World";};true
 A#key1;key1?;Boolean;true | false;;;false
 A#key2;How much key2?;Double;;;;false
 A#key3;What key3?;String;;;;false
-B;B?;Boolean;true | false;;if (B) {B#key1 = false;}if (B) {B#key2 = 71.0;}if (B) {B#key3 = "Welcome World";};true
+B;B?;Boolean;true | false;;if (B) {B#key1 = false;B#key2 = 71.0;B#key3 = "Welcome World";};true
 B#key1;key1?;Boolean;true | false;;;false
 B#key2;How much key2?;Double;;;;false
 B#key3;What key3?;String;;;;false
-C;C?;Boolean;true | false;;if (C) {C#key1 = true;}if (C) {C#key2 = 101.0;}if (C) {C#key3 = "Good bye World";};true
+C;C?;Boolean;true | false;;if (C) {C#key1 = true;C#key2 = 101.0;C#key3 = "Good bye World";};true
 C#key1;key1?;Boolean;true | false;;;false
 C#key2;How much key2?;Double;;;;false
 C#key3;What key3?;String;;;;false
