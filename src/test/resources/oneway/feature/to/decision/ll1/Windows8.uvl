@@ -7,7 +7,7 @@ features
 				optional
 					HearTheTextReadAloud	
 						mandatory
-							HearTheTextReadAloud_1 {abstract}	
+							HearTheTextReadAloud_1
 								or
 									EnableAudioDescription
 									ActivateTheNarrator

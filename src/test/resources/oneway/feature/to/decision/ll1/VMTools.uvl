@@ -9,7 +9,7 @@ features
 						mandatory
 							CompositionRules	
 								mandatory
-									CompositionRules_2 {abstract}	
+									CompositionRules_2
 										or
 											Constraints
 											Dependency
@@ -33,7 +33,7 @@ features
 				optional
 					VariabilityValidation	
 						mandatory
-							VariabilityValidation_2 {abstract}	
+							VariabilityValidation_2
 								or
 									LogicSolvers
 									Reasoners

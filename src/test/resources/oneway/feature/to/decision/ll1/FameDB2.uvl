@@ -1,33 +1,33 @@
 namespace DB
 
 features
-	DB {abstract}	
+	DB
 		mandatory
-			OS {abstract}	
+			OS
 				alternative
 					NutOS
 					Win
-			BufferMgr {abstract}	
+			BufferMgr
 				alternative
-					Persistent {abstract}	
+					Persistent
 						mandatory
-							MemAlloc {abstract}	
+							MemAlloc
 								alternative
 									Static
 									Dynamic
-							PageRepl {abstract}	
+							PageRepl
 								alternative
 									LRU
 									LFU
 					InMemory
-			Storage {abstract}	
+			Storage
 				mandatory
-					API {abstract}	
+					API
 						or
 							get
 							put
 							delete
-					Index {abstract}	
+					Index
 						alternative
 							BTree
 							Unindexed

@@ -1,7 +1,7 @@
 namespace VIRTUAL_ROOT
 
 features
-	VIRTUAL_ROOT {abstract}
+	VIRTUAL_ROOT
 		or
 			ALL
 			DK

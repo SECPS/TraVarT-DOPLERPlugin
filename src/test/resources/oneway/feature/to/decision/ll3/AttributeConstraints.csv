@@ -1,6 +1,6 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-ANumber;How much A?;Double;;;;true
-BNumber;How much B?;Double;;;;true
-CNumber;How much C?;Double;;;if (!(A = B)) {CNumber = 1.0;CNumber = -1.0;}if (!((A = B) || (A > B))) {CNumber = 1.0;CNumber = -1.0;}if (!((A = B) || (A < B))) {CNumber = 1.0;CNumber = -1.0;}if (!(A + B = C)) {CNumber = 1.0;CNumber = -1.0;}if (!(A < D)) {CNumber = 1.0;CNumber = -1.0;}if (!(E > A)) {CNumber = 1.0;CNumber = -1.0;}if (!(A + B + C < 10)) {CNumber = 1.0;CNumber = -1.0;}if (!(!!(A < B) || (D > E))) {CNumber = 1.0;CNumber = -1.0;}if (!(((C = 10) || (A = 10)) || (B = 10))) {CNumber = 1.0;CNumber = -1.0;}if (!(((A > E) && (E < A)) || (!!(A > E) && !!(E < A)))) {CNumber = 1.0;CNumber = -1.0;}if (!((C = 3) || (C = 4))) {CNumber = 1.0;CNumber = -1.0;}if (!(B = 2)) {CNumber = 1.0;CNumber = -1.0;}if (!(A = 1)) {CNumber = 1.0;CNumber = -1.0;};true
-DNumber;How much D?;Double;;;;true
-ENumber;How much E?;Double;;;;true
+A#Number;How much A?;Double;;;;true
+B#Number;How much B?;Double;;;;true
+C#Number;How much C?;Double;;;if (!(A = B)) {CNumber = 1.0;CNumber = -1.0;}if (!((A = B) || (A > B))) {CNumber = 1.0;CNumber = -1.0;}if (!((A = B) || (A < B))) {CNumber = 1.0;CNumber = -1.0;}if (!(A + B = C)) {CNumber = 1.0;CNumber = -1.0;}if (!(A < D)) {CNumber = 1.0;CNumber = -1.0;}if (!(E > A)) {CNumber = 1.0;CNumber = -1.0;}if (!(A + B + C < 10)) {CNumber = 1.0;CNumber = -1.0;}if (!(!!(A < B) || (D > E))) {CNumber = 1.0;CNumber = -1.0;}if (!(((C = 10) || (A = 10)) || (B = 10))) {CNumber = 1.0;CNumber = -1.0;}if (!(((A > E) && (E < A)) || (!!(A > E) && !!(E < A)))) {CNumber = 1.0;CNumber = -1.0;}if (!((C = 3) || (C = 4))) {CNumber = 1.0;CNumber = -1.0;}if (!(B = 2)) {CNumber = 1.0;CNumber = -1.0;}if (!(A = 1)) {CNumber = 1.0;CNumber = -1.0;};true
+D#Number;How much D?;Double;;;;true
+E#Number;How much E?;Double;;;;true

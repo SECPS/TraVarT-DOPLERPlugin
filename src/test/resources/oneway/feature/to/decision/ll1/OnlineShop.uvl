@@ -1,13 +1,13 @@
 namespace Onlineshop
 
 features
-	Onlineshop {abstract}	
+	Onlineshop
 		mandatory
-			Payment {abstract}	
+			Payment
 				alternative
 					DebitCard
 					CreditCard
-			ProductSelection {abstract}	
+			ProductSelection
 				mandatory
 					Catalog	
 						optional
@@ -18,7 +18,7 @@ features
 					Search
 
 		optional
-			UserManagement {abstract}	
+			UserManagement
 				or
 					Orders
 					Security

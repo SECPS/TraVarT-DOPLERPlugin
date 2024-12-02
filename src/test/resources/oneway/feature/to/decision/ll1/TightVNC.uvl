@@ -1,20 +1,20 @@
 namespace VncViewer
 
 features
-	VncViewer {abstract}	
+	VncViewer
 		mandatory
-			VncViewerMain {abstract}	
+			VncViewerMain
 				mandatory
-					Typee {abstract}	
+					Typee
 						mandatory
-							Opt {abstract}	
+							Opt
 								or
-									OptionsMenuFeatures {abstract}	
+									OptionsMenuFeatures
 										mandatory
 											OptionsFeat
 
 										optional
-											MOpt {abstract}	
+											MOpt
 												or
 													OpEncodingFeat
 													OpCompressionFeat
@@ -25,7 +25,7 @@ features
 													OpMouse23Feat
 													OpViewFeat
 													OpShareFeat
-									BOpt {abstract}	
+									BOpt
 										or
 											AboutButtonFeat
 											AltTabButtonFeat

@@ -1,5 +1,5 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
 RAM;Which RAM?;Enumeration;8GB | 16GB;1:2;;true
-ManufacturerString;What Manufacturer?;String;;;;true
-WattNumber;How much Watt?;Double;;;;true
+Manufacturer#String;What Manufacturer?;String;;;;true
+Watt#Number;How much Watt?;Double;;;;true
 Designated GPU;Designated GPU?;Boolean;true | false;;;true

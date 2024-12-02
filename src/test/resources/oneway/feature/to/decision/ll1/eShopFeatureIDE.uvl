@@ -1,17 +1,17 @@
 namespace eShop
 
 features
-	eShop {abstract}	
+	eShop
 		mandatory
-			Store_front {abstract}	
+			Store_front
 				mandatory
-					Catalog {abstract}	
+					Catalog
 						mandatory
-							Product_Information {abstract}	
+							Product_Information
 								mandatory
-									Product_type {abstract}	
+									Product_type
 										mandatory
-											sg_Product_type53 {abstract}	
+											sg_Product_type53
 												or
 													Eletronic_goods
 													Physical_goods
@@ -22,18 +22,18 @@ features
 									Detailed_information
 									Warranty_information
 									Customer_reviews
-									Associated_assets {abstract}	
+									Associated_assets
 										mandatory
-											sg_Associated_assets62 {abstract}	
+											sg_Associated_assets62
 												or
 													Documents63
-													Media_files64 {abstract}	
+													Media_files64
 														mandatory
-															sg_Media_files6465 {abstract}	
+															sg_Media_files6465
 																or
-																	Image66 {abstract}	
+																	Image66
 																		mandatory
-																			sg_Image6667 {abstract}	
+																			sg_Image6667
 																				or
 																					Thumbnail68
 																					a2D_image69
@@ -43,7 +43,7 @@ features
 																					Gallery73
 																	Video74
 																	Sound75
-									Product_variants {abstract}	
+									Product_variants
 										optional
 											Complex_product_configuration77
 									Size
@@ -52,45 +52,45 @@ features
 									Custom_fields
 
 						optional
-							Categories {abstract}	
+							Categories
 								mandatory
-									categories_catalog {abstract}	
+									categories_catalog
 										optional
-											Categories84 {abstract}	
+											Categories84
 												optional
 													Multi_level85
 													Multiple_classification86
 							Multiple_catalogs87
-							Searching88 {abstract}	
+							Searching88
 								mandatory
-									sg_Searching8889 {abstract}	
+									sg_Searching8889
 										or
 											Basic_search90
 											Advanced_search91
-							Browsing92 {abstract}	
+							Browsing92
 								mandatory
 									Product_page93
 
 								optional
 									Category_page
-									Index_page95 {abstract}	
+									Index_page95
 										optional
-											Sorting_filters96 {abstract}	
+											Sorting_filters96
 												mandatory
-													sg_Sorting_filters9697 {abstract}	
+													sg_Sorting_filters9697
 														or
 															Price98
 															Quality99
 															Price_Quality_ratio_100
 															Manufacturer_name101
 															Custom_filter102
-							Custom_views103 {abstract}	
+							Custom_views103
 								optional
 									Seasonal_product_views104
 									Personalized_views105
-					Buy_paths {abstract}	
+					Buy_paths
 						mandatory
-							Shopping_cart116 {abstract}	
+							Shopping_cart116
 								mandatory
 									Inventory_management_policy117
 									Cart_content_page118
@@ -98,33 +98,33 @@ features
 								optional
 									Cart_summary_page119
 									Cart_save_after_session120
-							Checkout121 {abstract}	
+							Checkout121
 								mandatory
-									Checkout_type122 {abstract}	
+									Checkout_type122
 										mandatory
-											sg_Checkout_type122123 {abstract}	
+											sg_Checkout_type122123
 												or
-													Registered_checkout {abstract}	
+													Registered_checkout
 														optional
-															Quick_checkout {abstract}	
+															Quick_checkout
 																optional
 																	Enable_profile_update_on_checkout_126
 													Guest_checkout127
-									Taxation_options134 {abstract}	
+									Taxation_options134
 										mandatory
-											sg_Taxation_options134135 {abstract}	
+											sg_Taxation_options134135
 												or
-													Custom_taxation136 {abstract}	
+													Custom_taxation136
 														mandatory
-															Type137 {abstract}	
+															Type137
 																mandatory
-																	sg_Type137138 {abstract}	
+																	sg_Type137138
 																		or
 																			Fixed_rate_taxation139
-																			Rule_based_taxation140 {abstract}	
+																			Rule_based_taxation140
 																				mandatory
 																					Tax_codes141
-																					Address142 {abstract}	
+																					Address142
 																						mandatory
 																							Shipping
 
@@ -132,31 +132,31 @@ features
 																							Billing144
 
 																				optional
-																					Resolution145 {abstract}	
+																					Resolution145
 																						mandatory
-																							sg_Resolution145146 {abstract}	
+																							sg_Resolution145146
 																								or
 																									Country147
 																									Region148
 																									City149
-															Ammount_specification150 {abstract}	
+															Ammount_specification150
 																mandatory
-																	sg_Ammount_specification150151 {abstract}	
+																	sg_Ammount_specification150151
 																		or
 																			Surcharge152
 																			Percentage153
-													Tax_gateways154 {abstract}	
+													Tax_gateways154
 														mandatory
-															sg_Tax_gateways154155 {abstract}	
+															sg_Tax_gateways154155
 																or
 																	CertiTAX156
 																	CyberSource157
 																	Custom_tax_gateway158
-									Payment_options159 {abstract}	
+									Payment_options159
 										mandatory
-											Payment_types160 {abstract}	
+											Payment_types160
 												mandatory
-													sg_Payment_types160161 {abstract}	
+													sg_Payment_types160161
 														or
 															COD162
 															Credit_card163
@@ -170,9 +170,9 @@ features
 
 										optional
 											Fraud_detection171
-											Payment_gateways172 {abstract}	
+											Payment_gateways172
 												mandatory
-													sg_Payment_gateways172173 {abstract}	
+													sg_Payment_gateways172173
 														or
 															Authorize_Net174
 															CyberSource175
@@ -183,7 +183,7 @@ features
 															Custom_payment_gateway180
 
 								optional
-									Shipping_options {abstract}	
+									Shipping_options
 										mandatory
 											Shipping_cost_calculation133
 
@@ -192,9 +192,9 @@ features
 											Carrier_selection130
 											Gift_options131
 											Multiple_shipments132
-							Order_confirmation181 {abstract}	
+							Order_confirmation181
 								mandatory
-									sg_Order_confirmation181182 {abstract}	
+									sg_Order_confirmation181182
 										or
 											Eletronic_page183
 											E_mail184
@@ -202,46 +202,46 @@ features
 											Mail186
 
 				optional
-					Home_page {abstract}	
+					Home_page
 						mandatory
-							sg_Home_page6 {abstract}	
+							sg_Home_page6
 								or
 									Static_content_7
-									Dynamic_content8 {abstract}	
+									Dynamic_content8
 										mandatory
-											Content_type9 {abstract}	
+											Content_type9
 												mandatory
-													sg_Content_type910 {abstract}	
+													sg_Content_type910
 														or
 															Welcome_message11
 															Special_offers
-											Variation_source13 {abstract}	
+											Variation_source13
 												mandatory
-													sg_Variation_source1314 {abstract}	
+													sg_Variation_source1314
 														or
 															Time_dependent15
 															Personalized16
-					Registration {abstract}	
+					Registration
 						mandatory
-							Registration_enforcement {abstract}	
+							Registration_enforcement
 								mandatory
-									sg_Registration_enforcement19 {abstract}	
+									sg_Registration_enforcement19
 										or
 											Register_to_browse20
 											Register_to_buy
 											None22
-							Registration_information23 {abstract}	
+							Registration_information23
 								mandatory
 									Login_credentials24
 
 								optional
-									Shipping_address {abstract}	
+									Shipping_address
 										optional
 											Multiple_shipping_addresses26
-									Billing_address27 {abstract}	
+									Billing_address27
 										optional
 											Multiple_billing_addresses28
-									Credit_card_information29 {abstract}	
+									Credit_card_information29
 										mandatory
 											Card_holder_name30
 											Card_number31
@@ -249,18 +249,18 @@ features
 
 										optional
 											Security_information33
-									Demographics34 {abstract}	
+									Demographics34
 										mandatory
-											sg_Demographics3435 {abstract}	
+											sg_Demographics3435
 												or
 													Age36
 													Income37
 													Education38
 													Custom_Demographic_field39
 									Personal_Information40
-									Preferences {abstract}	
+									Preferences
 										mandatory
-											sg_Preferences42 {abstract}	
+											sg_Preferences42
 												or
 													Site_layout43
 													List_size44
@@ -271,31 +271,31 @@ features
 
 						optional
 							User_behaviour_tracking_information
-					Wish_list {abstract}	
+					Wish_list
 						optional
 							Wish_list_save_after_session
 							E_mail_wish_list
 							Multiple_wish_lists109
-							Permissions {abstract}	
+							Permissions
 								mandatory
-									sg_Permissions111 {abstract}	
+									sg_Permissions111
 										or
 											Public_access112
 											Restricted_access113
 											Private_access114
-					Customer_service {abstract}	
+					Customer_service
 						mandatory
-							sg_Customer_service188 {abstract}	
+							sg_Customer_service188
 								or
-									Question_and_feedback_forms189 {abstract}	
+									Question_and_feedback_forms189
 										optional
 											Question_and_feedback_tracking190
 									Product_returns191
-									Order_status_review192 {abstract}	
+									Order_status_review192
 										mandatory
-											Filtering_criteria193 {abstract}	
+											Filtering_criteria193
 												mandatory
-													sg_Filtering_criteria193194 {abstract}	
+													sg_Filtering_criteria193194
 														or
 															Order_number195
 															Order_date196
@@ -303,71 +303,71 @@ features
 
 										optional
 											Request_order_hardcopy198
-									Shipment_status_tracking_199 {abstract}	
+									Shipment_status_tracking_199
 										mandatory
-											sg_Shipment_status_tracking_199200 {abstract}	
+											sg_Shipment_status_tracking_199200
 												or
 													Internal_tracking201
 													Partner_tracking202
-					User_behaviour_tracking {abstract}	
+					User_behaviour_tracking
 						mandatory
-							Behaviour_tracked204 {abstract}	
+							Behaviour_tracked204
 								mandatory
-									sg_Behaviour_tracked204205 {abstract}	
+									sg_Behaviour_tracked204205
 										or
 											Locally_visited_pages
 											External_referring_pages
 											Previous_purchases
-			Business_management {abstract}	
+			Business_management
 				mandatory
-					Order_management210 {abstract}	
+					Order_management210
 						mandatory
-							Fulfillment211 {abstract}	
+							Fulfillment211
 								mandatory
-									sg_Fulfillment211212 {abstract}	
+									sg_Fulfillment211212
 										or
-											Physical_goods_fulfillment {abstract}	
+											Physical_goods_fulfillment
 												mandatory
 													Warehouse_management
-													shipping {abstract}	
+													shipping
 														mandatory
-															sg_shipping216 {abstract}	
+															sg_shipping216
 																or
-																	Custom_shipping_method217 {abstract}	
+																	Custom_shipping_method217
 																		mandatory
-																			Pricing218 {abstract}	
+																			Pricing218
 																				mandatory
 																					Flat_rate219
 
 																				optional
-																					Rate_factors220 {abstract}	
+																					Rate_factors220
 																						mandatory
-																							sg_Rate_factors220221 {abstract}	
+																							sg_Rate_factors220221
 																								or
 																									Quantity_purchased222
 																									Order_total223
 																									Weight224
 																									Product_classification225
-																	Shipping_gateways226 {abstract}	
+																	Shipping_gateways226
 																		mandatory
-																			sg_Shipping_gateways226227 {abstract}	
+																			sg_Shipping_gateways226227
 																				or
 																					FedEX228
 																					UPS229
 																					USPS230
 																					Canada_Post231
 																					Custom_shipping_gateway232
-											Eletronic_goods_fulfillment {abstract}	
+											Eletronic_goods_fulfillment
 												mandatory
 													File_repository234
 													License_management235
-											Services_fulfillment {abstract}	
+											Services_fulfillment
 												optional
 													Appointment_scheduling237
 													Resource_planning238
-					Administration319 {abstract}	
+					Administration319
 						mandatory
-							Content_management320 {abstract}	
+							Content_management320
 								mandatory
 									Product_database_management321
 									Presentation_options322
@@ -375,18 +375,18 @@ features
 
 								optional
 									Content_approval324
-							Store_administration325 {abstract}	
+							Store_administration325
 								mandatory
 									Site_search326
 									Search_engine_registration327
 									Domain_name_setup328
 
 				optional
-					Targeting239 {abstract}	
+					Targeting239
 						mandatory
-							Targeting_criteria240 {abstract}	
+							Targeting_criteria240
 								mandatory
-									sg_Targeting_criteria240241 {abstract}	
+									sg_Targeting_criteria240241
 										or
 											Customer_preferences
 											Personal_information243
@@ -397,53 +397,53 @@ features
 											Previously_visited_pages
 											Date_and_time249
 											Custom_target_criteria250
-							Targeting_mechanisms251 {abstract}	
+							Targeting_mechanisms251
 								mandatory
-									sg_Targeting_mechanisms251252 {abstract}	
+									sg_Targeting_mechanisms251252
 										or
-											Advertisements253 {abstract}	
+											Advertisements253
 												mandatory
-													Advertisement_types254 {abstract}	
+													Advertisement_types254
 														mandatory
-															sg_Advertisement_types254255 {abstract}	
+															sg_Advertisement_types254255
 																or
 																	Banner_ads256
 																	Pop_up_ads257
-													Advertisement_sources258 {abstract}	
+													Advertisement_sources258
 														mandatory
-															sg_Advertisement_sources258259 {abstract}	
+															sg_Advertisement_sources258259
 																or
 																	House_advertisements260
-																	Paid_advertisements261 {abstract}	
+																	Paid_advertisements261
 																		mandatory
 																			Advertisement_management_interface262
 
 												optional
 													Advertisement_response_tracking263
 													Context_sensitive_ads264
-											Discounts {abstract}	
+											Discounts
 												mandatory
-													Discount_conditions266 {abstract}	
+													Discount_conditions266
 														mandatory
 															Product_and_quantity_scope267
 															Time_scope268
 
 														optional
 															Purchase_value_scope269
-													Award270 {abstract}	
+													Award270
 														mandatory
-															sg_Award270271 {abstract}	
+															sg_Award270271
 																or
 																	Percentage_discount272
 																	Fixed_discount273
 																	Free_item274
-													Eligibility_requirements275 {abstract}	
+													Eligibility_requirements275
 														optional
 															Customer_segments276
 															Shipping_address277
-													Graduation_by278 {abstract}	
+													Graduation_by278
 														mandatory
-															sg_Graduation_by278279 {abstract}	
+															sg_Graduation_by278279
 																or
 																	Purchase_value280
 																	Quantity281
@@ -451,55 +451,55 @@ features
 
 												optional
 													Coupons282
-											Sell_strategies284 {abstract}	
+											Sell_strategies284
 												mandatory
-													sg_Sell_strategies284285 {abstract}	
+													sg_Sell_strategies284285
 														or
 															Product_kitting286
-															Up_selling287 {abstract}	
+															Up_selling287
 																mandatory
 																	Substitute_products288
-															Cross_selling289 {abstract}	
+															Cross_selling289
 																mandatory
 																	Past_customers_also_bought290
-							Display_and_notification291 {abstract}	
+							Display_and_notification291
 								mandatory
-									sg_Display_and_notification291292 {abstract}	
+									sg_Display_and_notification291292
 										or
 											Assignment_to_page_types_for_display293
 											Product_flagging294
-											E_mails295 {abstract}	
+											E_mails295
 												optional
 													Personalized
 													Response_tracking297
 
 						optional
 							Campaigns298
-					Affiliates299 {abstract}	
+					Affiliates299
 						mandatory
 							Affiliate_registration300
 							Commission_tracking301
-					Inventory_tracking {abstract}	
+					Inventory_tracking
 						optional
 							Allow_backorders303
-					Procurement {abstract}	
+					Procurement
 						mandatory
-							Stock_replenishment305 {abstract}	
+							Stock_replenishment305
 								mandatory
 									Manual306
 
 								optional
-									Automatic {abstract}	
+									Automatic
 										mandatory
 											Non_repudiation_service308
-					Reporting_and_analysis {abstract}	
+					Reporting_and_analysis
 						mandatory
 							Report_types310
 							Report_formats_311
 							Level_of_detail312
-					External_systems_integration313 {abstract}	
+					External_systems_integration313
 						mandatory
-							sg_External_systems_integration313314 {abstract}	
+							sg_External_systems_integration313314
 								or
 									Fulfillment_system
 									Inventory_management_system316

@@ -108,7 +108,7 @@ features
 						alternative
 							New_Accelerator1
 							Shift_Super_Space1
-					TextEntry_4 {abstract}	
+					TextEntry_4
 						alternative
 							AllowDifferentSourcesForEachWindow
 							UseTheSameSourceForAllWindows
@@ -127,7 +127,7 @@ features
 						mandatory
 							Typing1	
 								mandatory
-									Typing1_1 {abstract}	
+									Typing1_1
 										alternative
 											CursorBlinking	
 												optional

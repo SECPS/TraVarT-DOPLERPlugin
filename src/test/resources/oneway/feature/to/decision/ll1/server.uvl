@@ -1,14 +1,14 @@
 namespace Server
 
 features
-	Server {abstract true}
+	Server
 		mandatory
 			FileSystem
 				or
 					NTFS
 					APFS
 					EXT4
-			OperatingSystem {abstract true}
+			OperatingSystem
 				alternative
 					Windows
 					macOS

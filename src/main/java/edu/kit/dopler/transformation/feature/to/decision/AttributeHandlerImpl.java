@@ -47,80 +47,53 @@ class AttributeHandlerImpl implements AttributeHandler {
     private void handleFeatureWithAttribute(Dopler decisionModel, FeatureModel featureModel, Feature feature) {
 
         Map<String, Attribute> attributes = feature.getAttributes();
-
-        for (Map.Entry<String, Attribute> entry : attributes.entrySet()) {
-            String attributeName = entry.getKey();
-            Attribute attribute = entry.getValue();
-
-            //Booleans are skipped for now
-            if ("boolean".equals(attribute.getType())) {
-                continue;
-            }
-
-            if (!decisionExists(decisionModel, attributeName)) {
-                createAttributeDecision(decisionModel, attribute, attributeName);
-            }
-
-            Optional<IDecision<?>> attributeDecision = MyUtil.findDecisionById(decisionModel, attributeName);
-            if (attributeDecision.isPresent()) {
-                createRule(decisionModel, feature, attribute, attributeDecision.get(), featureModel);
-            } else {
-                throw new DecisionNotPresentException(attributeName);
-            }
+        for (Attribute attribute : attributes.values()) {
+            IDecision attributeDecision = createAttributeDecision(attribute, feature);
+            decisionModel.addDecision(attributeDecision);
+            createRule(decisionModel, feature, attribute, attributeDecision, featureModel);
         }
     }
 
     private void createRule(Dopler decisionModel, Feature feature, Attribute<?> attribute,
                             IDecision<?> attributeDecision, FeatureModel featureModel) {
-        IExpression condition = conditionCreator.createCondition(decisionModel, featureModel,
-                new LiteralConstraint(feature.getFeatureName()));
-
-        IAction action;
-        switch (attributeDecision) {
-            case StringDecision stringDecision ->
-                    action = new StringEnforce(stringDecision, new StringValue(attribute.getValue().toString()));
-            case NumberDecision numberDecision -> action = new NumberEnforce(numberDecision,
-                    new DoubleValue(Double.parseDouble(attribute.getValue().toString())));
-            default -> throw new UnexpectedTypeException(attributeDecision);
-        }
 
         //Decision, that gets the rule
         Optional<IDecision<?>> targetDecision = MyUtil.findDecisionByValue(decisionModel, feature.getFeatureName())
                 .or(() -> MyUtil.findDecisionById(decisionModel, feature.getFeatureName()));
         if (targetDecision.isEmpty()) {
+            //TODO Exception here will be thrown if a mandatory feature has a attribute
             throw new DecisionNotPresentException(feature.getFeatureName());
         }
+
+        IExpression condition = conditionCreator.createCondition(decisionModel, featureModel,
+                new LiteralConstraint(feature.getFeatureName()));
+
+        IAction action = switch (attributeDecision) {
+            case StringDecision stringDecision ->
+                    new StringEnforce(stringDecision, new StringValue(attribute.getValue().toString()));
+            case NumberDecision numberDecision -> new NumberEnforce(numberDecision,
+                    new DoubleValue(Double.parseDouble(attribute.getValue().toString())));
+            case BooleanDecision booleanDecision -> new BooleanEnforce(booleanDecision,
+                    new BooleanValue(Boolean.valueOf(attribute.getValue().toString())));
+            default -> throw new UnexpectedTypeException(attributeDecision);
+        };
+
         targetDecision.get().addRule(new Rule(condition, Set.of(action)));
     }
 
-    private void createAttributeDecision(Dopler decisionModel, Attribute<?> attribute, String attributeName) {
-        switch (attribute.getType()) {
-            case "number" -> {
-                NumberDecision decision = new NumberDecision(attributeName,
-                        String.format(FeatureAndGroupHandlerImpl.NUMBER_QUESTION, attributeName), "",
-                        new BooleanLiteralExpression(false), new LinkedHashSet<>(), new HashSet<>());
-                decisionModel.addDecision(decision);
-            }
-            case "boolean" -> {
-                //TODO: viele Modelle haben boolean Attribute. Was soll man damit machen?
-                //String description = "";
-                //IExpression visibility = new BooleanLiteralExpression(false);
-                //Set<Rule> rules = new LinkedHashSet<>();
-                //String id = attributeName + "Boolean";
-                //String question = String.format(BOOLEAN_QUESTION, attributeName);
-                //decisionModel.addDecision(new BooleanDecision(id, question, description, visibility, rules));
-            }
-            case "string" -> {
-                StringDecision decision = new StringDecision(attributeName,
-                        String.format(FeatureAndGroupHandlerImpl.STRING_QUESTION, attributeName), "",
-                        new BooleanLiteralExpression(false), new LinkedHashSet<>(), new HashSet<>());
-                decisionModel.addDecision(decision);
-            }
+    private IDecision<?> createAttributeDecision(Attribute<?> attribute, Feature feature) {
+        //TODO: handle boolean attributes
+        return switch (attribute.getType()) {
+            case "number" -> new NumberDecision(feature.getFeatureName() + "#" + attribute.getName(),
+                    String.format(FeatureAndGroupHandlerImpl.NUMBER_QUESTION, attribute.getName()), "",
+                    new BooleanLiteralExpression(false), new LinkedHashSet<>(), new HashSet<>());
+            case "string" -> new StringDecision(feature.getFeatureName() + "#" + attribute.getName(),
+                    String.format(FeatureAndGroupHandlerImpl.STRING_QUESTION, attribute.getName()), "",
+                    new BooleanLiteralExpression(false), new LinkedHashSet<>(), new HashSet<>());
+            case "boolean" -> new BooleanDecision(feature.getFeatureName() + "#" + attribute.getName(),
+                    String.format(FeatureAndGroupHandlerImpl.BOOLEAN_QUESTION, attribute.getName()), "",
+                    new BooleanLiteralExpression(false), new LinkedHashSet<>());
             default -> throw new UnexpectedTypeException(attribute);
-        }
-    }
-
-    private boolean decisionExists(Dopler decisionModel, String id) {
-        return decisionModel.getDecisions().stream().anyMatch(iDecision -> iDecision.getDisplayId().equals(id));
+        };
     }
 }

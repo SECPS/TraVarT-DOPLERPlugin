@@ -1,7 +1,7 @@
 features
-        shiftfork_product {extended__ true, abstract true}
+        shiftfork_product
                 mandatory
-                        Barrel {abstract true}
+                        Barrel
                                 optional
                                         Barrel1_2
                                 mandatory
@@ -10,17 +10,17 @@ features
                         Jack1
                         Ring1
                         O_Ring
-                        Fork {abstract true}
+                        Fork
                                 mandatory
                                         Fork3
                                         Fork4
                                         Fork5
-                        Pipe {abstract true}
+                        Pipe
                                 alternative
                                         Pipe3
                                         Pipe8
                                         Pipe2
-                        Lock {abstract true}
+                        Lock
                                 alternative
                                         Lock3
                                         Lock2

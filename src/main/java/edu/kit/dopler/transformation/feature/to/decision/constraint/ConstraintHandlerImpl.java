@@ -67,12 +67,12 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
                                              List<List<Constraint>> dnf) {
 
         //Check if dnf contains any ExpressionConstraints
-        boolean isSpecial = dnf.stream().flatMap(Collection::stream)
+        boolean dnfContainsExpression = dnf.stream().flatMap(Collection::stream)
                 .anyMatch(constraint -> constraint instanceof ExpressionConstraint);
 
         //Special case if dnf contains attribute constraints
         //Needed because there is no way to model expressions like "A = 10" as actions
-        if (isSpecial) {
+        if (dnfContainsExpression) {
             IExpression condition = conditionCreator.createCondition(decisionModel, featureModel,
                     new NotConstraint(dnfToTreeConverter.createDnfFromList(dnf)));
             Set<IAction> contradiction = createContradiction(decisionModel);

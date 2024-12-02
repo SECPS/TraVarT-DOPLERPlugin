@@ -50,7 +50,7 @@ features
 											R1024x768
 					EasyOnScreenPlayback	
 						mandatory
-							EasyOnScreenPlayback_1 {abstract}	
+							EasyOnScreenPlayback_1
 								alternative
 									AverageOneHundredAndTwentyFivePerCent
 									SmallOneHundredPerCent
@@ -58,7 +58,7 @@ features
 						optional
 							MagnifyingGlass	
 								mandatory
-									MagnifyingGlass_1 {abstract}	
+									MagnifyingGlass_1
 										alternative
 											ZoomOutOneHundredPercent
 											ZoomInOneThousandSixHundredPerCent

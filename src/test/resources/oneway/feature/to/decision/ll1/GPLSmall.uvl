@@ -1,21 +1,21 @@
 namespace GPL
 
 features
-	GPL {abstract}	
+	GPL
 		mandatory
-			MainGpl {abstract}	
+			MainGpl
 				mandatory
-					Driver {abstract}	
+					Driver
 						mandatory
-							DriverProg {abstract}	
+							DriverProg
 								mandatory
 									Prog
 									Benchmark
-					Alg {abstract}	
+					Alg
 						or
 							Number
 							Connected
-							StrongConnect {abstract}	
+							StrongConnect
 								mandatory
 									Transpose
 									StronglyConnected
@@ -23,17 +23,17 @@ features
 							MSTPrim
 							MSTKruskal
 							ShortestPath
-					Wgt {abstract}	
+					Wgt
 						alternative
 							Weighted
 							Unweighted
-					Gtp {abstract}	
+					Gtp
 						alternative
 							Directed
 							Undirected
 
 				optional
-					Src {abstract}	
+					Src
 						alternative
 							BFS
 							DFS

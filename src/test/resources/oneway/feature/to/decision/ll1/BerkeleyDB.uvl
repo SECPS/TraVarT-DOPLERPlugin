@@ -1,26 +1,26 @@
 namespace BerkeleyDb
 
 features
-	BerkeleyDb {abstract}	
+	BerkeleyDb
 		mandatory
-			BerkeleyDB {abstract}	
+			BerkeleyDB
 				mandatory
-					FPersistency {abstract}	
+					FPersistency
 						mandatory
-							Persistency {abstract}	
+							Persistency
 								mandatory
-									FIOFeature {abstract}	
+									FIOFeature
 										alternative
-											NIO {abstract}	
+											NIO
 												mandatory
-													FNIOType {abstract}	
+													FNIOType
 														alternative
 															featureNIO
 															featureChunkedNIO
 
 												optional
 													featureDirectNIO
-											IO {abstract}	
+											IO
 												mandatory
 													featureIO
 
@@ -28,31 +28,31 @@ features
 													featureSynchronizedIO
 
 								optional
-									FPersistencyFeatures {abstract}	
+									FPersistencyFeatures
 										or
 											featureChecksum
 											featureFileHandleCache
 											featureHandleFullDiscError
 											featureEnvironmentLock
-											Checkpointer {abstract}	
+											Checkpointer
 												optional
 													featureCustomizableCheckpointerTime
 													featureCustomizableCheckpointerBytes
 													featureCheckpointerDaemon
-											Cleaner {abstract}	
+											Cleaner
 												optional
 													featureLookAheadCache
 													featureCleanerDaemon
-					FBtree {abstract}	
+					FBtree
 						mandatory
-							BTree {abstract}	
+							BTree
 								optional
 									featureVerifier
 									featureTreeVisitor
 									featureINCompressor
-									FEvictor {abstract}	
+									FEvictor
 										mandatory
-											Evictor {abstract}	
+											Evictor
 												mandatory
 													featureEvictor
 
@@ -62,9 +62,9 @@ features
 					BASE
 
 				optional
-					FLogging {abstract}	
+					FLogging
 						mandatory
-							Logging {abstract}	
+							Logging
 								mandatory
 									featureLoggingBase
 
@@ -78,13 +78,13 @@ features
 									featureLoggingInfo
 									featureLoggingConfig
 									featureLoggingSevere
-					FStatistics {abstract}	
+					FStatistics
 						mandatory
-							Statistics {abstract}	
+							Statistics
 								mandatory
-									FStatisticsFeatures {abstract}	
+									FStatisticsFeatures
 										or
-											EnvStats {abstract}	
+											EnvStats
 												mandatory
 													featureStatisticsEnvBase
 
@@ -103,14 +103,14 @@ features
 											featureStatisticsTransaction
 									featureStatisticsBase
 					featureMemoryBudget
-					FConcurrency {abstract}	
+					FConcurrency
 						or
 							featureLatch
 							featureFSync
 							featureTransaction
 							dummyFeatureLocking
 							featureCheckLeaks
-					FDbOperation {abstract}	
+					FDbOperation
 						or
 							featureDeleteDb
 							featureTruncateDb

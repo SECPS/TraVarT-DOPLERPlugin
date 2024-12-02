@@ -1,5 +1,5 @@
 features
-	dm_VaMoS {abstract}
+	dm_VaMoS
 		optional
 			GSM_Protocol_1900
 			MP3_Recording

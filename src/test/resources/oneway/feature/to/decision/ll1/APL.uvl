@@ -1,13 +1,13 @@
 namespace APL
 
 features
-	APL {abstract}	
+	APL 	
 		mandatory
-			mainAPL {abstract}	
+			mainAPL 	
 				mandatory
-					Java {abstract}	
+					Java 	
 						mandatory
-							mainJava {abstract}	
+							mainJava 	
 								mandatory
 									jak2java
 									bali
@@ -17,24 +17,24 @@ features
 									jedi
 
 				optional
-					Xml {abstract}	
+					Xml 	
 						alternative
 							xc
 							xak
 					cpp
-					Gui {abstract}	
+					Gui 	
 						mandatory
-							mainGUI {abstract}	
+							mainGUI 	
 								optional
 									me
 									mmatrix
 									guidsl
 									web
 					drc
-					bc {abstract}	
+					bc 	
 						mandatory
 							bcjak2java
-					aj {abstract}	
+					aj 	
 						mandatory
 							jak2aj
 

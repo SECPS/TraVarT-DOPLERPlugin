@@ -516,7 +516,7 @@ features
 																					Graphembedding
 															NaturalLanguageProcessing	
 																mandatory
-																	NaturalLanguageProcessing_1 {abstract}	
+																	NaturalLanguageProcessing_1
 																		or
 																			Automaticfeelinganalysisdetector	
 																				or
@@ -727,7 +727,7 @@ features
 											Store
 									Batch_2	
 										mandatory
-											Batch_2_1 {abstract}	
+											Batch_2_1
 												or
 													Combining
 													Cleaning
@@ -758,7 +758,7 @@ features
 															U_SQL
 									Hybrid_2	
 										mandatory
-											Hybrid_2_1 {abstract}	
+											Hybrid_2_1
 												or
 													Transformation
 													Enrichment

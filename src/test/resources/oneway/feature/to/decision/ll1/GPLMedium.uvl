@@ -1,34 +1,34 @@
 namespace GPL
 
 features
-	GPL {abstract}	
+	GPL
 		mandatory
-			MainGpl {abstract}	
+			MainGpl
 				mandatory
 					TestProg
-					Alg {abstract}	
+					Alg
 						or
 							Number
 							Connected
-							StrongC {abstract}	
+							StrongC
 								mandatory
 									Transpose
 									StronglyConnected
 							Cycle
 							MSTPrim
 							MSTKruskal
-					HiddenWgt {abstract}	
+					HiddenWgt
 						mandatory
-							WeightOptions {abstract}	
+							WeightOptions
 								optional
 									WeightedWithEdges
 									WeightedWithNeighbors
 									WeightedOnlyVertices
-					Wgt {abstract}	
+					Wgt
 						alternative
 							Weighted
 							Unweighted
-					HiddenGtp {abstract}	
+					HiddenGtp
 						alternative
 							DirectedWithEdges
 							DirectedWithNeighbors
@@ -36,11 +36,11 @@ features
 							UndirectedWithEdges
 							UndirectedWithNeighbors
 							UndirectedOnlyVertices
-					Gtp {abstract}	
+					Gtp
 						alternative
 							Directed
 							Undirected
-					Implementation {abstract}	
+					Implementation
 						alternative
 							OnlyVertices
 							WithNeighbors
@@ -48,7 +48,7 @@ features
 					Base
 
 				optional
-					Src {abstract}	
+					Src
 						alternative
 							BFS
 							DFS

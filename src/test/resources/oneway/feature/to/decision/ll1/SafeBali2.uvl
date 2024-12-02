@@ -1,35 +1,35 @@
 namespace Bali
 
 features
-	Bali {abstract}	
+	Bali
 		mandatory
-			Tool {abstract}	
+			Tool
 				alternative
-					A {abstract}	
+					A
 						mandatory
 							bali2jak
 
 						optional
 							requireBali2jak
-					B {abstract}	
+					B
 						mandatory
 							bali2jcc
 
 						optional
 							requireBali2jcc
-					C {abstract}	
+					C
 						mandatory
 							composer
 
 						optional
 							requireComposer
-					D {abstract}	
+					D
 						mandatory
 							bali2layerGUI
 							bali2layer
 							bali2layerOptions
 			codegen
-			Base {abstract}	
+			Base
 				mandatory
 					collect
 					visitor

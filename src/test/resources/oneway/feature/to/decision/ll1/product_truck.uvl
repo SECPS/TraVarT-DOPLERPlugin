@@ -1,9 +1,9 @@
 features
-        truck_product {extended__ true, abstract true}
+        truck_product
                 mandatory
                         Chassis
                         Cabin
-                        Body {abstract true}
+                        Body
                                 alternative
                                         Tank
                                         OpenTop

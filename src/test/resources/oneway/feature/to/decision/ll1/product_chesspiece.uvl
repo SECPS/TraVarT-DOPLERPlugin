@@ -1,25 +1,25 @@
 namespace chesspieces_new_product
 
 features
-	chesspieces_new_product {extended__ true, abstract true}
+	chesspieces_new_product
 		mandatory
-			Base {abstract true}
+			Base
 				alternative
 					Base_onestrip
 					Base_twostrip
-			Rod {abstract true}
+			Rod
 				alternative
 					Rod_long
 					Rod_short
-			Body {abstract true}
+			Body
 				alternative
-					Body_minor {abstract true}
+					Body_minor
 						alternative
 							Pawn_body
 							Bishop_body
 							Rook_body
 							Knight_body
-					Body_major {abstract true}
+					Body_major
 						alternative
 							Queen_body
 							King_body

@@ -101,7 +101,7 @@ class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
     }
 
     private void createNumberDecision(Dopler dopler, FeatureModel featureModel, Feature feature) {
-        String id = feature.getFeatureName() + "Number";
+        String id = feature.getFeatureName() + "#Number";
         String question = String.format(NUMBER_QUESTION, feature.getFeatureName());
         IExpression visibility = visibilityHandler.resolveVisibility(featureModel, dopler, feature.getParentFeature());
         Set<Rule> rules = new LinkedHashSet<>();
@@ -110,7 +110,7 @@ class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
     }
 
     private void createStringDecision(Dopler dopler, FeatureModel featureModel, Feature feature) {
-        String id = feature.getFeatureName() + "String";
+        String id = feature.getFeatureName() + "#String";
         String question = String.format(STRING_QUESTION, feature.getFeatureName());
         IExpression visibility = visibilityHandler.resolveVisibility(featureModel, dopler, feature.getParentFeature());
         Set<Rule> rules = new LinkedHashSet<>();
