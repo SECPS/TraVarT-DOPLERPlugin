@@ -1,5 +1,6 @@
 package edu.kit.dopler.transformation.feature.to.decision.constraint;
 
+import com.google.inject.Inject;
 import de.vill.model.FeatureModel;
 import de.vill.model.constraint.AndConstraint;
 import de.vill.model.constraint.Constraint;
@@ -28,6 +29,7 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
     private final DnfAlwaysTrueAndFalseRemover dnfAlwaysTrueAndFalseRemover;
 
     /** Constructor of {@link ConstraintHandlerImpl} */
+    @Inject
     public ConstraintHandlerImpl(TreeToDnfConverter treeToDnfConverter, DnfToTreeConverter dnfToTreeConverter,
                                  ActionCreator actionCreator, ConditionCreator conditionCreator,
                                  DnfAlwaysTrueAndFalseRemover dnfAlwaysTrueAndFalseRemover) {
@@ -66,13 +68,10 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
     private Optional<Rule> createRuleFromDnf(FeatureModel featureModel, Dopler decisionModel,
                                              List<List<Constraint>> dnf) {
 
-        //Check if dnf contains any ExpressionConstraints
-        boolean dnfContainsExpression = dnf.stream().flatMap(Collection::stream)
-                .anyMatch(constraint -> constraint instanceof ExpressionConstraint);
-
         //Special case if dnf contains attribute constraints
-        //Needed because there is no way to model expressions like "A = 10" as actions
-        if (dnfContainsExpression) {
+        //Needed because there is no way to model a constraint like "A < 10" as an action
+        if (dnf.stream().flatMap(Collection::stream)
+                .anyMatch(constraint -> constraint instanceof ExpressionConstraint)) {
             IExpression condition = conditionCreator.createCondition(decisionModel, featureModel,
                     new NotConstraint(dnfToTreeConverter.createDnfFromList(dnf)));
             Set<IAction> contradiction = createContradiction(decisionModel);

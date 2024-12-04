@@ -6,7 +6,7 @@ import de.vill.model.constraint.NotConstraint;
 import java.util.Optional;
 
 /** !!A ~> A */
-public class NotNotRule implements Rule {
+public class NotNotDnfRule implements DnfRule {
 
     @Override
     public Optional<Constraint> replace(Constraint constraint) {

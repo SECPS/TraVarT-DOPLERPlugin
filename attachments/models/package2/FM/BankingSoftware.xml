@@ -207,37 +207,37 @@
 		</and>
 	</struct>
 	<constraints>
-		<rule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>LoanAgainstProperty</var>
 				</not>
 				<var>AssetVerification</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>HomeLoan</var>
 				</not>
 				<var>AssetVerification</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>LoanAgainstFD</var>
 				</not>
 				<var>AssetVerification</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>GoldLoan</var>
 				</not>
 				<var>AssetVerification</var>
 			</disj>
-		</rule>
+		</dnfRule>
 	</constraints>
 </featureModel>

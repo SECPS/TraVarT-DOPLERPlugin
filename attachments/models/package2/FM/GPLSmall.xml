@@ -37,7 +37,7 @@
 			</alt>
 		</struct>
 		<constraints>
-			<rule>
+			<dnfRule>
 				<imp>
 					<var>Number</var>
 					<conj>
@@ -45,8 +45,8 @@
 						<var>Src</var>
 					</conj>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>Connected</var>
 					<conj>
@@ -54,8 +54,8 @@
 						<var>Src</var>
 					</conj>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>StrongConnect</var>
 					<conj>
@@ -63,8 +63,8 @@
 						<var>DFS</var>
 					</conj>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>Cycle</var>
 					<conj>
@@ -72,8 +72,8 @@
 						<var>DFS</var>
 					</conj>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<disj>
 						<var>MSTKruskal</var>
@@ -84,8 +84,8 @@
 						<var>Weighted</var>
 					</conj>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<disj>
 						<var>MSTKruskal</var>
@@ -98,8 +98,8 @@
 						</conj>
 					</not>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>ShortestPath</var>
 					<conj>
@@ -107,7 +107,7 @@
 						<var>Weighted</var>
 					</conj>
 				</imp>
-			</rule>
+			</dnfRule>
 		</constraints>
 		<comments>
 			<c>* GPL domain model February 2005 *</c>

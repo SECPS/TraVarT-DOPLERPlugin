@@ -42,13 +42,13 @@
 		</and>
 	</struct>
 	<constraints>
-		<rule>
+		<dnfRule>
 			<disj>
 				<var>LicenseCostFee</var>
 				<var>Storage</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<conj>
 				<imp>
 					<var>Storage</var>
@@ -59,8 +59,8 @@
 					<var>Storage</var>
 				</imp>
 			</conj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<conj>
 				<imp>
 					<var>Community</var>
@@ -71,8 +71,8 @@
 					<var>Community</var>
 				</imp>
 			</conj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<conj>
 				<imp>
 					<var>Commercial</var>
@@ -83,8 +83,8 @@
 					<var>Commercial</var>
 				</imp>
 			</conj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<conj>
 				<imp>
 					<var>FileRCS</var>
@@ -95,8 +95,8 @@
 					<var>FileRCS</var>
 				</imp>
 			</conj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<conj>
 				<imp>
 					<var>Unicode</var>
@@ -107,8 +107,8 @@
 					<var>Unicode</var>
 				</imp>
 			</conj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<conj>
 				<imp>
 					<var>US</var>
@@ -119,58 +119,58 @@
 					<var>US</var>
 				</imp>
 			</conj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<imp>
 				<var>GPL2</var>
 				<var>PHP</var>
 			</imp>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<imp>
 				<var>GPL</var>
 				<var>Storage</var>
 			</imp>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<imp>
 				<var>DifferentLicenses</var>
 				<not>
 					<var>GPL</var>
 				</not>
 			</imp>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<imp>
 				<var>Database</var>
 				<not>
 					<var>Python</var>
 				</not>
 			</imp>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<imp>
 				<var>NoLimit</var>
 				<not>
 					<var>DifferentLicenses</var>
 				</not>
 			</imp>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<imp>
 				<var>Unicode</var>
 				<not>
 					<var>NoLimit</var>
 				</not>
 			</imp>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<imp>
 				<var>LicenseCostFee</var>
 				<not>
 					<var>Files</var>
 				</not>
 			</imp>
-		</rule>
+		</dnfRule>
 	</constraints>
 </featureModel>

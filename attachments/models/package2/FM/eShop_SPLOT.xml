@@ -17,10 +17,10 @@
 		</and>
 	</struct>
 	<constraints>
-		<rule>
+		<dnfRule>
 			<var>eshop</var>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>alta</var>
@@ -29,8 +29,8 @@
 					<var>reportepublico</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<var>catalogo</var>
 				<disj>
@@ -61,14 +61,14 @@
 					</disj>
 				</disj>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>tarjetacredito</var>
 				</not>
 				<var>alta</var>
 			</disj>
-		</rule>
+		</dnfRule>
 	</constraints>
 </featureModel>

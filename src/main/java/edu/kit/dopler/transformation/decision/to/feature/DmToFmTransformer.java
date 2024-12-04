@@ -13,11 +13,11 @@ import java.util.List;
 public class DmToFmTransformer {
 
     private final TreeBuilder treeBuilder;
-    private final ConstraintHandler2 constraintHandler;
+    private final RuleHandler constraintHandler;
 
     public DmToFmTransformer() {
         treeBuilder = new TreeBuilder();
-        constraintHandler = new ConstraintHandler2();
+        constraintHandler = new RuleHandler();
     }
 
     public FeatureModel transform(Dopler decisionModel, String modelName, IModelTransformer.STRATEGY level) {

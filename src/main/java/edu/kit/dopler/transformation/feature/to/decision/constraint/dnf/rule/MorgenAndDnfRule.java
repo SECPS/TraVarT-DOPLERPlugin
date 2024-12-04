@@ -8,7 +8,7 @@ import de.vill.model.constraint.OrConstraint;
 import java.util.Optional;
 
 /** !(A & B) ~> (!A | !B) */
-public class MorgenAndRule implements Rule {
+public class MorgenAndDnfRule implements DnfRule {
 
     @Override
     public Optional<Constraint> replace(Constraint constraint) {

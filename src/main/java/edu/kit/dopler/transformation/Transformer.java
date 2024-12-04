@@ -1,13 +1,16 @@
 package edu.kit.dopler.transformation;
 
 import at.jku.cps.travart.core.common.IModelTransformer;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import de.vill.model.FeatureModel;
 import edu.kit.dopler.model.Dopler;
 import edu.kit.dopler.transformation.decision.to.feature.DmToFmTransformer;
 import edu.kit.dopler.transformation.feature.to.decision.FmToDmTransformer;
+import edu.kit.dopler.transformation.util.TransformationModule;
 
 /**
- * Transforms Dopler models into UVL models and vice versa.
+ * Transforms {@link Dopler} models into {@link FeatureModel}s and vice versa.
  */
 public class Transformer implements IModelTransformer<Dopler> {
 
@@ -16,8 +19,9 @@ public class Transformer implements IModelTransformer<Dopler> {
 
     /** Constructor of {@link Transformer} */
     public Transformer() {
-        dmToFmTransformer = new DmToFmTransformer();
-        fmToDmTransformer = new FmToDmTransformer();
+        Injector injector = Guice.createInjector(new TransformationModule());
+        dmToFmTransformer = injector.getInstance(DmToFmTransformer.class);
+        fmToDmTransformer = injector.getInstance(FmToDmTransformer.class);
     }
 
     @Override

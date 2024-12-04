@@ -1,12 +1,14 @@
 package edu.kit.dopler.transformation.feature.to.decision.constraint;
 
+import com.google.inject.Inject;
 import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.LiteralConstraint;
 import de.vill.model.constraint.NotConstraint;
 import edu.kit.dopler.model.*;
 import edu.kit.dopler.transformation.exceptions.DecisionNotPresentException;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
-import edu.kit.dopler.transformation.util.MyUtil;
+import edu.kit.dopler.transformation.util.DecisionFinder;
+import edu.kit.dopler.transformation.util.FeatureFinder;
 
 import java.util.Optional;
 
@@ -14,6 +16,13 @@ import java.util.Optional;
  * Implementation of {@link ActionCreator}
  */
 public class ActionCreatorImpl implements ActionCreator {
+
+    private final DecisionFinder decisionFinder;
+
+    @Inject
+    public ActionCreatorImpl(DecisionFinder decisionFinder) {
+        this.decisionFinder = decisionFinder;
+    }
 
     @Override
     public IAction createAction(Dopler decisionModel, Constraint constraint) {
@@ -26,8 +35,8 @@ public class ActionCreatorImpl implements ActionCreator {
 
     private IAction handleLiteral(Dopler decisionModel, LiteralConstraint literalConstraint) {
         String literal = literalConstraint.getLiteral();
-        Optional<IDecision<?>> decisionById = MyUtil.findDecisionById(decisionModel, literal);
-        Optional<IDecision<?>> decisionByValue = MyUtil.findDecisionByValue(decisionModel, literal);
+        Optional<IDecision<?>> decisionById = decisionFinder.findDecisionById(decisionModel, literal);
+        Optional<IDecision<?>> decisionByValue = decisionFinder.findDecisionByValue(decisionModel, literal);
 
         IAction action;
         if (decisionByValue.isPresent()) {
@@ -54,8 +63,8 @@ public class ActionCreatorImpl implements ActionCreator {
         }
 
         String literal = literalConstraint.getLiteral();
-        Optional<IDecision<?>> decisionById = MyUtil.findDecisionById(decisionModel, literal);
-        Optional<IDecision<?>> decisionByValue = MyUtil.findDecisionByValue(decisionModel, literal);
+        Optional<IDecision<?>> decisionById = decisionFinder.findDecisionById(decisionModel, literal);
+        Optional<IDecision<?>> decisionByValue = decisionFinder.findDecisionByValue(decisionModel, literal);
 
         IAction action;
         if (decisionByValue.isPresent()) {

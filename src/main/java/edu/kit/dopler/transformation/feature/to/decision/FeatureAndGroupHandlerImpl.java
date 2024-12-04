@@ -1,5 +1,6 @@
 package edu.kit.dopler.transformation.feature.to.decision;
 
+import com.google.inject.Inject;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import de.vill.model.FeatureType;
@@ -11,7 +12,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 /** Implementation of {@link FeatureAndGroupHandler} */
-class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
+public class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
 
     static final String ENUM_QUESTION = "Which %s?";
     static final String BOOLEAN_QUESTION = "%s?";
@@ -22,6 +23,7 @@ class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
     private final IdHandler idHandler;
 
     /** Constructor of {@link FeatureAndGroupHandlerImpl} */
+    @Inject
     FeatureAndGroupHandlerImpl(VisibilityHandler visibilityHandler, IdHandler idHandler) {
         this.visibilityHandler = visibilityHandler;
         this.idHandler = idHandler;

@@ -7,7 +7,7 @@ import de.vill.model.constraint.OrConstraint;
 import java.util.Optional;
 
 /** ((A | B) & C) ~> ((A & C) | (B & C)) */
-public class DistributiveLeftRule implements Rule {
+public class DistributiveLeftDnfRule implements DnfRule {
 
     @Override
     public Optional<Constraint> replace(Constraint constraint) {

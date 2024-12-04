@@ -53,12 +53,13 @@
             <artifactId>junit-jupiter</artifactId>
             <version>5.9.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.inject/guice -->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-params</artifactId>
-            <version>5.9.1</version>
-            <scope>test</scope>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>7.0.0</version>
         </dependency>
+
     </dependencies>
     <build>
         <plugins>

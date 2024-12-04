@@ -1,5 +1,6 @@
 package edu.kit.dopler.transformation.feature.to.decision;
 
+import com.google.inject.Inject;
 import de.vill.model.Attribute;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
@@ -9,17 +10,21 @@ import edu.kit.dopler.model.*;
 import edu.kit.dopler.transformation.exceptions.DecisionNotPresentException;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.ConditionCreator;
-import edu.kit.dopler.transformation.util.MyUtil;
+import edu.kit.dopler.transformation.util.DecisionFinder;
+import edu.kit.dopler.transformation.util.FeatureFinder;
 
 import java.util.*;
 
 /** Implementation of {@link AttributeHandler} */
-class AttributeHandlerImpl implements AttributeHandler {
+public class AttributeHandlerImpl implements AttributeHandler {
 
     private final ConditionCreator conditionCreator;
+    private final DecisionFinder decisionFinder;
 
-    AttributeHandlerImpl(ConditionCreator conditionCreator) {
+    @Inject
+    AttributeHandlerImpl(ConditionCreator conditionCreator, DecisionFinder decisionFinder) {
         this.conditionCreator = conditionCreator;
+        this.decisionFinder = decisionFinder;
     }
 
     public void handleAttributes(Dopler decisionModel, FeatureModel featureModel) {
@@ -27,6 +32,7 @@ class AttributeHandlerImpl implements AttributeHandler {
         checkFeatureRecursive(decisionModel, featureModel, root);
     }
 
+    /** Check the given {@link Feature} for attributes. */
     private void checkFeatureRecursive(Dopler decisionModel, FeatureModel featureModel, Feature feature) {
         if (!feature.getAttributes().isEmpty()) {
             handleFeatureWithAttribute(decisionModel, featureModel, feature);
@@ -37,22 +43,26 @@ class AttributeHandlerImpl implements AttributeHandler {
         }
     }
 
+    /** Check the given {@link Group} for features. */
     private void checkGroupRecursive(Dopler decisionModel, FeatureModel featureModel, Group group) {
         for (Feature feature : group.getFeatures()) {
             checkFeatureRecursive(decisionModel, featureModel, feature);
         }
     }
 
-    @SuppressWarnings("rawtypes") //Attributes are returned with no type from the feature
+    /**
+     * If the given {@link Feature} has {@link Attribute}s, this method created for each {@link Attribute} a new
+     * {@link IDecision} and a new {@link Rule} and adds them to the {@link Dopler} model.
+     */
     private void handleFeatureWithAttribute(Dopler decisionModel, FeatureModel featureModel, Feature feature) {
 
-        //This map saves the rules that are added to the decisions with the attributes
+        //This map saves the rules (as values) that are added to the decisions with the attributes (as keys)
         Map<IDecision<?>, List<IAction>> rulesMap = new HashMap<>();
 
         //Create new decisions and fill map
         Map<String, Attribute> attributes = feature.getAttributes();
-        for (Attribute attribute : attributes.values()) {
-            IDecision attributeDecision = createAttributeDecision(attribute, feature);
+        for (Attribute<?> attribute : attributes.values()) {
+            IDecision<?> attributeDecision = createAttributeDecision(feature, attribute);
             decisionModel.addDecision(attributeDecision);
 
             IDecision<?> targetDecision = getTargetDecision(decisionModel, feature);
@@ -62,15 +72,18 @@ class AttributeHandlerImpl implements AttributeHandler {
 
         //Give decisions that contains the attributes new rules
         for (Map.Entry<IDecision<?>, List<IAction>> entry : rulesMap.entrySet()) {
-            entry.getKey().addRule(new Rule(conditionCreator.createCondition(decisionModel, featureModel,
-                    new LiteralConstraint(feature.getFeatureName())), new LinkedHashSet<>(entry.getValue())));
+            IExpression condition = conditionCreator.createCondition(decisionModel, featureModel,
+                    new LiteralConstraint(feature.getFeatureName()));
+            LinkedHashSet<IAction> actions = new LinkedHashSet<>(entry.getValue());
+            entry.getKey().addRule(new Rule(condition, actions));
         }
     }
 
-    private static IDecision<?> getTargetDecision(Dopler decisionModel, Feature feature) {
-        //Decision, that gets the rule
-        Optional<IDecision<?>> targetDecision = MyUtil.findDecisionByValue(decisionModel, feature.getFeatureName())
-                .or(() -> MyUtil.findDecisionById(decisionModel, feature.getFeatureName()));
+    /** This method finds in the {@link Dopler} model the decision, that gets the newly created {@link Rule}. */
+    private IDecision<?> getTargetDecision(Dopler decisionModel, Feature feature) {
+        Optional<IDecision<?>> targetDecision =
+                decisionFinder.findDecisionByValue(decisionModel, feature.getFeatureName())
+                        .or(() -> decisionFinder.findDecisionById(decisionModel, feature.getFeatureName()));
         if (targetDecision.isEmpty()) {
             //TODO Exception here will be thrown if a mandatory feature has a attribute
             throw new DecisionNotPresentException(feature.getFeatureName());
@@ -78,6 +91,7 @@ class AttributeHandlerImpl implements AttributeHandler {
         return targetDecision.get();
     }
 
+    /** Creates a new {@link Enforce} rule for the given {@link Attribute} and target {@link IDecision}. */
     private IAction createAction(Attribute<?> attribute, IDecision<?> attributeDecision) {
         return switch (attributeDecision) {
             case StringDecision stringDecision ->
@@ -90,8 +104,8 @@ class AttributeHandlerImpl implements AttributeHandler {
         };
     }
 
-    private IDecision<?> createAttributeDecision(Attribute<?> attribute, Feature feature) {
-        //TODO: handle boolean attributes
+    /** Creates a new {@link IDecision} fot the given {@link Attribute}. */
+    private IDecision<?> createAttributeDecision(Feature feature, Attribute<?> attribute) {
         return switch (attribute.getType()) {
             case "number" -> new NumberDecision(feature.getFeatureName() + "#" + attribute.getName(),
                     String.format(FeatureAndGroupHandlerImpl.NUMBER_QUESTION, attribute.getName()), "",

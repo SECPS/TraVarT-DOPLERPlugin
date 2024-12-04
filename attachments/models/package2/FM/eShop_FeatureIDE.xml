@@ -463,165 +463,165 @@
 			</and>
 		</struct>
 		<constraints>
-			<rule>
+			<dnfRule>
 				<disj>
 					<not>
 						<var>Special_offers</var>
 					</not>
 					<var>Discounts</var>
 				</disj>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<disj>
 					<not>
 						<var>Registered_checkout</var>
 					</not>
 					<var>Registration_enforcement</var>
 				</disj>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<disj>
 					<not>
 						<var>Registered_checkout</var>
 					</not>
 					<var>Register_to_buy</var>
 				</disj>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<disj>
 					<not>
 						<var>Customer_preferences</var>
 					</not>
 					<var>Preferences</var>
 				</disj>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<disj>
 					<not>
 						<var>Quick_checkout</var>
 					</not>
 					<var>Quick_checkout_profile</var>
 				</disj>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<disj>
 					<not>
 						<var>User_behaviour_tracking_information</var>
 					</not>
 					<var>User_behaviour_tracking</var>
 				</disj>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<disj>
 					<not>
 						<var>Eletronic_goods</var>
 					</not>
 					<var>Eletronic_goods_fulfillment</var>
 				</disj>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<disj>
 					<not>
 						<var>Physical_goods</var>
 					</not>
 					<var>Physical_goods_fulfillment</var>
 				</disj>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<disj>
 					<not>
 						<var>Services</var>
 					</not>
 					<var>Services_fulfillment</var>
 				</disj>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<disj>
 					<not>
 						<var>Physical_goods</var>
 					</not>
 					<var>Size</var>
 				</disj>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<disj>
 					<not>
 						<var>Eletronic_goods</var>
 					</not>
 					<var>Size</var>
 				</disj>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<disj>
 					<not>
 						<var>Physical_goods</var>
 					</not>
 					<var>Weight</var>
 				</disj>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<disj>
 					<not>
 						<var>Availability</var>
 					</not>
 					<var>Inventory_tracking</var>
 				</disj>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<disj>
 					<not>
 						<var>Category_page</var>
 					</not>
 					<var>Categories</var>
 				</disj>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<disj>
 					<not>
 						<var>Wish_list</var>
 					</not>
 					<var>Wish_list_save_after_session</var>
 				</disj>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<disj>
 					<var>Registration</var>
 					<var>Wish_list_save_after_session</var>
 				</disj>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<disj>
 					<not>
 						<var>E_mail_wish_list</var>
 					</not>
 					<var>Registration</var>
 				</disj>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<disj>
 					<not>
 						<var>Permissions</var>
 					</not>
 					<var>Registration</var>
 				</disj>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<disj>
 					<not>
 						<var>Shipping_options</var>
 					</not>
 					<var>shipping</var>
 				</disj>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<disj>
 					<not>
 						<var>Wish_list_content</var>
 					</not>
 					<var>Wish_list</var>
 				</disj>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<disj>
 					<not>
 						<var>Previously_visited_pages</var>
@@ -631,7 +631,7 @@
 						<var>External_referring_pages</var>
 					</disj>
 				</disj>
-			</rule>
+			</dnfRule>
 		</constraints>
 		<comments/>
 	</featureModel>

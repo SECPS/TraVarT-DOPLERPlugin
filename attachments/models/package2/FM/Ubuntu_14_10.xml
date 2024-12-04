@@ -366,31 +366,31 @@
 		</and>
 	</struct>
 	<constraints>
-		<rule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Disabled6</var>
 				</not>
 				<var>Disabled</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Short2</var>
 				</not>
 				<var>Short</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Short4</var>
 				</not>
 				<var>Short</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Fast</var>
@@ -403,16 +403,16 @@
 					</disj>
 				</disj>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Ctrl_Alt_S2</var>
 				</not>
 				<var>Ctrl_Alt_S</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Shift_Super_Space</var>
@@ -422,8 +422,8 @@
 					<var>Shift_Super_Space2</var>
 				</disj>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Slow</var>
@@ -436,16 +436,16 @@
 					</disj>
 				</disj>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Super_Space2</var>
 				</not>
 				<var>Super_Space</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Delay</var>
@@ -455,168 +455,168 @@
 					<var>Delay2</var>
 				</disj>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Left1</var>
 				</not>
 				<var>Left</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Disabled10</var>
 				</not>
 				<var>Disabled</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>BuiltInDisplay1</var>
 				</not>
 				<var>BuiltInDisplay</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>AcceptanceDelay2</var>
 				</not>
 				<var>AcceptanceDelay</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Long5</var>
 				</not>
 				<var>Long</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Ctrl_Alt_S1</var>
 				</not>
 				<var>Ctrl_Alt_S</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>UniversalAccess2</var>
 				</not>
 				<var>UniversalAccess</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Disabled2</var>
 				</not>
 				<var>Disabled</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Speed1</var>
 				</not>
 				<var>Speed</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Disabled1</var>
 				</not>
 				<var>Disabled</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>AllowDifferentLayoutsForIndividualWindows1</var>
 				</not>
 				<var>AllowDifferentLayoutsForIndividualWindows</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Disabled4</var>
 				</not>
 				<var>Disabled</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Super_Space1</var>
 				</not>
 				<var>Super_Space</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Delay1</var>
 				</not>
 				<var>Delay</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Slow2</var>
 				</not>
 				<var>Slow</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Left2</var>
 				</not>
 				<var>Left</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Speed2</var>
 				</not>
 				<var>Speed</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Short1</var>
 				</not>
 				<var>Short</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Alt_Super_plus1</var>
 				</not>
 				<var>Alt_Super_plus</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Shift_Super_Space1</var>
 				</not>
 				<var>Shift_Super_Space</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>New_Accelerator</var>
@@ -626,16 +626,16 @@
 					<var>New_Accelerator2</var>
 				</disj>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>BuiltInDisplay2</var>
 				</not>
 				<var>BuiltInDisplay</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Short</var>
@@ -654,64 +654,64 @@
 					</disj>
 				</disj>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Long2</var>
 				</not>
 				<var>Long</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Fast2</var>
 				</not>
 				<var>Fast</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Disabled8</var>
 				</not>
 				<var>Disabled</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Typing1</var>
 				</not>
 				<var>Typing</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>AcceptanceDelay3</var>
 				</not>
 				<var>AcceptanceDelay</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Short3</var>
 				</not>
 				<var>Short</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Fast3</var>
 				</not>
 				<var>Fast</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Alt_Super_plus</var>
@@ -721,16 +721,16 @@
 					<var>Alt_Super_plus2</var>
 				</disj>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>AllowDifferentLayoutsForIndividualWindows2</var>
 				</not>
 				<var>AllowDifferentLayoutsForIndividualWindows</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Super_Space</var>
@@ -740,8 +740,8 @@
 					<var>Super_Space2</var>
 				</disj>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>BuiltInDisplay</var>
@@ -751,16 +751,16 @@
 					<var>BuiltInDisplay2</var>
 				</disj>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Alt_Super_plus2</var>
 				</not>
 				<var>Alt_Super_plus</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Long</var>
@@ -779,64 +779,64 @@
 					</disj>
 				</disj>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Typing3</var>
 				</not>
 				<var>Typing</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Long1</var>
 				</not>
 				<var>Long</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Slow3</var>
 				</not>
 				<var>Slow</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>UniversalAccess1</var>
 				</not>
 				<var>UniversalAccess</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>AcceptanceDelay1</var>
 				</not>
 				<var>AcceptanceDelay</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Short5</var>
 				</not>
 				<var>Short</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Disabled3</var>
 				</not>
 				<var>Disabled</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>UniversalAccess</var>
@@ -846,8 +846,8 @@
 					<var>UniversalAccess2</var>
 				</disj>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>AllowDifferentLayoutsForIndividualWindows</var>
@@ -857,8 +857,8 @@
 					<var>AllowDifferentLayoutsForIndividualWindows2</var>
 				</disj>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Disabled</var>
@@ -892,16 +892,16 @@
 					</disj>
 				</disj>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Disabled9</var>
 				</not>
 				<var>Disabled</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Left</var>
@@ -911,48 +911,48 @@
 					<var>Left2</var>
 				</disj>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Slow1</var>
 				</not>
 				<var>Slow</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>New_Accelerator1</var>
 				</not>
 				<var>New_Accelerator</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>New_Accelerator2</var>
 				</not>
 				<var>New_Accelerator</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Typing2</var>
 				</not>
 				<var>Typing</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Delay2</var>
 				</not>
 				<var>Delay</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Speed</var>
@@ -962,16 +962,16 @@
 					<var>Speed2</var>
 				</disj>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Fast1</var>
 				</not>
 				<var>Fast</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Typing</var>
@@ -984,16 +984,16 @@
 					</disj>
 				</disj>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Shift_Super_Space2</var>
 				</not>
 				<var>Shift_Super_Space</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Ctrl_Alt_S</var>
@@ -1003,40 +1003,40 @@
 					<var>Ctrl_Alt_S2</var>
 				</disj>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Long4</var>
 				</not>
 				<var>Long</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Disabled5</var>
 				</not>
 				<var>Disabled</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Long3</var>
 				</not>
 				<var>Long</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Disabled7</var>
 				</not>
 				<var>Disabled</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>AcceptanceDelay</var>
@@ -1049,6 +1049,6 @@
 					</disj>
 				</disj>
 			</disj>
-		</rule>
+		</dnfRule>
 	</constraints>
 </featureModel>

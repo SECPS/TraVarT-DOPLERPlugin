@@ -53,7 +53,7 @@
 		</and>
 	</struct>
 	<constraints>
-		<rule>
+		<dnfRule>
 			<disj>
 				<var>Login</var>
 				<disj>
@@ -65,8 +65,8 @@
 					</not>
 				</disj>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<var>Payment</var>
 				<disj>
@@ -76,24 +76,24 @@
 					</not>
 				</disj>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>CreditCard</var>
 				</not>
 				<var>High</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Login</var>
 				</not>
 				<var>Register</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<var>Payment</var>
 				<disj>
@@ -103,14 +103,14 @@
 					</not>
 				</disj>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<var>Login</var>
 				<not>
 					<var>Notification</var>
 				</not>
 			</disj>
-		</rule>
+		</dnfRule>
 	</constraints>
 </featureModel>

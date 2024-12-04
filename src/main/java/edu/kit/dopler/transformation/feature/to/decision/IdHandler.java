@@ -2,21 +2,18 @@ package edu.kit.dopler.transformation.feature.to.decision;
 
 import de.vill.model.Feature;
 import edu.kit.dopler.model.Dopler;
-import edu.kit.dopler.transformation.util.MyUtil;
+import edu.kit.dopler.model.IDecision;
 
-/** This class is responsible for creating the identifier for the decisions. */
-class IdHandler {
+/** This interface is responsible for creating the identifier of {@link IDecision}s. */
+public interface IdHandler {
 
     /**
-     * Resolves the id of the given decision. The id changes, if a decision or value with the same name already exists.
+     * Creates an identifier for a {@link IDecision} with the given {@link Feature}.
+     *
+     * @param decisionModel {@link Dopler} model that will contain the {@link IDecision}
+     * @param feature       {@link Feature} from which the {@link IDecision} is created
+     *
+     * @return Identifier of the {@link IDecision}
      */
-    String resolveId(Dopler decisionModel, Feature feature) {
-        String featureName = feature.getFeatureName();
-
-        //If decision or value already exists then append "Type" to the id.
-        boolean decisionOrValueAlreadyExists = MyUtil.findDecisionById(decisionModel, featureName).isPresent() ||
-                MyUtil.findDecisionByValue(decisionModel, featureName).isPresent();
-
-        return decisionOrValueAlreadyExists ? featureName + "Type" : featureName;
-    }
+    String resolveId(Dopler decisionModel, Feature feature);
 }

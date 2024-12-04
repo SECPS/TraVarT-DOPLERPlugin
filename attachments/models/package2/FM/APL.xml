@@ -35,18 +35,18 @@
 			</and>
 		</struct>
 		<constraints>
-			<rule>
+			<dnfRule>
 				<imp>
 					<var>bc</var>
 					<var>mmatrix</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>me</var>
 					<var>mmatrix</var>
 				</imp>
-			</rule>
+			</dnfRule>
 		</constraints>
 		<comments/>
 	</featureModel>

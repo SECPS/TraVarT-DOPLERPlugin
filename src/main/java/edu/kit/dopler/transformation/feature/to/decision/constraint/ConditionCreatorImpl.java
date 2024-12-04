@@ -1,17 +1,28 @@
 package edu.kit.dopler.transformation.feature.to.decision.constraint;
 
+import com.google.inject.Inject;
 import de.vill.model.FeatureModel;
 import de.vill.model.constraint.*;
 import de.vill.model.expression.Expression;
 import edu.kit.dopler.model.*;
 import edu.kit.dopler.transformation.exceptions.DecisionNotPresentException;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
-import edu.kit.dopler.transformation.util.MyUtil;
+import edu.kit.dopler.transformation.util.DecisionFinder;
+import edu.kit.dopler.transformation.util.FeatureFinder;
 
 import java.util.Optional;
 
 /** Implementation of ConditionCreator */
 public class ConditionCreatorImpl implements ConditionCreator {
+
+    private final DecisionFinder decisionFinder;
+    private final FeatureFinder featureFinder;
+
+    @Inject
+    public ConditionCreatorImpl(DecisionFinder decisionFinder, FeatureFinder featureFinder) {
+        this.decisionFinder = decisionFinder;
+        this.featureFinder = featureFinder;
+    }
 
     @Override
     public IExpression createCondition(Dopler decisionModel, FeatureModel featureModel, Constraint left) {
@@ -39,11 +50,11 @@ public class ConditionCreatorImpl implements ConditionCreator {
                 createCondition(decisionModel, featureModel, left.getRight()));
     }
 
-    private static IExpression handleLiteral(Dopler decisionModel, FeatureModel featureModel,
+    private IExpression handleLiteral(Dopler decisionModel, FeatureModel featureModel,
                                              LiteralConstraint literalConstraint) {
 
         LiteralConstraint firstNonMandatoryParent;
-        Optional<LiteralConstraint> replaced = MyUtil.findFirstNonMandatoryParent(featureModel, literalConstraint);
+        Optional<LiteralConstraint> replaced = featureFinder.findFirstNonMandatoryParent(featureModel, literalConstraint);
         if (replaced.isEmpty()) {
             return new BooleanLiteralExpression(true);
         } else {
@@ -52,8 +63,8 @@ public class ConditionCreatorImpl implements ConditionCreator {
 
         IExpression condition;
         String literal = firstNonMandatoryParent.getLiteral();
-        Optional<IDecision<?>> decisionById = MyUtil.findDecisionById(decisionModel, literal);
-        Optional<IDecision<?>> decisionByValue = MyUtil.findDecisionByValue(decisionModel, literal);
+        Optional<IDecision<?>> decisionById = decisionFinder.findDecisionById(decisionModel, literal);
+        Optional<IDecision<?>> decisionByValue = decisionFinder.findDecisionByValue(decisionModel, literal);
 
         if (decisionByValue.isPresent()) {
             return new StringLiteralExpression(decisionByValue.get().getDisplayId() + "." + literal);

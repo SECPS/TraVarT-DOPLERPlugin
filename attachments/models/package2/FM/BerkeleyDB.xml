@@ -102,7 +102,7 @@
 			</alt>
 		</struct>
 		<constraints>
-			<rule>
+			<dnfRule>
 				<imp>
 					<disj>
 						<var>featureEvictor</var>
@@ -116,26 +116,26 @@
 					</disj>
 					<var>featureMemoryBudget</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>featureCheckLeaks</var>
 					<var>featureStatisticsLock</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>featureCriticalEviction</var>
 					<var>featureINCompressor</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>featureCustomizableCheckpointerBytes</var>
 					<var>featureCustomizableCheckpointerTime</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>featureDeleteDb</var>
 					<conj>
@@ -149,8 +149,8 @@
 						</conj>
 					</conj>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>featureLatch</var>
 					<conj>
@@ -188,14 +188,14 @@
 						</conj>
 					</conj>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>featureLoggingSevere</var>
 					<var>featureEnvironmentLock</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>featureLoggingFine</var>
 					<conj>
@@ -206,8 +206,8 @@
 						</conj>
 					</conj>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>featureLoggingInfo</var>
 					<conj>
@@ -215,8 +215,8 @@
 						<var>featureMemoryBudget</var>
 					</conj>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<disj>
 						<var>featureLoggingBase</var>
@@ -224,8 +224,8 @@
 					</disj>
 					<var>featureTransaction</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>featureMemoryBudget</var>
 					<conj>
@@ -233,8 +233,8 @@
 						<var>featureLatch</var>
 					</conj>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<disj>
 						<var>featureStatisticsLock</var>
@@ -242,38 +242,38 @@
 					</disj>
 					<var>dummyFeatureLocking</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>featureStatisticsEnvEvictor</var>
 					<var>featureEvictor</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>featureStatisticsEnvFSync</var>
 					<var>featureFSync</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>featureStatisticsEnvINCompressor</var>
 					<var>featureINCompressor</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>featureStatisticsTransaction</var>
 					<var>featureTransaction</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>featureStatisticsDatabase</var>
 					<var>featureTreeVisitor</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>featureTransaction</var>
 					<conj>
@@ -284,14 +284,14 @@
 						</conj>
 					</conj>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>featureTruncateDb</var>
 					<var>featureDeleteDb</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>featureVerifier</var>
 					<conj>
@@ -299,7 +299,7 @@
 						<var>featureTreeVisitor</var>
 					</conj>
 				</imp>
-			</rule>
+			</dnfRule>
 		</constraints>
 		<comments>
 			<c>Semantic Dependencies</c>

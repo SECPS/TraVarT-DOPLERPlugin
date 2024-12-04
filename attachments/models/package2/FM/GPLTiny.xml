@@ -13,12 +13,12 @@
 			</and>
 		</struct>
 		<constraints>
-			<rule>
+			<dnfRule>
 				<imp>
 					<var>Cycle</var>
 					<var>Directed</var>
 				</imp>
-			</rule>
+			</dnfRule>
 		</constraints>
 		<comments/>
 	</featureModel>

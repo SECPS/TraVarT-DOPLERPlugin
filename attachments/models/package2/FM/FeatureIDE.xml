@@ -25,7 +25,7 @@
 			</and>
 		</struct>
 		<constraints>
-			<rule>
+			<dnfRule>
 				<imp>
 					<disj>
 						<var>AHEAD</var>
@@ -39,25 +39,25 @@
 					</disj>
 					<var>JDT</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>FeatureCpp</var>
 					<var>CDT</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>AspectJ</var>
 					<var>AJDT</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>DeltaJ</var>
 					<var>DeltaJEclipsePlugin</var>
 				</imp>
-			</rule>
+			</dnfRule>
 		</constraints>
 		<comments/>
 		<featureOrder userDefined="false"/>

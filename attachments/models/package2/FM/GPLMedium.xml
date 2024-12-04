@@ -52,7 +52,7 @@
 			</alt>
 		</struct>
 		<constraints>
-			<rule>
+			<dnfRule>
 				<imp>
 					<var>Number</var>
 					<conj>
@@ -60,8 +60,8 @@
 						<var>Src</var>
 					</conj>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>Connected</var>
 					<conj>
@@ -69,8 +69,8 @@
 						<var>Src</var>
 					</conj>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>StrongC</var>
 					<conj>
@@ -78,8 +78,8 @@
 						<var>DFS</var>
 					</conj>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>Cycle</var>
 					<conj>
@@ -87,8 +87,8 @@
 						<var>DFS</var>
 					</conj>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<disj>
 						<var>MSTKruskal</var>
@@ -99,8 +99,8 @@
 						<var>Weighted</var>
 					</conj>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<disj>
 						<var>MSTKruskal</var>
@@ -113,8 +113,8 @@
 						</conj>
 					</not>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<conj>
 						<var>OnlyVertices</var>
@@ -122,8 +122,8 @@
 					</conj>
 					<var>WeightedOnlyVertices</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<conj>
 						<var>WithNeighbors</var>
@@ -131,8 +131,8 @@
 					</conj>
 					<var>WeightedWithNeighbors</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<conj>
 						<var>WithEdges</var>
@@ -140,8 +140,8 @@
 					</conj>
 					<var>WeightedWithEdges</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<conj>
 						<var>OnlyVertices</var>
@@ -149,8 +149,8 @@
 					</conj>
 					<var>DirectedOnlyVertices</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<conj>
 						<var>WithNeighbors</var>
@@ -158,8 +158,8 @@
 					</conj>
 					<var>DirectedWithNeighbors</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<conj>
 						<var>WithEdges</var>
@@ -167,8 +167,8 @@
 					</conj>
 					<var>DirectedWithEdges</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<conj>
 						<var>OnlyVertices</var>
@@ -176,8 +176,8 @@
 					</conj>
 					<var>UndirectedOnlyVertices</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<conj>
 						<var>WithNeighbors</var>
@@ -185,8 +185,8 @@
 					</conj>
 					<var>UndirectedWithNeighbors</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<conj>
 						<var>WithEdges</var>
@@ -194,7 +194,7 @@
 					</conj>
 					<var>UndirectedWithEdges</var>
 				</imp>
-			</rule>
+			</dnfRule>
 		</constraints>
 		<comments>
 			<c>* GPL domain model March 2006 */</c>

@@ -16,7 +16,7 @@
 		</and>
 	</struct>
 	<constraints>
-		<rule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>GPS</var>
@@ -25,14 +25,14 @@
 					<var>Basic</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<var>HighResolution</var>
 				<not>
 					<var>Camera</var>
 				</not>
 			</disj>
-		</rule>
+		</dnfRule>
 	</constraints>
 </featureModel>

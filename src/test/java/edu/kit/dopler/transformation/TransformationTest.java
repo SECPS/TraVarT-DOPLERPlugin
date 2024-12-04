@@ -35,7 +35,7 @@ abstract class TransformationTest<FromModel, ToModel> {
         String transformedModel = convertToModelToString(transformModel(modelToTransform));
         String expectedModel = getExpectedModel(pathOfExpectedModel);
 
-        String message = String.format("%n%nExpected:%n %s%n%nBut was: %n%s", expectedModel, transformedModel);
+        String message = String.format("%n%nExpected:%n%s%n%nBut was: %n%s%n%n", expectedModel, transformedModel);
         Assertions.assertEquals(expectedModel, transformedModel, message);
     }
 

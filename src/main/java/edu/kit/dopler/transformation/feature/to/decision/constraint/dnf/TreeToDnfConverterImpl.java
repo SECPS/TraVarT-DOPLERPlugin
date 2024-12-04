@@ -1,8 +1,9 @@
 package edu.kit.dopler.transformation.feature.to.decision.constraint.dnf;
 
+import com.google.inject.Inject;
 import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.ParenthesisConstraint;
-import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.rule.*;
+import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.rule.DnfRule;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,24 +11,25 @@ import java.util.Optional;
 /** Implementation of {@link TreeToDnfConverter} */
 public class TreeToDnfConverterImpl implements TreeToDnfConverter {
 
-    private final UnwantedConstraintsReplacer replacer;
+    /** Saves the rules that are needed to convert a logical formula into DNF. */
+    private final List<DnfRule> dnfRules;
+    private final UnwantedConstraintsReplacer unwantedConstraintsReplacer;
     private final DnfSimplifier dnfSimplifier;
-
-    private static final List<Rule> RULES =
-            List.of(new NotNotRule(), new MorgenOrRule(), new MorgenAndRule(), new DistributiveLeftRule(),
-                    new DistributiveRightRule());
 
     /**
      * Constructor of {@link TreeToDnfConverterImpl}
      */
-    public TreeToDnfConverterImpl(UnwantedConstraintsReplacer replacer, DnfSimplifier dnfSimplifier) {
-        this.replacer = replacer;
+    @Inject
+    public TreeToDnfConverterImpl(UnwantedConstraintsReplacer unwantedConstraintsReplacer, DnfSimplifier dnfSimplifier,
+                                  List<DnfRule> dnfRules) {
+        this.dnfRules = List.copyOf(dnfRules);
+        this.unwantedConstraintsReplacer = unwantedConstraintsReplacer;
         this.dnfSimplifier = dnfSimplifier;
     }
 
     @Override
     public List<List<Constraint>> convertToDnf(Constraint constraint) {
-        Constraint sanitisedConstraint = replacer.replaceUnwantedConstraints(constraint.clone());
+        Constraint sanitisedConstraint = unwantedConstraintsReplacer.replaceUnwantedConstraints(constraint.clone());
         ParenthesisConstraint parenthesisConstraint = new ParenthesisConstraint(sanitisedConstraint);
 
         for (int i = 0; i < getDepth(parenthesisConstraint); i++) {
@@ -38,7 +40,7 @@ public class TreeToDnfConverterImpl implements TreeToDnfConverter {
     }
 
     /**
-     * Goes through the given {@link Constraint} and applies the {@link Rule}s on the entire tree.
+     * Goes through the given {@link Constraint} and applies the {@link DnfRule}s on the entire tree.
      *
      * @param constraint Constraint to match rules against.
      */
@@ -51,16 +53,16 @@ public class TreeToDnfConverterImpl implements TreeToDnfConverter {
     }
 
     /**
-     * Find first matching {@link Rule}, apply it to the given {@link Constraint} and return the (maybe) replaced
+     * Find first matching {@link DnfRule}, apply it to the given {@link Constraint} and return the (maybe) replaced
      * {@link Constraint}.
      *
      * @param constraint {@link Constraint} to check rules against and to convert.
      *
-     * @return The given constraint as it was or, if a {@link Rule} applied, a converted {@link Constraint}.
+     * @return The given constraint as it was or, if a {@link DnfRule} applied, a converted {@link Constraint}.
      */
     private Constraint applyRules(Constraint constraint) {
-        for (Rule rule : RULES) {
-            Optional<Constraint> optional = rule.replace(constraint);
+        for (DnfRule dnfRule : dnfRules) {
+            Optional<Constraint> optional = dnfRule.replace(constraint);
             if (optional.isPresent()) {
                 return optional.get();
             }

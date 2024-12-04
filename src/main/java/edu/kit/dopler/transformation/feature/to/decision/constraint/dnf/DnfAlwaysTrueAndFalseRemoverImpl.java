@@ -1,5 +1,6 @@
 package edu.kit.dopler.transformation.feature.to.decision.constraint.dnf;
 
+import com.google.inject.Inject;
 import de.vill.model.FeatureModel;
 import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.LiteralConstraint;
@@ -8,7 +9,7 @@ import edu.kit.dopler.transformation.exceptions.ConjunctionAlwaysFalseException;
 import edu.kit.dopler.transformation.exceptions.ConjunctionAlwaysTrueException;
 import edu.kit.dopler.transformation.exceptions.DnfAlwaysFalseException;
 import edu.kit.dopler.transformation.exceptions.DnfAlwaysTrueException;
-import edu.kit.dopler.transformation.util.MyUtil;
+import edu.kit.dopler.transformation.util.FeatureFinder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,14 @@ import java.util.Optional;
 
 /** Implementation of {@link DnfAlwaysTrueAndFalseRemover}. */
 public class DnfAlwaysTrueAndFalseRemoverImpl implements DnfAlwaysTrueAndFalseRemover {
+
+    private final FeatureFinder featureFinder;
+
+    /** Constructor of {@link DnfToTreeConverterImpl}. */
+    @Inject
+    public DnfAlwaysTrueAndFalseRemoverImpl(FeatureFinder featureFinder) {
+        this.featureFinder = featureFinder;
+    }
 
     @Override
     public List<List<Constraint>> removeAlwaysTruOrFalseConstraints(FeatureModel featureModel,
@@ -75,9 +84,9 @@ public class DnfAlwaysTrueAndFalseRemoverImpl implements DnfAlwaysTrueAndFalseRe
     private Optional<? extends Constraint> getNonMandatoryParent(FeatureModel featureModel, Constraint constraint) {
         return switch (constraint) {
             case NotConstraint notConstraint when notConstraint.getContent() instanceof LiteralConstraint literalConstraint ->
-                    MyUtil.findFirstNonMandatoryParent(featureModel, literalConstraint);
+                    featureFinder.findFirstNonMandatoryParent(featureModel, literalConstraint);
             case LiteralConstraint literalConstraint ->
-                    MyUtil.findFirstNonMandatoryParent(featureModel, literalConstraint);
+                    featureFinder.findFirstNonMandatoryParent(featureModel, literalConstraint);
             case null, default -> Optional.ofNullable(constraint);
         };
     }

@@ -1,7 +1,10 @@
 package edu.kit.dopler.transformation;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import de.vill.model.constraint.*;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.*;
+import edu.kit.dopler.transformation.util.TransformationModule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -22,33 +25,28 @@ class TreeToDnfConverterTest {
     private final DnfToTreeConverter dnfToTreeConverter;
 
     TreeToDnfConverterTest() {
-        treeToDnfConverter = new TreeToDnfConverterImpl(new UnwantedConstraintsReplacerImpl(), new DnfSimplifierImpl());
-        replacer = new UnwantedConstraintsReplacerImpl();
-        dnfToTreeConverter = new DnfToTreeConverterImpl();
+        Injector injector = Guice.createInjector(new TransformationModule());
+        treeToDnfConverter = injector.getInstance(TreeToDnfConverterImpl.class);
+        replacer = injector.getInstance(UnwantedConstraintsReplacerImpl.class);
+        dnfToTreeConverter = injector.getInstance(DnfToTreeConverterImpl.class);
     }
 
     @Test
     void toDnf1() {
-        Constraint given = new NotConstraint(new NotConstraint(A));
-        Constraint real = dnfToTreeConverter.createDnfFromList(treeToDnfConverter.convertToDnf(given));
-        Constraint expected = A;
-        Assertions.assertEquals(expected, real);
+        Constraint given = new NotConstraint(new NotConstraint(new NotConstraint(A)));
+        assertDnfs("!A", given);
     }
 
     @Test
     void toDnf2() {
         Constraint given = new NotConstraint(new OrConstraint(A, B));
-        Constraint real = dnfToTreeConverter.createDnfFromList(treeToDnfConverter.convertToDnf(given));
-        Constraint expected = new AndConstraint(new NotConstraint(A), new NotConstraint(B));
-        Assertions.assertEquals(expected, real);
+        assertDnfs("!A&!B", given);
     }
 
     @Test
     void toDnf3() {
         Constraint given = new NotConstraint(new AndConstraint(A, B));
-        Constraint real = dnfToTreeConverter.createDnfFromList(treeToDnfConverter.convertToDnf(given));
-        Constraint expected = new OrConstraint(new NotConstraint(A), new NotConstraint(B));
-        Assertions.assertEquals(expected, real);
+        assertDnfs("!A|!B", given);
     }
 
     @Test
@@ -181,52 +179,34 @@ class TreeToDnfConverterTest {
     }
 
     String constraintToStringDnf(Constraint constraint) {
-        if (constraint instanceof AndConstraint) {
-            AndConstraint andConstraint = (AndConstraint) constraint;
-            return String.format("%s & %s", constraintToStringDnf(andConstraint.getLeft()),
+        return switch (constraint) {
+            case AndConstraint andConstraint -> String.format("%s & %s", constraintToStringDnf(andConstraint.getLeft()),
                     constraintToStringDnf(andConstraint.getRight()));
-        } else if (constraint instanceof OrConstraint) {
-            OrConstraint orConstraint = (OrConstraint) constraint;
-            return String.format("%s | %s", constraintToStringDnf(orConstraint.getLeft()),
+            case OrConstraint orConstraint -> String.format("%s | %s", constraintToStringDnf(orConstraint.getLeft()),
                     constraintToStringDnf(orConstraint.getRight()));
-        } else if (constraint instanceof NotConstraint) {
-            NotConstraint notConstraint = (NotConstraint) constraint;
-            return String.format("!%s", constraintToStringDnf(notConstraint.getContent()));
-        } else if (constraint instanceof LiteralConstraint) {
-            return constraint.toString();
-        } else if (constraint instanceof ExpressionConstraint) {
-            return constraint.toString();
-        } else {
-            throw new RuntimeException("Unexpected constraint");
-        }
+            case NotConstraint notConstraint -> String.format("!%s", constraintToStringDnf(notConstraint.getContent()));
+            case LiteralConstraint ignored -> constraint.toString();
+            case ExpressionConstraint ignored -> constraint.toString();
+            case null, default -> throw new RuntimeException("Unexpected constraint");
+        };
     }
 
     String constraintToString(Constraint constraint) {
-        if (constraint instanceof AndConstraint) {
-            AndConstraint andConstraint = (AndConstraint) constraint;
-            return String.format("(%s & %s)", constraintToString(andConstraint.getLeft()),
+        return switch (constraint) {
+            case AndConstraint andConstraint -> String.format("(%s & %s)", constraintToString(andConstraint.getLeft()),
                     constraintToString(andConstraint.getRight()));
-        } else if (constraint instanceof OrConstraint) {
-            OrConstraint orConstraint = (OrConstraint) constraint;
-            return String.format("(%s | %s)", constraintToString(orConstraint.getLeft()),
+            case OrConstraint orConstraint -> String.format("(%s | %s)", constraintToString(orConstraint.getLeft()),
                     constraintToString(orConstraint.getRight()));
-        } else if (constraint instanceof ImplicationConstraint) {
-            ImplicationConstraint implicationConstraint = (ImplicationConstraint) constraint;
-            return String.format("(%s -> %s)", constraintToString(implicationConstraint.getLeft()),
-                    constraintToString(implicationConstraint.getRight()));
-        } else if (constraint instanceof EquivalenceConstraint) {
-            EquivalenceConstraint equivalenceConstraint = (EquivalenceConstraint) constraint;
-            return String.format("(%s <-> %s)", constraintToString(equivalenceConstraint.getLeft()),
-                    constraintToString(equivalenceConstraint.getRight()));
-        } else if (constraint instanceof NotConstraint) {
-            NotConstraint notConstraint = (NotConstraint) constraint;
-            return String.format("!(%s)", constraintToString(notConstraint.getContent()));
-        } else if (constraint instanceof LiteralConstraint) {
-            return constraint.toString();
-        } else if (constraint instanceof ExpressionConstraint) {
-            return constraint.toString();
-        } else {
-            throw new RuntimeException("Unexpected constraint");
-        }
+            case ImplicationConstraint implicationConstraint ->
+                    String.format("(%s -> %s)", constraintToString(implicationConstraint.getLeft()),
+                            constraintToString(implicationConstraint.getRight()));
+            case EquivalenceConstraint equivalenceConstraint ->
+                    String.format("(%s <-> %s)", constraintToString(equivalenceConstraint.getLeft()),
+                            constraintToString(equivalenceConstraint.getRight()));
+            case NotConstraint notConstraint -> String.format("!(%s)", constraintToString(notConstraint.getContent()));
+            case LiteralConstraint ignored -> constraint.toString();
+            case ExpressionConstraint ignored -> constraint.toString();
+            case null, default -> throw new RuntimeException("Unexpected constraint");
+        };
     }
 }

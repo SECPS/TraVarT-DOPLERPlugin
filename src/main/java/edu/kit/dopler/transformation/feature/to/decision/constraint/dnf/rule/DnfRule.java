@@ -7,13 +7,13 @@ import java.util.Optional;
 /**
  * Interface for a single rule for the DNF algorithm.
  */
-public interface Rule {
+public interface DnfRule {
 
     /**
-     * Check if the {@link Rule} matches the given {@link Constraint}. If it's matching, then return a new
+     * Check if the {@link DnfRule} matches the given {@link Constraint}. If it's matching, then return a new
      * {@link Constraint} that replaces the old one. Both are semantically equal.
      *
-     * @param constraint {@link Constraint} to replace (if {@link Rule} matches)
+     * @param constraint {@link Constraint} to replace (if {@link DnfRule} matches)
      *
      * @return New {@link Constraint} that replaces the old one
      */

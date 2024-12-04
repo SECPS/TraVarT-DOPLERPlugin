@@ -30,13 +30,13 @@
 		</and>
 	</struct>
 	<constraints>
-		<rule>
+		<dnfRule>
 			<imp>
 				<var>Search</var>
 				<var>Security</var>
 			</imp>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<conj>
 				<imp>
 					<var>Security</var>
@@ -51,12 +51,12 @@
 					</not>
 				</imp>
 			</conj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<var>Sort</var>
 				<var>Search</var>
 			</disj>
-		</rule>
+		</dnfRule>
 	</constraints>
 </featureModel>

@@ -25,7 +25,7 @@ DK_builder;Include consistency checking for variability modelling?;Boolean;true 
 DK_merger;Do you want support for fragmented modelling with model merging?;Boolean;true | false;;;DK
 DK_metamodelling;Do you want to define your own asset types and relationships?;Boolean;true | false;;;DK
 DK_modelconverter;Do you have old DOPLER models?;Boolean;true | false;;;(isTaken(PK) && PK) || (isTaken(DK) && DK)
-DK_rulelang_editor;Do you want a seperate editor with synthax support for the rule language?;Boolean;true | false;;;DK
+DK_rulelang_editor;Do you want a seperate editor with synthax support for the dnfRule language?;Boolean;true | false;;;DK
 DK_sharepoint;Include sharepoint export support for developers?;Boolean;true | false;;;DK || PK
 PK;Do you want support for derivation and project management (ProjectKing)?;Boolean;true | false;;;!ALL
 SERVER;Include Dopler Server?;Boolean;true | false;;;true

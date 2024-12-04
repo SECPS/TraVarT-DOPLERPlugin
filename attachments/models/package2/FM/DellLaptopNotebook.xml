@@ -59,7 +59,7 @@
 		</and>
 	</struct>
 	<constraints>
-		<rule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>XPSLaptops</var>
@@ -68,8 +68,8 @@
 					<var>DVD__RWandCD_RWCombo</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>XPSLaptops</var>
@@ -78,8 +78,8 @@
 					<var>a2GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>XPSLaptops</var>
@@ -88,8 +88,8 @@
 					<var>a80GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>XPSLaptops</var>
@@ -98,8 +98,8 @@
 					<var>DVD_ROMDriveandDVD__RW</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>XPSLaptops</var>
@@ -108,8 +108,8 @@
 					<var>a128GBSolidState</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>XPSLaptops</var>
@@ -118,8 +118,8 @@
 					<var>a120GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>XPSLaptops</var>
@@ -128,8 +128,8 @@
 					<var>UbuntuLinux</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>XPSLaptops</var>
@@ -138,8 +138,8 @@
 					<var>a160GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>XPSLaptops</var>
@@ -148,8 +148,8 @@
 					<var>IntelCeleron</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>XPSLaptops</var>
@@ -158,8 +158,8 @@
 					<var>IntelPentiumDualcore</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>XPSLaptops</var>
@@ -168,8 +168,8 @@
 					<var>a1GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Adamo</var>
@@ -178,8 +178,8 @@
 					<var>UbuntuLinux</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Adamo</var>
@@ -188,8 +188,8 @@
 					<var>a500GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Adamo</var>
@@ -198,8 +198,8 @@
 					<var>a320GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>XPSLaptops</var>
@@ -208,8 +208,8 @@
 					<var>IntelAtom</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>XPSLaptops</var>
@@ -218,8 +218,8 @@
 					<var>Lessthan_400</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Adamo</var>
@@ -228,8 +228,8 @@
 					<var>WindowsXPHome</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Adamo</var>
@@ -238,8 +238,8 @@
 					<var>a160GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Adamo</var>
@@ -248,8 +248,8 @@
 					<var>a250GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Adamo</var>
@@ -258,8 +258,8 @@
 					<var>a80GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Adamo</var>
@@ -268,8 +268,8 @@
 					<var>a120GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>InspironLaptops</var>
@@ -278,8 +278,8 @@
 					<var>Morethan4GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>InspironLaptops</var>
@@ -288,8 +288,8 @@
 					<var>a1GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>InspironLaptops</var>
@@ -298,8 +298,8 @@
 					<var>UltraLight</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>InspironLaptops</var>
@@ -308,8 +308,8 @@
 					<var>DesktopReplacement</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioLaptops</var>
@@ -318,8 +318,8 @@
 					<var>WindowsXPHome</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>InspironLaptops</var>
@@ -328,8 +328,8 @@
 					<var>IntelAtom</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>InspironLaptops</var>
@@ -338,8 +338,8 @@
 					<var>Morethan_1200</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioLaptops</var>
@@ -348,8 +348,8 @@
 					<var>UbuntuLinux</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioLaptops</var>
@@ -358,8 +358,8 @@
 					<var>a160GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioLaptops</var>
@@ -368,8 +368,8 @@
 					<var>a128GBSolidState</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioLaptops</var>
@@ -378,8 +378,8 @@
 					<var>a120GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioLaptops</var>
@@ -388,8 +388,8 @@
 					<var>a80GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioLaptops</var>
@@ -398,8 +398,8 @@
 					<var>Morethan4GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioLaptops</var>
@@ -408,8 +408,8 @@
 					<var>a2GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioLaptops</var>
@@ -418,8 +418,8 @@
 					<var>a1GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioLaptops</var>
@@ -428,8 +428,8 @@
 					<var>IntelCeleron</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioLaptops</var>
@@ -438,8 +438,8 @@
 					<var>IntelAtom</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioLaptops</var>
@@ -448,8 +448,8 @@
 					<var>Lessthan_400</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioLaptops</var>
@@ -458,8 +458,8 @@
 					<var>Morethan_1200</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>XPSLaptops</var>
@@ -468,8 +468,8 @@
 					<var>WindowsXPHome</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioXPSLaptops</var>
@@ -478,8 +478,8 @@
 					<var>BluRayDisc</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioXPSLaptops</var>
@@ -488,8 +488,8 @@
 					<var>DVD__RWandCD_RWCombo</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioXPSLaptops</var>
@@ -498,8 +498,8 @@
 					<var>DVD_ROMDriveandDVD__RW</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioXPSLaptops</var>
@@ -508,8 +508,8 @@
 					<var>a80GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>InspironLaptops</var>
@@ -518,8 +518,8 @@
 					<var>BluRayDisc</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>InspironLaptops</var>
@@ -528,8 +528,8 @@
 					<var>DVD__RWandCD_RWCombo</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>InspironLaptops</var>
@@ -538,8 +538,8 @@
 					<var>DVD_ROMDriveandDVD__RW</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>InspironLaptops</var>
@@ -548,8 +548,8 @@
 					<var>WindowsXPHome</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>InspironLaptops</var>
@@ -558,8 +558,8 @@
 					<var>WindowsVista64bit</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>MiniNotebooks</var>
@@ -568,8 +568,8 @@
 					<var>Morethan_1200</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>InspironLaptops</var>
@@ -578,8 +578,8 @@
 					<var>a80GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>InspironLaptops</var>
@@ -588,8 +588,8 @@
 					<var>a120GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>InspironLaptops</var>
@@ -598,8 +598,8 @@
 					<var>a128GBSolidState</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>InspironLaptops</var>
@@ -608,8 +608,8 @@
 					<var>UbuntuLinux</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioXPSLaptops</var>
@@ -618,8 +618,8 @@
 					<var>Morethan_1200</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>MiniNotebooks</var>
@@ -628,8 +628,8 @@
 					<var>IntelPentiumDualcore</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>MiniNotebooks</var>
@@ -638,8 +638,8 @@
 					<var>IntelCore2Duo</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>MiniNotebooks</var>
@@ -648,8 +648,8 @@
 					<var>_800__1200</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>MiniNotebooks</var>
@@ -658,8 +658,8 @@
 					<var>IntelCeleron</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>MiniNotebooks</var>
@@ -668,8 +668,8 @@
 					<var>Light</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>MiniNotebooks</var>
@@ -678,8 +678,8 @@
 					<var>BluRayDisc</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>MiniNotebooks</var>
@@ -688,8 +688,8 @@
 					<var>Morethan4GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>MiniNotebooks</var>
@@ -698,8 +698,8 @@
 					<var>DesktopReplacement</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>MiniNotebooks</var>
@@ -708,8 +708,8 @@
 					<var>a3GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>MiniNotebooks</var>
@@ -718,8 +718,8 @@
 					<var>a4GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Adamo</var>
@@ -728,8 +728,8 @@
 					<var>BluRayDisc</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioXPSLaptops</var>
@@ -738,8 +738,8 @@
 					<var>DesktopReplacement</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Adamo</var>
@@ -748,8 +748,8 @@
 					<var>DVD__RWandCD_RWCombo</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioXPSLaptops</var>
@@ -758,8 +758,8 @@
 					<var>Morethan4GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Adamo</var>
@@ -768,8 +768,8 @@
 					<var>DVD_ROMDriveandDVD__RW</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Adamo</var>
@@ -778,8 +778,8 @@
 					<var>CD_DVD_RW</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Adamo</var>
@@ -788,8 +788,8 @@
 					<var>DesktopReplacement</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Adamo</var>
@@ -798,8 +798,8 @@
 					<var>Light</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioXPSLaptops</var>
@@ -808,8 +808,8 @@
 					<var>_400__800</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioXPSLaptops</var>
@@ -818,8 +818,8 @@
 					<var>Lessthan_400</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Adamo</var>
@@ -828,8 +828,8 @@
 					<var>Morethan4GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioXPSLaptops</var>
@@ -838,8 +838,8 @@
 					<var>IntelAtom</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioXPSLaptops</var>
@@ -848,8 +848,8 @@
 					<var>IntelCeleron</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioXPSLaptops</var>
@@ -858,8 +858,8 @@
 					<var>IntelPentiumDualcore</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Adamo</var>
@@ -868,8 +868,8 @@
 					<var>IntelPentiumDualcore</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioXPSLaptops</var>
@@ -878,8 +878,8 @@
 					<var>a1GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Adamo</var>
@@ -888,8 +888,8 @@
 					<var>IntelCeleron</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioXPSLaptops</var>
@@ -898,8 +898,8 @@
 					<var>a2GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Adamo</var>
@@ -908,8 +908,8 @@
 					<var>a3GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Adamo</var>
@@ -918,8 +918,8 @@
 					<var>a1GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioXPSLaptops</var>
@@ -928,8 +928,8 @@
 					<var>a3GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>MiniNotebooks</var>
@@ -938,8 +938,8 @@
 					<var>a128GBSolidState</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Adamo</var>
@@ -948,8 +948,8 @@
 					<var>Lessthan_400</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>MiniNotebooks</var>
@@ -958,8 +958,8 @@
 					<var>a250GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Adamo</var>
@@ -968,8 +968,8 @@
 					<var>IntelAtom</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>MiniNotebooks</var>
@@ -978,8 +978,8 @@
 					<var>a320GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Adamo</var>
@@ -988,8 +988,8 @@
 					<var>_800__1200</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>MiniNotebooks</var>
@@ -998,8 +998,8 @@
 					<var>a500GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>Adamo</var>
@@ -1008,8 +1008,8 @@
 					<var>_400__800</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>MiniNotebooks</var>
@@ -1018,8 +1018,8 @@
 					<var>DVD__RWandCD_RWCombo</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>MiniNotebooks</var>
@@ -1028,8 +1028,8 @@
 					<var>DVD_ROMDriveandDVD__RW</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>MiniNotebooks</var>
@@ -1038,8 +1038,8 @@
 					<var>CD_DVD_RW</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioXPSLaptops</var>
@@ -1048,8 +1048,8 @@
 					<var>WindowsXPHome</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioXPSLaptops</var>
@@ -1058,8 +1058,8 @@
 					<var>UbuntuLinux</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioXPSLaptops</var>
@@ -1068,8 +1068,8 @@
 					<var>a250GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>MiniNotebooks</var>
@@ -1078,8 +1078,8 @@
 					<var>WindowsVista64bit</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioXPSLaptops</var>
@@ -1088,8 +1088,8 @@
 					<var>a160GB</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioXPSLaptops</var>
@@ -1098,8 +1098,8 @@
 					<var>a128GBSolidState</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>StudioXPSLaptops</var>
@@ -1108,6 +1108,6 @@
 					<var>a120GB</var>
 				</not>
 			</disj>
-		</rule>
+		</dnfRule>
 	</constraints>
 </featureModel>

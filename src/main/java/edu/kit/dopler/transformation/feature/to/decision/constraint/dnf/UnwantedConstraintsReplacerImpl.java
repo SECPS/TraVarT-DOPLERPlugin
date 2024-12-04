@@ -3,7 +3,7 @@ package edu.kit.dopler.transformation.feature.to.decision.constraint.dnf;
 import de.vill.model.constraint.*;
 
 /**
- * Implementation of {@link UnwantedConstraintsReplacer} Replaces unwanted constraints like "=>", "<=>" and "()" and
+ * Implementation of {@link UnwantedConstraintsReplacer}. Replaces unwanted constraints like "=>", "<=>", "()" and
  * replaces them with different ones.
  */
 public class UnwantedConstraintsReplacerImpl implements UnwantedConstraintsReplacer {

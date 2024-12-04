@@ -38,24 +38,24 @@
 			</alt>
 		</struct>
 		<constraints>
-			<rule>
+			<dnfRule>
 				<imp>
 					<var>RecordButtonFeat</var>
 					<var>RecordingFeat</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>OptionsButtonFeat</var>
 					<var>OptionsFeat</var>
 				</imp>
-			</rule>
-			<rule>
+			</dnfRule>
+			<dnfRule>
 				<imp>
 					<var>ClipboardButtonFeat</var>
 					<var>ClipboardFeat</var>
 				</imp>
-			</rule>
+			</dnfRule>
 		</constraints>
 		<comments>
 			<c> non-grammar constraints</c>

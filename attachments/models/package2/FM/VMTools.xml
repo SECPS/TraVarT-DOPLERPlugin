@@ -61,29 +61,29 @@
 		</and>
 	</struct>
 	<constraints>
-		<rule>
+		<dnfRule>
 			<disj>
 				<var>BindingTime</var>
 				<not>
 					<var>VariabilityMechanism</var>
 				</not>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>VariabilityManagement</var>
 				</not>
 				<var>DomainAssets</var>
 			</disj>
-		</rule>
-		<rule>
+		</dnfRule>
+		<dnfRule>
 			<disj>
 				<not>
 					<var>VariabilityManagement</var>
 				</not>
 				<var>Organizational</var>
 			</disj>
-		</rule>
+		</dnfRule>
 	</constraints>
 </featureModel>

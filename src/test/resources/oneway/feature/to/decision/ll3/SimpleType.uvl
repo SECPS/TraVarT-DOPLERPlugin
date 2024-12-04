@@ -1,7 +1,12 @@
 features
 	RootFeature
-		mandatory
+		optional
 			String A
-			Integer  B
-			Real  C
+			Integer B
+			Real C
 			Boolean D
+		mandatory
+			String E
+			Integer F
+			Real G
+			Boolean H
