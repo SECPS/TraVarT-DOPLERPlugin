@@ -1,7 +1,7 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
 Gui;Gui?;Boolean;true | false;;;true
 Xml;Xml?;Boolean;true | false;;;true
-XmlType;Which XmlType?;Enumeration;xc | xak;1:1;;Xml
+Xml*;Which Xml*?;Enumeration;xc | xak;1:1;;Xml
 aj;aj?;Boolean;true | false;;;true
 bc;bc?;Boolean;true | false;;;true
 cpp;cpp?;Boolean;true | false;;;true

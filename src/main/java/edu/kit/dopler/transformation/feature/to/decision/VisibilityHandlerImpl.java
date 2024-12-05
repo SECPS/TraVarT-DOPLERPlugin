@@ -3,12 +3,17 @@ package edu.kit.dopler.transformation.feature.to.decision;
 import com.google.inject.Inject;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
+import de.vill.model.Group;
 import edu.kit.dopler.model.*;
+import edu.kit.dopler.transformation.exceptions.DecisionNotPresentException;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 import edu.kit.dopler.transformation.util.DecisionFinder;
 import edu.kit.dopler.transformation.util.FeatureFinder;
 
+import java.util.Collections;
 import java.util.Optional;
+
+import static edu.kit.dopler.transformation.feature.to.decision.FeatureAndGroupHandlerImpl.BOOLEAN_QUESTION;
 
 public class VisibilityHandlerImpl implements VisibilityHandler {
 
@@ -36,6 +41,40 @@ public class VisibilityHandlerImpl implements VisibilityHandler {
             case ALTERNATIVE, OR -> handleAlternativeAndOrFeature(parent, decisionModel);
             case GROUP_CARDINALITY, MANDATORY -> throw new UnexpectedTypeException(parent.getParentGroup());
         }).orElseGet(() -> new BooleanLiteralExpression(true));
+    }
+
+    @Override
+    public IExpression resolveVisibilityForTypeDecisions(Dopler dopler, FeatureModel featureModel, Feature feature,
+                                                         String id) {
+        IExpression visibility;
+        Group parentGroup = feature.getParentGroup();
+        Feature parentFeature = feature.getParentFeature();
+        switch (parentGroup.GROUPTYPE) {
+            case MANDATORY -> {
+                //visibility depends on first non-mandatory parent
+                visibility = resolveVisibility(featureModel, dopler, parentFeature);
+            }
+            case OPTIONAL -> {
+                //Insert a check decision. Visibility is this newly created check decision.
+                BooleanDecision checkDecision =
+                        new BooleanDecision(id + "Check", String.format(BOOLEAN_QUESTION, id), "",
+                                resolveVisibility(featureModel, dopler, parentFeature), Collections.emptySet());
+                dopler.addDecision(checkDecision);
+                visibility = new StringLiteralExpression(checkDecision.getDisplayId());
+            }
+            case OR, ALTERNATIVE -> {
+                //visibility is `decision.value`, where the `decision` is the decision of the parent group and
+                // `value` is
+                // one of the enum values of this decision
+                String value = feature.getFeatureName();
+                IDecision<?> decisionByValue = decisionFinder.findDecisionByValue(dopler, value)
+                        .orElseThrow(() -> new DecisionNotPresentException(value));
+                visibility = new StringLiteralExpression(decisionByValue.getDisplayId() + "." + value);
+            }
+            case null, default -> throw new IllegalStateException("Unexpected value: " + parentGroup.GROUPTYPE);
+        }
+
+        return visibility;
     }
 
     /**

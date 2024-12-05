@@ -15,4 +15,6 @@ public interface VisibilityHandler {
      * {@link BooleanLiteralExpression} with the value {@code true} is returned.
      */
     IExpression resolveVisibility(FeatureModel featureModel, Dopler decisionModel, Feature feature);
+
+    IExpression resolveVisibilityForTypeDecisions(Dopler dopler, FeatureModel featureModel, Feature feature, String id);
 }

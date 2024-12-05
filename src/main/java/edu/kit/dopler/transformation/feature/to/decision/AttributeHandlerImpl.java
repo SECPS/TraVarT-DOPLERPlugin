@@ -1,5 +1,6 @@
 package edu.kit.dopler.transformation.feature.to.decision;
 
+import at.jku.cps.travart.core.common.IModelTransformer;
 import com.google.inject.Inject;
 import de.vill.model.Attribute;
 import de.vill.model.Feature;
@@ -7,11 +8,11 @@ import de.vill.model.FeatureModel;
 import de.vill.model.Group;
 import de.vill.model.constraint.LiteralConstraint;
 import edu.kit.dopler.model.*;
+import edu.kit.dopler.transformation.exceptions.CanNotBeTranslatedException;
 import edu.kit.dopler.transformation.exceptions.DecisionNotPresentException;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.ConditionCreator;
 import edu.kit.dopler.transformation.util.DecisionFinder;
-import edu.kit.dopler.transformation.util.FeatureFinder;
 
 import java.util.*;
 
@@ -27,9 +28,12 @@ public class AttributeHandlerImpl implements AttributeHandler {
         this.decisionFinder = decisionFinder;
     }
 
-    public void handleAttributes(Dopler decisionModel, FeatureModel featureModel) {
-        Feature root = featureModel.getRootFeature();
-        checkFeatureRecursive(decisionModel, featureModel, root);
+    public void handleAttributes(Dopler decisionModel, FeatureModel featureModel, IModelTransformer.STRATEGY level) {
+        //Attributes are only important for the round trip
+        if (IModelTransformer.STRATEGY.ROUNDTRIP == level) {
+            Feature root = featureModel.getRootFeature();
+            checkFeatureRecursive(decisionModel, featureModel, root);
+        }
     }
 
     /** Check the given {@link Feature} for attributes. */
@@ -72,10 +76,15 @@ public class AttributeHandlerImpl implements AttributeHandler {
 
         //Give decisions that contains the attributes new rules
         for (Map.Entry<IDecision<?>, List<IAction>> entry : rulesMap.entrySet()) {
-            IExpression condition = conditionCreator.createCondition(decisionModel, featureModel,
-                    new LiteralConstraint(feature.getFeatureName()));
-            LinkedHashSet<IAction> actions = new LinkedHashSet<>(entry.getValue());
-            entry.getKey().addRule(new Rule(condition, actions));
+            try {
+                IExpression condition = conditionCreator.createCondition(decisionModel, featureModel,
+                        new LiteralConstraint(feature.getFeatureName()));
+                LinkedHashSet<IAction> actions = new LinkedHashSet<>(entry.getValue());
+                entry.getKey().addRule(new Rule(condition, actions));
+            } catch (CanNotBeTranslatedException e) {
+                //It should always be possible to create the condition, so the exception should never be thrown
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -106,6 +115,7 @@ public class AttributeHandlerImpl implements AttributeHandler {
 
     /** Creates a new {@link IDecision} fot the given {@link Attribute}. */
     private IDecision<?> createAttributeDecision(Feature feature, Attribute<?> attribute) {
+        //TODO: add handling of lists, arrays and constraints
         return switch (attribute.getType()) {
             case "number" -> new NumberDecision(feature.getFeatureName() + "#" + attribute.getName(),
                     String.format(FeatureAndGroupHandlerImpl.NUMBER_QUESTION, attribute.getName()), "",

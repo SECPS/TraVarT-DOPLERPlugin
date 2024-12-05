@@ -6,6 +6,7 @@ import de.vill.model.FeatureModel;
 import de.vill.model.FeatureType;
 import de.vill.model.Group;
 import edu.kit.dopler.model.*;
+import edu.kit.dopler.transformation.util.DecisionFinder;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -21,12 +22,15 @@ public class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
 
     private final VisibilityHandler visibilityHandler;
     private final IdHandler idHandler;
+    private final DecisionFinder decisionFinder;
 
     /** Constructor of {@link FeatureAndGroupHandlerImpl} */
     @Inject
-    FeatureAndGroupHandlerImpl(VisibilityHandler visibilityHandler, IdHandler idHandler) {
+    FeatureAndGroupHandlerImpl(VisibilityHandler visibilityHandler, IdHandler idHandler,
+                               DecisionFinder decisionFinder) {
         this.visibilityHandler = visibilityHandler;
         this.idHandler = idHandler;
+        this.decisionFinder = decisionFinder;
     }
 
     /** Checks all groups of the given feature. */
@@ -105,7 +109,7 @@ public class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
     private void createNumberDecision(Dopler dopler, FeatureModel featureModel, Feature feature) {
         String id = feature.getFeatureName() + "#Number";
         String question = String.format(NUMBER_QUESTION, feature.getFeatureName());
-        IExpression visibility = visibilityHandler.resolveVisibility(featureModel, dopler, feature.getParentFeature());
+        IExpression visibility = visibilityHandler.resolveVisibilityForTypeDecisions(dopler, featureModel, feature, id);
         Set<Rule> rules = new LinkedHashSet<>();
         Set<IExpression> validity = new HashSet<>();
         dopler.addDecision(new NumberDecision(id, question, "", visibility, rules, validity));
@@ -114,7 +118,7 @@ public class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
     private void createStringDecision(Dopler dopler, FeatureModel featureModel, Feature feature) {
         String id = feature.getFeatureName() + "#String";
         String question = String.format(STRING_QUESTION, feature.getFeatureName());
-        IExpression visibility = visibilityHandler.resolveVisibility(featureModel, dopler, feature.getParentFeature());
+        IExpression visibility = visibilityHandler.resolveVisibilityForTypeDecisions(dopler, featureModel, feature, id);
         Set<Rule> rules = new LinkedHashSet<>();
         Set<IExpression> validity = new HashSet<>();
         dopler.addDecision(new StringDecision(id, question, "", visibility, rules, validity));

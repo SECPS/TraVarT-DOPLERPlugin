@@ -7,10 +7,7 @@ import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.ExpressionConstraint;
 import de.vill.model.constraint.NotConstraint;
 import edu.kit.dopler.model.*;
-import edu.kit.dopler.transformation.exceptions.DecisionNotPresentException;
-import edu.kit.dopler.transformation.exceptions.DnfAlwaysFalseException;
-import edu.kit.dopler.transformation.exceptions.DnfAlwaysTrueException;
-import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
+import edu.kit.dopler.transformation.exceptions.*;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.DnfAlwaysTrueAndFalseRemover;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.DnfToTreeConverter;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.TreeToDnfConverter;
@@ -72,10 +69,17 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
         //Needed because there is no way to model a constraint like "A < 10" as an action
         if (dnf.stream().flatMap(Collection::stream)
                 .anyMatch(constraint -> constraint instanceof ExpressionConstraint)) {
-            IExpression condition = conditionCreator.createCondition(decisionModel, featureModel,
-                    new NotConstraint(dnfToTreeConverter.createDnfFromList(dnf)));
-            Set<IAction> contradiction = createContradiction(decisionModel);
-            return Optional.of(new Rule(condition, contradiction));
+            try {
+                IExpression condition = conditionCreator.createCondition(decisionModel, featureModel,
+                        new NotConstraint(dnfToTreeConverter.createDnfFromList(dnf)));
+                Set<IAction> contradiction = createContradiction(decisionModel);
+                return Optional.of(new Rule(condition, contradiction));
+            } catch (CanNotBeTranslatedException e) {
+                //The dnf to translate contains an expression.
+                //Expressions can not be translated.
+                //Skip the constraint.
+                return Optional.empty();
+            }
         }
 
         // DNF contains no OR
@@ -96,7 +100,13 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
             }
 
             //All the other conjunctions create the condition
-            IExpression condition = conditionCreator.createCondition(decisionModel, featureModel, createLeft(dnf));
+            IExpression condition;
+            try {
+                condition = conditionCreator.createCondition(decisionModel, featureModel, createLeft(dnf));
+            } catch (CanNotBeTranslatedException e) {
+                //Should never be thrown, because the dnf does not contain any expressions
+                throw new RuntimeException(e);
+            }
             return Optional.of(new Rule(condition, actions));
         }
         return Optional.empty();

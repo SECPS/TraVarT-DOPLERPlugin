@@ -10,3 +10,13 @@ features
 			Integer F
 			Real G
 			Boolean H
+		alternative
+			String I
+			Integer J
+			Real K
+			Boolean L
+		or
+			String M
+			Integer N
+			Real O
+			Boolean P

@@ -1,7 +1,6 @@
 package edu.kit.dopler.transformation;
 
 import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
-import at.jku.cps.travart.core.sampler.DefaultCoreModelSampler;
 import de.vill.main.UVLModelFactory;
 import de.vill.model.FeatureModel;
 import edu.kit.dopler.io.DecisionModelWriter;
@@ -11,7 +10,6 @@ import edu.kit.dopler.model.Main;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Locale;
 
 class FeatureToDecisionModelTest extends TransformationTest<FeatureModel, Dopler> {
 

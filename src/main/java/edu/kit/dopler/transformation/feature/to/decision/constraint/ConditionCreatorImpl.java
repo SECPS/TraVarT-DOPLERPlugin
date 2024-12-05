@@ -5,6 +5,7 @@ import de.vill.model.FeatureModel;
 import de.vill.model.constraint.*;
 import de.vill.model.expression.Expression;
 import edu.kit.dopler.model.*;
+import edu.kit.dopler.transformation.exceptions.CanNotBeTranslatedException;
 import edu.kit.dopler.transformation.exceptions.DecisionNotPresentException;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 import edu.kit.dopler.transformation.util.DecisionFinder;
@@ -25,7 +26,8 @@ public class ConditionCreatorImpl implements ConditionCreator {
     }
 
     @Override
-    public IExpression createCondition(Dopler decisionModel, FeatureModel featureModel, Constraint left) {
+    public IExpression createCondition(Dopler decisionModel, FeatureModel featureModel, Constraint left)
+            throws CanNotBeTranslatedException {
         return switch (left) {
             case NotConstraint notConstraint -> handleNot(decisionModel, featureModel, notConstraint);
             case LiteralConstraint literalConstraint -> handleLiteral(decisionModel, featureModel, literalConstraint);
@@ -36,25 +38,29 @@ public class ConditionCreatorImpl implements ConditionCreator {
         };
     }
 
-    private IExpression handleNot(Dopler decisionModel, FeatureModel featureModel, NotConstraint left) {
+    private IExpression handleNot(Dopler decisionModel, FeatureModel featureModel, NotConstraint left)
+            throws CanNotBeTranslatedException {
         return new NOT(createCondition(decisionModel, featureModel, left.getContent()));
     }
 
-    private IExpression handleAnd(Dopler decisionModel, FeatureModel featureModel, AndConstraint left) {
+    private IExpression handleAnd(Dopler decisionModel, FeatureModel featureModel, AndConstraint left)
+            throws CanNotBeTranslatedException {
         return new AND(createCondition(decisionModel, featureModel, left.getLeft()),
                 createCondition(decisionModel, featureModel, left.getRight()));
     }
 
-    private IExpression handleOr(Dopler decisionModel, FeatureModel featureModel, OrConstraint left) {
+    private IExpression handleOr(Dopler decisionModel, FeatureModel featureModel, OrConstraint left)
+            throws CanNotBeTranslatedException {
         return new OR(createCondition(decisionModel, featureModel, left.getLeft()),
                 createCondition(decisionModel, featureModel, left.getRight()));
     }
 
     private IExpression handleLiteral(Dopler decisionModel, FeatureModel featureModel,
-                                             LiteralConstraint literalConstraint) {
+                                      LiteralConstraint literalConstraint) {
 
         LiteralConstraint firstNonMandatoryParent;
-        Optional<LiteralConstraint> replaced = featureFinder.findFirstNonMandatoryParent(featureModel, literalConstraint);
+        Optional<LiteralConstraint> replaced =
+                featureFinder.findFirstNonMandatoryParent(featureModel, literalConstraint);
         if (replaced.isEmpty()) {
             return new BooleanLiteralExpression(true);
         } else {
@@ -76,7 +82,7 @@ public class ConditionCreatorImpl implements ConditionCreator {
         return condition;
     }
 
-    private IExpression handleExpressionConstraint(ExpressionConstraint constraint) {
+    private IExpression handleExpressionConstraint(ExpressionConstraint constraint) throws CanNotBeTranslatedException {
         return switch (constraint) {
             case EqualEquationConstraint ignored ->
                     new Equals(handleExpression(constraint.getLeft()), handleExpression(constraint.getRight()));
@@ -98,9 +104,8 @@ public class ConditionCreatorImpl implements ConditionCreator {
         };
     }
 
-    private IExpression handleExpression(Expression expression) {
-        //TODO: hier müsste man durch die Expression durch gehen und diese richtig übersetzen mit speziellen fällen
-        // für z.B. sum.
-        return new StringLiteralExpression(expression.toString(false, ""));
+    private IExpression handleExpression(Expression expression) throws CanNotBeTranslatedException {
+        //Ignore constraints that contains expression;
+        throw new CanNotBeTranslatedException(expression);
     }
 }

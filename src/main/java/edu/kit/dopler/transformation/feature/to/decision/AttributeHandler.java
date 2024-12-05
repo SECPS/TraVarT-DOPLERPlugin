@@ -1,5 +1,6 @@
 package edu.kit.dopler.transformation.feature.to.decision;
 
+import at.jku.cps.travart.core.common.IModelTransformer;
 import de.vill.model.FeatureModel;
 import edu.kit.dopler.model.Dopler;
 import edu.kit.dopler.model.IDecision;
@@ -14,6 +15,7 @@ public interface AttributeHandler {
      *
      * @param decisionModel Decision model to add the newly created decisions and rules
      * @param featureModel  Feature model containing features with their attributes
+     * @param level         Strategy that is used to handle the attributes
      */
-    void handleAttributes(Dopler decisionModel, FeatureModel featureModel);
+    void handleAttributes(Dopler decisionModel, FeatureModel featureModel, IModelTransformer.STRATEGY level);
 }
