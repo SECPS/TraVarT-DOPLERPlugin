@@ -6,6 +6,7 @@ import de.vill.model.Group;
 import de.vill.model.constraint.LiteralConstraint;
 import edu.kit.dopler.transformation.exceptions.FeatureNotPresentException;
 
+import java.util.Collection;
 import java.util.Optional;
 import java.util.Stack;
 
@@ -51,6 +52,26 @@ public final class FeatureFinderImpl implements FeatureFinder {
             }
 
             current.getChildren().stream().flatMap(group -> group.getFeatures().stream()).forEach(stack::push);
+        }
+
+        return Optional.empty();
+    }
+
+    public Optional<Feature> findFeatureByName(Collection<Feature> features, String displayId) {
+        Stack<Feature> stack = new Stack<>();
+        features.forEach(stack::push);
+        while (!stack.empty()) {
+            Feature current = stack.pop();
+
+            if (current.getFeatureName().equals(displayId)) {
+                return Optional.of(current);
+            }
+
+            for (Group child : current.getChildren()) {
+                for (Feature feature : child.getFeatures()) {
+                    stack.push(feature);
+                }
+            }
         }
 
         return Optional.empty();

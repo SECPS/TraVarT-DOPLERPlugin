@@ -5,6 +5,7 @@ import de.vill.model.FeatureModel;
 import de.vill.model.Group;
 import de.vill.model.constraint.LiteralConstraint;
 
+import java.util.Collection;
 import java.util.Optional;
 
 /** This interface is responsible for finding {@link Feature}s inside the {@link FeatureModel}. */
@@ -39,4 +40,6 @@ public interface FeatureFinder {
      */
     Optional<LiteralConstraint> findFirstNonMandatoryParent(FeatureModel featureModel,
                                                             LiteralConstraint literalConstraint);
+
+    Optional<Feature> findFeatureByName(Collection<Feature> features, String displayId);
 }

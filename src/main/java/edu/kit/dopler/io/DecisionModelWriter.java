@@ -39,6 +39,7 @@ public class DecisionModelWriter {
 		CSVFormat dmFormat = CSVUtils.createCSVFormat();
 		try (FileWriter out = new FileWriter(path.toFile(), StandardCharsets.UTF_8);
 				CSVPrinter printer = new CSVPrinter(out, dmFormat)) {
+			printer.println();
 			for (Object obj : dm.getDecisions()) {
 				assert obj instanceof IDecision;
 				IDecision decision = (IDecision) obj;
