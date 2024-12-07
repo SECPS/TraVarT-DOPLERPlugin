@@ -8,7 +8,7 @@ AddShowDesktopIconToTheLauncher;AddShowDesktopIconToTheLauncher?;Boolean;true | 
 AllowDifferentLayoutsForIndividualWindows;AllowDifferentLayoutsForIndividualWindows?;Boolean;true | false;;if (AllowDifferentLayoutsForIndividualWindows1) {AllowDifferentLayoutsForIndividualWindows = true;}if (LayoutSettings*.AllowDifferentLayoutsForIndividualWindows2) {AllowDifferentLayoutsForIndividualWindows = true;};true
 AllowDifferentLayoutsForIndividualWindows1;AllowDifferentLayoutsForIndividualWindows1?;Boolean;true | false;;if (!(LayoutSettings*.AllowDifferentLayoutsForIndividualWindows2 || !AllowDifferentLayoutsForIndividualWindows)) {AllowDifferentLayoutsForIndividualWindows1 = true;};TextEntry
 AllowDifferentLayoutsForIndividualWindows1*;Which AllowDifferentLayoutsForIndividualWindows1*?;Enumeration;NewWindowsUseTheCurrentSource | NewWindowsUseTheDefaultSource;1:1;;AllowDifferentLayoutsForIndividualWindows1
-AllowDifferentLayoutsForIndividualWindows2*;Which AllowDifferentLayoutsForIndividualWindows2*?;Enumeration;NewWindowsUseTheDefaultLayout | NewWindowsUseThePreviousWindowsLayout;1:1;;LayoutSettings.AllowDifferentLayoutsForIndividualWindows2
+AllowDifferentLayoutsForIndividualWindows2*;Which AllowDifferentLayoutsForIndividualWindows2*?;Enumeration;NewWindowsUseTheDefaultLayout | NewWindowsUseThePreviousWindowsLayout;1:1;;LayoutSettings*.AllowDifferentLayoutsForIndividualWindows2
 Alt_Super_plus;Alt_Super_plus?;Boolean;true | false;;if (UniversalAccess2*.TurnZoomOnOrOff) {Alt_Super_plus = true;}if (UniversalAccess2*.TurnScreenReaderOnOrOff) {Alt_Super_plus = true;};true
 Appearance;Appearance?;Boolean;true | false;;;true
 AutoHideTheLauncher;AutoHideTheLauncher?;Boolean;true | false;;;Appearance

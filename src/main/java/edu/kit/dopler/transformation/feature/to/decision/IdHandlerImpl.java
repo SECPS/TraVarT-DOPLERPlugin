@@ -21,10 +21,15 @@ public class IdHandlerImpl implements IdHandler {
         String featureName = feature.getFeatureName();
 
         //If decision or value already exists then append "*" to the id.
-        boolean decisionOrValueAlreadyExists =
-                decisionFinder.findDecisionById(decisionModel, featureName).isPresent() ||
-                        decisionFinder.findDecisionByValue(decisionModel, featureName).isPresent();
+        while (nameExistsAlready(decisionModel, featureName)) {
+            featureName = featureName + "*";
+        }
 
-        return decisionOrValueAlreadyExists ? featureName + "*" : featureName;
+        return featureName;
+    }
+
+    private boolean nameExistsAlready(Dopler decisionModel, String featureName) {
+        return decisionFinder.findDecisionById(decisionModel, featureName).isPresent() ||
+                decisionFinder.findDecisionByValue(decisionModel, featureName).isPresent();
     }
 }

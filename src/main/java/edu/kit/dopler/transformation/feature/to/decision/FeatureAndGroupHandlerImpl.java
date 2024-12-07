@@ -6,7 +6,6 @@ import de.vill.model.FeatureModel;
 import de.vill.model.FeatureType;
 import de.vill.model.Group;
 import edu.kit.dopler.model.*;
-import edu.kit.dopler.transformation.util.DecisionFinder;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -22,15 +21,12 @@ public class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
 
     private final VisibilityHandler visibilityHandler;
     private final IdHandler idHandler;
-    private final DecisionFinder decisionFinder;
 
     /** Constructor of {@link FeatureAndGroupHandlerImpl} */
     @Inject
-    FeatureAndGroupHandlerImpl(VisibilityHandler visibilityHandler, IdHandler idHandler,
-                               DecisionFinder decisionFinder) {
+    FeatureAndGroupHandlerImpl(VisibilityHandler visibilityHandler, IdHandler idHandler) {
         this.visibilityHandler = visibilityHandler;
         this.idHandler = idHandler;
-        this.decisionFinder = decisionFinder;
     }
 
     /** Checks all groups of the given feature. */
@@ -62,7 +58,6 @@ public class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
             case ALTERNATIVE -> handleAlternativeGroup(group, decisionModel, featureModel);
             case MANDATORY -> handleMandatoryGroup(group);
             case OPTIONAL -> handleOptionalGroup(group, decisionModel, featureModel);
-            case GROUP_CARDINALITY -> throw new IllegalStateException("Unexpected value: " + group.GROUPTYPE);
             default -> throw new IllegalStateException("Unexpected value: " + group.GROUPTYPE);
         }
 

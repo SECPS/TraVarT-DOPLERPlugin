@@ -11,11 +11,11 @@ FPersistencyFeatures;FPersistencyFeatures?;Boolean;true | false;;;true
 FPersistencyFeatures*;Which FPersistencyFeatures*?;Enumeration;featureChecksum | featureFileHandleCache | featureHandleFullDiscError | featureEnvironmentLock | Checkpointer | Cleaner;1:6;if (featureLoggingSevere) {FPersistencyFeatures* = featureEnvironmentLock;}if (featureLoggingInfo) {FPersistencyFeatures* = featureChecksum;featureMemoryBudget = true;};FPersistencyFeatures
 FStatistics;FStatistics?;Boolean;true | false;;;true
 FStatisticsFeatures;Which FStatisticsFeatures?;Enumeration;EnvStats | featureStatisticsDatabase | featureStatisticsLock | featureStatisticsPreload | featureStatisticsSequence | featureStatisticsTransaction;1:6;if (FConcurrency*.featureCheckLeaks) {FStatisticsFeatures = featureStatisticsLock;};FStatistics
-featureCheckpointerDaemon;featureCheckpointerDaemon?;Boolean;true | false;;;FPersistencyFeatures.Checkpointer
-featureCleanerDaemon;featureCleanerDaemon?;Boolean;true | false;;;FPersistencyFeatures.Cleaner
+featureCheckpointerDaemon;featureCheckpointerDaemon?;Boolean;true | false;;;FPersistencyFeatures*.Checkpointer
+featureCleanerDaemon;featureCleanerDaemon?;Boolean;true | false;;;FPersistencyFeatures*.Cleaner
 featureCriticalEviction;featureCriticalEviction?;Boolean;true | false;;;FEvictor
-featureCustomizableCheckpointerBytes;featureCustomizableCheckpointerBytes?;Boolean;true | false;;;FPersistencyFeatures.Checkpointer
-featureCustomizableCheckpointerTime;featureCustomizableCheckpointerTime?;Boolean;true | false;;if (featureCustomizableCheckpointerBytes) {featureCustomizableCheckpointerTime = true;};FPersistencyFeatures.Checkpointer
+featureCustomizableCheckpointerBytes;featureCustomizableCheckpointerBytes?;Boolean;true | false;;;FPersistencyFeatures*.Checkpointer
+featureCustomizableCheckpointerTime;featureCustomizableCheckpointerTime?;Boolean;true | false;;if (featureCustomizableCheckpointerBytes) {featureCustomizableCheckpointerTime = true;};FPersistencyFeatures*.Checkpointer
 featureDirectNIO;featureDirectNIO?;Boolean;true | false;;;FIOFeature.NIO
 featureEvictorDaemon;featureEvictorDaemon?;Boolean;true | false;;;FEvictor
 featureINCompressor;featureINCompressor?;Boolean;true | false;;if (featureCriticalEviction) {featureINCompressor = true;}if (featureLoggingFine) {featureINCompressor = true;FConcurrency* = dummyFeatureLocking;FEvictor = true;}if (featureStatisticsEnvINCompressor) {featureINCompressor = true;}if (featureVerifier) {featureINCompressor = true;featureTreeVisitor = true;};true
@@ -28,7 +28,7 @@ featureLoggingFiner;featureLoggingFiner?;Boolean;true | false;;;FLogging
 featureLoggingFinest;featureLoggingFinest?;Boolean;true | false;;;FLogging
 featureLoggingInfo;featureLoggingInfo?;Boolean;true | false;;;FLogging
 featureLoggingSevere;featureLoggingSevere?;Boolean;true | false;;;FLogging
-featureLookAheadCache;featureLookAheadCache?;Boolean;true | false;;;FPersistencyFeatures.Cleaner
+featureLookAheadCache;featureLookAheadCache?;Boolean;true | false;;;FPersistencyFeatures*.Cleaner
 featureMemoryBudget;featureMemoryBudget?;Boolean;true | false;;if (!(((!FEvictor && !featureEvictorDaemon) && !featureLookAheadCache) && !featureStatisticsEnvCaching)) {featureMemoryBudget = true;}if (FDbOperation*.featureDeleteDb) {featureMemoryBudget = true;featureINCompressor = true;FConcurrency* = dummyFeatureLocking;FEvictor = true;};true
 featureStatisticsEnvCaching;featureStatisticsEnvCaching?;Boolean;true | false;;;FStatisticsFeatures.EnvStats
 featureStatisticsEnvCheckpointer;featureStatisticsEnvCheckpointer?;Boolean;true | false;;;FStatisticsFeatures.EnvStats

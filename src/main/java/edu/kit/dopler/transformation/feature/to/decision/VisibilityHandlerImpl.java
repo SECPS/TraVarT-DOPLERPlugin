@@ -15,6 +15,7 @@ import java.util.Optional;
 
 import static edu.kit.dopler.transformation.feature.to.decision.FeatureAndGroupHandlerImpl.BOOLEAN_QUESTION;
 
+/** Implementation of {@link VisibilityHandler} */
 public class VisibilityHandlerImpl implements VisibilityHandler {
 
     private final FeatureFinder featureFinder;
@@ -83,15 +84,13 @@ public class VisibilityHandlerImpl implements VisibilityHandler {
      * of the model, then a {@link BooleanLiteralExpression} with the value {@code true} is returned.
      */
     private IExpression handleAlternativeAndOrFeature(Feature parent, Dopler decisionModel) {
-        Feature parentOfParent = parent.getParentFeature();
-
         Optional<IDecision<?>> parentOfParentDecision =
-                decisionFinder.findDecisionById(decisionModel, parentOfParent.getFeatureName());
+                decisionFinder.findDecisionByValue(decisionModel, parent.getFeatureName());
         if (parentOfParentDecision.isEmpty()) {
             return new BooleanLiteralExpression(true);
         }
 
-        return new StringLiteralExpression(parentOfParent.getFeatureName() + "." + parent.getFeatureName());
+        return new StringLiteralExpression(parentOfParentDecision.get().getDisplayId() + "." + parent.getFeatureName());
     }
 
     /** Returns a {@link StringLiteralExpression} only containing the name of the given feature. */
