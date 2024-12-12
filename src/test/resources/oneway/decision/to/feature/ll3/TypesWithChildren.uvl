@@ -1,0 +1,24 @@
+features
+        Root
+                or
+                        A
+                                mandatory
+                                        String "A#String"
+                                or
+                                        AA
+                                                mandatory
+                                                        String "AA#String"
+                                        AB
+                                                mandatory
+                                                        String "AB#String"
+                        B
+                                alternative
+                                        BA
+                                                mandatory
+                                                        String "BA#String"
+                                        BB
+                                                mandatory
+                                                        String "BB#String"
+                                mandatory
+                                        Real "B#Number"
+

@@ -1,0 +1,6 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+A;A?;Boolean;true | false;;;true
+B;B?;Boolean;true | false;;;true
+C;C?;Boolean;true | false;;;true
+Root;Which Root?;Enumeration;X | Y | Z;1:1;;true
+Root*;Which Root*?;Enumeration;G | H | I;1:3;;true

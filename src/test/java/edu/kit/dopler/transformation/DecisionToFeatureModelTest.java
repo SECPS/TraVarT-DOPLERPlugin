@@ -12,7 +12,7 @@ import java.nio.file.Path;
 
 class DecisionToFeatureModelTest extends TransformationTest<Dopler, FeatureModel> {
 
-    private static final String STANDARD_MODEL_NAME = "Some name";
+    private static final String STANDARD_MODEL_NAME = "Root";
     private static final Path TEST_DATA_PATH = Path.of("src/test/resources/oneway/decision/to/feature");
 
     @Override

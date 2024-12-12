@@ -1,0 +1,24 @@
+features
+        Root
+                alternative
+                        InMemory
+                        Persistent
+                                alternative
+                                        LFU
+                                        LRU
+                                alternative
+                                        Dynamic
+                                        Static
+                alternative
+                        BTree
+                        Unindexed
+                alternative
+                        NutOS
+                        Win
+                optional
+                        DebugLogging
+                or
+                        delete
+                        get
+                        put
+

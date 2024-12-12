@@ -1,0 +1,10 @@
+features
+        Root
+                mandatory
+                        String "A#String"
+                        String "AA#String"
+                        String "AB#String"
+                        Real "B#Number"
+                        Real "BA#Number"
+                        Real "BB#Number"
+

@@ -1,4 +1,4 @@
-package edu.kit.dopler.transformation.util;
+package edu.kit.dopler.transformation.decision.to.feature;
 
 import de.vill.model.Feature;
 import de.vill.model.Group;
@@ -10,17 +10,16 @@ import static de.vill.model.Group.GroupType.OPTIONAL;
 
 public class TreeBeautifier {
 
-    public void beautify(Feature feature) {
+    void beautify(Feature feature) {
         groupFeaturesTogether(feature);
 
         //Sort groups and features in groups
-        feature.getChildren().sort(Comparator.comparing(o -> o.GROUPTYPE.name()));
+        feature.getChildren().sort(Comparator.comparing(child -> child.toString(true, "")));
         feature.getChildren().forEach(group -> group.getFeatures().sort(Comparator.comparing(Feature::getFeatureName)));
 
         //Recursively beautify children
-        for (Group group : feature.getChildren()) {
-            List<Feature> childFeatures = group.getFeatures();
-            for (Feature childFeature : childFeatures) {
+        for (Group group : new ArrayList<>(feature.getChildren())) {
+            for (Feature childFeature : new ArrayList<>(group.getFeatures())) {
                 beautify(childFeature);
             }
         }
@@ -33,6 +32,7 @@ public class TreeBeautifier {
 
         //Remove existing mandatory and optional groups
         feature.getChildren().removeAll(groups);
+        groups.forEach(group -> group.setParentFeature(null));
 
         //Reconstruct groups
         Map<Group.GroupType, List<Feature>> groupTypesWithFeatures = new LinkedHashMap<>();
@@ -48,6 +48,7 @@ public class TreeBeautifier {
                 Group newGroup = new Group(entry.getKey());
                 entry.getValue().forEach(childFeature -> newGroup.getFeatures().add(childFeature));
                 feature.getChildren().add(newGroup);
+                newGroup.setParentFeature(feature);
             }
         }
     }

@@ -1,0 +1,7 @@
+features
+        Root
+                optional
+                        A
+                        B
+                        C
+

@@ -2,25 +2,31 @@ package edu.kit.dopler.transformation.decision.to.feature;
 
 import at.jku.cps.travart.core.common.IModelTransformer;
 import com.google.inject.Inject;
+import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import edu.kit.dopler.model.Dopler;
 
 public class DmToFmTransformer {
 
     private final TreeBuilder treeBuilder;
-    private final RuleHandler constraintHandler;
+    private final RuleHandler ruleHandler;
+    private final TreeBeautifier treeBeautifier;
 
     @Inject
-    public DmToFmTransformer(TreeBuilder treeBuilder, RuleHandler constraintHandler) {
+    public DmToFmTransformer(TreeBuilder treeBuilder, RuleHandler ruleHandler, TreeBeautifier treeBeautifier) {
         this.treeBuilder = treeBuilder;
-        this.constraintHandler = constraintHandler;
+        this.ruleHandler = ruleHandler;
+        this.treeBeautifier = treeBeautifier;
     }
 
     public FeatureModel transform(Dopler decisionModel, String modelName, IModelTransformer.STRATEGY level) {
-        FeatureModel featureModel = new FeatureModel();
+        Feature rootFeature = treeBuilder.buildTree(decisionModel, modelName, level);
+        treeBeautifier.beautify(rootFeature);
 
-        featureModel.setRootFeature(treeBuilder.buildTree(decisionModel));
-        //featureModel.getOwnConstraints().add(constraintHandler.createConstraints(decisionModel));
+        FeatureModel featureModel = new FeatureModel();
+        featureModel.setRootFeature(rootFeature);
+
+        ruleHandler.handleRules(decisionModel, featureModel);
 
         return featureModel;
     }

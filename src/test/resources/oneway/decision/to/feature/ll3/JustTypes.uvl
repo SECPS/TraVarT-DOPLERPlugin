@@ -1,0 +1,12 @@
+features
+        Root
+                mandatory
+                        String A
+                        Real B
+                optional
+                        C
+                or
+                        X
+                        Y
+                        Z
+

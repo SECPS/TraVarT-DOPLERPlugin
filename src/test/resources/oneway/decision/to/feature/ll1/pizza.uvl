@@ -1,0 +1,17 @@
+features
+        Root
+                alternative
+                        Big
+                        Normal
+                alternative
+                        Neapolitan
+                        Sicilian
+                optional
+                        CheesyCrust
+                or
+                        Ham
+                        Mozzarella
+                        Salami
+
+constraints
+        CheesyCrust => Big

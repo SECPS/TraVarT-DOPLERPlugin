@@ -1,0 +1,17 @@
+features
+        Root
+                alternative
+                        A
+                                optional
+                                        requireBali2jak
+                        B
+                                optional
+                                        requireBali2jcc
+                        C
+                                optional
+                                        requireComposer
+                        D
+                optional
+                        require
+                        requireSyntax
+
