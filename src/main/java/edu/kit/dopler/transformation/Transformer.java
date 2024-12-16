@@ -6,6 +6,7 @@ import com.google.inject.Injector;
 import de.vill.model.FeatureModel;
 import edu.kit.dopler.model.Dopler;
 import edu.kit.dopler.transformation.decision.to.feature.DmToFmTransformer;
+import edu.kit.dopler.transformation.decision.to.feature.DmToFmTransformerImpl;
 import edu.kit.dopler.transformation.feature.to.decision.FmToDmTransformer;
 import edu.kit.dopler.transformation.util.TransformationModule;
 
@@ -20,7 +21,7 @@ public class Transformer implements IModelTransformer<Dopler> {
     /** Constructor of {@link Transformer} */
     public Transformer() {
         Injector injector = Guice.createInjector(new TransformationModule());
-        dmToFmTransformer = injector.getInstance(DmToFmTransformer.class);
+        dmToFmTransformer = injector.getInstance(DmToFmTransformerImpl.class);
         fmToDmTransformer = injector.getInstance(FmToDmTransformer.class);
     }
 

@@ -2,6 +2,8 @@ package edu.kit.dopler.transformation.util;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
+import edu.kit.dopler.transformation.decision.to.feature.*;
+import edu.kit.dopler.transformation.decision.to.feature.rules.*;
 import edu.kit.dopler.transformation.feature.to.decision.*;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.*;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.*;
@@ -17,6 +19,21 @@ public class TransformationModule extends AbstractModule {
     @Override
     protected void configure() {
         //Bind classes to interfaces
+        configureFmToDm();
+        configureDmToFm();
+    }
+
+    private void configureDmToFm() {
+        bind(DmToFmTransformer.class).to(DmToFmTransformerImpl.class);
+        bind(ParentFinder.class).to(ParentFinderImpl.class);
+        bind(TreeBeautifier.class).to(TreeBeautifierImpl.class);
+        bind(TreeBuilder.class).to(TreeBuilderImpl.class);
+        bind(RuleHandler.class).to(RuleHandlerImpl.class);
+        bind(LeftCreator.class).to(LeftCreatorImpl.class);
+        bind(RightCreator.class).to(RightCreatorImpl.class);
+    }
+
+    private void configureFmToDm() {
         bind(FmToDmTransformer.class).to(FmToDmTransformerImpl.class);
         bind(AttributeHandler.class).to(AttributeHandlerImpl.class);
         bind(FeatureAndGroupHandler.class).to(FeatureAndGroupHandlerImpl.class);
