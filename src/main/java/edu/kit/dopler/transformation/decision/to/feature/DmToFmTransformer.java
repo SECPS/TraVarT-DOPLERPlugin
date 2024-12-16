@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import edu.kit.dopler.model.Dopler;
+import edu.kit.dopler.transformation.decision.to.feature.rules.RuleHandler;
 
 public class DmToFmTransformer {
 

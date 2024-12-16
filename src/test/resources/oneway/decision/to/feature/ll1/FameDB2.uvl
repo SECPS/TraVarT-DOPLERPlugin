@@ -1,17 +1,17 @@
 features
         Root
                 alternative
+                        BTree
+                        Unindexed
+                alternative
                         InMemory
                         Persistent
                                 alternative
-                                        LFU
-                                        LRU
-                                alternative
                                         Dynamic
                                         Static
-                alternative
-                        BTree
-                        Unindexed
+                                alternative
+                                        LFU
+                                        LRU
                 alternative
                         NutOS
                         Win

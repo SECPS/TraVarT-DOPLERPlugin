@@ -1,62 +1,40 @@
-namespace ebay
-
 features
-	ebay	
-		mandatory
-			Login
-			Payment	
-				or
-					CreditCard
-					PayPal
-					Cheque
-					PostalOrder
-					Escrow
-			Search	
-				optional
-					Categories
-			Notification
-			Shipment	
-				or
-					Premium
-					Standard
-			Security	
-				alternative
-					High
-					Standard_1
-			Logout
-			Compatibility	
-				or
-					PC
-					Tablets	
-						or
-							Windows
-							Apple
-							Android
-					Phone	
-						or
-							Windows_1
-							Apple_1
-							Android_1
-			Register	
-				alternative
-					Retailer
-					Private
-			Unregister
-			HelpAndSupport
-				or
-					Email
-					FAQ
-					Phone_2
-					Chat
-			Sell
-			Buy
-		optional
-			CommunityForum
+        Root
+                alternative
+                        High
+                        Standard_1
+                alternative
+                        Private
+                        Retailer
+                optional
+                        Categories
+                        CommunityForum
+                or
+                        Chat
+                        Email
+                        FAQ
+                        Phone_2
+                or
+                        Cheque
+                        CreditCard
+                        Escrow
+                        PayPal
+                        PostalOrder
+                or
+                        PC
+                        Phone
+                                or
+                                        Android_1
+                                        Apple_1
+                                        Windows_1
+                        Tablets
+                                or
+                                        Android
+                                        Apple
+                                        Windows
+                or
+                        Premium
+                        Standard
 
 constraints
-	Login | !Sell | !Buy
-	Payment | Shipment | !Sell
-	!CreditCard | High
-	!Login | Register
-	Payment | Shipment | !Buy
-	Login | !Notification
+        CreditCard => High

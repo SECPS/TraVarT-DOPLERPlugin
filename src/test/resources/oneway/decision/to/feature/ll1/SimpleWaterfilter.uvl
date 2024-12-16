@@ -1,9 +1,6 @@
 features
         Root
                 alternative
-                        FilterTankS
-                        FilterTankXL
-                alternative
                         FilterTankSModule
                                 alternative
                                         CAFilterTankSModule
@@ -12,6 +9,9 @@ features
                                 alternative
                                         CAFilterTankXLModule
                                         CBFilterTankXLModule
+                alternative
+                        FilterTankS
+                        FilterTankXL
                 alternative
                         FreshwaterTankSModule
                         FreshwaterTankXLModule

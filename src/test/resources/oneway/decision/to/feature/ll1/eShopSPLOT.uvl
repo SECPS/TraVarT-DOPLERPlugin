@@ -1,26 +1,16 @@
-namespace eshop
-
 features
-	eshop	
-		mandatory
-			catalogo
-			pago	
-				or
-					transferencias
-					tarjetacredito
-			seguridad	
-				alternative
-					alta
-					estandar
-		optional
-			buscador	
-				optional
-					reportepublico
-				mandatory
-					register
+        Root
+                alternative
+                        alta
+                        estandar
+                optional
+                        buscador
+                        reportepublico
+                or
+                        tarjetacredito
+                        transferencias
 
 constraints
-	eshop & register
-	!alta | !reportepublico
-	catalogo | !transferencias | tarjetacredito | pago | alta | estandar | seguridad | reportepublico | buscador | eshop
-	!tarjetacredito | alta
+        alta => reportepublico
+        tarjetacredito => alta
+        true => buscador

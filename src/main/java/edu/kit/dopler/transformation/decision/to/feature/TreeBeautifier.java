@@ -13,16 +13,18 @@ public class TreeBeautifier {
     void beautify(Feature feature) {
         groupFeaturesTogether(feature);
 
-        //Sort groups and features in groups
-        feature.getChildren().sort(Comparator.comparing(child -> child.toString(true, "")));
-        feature.getChildren().forEach(group -> group.getFeatures().sort(Comparator.comparing(Feature::getFeatureName)));
-
         //Recursively beautify children
         for (Group group : new ArrayList<>(feature.getChildren())) {
             for (Feature childFeature : new ArrayList<>(group.getFeatures())) {
                 beautify(childFeature);
             }
         }
+
+        //Sort features in groups
+        feature.getChildren().forEach(group -> group.getFeatures().sort(Comparator.comparing(Feature::getFeatureName)));
+
+        //Sort groups
+        feature.getChildren().sort(Comparator.comparing(child -> child.toString(true, feature.getFeatureName())));
     }
 
     private static void groupFeaturesTogether(Feature feature) {

@@ -5,33 +5,9 @@ features
                         Processed
                         Raw
                 alternative
-                        Confirmatorydataanalysis_1
-                                optional
-                                        Tools_2
-                                                optional
-                                                        SAS
-                                                        SPAD
-                                                        SPSS
-                                                        Statgraphics
-                        Exploratorydataanalysis_1
-                                alternative
-                                        Dispersionmeasurements
-                                                or
-                                                        Datarange
-                                                        Interquartilesrange
-                                                        Standarddeviation_1
-                                                        Variance
-                                        Formmeasurements
-                                                or
-                                                        Assymetry
-                                                        Kurtosis
-                                        Locationmeasurements
-                                                or
-                                                        Maximum
-                                                        Meancalculation
-                                                        Minimum
-                                                        Mode
-                                                        Quantile
+                        Batch_1
+                        Hybrid_1
+                        Streaming
                 alternative
                         Columnar
                                 alternative
@@ -60,9 +36,33 @@ features
                                         Marklogic
                                         Sedna
                 alternative
-                        Batch_1
-                        Hybrid_1
-                        Streaming
+                        Confirmatorydataanalysis_1
+                                optional
+                                        Tools_2
+                                                optional
+                                                        SAS
+                                                        SPAD
+                                                        SPSS
+                                                        Statgraphics
+                        Exploratorydataanalysis_1
+                                alternative
+                                        Dispersionmeasurements
+                                                or
+                                                        Datarange
+                                                        Interquartilesrange
+                                                        Standarddeviation_1
+                                                        Variance
+                                        Formmeasurements
+                                                or
+                                                        Assymetry
+                                                        Kurtosis
+                                        Locationmeasurements
+                                                or
+                                                        Maximum
+                                                        Meancalculation
+                                                        Minimum
+                                                        Mode
+                                                        Quantile
                 alternative
                         Datawrapper
                         Infogram
@@ -70,17 +70,6 @@ features
                         Plotly
                         Qlik
                         Tableau
-                alternative
-                        Qualitative
-                                alternative
-                                        Audio_1
-                                        Images
-                                        Text_2
-                                        Video_1
-                                                alternative
-                                                        Confirmatorydataanalysis
-                                                        Exploratorydataanalysis
-                        Quantitative
                 alternative
                         Hardware
                         Software
@@ -121,6 +110,17 @@ features
                                         Provoked
                                         Semanticanalysis
                                         Transactiondriven
+                alternative
+                        Qualitative
+                                alternative
+                                        Audio_1
+                                        Images
+                                        Text_2
+                                        Video_1
+                                                alternative
+                                                        Confirmatorydataanalysis
+                                                        Exploratorydataanalysis
+                        Quantitative
                 optional
                         Average
                         Cloud
@@ -140,6 +140,21 @@ features
                                                         DataLakeStore
                                                         SQLDW
                                 alternative
+                                        AWS_3
+                                                alternative
+                                                        Datapipeline
+                                                        EMR
+                                                        Kinesis
+                                        Googlecloud_3
+                                                alternative
+                                                        Dataflow
+                                                        Dataproc
+                                                        Pub_sub
+                                        Microsoftazure_2
+                                                alternative
+                                                        HDInsight
+                                                        Streamanalytics
+                                alternative
                                         AWS_4
                                                 alternative
                                                         Machinelearning
@@ -157,21 +172,6 @@ features
                                         Batch
                                         Kappa
                                         Lambda
-                                alternative
-                                        AWS_3
-                                                alternative
-                                                        Datapipeline
-                                                        EMR
-                                                        Kinesis
-                                        Googlecloud_3
-                                                alternative
-                                                        Dataflow
-                                                        Dataproc
-                                                        Pub_sub
-                                        Microsoftazure_2
-                                                alternative
-                                                        HDInsight
-                                                        Streamanalytics
                                 alternative
                                         Convergedpre_integratedsystems
                                                 optional
@@ -299,6 +299,15 @@ features
                                         Spellcheck
                         Wireless
                 or
+                        Analysisoffeelingsandtext
+                        Datavisualization
+                        Learningassociationrules
+                        Splittesting
+                        Temporaryseriesanalysis
+                or
+                        Applicationinterface
+                        Userinterface
+                or
                         Batch_2
                                 alternative
                                         Azuredatalakeanalytics
@@ -376,11 +385,27 @@ features
                                         Store
                                         Tokenization_2
                 or
-                        Analysisoffeelingsandtext
-                        Datavisualization
-                        Learningassociationrules
-                        Splittesting
-                        Temporaryseriesanalysis
+                        Cloudingo
+                        Datacleaner
+                        Dataladder
+                        Drake
+                        Opendefine
+                        TIBCOclairty
+                        TrifactaWrangle
+                        Winpure
+                or
+                        Databases
+                        Digitalanalysistools
+                                alternative
+                                        FacebookInsights
+                                        Googleanalytics
+                                        Hootsuit
+                                        TwitterAnalytics
+                        Onlineformsandsurveys
+                        Trendandsearchtools
+                                alternative
+                                        Googletrends
+                                        Topsy
                 or
                         Descriptive
                                 or
@@ -652,29 +677,4 @@ features
                                 or
                                         Highlight
                                         Text_3
-                or
-                        Databases
-                        Digitalanalysistools
-                                alternative
-                                        FacebookInsights
-                                        Googleanalytics
-                                        Hootsuit
-                                        TwitterAnalytics
-                        Onlineformsandsurveys
-                        Trendandsearchtools
-                                alternative
-                                        Googletrends
-                                        Topsy
-                or
-                        Applicationinterface
-                        Userinterface
-                or
-                        Cloudingo
-                        Datacleaner
-                        Dataladder
-                        Drake
-                        Opendefine
-                        TIBCOclairty
-                        TrifactaWrangle
-                        Winpure
 
