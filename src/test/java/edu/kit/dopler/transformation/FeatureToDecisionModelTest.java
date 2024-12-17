@@ -1,8 +1,10 @@
 package edu.kit.dopler.transformation;
 
+import at.jku.cps.travart.core.common.IModelTransformer;
 import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import de.vill.main.UVLModelFactory;
 import de.vill.model.FeatureModel;
+import edu.kit.dopler.io.DecisionModelReader;
 import edu.kit.dopler.io.DecisionModelWriter;
 import edu.kit.dopler.model.Dopler;
 import edu.kit.dopler.model.Main;
@@ -15,11 +17,17 @@ class FeatureToDecisionModelTest extends TransformationTest<FeatureModel, Dopler
 
     private static final String STANDARD_MODEL_NAME = "Root";
     private static final Path TEMP_PATH = Path.of("src/test/resources/oneway/.temporary.txt");
-    private static final Path TEST_DATA_PATH = Path.of("src/test/resources/oneway/feature/to/decision");
+    private static final Path ONE_WAY_TEST_DATA_PATH = Path.of("src/test/resources/oneway/feature/to/decision");
+    private static final Path ROUND_TRIP_TEST_DATA_PATH = Path.of("src/test/resources/roundtrip/feature/to/decision");
 
     @Override
-    protected String getExpectedModel(Path pathOfExpectedModel) throws IOException {
-        return TestUtils.sortDecisionModel(Files.readString(pathOfExpectedModel));
+    protected String readToModelAsString(Path path) throws IOException {
+        return TestUtils.sortDecisionModel(Files.readString(path));
+    }
+
+    @Override
+    protected String readFromModelAsString(Path path) throws Exception {
+        return Files.readString(path);
     }
 
     @Override
@@ -28,6 +36,11 @@ class FeatureToDecisionModelTest extends TransformationTest<FeatureModel, Dopler
         String result = Files.readString(TEMP_PATH); //Read temp file
         Files.writeString(TEMP_PATH, ""); //Reset temp file
         return TestUtils.sortDecisionModel(result);
+    }
+
+    @Override
+    protected String convertFromModelToString(FeatureModel featureModel) throws Exception {
+        return featureModel.toString();
     }
 
     @Override
@@ -41,18 +54,35 @@ class FeatureToDecisionModelTest extends TransformationTest<FeatureModel, Dopler
     }
 
     @Override
-    protected Path getTestDataPath() {
-        return TEST_DATA_PATH;
+    protected Path getOneWayDataPath() {
+        return ONE_WAY_TEST_DATA_PATH;
     }
 
     @Override
-    protected FeatureModel getModelToTransform(Path pathOfModelToBeTransformed) throws Exception {
-        return new UVLModelFactory().parse(Files.readString(pathOfModelToBeTransformed));
+    protected Path getRoundTripDataPath() {
+        return ROUND_TRIP_TEST_DATA_PATH;
     }
 
     @Override
-    protected Dopler transformModel(FeatureModel modelToBeTransformed) throws NotSupportedVariabilityTypeException {
-        return new Transformer().transform(modelToBeTransformed, STANDARD_MODEL_NAME);
+    protected FeatureModel getFromModelFromPath(Path path) throws Exception {
+        return new UVLModelFactory().parse(Files.readString(path));
+    }
+
+    @Override
+    protected Dopler getToModelFromString(String model) throws Exception {
+        Files.writeString(TEMP_PATH, model);
+        return new DecisionModelReader().read(TEMP_PATH);
+    }
+
+    @Override
+    protected Dopler transformFromModelToToModel(FeatureModel modelToBeTransformed, IModelTransformer.STRATEGY strategy)
+            throws NotSupportedVariabilityTypeException {
+        return new Transformer().transform(modelToBeTransformed, STANDARD_MODEL_NAME, strategy);
+    }
+
+    @Override
+    protected FeatureModel transformToModelToFromModel(Dopler modelToBeTransformed, IModelTransformer.STRATEGY strategy) throws Exception {
+        return new Transformer().transform(modelToBeTransformed, STANDARD_MODEL_NAME, strategy);
     }
 
     @Override

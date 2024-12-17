@@ -1,0 +1,12 @@
+features
+        truck_product
+                mandatory
+                        Chassis
+                        Cabin
+                        Body
+                                alternative
+                                        Tank
+                                        OpenTop
+                                        Dumper
+                                        StakeBed
+

@@ -1,8 +1,0 @@
-ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-RAM;Which RAM size should the pc have?;Enumeration;8GB | 16GB;1:2;"if (8GB) {RAM power = 5; CPU power = 100;} if (16GB) {RAM power = 8; CPU power = 100;}";true
-RAM power;;Integer;;;;FALSE
-CPU power;;Integer;;;;FALSE
-Power Unit Manufacturer;Which manufacturer for the power unit?;String;;;"if (Power Unit Manufacturer != 'Intel') {Power Unit Manufacturer = 'Intel'; CPU power = 100;}";true
-Power Unit Watt;How many watts should the power unit have?;Integer;;;"if (RAM power + CPU power + Designated GPU power <= Power Unit Watt) {Power Unit Watt = RAM power + CPU power + Designated GPU power + 20}";true
-Designated GPU;Should the pc have a designated GPU?;Boolean;true | false;;"if (Designated GPU) {Designated GPU power = 50; CPU power = 100;}";true
-Designated GPU power;;Boolean;true | false;;;FALSE

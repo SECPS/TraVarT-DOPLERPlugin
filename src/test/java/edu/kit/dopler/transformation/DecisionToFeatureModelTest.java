@@ -1,5 +1,6 @@
 package edu.kit.dopler.transformation;
 
+import at.jku.cps.travart.core.common.IModelTransformer;
 import at.jku.cps.travart.core.sampler.DefaultCoreModelSampler;
 import de.vill.model.FeatureModel;
 import edu.kit.dopler.io.DecisionModelReader;
@@ -16,8 +17,13 @@ class DecisionToFeatureModelTest extends TransformationTest<Dopler, FeatureModel
     private static final Path TEST_DATA_PATH = Path.of("src/test/resources/oneway/decision/to/feature");
 
     @Override
-    protected String getExpectedModel(Path pathOfExpectedModel) throws IOException {
+    protected String readToModelAsString(Path pathOfExpectedModel) throws IOException {
         return Files.readString(pathOfExpectedModel);
+    }
+
+    @Override
+    protected String readFromModelAsString(Path path) throws Exception {
+        return "";
     }
 
     @Override
@@ -26,18 +32,33 @@ class DecisionToFeatureModelTest extends TransformationTest<Dopler, FeatureModel
     }
 
     @Override
-    protected Path getTestDataPath() {
+    protected String convertFromModelToString(Dopler toModel) throws Exception {
+        return "";
+    }
+
+    @Override
+    protected Path getOneWayDataPath() {
         return TEST_DATA_PATH;
     }
 
     @Override
-    protected Dopler getModelToTransform(Path pathOfModelToBeTransformed) throws Exception {
-        return new DecisionModelReader().read(pathOfModelToBeTransformed);
+    protected Dopler getFromModelFromPath(Path path) throws Exception {
+        return new DecisionModelReader().read(path);
     }
 
     @Override
-    protected FeatureModel transformModel(Dopler modelToBeTransformed) throws Exception {
+    protected FeatureModel getToModelFromString(String model) throws Exception {
+        return null;
+    }
+
+    @Override
+    protected FeatureModel transformFromModelToToModel(Dopler modelToBeTransformed, IModelTransformer.STRATEGY strategy) throws Exception {
         return new Transformer().transform(modelToBeTransformed, STANDARD_MODEL_NAME);
+    }
+
+    @Override
+    protected Dopler transformToModelToFromModel(FeatureModel modelToBeTransformed, IModelTransformer.STRATEGY strategy) throws Exception {
+        return null;
     }
 
     @Override
@@ -48,6 +69,11 @@ class DecisionToFeatureModelTest extends TransformationTest<Dopler, FeatureModel
     @Override
     protected int getAmountOfConfigsOfFromModel(Dopler dopler) {
         return Main.getAmountOfConfigs(dopler);
+    }
+
+    @Override
+    protected Path getRoundTripDataPath() {
+        return null;
     }
 
     @Override

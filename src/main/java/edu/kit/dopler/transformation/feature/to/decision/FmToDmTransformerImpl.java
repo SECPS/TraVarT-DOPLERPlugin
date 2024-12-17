@@ -31,7 +31,7 @@ public class FmToDmTransformerImpl implements FmToDmTransformer {
         decisionModel.setName(modelName);
 
         Feature rootFeature = featureModel.getRootFeature();
-        featureAndGroupHandler.handleFeature(rootFeature, decisionModel, featureModel);
+        featureAndGroupHandler.handleFeature(rootFeature, decisionModel, featureModel, level);
         attributeHandler.handleAttributes(decisionModel, featureModel, level);
         constraintHandler.handleOwnConstraints(featureModel, decisionModel);
 

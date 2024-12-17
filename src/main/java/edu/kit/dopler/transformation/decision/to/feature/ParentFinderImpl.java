@@ -19,10 +19,14 @@ public class ParentFinderImpl implements ParentFinder {
     public Feature getParentFromVisibility(Map<Feature, IExpression> allFeatures, Feature rootFeature,
                                            IExpression visibility) {
 
-        if (visibility instanceof BooleanLiteralExpression booleanLiteralExpression) {
-            if (booleanLiteralExpression.getLiteral()) {
-                return rootFeature; //Visibility is `true`. root is visibility
-            }
+        if (visibility instanceof BooleanLiteralExpression booleanLiteralExpression &&
+                booleanLiteralExpression.getLiteral()) {
+            return rootFeature; //Visibility is `true`. The root is the parent.
+        }
+
+        if (visibility instanceof EnumeratorLiteralExpression enumeratorLiteralExpression) {
+            return featureFinder.findFeatureByName(allFeatures.keySet(),
+                    enumeratorLiteralExpression.getEnumerationLiteral().getValue()).orElseThrow();
         }
 
         if (visibility instanceof Equals equals) {
@@ -41,6 +45,7 @@ public class ParentFinderImpl implements ParentFinder {
             }
         }
 
-        throw new RuntimeException("Visibility could not be translated");
+        throw new RuntimeException(
+                "Visibility could not be translated: class = " + visibility.getClass() + ", value = " + visibility);
     }
 }

@@ -1,0 +1,33 @@
+namespace chesspieces_new_product
+
+features
+	chesspieces_new_product
+		mandatory
+			Base
+				alternative
+					Base_onestrip
+					Base_twostrip
+			Rod
+				alternative
+					Rod_long
+					Rod_short
+			Body
+				alternative
+					Body_minor
+						alternative
+							Pawn_body
+							Bishop_body
+							Rook_body
+							Knight_body
+					Body_major
+						alternative
+							Queen_body
+							King_body
+			PLA
+			AluminumBar
+
+constraints
+	Body_minor => Base_onestrip
+	Body_major => Base_twostrip
+	Body_minor => Rod_short
+	Body_major => Rod_long

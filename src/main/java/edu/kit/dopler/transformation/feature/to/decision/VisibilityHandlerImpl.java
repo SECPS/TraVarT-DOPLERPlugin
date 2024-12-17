@@ -1,5 +1,6 @@
 package edu.kit.dopler.transformation.feature.to.decision;
 
+import at.jku.cps.travart.core.common.IModelTransformer;
 import com.google.inject.Inject;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
@@ -28,38 +29,48 @@ public class VisibilityHandlerImpl implements VisibilityHandler {
     }
 
     @Override
-    public IExpression resolveVisibility(FeatureModel featureModel, Dopler decisionModel, Feature feature) {
-        Optional<Feature> firstNonMandatoryParent = featureFinder.findFirstNonMandatoryParent(featureModel, feature);
+    public IExpression resolveVisibility(FeatureModel featureModel, Dopler decisionModel, Feature feature,
+                                         IModelTransformer.STRATEGY level) {
 
-        // Two possible cases depending on the value of firstNonMandatoryParent:
+        Optional<Feature> parent = switch (level) {
+            case ONE_WAY -> featureFinder.findFirstNonMandatoryParent(featureModel, feature);
+            case ROUNDTRIP -> Optional.ofNullable(feature);
+        };
+
+        //Parent has no group
+        if (parent.isPresent() && null == parent.get().getParentGroup()) {
+            return new BooleanLiteralExpression(true);
+        }
+
+        // Two possible cases depending on the value of parent:
         // 1. If parent is empty, then there is no non-mandatory parent.
         // -> Decision is always taken. Visibility must therefore be true.
         // 2. If parent is present, then there is a non-mandatory parent.
         // -> Look at parent group of this non-mandatory parent
 
-        return firstNonMandatoryParent.map(parent -> switch (parent.getParentGroup().GROUPTYPE) {
-            case OPTIONAL -> handleOptionalFeature(parent);
-            case ALTERNATIVE, OR -> handleAlternativeAndOrFeature(parent, decisionModel);
-            case GROUP_CARDINALITY, MANDATORY -> throw new UnexpectedTypeException(parent.getParentGroup());
+        return parent.map(p -> switch (p.getParentGroup().GROUPTYPE) {
+            case OPTIONAL -> handleOptionalFeature(p);
+            case ALTERNATIVE, OR, MANDATORY -> handleAlternativeAndOrFeature(p, decisionModel);
+            case GROUP_CARDINALITY -> throw new UnexpectedTypeException(p.getParentGroup());
         }).orElseGet(() -> new BooleanLiteralExpression(true));
     }
 
     @Override
     public IExpression resolveVisibilityForTypeDecisions(Dopler dopler, FeatureModel featureModel, Feature feature,
-                                                         String id) {
+                                                         String id, IModelTransformer.STRATEGY level) {
         IExpression visibility;
         Group parentGroup = feature.getParentGroup();
         Feature parentFeature = feature.getParentFeature();
         switch (parentGroup.GROUPTYPE) {
             case MANDATORY -> {
                 //visibility depends on first non-mandatory parent
-                visibility = resolveVisibility(featureModel, dopler, parentFeature);
+                visibility = resolveVisibility(featureModel, dopler, parentFeature, level);
             }
             case OPTIONAL -> {
                 //Insert a check decision. Visibility is this newly created check decision.
                 BooleanDecision checkDecision =
                         new BooleanDecision(id + "Check", String.format(BOOLEAN_QUESTION, id), "",
-                                resolveVisibility(featureModel, dopler, parentFeature), Collections.emptySet());
+                                resolveVisibility(featureModel, dopler, parentFeature, level), Collections.emptySet());
                 dopler.addDecision(checkDecision);
                 visibility = new StringLiteralExpression(checkDecision.getDisplayId());
             }

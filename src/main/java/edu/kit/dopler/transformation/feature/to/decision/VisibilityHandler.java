@@ -1,5 +1,6 @@
 package edu.kit.dopler.transformation.feature.to.decision;
 
+import at.jku.cps.travart.core.common.IModelTransformer;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import edu.kit.dopler.model.BooleanLiteralExpression;
@@ -14,7 +15,9 @@ public interface VisibilityHandler {
      * decision originates. If the parent feature is the root of the {@link FeatureModel}, a
      * {@link BooleanLiteralExpression} with the value {@code true} is returned.
      */
-    IExpression resolveVisibility(FeatureModel featureModel, Dopler decisionModel, Feature feature);
+    IExpression resolveVisibility(FeatureModel featureModel, Dopler decisionModel, Feature feature,
+                                  IModelTransformer.STRATEGY level);
 
-    IExpression resolveVisibilityForTypeDecisions(Dopler dopler, FeatureModel featureModel, Feature feature, String id);
+    IExpression resolveVisibilityForTypeDecisions(Dopler dopler, FeatureModel featureModel, Feature feature, String id,
+                                                  IModelTransformer.STRATEGY level);
 }

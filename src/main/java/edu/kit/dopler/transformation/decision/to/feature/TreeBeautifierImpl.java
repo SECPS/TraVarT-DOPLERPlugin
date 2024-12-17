@@ -5,6 +5,7 @@ import de.vill.model.Group;
 
 import java.util.*;
 
+import static de.vill.model.Group.GroupType.ALTERNATIVE;
 import static de.vill.model.Group.GroupType.MANDATORY;
 import static de.vill.model.Group.GroupType.OPTIONAL;
 
@@ -12,6 +13,7 @@ public class TreeBeautifierImpl implements TreeBeautifier {
 
     @Override
     public void beautify(Feature feature) {
+        replaceSingleAlternativeWithMandatoryGroups(feature);
         groupFeaturesTogether(feature);
 
         //Recursively beautify children
@@ -26,6 +28,27 @@ public class TreeBeautifierImpl implements TreeBeautifier {
 
         //Sort groups
         feature.getChildren().sort(Comparator.comparing(child -> child.toString(true, feature.getFeatureName())));
+    }
+
+    //Replace alternative groups with one child with mandatory groups
+    private static void replaceSingleAlternativeWithMandatoryGroups(Feature feature) {
+        for (Group group : new ArrayList<>(feature.getChildren())) {
+
+            if (ALTERNATIVE == group.GROUPTYPE && 1 == group.getFeatures().size()) {
+
+                feature.getChildren().remove(group);
+
+                Group mandatoryGroup = new Group(MANDATORY);
+
+                group.getFeatures().forEach(child -> {
+                    mandatoryGroup.getFeatures().add(child);
+                    child.setParentGroup(mandatoryGroup);
+                });
+
+                feature.getChildren().add(mandatoryGroup);
+                mandatoryGroup.setParentFeature(feature);
+            }
+        }
     }
 
     private static void groupFeaturesTogether(Feature feature) {
