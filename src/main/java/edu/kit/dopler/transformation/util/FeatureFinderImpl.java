@@ -76,4 +76,23 @@ public final class FeatureFinderImpl implements FeatureFinder {
 
         return Optional.empty();
     }
+
+    @Override
+    public Optional<Feature> findFeatureByName(Feature root, String displayId) {
+
+        if (root.getFeatureName().equals(displayId)) {
+            return Optional.of(root);
+        }
+
+        for (Group group : root.getChildren()) {
+            for (Feature feature : group.getFeatures()) {
+                Optional<Feature> featureByName = findFeatureByName(feature, displayId);
+                if (featureByName.isPresent()) {
+                    return featureByName;
+                }
+            }
+        }
+
+        return Optional.empty();
+    }
 }

@@ -9,6 +9,7 @@ import static de.vill.model.Group.GroupType.ALTERNATIVE;
 import static de.vill.model.Group.GroupType.MANDATORY;
 import static de.vill.model.Group.GroupType.OPTIONAL;
 
+/** Implementation of {@link TreeBeautifier} */
 public class TreeBeautifierImpl implements TreeBeautifier {
 
     @Override

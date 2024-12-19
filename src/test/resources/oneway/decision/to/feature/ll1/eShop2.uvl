@@ -1,25 +1,23 @@
-namespace VIRTUAL_ROOT
-
 features
-	VIRTUAL_ROOT
-		or
-			OnlineShop
-			Categories
-			Payment	
-				alternative
-					DebitCard
-					CreditCard
-			Search
-			UserManagement	
-				or
-					Orders
-					Security
-					Payments
-					Wishlist
-			Sort
+        Root
+                or
+                        Categories
+                        OnlineShop
+                        Payment
+                                alternative
+                                        CreditCard
+                                        DebitCard
+                        Search
+                        Sort
+                        UserManagement
+                                or
+                                        Orders
+                                        Payments
+                                        Security
+                                        Wishlist
 
 constraints
-	Search => Security
-	Search | Sort
-	Security => !Payments
-	Payments => !Security
+        !Search => Sort
+        Payments => !Security
+        Search => Security
+        Security => !Payments

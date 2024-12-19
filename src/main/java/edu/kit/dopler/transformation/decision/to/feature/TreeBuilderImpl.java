@@ -13,13 +13,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static de.vill.model.FeatureType.REAL;
-import static de.vill.model.FeatureType.STRING;
 import static de.vill.model.Group.GroupType.ALTERNATIVE;
 import static de.vill.model.Group.GroupType.MANDATORY;
 import static de.vill.model.Group.GroupType.OPTIONAL;
 import static de.vill.model.Group.GroupType.OR;
 
+/** Implementation of {@link TreeBuilder} */
 public class TreeBuilderImpl implements TreeBuilder {
 
     private final ParentFinderImpl parentFinder;
@@ -33,11 +32,11 @@ public class TreeBuilderImpl implements TreeBuilder {
     public Feature buildTree(Dopler decisionModel, String modelName, IModelTransformer.STRATEGY level) {
         Feature rootFeature = new Feature(modelName);
 
+        //Group the decisions by their type
         List<BooleanDecision> booleanDecisions = new ArrayList<>();
         List<EnumerationDecision> enumerationDecisions = new ArrayList<>();
         List<IDecision<?>> numberDecisions = new ArrayList<>();
         List<IDecision<?>> stringDecisions = new ArrayList<>();
-
         for (IDecision<?> decision : decisionModel.getDecisions()) {
             switch (decision) {
                 case BooleanDecision booleanDecision -> booleanDecisions.add(booleanDecision);
@@ -48,17 +47,20 @@ public class TreeBuilderImpl implements TreeBuilder {
             }
         }
 
+        //Create features from the decisions
         Map<Feature, IExpression> booleanFeatures = buildBooleanFeatures(booleanDecisions);
         Map<Feature, IExpression> enumFeatures = buildEnumFeatures(enumerationDecisions);
-        Map<Feature, IExpression> numberFeatures = buildTypeFeatures(numberDecisions, REAL);
-        Map<Feature, IExpression> stringFeatures = buildTypeFeatures(stringDecisions, STRING);
+        Map<Feature, IExpression> numberFeatures = buildTypeFeatures(numberDecisions, FeatureType.REAL);
+        Map<Feature, IExpression> stringFeatures = buildTypeFeatures(stringDecisions, FeatureType.STRING);
 
+        //The allFeatures map is used for finding features in the handle methods
         Map<Feature, IExpression> allFeatures = new LinkedHashMap<>();
         allFeatures.putAll(booleanFeatures);
         allFeatures.putAll(enumFeatures);
         allFeatures.putAll(numberFeatures);
         allFeatures.putAll(stringFeatures);
 
+        //Link the features together (only top to bottom)
         handleBooleanFeatures(allFeatures, booleanFeatures, rootFeature);
         handleEnumFeatures(allFeatures, enumFeatures, rootFeature, level);
         handleTypeFeatures(allFeatures, numberFeatures, rootFeature);

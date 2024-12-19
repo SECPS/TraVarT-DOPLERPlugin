@@ -10,15 +10,15 @@ import edu.kit.dopler.model.Main;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 class DecisionToFeatureModelTest extends TransformationTest<Dopler, FeatureModel> {
 
     private static final String STANDARD_MODEL_NAME = "Root";
-    private static final Path TEST_DATA_PATH = Path.of("src/test/resources/oneway/decision/to/feature");
 
     @Override
-    protected String readToModelAsString(Path pathOfExpectedModel) throws IOException {
-        return Files.readString(pathOfExpectedModel);
+    protected String readToModelAsString(Path path) throws IOException {
+        return Files.readString(path);
     }
 
     @Override
@@ -38,7 +38,7 @@ class DecisionToFeatureModelTest extends TransformationTest<Dopler, FeatureModel
 
     @Override
     protected Path getOneWayDataPath() {
-        return TEST_DATA_PATH;
+        return Paths.get("src", "test", "resources", "oneway", "decision", "to", "feature");
     }
 
     @Override
@@ -52,12 +52,14 @@ class DecisionToFeatureModelTest extends TransformationTest<Dopler, FeatureModel
     }
 
     @Override
-    protected FeatureModel transformFromModelToToModel(Dopler modelToBeTransformed, IModelTransformer.STRATEGY strategy) throws Exception {
+    protected FeatureModel transformFromModelToToModel(Dopler modelToBeTransformed, IModelTransformer.STRATEGY strategy)
+            throws Exception {
         return new Transformer().transform(modelToBeTransformed, STANDARD_MODEL_NAME);
     }
 
     @Override
-    protected Dopler transformToModelToFromModel(FeatureModel modelToBeTransformed, IModelTransformer.STRATEGY strategy) throws Exception {
+    protected Dopler transformToModelToFromModel(FeatureModel modelToBeTransformed, IModelTransformer.STRATEGY strategy)
+            throws Exception {
         return null;
     }
 

@@ -1,24 +1,21 @@
 features
-    OnlineShop
-        mandatory
-            Payment
+        Root
+                optional
+                        Categories
+                        Search
+                        Sort
                 or
-                    DebitCard
-                    CreditCard
-            UserManagement
+                        CreditCard
+                        DebitCard
                 or
-                    Orders
-                    Security
-                    Payments
-                    Wishlist
-        optional
-            Search
-            Categories
-            Sort
+                        Orders
+                        Payments
+                        Security
+                        Wishlist
 
 constraints
-    !Search => Sort
-    !Sort => Search
-    Search => Security
-    Security => !Payments
-    Payments => !Security
+        !Search => Sort
+        !Sort => Search
+        Payments => !Security
+        Search => Security
+        Security => !Payments

@@ -38,19 +38,23 @@ public class TestUtils {
         List<String> lines = new ArrayList<>();
         for (CSVRecord record : records) {
             List<String> line = new ArrayList<>();
-            List<String> temp2 = record.stream().collect(Collectors.toList());
+            List<String> temp2 = record.stream().toList();
             for (String value : temp2) {
-                line.add(value.replace("\n", ""));
+
+                if (value.contains(";") && !value.startsWith("\"")) {
+                    line.add("\"" + value.replace("\n", "") + "\"");
+                } else {
+                    line.add(value.replace("\n", ""));
+                }
             }
 
             lines.add(String.join(";", line));
         }
 
-        lines.add(0, String.join(";", DMCSVHeader.stringArray()));
+        lines.addFirst(String.join(";", DMCSVHeader.stringArray()));
 
         return String.join(System.lineSeparator(), lines);
     }
-
 
     public static CSVFormat createCSVFormat(final boolean skipHeader) {
         CSVFormat.Builder builder = CSVFormat.EXCEL.builder();

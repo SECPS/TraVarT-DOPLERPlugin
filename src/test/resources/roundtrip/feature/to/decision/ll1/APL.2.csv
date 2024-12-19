@@ -9,6 +9,6 @@ drc;drc?;Boolean;true | false;;;true
 guidsl;guidsl?;Boolean;true | false;;;Gui
 jedi;jedi?;Boolean;true | false;;;true
 me;me?;Boolean;true | false;;;Gui
-mmatrix;mmatrix?;Boolean;true | false;;if (bc) {mmatrix = true;}if (me) {mmatrix = true;};Gui
+mmatrix;mmatrix?;Boolean;true | false;;"if (bc) {mmatrix = true;}if (me) {mmatrix = true;}";Gui
 reform;reform?;Boolean;true | false;;;true
 web;web?;Boolean;true | false;;;Gui

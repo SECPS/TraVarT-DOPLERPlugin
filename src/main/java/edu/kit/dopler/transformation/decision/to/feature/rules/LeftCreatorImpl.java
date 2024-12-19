@@ -17,8 +17,20 @@ public class LeftCreatorImpl implements LeftCreator {
                     handleBooleanLiteralExpression(booleanLiteralExpression);
             case Equals equals -> handleEquals(equals);
             case AND and -> handleAnd(and);
+            case OR or -> handleOr(or);
             case null, default -> throw new UnexpectedTypeException(condition);
         };
+    }
+
+    private Optional<Constraint> handleOr(OR or) {
+        Optional<Constraint> left = handleCondition(or.getLeftExpression());
+        Optional<Constraint> right = handleCondition(or.getRightExpression());
+
+        if (right.isEmpty() || left.isEmpty()) {
+            throw new RuntimeException("Inner constraint of `AND` could not be computed");
+        }
+
+        return Optional.of(new ParenthesisConstraint(new OrConstraint(left.get(), right.get())));
     }
 
     private Optional<Constraint> handleAnd(AND and) {
@@ -35,7 +47,7 @@ public class LeftCreatorImpl implements LeftCreator {
     private static Optional<Constraint> handleEquals(Equals equals) {
         if (equals.getLeftExpression() instanceof DecisionValueCallExpression decisionValueCallExpression) {
 
-            // `getValue(someDecision) = true` or `getValue(someDecision) = false`
+            // Covers: `getValue(someDecision) = true` or `getValue(someDecision) = false`
             if (equals.getRightExpression() instanceof BooleanLiteralExpression booleanLiteralExpression) {
                 if (booleanLiteralExpression.getLiteral()) {
                     return Optional.of(new LiteralConstraint(decisionValueCallExpression.getDecision().getDisplayId()));
@@ -45,7 +57,7 @@ public class LeftCreatorImpl implements LeftCreator {
                 }
             }
 
-            // `getValue(someDecision) = someEnum`
+            // Covers: `getValue(someDecision) = someEnum`
             if (equals.getRightExpression() instanceof EnumeratorLiteralExpression enumeratorLiteralExpression) {
                 return Optional.of(new LiteralConstraint(enumeratorLiteralExpression.toString()));
             }

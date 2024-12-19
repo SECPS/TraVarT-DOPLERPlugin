@@ -68,10 +68,16 @@ public class DecisionModelWriter {
 	private String createRulesString(IDecision decision) {
 		String rulesString = "";
 		Set<Rule> rulesSet = decision.getRules();
-		StringBuilder rulesSetBuilder = new StringBuilder();
+
+		if(rulesSet.isEmpty()){
+			return "";
+		}
+
+		StringBuilder rulesSetBuilder = new StringBuilder("\"");
 		for (Rule rule : rulesSet) {
 			rulesSetBuilder.append(rule);
 		}
+		rulesSetBuilder.append("\"");
 		rulesString = rulesSetBuilder.toString();
 		return rulesString;
 	}

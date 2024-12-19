@@ -42,4 +42,6 @@ public interface FeatureFinder {
                                                             LiteralConstraint literalConstraint);
 
     Optional<Feature> findFeatureByName(Collection<Feature> features, String displayId);
+
+    Optional<Feature> findFeatureByName(Feature root, String displayId);
 }

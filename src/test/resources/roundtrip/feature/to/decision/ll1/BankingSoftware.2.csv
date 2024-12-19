@@ -9,7 +9,7 @@ ApplyBalanceTransfer;ApplyBalanceTransfer?;Boolean;true | false;;;CreditCards
 ApplyChargesForCashWithdrawal;ApplyChargesForCashWithdrawal?;Boolean;true | false;;;CreditCards
 ApplyLateFees;ApplyLateFees?;Boolean;true | false;;;CreditCards
 ApplyProcessingFees;ApplyProcessingFees?;Boolean;true | false;;;CreditCards
-AssetVerification;AssetVerification?;Boolean;true | false;;if (LoanType.LoanAgainstProperty) {AssetVerification = true;}if (LoanType.HomeLoan) {AssetVerification = true;}if (LoanType.LoanAgainstFD) {AssetVerification = true;}if (LoanType.GoldLoan) {AssetVerification = true;};Loan
+AssetVerification;AssetVerification?;Boolean;true | false;;"if (LoanType.LoanAgainstProperty) {AssetVerification = true;}if (LoanType.HomeLoan) {AssetVerification = true;}if (LoanType.LoanAgainstFD) {AssetVerification = true;}if (LoanType.GoldLoan) {AssetVerification = true;}";Loan
 AutoATMPinForDebitCard;AutoATMPinForDebitCard?;Boolean;true | false;;;true
 BankingMode;Which BankingMode?;Enumeration;ATM | Bank | Online;1:1;;true
 CancelDemandDraft;CancelDemandDraft?;Boolean;true | false;;;true

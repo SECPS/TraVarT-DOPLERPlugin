@@ -1,6 +1,6 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
 BaseType;Which Base type do you prefer?;Enumeration;Weeled | Fixed;1:1;;TRUE
-Weeled;What is the core focus for the Weeled chair?;Enumeration;Office | Mobility;1:1;if (Mobility) { Backrest = true };BaseType == Weeled
+Weeled;What is the core focus for the Weeled chair?;Enumeration;Office | Mobility;1:1;"if (Mobility) { Backrest = true };BaseType == Weeled
 Fixed;What is the core focus for the fixed chair?;Enumeration;Connector | 4-legs | 3-legs | 2-bars;1:1;"if (3-Legs) { SeatMaterial = SeatMesh; Backrest = false }";BaseType == Fixed
 Office;How many wheels should the chair have?;Enumeration;4-wheel | 5-wheel;1:1;;Weeled == Office
 Mobility;How should the Mobility chair be powered?;Enumeration;manuel | electric;1:1;;Weeled == Mobiliity
@@ -13,10 +13,10 @@ if (SeatMesh & BaseType = Weeled) { Weeled != Office }
 if (SeatMesh & BaseType = Fixed) { Fixed != Connector }";TRUE
 SeatAdjustable;Should the chair be adjustable?;Boolean;true | false;;;TRUE
 Backrest;Should the chair have a backrest?;Boolean;true | false;;;TRUE
-Headrest;Should the backrest have a headrest?;Boolean;true | false;;if (Headrest) { Height = Full-Height };Backrest
+Headrest;Should the backrest have a headrest?;Boolean;true | false;;"if (Headrest) { Height = Full-Height };Backrest
 BackMassage;Should the backrest provide a massage?;Boolean;true | false;;"if (BackMassage) { Height = Full-height; BackMaterial = BackCushion; Standard != CharStandard; BaseType != Weeled; isTaken(Fixed) }
 if (BackMassage & Fixed = Connector) { Connector != ConnectorCar; Connector != ConnectorRail }";Backrest
-BackAdjustable;Should the backrest be adjustable;Boolean;true | false;;if (BackAdjustable) { Height = Full-Height };Backrest
+BackAdjustable;Should the backrest be adjustable;Boolean;true | false;;"if (BackAdjustable) { Height = Full-Height };Backrest
 Height;Which height should the backrest have?;Enumeration;Half-height | Full-height;1:1;;Backrest
 BackMaterial;Which Material should the backrest be made of?;Enumeration;BackMesh | BackWood | BackPlastic | BackCushion;1:1;;Backrest
 Armrest;Which type of Armrest should the chair provide?;Enumeration;None | ARestAdjustable | ARestFixed;1:1;;TRUE

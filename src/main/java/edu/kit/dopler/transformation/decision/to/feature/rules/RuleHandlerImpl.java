@@ -38,7 +38,7 @@ public class RuleHandlerImpl implements RuleHandler {
         Set<IAction> actions = rule.getActions();
 
         Optional<Constraint> left = leftCreator.handleCondition(condition);
-        Constraint right = rightCreator.createRight(actions);
+        Constraint right = rightCreator.createRight(featureModel.getRootFeature(), actions);
 
         if (left.isPresent()) {
             // constraint: left -> right
