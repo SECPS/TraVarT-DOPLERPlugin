@@ -1,33 +1,25 @@
-namespace chesspieces_new_product
-
 features
-	chesspieces_new_product
-		mandatory
-			Base
-				alternative
-					Base_onestrip
-					Base_twostrip
-			Rod
-				alternative
-					Rod_long
-					Rod_short
-			Body
-				alternative
-					Body_minor
-						alternative
-							Pawn_body
-							Bishop_body
-							Rook_body
-							Knight_body
-					Body_major
-						alternative
-							Queen_body
-							King_body
-			PLA
-			AluminumBar
+        Root
+                alternative
+                        Base_onestrip
+                        Base_twostrip
+                alternative
+                        Body_major
+                                alternative
+                                        King_body
+                                        Queen_body
+                        Body_minor
+                                alternative
+                                        Bishop_body
+                                        Knight_body
+                                        Pawn_body
+                                        Rook_body
+                alternative
+                        Rod_long
+                        Rod_short
 
 constraints
-	Body_minor => Base_onestrip
-	Body_major => Base_twostrip
-	Body_minor => Rod_short
-	Body_major => Rod_long
+        Body_major => Base_twostrip
+        Body_major => Rod_long
+        Body_minor => Base_onestrip
+        Body_minor => Rod_short

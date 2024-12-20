@@ -1,31 +1,21 @@
-namespace Onlineshop
-
 features
-	Onlineshop
-		mandatory
-			Payment
-				alternative
-					DebitCard
-					CreditCard
-			ProductSelection
-				mandatory
-					Catalog	
-						optional
-							Categories
-							Sort
-
-				optional
-					Search
-
-		optional
-			UserManagement
-				or
-					Orders
-					Security
-					Payments
-					Wishlist
+        Root
+                alternative
+                        CreditCard
+                        DebitCard
+                optional
+                        Categories
+                        Search
+                        Sort
+                        UserManagement
+                                or
+                                        Orders
+                                        Payments
+                                        Security
+                                        Wishlist
 
 constraints
-	Search => Security
-	(Security => !Payments) & (Payments => !Security)
-	Sort | Search
+        !Sort => Search
+        Payments => !Security
+        Search => Security
+        Security => !Payments

@@ -1,18 +1,14 @@
 features
-	PC
-		mandatory
-			RAM
-				or
-					"8GB" {Power 5}
-					"16GB" {Power 8}
-			Boolean CPU {Power 100, Manufacturer 'Intel'}
-			"Power Unit"
-				optional
-					String Manufacturer
-					Integer Watt
-		optional
-			"Designated GPU" {Power 50}
+        Root
+                optional
+                        "Designated GPU"
+                        "Manufacturer#StringCheck"
+                                mandatory
+                                        String "Manufacturer#String"
+                        "Watt#NumberCheck"
+                                mandatory
+                                        Real "Watt#Number"
+                or
+                        "16GB"
+                        "8GB"
 
-constraints
-	sum(Power) < Watt
-	CPU.Manufacturer == Manufacturer

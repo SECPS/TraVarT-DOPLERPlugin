@@ -23,7 +23,7 @@ features
                         JDT
 
 constraints
-        (!(!AHEAD & !Antenna) & !FeatureHouse) => JDT
+        !(((!AHEAD & !Antenna) & !FeatureHouse) & !Munge) => JDT
         AspectJ => AJDT
         DeltaJ => DeltaJEclipsePlugin
         FeatureCpp => CDT

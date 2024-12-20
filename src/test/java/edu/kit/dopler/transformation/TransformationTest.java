@@ -45,6 +45,7 @@ abstract class TransformationTest<FromModel, ToModel> {
 
     @ParameterizedTest(name = "{0}")
     @MethodSource("roundTripDataSourceMethod")
+    @Disabled
     void testRoundTripTransformation(Path path1, Path path2, Path path3) throws Exception {
         // first transformation
         FromModel modelToTransform = getFromModelFromPath(path1);

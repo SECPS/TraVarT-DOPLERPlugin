@@ -12,5 +12,5 @@ features
                                         MP3
 
 constraints
-        !HighResolution => !"Media*"
-        GPS => !Screen
+        !HighResolution => !Camera
+        GPS => !Basic

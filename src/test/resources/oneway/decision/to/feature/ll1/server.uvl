@@ -1,21 +1,16 @@
-namespace Server
-
 features
-	Server
-		mandatory
-			FileSystem
-				or
-					NTFS
-					APFS
-					EXT4
-			OperatingSystem
-				alternative
-					Windows
-					macOS
-					Debian
-		optional
-			Logging
+        Root
+                alternative
+                        Debian
+                        Windows
+                        macOS
+                optional
+                        Logging
+                or
+                        APFS
+                        EXT4
+                        NTFS
 
 constraints
-	Windows => NTFS
-	macOS => APFS
+        Windows => NTFS
+        macOS => APFS

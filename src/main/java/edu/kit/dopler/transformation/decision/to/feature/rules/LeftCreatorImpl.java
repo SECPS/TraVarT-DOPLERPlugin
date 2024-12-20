@@ -18,7 +18,10 @@ public class LeftCreatorImpl implements LeftCreator {
             case Equals equals -> handleEquals(equals);
             case AND and -> handleAnd(and);
             case OR or -> handleOr(or);
-            case null, default -> throw new UnexpectedTypeException(condition);
+            case null, default -> {
+                System.out.println(condition);
+                throw new UnexpectedTypeException(condition);
+            }
         };
     }
 

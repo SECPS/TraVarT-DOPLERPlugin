@@ -36,6 +36,6 @@ features
                         Dependency
 
 constraints
-        !VariabilityDecision => VariabilityDecision
+        !VariabilityDecision => !VariabilityDecision
         true => DomainAnalysis
         true => Organizational

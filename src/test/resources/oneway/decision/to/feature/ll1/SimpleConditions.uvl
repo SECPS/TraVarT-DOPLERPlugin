@@ -14,4 +14,4 @@ features
                         c
 
 constraints
-        !((b & !c) & !D) | !!!!D => f
+        (!(b & (!c & !D)) | !!!!D) => f

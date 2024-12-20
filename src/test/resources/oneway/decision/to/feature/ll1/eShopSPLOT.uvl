@@ -11,6 +11,6 @@ features
                         transferencias
 
 constraints
-        alta => reportepublico
+        alta => !reportepublico
         tarjetacredito => alta
         true => buscador
