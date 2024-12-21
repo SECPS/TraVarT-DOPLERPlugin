@@ -1,4 +1,5 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+APL#;Which APL?;Enumeration;APL;1:1;;true
 Gui;Gui?;Boolean;true | false;;;mainAPL#.mainAPL
 Java#;Which Java?;Enumeration;Java;1:1;;mainAPL#.mainAPL
 Xml;Xml?;Boolean;true | false;;;mainAPL#.mainAPL
@@ -13,7 +14,7 @@ guidsl;guidsl?;Boolean;true | false;;;mainGUI#.mainGUI
 jak2aj#;Which jak2aj?;Enumeration;jak2aj;1:1;;aj
 jak2java#;Which jak2java?;Enumeration;jak2java;1:1;;mainJava#.mainJava
 jedi;jedi?;Boolean;true | false;;;mainJava#.mainJava
-mainAPL#;Which mainAPL?;Enumeration;mainAPL;1:1;;true
+mainAPL#;Which mainAPL?;Enumeration;mainAPL;1:1;;APL#.APL
 mainGUI#;Which mainGUI?;Enumeration;mainGUI;1:1;;Gui
 mainJava#;Which mainJava?;Enumeration;mainJava;1:1;;Java#.Java
 me;me?;Boolean;true | false;;;mainGUI#.mainGUI

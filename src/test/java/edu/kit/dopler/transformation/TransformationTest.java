@@ -33,12 +33,10 @@ abstract class TransformationTest<FromModel, ToModel> {
     void testOneWayTransformation(Path pathOfTheBeTransformedModel, Path pathOfExpectedModel) throws Exception {
         FromModel modelToTransform = getFromModelFromPath(pathOfTheBeTransformedModel);
 
-        String transformedModel = convertToModelToString(transformFromModelToToModel(modelToTransform,
-                IModelTransformer.STRATEGY.ONE_WAY));
+        String transformedModel = convertToModelToString(
+                transformFromModelToToModel(modelToTransform, IModelTransformer.STRATEGY.ONE_WAY));
         String expectedModel = readToModelAsString(pathOfExpectedModel);
-
-        String message = String.format("%n%nExpected:%n%s%n%nBut was: %n%s%n%n", expectedModel, transformedModel);
-        Assertions.assertEquals(expectedModel, transformedModel, message);
+        Assertions.assertEquals(expectedModel, transformedModel);
     }
 
     @ParameterizedTest(name = "{0}")
@@ -46,21 +44,17 @@ abstract class TransformationTest<FromModel, ToModel> {
     void testRoundTripTransformation(Path path1, Path path2, Path path3) throws Exception {
         // first transformation
         FromModel modelToTransform = getFromModelFromPath(path1);
-        String transformedModel = convertToModelToString(transformFromModelToToModel(modelToTransform,
-                IModelTransformer.STRATEGY.ROUNDTRIP));
+        String transformedModel = convertToModelToString(
+                transformFromModelToToModel(modelToTransform, IModelTransformer.STRATEGY.ROUNDTRIP));
         String expectedModel = readToModelAsString(path2);
-
-        String message = String.format("%n%nExpected:%n%s%n%nBut was: %n%s%n%n", expectedModel, transformedModel);
-        Assertions.assertEquals(expectedModel, transformedModel, message);
+        Assertions.assertEquals(expectedModel, transformedModel);
 
         // second transformation
         ToModel modelToTransform2 = getToModelFromString(transformedModel);
-        String transformedModel2 = convertFromModelToString(transformToModelToFromModel(modelToTransform2,
-                IModelTransformer.STRATEGY.ONE_WAY));
+        String transformedModel2 = convertFromModelToString(
+                transformToModelToFromModel(modelToTransform2, IModelTransformer.STRATEGY.ONE_WAY));
         String expectedModel2 = readFromModelAsString(path3);
-
-        String message2 = String.format("%n%nExpected:%n%s%n%nBut was: %n%s%n%n", expectedModel2, transformedModel2);
-        Assertions.assertEquals(expectedModel2, transformedModel2, message2);
+        Assertions.assertEquals(expectedModel2, transformedModel2);
     }
 
     @ParameterizedTest(name = "{1}")

@@ -1,9 +1,12 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-Language;Language?;Boolean;true | false;;"if (Unicode) {Language = true;}";true
-Language*;Which Language*?;Enumeration;Java | Python | PHP | Perl;1:1;"if (Storage*.FileRCS) {Language* = Perl;}if (LicenseCostFee*.US) {Language* = Java;}if (License.GPL2) {Language* = PHP;}if (Storage*.Database) {disAllow(Language*.Python);}";Language
-License;Which License?;Enumeration;Commercial | NoLimit | GPL | GPL2;1:1;"if (LicenseCostFee*.US) {License = Commercial;}if (LicenseCostFee*.DifferentLicenses) {disAllow(License.GPL);}if (Unicode) {disAllow(License.NoLimit);}";true
-LicenseCostFee;LicenseCostFee?;Boolean;true | false;;;true
-LicenseCostFee*;Which LicenseCostFee*?;Enumeration;DifferentLicenses | US | Community;1:1;"if (Storage*.FileRCS) {LicenseCostFee* = Community;}if (License.Commercial) {LicenseCostFee* = US;}if (Language*.Java) {LicenseCostFee* = US;}if (License.NoLimit) {disAllow(LicenseCostFee*.DifferentLicenses);}";LicenseCostFee
-Storage;Storage?;Boolean;true | false;;"if (!LicenseCostFee) {Storage = true;}if (Unicode) {Storage = true;}if (License.GPL) {Storage = true;}";true
+Language;Language?;Boolean;true | false;;"if (Unicode) {Language = true;}";WikiMatrix#.WikiMatrix
+Language*;Which Language*?;Enumeration;Java | Python | PHP | Perl;1:1;"if (Storage*.FileRCS) {Language* = Perl;}if (LicenseCostFee*.US) {Language* = Java;}if (License*.GPL2) {Language* = PHP;}if (Storage*.Database) {disAllow(Language*.Python);}";Language
+License#;Which License?;Enumeration;License;1:1;;WikiMatrix#.WikiMatrix
+License*;Which License*?;Enumeration;Commercial | NoLimit | GPL | GPL2;1:1;"if (LicenseCostFee*.US) {License* = Commercial;}if (LicenseCostFee*.DifferentLicenses) {disAllow(License*.GPL);}if (Unicode) {disAllow(License*.NoLimit);}";License#.License
+LicenseCostFee;LicenseCostFee?;Boolean;true | false;;;WikiMatrix#.WikiMatrix
+LicenseCostFee*;Which LicenseCostFee*?;Enumeration;DifferentLicenses | US | Community;1:1;"if (Storage*.FileRCS) {LicenseCostFee* = Community;}if (License*.Commercial) {LicenseCostFee* = US;}if (Language*.Java) {LicenseCostFee* = US;}if (License*.NoLimit) {disAllow(LicenseCostFee*.DifferentLicenses);}";LicenseCostFee
+RSS#;Which RSS?;Enumeration;RSS;1:1;;WikiMatrix#.WikiMatrix
+Storage;Storage?;Boolean;true | false;;"if (!LicenseCostFee) {Storage = true;}if (Unicode) {Storage = true;}if (License*.GPL) {Storage = true;}";WikiMatrix#.WikiMatrix
 Storage*;Which Storage*?;Enumeration;Files | Database | FileRCS;1:1;"if (LicenseCostFee*.Community) {Storage* = FileRCS;}if (Language*.Perl) {Storage* = FileRCS;}if (LicenseCostFee) {disAllow(Storage*.Files);}";Storage
-Unicode;Unicode?;Boolean;true | false;;"if (Storage) {Unicode = true;}if (Language) {Unicode = true;}";true
+Unicode;Unicode?;Boolean;true | false;;"if (Storage) {Unicode = true;}if (Language) {Unicode = true;}";WikiMatrix#.WikiMatrix
+WikiMatrix#;Which WikiMatrix?;Enumeration;WikiMatrix;1:1;;true

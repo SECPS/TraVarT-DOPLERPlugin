@@ -1,47 +1,50 @@
-namespace WikiMatrix
-
 features
-	WikiMatrix	
-		mandatory
-			RSS
-			License	
-				alternative
-					Commercial
-					NoLimit
-					GPL
-					GPL2
-
-		optional
-			LicenseCostFee	
-				alternative
-					DifferentLicenses
-					US
-					Community
-			Storage	
-				alternative
-					Files
-					Database
-					FileRCS
-			Unicode
-			Language	
-				alternative
-					Java
-					Python
-					PHP
-					Perl
+        WikiMatrix
+                mandatory
+                        License
+                                alternative
+                                        Commercial
+                                        GPL
+                                        GPL2
+                                        NoLimit
+                        RSS
+                optional
+                        Language
+                                alternative
+                                        Java
+                                        PHP
+                                        Perl
+                                        Python
+                        LicenseCostFee
+                                alternative
+                                        Community
+                                        DifferentLicenses
+                                        US
+                        Storage
+                                alternative
+                                        Database
+                                        FileRCS
+                                        Files
+                        Unicode
 
 constraints
-	LicenseCostFee | Storage
-	(Storage => Unicode) & (Unicode => Storage)
-	(Community => FileRCS) & (FileRCS => Community)
-	(Commercial => US) & (US => Commercial)
-	(FileRCS => Perl) & (Perl => FileRCS)
-	(Unicode => Language) & (Language => Unicode)
-	(US => Java) & (Java => US)
-	GPL2 => PHP
-	GPL => Storage
-	DifferentLicenses => !GPL
-	Database => !Python
-	NoLimit => !DifferentLicenses
-	Unicode => !NoLimit
-	LicenseCostFee => !Files
+        !LicenseCostFee => Storage
+        Commercial => US
+        Community => FileRCS
+        Database => !Python
+        DifferentLicenses => !GPL
+        FileRCS => Community
+        FileRCS => Perl
+        GPL => Storage
+        GPL2 => PHP
+        Java => US
+        Language => Unicode
+        LicenseCostFee => !Files
+        NoLimit => !DifferentLicenses
+        Perl => FileRCS
+        Storage => Unicode
+        US => Commercial
+        US => Java
+        Unicode => !NoLimit
+        Unicode => Language
+        Unicode => Storage

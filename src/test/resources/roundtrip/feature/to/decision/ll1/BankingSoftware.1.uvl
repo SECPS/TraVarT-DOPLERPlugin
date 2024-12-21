@@ -37,7 +37,6 @@ features
 					CreditInterestToAccount
 					LoadCashInATM
 					DebitAnnualChargesOnDebitCard
-
 				optional
 					ActivateAccount
 					ReactivateAccount
@@ -112,7 +111,6 @@ features
 					PreclosureFixedDeposit
 					CancelDemandDraft
 					CancelPayOrder
-
 		optional
 			Loan	
 				mandatory
@@ -138,7 +136,6 @@ features
 									Cheque
 									ECS
 									Cash
-
 						optional
 							LoanRepaymentEMI
 							LoanRepaymentForecloser
@@ -181,7 +178,6 @@ features
 					MarkDefaulter
 					UnmarkDefaulter
 					InitiateSettlementProcess
-
 				optional
 					CreditRewardPoints
 					RedemRewardPoints

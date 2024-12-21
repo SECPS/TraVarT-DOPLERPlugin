@@ -1,11 +1,12 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
 A#Number;How much A?;Double;;;;A#NumberCheck
-A#NumberCheck;A#Number?;Boolean;true | false;;;true
+A#NumberCheck;A#Number?;Boolean;true | false;;;root#.root
 B#Number;How much B?;Double;;;;B#NumberCheck
-B#NumberCheck;B#Number?;Boolean;true | false;;;true
+B#NumberCheck;B#Number?;Boolean;true | false;;;root#.root
 C#Number;How much C?;Double;;;;C#NumberCheck
-C#NumberCheck;C#Number?;Boolean;true | false;;;true
+C#NumberCheck;C#Number?;Boolean;true | false;;;root#.root
 D#Number;How much D?;Double;;;;D#NumberCheck
-D#NumberCheck;D#Number?;Boolean;true | false;;;true
+D#NumberCheck;D#Number?;Boolean;true | false;;;root#.root
 E#Number;How much E?;Double;;;;E#NumberCheck
-E#NumberCheck;E#Number?;Boolean;true | false;;;true
+E#NumberCheck;E#Number?;Boolean;true | false;;;root#.root
+root#;Which root?;Enumeration;root;1:1;;true
