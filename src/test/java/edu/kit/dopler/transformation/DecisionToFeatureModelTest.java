@@ -12,9 +12,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static edu.kit.dopler.transformation.Transformer.STANDARD_MODEL_NAME;
+
 class DecisionToFeatureModelTest extends TransformationTest<Dopler, FeatureModel> {
 
-    private static final String STANDARD_MODEL_NAME = "Root";
 
     @Override
     protected String readToModelAsString(Path path) throws IOException {

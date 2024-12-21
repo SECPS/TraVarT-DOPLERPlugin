@@ -1,5 +1,7 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-Modes;Which Modes?;Enumeration;top | horizontal | bottom | vertical;1:4;;true
-UI;UI?;Boolean;true | false;;;true
-TopFeeding3D;TopFeeding3D?;Boolean;true | false;;;true
+Modes#;Which Modes?;Enumeration;Modes;1:1;;true
+Modes*;Which Modes*?;Enumeration;top | horizontal | bottom | vertical;1:4;;Modes#.Modes
+Strands#;Which Strands?;Enumeration;Strands;1:1;;true
 Thermal3D;Thermal3D?;Boolean;true | false;;;true
+TopFeeding3D;TopFeeding3D?;Boolean;true | false;;;true
+UI;UI?;Boolean;true | false;;;true

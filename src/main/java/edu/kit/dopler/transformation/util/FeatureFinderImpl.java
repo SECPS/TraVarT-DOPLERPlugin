@@ -16,7 +16,8 @@ public final class FeatureFinderImpl implements FeatureFinder {
     @Override
     public Optional<Feature> findFirstNonMandatoryParent(FeatureModel featureModel, Feature feature) {
         Feature parent = feature;
-        while (null != parent.getParentGroup() && Group.GroupType.MANDATORY == parent.getParentGroup().GROUPTYPE) {
+        while (null != parent.getParentFeature() && null != parent.getParentGroup() &&
+                Group.GroupType.MANDATORY == parent.getParentGroup().GROUPTYPE) {
             parent = parent.getParentFeature();
         }
 

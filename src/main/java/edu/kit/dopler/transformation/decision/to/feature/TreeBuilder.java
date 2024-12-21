@@ -7,5 +7,5 @@ import edu.kit.dopler.model.Dopler;
 /** This interface is responsible to build the tree structure of the feature model. */
 public interface TreeBuilder {
 
-    Feature buildTree(Dopler decisionModel, String modelName, IModelTransformer.STRATEGY level);
+    Feature buildTree(Dopler decisionModel, IModelTransformer.STRATEGY level);
 }

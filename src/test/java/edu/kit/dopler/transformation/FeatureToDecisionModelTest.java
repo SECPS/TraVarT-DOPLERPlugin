@@ -13,9 +13,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static edu.kit.dopler.transformation.Transformer.STANDARD_MODEL_NAME;
+
 class FeatureToDecisionModelTest extends TransformationTest<FeatureModel, Dopler> {
 
-    private static final String STANDARD_MODEL_NAME = "Root";
     private static final Path TEMP_PATH = Paths.get("src", "test", "resources", "oneway", ".temporary.txt");
 
     @Override

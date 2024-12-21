@@ -1,14 +1,22 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-Gui;Gui?;Boolean;true | false;;;true
-Xml;Xml?;Boolean;true | false;;;true
+Gui;Gui?;Boolean;true | false;;;mainAPL#.mainAPL
+Java#;Which Java?;Enumeration;Java;1:1;;mainAPL#.mainAPL
+Xml;Xml?;Boolean;true | false;;;mainAPL#.mainAPL
 Xml*;Which Xml*?;Enumeration;xc | xak;1:1;;Xml
-aj;aj?;Boolean;true | false;;;true
-bc;bc?;Boolean;true | false;;;true
-cpp;cpp?;Boolean;true | false;;;true
-drc;drc?;Boolean;true | false;;;true
-guidsl;guidsl?;Boolean;true | false;;;Gui
-jedi;jedi?;Boolean;true | false;;;true
-me;me?;Boolean;true | false;;;Gui
-mmatrix;mmatrix?;Boolean;true | false;;"if (bc) {mmatrix = true;}if (me) {mmatrix = true;}";Gui
-reform;reform?;Boolean;true | false;;;true
-web;web?;Boolean;true | false;;;Gui
+aj;aj?;Boolean;true | false;;;mainAPL#.mainAPL
+bali#;Which bali?;Enumeration;bali;1:1;;mainJava#.mainJava
+bc;bc?;Boolean;true | false;;;mainAPL#.mainAPL
+bcjak2java#;Which bcjak2java?;Enumeration;bcjak2java;1:1;;bc
+cpp;cpp?;Boolean;true | false;;;mainAPL#.mainAPL
+drc;drc?;Boolean;true | false;;;mainAPL#.mainAPL
+guidsl;guidsl?;Boolean;true | false;;;mainGUI#.mainGUI
+jak2aj#;Which jak2aj?;Enumeration;jak2aj;1:1;;aj
+jak2java#;Which jak2java?;Enumeration;jak2java;1:1;;mainJava#.mainJava
+jedi;jedi?;Boolean;true | false;;;mainJava#.mainJava
+mainAPL#;Which mainAPL?;Enumeration;mainAPL;1:1;;true
+mainGUI#;Which mainGUI?;Enumeration;mainGUI;1:1;;Gui
+mainJava#;Which mainJava?;Enumeration;mainJava;1:1;;Java#.Java
+me;me?;Boolean;true | false;;;mainGUI#.mainGUI
+mmatrix;mmatrix?;Boolean;true | false;;"if (bc) {mmatrix = true;}if (me) {mmatrix = true;}";mainGUI#.mainGUI
+reform;reform?;Boolean;true | false;;;mainJava#.mainJava
+web;web?;Boolean;true | false;;;mainGUI#.mainGUI

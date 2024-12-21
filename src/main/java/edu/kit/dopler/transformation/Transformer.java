@@ -15,6 +15,8 @@ import edu.kit.dopler.transformation.util.TransformationModule;
  */
 public class Transformer implements IModelTransformer<Dopler> {
 
+    public static final String STANDARD_MODEL_NAME = "Root";
+
     private final DmToFmTransformer dmToFmTransformer;
     private final FmToDmTransformer fmToDmTransformer;
 
@@ -27,11 +29,11 @@ public class Transformer implements IModelTransformer<Dopler> {
 
     @Override
     public FeatureModel transform(Dopler model, String modelName, STRATEGY level) {
-        return dmToFmTransformer.transform(model, modelName, level);
+        return dmToFmTransformer.transform(model, level);
     }
 
     @Override
     public Dopler transform(FeatureModel model, String modelName, STRATEGY level) {
-        return fmToDmTransformer.transform(model, modelName, level);
+        return fmToDmTransformer.transform(model, level);
     }
 }

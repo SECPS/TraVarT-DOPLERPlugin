@@ -54,7 +54,7 @@ public class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
     }
 
     /** Create a decision from the given group. Also check all features inside the group for more groups. */
-    private void handleGroup(FeatureModel featureModel, Dopler decisionModel, Group group,
+    public void handleGroup(FeatureModel featureModel, Dopler decisionModel, Group group,
                              IModelTransformer.STRATEGY level) {
         switch (group.GROUPTYPE) {
             case OR -> handleOrGroup(featureModel, decisionModel, group, level);

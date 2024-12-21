@@ -1,12 +1,11 @@
 features
-    Sandwich
-        mandatory
-            Bread
-        optional
-            Sauce
-                alternative
-                    Ketchup
-                    Mustard
-            Cheese
-constraints
-	Bread | Ketchup
+        Root
+                mandatory
+                        Bread
+                optional
+                        Cheese
+                        Sauce
+                                alternative
+                                        Ketchup
+                                        Mustard
+

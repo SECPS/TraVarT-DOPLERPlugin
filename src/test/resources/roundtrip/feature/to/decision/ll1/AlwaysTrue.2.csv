@@ -1,4 +1,5 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+Bread#;Which Bread?;Enumeration;Bread;1:1;;true
 Cheese;Cheese?;Boolean;true | false;;;true
 Sauce;Sauce?;Boolean;true | false;;;true
 Sauce*;Which Sauce*?;Enumeration;Ketchup | Mustard;1:1;;Sauce

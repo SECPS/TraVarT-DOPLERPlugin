@@ -15,7 +15,6 @@ features
 								optional
 									reform
 									jedi
-
 				optional
 					Xml 	
 						alternative

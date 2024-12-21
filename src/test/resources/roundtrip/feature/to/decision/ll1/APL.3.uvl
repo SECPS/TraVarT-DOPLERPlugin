@@ -1,43 +1,39 @@
-namespace APL
-
 features
-	APL 	
-		mandatory
-			mainAPL 	
-				mandatory
-					Java 	
-						mandatory
-							mainJava 	
-								mandatory
-									jak2java
-									bali
-
-								optional
-									reform
-									jedi
-
-				optional
-					Xml 	
-						alternative
-							xc
-							xak
-					cpp
-					Gui 	
-						mandatory
-							mainGUI 	
-								optional
-									me
-									mmatrix
-									guidsl
-									web
-					drc
-					bc 	
-						mandatory
-							bcjak2java
-					aj 	
-						mandatory
-							jak2aj
+        Root
+                mandatory
+                        mainAPL
+                                mandatory
+                                        Java
+                                                mandatory
+                                                        mainJava
+                                                                mandatory
+                                                                        bali
+                                                                        jak2java
+                                                                optional
+                                                                        jedi
+                                                                        reform
+                                optional
+                                        Gui
+                                                mandatory
+                                                        mainGUI
+                                                                optional
+                                                                        guidsl
+                                                                        me
+                                                                        mmatrix
+                                                                        web
+                                        Xml
+                                                alternative
+                                                        xak
+                                                        xc
+                                        aj
+                                                mandatory
+                                                        jak2aj
+                                        bc
+                                                mandatory
+                                                        bcjak2java
+                                        cpp
+                                        drc
 
 constraints
-	bc => mmatrix
-	me => mmatrix
+        bc => mmatrix
+        me => mmatrix

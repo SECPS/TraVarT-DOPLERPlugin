@@ -17,9 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static at.jku.cps.travart.core.common.IModelTransformer.STRATEGY.ONE_WAY;
-import static at.jku.cps.travart.core.common.IModelTransformer.STRATEGY.ROUNDTRIP;
-
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 abstract class TransformationTest<FromModel, ToModel> {
 
@@ -36,7 +33,8 @@ abstract class TransformationTest<FromModel, ToModel> {
     void testOneWayTransformation(Path pathOfTheBeTransformedModel, Path pathOfExpectedModel) throws Exception {
         FromModel modelToTransform = getFromModelFromPath(pathOfTheBeTransformedModel);
 
-        String transformedModel = convertToModelToString(transformFromModelToToModel(modelToTransform, ONE_WAY));
+        String transformedModel = convertToModelToString(transformFromModelToToModel(modelToTransform,
+                IModelTransformer.STRATEGY.ONE_WAY));
         String expectedModel = readToModelAsString(pathOfExpectedModel);
 
         String message = String.format("%n%nExpected:%n%s%n%nBut was: %n%s%n%n", expectedModel, transformedModel);
@@ -45,11 +43,11 @@ abstract class TransformationTest<FromModel, ToModel> {
 
     @ParameterizedTest(name = "{0}")
     @MethodSource("roundTripDataSourceMethod")
-    @Disabled
     void testRoundTripTransformation(Path path1, Path path2, Path path3) throws Exception {
         // first transformation
         FromModel modelToTransform = getFromModelFromPath(path1);
-        String transformedModel = convertToModelToString(transformFromModelToToModel(modelToTransform, ROUNDTRIP));
+        String transformedModel = convertToModelToString(transformFromModelToToModel(modelToTransform,
+                IModelTransformer.STRATEGY.ROUNDTRIP));
         String expectedModel = readToModelAsString(path2);
 
         String message = String.format("%n%nExpected:%n%s%n%nBut was: %n%s%n%n", expectedModel, transformedModel);
@@ -57,7 +55,8 @@ abstract class TransformationTest<FromModel, ToModel> {
 
         // second transformation
         ToModel modelToTransform2 = getToModelFromString(transformedModel);
-        String transformedModel2 = convertFromModelToString(transformToModelToFromModel(modelToTransform2, ONE_WAY));
+        String transformedModel2 = convertFromModelToString(transformToModelToFromModel(modelToTransform2,
+                IModelTransformer.STRATEGY.ONE_WAY));
         String expectedModel2 = readFromModelAsString(path3);
 
         String message2 = String.format("%n%nExpected:%n%s%n%nBut was: %n%s%n%n", expectedModel2, transformedModel2);

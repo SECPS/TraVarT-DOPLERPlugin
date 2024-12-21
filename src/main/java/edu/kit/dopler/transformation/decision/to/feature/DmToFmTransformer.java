@@ -6,5 +6,5 @@ import edu.kit.dopler.model.Dopler;
 
 public interface DmToFmTransformer {
 
-    FeatureModel transform(Dopler decisionModel, String modelName, IModelTransformer.STRATEGY level);
+    FeatureModel transform(Dopler decisionModel, IModelTransformer.STRATEGY level);
 }

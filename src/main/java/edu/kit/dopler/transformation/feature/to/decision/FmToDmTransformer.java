@@ -11,10 +11,9 @@ public interface FmToDmTransformer {
      * Transforms the given {@link FeatureModel} into a {@link Dopler} model.
      *
      * @param featureModel {@link FeatureModel} to transform
-     * @param modelName    Name for the newly created {@link Dopler} model
      * @param level        Strategy for the transformation: oneway or round-trip
      *
      * @return Newly created {@link Dopler} model with the given name
      */
-    Dopler transform(FeatureModel featureModel, String modelName, IModelTransformer.STRATEGY level);
+    Dopler transform(FeatureModel featureModel, IModelTransformer.STRATEGY level);
 }

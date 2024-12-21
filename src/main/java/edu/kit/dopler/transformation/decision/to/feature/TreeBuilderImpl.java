@@ -17,6 +17,7 @@ import static de.vill.model.Group.GroupType.ALTERNATIVE;
 import static de.vill.model.Group.GroupType.MANDATORY;
 import static de.vill.model.Group.GroupType.OPTIONAL;
 import static de.vill.model.Group.GroupType.OR;
+import static edu.kit.dopler.transformation.Transformer.STANDARD_MODEL_NAME;
 
 /** Implementation of {@link TreeBuilder} */
 public class TreeBuilderImpl implements TreeBuilder {
@@ -29,8 +30,8 @@ public class TreeBuilderImpl implements TreeBuilder {
     }
 
     @Override
-    public Feature buildTree(Dopler decisionModel, String modelName, IModelTransformer.STRATEGY level) {
-        Feature rootFeature = new Feature(modelName);
+    public Feature buildTree(Dopler decisionModel, IModelTransformer.STRATEGY level) {
+        Feature rootFeature = new Feature(STANDARD_MODEL_NAME);
 
         //Group the decisions by their type
         List<BooleanDecision> booleanDecisions = new ArrayList<>();
