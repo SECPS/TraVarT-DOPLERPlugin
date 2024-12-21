@@ -1,15 +1,28 @@
 features
-	RootFeature
-		optional
-			String A
-				optional
-					String AA
-					String AB
-			Integer B
-				optional
-					Integer BA
-					Integer BB
-			Boolean C
-				optional
-					Boolean CA
-					Boolean CB
+        Root
+                optional
+                        "A#StringCheck"
+                                mandatory
+                                        String "A#String"
+                                                optional
+                                                        "AA#StringCheck"
+                                                                mandatory
+                                                                        String "AA#String"
+                                                        "AB#StringCheck"
+                                                                mandatory
+                                                                        String "AB#String"
+                        "B#NumberCheck"
+                                mandatory
+                                        Real "B#Number"
+                                                optional
+                                                        "BA#NumberCheck"
+                                                                mandatory
+                                                                        Real "BA#Number"
+                                                        "BB#NumberCheck"
+                                                                mandatory
+                                                                        Real "BB#Number"
+                        C
+                                optional
+                                        CA
+                                        CB
+

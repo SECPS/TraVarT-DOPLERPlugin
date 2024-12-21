@@ -49,7 +49,7 @@ public class VisibilityHandlerImpl implements VisibilityHandler {
         // -> Look at parent group of this non-mandatory parent
 
         return parent.map(p -> switch (p.getParentGroup().GROUPTYPE) {
-            case OPTIONAL -> handleOptionalFeature(p);
+            case OPTIONAL -> handleOptionalFeature(decisionModel, p);
             case ALTERNATIVE, OR, MANDATORY -> handleAlternativeAndOrFeature(p, decisionModel);
             case GROUP_CARDINALITY -> throw new UnexpectedTypeException(p.getParentGroup());
         }).orElseGet(() -> new BooleanLiteralExpression(true));
@@ -105,7 +105,20 @@ public class VisibilityHandlerImpl implements VisibilityHandler {
     }
 
     /** Returns a {@link StringLiteralExpression} only containing the name of the given feature. */
-    private static IExpression handleOptionalFeature(Feature parent) {
-        return new StringLiteralExpression(parent.getFeatureName());
+    private IExpression handleOptionalFeature(Dopler dopler, Feature parent) {
+        String id = switch (parent.getFeatureType()) {
+            case STRING -> "%s#String".formatted(parent.getFeatureName());
+            case INT, REAL -> "%s#Number".formatted(parent.getFeatureName());
+            case BOOL -> parent.getFeatureName();
+            case null -> parent.getFeatureName();
+        };
+
+        Optional<IDecision<?>> decisionById = decisionFinder.findDecisionById(dopler, id);
+
+        if (decisionById.isEmpty()) {
+            throw new DecisionNotPresentException(id);
+        }
+
+        return new StringLiteralExpression(decisionById.get().getDisplayId());
     }
 }
