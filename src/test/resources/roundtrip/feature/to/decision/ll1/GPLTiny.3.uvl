@@ -1,18 +1,15 @@
-namespace GraphLibrary
-
 features
-	GraphLibrary	
-		mandatory
-			Edges	
-				alternative
-					Directed
-					Undirected
-
-		optional
-			Algorithms	
-				or
-					Number
-					Cycle
+        GraphLibrary
+                mandatory
+                        Edges
+                                alternative
+                                        Directed
+                                        Undirected
+                optional
+                        Algorithms
+                                or
+                                        Cycle
+                                        Number
 
 constraints
-	Cycle => Directed
+        Cycle => Directed

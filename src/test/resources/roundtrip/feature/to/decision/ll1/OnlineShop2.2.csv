@@ -1,7 +1,11 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-Categories;Categories?;Boolean;true | false;;;true
-Payment;Which Payment?;Enumeration;DebitCard | CreditCard;1:1;;true
-Search;Search?;Boolean;true | false;;"if (!Sort) {Search = true;}";true
-Sort;Sort?;Boolean;true | false;;;true
-UserManagement;UserManagement?;Boolean;true | false;;;true
+Catalog#;Which Catalog?;Enumeration;Catalog;1:1;;ProductSelection#.ProductSelection
+Categories;Categories?;Boolean;true | false;;;Catalog#.Catalog
+Onlineshop#;Which Onlineshop?;Enumeration;Onlineshop;1:1;;true
+Payment#;Which Payment?;Enumeration;Payment;1:1;;Onlineshop#.Onlineshop
+Payment*;Which Payment*?;Enumeration;DebitCard | CreditCard;1:1;;Payment#.Payment
+ProductSelection#;Which ProductSelection?;Enumeration;ProductSelection;1:1;;Onlineshop#.Onlineshop
+Search;Search?;Boolean;true | false;;"if (!Sort) {Search = true;}";ProductSelection#.ProductSelection
+Sort;Sort?;Boolean;true | false;;;Catalog#.Catalog
+UserManagement;UserManagement?;Boolean;true | false;;;Onlineshop#.Onlineshop
 UserManagement*;Which UserManagement*?;Enumeration;Orders | Security | Payments | Wishlist;1:4;"if (Search) {UserManagement* = Security;}if (UserManagement*.Security) {disAllow(UserManagement*.Payments);}if (UserManagement*.Payments) {disAllow(UserManagement*.Security);}";UserManagement

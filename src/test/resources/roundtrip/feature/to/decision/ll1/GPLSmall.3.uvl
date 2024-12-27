@@ -1,48 +1,45 @@
-namespace GPL
-
 features
-	GPL
-		mandatory
-			MainGpl
-				mandatory
-					Driver
-						mandatory
-							DriverProg
-								mandatory
-									Prog
-									Benchmark
-					Alg
-						or
-							Number
-							Connected
-							StrongConnect
-								mandatory
-									Transpose
-									StronglyConnected
-							Cycle
-							MSTPrim
-							MSTKruskal
-							ShortestPath
-					Wgt
-						alternative
-							Weighted
-							Unweighted
-					Gtp
-						alternative
-							Directed
-							Undirected
-
-				optional
-					Src
-						alternative
-							BFS
-							DFS
+        GPL
+                mandatory
+                        MainGpl
+                                mandatory
+                                        Alg
+                                                or
+                                                        Connected
+                                                        Cycle
+                                                        MSTKruskal
+                                                        MSTPrim
+                                                        Number
+                                                        ShortestPath
+                                                        StrongConnect
+                                                                mandatory
+                                                                        StronglyConnected
+                                                                        Transpose
+                                        Driver
+                                                mandatory
+                                                        DriverProg
+                                                                mandatory
+                                                                        Benchmark
+                                                                        Prog
+                                        Gtp
+                                                alternative
+                                                        Directed
+                                                        Undirected
+                                        Wgt
+                                                alternative
+                                                        Unweighted
+                                                        Weighted
+                                optional
+                                        Src
+                                                alternative
+                                                        BFS
+                                                        DFS
 
 constraints
-	Number => Gtp & Src
-	Connected => Undirected & Src
-	StrongConnect => Directed & DFS
-	Cycle => Gtp & DFS
-	MSTKruskal | MSTPrim => Undirected & Weighted
-	MSTKruskal | MSTPrim => !(MSTKruskal & MSTPrim)
-	ShortestPath => Directed & Weighted
+        !(!MSTKruskal & !MSTPrim) => Undirected & Weighted
+        Connected => Undirected & Src
+        Cycle => DFS
+        MSTKruskal => !MSTPrim
+        Number => Src
+        ShortestPath => Directed & Weighted
+        StrongConnect => Directed & DFS

@@ -2,33 +2,33 @@ features
         shiftfork_product
                 mandatory
                         Barrel
-                                optional
-                                        Barrel1_2
                                 mandatory
                                         Barrel1_1
-                        Screw
-                        Jack1
-                        Ring1
-                        O_Ring
+                                optional
+                                        Barrel1_2
                         Fork
                                 mandatory
                                         Fork3
                                         Fork4
                                         Fork5
-                        Pipe
-                                alternative
-                                        Pipe3
-                                        Pipe8
-                                        Pipe2
+                        Jack1
                         Lock
                                 alternative
-                                        Lock3
-                                        Lock2
                                         Lock1
+                                        Lock2
+                                        Lock3
+                        O_Ring
+                        Pipe
+                                alternative
+                                        Pipe2
+                                        Pipe3
+                                        Pipe8
+                        Ring1
+                        Screw
 
 constraints
-        Lock1 => Pipe2 | Pipe3
+        !(!Lock1 | Pipe2) => Pipe3
+        !(!Pipe2 & !Pipe8) => Barrel1_2
         Lock2 => Pipe3
         Lock3 => Pipe8
-        Pipe2 | Pipe8 => Barrel1_2
         Pipe3 => !Barrel1_2

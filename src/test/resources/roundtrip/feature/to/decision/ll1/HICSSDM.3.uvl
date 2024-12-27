@@ -1,50 +1,49 @@
 features
-    HICSSDM
-        mandatory
-            SV
-                alternative
-                    Solution
-                    Particular_Packages
-        optional
-            SV_Solution
-                alternative
-                    BMDCRM
-                    BMD
-            SV_Particular_Package
-                or
-                    Label_Printing
-                    Standard_Letter
-                    Organizer
-                    Docs
-                    Else
-            CV
-                or
-                    Document_Management
-                    Customer_Management
-                    Claims_Management
-            CV_Documents
-                or
-                    archive
-                    scan_new
-                    read_existing
-                    import_external
-            CV_Customer
-                or
-                    phone
-                    mail
-            CV_Claims
-                or
-                    journal
-                    task_manager
+        HICSSDM
+                mandatory
+                        SV
+                                alternative
+                                        Particular_Packages
+                                        Solution
+                optional
+                        CV
+                                or
+                                        Claims_Management
+                                        Customer_Management
+                                        Document_Management
+                        CV_Claims
+                                or
+                                        journal
+                                        task_manager
+                        CV_Customer
+                                or
+                                        mail
+                                        phone
+                        CV_Documents
+                                or
+                                        archive
+                                        import_external
+                                        read_existing
+                                        scan_new
+                        SV_Particular_Package
+                                or
+                                        Docs
+                                        Else
+                                        Label_Printing
+                                        Organizer
+                                        Standard_Letter
+                        SV_Solution
+                                alternative
+                                        BMD
+                                        BMDCRM
 
 constraints
-    SV_Solution => Solution
-    SV_Particular_Package => Particular_Packages
-    CV => Particular_Packages
-    CV_Documents => Particular_Packages & Document_Management
-    CV_Customer => Particular_Packages & Customer_Management
-    CV_Claims => Particular_Packages & Claims_Management
-    Document_Management => CV_Documents
-    Customer_Management => CV_Customer
-    Claims_Management => CV_Claims
-
+        CV => Particular_Packages
+        CV_Claims => Claims_Management & Particular_Packages
+        CV_Customer => Customer_Management & Particular_Packages
+        CV_Documents => Document_Management & Particular_Packages
+        Claims_Management => CV_Claims
+        Customer_Management => CV_Customer
+        Document_Management => CV_Documents
+        SV_Particular_Package => Particular_Packages
+        SV_Solution => Solution

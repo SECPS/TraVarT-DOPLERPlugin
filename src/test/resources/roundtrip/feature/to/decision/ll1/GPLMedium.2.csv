@@ -1,11 +1,24 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-Alg;Which Alg?;Enumeration;Number | Connected | StrongC | Cycle | MSTPrim | MSTKruskal;1:6;"if (Alg.MSTKruskal) {disAllow(Alg.MSTPrim);}";true
-Gtp;Which Gtp?;Enumeration;Directed | Undirected;1:1;"if (Alg.Connected) {Gtp = Undirected;Src = true;}if (Alg.StrongC) {Gtp = Directed;Src* = DFS;}if (!(!Alg.MSTKruskal && !Alg.MSTPrim)) {Gtp = Undirected;Wgt = Weighted;}if (!(HiddenGtp.DirectedOnlyVertices || !Implementation.OnlyVertices)) {disAllow(Gtp.Directed);}if (!(HiddenGtp.DirectedWithNeighbors || !Implementation.WithNeighbors)) {disAllow(Gtp.Directed);}if (!(HiddenGtp.DirectedWithEdges || !Implementation.WithEdges)) {disAllow(Gtp.Directed);}if (!(HiddenGtp.UndirectedOnlyVertices || !Implementation.OnlyVertices)) {disAllow(Gtp.Undirected);}if (!(HiddenGtp.UndirectedWithNeighbors || !Implementation.WithNeighbors)) {disAllow(Gtp.Undirected);}if (!(HiddenGtp.UndirectedWithEdges || !Implementation.WithEdges)) {disAllow(Gtp.Undirected);}";true
-HiddenGtp;Which HiddenGtp?;Enumeration;DirectedWithEdges | DirectedWithNeighbors | DirectedOnlyVertices | UndirectedWithEdges | UndirectedWithNeighbors | UndirectedOnlyVertices;1:1;;true
-Implementation;Which Implementation?;Enumeration;OnlyVertices | WithNeighbors | WithEdges;1:1;;true
-Src;Src?;Boolean;true | false;;"if (Alg.Number) {Src = true;}";true
-Src*;Which Src*?;Enumeration;BFS | DFS;1:1;"if (Alg.Cycle) {Src* = DFS;}";Src
-WeightedOnlyVertices;WeightedOnlyVertices?;Boolean;true | false;;;true
-WeightedWithEdges;WeightedWithEdges?;Boolean;true | false;;;true
-WeightedWithNeighbors;WeightedWithNeighbors?;Boolean;true | false;;;true
-Wgt;Which Wgt?;Enumeration;Weighted | Unweighted;1:1;"if (!(WeightedOnlyVertices || !Implementation.OnlyVertices)) {disAllow(Wgt.Weighted);}if (!(WeightedWithNeighbors || !Implementation.WithNeighbors)) {disAllow(Wgt.Weighted);}if (!(WeightedWithEdges || !Implementation.WithEdges)) {disAllow(Wgt.Weighted);}";true
+Alg#;Which Alg?;Enumeration;Alg;1:1;;MainGpl#.MainGpl
+Alg*;Which Alg*?;Enumeration;Number | Connected | StrongC | Cycle | MSTPrim | MSTKruskal;1:6;"if (Alg*.MSTKruskal) {disAllow(Alg*.MSTPrim);}";Alg#.Alg
+Base#;Which Base?;Enumeration;Base;1:1;;MainGpl#.MainGpl
+GPL#;Which GPL?;Enumeration;GPL;1:1;;true
+Gtp#;Which Gtp?;Enumeration;Gtp;1:1;;MainGpl#.MainGpl
+Gtp*;Which Gtp*?;Enumeration;Directed | Undirected;1:1;"if (Alg*.Connected) {Gtp* = Undirected;Src = true;}if (Alg*.StrongC) {Gtp* = Directed;Src* = DFS;}if (!(!Alg*.MSTKruskal && !Alg*.MSTPrim)) {Gtp* = Undirected;Wgt* = Weighted;}if (!(HiddenGtp*.DirectedOnlyVertices || !Implementation*.OnlyVertices)) {disAllow(Gtp*.Directed);}if (!(HiddenGtp*.DirectedWithNeighbors || !Implementation*.WithNeighbors)) {disAllow(Gtp*.Directed);}if (!(HiddenGtp*.DirectedWithEdges || !Implementation*.WithEdges)) {disAllow(Gtp*.Directed);}if (!(HiddenGtp*.UndirectedOnlyVertices || !Implementation*.OnlyVertices)) {disAllow(Gtp*.Undirected);}if (!(HiddenGtp*.UndirectedWithNeighbors || !Implementation*.WithNeighbors)) {disAllow(Gtp*.Undirected);}if (!(HiddenGtp*.UndirectedWithEdges || !Implementation*.WithEdges)) {disAllow(Gtp*.Undirected);}";Gtp#.Gtp
+HiddenGtp#;Which HiddenGtp?;Enumeration;HiddenGtp;1:1;;MainGpl#.MainGpl
+HiddenGtp*;Which HiddenGtp*?;Enumeration;DirectedWithEdges | DirectedWithNeighbors | DirectedOnlyVertices | UndirectedWithEdges | UndirectedWithNeighbors | UndirectedOnlyVertices;1:1;;HiddenGtp#.HiddenGtp
+HiddenWgt#;Which HiddenWgt?;Enumeration;HiddenWgt;1:1;;MainGpl#.MainGpl
+Implementation#;Which Implementation?;Enumeration;Implementation;1:1;;MainGpl#.MainGpl
+Implementation*;Which Implementation*?;Enumeration;OnlyVertices | WithNeighbors | WithEdges;1:1;;Implementation#.Implementation
+MainGpl#;Which MainGpl?;Enumeration;MainGpl;1:1;;GPL#.GPL
+Src;Src?;Boolean;true | false;;"if (Alg*.Number) {Src = true;}";MainGpl#.MainGpl
+Src*;Which Src*?;Enumeration;BFS | DFS;1:1;"if (Alg*.Cycle) {Src* = DFS;}";Src
+StronglyConnected#;Which StronglyConnected?;Enumeration;StronglyConnected;1:1;;Alg*.StrongC
+TestProg#;Which TestProg?;Enumeration;TestProg;1:1;;MainGpl#.MainGpl
+Transpose#;Which Transpose?;Enumeration;Transpose;1:1;;Alg*.StrongC
+WeightOptions#;Which WeightOptions?;Enumeration;WeightOptions;1:1;;HiddenWgt#.HiddenWgt
+WeightedOnlyVertices;WeightedOnlyVertices?;Boolean;true | false;;;WeightOptions#.WeightOptions
+WeightedWithEdges;WeightedWithEdges?;Boolean;true | false;;;WeightOptions#.WeightOptions
+WeightedWithNeighbors;WeightedWithNeighbors?;Boolean;true | false;;;WeightOptions#.WeightOptions
+Wgt#;Which Wgt?;Enumeration;Wgt;1:1;;MainGpl#.MainGpl
+Wgt*;Which Wgt*?;Enumeration;Weighted | Unweighted;1:1;"if (!(WeightedOnlyVertices || !Implementation*.OnlyVertices)) {disAllow(Wgt*.Weighted);}if (!(WeightedWithNeighbors || !Implementation*.WithNeighbors)) {disAllow(Wgt*.Weighted);}if (!(WeightedWithEdges || !Implementation*.WithEdges)) {disAllow(Wgt*.Weighted);}";Wgt#.Wgt

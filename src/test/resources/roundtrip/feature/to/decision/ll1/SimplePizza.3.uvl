@@ -1,23 +1,24 @@
 features
-    Pizza
-        mandatory
-            Topping
-                or
-                    Salami
-                    Ham
-                    Mozzarella
-            Size
-                alternative
-                    Normal
-                    Big
-            Dough
-                alternative
-                    Neapolitan
-                    Sicilian
-        optional
-            CheesyCrust
+        Pizza
                 mandatory
-                    ThickCrust
-                alternative
-                    SuperCheesy
-                    MildCheesy
+                        Dough
+                                alternative
+                                        Neapolitan
+                                        Sicilian
+                        Size
+                                alternative
+                                        Big
+                                        Normal
+                        Topping
+                                or
+                                        Ham
+                                        Mozzarella
+                                        Salami
+                optional
+                        CheesyCrust
+                                alternative
+                                        MildCheesy
+                                        SuperCheesy
+                                mandatory
+                                        ThickCrust
+
