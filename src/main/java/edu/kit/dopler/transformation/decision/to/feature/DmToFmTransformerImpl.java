@@ -26,7 +26,7 @@ public class DmToFmTransformerImpl implements DmToFmTransformer {
     public FeatureModel transform(Dopler decisionModel, IModelTransformer.STRATEGY level) {
         Feature rootFeature = removeStandardRoot(treeBuilder.buildTree(decisionModel, level));
 
-        treeBeautifier.beautify(rootFeature);
+        treeBeautifier.beautify(rootFeature, level);
 
         FeatureModel featureModel = new FeatureModel();
         featureModel.setRootFeature(rootFeature);

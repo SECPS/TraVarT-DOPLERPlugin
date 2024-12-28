@@ -1,5 +1,6 @@
 package edu.kit.dopler.transformation.decision.to.feature;
 
+import at.jku.cps.travart.core.common.IModelTransformer;
 import de.vill.model.Feature;
 import de.vill.model.Group;
 
@@ -13,14 +14,18 @@ import static de.vill.model.Group.GroupType.OPTIONAL;
 public class TreeBeautifierImpl implements TreeBeautifier {
 
     @Override
-    public void beautify(Feature feature) {
-        replaceSingleAlternativeWithMandatoryGroups(feature);
+    public void beautify(Feature feature, IModelTransformer.STRATEGY level) {
+
+        if (IModelTransformer.STRATEGY.ONE_WAY == level) {
+            replaceSingleAlternativeWithMandatoryGroups(feature);
+        }
+
         groupFeaturesTogether(feature);
 
         //Recursively beautify children
         for (Group group : new ArrayList<>(feature.getChildren())) {
             for (Feature childFeature : new ArrayList<>(group.getFeatures())) {
-                beautify(childFeature);
+                beautify(childFeature, level);
             }
         }
 

@@ -7,33 +7,23 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class TestUtils {
+class TestUtils {
 
     private static final Pattern NEW_LINE_PATTERN = Pattern.compile("(\\\\r)?\\\\n");
 
-    public static <T> T[] add2BeginningOfArray(T[] elements, T element) {
-        T[] newArray = Arrays.copyOf(elements, elements.length + 1);
-        newArray[0] = element;
-        System.arraycopy(elements, 0, newArray, 1, elements.length);
-
-        return newArray;
-    }
-
-    public static String sortDecisionModel(String model) throws IOException {
+    static String sortDecisionModel(String model) throws IOException {
         //Sometimes \r is used as line separator
         String sanitisedModel = NEW_LINE_PATTERN.matcher(model).replaceAll(System.lineSeparator());
 
         CSVParser parser = createCSVFormat(true).parse(new StringReader(sanitisedModel));
 
-        List<CSVRecord> records = parser.stream().collect(Collectors.toCollection(ArrayList::new));
-
-        records.sort(Comparator.comparing(o -> o.get(0)));
+        List<CSVRecord> records = parser.stream().sorted(Comparator.comparing(o -> o.get(0)))
+                .collect(Collectors.toCollection(ArrayList::new));
 
         List<String> lines = new ArrayList<>();
         for (CSVRecord record : records) {

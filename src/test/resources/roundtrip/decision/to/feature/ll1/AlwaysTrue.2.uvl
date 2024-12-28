@@ -1,0 +1,17 @@
+features
+        "Sandwich#"
+                alternative
+                        Sandwich
+                                mandatory
+                                        "Bread#"
+                                                alternative
+                                                        Bread
+                                optional
+                                        Cheese
+                                        Sauce
+                                                mandatory
+                                                        "Sauce*"
+                                                                alternative
+                                                                        Ketchup
+                                                                        Mustard
+

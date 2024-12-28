@@ -11,6 +11,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import java.util.stream.Stream;
 abstract class TransformationTest<FromModel, ToModel> {
 
     private static final long TIMEOUT_TIME = 1L;
+    static final Path TEMP_PATH = Paths.get("src", "test", "resources", "oneway", ".temporary.txt");
 
     /**
      * Compares the real model from the file with the transformed model.
@@ -51,8 +53,7 @@ abstract class TransformationTest<FromModel, ToModel> {
 
         // second transformation
         ToModel modelToTransform2 = getToModelFromString(transformedModel);
-        String transformedModel2 = convertFromModelToString(
-                transformToModelToFromModel(modelToTransform2, IModelTransformer.STRATEGY.ONE_WAY));
+        String transformedModel2 = convertFromModelToString(transformToModelToFromModel(modelToTransform2));
         String expectedModel2 = readFromModelAsString(path3);
         Assertions.assertEquals(expectedModel2, transformedModel2);
     }
@@ -132,8 +133,7 @@ abstract class TransformationTest<FromModel, ToModel> {
     protected abstract ToModel transformFromModelToToModel(FromModel modelToBeTransformed,
                                                            IModelTransformer.STRATEGY strategy) throws Exception;
 
-    protected abstract FromModel transformToModelToFromModel(ToModel modelToBeTransformed,
-                                                             IModelTransformer.STRATEGY strategy) throws Exception;
+    protected abstract FromModel transformToModelToFromModel(ToModel modelToBeTransformed) throws Exception;
 
     protected abstract String readToModelAsString(Path path) throws Exception;
 

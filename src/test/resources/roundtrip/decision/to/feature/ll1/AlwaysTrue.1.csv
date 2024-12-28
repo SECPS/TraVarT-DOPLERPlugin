@@ -1,0 +1,6 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+Bread#;Which Bread?;Enumeration;Bread;1:1;;Sandwich#.Sandwich
+Cheese;Cheese?;Boolean;true | false;;;Sandwich#.Sandwich
+Sandwich#;Which Sandwich?;Enumeration;Sandwich;1:1;;true
+Sauce;Sauce?;Boolean;true | false;;;Sandwich#.Sandwich
+Sauce*;Which Sauce*?;Enumeration;Ketchup | Mustard;1:1;;Sauce

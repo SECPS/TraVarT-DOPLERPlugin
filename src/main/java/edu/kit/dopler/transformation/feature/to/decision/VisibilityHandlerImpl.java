@@ -31,28 +31,23 @@ public class VisibilityHandlerImpl implements VisibilityHandler {
     @Override
     public IExpression resolveVisibility(FeatureModel featureModel, Dopler decisionModel, Feature feature,
                                          IModelTransformer.STRATEGY level) {
-
         Optional<Feature> parent = switch (level) {
             case ONE_WAY -> featureFinder.findFirstNonMandatoryParent(featureModel, feature);
             case ROUNDTRIP -> Optional.ofNullable(feature);
         };
 
-        //Parent has no group
-        if (parent.isPresent() && null == parent.get().getParentGroup()) {
+        //Parent has no parent group or is not present. Decision is always visible.
+        if (parent.isEmpty() || null == parent.get().getParentGroup()) {
             return new BooleanLiteralExpression(true);
         }
 
-        // Two possible cases depending on the value of parent:
-        // 1. If parent is empty, then there is no non-mandatory parent.
-        // -> Decision is always taken. Visibility must therefore be true.
-        // 2. If parent is present, then there is a non-mandatory parent.
+        // If parent is present, then there is a non-mandatory parent.
         // -> Look at parent group of this non-mandatory parent
-
-        return parent.map(p -> switch (p.getParentGroup().GROUPTYPE) {
-            case OPTIONAL -> handleOptionalFeature(decisionModel, p);
-            case ALTERNATIVE, OR, MANDATORY -> handleAlternativeAndOrFeature(p, decisionModel);
-            case GROUP_CARDINALITY -> throw new UnexpectedTypeException(p.getParentGroup());
-        }).orElseGet(() -> new BooleanLiteralExpression(true));
+        return switch (parent.get().getParentGroup().GROUPTYPE) {
+            case OPTIONAL -> handleOptionalFeature(decisionModel, parent.get());
+            case ALTERNATIVE, OR, MANDATORY -> handleAlternativeAndOrFeature(decisionModel, parent.get());
+            case GROUP_CARDINALITY -> throw new UnexpectedTypeException(parent.get().getParentGroup());
+        };
     }
 
     @Override
@@ -94,7 +89,7 @@ public class VisibilityHandlerImpl implements VisibilityHandler {
      * the given feature and {@code decision} is the name of the parent of the given feature. If the parent is the root
      * of the model, then a {@link BooleanLiteralExpression} with the value {@code true} is returned.
      */
-    private IExpression handleAlternativeAndOrFeature(Feature parent, Dopler decisionModel) {
+    private IExpression handleAlternativeAndOrFeature(Dopler decisionModel, Feature parent) {
         Optional<IDecision<?>> parentOfParentDecision =
                 decisionFinder.findDecisionByValue(decisionModel, parent.getFeatureName());
         if (parentOfParentDecision.isEmpty()) {

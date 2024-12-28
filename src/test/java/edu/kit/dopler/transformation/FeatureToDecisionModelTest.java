@@ -1,23 +1,19 @@
 package edu.kit.dopler.transformation;
 
 import at.jku.cps.travart.core.common.IModelTransformer;
+import at.jku.cps.travart.core.sampler.DefaultCoreModelSampler;
 import de.vill.main.UVLModelFactory;
 import de.vill.model.FeatureModel;
 import edu.kit.dopler.io.DecisionModelReader;
 import edu.kit.dopler.io.DecisionModelWriter;
 import edu.kit.dopler.model.Dopler;
-import edu.kit.dopler.model.Main;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static edu.kit.dopler.transformation.Transformer.STANDARD_MODEL_NAME;
-
 class FeatureToDecisionModelTest extends TransformationTest<FeatureModel, Dopler> {
-
-    private static final Path TEMP_PATH = Paths.get("src", "test", "resources", "oneway", ".temporary.txt");
 
     @Override
     protected String readToModelAsString(Path path) throws IOException {
@@ -76,23 +72,22 @@ class FeatureToDecisionModelTest extends TransformationTest<FeatureModel, Dopler
     @Override
     protected Dopler transformFromModelToToModel(FeatureModel modelToBeTransformed,
                                                  IModelTransformer.STRATEGY strategy) {
-        return new Transformer().transform(modelToBeTransformed, STANDARD_MODEL_NAME, strategy);
+        return new Transformer().transform(modelToBeTransformed, Transformer.STANDARD_MODEL_NAME, strategy);
     }
 
     @Override
-    protected FeatureModel transformToModelToFromModel(Dopler modelToBeTransformed,
-                                                       IModelTransformer.STRATEGY strategy) {
-        return new Transformer().transform(modelToBeTransformed, STANDARD_MODEL_NAME, strategy);
+    protected FeatureModel transformToModelToFromModel(Dopler modelToBeTransformed) {
+        return new Transformer().transform(modelToBeTransformed, Transformer.STANDARD_MODEL_NAME,
+                IModelTransformer.STRATEGY.ONE_WAY);
     }
 
     @Override
     protected int getAmountOfConfigsOfToModel(Dopler dopler) {
-        return Main.getAmountOfConfigs(dopler);
+        throw new RuntimeException("Not implemented");
     }
 
     @Override
-    protected int getAmountOfConfigsOfFromModel(FeatureModel featureModel) {
-        //return new DefaultCoreModelSampler().sampleValidConfigurations(featureModel).size();
-        return -1;
+    protected int getAmountOfConfigsOfFromModel(FeatureModel featureModel) throws Exception {
+        return new DefaultCoreModelSampler().sampleValidConfigurations(featureModel).size();
     }
 }

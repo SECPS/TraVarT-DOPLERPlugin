@@ -1,0 +1,71 @@
+namespace GPL
+
+features
+	GPL
+		mandatory
+			MainGpl
+				mandatory
+					TestProg
+					Alg
+						or
+							Number
+							Connected
+							StrongC
+								mandatory
+									Transpose
+									StronglyConnected
+							Cycle
+							MSTPrim
+							MSTKruskal
+					HiddenWgt
+						mandatory
+							WeightOptions
+								optional
+									WeightedWithEdges
+									WeightedWithNeighbors
+									WeightedOnlyVertices
+					Wgt
+						alternative
+							Weighted
+							Unweighted
+					HiddenGtp
+						alternative
+							DirectedWithEdges
+							DirectedWithNeighbors
+							DirectedOnlyVertices
+							UndirectedWithEdges
+							UndirectedWithNeighbors
+							UndirectedOnlyVertices
+					Gtp
+						alternative
+							Directed
+							Undirected
+					Implementation
+						alternative
+							OnlyVertices
+							WithNeighbors
+							WithEdges
+					Base
+
+				optional
+					Src
+						alternative
+							BFS
+							DFS
+
+constraints
+	Number => Gtp & Src
+	Connected => Undirected & Src
+	StrongC => Directed & DFS
+	Cycle => Gtp & DFS
+	MSTKruskal | MSTPrim => Undirected & Weighted
+	MSTKruskal | MSTPrim => !(MSTKruskal & MSTPrim)
+	OnlyVertices & Weighted => WeightedOnlyVertices
+	WithNeighbors & Weighted => WeightedWithNeighbors
+	WithEdges & Weighted => WeightedWithEdges
+	OnlyVertices & Directed => DirectedOnlyVertices
+	WithNeighbors & Directed => DirectedWithNeighbors
+	WithEdges & Directed => DirectedWithEdges
+	OnlyVertices & Undirected => UndirectedOnlyVertices
+	WithNeighbors & Undirected => UndirectedWithNeighbors
+	WithEdges & Undirected => UndirectedWithEdges

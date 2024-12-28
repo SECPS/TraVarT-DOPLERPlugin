@@ -1,0 +1,14 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+Cooling_L2;Cooling_L2?;Boolean;true | false;;;dm_DissModel#.dm_DissModel
+Cooling_Segment;Cooling_Segment?;Boolean;true | false;;;Cooling_L2
+Gen_Plan_Product;Gen_Plan_Product?;Boolean;true | false;;;Gen_Planning2*.Lot
+Gen_Planning1#;Which Gen_Planning1?;Enumeration;Gen_Planning1;1:1;;dm_DissModel#.dm_DissModel
+Gen_Planning1*;Which Gen_Planning1*?;Enumeration;Sequence | Heat;1:1;;Gen_Planning1#.Gen_Planning1
+Gen_Planning2#;Which Gen_Planning2?;Enumeration;Gen_Planning2;1:1;;dm_DissModel#.dm_DissModel
+Gen_Planning2*;Which Gen_Planning2*?;Enumeration;Lot | Product | Gen_Plan_Analysis;1:1;;Gen_Planning2#.Gen_Planning2
+Gen_Watchdogs;Gen_Watchdogs?;Boolean;true | false;;;dm_DissModel#.dm_DissModel
+Mat_Lines#;Which Mat_Lines?;Enumeration;Mat_Lines;1:1;;dm_DissModel#.dm_DissModel
+Mat_Tracking;Mat_Tracking?;Boolean;true | false;;;dm_DissModel#.dm_DissModel
+QA_A;QA_A?;Boolean;true | false;;;QA_C
+QA_C;QA_C?;Boolean;true | false;;;dm_DissModel#.dm_DissModel
+dm_DissModel#;Which dm_DissModel?;Enumeration;dm_DissModel;1:1;;true

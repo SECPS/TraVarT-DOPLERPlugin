@@ -1,0 +1,20 @@
+features
+        "Root#"
+                alternative
+                        Root
+                                mandatory
+                                        "Root*"
+                                                alternative
+                                                        X
+                                                        Y
+                                                        Z
+                                        "Root**"
+                                                or
+                                                        G
+                                                        H
+                                                        I
+                                optional
+                                        A
+                                        B
+                                        C
+

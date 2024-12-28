@@ -1,0 +1,45 @@
+namespace VncViewer
+
+features
+	VncViewer
+		mandatory
+			VncViewerMain
+				mandatory
+					Typee
+						mandatory
+							Opt
+								or
+									OptionsMenuFeatures
+										mandatory
+											OptionsFeat
+
+										optional
+											MOpt
+												or
+													OpEncodingFeat
+													OpCompressionFeat
+													OpJPEGqualityFeat
+													OpCursorShapeFeat
+													OpCopyRectFeat
+													OpRestrictedColorsFeat
+													OpMouse23Feat
+													OpViewFeat
+													OpShareFeat
+									BOpt
+										or
+											AboutButtonFeat
+											AltTabButtonFeat
+											RefreshButtonFeat
+											CtrlAltDelButtonFeat
+											RecordButtonFeat
+											ClipboardButtonFeat
+											OptionsButtonFeat
+											DisconnectButtonFeat
+									ClipboardFeat
+									RecordingFeat
+					Base
+
+constraints
+	RecordButtonFeat => RecordingFeat
+	OptionsButtonFeat => OptionsFeat
+	ClipboardButtonFeat => ClipboardFeat

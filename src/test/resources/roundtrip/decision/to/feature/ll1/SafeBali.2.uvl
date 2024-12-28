@@ -1,0 +1,42 @@
+namespace Bali
+
+features
+	Bali
+		mandatory
+			Tool
+				alternative
+					A
+						mandatory
+							bali2jak
+
+						optional
+							requireBali2jak
+					B
+						mandatory
+							bali2jcc
+
+						optional
+							requireBali2jcc
+					C
+						mandatory
+							composer
+
+						optional
+							requireComposer
+					D
+						mandatory
+							bali2layerGUI
+							bali2layer
+							bali2layerOptions
+			codegen
+			Base
+				mandatory
+					collect
+					visitor
+					bali
+					syntax
+					kernel
+
+				optional
+					require
+					requireSyntax

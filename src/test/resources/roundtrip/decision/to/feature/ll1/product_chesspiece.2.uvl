@@ -1,0 +1,53 @@
+features
+        "chesspieces_new_product#"
+                alternative
+                        chesspieces_new_product
+                                mandatory
+                                        "AluminumBar#"
+                                                alternative
+                                                        AluminumBar
+                                        "Base#"
+                                                alternative
+                                                        Base
+                                                                mandatory
+                                                                        "Base*"
+                                                                                alternative
+                                                                                        Base_onestrip
+                                                                                        Base_twostrip
+                                        "Body#"
+                                                alternative
+                                                        Body
+                                                                mandatory
+                                                                        "Body*"
+                                                                                alternative
+                                                                                        Body_major
+                                                                                                mandatory
+                                                                                                        "Body_major*"
+                                                                                                                alternative
+                                                                                                                        King_body
+                                                                                                                        Queen_body
+                                                                                        Body_minor
+                                                                                                mandatory
+                                                                                                        "Body_minor*"
+                                                                                                                alternative
+                                                                                                                        Bishop_body
+                                                                                                                        Knight_body
+                                                                                                                        Pawn_body
+                                                                                                                        Rook_body
+                                        "PLA#"
+                                                alternative
+                                                        PLA
+                                        "Rod#"
+                                                alternative
+                                                        Rod
+                                                                mandatory
+                                                                        "Rod*"
+                                                                                alternative
+                                                                                        Rod_long
+                                                                                        Rod_short
+
+constraints
+        Body_major => Base_twostrip
+        Body_major => Rod_long
+        Body_minor => Base_onestrip
+        Body_minor => Rod_short
