@@ -1,82 +1,122 @@
 features
-        waterfilter_without_components_product
-                optional
-                        WastewaterTankXLModule 
-                        Valve
-                                optional
-                                        Valve1
-                                        Valve2
-                        Nanofilter 
+        "waterfilter_without_components_product#"
+                alternative
+                        waterfilter_without_components_product
                                 mandatory
-                                        NanofilterMaterial 
-                                        NanofilterHull 
-                        WastewaterTankXL 
-                        FreshwaterTank
-                                alternative
-                                        FreshwaterTankS 
-                                        FreshwaterTankXL 
-                        Charcoal
-                                alternative
-                                        CharcoalBone 
-                                        CharcoalActive 
-                mandatory
-                        Mount
-                                alternative
-                                        IronFrame 
-                                        Rack1
-                                        Rack2
-                        FreshwaterTankModule
-                                alternative
-                                        FreshwaterTankSModule 
-                                        FreshwaterTankXLModule 
-                        FilterTankModule
-                                alternative
-                                        FilterTankXLModule
+                                        "FibreMembrane#"
                                                 alternative
-                                                        CBFilterTankXLModule 
-                                                        CAFilterTankXLModule 
-                                        FilterTankSModule
+                                                        FibreMembrane
+                                        "FilterTank#"
                                                 alternative
-                                                        CAFilterTankSModule 
-                                                        CBFilterTankSModule 
-                        Tube
+                                                        FilterTank
+                                                                mandatory
+                                                                        "FilterTank*"
+                                                                                alternative
+                                                                                        FilterTankS
+                                                                                        FilterTankXL
+                                        "FilterTankModule#"
+                                                alternative
+                                                        FilterTankModule
+                                                                mandatory
+                                                                        "FilterTankModule*"
+                                                                                alternative
+                                                                                        FilterTankSModule
+                                                                                                mandatory
+                                                                                                        "FilterTankSModule*"
+                                                                                                                alternative
+                                                                                                                        CAFilterTankSModule
+                                                                                                                        CBFilterTankSModule
+                                                                                        FilterTankXLModule
+                                                                                                mandatory
+                                                                                                        "FilterTankXLModule*"
+                                                                                                                alternative
+                                                                                                                        CAFilterTankXLModule
+                                                                                                                        CBFilterTankXLModule
+                                        "FreshwaterTankModule#"
+                                                alternative
+                                                        FreshwaterTankModule
+                                                                mandatory
+                                                                        "FreshwaterTankModule*"
+                                                                                alternative
+                                                                                        FreshwaterTankSModule
+                                                                                        FreshwaterTankXLModule
+                                        "Mount#"
+                                                alternative
+                                                        Mount
+                                                                mandatory
+                                                                        "Mount*"
+                                                                                alternative
+                                                                                        IronFrame
+                                                                                        Rack1
+                                                                                        Rack2
+                                        "Sand#"
+                                                alternative
+                                                        Sand
+                                        "Tube#"
+                                                alternative
+                                                        Tube
+                                                                mandatory
+                                                                        "Tube1#"
+                                                                                alternative
+                                                                                        Tube1
+                                                                        "Tube2#"
+                                                                                alternative
+                                                                                        Tube2
+                                                                optional
+                                                                        Tube3
                                 optional
-                                        Tube3 
-                                mandatory
-                                        Tube1 
-                                        Tube2 
-                        FibreMembrane 
-                        FilterTank
-                                alternative
-                                        FilterTankS 
-                                        FilterTankXL 
-                        Sand 
+                                        Charcoal
+                                                mandatory
+                                                        "Charcoal*"
+                                                                alternative
+                                                                        CharcoalActive
+                                                                        CharcoalBone
+                                        FreshwaterTank
+                                                mandatory
+                                                        "FreshwaterTank*"
+                                                                alternative
+                                                                        FreshwaterTankS
+                                                                        FreshwaterTankXL
+                                        Nanofilter
+                                                mandatory
+                                                        "NanofilterHull#"
+                                                                alternative
+                                                                        NanofilterHull
+                                                        "NanofilterMaterial#"
+                                                                alternative
+                                                                        NanofilterMaterial
+                                        Valve
+                                                optional
+                                                        Valve1
+                                                        Valve2
+                                        WastewaterTankXL
+                                        WastewaterTankXLModule
 
 constraints
-	FilterTankXLModule => FilterTankXL
-	CAFilterTankXLModule => FilterTankXL
-	CAFilterTankXLModule => CharcoalActive
-	WastewaterTankXLModule => WastewaterTankXL
-	WastewaterTankXLModule => Valve2
-	FilterTankSModule => FilterTankS
-	CAFilterTankSModule => FilterTankS
-	CAFilterTankSModule => CharcoalActive
-	CBFilterTankSModule => FilterTankS
-	CBFilterTankSModule => CharcoalBone
-	FreshwaterTankXLModule => Valve1
-	CBFilterTankXLModule => FilterTankXL
-	CBFilterTankXLModule => CharcoalBone
-	FreshwaterTankSModule => FreshwaterTankS
-	FreshwaterTankSModule => Valve1
-	FreshwaterTankXL => (FilterTankXL & WastewaterTankXL)
-	WastewaterTankXL => (FilterTankXL & FreshwaterTankXL)
-	FilterTankXL => (FreshwaterTankXL & WastewaterTankXL)
-	FreshwaterTankXLModule => (FilterTankXLModule & WastewaterTankXLModule)
-	WastewaterTankXLModule => (FilterTankXLModule & FreshwaterTankXLModule)
-	FilterTankXLModule => (FreshwaterTankXLModule & WastewaterTankXLModule)
-	Nanofilter => !IronFrame
-	FreshwaterTankXLModule => Rack2
-	FreshwaterTankS => (IronFrame | Rack1)
-	FreshwaterTankXLModule => Tube3
-	FreshwaterTankSModule => !Tube3
-	FreshwaterTankSModule => !Valve2
+        !(!FreshwaterTankS | IronFrame) => Rack1
+        CAFilterTankSModule => CharcoalActive
+        CAFilterTankSModule => FilterTankS
+        CAFilterTankXLModule => CharcoalActive
+        CAFilterTankXLModule => FilterTankXL
+        CBFilterTankSModule => CharcoalBone
+        CBFilterTankSModule => FilterTankS
+        CBFilterTankXLModule => CharcoalBone
+        CBFilterTankXLModule => FilterTankXL
+        FilterTankSModule => FilterTankS
+        FilterTankXL => FreshwaterTankXL & WastewaterTankXL
+        FilterTankXLModule => FilterTankXL
+        FilterTankXLModule => FreshwaterTankXLModule & WastewaterTankXLModule
+        FreshwaterTankSModule => !Tube3
+        FreshwaterTankSModule => !Valve2
+        FreshwaterTankSModule => FreshwaterTankS
+        FreshwaterTankSModule => Valve1
+        FreshwaterTankXL => FilterTankXL & WastewaterTankXL
+        FreshwaterTankXLModule => FilterTankXLModule & WastewaterTankXLModule
+        FreshwaterTankXLModule => Rack2
+        FreshwaterTankXLModule => Tube3
+        FreshwaterTankXLModule => Valve1
+        Nanofilter => !IronFrame
+        WastewaterTankXL => FilterTankXL & FreshwaterTankXL
+        WastewaterTankXLModule => FilterTankXLModule & FreshwaterTankXLModule
+        WastewaterTankXLModule => Valve2
+        WastewaterTankXLModule => WastewaterTankXL

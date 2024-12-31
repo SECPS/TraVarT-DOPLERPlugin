@@ -1,20 +1,26 @@
-namespace VIRTUAL_ROOT
-
 features
-	VIRTUAL_ROOT
-		or
-			GSM_Protocol_1900
-			MP3_Recording
-			Camera_Resolution	
-				alternative
-					T21MP
-					T5MP
-					T31MP
-			Camera
-			Audio_Formats	
-				or
-					WAV
-					MP3
+        "VIRTUAL_ROOT#"
+                alternative
+                        VIRTUAL_ROOT
+                                mandatory
+                                        "VIRTUAL_ROOT*"
+                                                or
+                                                        Audio_Formats
+                                                                mandatory
+                                                                        "Audio_Formats*"
+                                                                                or
+                                                                                        MP3
+                                                                                        WAV
+                                                        Camera
+                                                        Camera_Resolution
+                                                                mandatory
+                                                                        "Camera_Resolution*"
+                                                                                alternative
+                                                                                        T21MP
+                                                                                        T31MP
+                                                                                        T5MP
+                                                        GSM_Protocol_1900
+                                                        MP3_Recording
 
 constraints
-	MP3_Recording => MP3
+        MP3_Recording => MP3

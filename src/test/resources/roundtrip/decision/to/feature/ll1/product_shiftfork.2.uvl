@@ -1,34 +1,64 @@
 features
-        shiftfork_product
-                mandatory
-                        Barrel
-                                optional
-                                        Barrel1_2
+        "shiftfork_product#"
+                alternative
+                        shiftfork_product
                                 mandatory
-                                        Barrel1_1
-                        Screw
-                        Jack1
-                        Ring1
-                        O_Ring
-                        Fork
-                                mandatory
-                                        Fork3
-                                        Fork4
-                                        Fork5
-                        Pipe
-                                alternative
-                                        Pipe3
-                                        Pipe8
-                                        Pipe2
-                        Lock
-                                alternative
-                                        Lock3
-                                        Lock2
-                                        Lock1
+                                        "Barrel#"
+                                                alternative
+                                                        Barrel
+                                                                mandatory
+                                                                        "Barrel1_1#"
+                                                                                alternative
+                                                                                        Barrel1_1
+                                                                optional
+                                                                        Barrel1_2
+                                        "Fork#"
+                                                alternative
+                                                        Fork
+                                                                mandatory
+                                                                        "Fork3#"
+                                                                                alternative
+                                                                                        Fork3
+                                                                        "Fork4#"
+                                                                                alternative
+                                                                                        Fork4
+                                                                        "Fork5#"
+                                                                                alternative
+                                                                                        Fork5
+                                        "Jack1#"
+                                                alternative
+                                                        Jack1
+                                        "Lock#"
+                                                alternative
+                                                        Lock
+                                                                mandatory
+                                                                        "Lock*"
+                                                                                alternative
+                                                                                        Lock1
+                                                                                        Lock2
+                                                                                        Lock3
+                                        "O_Ring#"
+                                                alternative
+                                                        O_Ring
+                                        "Pipe#"
+                                                alternative
+                                                        Pipe
+                                                                mandatory
+                                                                        "Pipe*"
+                                                                                alternative
+                                                                                        Pipe2
+                                                                                        Pipe3
+                                                                                        Pipe8
+                                        "Ring1#"
+                                                alternative
+                                                        Ring1
+                                        "Screw#"
+                                                alternative
+                                                        Screw
 
 constraints
-        Lock1 => Pipe2 | Pipe3
+        !(!Lock1 | Pipe2) => Pipe3
+        !(!Pipe2 & !Pipe8) => Barrel1_2
         Lock2 => Pipe3
         Lock3 => Pipe8
-        Pipe2 | Pipe8 => Barrel1_2
         Pipe3 => !Barrel1_2

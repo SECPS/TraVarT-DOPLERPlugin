@@ -1,26 +1,37 @@
-namespace eshop
-
 features
-	eshop	
-		mandatory
-			catalogo
-			pago	
-				or
-					transferencias
-					tarjetacredito
-			seguridad	
-				alternative
-					alta
-					estandar
-		optional
-			buscador	
-				optional
-					reportepublico
-				mandatory
-					register
+        "eshop#"
+                alternative
+                        eshop
+                                mandatory
+                                        "catalogo#"
+                                                alternative
+                                                        catalogo
+                                        "pago#"
+                                                alternative
+                                                        pago
+                                                                mandatory
+                                                                        "pago*"
+                                                                                or
+                                                                                        tarjetacredito
+                                                                                        transferencias
+                                        "seguridad#"
+                                                alternative
+                                                        seguridad
+                                                                mandatory
+                                                                        "seguridad*"
+                                                                                alternative
+                                                                                        alta
+                                                                                        estandar
+                                optional
+                                        buscador
+                                                mandatory
+                                                        "register#"
+                                                                alternative
+                                                                        register
+                                                optional
+                                                        reportepublico
 
 constraints
-	eshop & register
-	!alta | !reportepublico
-	catalogo | !transferencias | tarjetacredito | pago | alta | estandar | seguridad | reportepublico | buscador | eshop
-	!tarjetacredito | alta
+        alta => !reportepublico
+        buscador
+        tarjetacredito => alta

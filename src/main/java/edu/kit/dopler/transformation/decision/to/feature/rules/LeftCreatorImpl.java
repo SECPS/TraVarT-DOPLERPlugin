@@ -82,9 +82,9 @@ public class LeftCreatorImpl implements LeftCreator {
     private static Optional<Constraint> handleBooleanLiteralExpression(
             BooleanLiteralExpression booleanLiteralExpression) {
         if (booleanLiteralExpression.getLiteral()) {
-            return Optional.of(new LiteralConstraint("true"));
+            return Optional.empty();
         } else {
-            return Optional.of(new LiteralConstraint("false"));
+            throw new RuntimeException("Left side is FALSE");
         }
     }
 }

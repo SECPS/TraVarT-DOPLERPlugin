@@ -19,5 +19,5 @@ features
 
 constraints
         alta => !reportepublico
+        buscador
         tarjetacredito => alta
-        true => buscador

@@ -1,22 +1,29 @@
-namespace Mobilephone
-
 features
-	Mobilephone	
-		mandatory
-			Calls
-			Screen	
-				alternative
-					Basic
-					Colour
-					HighResolution
-
-		optional
-			GPS
-			Media	
-				or
-					Camera
-					MP3
+        "Mobilephone#"
+                alternative
+                        Mobilephone
+                                mandatory
+                                        "Calls#"
+                                                alternative
+                                                        Calls
+                                        "Screen#"
+                                                alternative
+                                                        Screen
+                                                                mandatory
+                                                                        "Screen*"
+                                                                                alternative
+                                                                                        Basic
+                                                                                        Colour
+                                                                                        HighResolution
+                                optional
+                                        GPS
+                                        Media
+                                                mandatory
+                                                        "Media*"
+                                                                or
+                                                                        Camera
+                                                                        MP3
 
 constraints
-	!GPS | !Basic
-	HighResolution | !Camera
+        !HighResolution => !Camera
+        GPS => !Basic

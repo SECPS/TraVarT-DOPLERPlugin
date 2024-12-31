@@ -1,464 +1,658 @@
-namespace Accessibility
-
 features
-	Accessibility	
-		optional
-			Appearance	
-				mandatory
-					Look	
-						mandatory
-							Background	
-								alternative
-									TwillightFrost2560x1600
-									EarlyBlossom2560x1600
-									Ubuntu2560x1600
-									MorningDew2560x1600
-									PrecisePagolin2560x1600
-									DelicatePetals2560x1600
-							Theme	
-								alternative
-									Adwaita
-									AmbianceDefault
-									Radiance
-									HighContrast1
-							LauncherIconSize	
-								alternative
-									x_48
-									x_32
-									x_64
-					Behaviour	
-						mandatory
-							RevealLocation	
-								alternative
-									Left1
-									TopLeftCorner
-							RevealSensitivity	
-								alternative
-									Low
-									High
-							ShowTheMenusForAWindow	
-								alternative
-									InTheMenuBar
-									InTheWindowsTitleBar
-
-						optional
-							AutoHideTheLauncher
-							EnableWorkspaces
-							AddShowDesktopIconToTheLauncher
-			BrightnessAndLock	
-				mandatory
-					Brightness	
-						mandatory
-							TurnScreenOffWhenInactiveFor	
-								alternative
-									x_2Minutes
-									x_1Hour
-									x_10Minutes
-									x_30Minutes
-									x_1Minute
-									Never
-									x_3Minutes
-
-						optional
-							DimSceenToSaveLeft
-
-				optional
-					Lock1	
-						mandatory
-							LockScreenAfter	
-								alternative
-									x_30Minutes_
-									x_2Minutes_
-									x_1Hour_
-									x_10Minutes_
-									ScreenTurnsOff
-									x_1Minute_
-									x_30Seconds
-									x_5Minutes_
-					RequireMyPasswordWhenWakingFromSuspend
-			Displays	
-				mandatory
-					Resolution	
-						alternative
-							Normal
-							Clockwise
-							Counterclockwise
-							x_180Degres
-					Rotation
-					LauncherPlacement	
-						alternative
-							AllDisplays
-							BuiltInDisplay1
-					ScaleForMenuAndTitleBars
-					ScaleAllWindowContentToMatch	
-						alternative
-							DisplayWithSmallestControls
-							DisplayWithLargestControls
-							BuiltInDisplay2
-
-				optional
-					StickyEdges
-			TextEntry	
-				mandatory
-					SwitchToNextSourceUsing	
-						alternative
-							Super_Space1
-							New_Accelerator2
-					SwitchToPreviousSourceUsing	
-						alternative
-							New_Accelerator1
-							Shift_Super_Space1
-					TextEntry_4
-						alternative
-							AllowDifferentSourcesForEachWindow
-							UseTheSameSourceForAllWindows
-					ShowInputCandidates	
-						alternative
-							Vertically
-							Horizontally
-
-				optional
-					AllowDifferentLayoutsForIndividualWindows1	
-						alternative
-							NewWindowsUseTheCurrentSource
-							NewWindowsUseTheDefaultSource
-					UsingCustomFont
-					KeyboardSetting	
-						mandatory
-							Typing1	
-								mandatory
-									Typing1_1
-										alternative
-											CursorBlinking	
-												optional
-													CursorBlinksInTextFields
-													Speed2	
-														alternative
-															Fast2
-															Slow2
-											RepeatKeys	
-												mandatory
-													Delay2	
-														alternative
-															Short4
-															Long1
-													Speed1	
-														alternative
-															Fast1
-															Slow1
-
-												optional
-													KeyPressesRepeatWhenKeyIsHeldDown
-
-								optional
-									LayoutSettings	
-										alternative
-											AllowDifferentLayoutsForIndividualWindows2	
-												alternative
-													NewWindowsUseTheDefaultLayout
-													NewWindowsUseThePreviousWindowsLayout
-											UseTheSameLayoutForAllWindows
-
-						optional
-							Shortcuts	
-								optional
-									Launchers	
-										alternative
-											KeyToShowTheHUD	
-												mandatory
-													Alt_T
-											LauncherTerminal	
-												mandatory
-													Ctrl_Alt_T
-									Navigation	
-										mandatory
-											MoveWindowToWorkspace	
-												mandatory
-													Disabled1
-									Screenshots	
-										alternative
-											CopyAScreenhotOfAnAreaToClipboard	
-												mandatory
-													Shift_Ctrl_Print
-											TakeAScreenshotOfAWindow	
-												mandatory
-													Alt_Print
-											CopyAScreenshotOfAwindowToClipboard	
-												mandatory
-													Ctrl_Alt_Print
-											TakeAScreenshot	
-												mandatory
-													Print
-											CopyAScreenshotToClipboard	
-												mandatory
-													Ctrl_Print
-											TakeAScreenshotOfAnArea	
-												mandatory
-													Shift_Print
-									SoundAndMedia
-									System	
-										alternative
-											LockScreen	
-												mandatory
-													Ctrl_Alt_L
-											LogOut	
-												mandatory
-													Ctr_Alt_Delete
-									Typing2	
-										alternative
-											SwitchToNextSource	
-												mandatory
-													Super_Space2
-											ComposeKey	
-												mandatory
-													Disabled2
-											AlternativeCharactersKey	
-												mandatory
-													Disabled3
-											SwitchToPreviousSource	
-												mandatory
-													Shift_Super_Space2
-									UniversalAccess2	
-										alternative
-											TurnOnScreenKeyboardOnOrOff	
-												mandatory
-													Disabled4
-											DecreaseTextSize	
-												mandatory
-													Disabled6
-											IncreaseTextSize	
-												mandatory
-													Disabled5
-											ZoomIn	
-												mandatory
-													Alt_Super_plusEqual
-											TurnZoomOnOrOff	
-												mandatory
-													Alt_Super_plus1
-											TurnScreenReaderOnOrOff	
-												mandatory
-													Alt_Super_plus2
-											ZoomOut	
-												mandatory
-													Alt_Super_plusMinus
-											HighContrastOnOrOff	
-												mandatory
-													Disabled7
-									Windows	
-										alternative
-											ToggleMaximisationState	
-												mandatory
-													Ctrl_Alt_S1
-											ToggleShadedState	
-												mandatory
-													Ctrl_Alt_S2
-											MaximiseWindow	
-												mandatory
-													Ctrl_Super_Up
-											MoveWindow	
-												mandatory
-													Alt_F7
-											MinimizeWindow	
-												mandatory
-													Ctrl_Alt_0
-											ActivateTheWindowMenu	
-												mandatory
-													Alt_Space
-											ResizeWindow	
-												mandatory
-													Alt_F8
-											RaiseWindowAboveOtherWindows	
-												mandatory
-													Disabled9
-											ToggleFullscreenMode	
-												mandatory
-													Disabled8
-											RestoreWindow	
-												mandatory
-													Ctrl_Super_Down
-											CloseWindow	
-												mandatory
-													Alt_F4
-											LowerWindowBelowOtherWindows	
-												mandatory
-													Disabled10
-									CustomShortcuts
-			UniversalAccess1	
-				optional
-					Seeing	
-						optional
-							HighContrast2
-							LargeText
-							ScreenReader
-							BeepOnCapsAndNumLock
-					Hearing	
-						optional
-							VisualAlerts	
-								alternative
-									FlashTheWindowTitle
-									FlashTheEntireScreen
-					Typing3	
-						optional
-							OnScreenKeyboard
-							StickyKeys	
-								optional
-									DisableIfTwoKeysArePressedTogether
-									BeepWhenAModifierKeysIsPressed
-							SlowKeys	
-								mandatory
-									AcceptanceDelay3	
-										alternative
-											Long2
-											Short5
-
-								optional
-									BeepWhenAKeysIs	
-										or
-											Accepted
-											Rejected
-											Pressed
-							BounceKeys	
-								mandatory
-									AcceptanceDelay1	
-										alternative
-											Long3
-											Short1
-
-								optional
-									BeepWhenAKeyIsRejected
-							EnableByKeyboard
-					PointingAndClicking	
-						optional
-							MouseKeys
-							SimulatedSecondaryCLick	
-								optional
-									AcceptanceDelay2	
-										alternative
-											Long4
-											Short2
-							HoverClick	
-								optional
-									Delay1	
-										alternative
-											Long5
-											Short3
-									MotionThreshold	
-										alternative
-											Large
-											Small
-							MouseSettings	
-								mandatory
-									General	
-										mandatory
-											PrimaryButton	
-												alternative
-													Right
-													Left2
-											DoubleClick	
-												alternative
-													Slow3
-													Fast3
-
-								optional
-									Touchpad	
-										mandatory
-											PointerSpeed
-
-										optional
-											DisableWhileTyping
-											TapTopClick
-											TwoFingerScroll
-											NaturalScrolling
-			BuiltInDisplay
-			Super_Space
-			Shift_Super_Space
-			New_Accelerator
-			AllowDifferentLayoutsForIndividualWindows
-			Typing
-			Short
-			Long
-			Speed
-			Slow
-			Fast
-			UniversalAccess
-			Disabled
-			Alt_Super_plus
-			Ctrl_Alt_S
-			HighContrast
-			AcceptanceDelay
-			Delay
-			Left
+        "Accessibility#"
+                alternative
+                        Accessibility
+                                optional
+                                        AcceptanceDelay
+                                        AllowDifferentLayoutsForIndividualWindows
+                                        Alt_Super_plus
+                                        Appearance
+                                                mandatory
+                                                        "Behaviour#"
+                                                                alternative
+                                                                        Behaviour
+                                                                                mandatory
+                                                                                        "RevealLocation#"
+                                                                                                alternative
+                                                                                                        RevealLocation
+                                                                                                                mandatory
+                                                                                                                        "RevealLocation*"
+                                                                                                                                alternative
+                                                                                                                                        Left1
+                                                                                                                                        TopLeftCorner
+                                                                                        "RevealSensitivity#"
+                                                                                                alternative
+                                                                                                        RevealSensitivity
+                                                                                                                mandatory
+                                                                                                                        "RevealSensitivity*"
+                                                                                                                                alternative
+                                                                                                                                        High
+                                                                                                                                        Low
+                                                                                        "ShowTheMenusForAWindow#"
+                                                                                                alternative
+                                                                                                        ShowTheMenusForAWindow
+                                                                                                                mandatory
+                                                                                                                        "ShowTheMenusForAWindow*"
+                                                                                                                                alternative
+                                                                                                                                        InTheMenuBar
+                                                                                                                                        InTheWindowsTitleBar
+                                                                                optional
+                                                                                        AddShowDesktopIconToTheLauncher
+                                                                                        AutoHideTheLauncher
+                                                                                        EnableWorkspaces
+                                                        "Look#"
+                                                                alternative
+                                                                        Look
+                                                                                mandatory
+                                                                                        "Background#"
+                                                                                                alternative
+                                                                                                        Background
+                                                                                                                mandatory
+                                                                                                                        "Background*"
+                                                                                                                                alternative
+                                                                                                                                        DelicatePetals2560x1600
+                                                                                                                                        EarlyBlossom2560x1600
+                                                                                                                                        MorningDew2560x1600
+                                                                                                                                        PrecisePagolin2560x1600
+                                                                                                                                        TwillightFrost2560x1600
+                                                                                                                                        Ubuntu2560x1600
+                                                                                        "LauncherIconSize#"
+                                                                                                alternative
+                                                                                                        LauncherIconSize
+                                                                                                                mandatory
+                                                                                                                        "LauncherIconSize*"
+                                                                                                                                alternative
+                                                                                                                                        x_32
+                                                                                                                                        x_48
+                                                                                                                                        x_64
+                                                                                        "Theme#"
+                                                                                                alternative
+                                                                                                        Theme
+                                                                                                                mandatory
+                                                                                                                        "Theme*"
+                                                                                                                                alternative
+                                                                                                                                        Adwaita
+                                                                                                                                        AmbianceDefault
+                                                                                                                                        HighContrast1
+                                                                                                                                        Radiance
+                                        BrightnessAndLock
+                                                mandatory
+                                                        "Brightness#"
+                                                                alternative
+                                                                        Brightness
+                                                                                mandatory
+                                                                                        "TurnScreenOffWhenInactiveFor#"
+                                                                                                alternative
+                                                                                                        TurnScreenOffWhenInactiveFor
+                                                                                                                mandatory
+                                                                                                                        "TurnScreenOffWhenInactiveFor*"
+                                                                                                                                alternative
+                                                                                                                                        Never
+                                                                                                                                        x_10Minutes
+                                                                                                                                        x_1Hour
+                                                                                                                                        x_1Minute
+                                                                                                                                        x_2Minutes
+                                                                                                                                        x_30Minutes
+                                                                                                                                        x_3Minutes
+                                                                                optional
+                                                                                        DimSceenToSaveLeft
+                                                optional
+                                                        Lock1
+                                                                mandatory
+                                                                        "LockScreenAfter#"
+                                                                                alternative
+                                                                                        LockScreenAfter
+                                                                                                mandatory
+                                                                                                        "LockScreenAfter*"
+                                                                                                                alternative
+                                                                                                                        ScreenTurnsOff
+                                                                                                                        x_10Minutes_
+                                                                                                                        x_1Hour_
+                                                                                                                        x_1Minute_
+                                                                                                                        x_2Minutes_
+                                                                                                                        x_30Minutes_
+                                                                                                                        x_30Seconds
+                                                                                                                        x_5Minutes_
+                                                        RequireMyPasswordWhenWakingFromSuspend
+                                        BuiltInDisplay
+                                        Ctrl_Alt_S
+                                        Delay
+                                        Disabled
+                                        Displays
+                                                mandatory
+                                                        "LauncherPlacement#"
+                                                                alternative
+                                                                        LauncherPlacement
+                                                                                mandatory
+                                                                                        "LauncherPlacement*"
+                                                                                                alternative
+                                                                                                        AllDisplays
+                                                                                                        BuiltInDisplay1
+                                                        "Resolution#"
+                                                                alternative
+                                                                        Resolution
+                                                                                mandatory
+                                                                                        "Resolution*"
+                                                                                                alternative
+                                                                                                        Clockwise
+                                                                                                        Counterclockwise
+                                                                                                        Normal
+                                                                                                        x_180Degres
+                                                        "Rotation#"
+                                                                alternative
+                                                                        Rotation
+                                                        "ScaleAllWindowContentToMatch#"
+                                                                alternative
+                                                                        ScaleAllWindowContentToMatch
+                                                                                mandatory
+                                                                                        "ScaleAllWindowContentToMatch*"
+                                                                                                alternative
+                                                                                                        BuiltInDisplay2
+                                                                                                        DisplayWithLargestControls
+                                                                                                        DisplayWithSmallestControls
+                                                        "ScaleForMenuAndTitleBars#"
+                                                                alternative
+                                                                        ScaleForMenuAndTitleBars
+                                                optional
+                                                        StickyEdges
+                                        Fast
+                                        HighContrast
+                                        Left
+                                        Long
+                                        New_Accelerator
+                                        Shift_Super_Space
+                                        Short
+                                        Slow
+                                        Speed
+                                        Super_Space
+                                        TextEntry
+                                                mandatory
+                                                        "ShowInputCandidates#"
+                                                                alternative
+                                                                        ShowInputCandidates
+                                                                                mandatory
+                                                                                        "ShowInputCandidates*"
+                                                                                                alternative
+                                                                                                        Horizontally
+                                                                                                        Vertically
+                                                        "SwitchToNextSourceUsing#"
+                                                                alternative
+                                                                        SwitchToNextSourceUsing
+                                                                                mandatory
+                                                                                        "SwitchToNextSourceUsing*"
+                                                                                                alternative
+                                                                                                        New_Accelerator2
+                                                                                                        Super_Space1
+                                                        "SwitchToPreviousSourceUsing#"
+                                                                alternative
+                                                                        SwitchToPreviousSourceUsing
+                                                                                mandatory
+                                                                                        "SwitchToPreviousSourceUsing*"
+                                                                                                alternative
+                                                                                                        New_Accelerator1
+                                                                                                        Shift_Super_Space1
+                                                        "TextEntry_4#"
+                                                                alternative
+                                                                        TextEntry_4
+                                                                                mandatory
+                                                                                        "TextEntry_4*"
+                                                                                                alternative
+                                                                                                        AllowDifferentSourcesForEachWindow
+                                                                                                        UseTheSameSourceForAllWindows
+                                                optional
+                                                        AllowDifferentLayoutsForIndividualWindows1
+                                                                mandatory
+                                                                        "AllowDifferentLayoutsForIndividualWindows1*"
+                                                                                alternative
+                                                                                        NewWindowsUseTheCurrentSource
+                                                                                        NewWindowsUseTheDefaultSource
+                                                        KeyboardSetting
+                                                                mandatory
+                                                                        "Typing1#"
+                                                                                alternative
+                                                                                        Typing1
+                                                                                                mandatory
+                                                                                                        "Typing1_1#"
+                                                                                                                alternative
+                                                                                                                        Typing1_1
+                                                                                                                                mandatory
+                                                                                                                                        "Typing1_1*"
+                                                                                                                                                alternative
+                                                                                                                                                        CursorBlinking
+                                                                                                                                                                optional
+                                                                                                                                                                        CursorBlinksInTextFields
+                                                                                                                                                                        Speed2
+                                                                                                                                                                                mandatory
+                                                                                                                                                                                        "Speed2*"
+                                                                                                                                                                                                alternative
+                                                                                                                                                                                                        Fast2
+                                                                                                                                                                                                        Slow2
+                                                                                                                                                        RepeatKeys
+                                                                                                                                                                mandatory
+                                                                                                                                                                        "Delay2#"
+                                                                                                                                                                                alternative
+                                                                                                                                                                                        Delay2
+                                                                                                                                                                                                mandatory
+                                                                                                                                                                                                        "Delay2*"
+                                                                                                                                                                                                                alternative
+                                                                                                                                                                                                                        Long1
+                                                                                                                                                                                                                        Short4
+                                                                                                                                                                        "Speed1#"
+                                                                                                                                                                                alternative
+                                                                                                                                                                                        Speed1
+                                                                                                                                                                                                mandatory
+                                                                                                                                                                                                        "Speed1*"
+                                                                                                                                                                                                                alternative
+                                                                                                                                                                                                                        Fast1
+                                                                                                                                                                                                                        Slow1
+                                                                                                                                                                optional
+                                                                                                                                                                        KeyPressesRepeatWhenKeyIsHeldDown
+                                                                                                optional
+                                                                                                        LayoutSettings
+                                                                                                                mandatory
+                                                                                                                        "LayoutSettings*"
+                                                                                                                                alternative
+                                                                                                                                        AllowDifferentLayoutsForIndividualWindows2
+                                                                                                                                                mandatory
+                                                                                                                                                        "AllowDifferentLayoutsForIndividualWindows2*"
+                                                                                                                                                                alternative
+                                                                                                                                                                        NewWindowsUseTheDefaultLayout
+                                                                                                                                                                        NewWindowsUseThePreviousWindowsLayout
+                                                                                                                                        UseTheSameLayoutForAllWindows
+                                                                optional
+                                                                        Shortcuts
+                                                                                optional
+                                                                                        CustomShortcuts
+                                                                                        Launchers
+                                                                                                mandatory
+                                                                                                        "Launchers*"
+                                                                                                                alternative
+                                                                                                                        KeyToShowTheHUD
+                                                                                                                                mandatory
+                                                                                                                                        "Alt_T#"
+                                                                                                                                                alternative
+                                                                                                                                                        Alt_T
+                                                                                                                        LauncherTerminal
+                                                                                                                                mandatory
+                                                                                                                                        "Ctrl_Alt_T#"
+                                                                                                                                                alternative
+                                                                                                                                                        Ctrl_Alt_T
+                                                                                        Navigation
+                                                                                                mandatory
+                                                                                                        "MoveWindowToWorkspace#"
+                                                                                                                alternative
+                                                                                                                        MoveWindowToWorkspace
+                                                                                                                                mandatory
+                                                                                                                                        "Disabled1#"
+                                                                                                                                                alternative
+                                                                                                                                                        Disabled1
+                                                                                        Screenshots
+                                                                                                mandatory
+                                                                                                        "Screenshots*"
+                                                                                                                alternative
+                                                                                                                        CopyAScreenhotOfAnAreaToClipboard
+                                                                                                                                mandatory
+                                                                                                                                        "Shift_Ctrl_Print#"
+                                                                                                                                                alternative
+                                                                                                                                                        Shift_Ctrl_Print
+                                                                                                                        CopyAScreenshotOfAwindowToClipboard
+                                                                                                                                mandatory
+                                                                                                                                        "Ctrl_Alt_Print#"
+                                                                                                                                                alternative
+                                                                                                                                                        Ctrl_Alt_Print
+                                                                                                                        CopyAScreenshotToClipboard
+                                                                                                                                mandatory
+                                                                                                                                        "Ctrl_Print#"
+                                                                                                                                                alternative
+                                                                                                                                                        Ctrl_Print
+                                                                                                                        TakeAScreenshot
+                                                                                                                                mandatory
+                                                                                                                                        "Print#"
+                                                                                                                                                alternative
+                                                                                                                                                        Print
+                                                                                                                        TakeAScreenshotOfAWindow
+                                                                                                                                mandatory
+                                                                                                                                        "Alt_Print#"
+                                                                                                                                                alternative
+                                                                                                                                                        Alt_Print
+                                                                                                                        TakeAScreenshotOfAnArea
+                                                                                                                                mandatory
+                                                                                                                                        "Shift_Print#"
+                                                                                                                                                alternative
+                                                                                                                                                        Shift_Print
+                                                                                        SoundAndMedia
+                                                                                        System
+                                                                                                mandatory
+                                                                                                        "System*"
+                                                                                                                alternative
+                                                                                                                        LockScreen
+                                                                                                                                mandatory
+                                                                                                                                        "Ctrl_Alt_L#"
+                                                                                                                                                alternative
+                                                                                                                                                        Ctrl_Alt_L
+                                                                                                                        LogOut
+                                                                                                                                mandatory
+                                                                                                                                        "Ctr_Alt_Delete#"
+                                                                                                                                                alternative
+                                                                                                                                                        Ctr_Alt_Delete
+                                                                                        Typing2
+                                                                                                mandatory
+                                                                                                        "Typing2*"
+                                                                                                                alternative
+                                                                                                                        AlternativeCharactersKey
+                                                                                                                                mandatory
+                                                                                                                                        "Disabled3#"
+                                                                                                                                                alternative
+                                                                                                                                                        Disabled3
+                                                                                                                        ComposeKey
+                                                                                                                                mandatory
+                                                                                                                                        "Disabled2#"
+                                                                                                                                                alternative
+                                                                                                                                                        Disabled2
+                                                                                                                        SwitchToNextSource
+                                                                                                                                mandatory
+                                                                                                                                        "Super_Space2#"
+                                                                                                                                                alternative
+                                                                                                                                                        Super_Space2
+                                                                                                                        SwitchToPreviousSource
+                                                                                                                                mandatory
+                                                                                                                                        "Shift_Super_Space2#"
+                                                                                                                                                alternative
+                                                                                                                                                        Shift_Super_Space2
+                                                                                        UniversalAccess2
+                                                                                                mandatory
+                                                                                                        "UniversalAccess2*"
+                                                                                                                alternative
+                                                                                                                        DecreaseTextSize
+                                                                                                                                mandatory
+                                                                                                                                        "Disabled6#"
+                                                                                                                                                alternative
+                                                                                                                                                        Disabled6
+                                                                                                                        HighContrastOnOrOff
+                                                                                                                                mandatory
+                                                                                                                                        "Disabled7#"
+                                                                                                                                                alternative
+                                                                                                                                                        Disabled7
+                                                                                                                        IncreaseTextSize
+                                                                                                                                mandatory
+                                                                                                                                        "Disabled5#"
+                                                                                                                                                alternative
+                                                                                                                                                        Disabled5
+                                                                                                                        TurnOnScreenKeyboardOnOrOff
+                                                                                                                                mandatory
+                                                                                                                                        "Disabled4#"
+                                                                                                                                                alternative
+                                                                                                                                                        Disabled4
+                                                                                                                        TurnScreenReaderOnOrOff
+                                                                                                                                mandatory
+                                                                                                                                        "Alt_Super_plus2#"
+                                                                                                                                                alternative
+                                                                                                                                                        Alt_Super_plus2
+                                                                                                                        TurnZoomOnOrOff
+                                                                                                                                mandatory
+                                                                                                                                        "Alt_Super_plus1#"
+                                                                                                                                                alternative
+                                                                                                                                                        Alt_Super_plus1
+                                                                                                                        ZoomIn
+                                                                                                                                mandatory
+                                                                                                                                        "Alt_Super_plusEqual#"
+                                                                                                                                                alternative
+                                                                                                                                                        Alt_Super_plusEqual
+                                                                                                                        ZoomOut
+                                                                                                                                mandatory
+                                                                                                                                        "Alt_Super_plusMinus#"
+                                                                                                                                                alternative
+                                                                                                                                                        Alt_Super_plusMinus
+                                                                                        Windows
+                                                                                                mandatory
+                                                                                                        "Windows*"
+                                                                                                                alternative
+                                                                                                                        ActivateTheWindowMenu
+                                                                                                                                mandatory
+                                                                                                                                        "Alt_Space#"
+                                                                                                                                                alternative
+                                                                                                                                                        Alt_Space
+                                                                                                                        CloseWindow
+                                                                                                                                mandatory
+                                                                                                                                        "Alt_F4#"
+                                                                                                                                                alternative
+                                                                                                                                                        Alt_F4
+                                                                                                                        LowerWindowBelowOtherWindows
+                                                                                                                                mandatory
+                                                                                                                                        "Disabled10#"
+                                                                                                                                                alternative
+                                                                                                                                                        Disabled10
+                                                                                                                        MaximiseWindow
+                                                                                                                                mandatory
+                                                                                                                                        "Ctrl_Super_Up#"
+                                                                                                                                                alternative
+                                                                                                                                                        Ctrl_Super_Up
+                                                                                                                        MinimizeWindow
+                                                                                                                                mandatory
+                                                                                                                                        "Ctrl_Alt_0#"
+                                                                                                                                                alternative
+                                                                                                                                                        Ctrl_Alt_0
+                                                                                                                        MoveWindow
+                                                                                                                                mandatory
+                                                                                                                                        "Alt_F7#"
+                                                                                                                                                alternative
+                                                                                                                                                        Alt_F7
+                                                                                                                        RaiseWindowAboveOtherWindows
+                                                                                                                                mandatory
+                                                                                                                                        "Disabled9#"
+                                                                                                                                                alternative
+                                                                                                                                                        Disabled9
+                                                                                                                        ResizeWindow
+                                                                                                                                mandatory
+                                                                                                                                        "Alt_F8#"
+                                                                                                                                                alternative
+                                                                                                                                                        Alt_F8
+                                                                                                                        RestoreWindow
+                                                                                                                                mandatory
+                                                                                                                                        "Ctrl_Super_Down#"
+                                                                                                                                                alternative
+                                                                                                                                                        Ctrl_Super_Down
+                                                                                                                        ToggleFullscreenMode
+                                                                                                                                mandatory
+                                                                                                                                        "Disabled8#"
+                                                                                                                                                alternative
+                                                                                                                                                        Disabled8
+                                                                                                                        ToggleMaximisationState
+                                                                                                                                mandatory
+                                                                                                                                        "Ctrl_Alt_S1#"
+                                                                                                                                                alternative
+                                                                                                                                                        Ctrl_Alt_S1
+                                                                                                                        ToggleShadedState
+                                                                                                                                mandatory
+                                                                                                                                        "Ctrl_Alt_S2#"
+                                                                                                                                                alternative
+                                                                                                                                                        Ctrl_Alt_S2
+                                                        UsingCustomFont
+                                        Typing
+                                        UniversalAccess
+                                        UniversalAccess1
+                                                optional
+                                                        Hearing
+                                                                optional
+                                                                        VisualAlerts
+                                                                                mandatory
+                                                                                        "VisualAlerts*"
+                                                                                                alternative
+                                                                                                        FlashTheEntireScreen
+                                                                                                        FlashTheWindowTitle
+                                                        PointingAndClicking
+                                                                optional
+                                                                        HoverClick
+                                                                                optional
+                                                                                        Delay1
+                                                                                                mandatory
+                                                                                                        "Delay1*"
+                                                                                                                alternative
+                                                                                                                        Long5
+                                                                                                                        Short3
+                                                                                        MotionThreshold
+                                                                                                mandatory
+                                                                                                        "MotionThreshold*"
+                                                                                                                alternative
+                                                                                                                        Large
+                                                                                                                        Small
+                                                                        MouseKeys
+                                                                        MouseSettings
+                                                                                mandatory
+                                                                                        "General#"
+                                                                                                alternative
+                                                                                                        General
+                                                                                                                mandatory
+                                                                                                                        "DoubleClick#"
+                                                                                                                                alternative
+                                                                                                                                        DoubleClick
+                                                                                                                                                mandatory
+                                                                                                                                                        "DoubleClick*"
+                                                                                                                                                                alternative
+                                                                                                                                                                        Fast3
+                                                                                                                                                                        Slow3
+                                                                                                                        "PrimaryButton#"
+                                                                                                                                alternative
+                                                                                                                                        PrimaryButton
+                                                                                                                                                mandatory
+                                                                                                                                                        "PrimaryButton*"
+                                                                                                                                                                alternative
+                                                                                                                                                                        Left2
+                                                                                                                                                                        Right
+                                                                                optional
+                                                                                        Touchpad
+                                                                                                mandatory
+                                                                                                        "PointerSpeed#"
+                                                                                                                alternative
+                                                                                                                        PointerSpeed
+                                                                                                optional
+                                                                                                        DisableWhileTyping
+                                                                                                        NaturalScrolling
+                                                                                                        TapTopClick
+                                                                                                        TwoFingerScroll
+                                                                        SimulatedSecondaryCLick
+                                                                                optional
+                                                                                        AcceptanceDelay2
+                                                                                                mandatory
+                                                                                                        "AcceptanceDelay2*"
+                                                                                                                alternative
+                                                                                                                        Long4
+                                                                                                                        Short2
+                                                        Seeing
+                                                                optional
+                                                                        BeepOnCapsAndNumLock
+                                                                        HighContrast2
+                                                                        LargeText
+                                                                        ScreenReader
+                                                        Typing3
+                                                                optional
+                                                                        BounceKeys
+                                                                                mandatory
+                                                                                        "AcceptanceDelay1#"
+                                                                                                alternative
+                                                                                                        AcceptanceDelay1
+                                                                                                                mandatory
+                                                                                                                        "AcceptanceDelay1*"
+                                                                                                                                alternative
+                                                                                                                                        Long3
+                                                                                                                                        Short1
+                                                                                optional
+                                                                                        BeepWhenAKeyIsRejected
+                                                                        EnableByKeyboard
+                                                                        OnScreenKeyboard
+                                                                        SlowKeys
+                                                                                mandatory
+                                                                                        "AcceptanceDelay3#"
+                                                                                                alternative
+                                                                                                        AcceptanceDelay3
+                                                                                                                mandatory
+                                                                                                                        "AcceptanceDelay3*"
+                                                                                                                                alternative
+                                                                                                                                        Long2
+                                                                                                                                        Short5
+                                                                                optional
+                                                                                        BeepWhenAKeysIs
+                                                                                                mandatory
+                                                                                                        "BeepWhenAKeysIs*"
+                                                                                                                or
+                                                                                                                        Accepted
+                                                                                                                        Pressed
+                                                                                                                        Rejected
+                                                                        StickyKeys
+                                                                                optional
+                                                                                        BeepWhenAModifierKeysIsPressed
+                                                                                        DisableIfTwoKeysArePressedTogether
 
 constraints
-	!Disabled6 | Disabled
-	!Short2 | Short
-	!Short4 | Short
-	!Fast | Fast1 | Fast2 | Fast3
-	!Ctrl_Alt_S2 | Ctrl_Alt_S
-	!Shift_Super_Space | Shift_Super_Space1 | Shift_Super_Space2
-	!Slow | Slow1 | Slow2 | Slow3
-	!Super_Space2 | Super_Space
-	!Delay | Delay1 | Delay2
-	!Left1 | Left
-	!Disabled10 | Disabled
-	!BuiltInDisplay1 | BuiltInDisplay
-	!AcceptanceDelay2 | AcceptanceDelay
-	!Long5 | Long
-	!Ctrl_Alt_S1 | Ctrl_Alt_S
-	!UniversalAccess2 | UniversalAccess
-	!Disabled2 | Disabled
-	!Speed1 | Speed
-	!Disabled1 | Disabled
-	!AllowDifferentLayoutsForIndividualWindows1 | AllowDifferentLayoutsForIndividualWindows
-	!Disabled4 | Disabled
-	!Super_Space1 | Super_Space
-	!Delay1 | Delay
-	!Slow2 | Slow
-	!Left2 | Left
-	!Speed2 | Speed
-	!Short1 | Short
-	!Alt_Super_plus1 | Alt_Super_plus
-	!Shift_Super_Space1 | Shift_Super_Space
-	!New_Accelerator | New_Accelerator1 | New_Accelerator2
-	!BuiltInDisplay2 | BuiltInDisplay
-	!Short | Short1 | Short2 | Short3 | Short4 | Short5
-	!Long2 | Long
-	!Fast2 | Fast
-	!Disabled8 | Disabled
-	!Typing1 | Typing
-	!AcceptanceDelay3 | AcceptanceDelay
-	!Short3 | Short
-	!Fast3 | Fast
-	!Alt_Super_plus | Alt_Super_plus1 | Alt_Super_plus2
-	!AllowDifferentLayoutsForIndividualWindows2 | AllowDifferentLayoutsForIndividualWindows
-	!Super_Space | Super_Space1 | Super_Space2
-	!BuiltInDisplay | BuiltInDisplay1 | BuiltInDisplay2
-	!Alt_Super_plus2 | Alt_Super_plus
-	!Long | Long1 | Long2 | Long3 | Long4 | Long5
-	!Typing3 | Typing
-	!Long1 | Long
-	!Slow3 | Slow
-	!UniversalAccess1 | UniversalAccess
-	!AcceptanceDelay1 | AcceptanceDelay
-	!Short5 | Short
-	!Disabled3 | Disabled
-	!UniversalAccess | UniversalAccess1 | UniversalAccess2
-	!AllowDifferentLayoutsForIndividualWindows | AllowDifferentLayoutsForIndividualWindows1 | AllowDifferentLayoutsForIndividualWindows2
-	!Disabled | Disabled1 | Disabled2 | Disabled3 | Disabled4 | Disabled5 | Disabled6 | Disabled7 | Disabled8 | Disabled9 | Disabled10
-	!Disabled9 | Disabled
-	!Left | Left1 | Left2
-	!Slow1 | Slow
-	!New_Accelerator1 | New_Accelerator
-	!New_Accelerator2 | New_Accelerator
-	!Typing2 | Typing
-	!Delay2 | Delay
-	!Speed | Speed1 | Speed2
-	!Fast1 | Fast
-	!Typing | Typing1 | Typing2 | Typing3
-	!Shift_Super_Space2 | Shift_Super_Space
-	!Ctrl_Alt_S | Ctrl_Alt_S1 | Ctrl_Alt_S2
-	!Long4 | Long
-	!Disabled5 | Disabled
-	!Long3 | Long
-	!Disabled7 | Disabled
-	!AcceptanceDelay | AcceptanceDelay1 | AcceptanceDelay2 | AcceptanceDelay3
+        !(((((((((LowerWindowBelowOtherWindows | RaiseWindowAboveOtherWindows) | ToggleFullscreenMode) | HighContrastOnOrOff) | DecreaseTextSize) | IncreaseTextSize) | TurnOnScreenKeyboardOnOrOff) | AlternativeCharactersKey) | ComposeKey) | !Disabled) => Navigation
+        !((((Long5 | Long4) | Long3) | Long2) | !Long) => Long1
+        !((((Short5 | Short4) | Short3) | Short2) | !Short) => Short1
+        !((Fast3 | Fast2) | !Fast) => Fast1
+        !((Slow3 | Slow2) | !Slow) => Slow1
+        !((SlowKeys | AcceptanceDelay2) | !AcceptanceDelay) => BounceKeys
+        !((Typing3 | Typing2) | !Typing) => KeyboardSetting
+        !(AllowDifferentLayoutsForIndividualWindows2 | !AllowDifferentLayoutsForIndividualWindows) => AllowDifferentLayoutsForIndividualWindows1
+        !(BuiltInDisplay2 | !BuiltInDisplay) => BuiltInDisplay1
+        !(Left2 | !Left) => Left1
+        !(New_Accelerator2 | !New_Accelerator) => New_Accelerator1
+        !(RepeatKeys | !Delay) => Delay1
+        !(Speed2 | !Speed) => RepeatKeys
+        !(SwitchToNextSource | !Super_Space) => Super_Space1
+        !(SwitchToPreviousSource | !Shift_Super_Space) => Shift_Super_Space1
+        !(ToggleShadedState | !Ctrl_Alt_S) => ToggleMaximisationState
+        !(TurnScreenReaderOnOrOff | !Alt_Super_plus) => TurnZoomOnOrOff
+        !(UniversalAccess2 | !UniversalAccess) => UniversalAccess1
+        AcceptanceDelay2 => AcceptanceDelay
+        AllowDifferentLayoutsForIndividualWindows1 => AllowDifferentLayoutsForIndividualWindows
+        AllowDifferentLayoutsForIndividualWindows2 => AllowDifferentLayoutsForIndividualWindows
+        AlternativeCharactersKey => Disabled
+        BounceKeys => AcceptanceDelay
+        BuiltInDisplay1 => BuiltInDisplay
+        BuiltInDisplay2 => BuiltInDisplay
+        ComposeKey => Disabled
+        DecreaseTextSize => Disabled
+        Delay1 => Delay
+        Fast1 => Fast
+        Fast2 => Fast
+        Fast3 => Fast
+        HighContrastOnOrOff => Disabled
+        IncreaseTextSize => Disabled
+        KeyboardSetting => Typing
+        Left1 => Left
+        Left2 => Left
+        Long1 => Long
+        Long2 => Long
+        Long3 => Long
+        Long4 => Long
+        Long5 => Long
+        LowerWindowBelowOtherWindows => Disabled
+        Navigation => Disabled
+        New_Accelerator1 => New_Accelerator
+        New_Accelerator2 => New_Accelerator
+        RaiseWindowAboveOtherWindows => Disabled
+        RepeatKeys => Delay
+        RepeatKeys => Speed
+        Shift_Super_Space1 => Shift_Super_Space
+        Short1 => Short
+        Short2 => Short
+        Short3 => Short
+        Short4 => Short
+        Short5 => Short
+        Slow1 => Slow
+        Slow2 => Slow
+        Slow3 => Slow
+        SlowKeys => AcceptanceDelay
+        Speed2 => Speed
+        Super_Space1 => Super_Space
+        SwitchToNextSource => Super_Space
+        SwitchToPreviousSource => Shift_Super_Space
+        ToggleFullscreenMode => Disabled
+        ToggleMaximisationState => Ctrl_Alt_S
+        ToggleShadedState => Ctrl_Alt_S
+        TurnOnScreenKeyboardOnOrOff => Disabled
+        TurnScreenReaderOnOrOff => Alt_Super_plus
+        TurnZoomOnOrOff => Alt_Super_plus
+        Typing2 => Typing
+        Typing3 => Typing
+        UniversalAccess1 => UniversalAccess
+        UniversalAccess2 => UniversalAccess

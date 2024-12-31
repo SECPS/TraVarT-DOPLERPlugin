@@ -1,6 +1,6 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-Body#;Which Body?;Enumeration;Body;1:1;;truck_product#.truck_product
-Body*;Which Body*?;Enumeration;Tank | OpenTop | Dumper | StakeBed;1:1;;Body#.Body
-Cabin#;Which Cabin?;Enumeration;Cabin;1:1;;truck_product#.truck_product
-Chassis#;Which Chassis?;Enumeration;Chassis;1:1;;truck_product#.truck_product
-truck_product#;Which truck_product?;Enumeration;truck_product;1:1;;true
+Body#;Which Body#?;Enumeration;Body;1:1;;truck_product#.truck_product
+Body*;Which Body*?;Enumeration;Dumper | OpenTop | StakeBed | Tank;1:1;;Body#.Body
+Cabin#;Which Cabin#?;Enumeration;Cabin;1:1;;truck_product#.truck_product
+Chassis#;Which Chassis#?;Enumeration;Chassis;1:1;;truck_product#.truck_product
+truck_product#;Which truck_product#?;Enumeration;truck_product;1:1;;true

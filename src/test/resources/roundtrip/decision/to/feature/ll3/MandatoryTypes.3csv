@@ -1,7 +1,0 @@
-ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-A#String;What A?;String;;;;true
-AA#String;What AA?;String;;;;true
-AB#String;What AB?;String;;;;true
-B#Number;How much B?;Double;;;;true
-BA#Number;How much BA?;Double;;;;true
-BB#Number;How much BB?;Double;;;;true

@@ -1,4 +1,0 @@
-ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-A#String;What A?;String;;;;true
-B#Number;How much B?;Double;;;;true
-C#Number;How much C?;Double;;;;true

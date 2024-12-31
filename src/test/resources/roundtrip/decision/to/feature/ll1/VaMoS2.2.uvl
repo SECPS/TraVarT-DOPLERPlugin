@@ -1,19 +1,29 @@
 features
-	dm_VaMoS
-		or
-			GSM_Protocol_1900
-			MP3_Recording
-			Camera
-				mandatory
-					Camera_Resolution
-						alternative
-							T21MP
-							T5MP
-							T31MP
-			Audio_Formats
-				or
-					WAV
-					MP3
+        "dm_VaMoS#"
+                alternative
+                        dm_VaMoS
+                                mandatory
+                                        "dm_VaMoS*"
+                                                or
+                                                        Audio_Formats
+                                                                mandatory
+                                                                        "Audio_Formats*"
+                                                                                or
+                                                                                        MP3
+                                                                                        WAV
+                                                        Camera
+                                                                mandatory
+                                                                        "Camera_Resolution#"
+                                                                                alternative
+                                                                                        Camera_Resolution
+                                                                                                mandatory
+                                                                                                        "Camera_Resolution*"
+                                                                                                                alternative
+                                                                                                                        T21MP
+                                                                                                                        T31MP
+                                                                                                                        T5MP
+                                                        GSM_Protocol_1900
+                                                        MP3_Recording
 
 constraints
-	MP3_Recording => MP3
+        MP3_Recording => MP3

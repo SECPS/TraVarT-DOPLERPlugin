@@ -1,24 +1,34 @@
 features
-    OnlineShop
-        mandatory
-            Payment
-                or
-                    DebitCard
-                    CreditCard
-            UserManagement
-                or
-                    Orders
-                    Security
-                    Payments
-                    Wishlist
-        optional
-            Search
-            Categories
-            Sort
+        "OnlineShop#"
+                alternative
+                        OnlineShop
+                                mandatory
+                                        "Payment#"
+                                                alternative
+                                                        Payment
+                                                                mandatory
+                                                                        "Payment*"
+                                                                                or
+                                                                                        CreditCard
+                                                                                        DebitCard
+                                        "UserManagement#"
+                                                alternative
+                                                        UserManagement
+                                                                mandatory
+                                                                        "UserManagement*"
+                                                                                or
+                                                                                        Orders
+                                                                                        Payments
+                                                                                        Security
+                                                                                        Wishlist
+                                optional
+                                        Categories
+                                        Search
+                                        Sort
 
 constraints
-    !Search => Sort
-    !Sort => Search
-    Search => Security
-    Security => !Payments
-    Payments => !Security
+        !Search => Sort
+        !Sort => Search
+        Payments => !Security
+        Search => Security
+        Security => !Payments

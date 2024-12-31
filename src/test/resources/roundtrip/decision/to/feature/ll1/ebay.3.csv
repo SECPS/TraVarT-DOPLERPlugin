@@ -1,25 +1,25 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-Buy#;Which Buy?;Enumeration;Buy;1:1;;ebay#.ebay
-Categories;Categories?;Boolean;true | false;;;Search#.Search
-CommunityForum;CommunityForum?;Boolean;true | false;;;ebay#.ebay
-Compatibility#;Which Compatibility?;Enumeration;Compatibility;1:1;;ebay#.ebay
-Compatibility*;Which Compatibility*?;Enumeration;PC | Tablets | Phone;1:3;;Compatibility#.Compatibility
-HelpAndSupport#;Which HelpAndSupport?;Enumeration;HelpAndSupport;1:1;;ebay#.ebay
-HelpAndSupport*;Which HelpAndSupport*?;Enumeration;Email | FAQ | Phone_2 | Chat;1:4;;HelpAndSupport#.HelpAndSupport
-Login#;Which Login?;Enumeration;Login;1:1;;ebay#.ebay
-Logout#;Which Logout?;Enumeration;Logout;1:1;;ebay#.ebay
-Notification#;Which Notification?;Enumeration;Notification;1:1;;ebay#.ebay
-Payment#;Which Payment?;Enumeration;Payment;1:1;;ebay#.ebay
-Payment*;Which Payment*?;Enumeration;CreditCard | PayPal | Cheque | PostalOrder | Escrow;1:5;;Payment#.Payment
-Phone*;Which Phone*?;Enumeration;Windows_1 | Apple_1 | Android_1;1:3;;Compatibility*.Phone
-Register#;Which Register?;Enumeration;Register;1:1;;ebay#.ebay
-Register*;Which Register*?;Enumeration;Retailer | Private;1:1;;Register#.Register
-Search#;Which Search?;Enumeration;Search;1:1;;ebay#.ebay
-Security#;Which Security?;Enumeration;Security;1:1;;ebay#.ebay
+Buy#;Which Buy#?;Enumeration;Buy;1:1;;ebay#.ebay
+Categories;Categories?;Boolean;false | true;;;Search#.Search
+CommunityForum;CommunityForum?;Boolean;false | true;;;ebay#.ebay
+Compatibility#;Which Compatibility#?;Enumeration;Compatibility;1:1;;ebay#.ebay
+Compatibility*;Which Compatibility*?;Enumeration;PC | Phone | Tablets;1:3;;Compatibility#.Compatibility
+HelpAndSupport#;Which HelpAndSupport#?;Enumeration;HelpAndSupport;1:1;;ebay#.ebay
+HelpAndSupport*;Which HelpAndSupport*?;Enumeration;Chat | Email | FAQ | Phone_2;1:4;;HelpAndSupport#.HelpAndSupport
+Login#;Which Login#?;Enumeration;Login;1:1;;ebay#.ebay
+Logout#;Which Logout#?;Enumeration;Logout;1:1;;ebay#.ebay
+Notification#;Which Notification#?;Enumeration;Notification;1:1;;ebay#.ebay
+Payment#;Which Payment#?;Enumeration;Payment;1:1;;ebay#.ebay
+Payment*;Which Payment*?;Enumeration;Cheque | CreditCard | Escrow | PayPal | PostalOrder;1:5;;Payment#.Payment
+Phone*;Which Phone*?;Enumeration;Android_1 | Apple_1 | Windows_1;1:3;;Compatibility*.Phone
+Register#;Which Register#?;Enumeration;Register;1:1;;ebay#.ebay
+Register*;Which Register*?;Enumeration;Private | Retailer;1:1;;Register#.Register
+Search#;Which Search#?;Enumeration;Search;1:1;;ebay#.ebay
+Security#;Which Security#?;Enumeration;Security;1:1;;ebay#.ebay
 Security*;Which Security*?;Enumeration;High | Standard_1;1:1;"if (Payment*.CreditCard) {Security* = High;}";Security#.Security
-Sell#;Which Sell?;Enumeration;Sell;1:1;;ebay#.ebay
-Shipment#;Which Shipment?;Enumeration;Shipment;1:1;;ebay#.ebay
+Sell#;Which Sell#?;Enumeration;Sell;1:1;;ebay#.ebay
+Shipment#;Which Shipment#?;Enumeration;Shipment;1:1;;ebay#.ebay
 Shipment*;Which Shipment*?;Enumeration;Premium | Standard;1:2;;Shipment#.Shipment
-Tablets*;Which Tablets*?;Enumeration;Windows | Apple | Android;1:3;;Compatibility*.Tablets
-Unregister#;Which Unregister?;Enumeration;Unregister;1:1;;ebay#.ebay
-ebay#;Which ebay?;Enumeration;ebay;1:1;;true
+Tablets*;Which Tablets*?;Enumeration;Android | Apple | Windows;1:3;;Compatibility*.Tablets
+Unregister#;Which Unregister#?;Enumeration;Unregister;1:1;;ebay#.ebay
+ebay#;Which ebay#?;Enumeration;ebay;1:1;;true

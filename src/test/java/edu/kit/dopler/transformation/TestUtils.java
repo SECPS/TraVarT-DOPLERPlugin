@@ -7,6 +7,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -15,12 +16,12 @@ import java.util.stream.Collectors;
 class TestUtils {
 
     private static final Pattern NEW_LINE_PATTERN = Pattern.compile("(\\\\r)?\\\\n");
+    private static final String ENUM_SEPERATOR = " | ";
 
     static String sortDecisionModel(String model) throws IOException {
         //Sometimes \r is used as line separator
         String sanitisedModel = NEW_LINE_PATTERN.matcher(model).replaceAll(System.lineSeparator());
-
-        CSVParser parser = createCSVFormat(true).parse(new StringReader(sanitisedModel));
+        CSVParser parser = createCSVFormat().parse(new StringReader(sanitisedModel));
 
         List<CSVRecord> records = parser.stream().sorted(Comparator.comparing(o -> o.get(0)))
                 .collect(Collectors.toCollection(ArrayList::new));
@@ -31,10 +32,18 @@ class TestUtils {
             List<String> temp2 = record.stream().toList();
             for (String value : temp2) {
 
-                if (value.contains(";") && !value.startsWith("\"")) {
-                    line.add("\"" + value.replace("\n", "") + "\"");
+                //Sort enum values
+                String newValue = value;
+                if (value.contains(ENUM_SEPERATOR)) {
+                    String[] enums = value.split(Pattern.quote(ENUM_SEPERATOR));
+                    Arrays.sort(enums);
+                    newValue = String.join(ENUM_SEPERATOR, enums);
+                }
+
+                if (newValue.contains(";") && !newValue.startsWith("\"")) {
+                    line.add("\"" + newValue.replace("\n", "") + "\"");
                 } else {
-                    line.add(value.replace("\n", ""));
+                    line.add(newValue.replace("\n", ""));
                 }
             }
 
@@ -46,13 +55,11 @@ class TestUtils {
         return String.join(System.lineSeparator(), lines);
     }
 
-    public static CSVFormat createCSVFormat(final boolean skipHeader) {
+    private static CSVFormat createCSVFormat() {
         CSVFormat.Builder builder = CSVFormat.EXCEL.builder();
-        builder.setDelimiter(DELIMITER);
+        builder.setDelimiter(';');
         builder.setHeader(DMCSVHeader.stringArray());
-        builder.setSkipHeaderRecord(skipHeader);
+        builder.setSkipHeaderRecord(true);
         return builder.build();
     }
-
-    private static final char DELIMITER = ';';
 }

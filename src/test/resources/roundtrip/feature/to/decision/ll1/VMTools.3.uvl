@@ -66,5 +66,5 @@ features
 
 constraints
         !VariabilityDecision => !VariabilityDecision
-        true => DomainAnalysis
-        true => Organizational
+        DomainAnalysis
+        Organizational

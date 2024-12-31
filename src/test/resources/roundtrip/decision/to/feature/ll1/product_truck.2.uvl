@@ -1,12 +1,22 @@
 features
-        truck_product
-                mandatory
-                        Chassis
-                        Cabin
-                        Body
-                                alternative
-                                        Tank
-                                        OpenTop
-                                        Dumper
-                                        StakeBed
+        "truck_product#"
+                alternative
+                        truck_product
+                                mandatory
+                                        "Body#"
+                                                alternative
+                                                        Body
+                                                                mandatory
+                                                                        "Body*"
+                                                                                alternative
+                                                                                        Dumper
+                                                                                        OpenTop
+                                                                                        StakeBed
+                                                                                        Tank
+                                        "Cabin#"
+                                                alternative
+                                                        Cabin
+                                        "Chassis#"
+                                                alternative
+                                                        Chassis
 
