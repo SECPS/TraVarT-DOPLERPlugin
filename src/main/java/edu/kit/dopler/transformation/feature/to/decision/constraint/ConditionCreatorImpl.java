@@ -26,8 +26,7 @@ public class ConditionCreatorImpl implements ConditionCreator {
     }
 
     @Override
-    public IExpression createCondition(Dopler decisionModel, FeatureModel featureModel, Constraint left)
-            throws CanNotBeTranslatedException {
+    public IExpression createCondition(Dopler decisionModel, FeatureModel featureModel, Constraint left) {
         return switch (left) {
             case NotConstraint notConstraint -> handleNot(decisionModel, featureModel, notConstraint);
             case LiteralConstraint literalConstraint -> handleLiteral(decisionModel, featureModel, literalConstraint);
@@ -38,19 +37,16 @@ public class ConditionCreatorImpl implements ConditionCreator {
         };
     }
 
-    private IExpression handleNot(Dopler decisionModel, FeatureModel featureModel, NotConstraint left)
-            throws CanNotBeTranslatedException {
+    private IExpression handleNot(Dopler decisionModel, FeatureModel featureModel, NotConstraint left) {
         return new NOT(createCondition(decisionModel, featureModel, left.getContent()));
     }
 
-    private IExpression handleAnd(Dopler decisionModel, FeatureModel featureModel, AndConstraint left)
-            throws CanNotBeTranslatedException {
+    private IExpression handleAnd(Dopler decisionModel, FeatureModel featureModel, AndConstraint left) {
         return new AND(createCondition(decisionModel, featureModel, left.getLeft()),
                 createCondition(decisionModel, featureModel, left.getRight()));
     }
 
-    private IExpression handleOr(Dopler decisionModel, FeatureModel featureModel, OrConstraint left)
-            throws CanNotBeTranslatedException {
+    private IExpression handleOr(Dopler decisionModel, FeatureModel featureModel, OrConstraint left) {
         return new OR(createCondition(decisionModel, featureModel, left.getLeft()),
                 createCondition(decisionModel, featureModel, left.getRight()));
     }
@@ -82,7 +78,7 @@ public class ConditionCreatorImpl implements ConditionCreator {
         return condition;
     }
 
-    private IExpression handleExpressionConstraint(ExpressionConstraint constraint) throws CanNotBeTranslatedException {
+    private IExpression handleExpressionConstraint(ExpressionConstraint constraint) {
         return switch (constraint) {
             case EqualEquationConstraint ignored ->
                     new Equals(handleExpression(constraint.getLeft()), handleExpression(constraint.getRight()));
@@ -104,7 +100,7 @@ public class ConditionCreatorImpl implements ConditionCreator {
         };
     }
 
-    private IExpression handleExpression(Expression expression) throws CanNotBeTranslatedException {
+    private IExpression handleExpression(Expression expression) {
         //Ignore constraints that contains expression;
         throw new CanNotBeTranslatedException(expression);
     }

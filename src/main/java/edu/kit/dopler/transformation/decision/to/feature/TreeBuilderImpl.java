@@ -6,38 +6,29 @@ import de.vill.model.Feature;
 import de.vill.model.FeatureType;
 import de.vill.model.Group;
 import edu.kit.dopler.model.*;
+import edu.kit.dopler.transformation.Transformer;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static de.vill.model.Group.GroupType.ALTERNATIVE;
 import static de.vill.model.Group.GroupType.MANDATORY;
 import static de.vill.model.Group.GroupType.OPTIONAL;
 import static de.vill.model.Group.GroupType.OR;
-import static edu.kit.dopler.transformation.Transformer.STANDARD_MODEL_NAME;
 
 /** Implementation of {@link TreeBuilder} */
 public class TreeBuilderImpl implements TreeBuilder {
 
-    private final ParentFinderImpl parentFinder;
+    private final ParentFinder parentFinder;
 
     @Inject
-    TreeBuilderImpl(ParentFinderImpl parentFinder) {
+    TreeBuilderImpl(ParentFinder parentFinder) {
         this.parentFinder = parentFinder;
     }
 
-    @Override
-    public Feature buildTree(Dopler decisionModel, IModelTransformer.STRATEGY level) {
-        Feature rootFeature = new Feature(STANDARD_MODEL_NAME);
-
-        //Group the decisions by their type
-        List<BooleanDecision> booleanDecisions = new ArrayList<>();
-        List<EnumerationDecision> enumerationDecisions = new ArrayList<>();
-        List<IDecision<?>> numberDecisions = new ArrayList<>();
-        List<IDecision<?>> stringDecisions = new ArrayList<>();
+    private static void distributeDecisions(Dopler decisionModel, List<BooleanDecision> booleanDecisions,
+                                            List<EnumerationDecision> enumerationDecisions,
+                                            List<IDecision<?>> numberDecisions, List<IDecision<?>> stringDecisions) {
         for (IDecision<?> decision : decisionModel.getDecisions()) {
             switch (decision) {
                 case BooleanDecision booleanDecision -> booleanDecisions.add(booleanDecision);
@@ -47,14 +38,26 @@ public class TreeBuilderImpl implements TreeBuilder {
                 case null, default -> throw new UnexpectedTypeException(decision);
             }
         }
+    }
+
+    @Override
+    public Feature buildTree(Dopler decisionModel, IModelTransformer.STRATEGY strategy) {
+        Feature rootFeature = new Feature(Transformer.STANDARD_MODEL_NAME);
+
+        //Group the decisions by their type
+        List<BooleanDecision> booleanDecisions = new ArrayList<>();
+        List<EnumerationDecision> enumerationDecisions = new ArrayList<>();
+        List<IDecision<?>> numberDecisions = new ArrayList<>();
+        List<IDecision<?>> stringDecisions = new ArrayList<>();
+        distributeDecisions(decisionModel, booleanDecisions, enumerationDecisions, numberDecisions, stringDecisions);
 
         //Create features from the decisions
-        Map<Feature, IExpression> booleanFeatures = buildBooleanFeatures(booleanDecisions);
-        Map<Feature, IExpression> enumFeatures = buildEnumFeatures(enumerationDecisions);
-        Map<Feature, IExpression> numberFeatures = buildTypeFeatures(numberDecisions, FeatureType.REAL);
-        Map<Feature, IExpression> stringFeatures = buildTypeFeatures(stringDecisions, FeatureType.STRING);
+        Map<Feature, IExpression> booleanFeatures = createBooleanFeatures(booleanDecisions);
+        Map<Feature, IExpression> enumFeatures = createEnumFeatures(enumerationDecisions);
+        Map<Feature, IExpression> numberFeatures = createTypeFeatures(numberDecisions, FeatureType.REAL);
+        Map<Feature, IExpression> stringFeatures = createTypeFeatures(stringDecisions, FeatureType.STRING);
 
-        //The allFeatures map is used for finding features in the handle methods
+        //The allFeatures map is used for finding features in the link methods
         Map<Feature, IExpression> allFeatures = new LinkedHashMap<>();
         allFeatures.putAll(booleanFeatures);
         allFeatures.putAll(enumFeatures);
@@ -62,10 +65,10 @@ public class TreeBuilderImpl implements TreeBuilder {
         allFeatures.putAll(stringFeatures);
 
         //Link the features together (only top to bottom)
-        handleBooleanFeatures(allFeatures, booleanFeatures, rootFeature);
-        handleEnumFeatures(allFeatures, enumFeatures, rootFeature, level);
-        handleTypeFeatures(allFeatures, numberFeatures, rootFeature);
-        handleTypeFeatures(allFeatures, stringFeatures, rootFeature);
+        linkBooleanFeatures(allFeatures, booleanFeatures.keySet(), rootFeature);
+        linkEnumFeatures(allFeatures, enumFeatures.keySet(), rootFeature, strategy);
+        linkTypeFeatures(allFeatures, numberFeatures.keySet(), rootFeature);
+        linkTypeFeatures(allFeatures, stringFeatures.keySet(), rootFeature);
 
         //set links from bottom to top
         setBottomToTopLinks(rootFeature);
@@ -83,68 +86,63 @@ public class TreeBuilderImpl implements TreeBuilder {
         }
     }
 
-    private void handleTypeFeatures(Map<Feature, IExpression> allFeatures, Map<Feature, IExpression> typeFeatures,
-                                    Feature rootFeature) {
-        for (Map.Entry<Feature, IExpression> entry : typeFeatures.entrySet()) {
-            Feature feature = entry.getKey();
-            IExpression visibility = entry.getValue();
-
+    private void linkTypeFeatures(Map<Feature, IExpression> allFeatures, Set<Feature> typeFeatures,
+                                  Feature rootFeature) {
+        for (Feature feature : typeFeatures) {
             Group child = new Group(MANDATORY);
             child.getFeatures().add(feature);
-            Feature parent = parentFinder.getParentFromVisibility(allFeatures, rootFeature, visibility);
+            Feature parent = parentFinder.getParentFromVisibility(allFeatures.keySet(), allFeatures.get(feature))
+                    .orElse(rootFeature);
             parent.addChildren(child);
         }
     }
 
-    private void handleEnumFeatures(Map<Feature, IExpression> allFeatures, Map<Feature, IExpression> enumFeatures,
-                                    Feature rootFeature, IModelTransformer.STRATEGY level) {
-        for (Map.Entry<Feature, IExpression> entry : enumFeatures.entrySet()) {
-            Feature feature = entry.getKey();
-            IExpression visibility = enumFeatures.get(feature);
-            Feature parent = parentFinder.getParentFromVisibility(allFeatures, rootFeature, visibility);
+    private void linkEnumFeatures(Map<Feature, IExpression> allFeatures, Set<Feature> enumFeatures, Feature rootFeature,
+                                  IModelTransformer.STRATEGY strategy) {
+        for (Feature feature : enumFeatures) {
+            Feature parent = parentFinder.getParentFromVisibility(allFeatures.keySet(), allFeatures.get(feature))
+                    .orElse(rootFeature);
 
-            //Depending on the level insert a new mandatory feature to keep the name of the enum decision
-            switch (level) {
+            switch (strategy) {
                 case ONE_WAY -> {
                     Group group = feature.getChildren().getFirst();
                     parent.addChildren(group);
                 }
                 case ROUNDTRIP -> {
+                    //Insert a mandatory feature to keep the name of the enum decision
                     Group mandatory = new Group(MANDATORY);
                     mandatory.getFeatures().add(feature);
                     parent.addChildren(mandatory);
                 }
-                default -> throw new IllegalStateException("Unexpected value: " + level);
+                default -> throw new IllegalStateException("Unexpected value: " + strategy);
             }
         }
     }
 
-    private void handleBooleanFeatures(Map<Feature, IExpression> allFeatures, Map<Feature, IExpression> booleanFeatures,
-                                       Feature rootFeature) {
-        for (Feature feature : booleanFeatures.keySet()) {
+    private void linkBooleanFeatures(Map<Feature, IExpression> allFeatures, Set<Feature> booleanFeatures,
+                                     Feature rootFeature) {
+        for (Feature feature : booleanFeatures) {
             Group optionalGroup = new Group(OPTIONAL);
             optionalGroup.getFeatures().add(feature);
-            Feature parent = parentFinder.getParentFromVisibility(allFeatures, rootFeature, allFeatures.get(feature));
+            Feature parent = parentFinder.getParentFromVisibility(allFeatures.keySet(), allFeatures.get(feature))
+                    .orElse(rootFeature);
             parent.addChildren(optionalGroup);
         }
     }
 
-    private Map<Feature, IExpression> buildEnumFeatures(List<EnumerationDecision> enumerationDecisions) {
+    /**
+     * For each {@link EnumerationDecision} a `ALTERNATIVE` or `OR` group is created, depending on the max cardinality.
+     * The parent of the group has the name of the given decision. The children of the group are the enum values of the
+     * decision.
+     */
+    private Map<Feature, IExpression> createEnumFeatures(List<EnumerationDecision> enumerationDecisions) {
         Map<Feature, IExpression> features = new LinkedHashMap<>();
-
         for (EnumerationDecision decision : enumerationDecisions) {
             Feature feature = new Feature(decision.getDisplayId());
-
-            Group group;
-            if (1 == decision.getMaxCardinality()) {
-                group = new Group(ALTERNATIVE);
-            } else {
-                group = new Group(OR);
-            }
+            Group group = 1 == decision.getMaxCardinality() ? new Group(ALTERNATIVE) : new Group(OR);
 
             for (EnumerationLiteral literal : decision.getEnumeration().getEnumerationLiterals()) {
-                Feature enumFeature = new Feature(literal.getValue());
-                group.getFeatures().add(enumFeature);
+                group.getFeatures().add(new Feature(literal.getValue()));
             }
 
             feature.addChildren(group);
@@ -154,7 +152,8 @@ public class TreeBuilderImpl implements TreeBuilder {
         return features;
     }
 
-    private Map<Feature, IExpression> buildBooleanFeatures(List<BooleanDecision> booleanDecisions) {
+    /** For each {@link BooleanDecision} a single {@link Feature} is created. */
+    private Map<Feature, IExpression> createBooleanFeatures(List<BooleanDecision> booleanDecisions) {
         Map<Feature, IExpression> features = new LinkedHashMap<>();
         for (IDecision<?> decision : booleanDecisions) {
             Feature feature = new Feature(decision.getDisplayId());
@@ -163,9 +162,10 @@ public class TreeBuilderImpl implements TreeBuilder {
         return features;
     }
 
-    private Map<Feature, IExpression> buildTypeFeatures(List<IDecision<?>> numberDecisions, FeatureType featureType) {
+    /** For each given type-decision a single {@link Feature} with the given {@link FeatureType} is created. */
+    private Map<Feature, IExpression> createTypeFeatures(List<IDecision<?>> typeDecisions, FeatureType featureType) {
         Map<Feature, IExpression> features = new LinkedHashMap<>();
-        for (IDecision<?> decision : numberDecisions) {
+        for (IDecision<?> decision : typeDecisions) {
             Feature feature = new Feature(decision.getDisplayId());
             feature.setFeatureType(featureType);
             features.put(feature, decision.getVisibilityCondition());

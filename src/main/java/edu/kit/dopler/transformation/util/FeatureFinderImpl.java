@@ -38,8 +38,8 @@ public final class FeatureFinderImpl implements FeatureFinder {
             throw new FeatureNotPresentException(literal);
         }
 
-        Optional<Feature> firstNonMandatoryParent = findFirstNonMandatoryParent(featureModel, feature.get());
-        return firstNonMandatoryParent.map(value -> new LiteralConstraint(value.getFeatureName()));
+        return findFirstNonMandatoryParent(featureModel, feature.get()).map(
+                value -> new LiteralConstraint(value.getFeatureName()));
     }
 
     private Optional<Feature> findFeatureWithName(FeatureModel featureModel, String literal) {

@@ -5,7 +5,7 @@ import de.vill.model.constraint.Constraint;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Exception that should be thrown, when a conjunction of a DNF is always true. */
+/** This exception is thrown when a conjunction of a DNF is always true. */
 public class ConjunctionAlwaysTrueException extends Exception {
 
     private final List<Constraint> conjunction;

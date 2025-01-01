@@ -3,10 +3,13 @@ package edu.kit.dopler.transformation.decision.to.feature;
 import com.google.inject.Inject;
 import de.vill.model.Feature;
 import edu.kit.dopler.model.*;
+import edu.kit.dopler.transformation.exceptions.CanNotBeTranslatedException;
 import edu.kit.dopler.transformation.util.FeatureFinder;
 
-import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
+/** Implementation of {@link ParentFinder}. */
 public class ParentFinderImpl implements ParentFinder {
 
     private final FeatureFinder featureFinder;
@@ -16,17 +19,17 @@ public class ParentFinderImpl implements ParentFinder {
         this.featureFinder = featureFinder;
     }
 
-    public Feature getParentFromVisibility(Map<Feature, IExpression> allFeatures, Feature rootFeature,
-                                           IExpression visibility) {
+    @Override
+    public Optional<Feature> getParentFromVisibility(Set<Feature> allFeatures, IExpression visibility) {
 
         if (visibility instanceof BooleanLiteralExpression booleanLiteralExpression &&
                 booleanLiteralExpression.getLiteral()) {
-            return rootFeature; //Visibility is `true`. The root is the parent.
+            return Optional.empty(); //Visibility is `true`. The root is the parent.
         }
 
         if (visibility instanceof EnumeratorLiteralExpression enumeratorLiteralExpression) {
-            return featureFinder.findFeatureByName(allFeatures.keySet(),
-                    enumeratorLiteralExpression.getEnumerationLiteral().getValue()).orElseThrow();
+            return Optional.of(featureFinder.findFeatureByName(allFeatures,
+                    enumeratorLiteralExpression.getEnumerationLiteral().getValue()).orElseThrow());
         }
 
         if (visibility instanceof Equals equals) {
@@ -37,15 +40,15 @@ public class ParentFinderImpl implements ParentFinder {
                 IDecision<?> decision = decisionValueCallExpression.getDecision();
 
                 if (right instanceof BooleanLiteralExpression) {
-                    return featureFinder.findFeatureByName(allFeatures.keySet(), decision.getDisplayId()).orElseThrow();
+                    return Optional.of(featureFinder.findFeatureByName(allFeatures, decision.getDisplayId())
+                            .orElseThrow());
                 } else if (right instanceof EnumeratorLiteralExpression enumeratorLiteralExpression) {
                     String value = enumeratorLiteralExpression.getEnumerationLiteral().getValue();
-                    return featureFinder.findFeatureByName(allFeatures.keySet(), value).orElseThrow();
+                    return Optional.of(featureFinder.findFeatureByName(allFeatures, value).orElseThrow());
                 }
             }
         }
 
-        throw new RuntimeException(
-                "Visibility could not be translated: class = " + visibility.getClass() + ", value = " + visibility);
+        throw new CanNotBeTranslatedException(visibility);
     }
 }

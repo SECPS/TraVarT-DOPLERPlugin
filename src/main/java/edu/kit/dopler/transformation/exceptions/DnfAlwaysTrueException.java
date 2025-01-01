@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This exception should be thrown if a DNF is always true.
+ * This exception is thrown when a DNF is always true.
  */
 public class DnfAlwaysTrueException extends Exception {
 

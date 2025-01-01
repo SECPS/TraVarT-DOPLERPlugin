@@ -13,6 +13,7 @@ import edu.kit.dopler.transformation.util.FeatureFinder;
 
 import java.util.*;
 
+/** Implementation of {@link RightCreator}. */
 public class RightCreatorImpl implements RightCreator {
 
     private final FeatureFinder featureFinder;
@@ -22,7 +23,7 @@ public class RightCreatorImpl implements RightCreator {
         this.featureFinder = featureFinder;
     }
 
-    /** Create recursively a constraint from the actions */
+    /** Create recursively a constraint from the actions. */
     @Override
     public Constraint createRight(Feature root, Set<IAction> actions) {
         List<IAction> sortedActions = new ArrayList<>(actions);
@@ -41,6 +42,7 @@ public class RightCreatorImpl implements RightCreator {
 
     /** Create a single constraint from the given {@link IAction}. */
     private Constraint createRightLiteral(Feature root, IAction action) {
+        //TODO: Probably some cases are missing here
         return switch (action) {
             case BooleanEnforce booleanEnforce -> handleBooleanEnforce(root, booleanEnforce);
             case EnumEnforce enumEnforce -> handleEnumEnforce(root, enumEnforce);
@@ -57,7 +59,7 @@ public class RightCreatorImpl implements RightCreator {
             throw new FeatureNotPresentException(displayId);
         }
 
-        return new NotConstraint(new LiteralConstraint(feature.orElseThrow().getFeatureName()));
+        return new NotConstraint(new LiteralConstraint(feature.get().getFeatureName()));
     }
 
     private LiteralConstraint handleEnumEnforce(Feature root, EnumEnforce enumEnforce) {
@@ -68,7 +70,7 @@ public class RightCreatorImpl implements RightCreator {
             throw new FeatureNotPresentException(value);
         }
 
-        return new LiteralConstraint(feature.orElseThrow().getFeatureName());
+        return new LiteralConstraint(feature.get().getFeatureName());
     }
 
     private Constraint handleBooleanEnforce(Feature root, BooleanEnforce booleanEnforce) {

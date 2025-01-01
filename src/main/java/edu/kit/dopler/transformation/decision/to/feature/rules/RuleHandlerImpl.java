@@ -4,12 +4,14 @@ import com.google.inject.Inject;
 import de.vill.model.FeatureModel;
 import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.ImplicationConstraint;
-import edu.kit.dopler.model.*;
+import edu.kit.dopler.model.Dopler;
+import edu.kit.dopler.model.IDecision;
+import edu.kit.dopler.model.Rule;
 
 import java.util.Comparator;
 import java.util.Optional;
-import java.util.Set;
 
+/** Implementation of {@link RuleHandler}. */
 public class RuleHandlerImpl implements RuleHandler {
 
     private final LeftCreator leftCreator;
@@ -34,17 +36,14 @@ public class RuleHandlerImpl implements RuleHandler {
     }
 
     private void handleRule(FeatureModel featureModel, Rule rule) {
-        IExpression condition = rule.getCondition();
-        Set<IAction> actions = rule.getActions();
-
-        Optional<Constraint> left = leftCreator.handleCondition(condition);
-        Constraint right = rightCreator.createRight(featureModel.getRootFeature(), actions);
+        Optional<Constraint> left = leftCreator.handleCondition(rule.getCondition());
+        Constraint right = rightCreator.createRight(featureModel.getRootFeature(), rule.getActions());
 
         if (left.isPresent()) {
-            // constraint: left -> right
+            // constraint: 'left -> right'
             featureModel.getOwnConstraints().add(new ImplicationConstraint(left.get(), right));
         } else {
-            // constraint: right
+            // constraint: 'right'
             featureModel.getOwnConstraints().add(right);
         }
     }

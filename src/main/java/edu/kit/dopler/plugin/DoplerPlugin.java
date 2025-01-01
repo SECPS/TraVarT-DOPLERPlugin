@@ -12,7 +12,7 @@ import org.pf4j.PluginWrapper;
 
 public class DoplerPlugin extends Plugin {
 
-    public DoplerPlugin(final PluginWrapper wrapper) {
+    public DoplerPlugin(PluginWrapper wrapper) {
         super(wrapper);
     }
 }

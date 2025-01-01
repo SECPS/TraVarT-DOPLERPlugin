@@ -65,21 +65,10 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
     private Optional<Rule> createRuleFromDnf(FeatureModel featureModel, Dopler decisionModel,
                                              List<List<Constraint>> dnf) {
 
-        //Special case if dnf contains attribute constraints
-        //Needed because there is no way to model a constraint like "A < 10" as an action
+        //Dnf contains an ExpressionConstraint
         if (dnf.stream().flatMap(Collection::stream)
                 .anyMatch(constraint -> constraint instanceof ExpressionConstraint)) {
-            try {
-                IExpression condition = conditionCreator.createCondition(decisionModel, featureModel,
-                        new NotConstraint(dnfToTreeConverter.createDnfFromList(dnf)));
-                Set<IAction> contradiction = createContradiction(decisionModel);
-                return Optional.of(new Rule(condition, contradiction));
-            } catch (CanNotBeTranslatedException e) {
-                //The dnf to translate contains an expression.
-                //Expressions can not be translated.
-                //Skip the constraint.
-                return Optional.empty();
-            }
+            return handleDnfWithAttributeConstraints(featureModel, decisionModel, dnf);
         }
 
         // DNF contains no OR
@@ -100,16 +89,31 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
             }
 
             //All the other conjunctions create the condition
-            IExpression condition;
-            try {
-                condition = conditionCreator.createCondition(decisionModel, featureModel, createLeft(dnf));
-            } catch (CanNotBeTranslatedException e) {
-                //Should never be thrown, because the dnf does not contain any expressions
-                throw new RuntimeException(e);
-            }
+            IExpression condition = conditionCreator.createCondition(decisionModel, featureModel, createLeft(dnf));
+
             return Optional.of(new Rule(condition, actions));
         }
+
         return Optional.empty();
+    }
+
+    /**
+     * Special case if dnf contains attribute constraints Needed because there is no way to model a constraint like "A <
+     * 10" as an action The action will be a contradiction and everything is modelled as a condition.
+     */
+    private Optional<Rule> handleDnfWithAttributeConstraints(FeatureModel featureModel, Dopler decisionModel,
+                                                             List<List<Constraint>> dnf) {
+        try {
+            IExpression condition = conditionCreator.createCondition(decisionModel, featureModel,
+                    new NotConstraint(dnfToTreeConverter.createDnfFromList(dnf)));
+            Set<IAction> contradiction = createContradiction(decisionModel);
+            return Optional.of(new Rule(condition, contradiction));
+        } catch (CanNotBeTranslatedException e) {
+            //The dnf to translate contains an expression.
+            //Expressions can not be translated.
+            //Skip the constraint.
+            return Optional.empty();
+        }
     }
 
     /** Converts the given left side of the DNF to a tree and removes double negations if needed. */

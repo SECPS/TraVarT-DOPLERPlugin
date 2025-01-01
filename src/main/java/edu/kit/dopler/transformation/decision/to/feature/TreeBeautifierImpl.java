@@ -14,18 +14,16 @@ import static de.vill.model.Group.GroupType.OPTIONAL;
 public class TreeBeautifierImpl implements TreeBeautifier {
 
     @Override
-    public void beautify(Feature feature, IModelTransformer.STRATEGY level) {
-
-        if (IModelTransformer.STRATEGY.ONE_WAY == level) {
+    public void beautify(Feature feature, IModelTransformer.STRATEGY strategy) {
+        if (IModelTransformer.STRATEGY.ONE_WAY == strategy) {
             replaceSingleAlternativeWithMandatoryGroups(feature);
         }
-
         groupFeaturesTogether(feature);
 
         //Recursively beautify children
         for (Group group : new ArrayList<>(feature.getChildren())) {
             for (Feature childFeature : new ArrayList<>(group.getFeatures())) {
-                beautify(childFeature, level);
+                beautify(childFeature, strategy);
             }
         }
 
@@ -36,7 +34,7 @@ public class TreeBeautifierImpl implements TreeBeautifier {
         feature.getChildren().sort(Comparator.comparing(child -> child.toString(true, feature.getFeatureName())));
     }
 
-    //Replace alternative groups with one child with mandatory groups
+    /** Replace alternative groups with one child with mandatory groups */
     private static void replaceSingleAlternativeWithMandatoryGroups(Feature feature) {
         for (Group group : new ArrayList<>(feature.getChildren())) {
 

@@ -1,7 +1,7 @@
 package edu.kit.dopler.transformation.exceptions;
 
 /**
- * This exception will be thrown, if an object has an unexpected type.
+ * This exception is thrown when an object has an unexpected type.
  */
 public class UnexpectedTypeException extends RuntimeException {
 
@@ -18,6 +18,7 @@ public class UnexpectedTypeException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        return "Unexpected type: " + object.getClass().getSimpleName();
+        return "Unexpected type. Class: '%s', Value: '%s'".formatted(object.getClass().getSimpleName(),
+                object.toString());
     }
 }

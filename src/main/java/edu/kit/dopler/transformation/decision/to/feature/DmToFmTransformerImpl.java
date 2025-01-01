@@ -9,6 +9,7 @@ import edu.kit.dopler.transformation.decision.to.feature.rules.RuleHandler;
 
 import static edu.kit.dopler.transformation.Transformer.STANDARD_MODEL_NAME;
 
+/** Implementation of {@link DmToFmTransformer}. */
 public class DmToFmTransformerImpl implements DmToFmTransformer {
 
     private final TreeBuilder treeBuilder;

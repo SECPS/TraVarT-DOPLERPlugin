@@ -8,6 +8,7 @@
 package edu.kit.dopler.plugin;
 
 import at.jku.cps.travart.core.common.*;
+import edu.kit.dopler.io.DecisionModelReader;
 import edu.kit.dopler.transformation.Transformer;
 import org.pf4j.Extension;
 
@@ -43,7 +44,7 @@ public class DoplerPluginImpl implements IPlugin {
 
     @Override
     public IPrettyPrinter getPrinter() {
-       // return new DoplerPrettyPrinter(new DecisionModelSerializer());
+        // return new DoplerPrettyPrinter(new DecisionModelSerializer());
         return null;
     }
 
@@ -69,7 +70,6 @@ public class DoplerPluginImpl implements IPlugin {
 
     @Override
     public List getSupportedFileExtensions() {
-        //return Collections.unmodifiableList(List.of(DecisionModelDeserializer.FILE_EXTENSION_CSV));
-        return null;
+        return List.of(DecisionModelReader.FILE_EXTENSION_CSV);
     }
 }

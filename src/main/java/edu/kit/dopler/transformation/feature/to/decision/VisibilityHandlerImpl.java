@@ -14,8 +14,6 @@ import edu.kit.dopler.transformation.util.FeatureFinder;
 import java.util.Collections;
 import java.util.Optional;
 
-import static edu.kit.dopler.transformation.feature.to.decision.FeatureAndGroupHandlerImpl.BOOLEAN_QUESTION;
-
 /** Implementation of {@link VisibilityHandler} */
 public class VisibilityHandlerImpl implements VisibilityHandler {
 
@@ -57,22 +55,19 @@ public class VisibilityHandlerImpl implements VisibilityHandler {
         Group parentGroup = feature.getParentGroup();
         Feature parentFeature = feature.getParentFeature();
         switch (parentGroup.GROUPTYPE) {
-            case MANDATORY -> {
-                //visibility depends on first non-mandatory parent
-                visibility = resolveVisibility(featureModel, dopler, parentFeature, level);
-            }
+            case MANDATORY -> //visibility depends on first non-mandatory parent
+                    visibility = resolveVisibility(featureModel, dopler, parentFeature, level);
             case OPTIONAL -> {
                 //Insert a check decision. Visibility is this newly created check decision.
-                BooleanDecision checkDecision =
-                        new BooleanDecision(id + "Check", String.format(BOOLEAN_QUESTION, id), "",
-                                resolveVisibility(featureModel, dopler, parentFeature, level), Collections.emptySet());
+                BooleanDecision checkDecision = new BooleanDecision(id + "Check",
+                        String.format(FeatureAndGroupHandlerImpl.BOOLEAN_QUESTION, id), "",
+                        resolveVisibility(featureModel, dopler, parentFeature, level), Collections.emptySet());
                 dopler.addDecision(checkDecision);
                 visibility = new StringLiteralExpression(checkDecision.getDisplayId());
             }
             case OR, ALTERNATIVE -> {
-                //visibility is `decision.value`, where the `decision` is the decision of the parent group and
-                // `value` is
-                // one of the enum values of this decision
+                //visibility is 'decision.value', where the 'decision' is the decision of the parent group and
+                // 'value' is one of the enum values of this decision
                 String value = feature.getFeatureName();
                 IDecision<?> decisionByValue = decisionFinder.findDecisionByValue(dopler, value)
                         .orElseThrow(() -> new DecisionNotPresentException(value));
@@ -102,14 +97,13 @@ public class VisibilityHandlerImpl implements VisibilityHandler {
     /** Returns a {@link StringLiteralExpression} only containing the name of the given feature. */
     private IExpression handleOptionalFeature(Dopler dopler, Feature parent) {
         String id = switch (parent.getFeatureType()) {
-            case STRING -> "%s#String".formatted(parent.getFeatureName());
-            case INT, REAL -> "%s#Number".formatted(parent.getFeatureName());
+            case STRING -> FeatureAndGroupHandlerImpl.STRING_DECISION_NAME.formatted(parent.getFeatureName());
+            case INT, REAL -> FeatureAndGroupHandlerImpl.NUMBER_DECISION_NAME.formatted(parent.getFeatureName());
             case BOOL -> parent.getFeatureName();
             case null -> parent.getFeatureName();
         };
 
         Optional<IDecision<?>> decisionById = decisionFinder.findDecisionById(dopler, id);
-
         if (decisionById.isEmpty()) {
             throw new DecisionNotPresentException(id);
         }

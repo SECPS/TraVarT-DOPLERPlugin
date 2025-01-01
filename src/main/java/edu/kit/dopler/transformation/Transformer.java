@@ -15,6 +15,9 @@ import edu.kit.dopler.transformation.util.TransformationModule;
  */
 public class Transformer implements IModelTransformer<Dopler> {
 
+    /**
+     * This is the standard name for the root feature in the {@link FeatureModel}.
+     */
     public static final String STANDARD_MODEL_NAME = "Root";
 
     private final DmToFmTransformer dmToFmTransformer;
