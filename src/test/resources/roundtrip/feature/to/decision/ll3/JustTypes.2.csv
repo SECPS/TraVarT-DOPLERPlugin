@@ -1,6 +1,6 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-A#String;What A?;String;;;;RootFeature#.RootFeature
-B#Number;How much B?;Double;;;;RootFeature#.RootFeature
-C#Number;How much C?;Double;;;;RootFeature#.RootFeature
+A;What A?;String;;;;RootFeature#.RootFeature
+B;How much B?;Double;;;;RootFeature#.RootFeature
+C;How much C?;Double;;;;RootFeature#.RootFeature
 D#;Which D?;Enumeration;D;1:1;;RootFeature#.RootFeature
 RootFeature#;Which RootFeature?;Enumeration;RootFeature;1:1;;true

@@ -1,14 +1,15 @@
 features
-	PC
-		mandatory
-			RAM
-				or
-					"8GB"
-					"16GB"
-			Boolean CPU
-			"Power Unit"
-				optional
-					String Manufacturer
-					Integer Watt
-		optional
-			"Designated GPU"
+        PC
+                mandatory
+                        CPU
+                        "Power Unit"
+                                optional
+                                        String Manufacturer
+                                        Real Watt
+                        RAM
+                                or
+                                        "16GB"
+                                        "8GB"
+                optional
+                        "Designated GPU"
+

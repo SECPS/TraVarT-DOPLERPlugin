@@ -23,8 +23,8 @@ class TestUtils {
         String sanitisedModel = NEW_LINE_PATTERN.matcher(model).replaceAll(System.lineSeparator());
         CSVParser parser = createCSVFormat().parse(new StringReader(sanitisedModel));
 
-        List<CSVRecord> records = parser.stream().sorted(Comparator.comparing(o -> o.get(0)))
-                .collect(Collectors.toCollection(ArrayList::new));
+        List<CSVRecord> records = parser.getRecords();
+        records.sort(Comparator.comparing(o -> o.get(0)));
 
         List<String> lines = new ArrayList<>();
         for (CSVRecord record : records) {

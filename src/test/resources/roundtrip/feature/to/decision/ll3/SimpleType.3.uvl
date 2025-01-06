@@ -1,22 +1,23 @@
 features
-	RootFeature
-		optional
-			String A
-			Integer B
-			Real C
-			Boolean D
-		mandatory
-			String E
-			Integer F
-			Real G
-			Boolean H
-		alternative
-			String I
-			Integer J
-			Real K
-			Boolean L
-		or
-			String M
-			Integer N
-			Real O
-			Boolean P
+        RootFeature
+                alternative
+                        String I
+                        Real J
+                        Real K
+                        L
+                mandatory
+                        String E
+                        Real F
+                        Real G
+                        H
+                optional
+                        String A
+                        Real B
+                        Real C
+                        D
+                or
+                        String M
+                        Real N
+                        Real O
+                        P
+

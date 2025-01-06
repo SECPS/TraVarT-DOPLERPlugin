@@ -1,0 +1,11 @@
+features
+        String A
+                mandatory
+                        String B
+                                mandatory
+                                        String C
+                                                mandatory
+                                                        String D
+                                                                mandatory
+                                                                        String E
+

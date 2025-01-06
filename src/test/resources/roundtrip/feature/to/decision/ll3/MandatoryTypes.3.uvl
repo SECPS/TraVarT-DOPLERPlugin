@@ -1,15 +1,16 @@
 features
-	RootFeature
-		mandatory
-			String A
-				mandatory
-					String AA
-					String AB
-			Integer B
-				mandatory
-					Integer BA
-					Integer BB
-			Boolean C
-				mandatory
-					Boolean CA
-					Boolean CB
+        RootFeature
+                mandatory
+                        String A
+                                mandatory
+                                        String AA
+                                        String AB
+                        Real B
+                                mandatory
+                                        Real BA
+                                        Real BB
+                        C
+                                mandatory
+                                        CA
+                                        CB
+

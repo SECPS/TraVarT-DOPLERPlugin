@@ -1,9 +1,11 @@
 package edu.kit.dopler.transformation.decision.to.feature;
 
 import at.jku.cps.travart.core.common.IModelTransformer;
+import com.google.inject.Inject;
 import de.vill.model.Feature;
 import de.vill.model.Group;
 import edu.kit.dopler.transformation.Transformer;
+import edu.kit.dopler.transformation.util.FeatureFinder;
 
 import java.util.*;
 
@@ -14,23 +16,31 @@ import static de.vill.model.Group.GroupType.OPTIONAL;
 /** Implementation of {@link TreeBeautifier} */
 public class TreeBeautifierImpl implements TreeBeautifier {
 
+    private final FeatureFinder featureFinder;
+
+    @Inject
+    public TreeBeautifierImpl(FeatureFinder featureFinder) {
+        this.featureFinder = featureFinder;
+    }
+
     @Override
     public Feature beautify(Feature root, IModelTransformer.STRATEGY strategy) {
-        beautifyRecursively(root, strategy);
+        beautifyRecursively(root, root, strategy);
         return removeStandardRoot(root);
     }
 
-    private void beautifyRecursively(Feature feature, IModelTransformer.STRATEGY strategy) {
+    private void beautifyRecursively(Feature root, Feature feature, IModelTransformer.STRATEGY strategy) {
         if (IModelTransformer.STRATEGY.ONE_WAY == strategy) {
             replaceSingleAlternativeWithMandatoryGroups(feature);
-            replaceMandatoryFeaturesWithTypeChildren(feature, strategy);
+            simplifyTypeFeatures(root, feature, strategy);
+            simplifyName(root, feature);
         }
         groupFeaturesTogether(feature);
 
         //Recursively beautify children
         for (Group group : new ArrayList<>(feature.getChildren())) {
             for (Feature childFeature : new ArrayList<>(group.getFeatures())) {
-                beautifyRecursively(childFeature, strategy);
+                beautifyRecursively(root, childFeature, strategy);
             }
         }
 
@@ -41,10 +51,21 @@ public class TreeBeautifierImpl implements TreeBeautifier {
         feature.getChildren().sort(Comparator.comparing(child -> child.toString(true, feature.getFeatureName())));
     }
 
-    private void replaceMandatoryFeaturesWithTypeChildren(Feature feature, IModelTransformer.STRATEGY strategy) {
+    /** Remove not needed '*' at the end of the feature name. */
+    private void simplifyName(Feature root, Feature feature) {
+        String id = feature.getFeatureName();
+        while (id.endsWith("*")) {
+            id = id.substring(0, id.length() - 1);
+            if (featureFinder.findFeatureByName(root, id).isEmpty()) {
+                feature.setFeatureName(id);
+            } else {
+                return;
+            }
+        }
+    }
 
+    private void simplifyTypeFeatures(Feature root, Feature feature, IModelTransformer.STRATEGY strategy) {
         List<Group> groups = feature.getChildren();
-
         for (Group group : new ArrayList<>(groups)) {
 
             //We need a mandatory group with a single child
@@ -56,7 +77,7 @@ public class TreeBeautifierImpl implements TreeBeautifier {
             Group parentGroup = feature.getParentGroup();
 
             //child feature should have a type and the 'feature' should have a parent
-            if (null == first.getFeatureType() || null == parentGroup) {
+            if (null == first.getFeatureType() || null == parentGroup || MANDATORY == parentGroup.GROUPTYPE) {
                 continue;
             }
 
@@ -68,7 +89,7 @@ public class TreeBeautifierImpl implements TreeBeautifier {
             first.getChildren().addAll(groups);
 
             //Beautify here because the feature is put up in the tree
-            beautifyRecursively(first, strategy);
+            beautifyRecursively(root, first, strategy);
         }
     }
 
