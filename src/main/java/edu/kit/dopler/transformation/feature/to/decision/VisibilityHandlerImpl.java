@@ -43,7 +43,8 @@ public class VisibilityHandlerImpl implements VisibilityHandler {
         // -> Look at parent group of this non-mandatory parent
         return switch (parent.get().getParentGroup().GROUPTYPE) {
             case OPTIONAL -> handleOptionalFeature(decisionModel, parent.get());
-            case ALTERNATIVE, OR, MANDATORY -> handleAlternativeAndOrFeature(decisionModel, parent.get());
+            case ALTERNATIVE, OR -> handleAlternativeAndOrFeature(decisionModel, parent.get());
+            case MANDATORY -> handleMandatoryFeature(decisionModel, parent.get());
             case GROUP_CARDINALITY -> throw new UnexpectedTypeException(parent.get().getParentGroup());
         };
     }
@@ -94,18 +95,26 @@ public class VisibilityHandlerImpl implements VisibilityHandler {
         return new StringLiteralExpression(parentOfParentDecision.get().getDisplayId() + "." + parent.getFeatureName());
     }
 
+    private IExpression handleMandatoryFeature(Dopler decisionModel, Feature feature) {
+        Optional<IDecision<?>> decisionByValue =
+                decisionFinder.findDecisionByValue(decisionModel, feature.getFeatureName());
+        if (decisionByValue.isPresent()) {
+            return new StringLiteralExpression(decisionByValue.get().getDisplayId() + "." + feature.getFeatureName());
+        }
+
+        Optional<IDecision<?>> decisionById = decisionFinder.findDecisionById(decisionModel, feature.getFeatureName());
+        if (decisionById.isPresent()) {
+            return new StringLiteralExpression(decisionById.get().getDisplayId());
+        }
+
+        throw new DecisionNotPresentException(feature.getFeatureName());
+    }
+
     /** Returns a {@link StringLiteralExpression} only containing the name of the given feature. */
     private IExpression handleOptionalFeature(Dopler dopler, Feature parent) {
-        String id = switch (parent.getFeatureType()) {
-            case STRING -> FeatureAndGroupHandlerImpl.STRING_DECISION_NAME.formatted(parent.getFeatureName());
-            case INT, REAL -> FeatureAndGroupHandlerImpl.NUMBER_DECISION_NAME.formatted(parent.getFeatureName());
-            case BOOL -> parent.getFeatureName();
-            case null -> parent.getFeatureName();
-        };
-
-        Optional<IDecision<?>> decisionById = decisionFinder.findDecisionById(dopler, id);
+        Optional<IDecision<?>> decisionById = decisionFinder.findDecisionById(dopler, parent.getFeatureName());
         if (decisionById.isEmpty()) {
-            throw new DecisionNotPresentException(id);
+            throw new DecisionNotPresentException(parent.getFeatureName());
         }
 
         return new StringLiteralExpression(decisionById.get().getDisplayId());

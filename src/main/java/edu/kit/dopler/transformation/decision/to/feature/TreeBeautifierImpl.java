@@ -3,6 +3,7 @@ package edu.kit.dopler.transformation.decision.to.feature;
 import at.jku.cps.travart.core.common.IModelTransformer;
 import de.vill.model.Feature;
 import de.vill.model.Group;
+import edu.kit.dopler.transformation.Transformer;
 
 import java.util.*;
 
@@ -14,16 +15,22 @@ import static de.vill.model.Group.GroupType.OPTIONAL;
 public class TreeBeautifierImpl implements TreeBeautifier {
 
     @Override
-    public void beautify(Feature feature, IModelTransformer.STRATEGY strategy) {
+    public Feature beautify(Feature root, IModelTransformer.STRATEGY strategy) {
+        beautifyRecursively(root, strategy);
+        return removeStandardRoot(root);
+    }
+
+    private void beautifyRecursively(Feature feature, IModelTransformer.STRATEGY strategy) {
         if (IModelTransformer.STRATEGY.ONE_WAY == strategy) {
             replaceSingleAlternativeWithMandatoryGroups(feature);
+            replaceMandatoryFeaturesWithTypeChildren(feature, strategy);
         }
         groupFeaturesTogether(feature);
 
         //Recursively beautify children
         for (Group group : new ArrayList<>(feature.getChildren())) {
             for (Feature childFeature : new ArrayList<>(group.getFeatures())) {
-                beautify(childFeature, strategy);
+                beautifyRecursively(childFeature, strategy);
             }
         }
 
@@ -32,6 +39,37 @@ public class TreeBeautifierImpl implements TreeBeautifier {
 
         //Sort groups
         feature.getChildren().sort(Comparator.comparing(child -> child.toString(true, feature.getFeatureName())));
+    }
+
+    private void replaceMandatoryFeaturesWithTypeChildren(Feature feature, IModelTransformer.STRATEGY strategy) {
+
+        List<Group> groups = feature.getChildren();
+
+        for (Group group : new ArrayList<>(groups)) {
+
+            //We need a mandatory group with a single child
+            if (MANDATORY != group.GROUPTYPE || 1 != group.getFeatures().size()) {
+                continue;
+            }
+
+            Feature first = group.getFeatures().getFirst();
+            Group parentGroup = feature.getParentGroup();
+
+            //child feature should have a type and the 'feature' should have a parent
+            if (null == first.getFeatureType() || null == parentGroup) {
+                continue;
+            }
+
+            //Put 'first' at the position of 'feature'. 'feature' is deleted.
+            parentGroup.getFeatures().remove(feature);
+            parentGroup.getFeatures().add(first);
+            first.setParentGroup(parentGroup);
+            groups.remove(group);
+            first.getChildren().addAll(groups);
+
+            //Beautify here because the feature is put up in the tree
+            beautifyRecursively(first, strategy);
+        }
     }
 
     /** Replace alternative groups with one child with mandatory groups */
@@ -81,5 +119,19 @@ public class TreeBeautifierImpl implements TreeBeautifier {
                 newGroup.setParentFeature(feature);
             }
         }
+    }
+
+    /** Remove root if it is the standard root */
+    private static Feature removeStandardRoot(Feature rootFeature) {
+        Feature feature = rootFeature;
+        boolean hasNoParent = null == feature.getParentGroup();
+        boolean hasStandardName = feature.getFeatureName().equals(Transformer.STANDARD_MODEL_NAME);
+        boolean hasOneChild = 1 == feature.getChildren().size();
+        boolean hasOneGrandChild = 1 == feature.getChildren().getFirst().getFeatures().size();
+        if (hasNoParent && hasStandardName && hasOneChild && hasOneGrandChild) {
+            feature = feature.getChildren().getFirst().getFeatures().getFirst();
+            feature.setParentGroup(null);
+        }
+        return feature;
     }
 }

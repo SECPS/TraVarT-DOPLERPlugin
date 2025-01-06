@@ -1,21 +1,21 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-A#String;What A?;String;;;;A#StringCheck
-A#StringCheck;A#String?;Boolean;false | true;;;RootFeature#.RootFeature
-B#Number;How much B?;Double;;;;B#NumberCheck
-B#NumberCheck;B#Number?;Boolean;false | true;;;RootFeature#.RootFeature
-C#Number;How much C?;Double;;;;C#NumberCheck
-C#NumberCheck;C#Number?;Boolean;false | true;;;RootFeature#.RootFeature
+A;What A?;String;;;;ACheck
+ACheck;A?;Boolean;false | true;;;RootFeature#.RootFeature
+B;How much B?;Double;;;;BCheck
+BCheck;B?;Boolean;false | true;;;RootFeature#.RootFeature
+C;How much C?;Double;;;;CCheck
+CCheck;C?;Boolean;false | true;;;RootFeature#.RootFeature
 D;D?;Boolean;false | true;;;RootFeature#.RootFeature
-E#String;What E?;String;;;;RootFeature#.RootFeature
-F#Number;How much F?;Double;;;;RootFeature#.RootFeature
-G#Number;How much G?;Double;;;;RootFeature#.RootFeature
+E;What E?;String;;;;RootFeature#.RootFeature
+F;How much F?;Double;;;;RootFeature#.RootFeature
+G;How much G?;Double;;;;RootFeature#.RootFeature
 H#;Which H?;Enumeration;H;1:1;;RootFeature#.RootFeature
-I#String;What I?;String;;;;RootFeature*.I
-J#Number;How much J?;Double;;;;RootFeature*.J
-K#Number;How much K?;Double;;;;RootFeature*.K
-M#String;What M?;String;;;;RootFeature**.M
-N#Number;How much N?;Double;;;;RootFeature**.N
-O#Number;How much O?;Double;;;;RootFeature**.O
+I*;What I?;String;;;;RootFeature*.I
+J*;How much J?;Double;;;;RootFeature*.J
+K*;How much K?;Double;;;;RootFeature*.K
+M*;What M?;String;;;;RootFeature**.M
+N*;How much N?;Double;;;;RootFeature**.N
+O*;How much O?;Double;;;;RootFeature**.O
 RootFeature#;Which RootFeature?;Enumeration;RootFeature;1:1;;true
 RootFeature*;Which RootFeature*?;Enumeration;I | J | K | L;1:1;;RootFeature#.RootFeature
 RootFeature**;Which RootFeature**?;Enumeration;M | N | O | P;1:4;;RootFeature#.RootFeature

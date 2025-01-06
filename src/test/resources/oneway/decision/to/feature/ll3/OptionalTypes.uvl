@@ -1,26 +1,14 @@
 features
         Root
                 optional
-                        "A#StringCheck"
-                                mandatory
-                                        String "A#String"
-                                                optional
-                                                        "AA#StringCheck"
-                                                                mandatory
-                                                                        String "AA#String"
-                                                        "AB#StringCheck"
-                                                                mandatory
-                                                                        String "AB#String"
-                        "B#NumberCheck"
-                                mandatory
-                                        Real "B#Number"
-                                                optional
-                                                        "BA#NumberCheck"
-                                                                mandatory
-                                                                        Real "BA#Number"
-                                                        "BB#NumberCheck"
-                                                                mandatory
-                                                                        Real "BB#Number"
+                        String "A#String"
+                                optional
+                                        String "AA#String"
+                                        String "AB#String"
+                        Real "B#Number"
+                                optional
+                                        Real "BA#Number"
+                                        Real "BB#Number"
                         C
                                 optional
                                         CA

@@ -1,19 +1,9 @@
 features
         Root
                 optional
-                        "A#NumberCheck"
-                                mandatory
-                                        Real "A#Number"
-                        "B#NumberCheck"
-                                mandatory
-                                        Real "B#Number"
-                        "C#NumberCheck"
-                                mandatory
-                                        Real "C#Number"
-                        "D#NumberCheck"
-                                mandatory
-                                        Real "D#Number"
-                        "E#NumberCheck"
-                                mandatory
-                                        Real "E#Number"
+                        Real "A#Number"
+                        Real "B#Number"
+                        Real "C#Number"
+                        Real "D#Number"
+                        Real "E#Number"
 

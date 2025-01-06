@@ -1,11 +1,11 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-A#Number;How much A?;Double;;;;A#NumberCheck
-A#NumberCheck;A#Number?;Boolean;true | false;;;true
-B#Number;How much B?;Double;;;;B#NumberCheck
-B#NumberCheck;B#Number?;Boolean;true | false;;;true
-C#Number;How much C?;Double;;;;C#NumberCheck
-C#NumberCheck;C#Number?;Boolean;true | false;;;true
-D#Number;How much D?;Double;;;;D#NumberCheck
-D#NumberCheck;D#Number?;Boolean;true | false;;;true
-E#Number;How much E?;Double;;;;E#NumberCheck
-E#NumberCheck;E#Number?;Boolean;true | false;;;true
+A;How much A?;Double;;;;ACheck
+ACheck;A?;Boolean;false | true;;;true
+B;How much B?;Double;;;;BCheck
+BCheck;B?;Boolean;false | true;;;true
+C;How much C?;Double;;;;CCheck
+CCheck;C?;Boolean;false | true;;;true
+D;How much D?;Double;;;;DCheck
+DCheck;D?;Boolean;false | true;;;true
+E;How much E?;Double;;;;ECheck
+ECheck;E?;Boolean;false | true;;;true

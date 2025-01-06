@@ -1,19 +1,19 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+A;What A?;String;;;;ACheck
+ACheck;A?;Boolean;false | true;;;true
+B;How much B?;Double;;;;BCheck
+BCheck;B?;Boolean;false | true;;;true
+C;How much C?;Double;;;;CCheck
+CCheck;C?;Boolean;false | true;;;true
+D;D?;Boolean;false | true;;;true
+E;What E?;String;;;;true
+F;How much F?;Double;;;;true
+G;How much G?;Double;;;;true
+I*;What I?;String;;;;RootFeature.I
+J*;How much J?;Double;;;;RootFeature.J
+K*;How much K?;Double;;;;RootFeature.K
+M*;What M?;String;;;;RootFeature*.M
+N*;How much N?;Double;;;;RootFeature*.N
+O*;How much O?;Double;;;;RootFeature*.O
 RootFeature;Which RootFeature?;Enumeration;I | J | K | L;1:1;;true
 RootFeature*;Which RootFeature*?;Enumeration;M | N | O | P;1:4;;true
-A#String;What A?;String;;;;A#StringCheck
-A#StringCheck;A#String?;Boolean;true | false;;;true
-B#Number;How much B?;Double;;;;B#NumberCheck
-B#NumberCheck;B#Number?;Boolean;true | false;;;true
-C#Number;How much C?;Double;;;;C#NumberCheck
-C#NumberCheck;C#Number?;Boolean;true | false;;;true
-D;D?;Boolean;true | false;;;true
-E#String;What E?;String;;;;true
-F#Number;How much F?;Double;;;;true
-G#Number;How much G?;Double;;;;true
-I#String;What I?;String;;;;RootFeature.I
-J#Number;How much J?;Double;;;;RootFeature.J
-K#Number;How much K?;Double;;;;RootFeature.K
-M#String;What M?;String;;;;RootFeature*.M
-N#Number;How much N?;Double;;;;RootFeature*.N
-O#Number;How much O?;Double;;;;RootFeature*.O

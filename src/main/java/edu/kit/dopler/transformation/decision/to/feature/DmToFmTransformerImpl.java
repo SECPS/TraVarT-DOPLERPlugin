@@ -25,29 +25,16 @@ public class DmToFmTransformerImpl implements DmToFmTransformer {
 
     @Override
     public FeatureModel transform(Dopler decisionModel, IModelTransformer.STRATEGY level) {
-        Feature rootFeature = removeStandardRoot(treeBuilder.buildTree(decisionModel, level));
-
-        treeBeautifier.beautify(rootFeature, level);
+        Feature rootFeature = treeBuilder.buildTree(decisionModel, level);
+        Feature newRoot = treeBeautifier.beautify(rootFeature, level);
 
         FeatureModel featureModel = new FeatureModel();
-        featureModel.setRootFeature(rootFeature);
+        featureModel.setRootFeature(newRoot);
 
         ruleHandler.handleRules(decisionModel, featureModel);
 
         return featureModel;
     }
 
-    /** Remove root if it is the standard root */
-    private static Feature removeStandardRoot(Feature rootFeature) {
-        Feature feature = rootFeature;
-        boolean hasNoParent = null == feature.getParentGroup();
-        boolean hasStandardName = feature.getFeatureName().equals(STANDARD_MODEL_NAME);
-        boolean hasOneChild = 1 == feature.getChildren().size();
-        boolean hasOneGrandChild = 1 == feature.getChildren().getFirst().getFeatures().size();
-        if (hasNoParent && hasStandardName && hasOneChild && hasOneGrandChild) {
-            feature = feature.getChildren().getFirst().getFeatures().getFirst();
-            feature.setParentGroup(null);
-        }
-        return feature;
-    }
+
 }

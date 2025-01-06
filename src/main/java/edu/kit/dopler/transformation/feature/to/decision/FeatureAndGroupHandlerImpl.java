@@ -126,9 +126,10 @@ public class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
 
     private void createBooleanDecision(Dopler dopler, FeatureModel featureModel, Feature feature,
                                        IModelTransformer.STRATEGY level) {
+        String id = idHandler.resolveId(dopler, feature);
         dopler.addDecision(new BooleanDecision(
-                idHandler.resolveId(dopler, feature),
-                String.format(BOOLEAN_QUESTION, idHandler.resolveId(dopler, feature)),
+                id,
+                String.format(BOOLEAN_QUESTION, id),
                 "",
                 visibilityHandler.resolveVisibility(featureModel, dopler, feature.getParentFeature(), level),
                 new LinkedHashSet<>())
@@ -137,12 +138,13 @@ public class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
 
     private void createNumberDecision(Dopler dopler, FeatureModel featureModel, Feature feature,
                                       IModelTransformer.STRATEGY level) {
+        String id = idHandler.resolveId(dopler, feature);
         dopler.addDecision(new NumberDecision(
-                NUMBER_DECISION_NAME.formatted(feature.getFeatureName()),
+                id,
                 String.format(NUMBER_QUESTION, feature.getFeatureName()),
                 "",
                 visibilityHandler.resolveVisibilityForTypeDecisions(dopler, featureModel, feature,
-                        NUMBER_DECISION_NAME.formatted(feature.getFeatureName()), level),
+                        id, level),
                 new LinkedHashSet<>(),
                 new HashSet<>())
         );
@@ -150,12 +152,13 @@ public class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
 
     private void createStringDecision(Dopler dopler, FeatureModel featureModel, Feature feature,
                                       IModelTransformer.STRATEGY level) {
+        String id = idHandler.resolveId(dopler, feature);
         dopler.addDecision(new StringDecision(
-                STRING_DECISION_NAME.formatted(feature.getFeatureName()),
+                id,
                 String.format(STRING_QUESTION, feature.getFeatureName()),
                 "",
                 visibilityHandler.resolveVisibilityForTypeDecisions(dopler, featureModel, feature,
-                        STRING_DECISION_NAME.formatted(feature.getFeatureName()), level),
+                        id, level),
                 new LinkedHashSet<>(),
                 new HashSet<>())
         );

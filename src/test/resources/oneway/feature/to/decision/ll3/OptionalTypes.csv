@@ -1,16 +1,16 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-A#String;What A?;String;;;;A#StringCheck
-A#StringCheck;A#String?;Boolean;true | false;;;true
-AA#String;What AA?;String;;;;AA#StringCheck
-AA#StringCheck;AA#String?;Boolean;true | false;;;A#String
-AB#String;What AB?;String;;;;AB#StringCheck
-AB#StringCheck;AB#String?;Boolean;true | false;;;A#String
-B#Number;How much B?;Double;;;;B#NumberCheck
-B#NumberCheck;B#Number?;Boolean;true | false;;;true
-BA#Number;How much BA?;Double;;;;BA#NumberCheck
-BA#NumberCheck;BA#Number?;Boolean;true | false;;;B#Number
-BB#Number;How much BB?;Double;;;;BB#NumberCheck
-BB#NumberCheck;BB#Number?;Boolean;true | false;;;B#Number
-C;C?;Boolean;true | false;;;true
-CA;CA?;Boolean;true | false;;;C
-CB;CB?;Boolean;true | false;;;C
+A;What A?;String;;;;ACheck
+AA;What AA?;String;;;;AACheck
+AACheck;AA?;Boolean;false | true;;;A
+AB;What AB?;String;;;;ABCheck
+ABCheck;AB?;Boolean;false | true;;;A
+ACheck;A?;Boolean;false | true;;;true
+B;How much B?;Double;;;;BCheck
+BA;How much BA?;Double;;;;BACheck
+BACheck;BA?;Boolean;false | true;;;B
+BB;How much BB?;Double;;;;BBCheck
+BBCheck;BB?;Boolean;false | true;;;B
+BCheck;B?;Boolean;false | true;;;true
+C;C?;Boolean;false | true;;;true
+CA;CA?;Boolean;false | true;;;C
+CB;CB?;Boolean;false | true;;;C

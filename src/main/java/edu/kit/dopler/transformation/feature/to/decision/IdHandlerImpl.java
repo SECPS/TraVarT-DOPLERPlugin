@@ -28,6 +28,7 @@ public class IdHandlerImpl implements IdHandler {
         return featureName;
     }
 
+
     private boolean nameExistsAlready(Dopler decisionModel, String featureName) {
         return decisionFinder.findDecisionById(decisionModel, featureName).isPresent() ||
                 decisionFinder.findDecisionByValue(decisionModel, featureName).isPresent();

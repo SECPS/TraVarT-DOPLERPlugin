@@ -10,8 +10,10 @@ public interface TreeBeautifier {
      * Make the given {@link Feature} look good. What is considered good, depends on the implementation and the given
      * {@link IModelTransformer.STRATEGY}.
      *
-     * @param feature  {@link Feature} to beautify
+     * @param root  {@link Feature} to beautify
      * @param strategy Currently used {@link IModelTransformer.STRATEGY}
+     *
+     * @return
      */
-    void beautify(Feature feature, IModelTransformer.STRATEGY strategy);
+    Feature beautify(Feature root, IModelTransformer.STRATEGY strategy);
 }

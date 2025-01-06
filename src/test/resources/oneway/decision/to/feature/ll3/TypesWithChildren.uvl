@@ -1,24 +1,12 @@
 features
         Root
                 or
-                        A
-                                mandatory
-                                        String "A#String"
+                        String "A#String"
                                 or
-                                        AA
-                                                mandatory
-                                                        String "AA#String"
-                                        AB
-                                                mandatory
-                                                        String "AB#String"
-                        B
+                                        String "AA#String"
+                                        String "AB#String"
+                        Real "B#Number"
                                 alternative
-                                        BA
-                                                mandatory
-                                                        String "BA#String"
-                                        BB
-                                                mandatory
-                                                        String "BB#String"
-                                mandatory
-                                        Real "B#Number"
+                                        String "BA#String"
+                                        String "BB#String"
 

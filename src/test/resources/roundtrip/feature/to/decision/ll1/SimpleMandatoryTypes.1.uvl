@@ -1,0 +1,15 @@
+features
+	RootFeature
+		mandatory
+			A
+				mandatory
+					AA
+					AB
+			B
+				mandatory
+					BA
+					BB
+			C
+				mandatory
+					CA
+					CB

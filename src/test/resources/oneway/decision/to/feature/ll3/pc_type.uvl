@@ -2,12 +2,8 @@ features
         Root
                 optional
                         "Designated GPU"
-                        "Manufacturer#StringCheck"
-                                mandatory
-                                        String "Manufacturer#String"
-                        "Watt#NumberCheck"
-                                mandatory
-                                        Real "Watt#Number"
+                        String "Manufacturer#String"
+                        Real "Watt#Number"
                 or
                         "16GB"
                         "8GB"

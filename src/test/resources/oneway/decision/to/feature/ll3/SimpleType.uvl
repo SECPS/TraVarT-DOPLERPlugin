@@ -1,40 +1,22 @@
 features
         Root
                 alternative
-                        I
-                                mandatory
-                                        String "I#String"
-                        J
-                                mandatory
-                                        Real "J#Number"
-                        K
-                                mandatory
-                                        Real "K#Number"
+                        String "I#String"
+                        Real "J#Number"
+                        Real "K#Number"
                         L
                 mandatory
                         String "E#String"
                         Real "F#Number"
                         Real "G#Number"
                 optional
-                        "A#StringCheck"
-                                mandatory
-                                        String "A#String"
-                        "B#NumberCheck"
-                                mandatory
-                                        Real "B#Number"
-                        "C#NumberCheck"
-                                mandatory
-                                        Real "C#Number"
+                        String "A#String"
+                        Real "B#Number"
+                        Real "C#Number"
                         D
                 or
-                        M
-                                mandatory
-                                        String "M#String"
-                        N
-                                mandatory
-                                        Real "N#Number"
-                        O
-                                mandatory
-                                        Real "O#Number"
+                        String "M#String"
+                        Real "N#Number"
+                        Real "O#Number"
                         P
 
