@@ -8,8 +8,10 @@ import de.vill.model.Group;
 import edu.kit.dopler.model.*;
 import edu.kit.dopler.transformation.Transformer;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
+import edu.kit.dopler.transformation.util.FeatureFinder;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static de.vill.model.Group.GroupType.ALTERNATIVE;
 import static de.vill.model.Group.GroupType.MANDATORY;
@@ -19,37 +21,31 @@ import static de.vill.model.Group.GroupType.OR;
 /** Implementation of {@link TreeBuilder} */
 public class TreeBuilderImpl implements TreeBuilder {
 
+    static final Pattern ATTRIBUTE_PATTERN = Pattern.compile(".+#.+#Attribute");
     private final ParentFinder parentFinder;
+    private final FeatureFinder featureFinder;
+    private final AttributeCreator attributeHandler;
 
     @Inject
-    TreeBuilderImpl(ParentFinder parentFinder) {
+    TreeBuilderImpl(ParentFinder parentFinder, FeatureFinder featureFinder, AttributeCreator attributeHandler) {
         this.parentFinder = parentFinder;
-    }
-
-    private static void distributeDecisions(Dopler decisionModel, List<BooleanDecision> booleanDecisions,
-                                            List<EnumerationDecision> enumerationDecisions,
-                                            List<IDecision<?>> numberDecisions, List<IDecision<?>> stringDecisions) {
-        for (IDecision<?> decision : decisionModel.getDecisions()) {
-            switch (decision) {
-                case BooleanDecision booleanDecision -> booleanDecisions.add(booleanDecision);
-                case EnumerationDecision enumerationDecision -> enumerationDecisions.add(enumerationDecision);
-                case NumberDecision numberDecision -> numberDecisions.add(numberDecision);
-                case StringDecision stringDecision -> stringDecisions.add(stringDecision);
-                case null, default -> throw new UnexpectedTypeException(decision);
-            }
-        }
+        this.featureFinder = featureFinder;
+        this.attributeHandler = attributeHandler;
     }
 
     @Override
-    public Feature buildTree(Dopler decisionModel, IModelTransformer.STRATEGY strategy) {
+    public Feature buildTree(List<IDecision<?>> allDecisions, List<IAction> allActions,
+                             IModelTransformer.STRATEGY strategy) {
         Feature rootFeature = new Feature(Transformer.STANDARD_MODEL_NAME);
+
+        List<IDecision<?>> attributeDecisions = filterAttributeDecisions(allDecisions);
 
         //Group the decisions by their type
         List<BooleanDecision> booleanDecisions = new ArrayList<>();
         List<EnumerationDecision> enumerationDecisions = new ArrayList<>();
         List<IDecision<?>> numberDecisions = new ArrayList<>();
         List<IDecision<?>> stringDecisions = new ArrayList<>();
-        distributeDecisions(decisionModel, booleanDecisions, enumerationDecisions, numberDecisions, stringDecisions);
+        distributeDecisions(allDecisions, booleanDecisions, enumerationDecisions, numberDecisions, stringDecisions);
 
         //Create features from the decisions
         Map<Feature, IExpression> booleanFeatures = createBooleanFeatures(booleanDecisions);
@@ -73,7 +69,35 @@ public class TreeBuilderImpl implements TreeBuilder {
         //set links from bottom to top
         setBottomToTopLinks(rootFeature);
 
+        attributeHandler.handleAttributeDecisions(attributeDecisions, rootFeature, allActions);
+
         return rootFeature;
+    }
+
+    private static void distributeDecisions(List<IDecision<?>> allDecisions, List<BooleanDecision> booleanDecisions,
+                                            List<EnumerationDecision> enumerationDecisions,
+                                            List<IDecision<?>> numberDecisions, List<IDecision<?>> stringDecisions) {
+        for (IDecision<?> decision : allDecisions) {
+            switch (decision) {
+                case BooleanDecision booleanDecision -> booleanDecisions.add(booleanDecision);
+                case EnumerationDecision enumerationDecision -> enumerationDecisions.add(enumerationDecision);
+                case NumberDecision numberDecision -> numberDecisions.add(numberDecision);
+                case StringDecision stringDecision -> stringDecisions.add(stringDecision);
+                case null, default -> throw new UnexpectedTypeException(decision);
+            }
+        }
+    }
+
+    /** Filter all attribute decisions out. */
+    private List<IDecision<?>> filterAttributeDecisions(List<IDecision<?>> allDecisions) {
+        List<IDecision<?>> attributeDecisions = new ArrayList<>();
+        for (IDecision<?> decision : new ArrayList<>(allDecisions)) {
+            if (ATTRIBUTE_PATTERN.matcher(decision.getDisplayId()).matches()) {
+                allDecisions.remove(decision);
+                attributeDecisions.add(decision);
+            }
+        }
+        return attributeDecisions;
     }
 
     private void setBottomToTopLinks(Feature rootFeature) {
@@ -91,8 +115,9 @@ public class TreeBuilderImpl implements TreeBuilder {
         for (Feature feature : typeFeatures) {
             Group child = new Group(MANDATORY);
             child.getFeatures().add(feature);
-            Feature parent = parentFinder.getParentFromVisibility(allFeatures.keySet(), allFeatures.get(feature))
-                    .orElse(rootFeature);
+            Feature parent =
+                    parentFinder.getParentFromVisibility(allFeatures.keySet(), feature, allFeatures.get(feature))
+                            .orElse(rootFeature);
             parent.addChildren(child);
         }
     }
@@ -100,8 +125,9 @@ public class TreeBuilderImpl implements TreeBuilder {
     private void linkEnumFeatures(Map<Feature, IExpression> allFeatures, Set<Feature> enumFeatures, Feature rootFeature,
                                   IModelTransformer.STRATEGY strategy) {
         for (Feature feature : enumFeatures) {
-            Feature parent = parentFinder.getParentFromVisibility(allFeatures.keySet(), allFeatures.get(feature))
-                    .orElse(rootFeature);
+            Feature parent =
+                    parentFinder.getParentFromVisibility(allFeatures.keySet(), feature, allFeatures.get(feature))
+                            .orElse(rootFeature);
 
             switch (strategy) {
                 case ONE_WAY -> {
@@ -124,8 +150,9 @@ public class TreeBuilderImpl implements TreeBuilder {
         for (Feature feature : booleanFeatures) {
             Group optionalGroup = new Group(OPTIONAL);
             optionalGroup.getFeatures().add(feature);
-            Feature parent = parentFinder.getParentFromVisibility(allFeatures.keySet(), allFeatures.get(feature))
-                    .orElse(rootFeature);
+            Feature parent =
+                    parentFinder.getParentFromVisibility(allFeatures.keySet(), feature, allFeatures.get(feature))
+                            .orElse(rootFeature);
             parent.addChildren(optionalGroup);
         }
     }

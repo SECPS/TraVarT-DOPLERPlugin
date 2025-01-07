@@ -31,6 +31,7 @@ public class TransformationModule extends AbstractModule {
         bind(RuleHandler.class).to(RuleHandlerImpl.class);
         bind(LeftCreator.class).to(LeftCreatorImpl.class);
         bind(RightCreator.class).to(RightCreatorImpl.class);
+        bind(AttributeCreator.class).to(AttributeCreatorImpl.class);
     }
 
     private void configureFmToDm() {

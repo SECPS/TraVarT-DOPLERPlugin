@@ -4,11 +4,10 @@ import com.google.inject.Inject;
 import de.vill.model.FeatureModel;
 import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.ImplicationConstraint;
-import edu.kit.dopler.model.Dopler;
-import edu.kit.dopler.model.IDecision;
 import edu.kit.dopler.model.Rule;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
 /** Implementation of {@link RuleHandler}. */
@@ -24,11 +23,9 @@ public class RuleHandlerImpl implements RuleHandler {
     }
 
     @Override
-    public void handleRules(Dopler decisionModel, FeatureModel featureModel) {
-        for (IDecision<?> decision : decisionModel.getDecisions()) {
-            for (Rule rule : decision.getRules()) {
-                handleRule(featureModel, rule);
-            }
+    public void handleRules(FeatureModel featureModel, List<Rule> allRules) {
+        for (Rule rule : allRules) {
+            handleRule(featureModel, rule);
         }
 
         //Sort constraints

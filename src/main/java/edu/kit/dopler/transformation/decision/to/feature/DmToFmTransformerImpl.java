@@ -5,9 +5,15 @@ import com.google.inject.Inject;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import edu.kit.dopler.model.Dopler;
+import edu.kit.dopler.model.IAction;
+import edu.kit.dopler.model.IDecision;
+import edu.kit.dopler.model.Rule;
 import edu.kit.dopler.transformation.decision.to.feature.rules.RuleHandler;
 
-import static edu.kit.dopler.transformation.Transformer.STANDARD_MODEL_NAME;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /** Implementation of {@link DmToFmTransformer}. */
 public class DmToFmTransformerImpl implements DmToFmTransformer {
@@ -25,16 +31,25 @@ public class DmToFmTransformerImpl implements DmToFmTransformer {
 
     @Override
     public FeatureModel transform(Dopler decisionModel, IModelTransformer.STRATEGY level) {
-        Feature rootFeature = treeBuilder.buildTree(decisionModel, level);
+        // Create some list, so the original Dopler model is not edited, but the lists.
+        // This is needed for attribute handling
+        List<IDecision<?>> allDecisions = new ArrayList<>(decisionModel.getDecisions());
+        List<Rule> allRules = allDecisions.stream().flatMap(decision -> decision.getRules().stream()).toList();
+        List<IAction> allActions =
+                allRules.stream().flatMap(rule -> rule.getActions().stream()).collect(Collectors.toList());
+
+        Feature rootFeature = treeBuilder.buildTree(allDecisions, allActions, level);
         Feature newRoot = treeBeautifier.beautify(rootFeature, level);
 
         FeatureModel featureModel = new FeatureModel();
         featureModel.setRootFeature(newRoot);
 
-        ruleHandler.handleRules(decisionModel, featureModel);
+        //Filter out rules, where actions were deleted. These are rules for attributes
+        List<Rule> filteredRules =
+                allRules.stream().filter(rule -> new HashSet<>(allActions).containsAll(rule.getActions())).toList();
+
+        ruleHandler.handleRules(featureModel, filteredRules);
 
         return featureModel;
     }
-
-
 }

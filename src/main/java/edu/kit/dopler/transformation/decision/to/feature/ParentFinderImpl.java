@@ -20,18 +20,16 @@ public class ParentFinderImpl implements ParentFinder {
     }
 
     @Override
-    public Optional<Feature> getParentFromVisibility(Set<Feature> allFeatures, IExpression visibility) {
+    public Optional<Feature> getParentFromVisibility(Set<Feature> allFeatures, Feature feature,
+                                                     IExpression visibility) {
 
+        //covers 'true'
         if (visibility instanceof BooleanLiteralExpression booleanLiteralExpression &&
                 booleanLiteralExpression.getLiteral()) {
             return Optional.empty(); //Visibility is `true`. The root is the parent.
         }
 
-        if (visibility instanceof EnumeratorLiteralExpression enumeratorLiteralExpression) {
-            return Optional.of(featureFinder.findFeatureByName(allFeatures,
-                    enumeratorLiteralExpression.getEnumerationLiteral().getValue()).orElseThrow());
-        }
-
+        //covers 'getValue(someDecision) = someValue'
         if (visibility instanceof Equals equals) {
             IExpression left = equals.getLeftExpression();
             IExpression right = equals.getRightExpression();

@@ -99,7 +99,10 @@ public class ActionParser {
 				actionElements.add(new DoubleValue(Double.parseDouble(symbol)));
 			} else if (RulesParser.isStringRangeValue(dm, symbol)) {
 				actionElements.add(new StringValue(symbol));
-			} else { // decision
+            } else if ((symbol.startsWith("'") && symbol.endsWith("'"))) {
+                //Remove ' at the start and end
+                actionElements.add(new StringValue(symbol.substring(1, symbol.length() - 1)));
+            } else { // decision
 				IDecision d = DoplerUtils.getDecision(dm, symbol);
 				actionElements.add(d);
 			}

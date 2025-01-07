@@ -1,21 +1,19 @@
-namespace Server
-
 features
-	Server {abstract true}
-		mandatory
-			FileSystem
-				or
-					NTFS
-					APFS
-					EXT4
-			OperatingSystem {abstract true}
-				alternative
-					Windows {Memory 4100}
-					macOS {Memory 2800}
-					Debian {Memory 3500}
-		optional
-			Logging
+        Server {abstract true}
+                mandatory
+                        FileSystem
+                                or
+                                        APFS
+                                        EXT4
+                                        NTFS
+                        OperatingSystem {abstract true}
+                                alternative
+                                        Debian {Memory 3500.0}
+                                        Windows {Memory 4100.0}
+                                        macOS {Memory 2800.0}
+                optional
+                        Logging
 
 constraints
-	Windows => NTFS
-	macOS => APFS
+        Windows => NTFS
+        macOS => APFS

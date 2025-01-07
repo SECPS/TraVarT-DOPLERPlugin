@@ -117,15 +117,18 @@ public class AttributeHandlerImpl implements AttributeHandler {
     private IDecision<?> createAttributeDecision(Feature feature, Attribute<?> attribute) {
         //TODO: add handling of lists, arrays and constraints
         return switch (attribute.getType()) {
-            case "number" -> new NumberDecision(feature.getFeatureName() + "#" + attribute.getName(),
-                    String.format(FeatureAndGroupHandlerImpl.NUMBER_QUESTION, attribute.getName()), "",
-                    new BooleanLiteralExpression(false), new LinkedHashSet<>(), new HashSet<>());
-            case "string" -> new StringDecision(feature.getFeatureName() + "#" + attribute.getName(),
-                    String.format(FeatureAndGroupHandlerImpl.STRING_QUESTION, attribute.getName()), "",
-                    new BooleanLiteralExpression(false), new LinkedHashSet<>(), new HashSet<>());
-            case "boolean" -> new BooleanDecision(feature.getFeatureName() + "#" + attribute.getName(),
-                    String.format(FeatureAndGroupHandlerImpl.BOOLEAN_QUESTION, attribute.getName()), "",
-                    new BooleanLiteralExpression(false), new LinkedHashSet<>());
+            case "number" ->
+                    new NumberDecision("%s#%s#Attribute".formatted(feature.getFeatureName(), attribute.getName()),
+                            String.format(FeatureAndGroupHandlerImpl.NUMBER_QUESTION, attribute.getName()), "",
+                            new BooleanLiteralExpression(false), new LinkedHashSet<>(), new HashSet<>());
+            case "string" ->
+                    new StringDecision("%s#%s#Attribute".formatted(feature.getFeatureName(), attribute.getName()),
+                            String.format(FeatureAndGroupHandlerImpl.STRING_QUESTION, attribute.getName()), "",
+                            new BooleanLiteralExpression(false), new LinkedHashSet<>(), new HashSet<>());
+            case "boolean" ->
+                    new BooleanDecision("%s#%s#Attribute".formatted(feature.getFeatureName(), attribute.getName()),
+                            String.format(FeatureAndGroupHandlerImpl.BOOLEAN_QUESTION, attribute.getName()), "",
+                            new BooleanLiteralExpression(false), new LinkedHashSet<>());
             default -> throw new UnexpectedTypeException(attribute);
         };
     }
