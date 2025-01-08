@@ -20,7 +20,7 @@ public class ConditionCreatorImpl implements ConditionCreator {
     private final FeatureFinder featureFinder;
 
     @Inject
-    public ConditionCreatorImpl(DecisionFinder decisionFinder, FeatureFinder featureFinder) {
+    ConditionCreatorImpl(DecisionFinder decisionFinder, FeatureFinder featureFinder) {
         this.decisionFinder = decisionFinder;
         this.featureFinder = featureFinder;
     }

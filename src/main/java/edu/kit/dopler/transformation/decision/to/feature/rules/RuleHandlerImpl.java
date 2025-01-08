@@ -17,7 +17,7 @@ public class RuleHandlerImpl implements RuleHandler {
     private final RightCreator rightCreator;
 
     @Inject
-    public RuleHandlerImpl(LeftCreator leftCreator, RightCreator rightCreator) {
+    RuleHandlerImpl(LeftCreator leftCreator, RightCreator rightCreator) {
         this.leftCreator = leftCreator;
         this.rightCreator = rightCreator;
     }

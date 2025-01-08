@@ -20,9 +20,8 @@ public class DnfAlwaysTrueAndFalseRemoverImpl implements DnfAlwaysTrueAndFalseRe
 
     private final FeatureFinder featureFinder;
 
-    /** Constructor of {@link DnfToTreeConverterImpl}. */
     @Inject
-    public DnfAlwaysTrueAndFalseRemoverImpl(FeatureFinder featureFinder) {
+    DnfAlwaysTrueAndFalseRemoverImpl(FeatureFinder featureFinder) {
         this.featureFinder = featureFinder;
     }
 

@@ -10,24 +10,22 @@ public class IdHandlerImpl implements IdHandler {
 
     private final DecisionFinder decisionFinder;
 
-    /** Constructor of {@link IdHandlerImpl} */
     @Inject
-    public IdHandlerImpl(DecisionFinder decisionFinder) {
+    IdHandlerImpl(DecisionFinder decisionFinder) {
         this.decisionFinder = decisionFinder;
     }
 
     @Override
     public String resolveId(Dopler decisionModel, Feature feature) {
-        String featureName = feature.getFeatureName();
+        StringBuilder featureNameBuilder = new StringBuilder(feature.getFeatureName());
 
         //If decision or value already exists then append "*" to the id.
-        while (nameExistsAlready(decisionModel, featureName)) {
-            featureName = featureName + "*";
+        while (nameExistsAlready(decisionModel, featureNameBuilder.toString())) {
+            featureNameBuilder.append("*");
         }
 
-        return featureName;
+        return featureNameBuilder.toString();
     }
-
 
     private boolean nameExistsAlready(Dopler decisionModel, String featureName) {
         return decisionFinder.findDecisionById(decisionModel, featureName).isPresent() ||

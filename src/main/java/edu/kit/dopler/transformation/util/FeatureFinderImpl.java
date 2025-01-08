@@ -58,13 +58,13 @@ public final class FeatureFinderImpl implements FeatureFinder {
         return Optional.empty();
     }
 
-    public Optional<Feature> findFeatureByName(Collection<Feature> features, String displayId) {
+    public Optional<Feature> findFeatureByName(Collection<Feature> features, String featureName) {
         Stack<Feature> stack = new Stack<>();
         features.forEach(stack::push);
         while (!stack.empty()) {
             Feature current = stack.pop();
 
-            if (current.getFeatureName().equals(displayId)) {
+            if (current.getFeatureName().equals(featureName)) {
                 return Optional.of(current);
             }
 
@@ -79,15 +79,15 @@ public final class FeatureFinderImpl implements FeatureFinder {
     }
 
     @Override
-    public Optional<Feature> findFeatureByName(Feature root, String displayId) {
+    public Optional<Feature> findFeatureByName(Feature root, String featureName) {
 
-        if (root.getFeatureName().equals(displayId)) {
+        if (root.getFeatureName().equals(featureName)) {
             return Optional.of(root);
         }
 
         for (Group group : root.getChildren()) {
             for (Feature feature : group.getFeatures()) {
-                Optional<Feature> featureByName = findFeatureByName(feature, displayId);
+                Optional<Feature> featureByName = findFeatureByName(feature, featureName);
                 if (featureByName.isPresent()) {
                     return featureByName;
                 }

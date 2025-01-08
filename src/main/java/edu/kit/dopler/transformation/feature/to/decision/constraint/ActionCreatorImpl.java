@@ -8,7 +8,6 @@ import edu.kit.dopler.model.*;
 import edu.kit.dopler.transformation.exceptions.DecisionNotPresentException;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 import edu.kit.dopler.transformation.util.DecisionFinder;
-import edu.kit.dopler.transformation.util.FeatureFinder;
 
 import java.util.Optional;
 
@@ -20,7 +19,7 @@ public class ActionCreatorImpl implements ActionCreator {
     private final DecisionFinder decisionFinder;
 
     @Inject
-    public ActionCreatorImpl(DecisionFinder decisionFinder) {
+    ActionCreatorImpl(DecisionFinder decisionFinder) {
         this.decisionFinder = decisionFinder;
     }
 

@@ -8,7 +8,6 @@ import de.vill.model.FeatureModel;
 import de.vill.model.Group;
 import de.vill.model.constraint.LiteralConstraint;
 import edu.kit.dopler.model.*;
-import edu.kit.dopler.transformation.exceptions.CanNotBeTranslatedException;
 import edu.kit.dopler.transformation.exceptions.DecisionNotPresentException;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.ConditionCreator;
@@ -76,15 +75,10 @@ public class AttributeHandlerImpl implements AttributeHandler {
 
         //Give decisions that contains the attributes new rules
         for (Map.Entry<IDecision<?>, List<IAction>> entry : rulesMap.entrySet()) {
-            try {
-                IExpression condition = conditionCreator.createCondition(decisionModel, featureModel,
-                        new LiteralConstraint(feature.getFeatureName()));
-                LinkedHashSet<IAction> actions = new LinkedHashSet<>(entry.getValue());
-                entry.getKey().addRule(new Rule(condition, actions));
-            } catch (CanNotBeTranslatedException e) {
-                //It should always be possible to create the condition, so the exception should never be thrown
-                throw new RuntimeException(e);
-            }
+            IExpression condition = conditionCreator.createCondition(decisionModel, featureModel,
+                    new LiteralConstraint(feature.getFeatureName()));
+            LinkedHashSet<IAction> actions = new LinkedHashSet<>(entry.getValue());
+            entry.getKey().addRule(new Rule(condition, actions));
         }
     }
 

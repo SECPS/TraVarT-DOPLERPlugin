@@ -25,11 +25,10 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
     private final ConditionCreator conditionCreator;
     private final DnfAlwaysTrueAndFalseRemover dnfAlwaysTrueAndFalseRemover;
 
-    /** Constructor of {@link ConstraintHandlerImpl} */
     @Inject
-    public ConstraintHandlerImpl(TreeToDnfConverter treeToDnfConverter, DnfToTreeConverter dnfToTreeConverter,
-                                 ActionCreator actionCreator, ConditionCreator conditionCreator,
-                                 DnfAlwaysTrueAndFalseRemover dnfAlwaysTrueAndFalseRemover) {
+    ConstraintHandlerImpl(TreeToDnfConverter treeToDnfConverter, DnfToTreeConverter dnfToTreeConverter,
+                          ActionCreator actionCreator, ConditionCreator conditionCreator,
+                          DnfAlwaysTrueAndFalseRemover dnfAlwaysTrueAndFalseRemover) {
         this.treeToDnfConverter = treeToDnfConverter;
         this.dnfToTreeConverter = dnfToTreeConverter;
         this.actionCreator = actionCreator;
@@ -150,12 +149,8 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
 
     /** Distribute the generated rule to a decision */
     private void distributeRule(Rule rule) {
-        Optional<IAction> firstAction = rule.getActions().stream().findFirst();
-        if (firstAction.isPresent()) {
-            ((ValueRestrictionAction) firstAction.get()).getDecision().addRule(rule);
-        } else {
-            throw new RuntimeException("Actions are empty but should contain at least one element.");
-        }
+        //Just take decision of first action
+        ((ValueRestrictionAction) rule.getActions().stream().findFirst().orElseThrow()).getDecision().addRule(rule);
     }
 
     /** Creates a set of {@link IAction}s that contradict each other. */

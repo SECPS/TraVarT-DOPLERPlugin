@@ -8,7 +8,6 @@ import de.vill.model.Group;
 import edu.kit.dopler.model.*;
 import edu.kit.dopler.transformation.Transformer;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
-import edu.kit.dopler.transformation.util.FeatureFinder;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -23,13 +22,11 @@ public class TreeBuilderImpl implements TreeBuilder {
 
     static final Pattern ATTRIBUTE_PATTERN = Pattern.compile(".+#.+#Attribute");
     private final ParentFinder parentFinder;
-    private final FeatureFinder featureFinder;
     private final AttributeCreator attributeHandler;
 
     @Inject
-    TreeBuilderImpl(ParentFinder parentFinder, FeatureFinder featureFinder, AttributeCreator attributeHandler) {
+    TreeBuilderImpl(ParentFinder parentFinder, AttributeCreator attributeHandler) {
         this.parentFinder = parentFinder;
-        this.featureFinder = featureFinder;
         this.attributeHandler = attributeHandler;
     }
 

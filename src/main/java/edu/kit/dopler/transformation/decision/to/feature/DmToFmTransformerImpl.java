@@ -23,7 +23,7 @@ public class DmToFmTransformerImpl implements DmToFmTransformer {
     private final TreeBeautifier treeBeautifier;
 
     @Inject
-    public DmToFmTransformerImpl(TreeBuilder treeBuilder, RuleHandler ruleHandler, TreeBeautifier treeBeautifier) {
+    DmToFmTransformerImpl(TreeBuilder treeBuilder, RuleHandler ruleHandler, TreeBeautifier treeBeautifier) {
         this.treeBuilder = treeBuilder;
         this.ruleHandler = ruleHandler;
         this.treeBeautifier = treeBeautifier;

@@ -19,7 +19,7 @@ public class RightCreatorImpl implements RightCreator {
     private final FeatureFinder featureFinder;
 
     @Inject
-    public RightCreatorImpl(FeatureFinder featureFinder) {
+    RightCreatorImpl(FeatureFinder featureFinder) {
         this.featureFinder = featureFinder;
     }
 

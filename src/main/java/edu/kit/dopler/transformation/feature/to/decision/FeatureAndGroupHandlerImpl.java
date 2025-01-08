@@ -20,8 +20,6 @@ public class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
     static final String BOOLEAN_QUESTION = "%s?";
     static final String STRING_QUESTION = "What %s?";
     static final String NUMBER_QUESTION = "How much %s?";
-    static final String STRING_DECISION_NAME = "%s#String";
-    static final String NUMBER_DECISION_NAME = "%s#Number";
 
     private final VisibilityHandler visibilityHandler;
     private final IdHandler idHandler;

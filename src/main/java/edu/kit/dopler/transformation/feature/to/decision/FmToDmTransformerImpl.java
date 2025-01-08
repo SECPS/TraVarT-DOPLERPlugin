@@ -8,6 +8,9 @@ import de.vill.model.Group;
 import edu.kit.dopler.model.Dopler;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.ConstraintHandler;
 
+import static at.jku.cps.travart.core.common.IModelTransformer.STRATEGY.ONE_WAY;
+import static at.jku.cps.travart.core.common.IModelTransformer.STRATEGY.ROUNDTRIP;
+
 /** Implementation of {@link FmToDmTransformer} */
 public class FmToDmTransformerImpl implements FmToDmTransformer {
 
@@ -15,12 +18,9 @@ public class FmToDmTransformerImpl implements FmToDmTransformer {
     private final ConstraintHandler constraintHandler;
     private final AttributeHandler attributeHandler;
 
-    /**
-     * Constructor of {@link FmToDmTransformerImpl}
-     */
     @Inject
-    public FmToDmTransformerImpl(FeatureAndGroupHandler featureAndGroupHandler, ConstraintHandler constraintHandler,
-                                 AttributeHandler attributeHandler) {
+    FmToDmTransformerImpl(FeatureAndGroupHandler featureAndGroupHandler, ConstraintHandler constraintHandler,
+                          AttributeHandler attributeHandler) {
         this.featureAndGroupHandler = featureAndGroupHandler;
         this.constraintHandler = constraintHandler;
         this.attributeHandler = attributeHandler;
@@ -31,14 +31,14 @@ public class FmToDmTransformerImpl implements FmToDmTransformer {
         Dopler decisionModel = new Dopler();
 
         Feature rootFeature = featureModel.getRootFeature();
-        if (IModelTransformer.STRATEGY.ONE_WAY == level) {
+        if (ONE_WAY == level) {
             //Do not keep root feature
-            featureAndGroupHandler.handleFeature(rootFeature, decisionModel, featureModel, level);
-        } else if (IModelTransformer.STRATEGY.ROUNDTRIP == level) {
+            featureAndGroupHandler.handleFeature(rootFeature, decisionModel, featureModel, ONE_WAY);
+        } else if (ROUNDTRIP == level) {
             //Keep root feature in DM
             Group group = new Group(Group.GroupType.MANDATORY);
             group.getFeatures().add(rootFeature);
-            featureAndGroupHandler.handleGroup(featureModel, decisionModel, group, level);
+            featureAndGroupHandler.handleGroup(featureModel, decisionModel, group, ROUNDTRIP);
         }
 
         attributeHandler.handleAttributes(decisionModel, featureModel, level);

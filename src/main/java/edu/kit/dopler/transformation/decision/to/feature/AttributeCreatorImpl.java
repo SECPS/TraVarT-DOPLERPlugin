@@ -6,11 +6,13 @@ import de.vill.model.Feature;
 import edu.kit.dopler.model.Enforce;
 import edu.kit.dopler.model.IAction;
 import edu.kit.dopler.model.IDecision;
+import edu.kit.dopler.model.IValue;
 import edu.kit.dopler.transformation.util.FeatureFinder;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /** Implementation of AttributeCreator. */
 public class AttributeCreatorImpl implements AttributeCreator {
@@ -18,7 +20,7 @@ public class AttributeCreatorImpl implements AttributeCreator {
     private final FeatureFinder featureFinder;
 
     @Inject
-    public AttributeCreatorImpl(FeatureFinder featureFinder) {
+    AttributeCreatorImpl(FeatureFinder featureFinder) {
         this.featureFinder = featureFinder;
     }
 
@@ -31,28 +33,36 @@ public class AttributeCreatorImpl implements AttributeCreator {
             String[] split = attributeDecision.getDisplayId().split("#");
             String featureName = split[0];
             String attributeName = split[1];
-            Object attributeValue = findAttributeValue(allActions, featureName, attributeName);
+            IValue<?> attributeValue = findAttributeValue(allActions, featureName, attributeName).orElseThrow();
 
             Feature feature = featureFinder.findFeatureByName(rootFeature, featureName).orElseThrow();
-            feature.getAttributes().put(attributeName, new Attribute(attributeName, attributeValue));
+            feature.getAttributes().put(attributeName, new Attribute<>(attributeName, attributeValue.getValue()));
         }
     }
 
-    private Object findAttributeValue(List<IAction> allActions, String featureName, String attributeName) {
+    private Optional<IValue<?>> findAttributeValue(List<IAction> allActions, String featureName, String attributeName) {
+        //Search in all actions for the attribute value
         for (IAction action : new ArrayList<>(allActions)) {
-            if (action instanceof Enforce enforce) {
-                IDecision<?> enforceDecision = enforce.getDecision();
-                if (TreeBuilderImpl.ATTRIBUTE_PATTERN.matcher(enforceDecision.getDisplayId()).matches()) {
-                    String[] split = enforceDecision.getDisplayId().split("#");
-                    if (Objects.equals(split[0], featureName) && Objects.equals(split[1], attributeName)) {
-                        allActions.remove(action);
-                        return enforce.getValue().getValue();
-                    }
-                }
+
+            //Action must be 'enforce'
+            if (!(action instanceof Enforce enforce)) {
+                continue;
+            }
+
+            //displayId of the decision of the 'enforce' must match the pattern
+            String displayId = enforce.getDecision().getDisplayId();
+            if (!TreeBuilderImpl.ATTRIBUTE_PATTERN.matcher(displayId).matches()) {
+                continue;
+            }
+
+            //check if the action is really for the given feature and attribute
+            String[] split = displayId.split("#");
+            if (Objects.equals(split[0], featureName) && Objects.equals(split[1], attributeName)) {
+                allActions.remove(action);
+                return Optional.ofNullable(enforce.getValue());
             }
         }
 
-        throw new RuntimeException(
-                "Could not find value of attribute: '%s' of feature '%s'".formatted(attributeName, featureName));
+        return Optional.empty();
     }
 }

@@ -19,7 +19,7 @@ public class TreeBeautifierImpl implements TreeBeautifier {
     private final FeatureFinder featureFinder;
 
     @Inject
-    public TreeBeautifierImpl(FeatureFinder featureFinder) {
+    TreeBeautifierImpl(FeatureFinder featureFinder) {
         this.featureFinder = featureFinder;
     }
 

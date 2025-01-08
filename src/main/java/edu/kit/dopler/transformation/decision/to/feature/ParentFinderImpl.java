@@ -15,7 +15,7 @@ public class ParentFinderImpl implements ParentFinder {
     private final FeatureFinder featureFinder;
 
     @Inject
-    public ParentFinderImpl(FeatureFinder featureFinder) {
+    ParentFinderImpl(FeatureFinder featureFinder) {
         this.featureFinder = featureFinder;
     }
 
@@ -38,8 +38,8 @@ public class ParentFinderImpl implements ParentFinder {
                 IDecision<?> decision = decisionValueCallExpression.getDecision();
 
                 if (right instanceof BooleanLiteralExpression) {
-                    return Optional.of(featureFinder.findFeatureByName(allFeatures, decision.getDisplayId())
-                            .orElseThrow());
+                    return Optional.of(
+                            featureFinder.findFeatureByName(allFeatures, decision.getDisplayId()).orElseThrow());
                 } else if (right instanceof EnumeratorLiteralExpression enumeratorLiteralExpression) {
                     String value = enumeratorLiteralExpression.getEnumerationLiteral().getValue();
                     return Optional.of(featureFinder.findFeatureByName(allFeatures, value).orElseThrow());

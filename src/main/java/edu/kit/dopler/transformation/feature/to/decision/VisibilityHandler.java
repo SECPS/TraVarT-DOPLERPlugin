@@ -14,10 +14,26 @@ public interface VisibilityHandler {
      * Resolves the visibility of a decision. The visibility depends on the parent feature of the group from which the
      * decision originates. If the parent feature is the root of the {@link FeatureModel}, a
      * {@link BooleanLiteralExpression} with the value {@code true} is returned.
+     *
+     * @param featureModel
+     * @param level
+     * @param decisionModel
+     * @param feature
+     *
+     * @return
      */
     IExpression resolveVisibility(FeatureModel featureModel, Dopler decisionModel, Feature feature,
                                   IModelTransformer.STRATEGY level);
 
+    /**
+     * @param dopler
+     * @param featureModel
+     * @param feature
+     * @param id
+     * @param level
+     *
+     * @return
+     */
     IExpression resolveVisibilityForTypeDecisions(Dopler dopler, FeatureModel featureModel, Feature feature, String id,
                                                   IModelTransformer.STRATEGY level);
 }

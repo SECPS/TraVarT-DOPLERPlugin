@@ -13,7 +13,6 @@ public class LeftCreatorImpl implements LeftCreator {
     @Override
     public Optional<Constraint> handleCondition(IExpression condition) {
         //TODO: A lot of cases a missing here.
-
         return switch (condition) {
             case NOT not -> handleNot(not);
             case BooleanLiteralExpression booleanLiteralExpression ->

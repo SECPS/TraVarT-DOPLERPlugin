@@ -41,7 +41,23 @@ public interface FeatureFinder {
     Optional<LiteralConstraint> findFirstNonMandatoryParent(FeatureModel featureModel,
                                                             LiteralConstraint literalConstraint);
 
-    Optional<Feature> findFeatureByName(Collection<Feature> features, String displayId);
+    /**
+     * Finds a {@link Feature} with the given name inside a collection of {@link Feature}s.
+     *
+     * @param features    Collection of {@link Feature}s to search in
+     * @param featureName Name of the {@link Feature} to search for
+     *
+     * @return Optional that contains the {@link Feature} if one was found
+     */
+    Optional<Feature> findFeatureByName(Collection<Feature> features, String featureName);
 
-    Optional<Feature> findFeatureByName(Feature root, String displayId);
+    /**
+     * Finds a {@link Feature} with the given name inside a {@link Feature} tree structure.
+     *
+     * @param root        Root of tree to search in
+     * @param featureName Name of the {@link Feature} to search for
+     *
+     * @return Optional that contains the {@link Feature} if one was found
+     */
+    Optional<Feature> findFeatureByName(Feature root, String featureName);
 }

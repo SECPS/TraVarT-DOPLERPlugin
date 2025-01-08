@@ -21,7 +21,7 @@ public class VisibilityHandlerImpl implements VisibilityHandler {
     private final DecisionFinder decisionFinder;
 
     @Inject
-    public VisibilityHandlerImpl(FeatureFinder featureFinder, DecisionFinder decisionFinder) {
+    VisibilityHandlerImpl(FeatureFinder featureFinder, DecisionFinder decisionFinder) {
         this.featureFinder = featureFinder;
         this.decisionFinder = decisionFinder;
     }

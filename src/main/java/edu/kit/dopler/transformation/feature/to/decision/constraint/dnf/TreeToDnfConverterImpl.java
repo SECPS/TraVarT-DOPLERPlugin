@@ -16,12 +16,9 @@ public class TreeToDnfConverterImpl implements TreeToDnfConverter {
     private final UnwantedConstraintsReplacer unwantedConstraintsReplacer;
     private final DnfSimplifier dnfSimplifier;
 
-    /**
-     * Constructor of {@link TreeToDnfConverterImpl}
-     */
     @Inject
-    public TreeToDnfConverterImpl(UnwantedConstraintsReplacer unwantedConstraintsReplacer, DnfSimplifier dnfSimplifier,
-                                  List<DnfRule> dnfRules) {
+    TreeToDnfConverterImpl(UnwantedConstraintsReplacer unwantedConstraintsReplacer, DnfSimplifier dnfSimplifier,
+                           List<DnfRule> dnfRules) {
         this.dnfRules = List.copyOf(dnfRules);
         this.unwantedConstraintsReplacer = unwantedConstraintsReplacer;
         this.dnfSimplifier = dnfSimplifier;

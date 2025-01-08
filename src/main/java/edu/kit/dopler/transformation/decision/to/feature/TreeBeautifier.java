@@ -7,13 +7,13 @@ import de.vill.model.Feature;
 public interface TreeBeautifier {
 
     /**
-     * Make the given {@link Feature} look good. What is considered good, depends on the implementation and the given
-     * {@link IModelTransformer.STRATEGY}.
+     * Make the given Root {@link Feature} look good. What is considered good, depends on the implementation and the
+     * given {@link IModelTransformer.STRATEGY}.
      *
-     * @param root  {@link Feature} to beautify
+     * @param root     Root {@link Feature} to beautify
      * @param strategy Currently used {@link IModelTransformer.STRATEGY}
      *
-     * @return
+     * @return Beautified root {@link Feature}
      */
     Feature beautify(Feature root, IModelTransformer.STRATEGY strategy);
 }
