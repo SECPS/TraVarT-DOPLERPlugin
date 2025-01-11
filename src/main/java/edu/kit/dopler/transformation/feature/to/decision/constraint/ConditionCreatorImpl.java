@@ -26,14 +26,14 @@ public class ConditionCreatorImpl implements ConditionCreator {
     }
 
     @Override
-    public IExpression createCondition(Dopler decisionModel, FeatureModel featureModel, Constraint left) {
-        return switch (left) {
+    public IExpression createCondition(Dopler decisionModel, FeatureModel featureModel, Constraint constraint) {
+        return switch (constraint) {
             case NotConstraint notConstraint -> handleNot(decisionModel, featureModel, notConstraint);
             case LiteralConstraint literalConstraint -> handleLiteral(decisionModel, featureModel, literalConstraint);
             case OrConstraint orConstraint -> handleOr(decisionModel, featureModel, orConstraint);
             case AndConstraint andConstraint -> handleAnd(decisionModel, featureModel, andConstraint);
             case ExpressionConstraint expressionConstraint -> handleExpressionConstraint(expressionConstraint);
-            case null, default -> throw new UnexpectedTypeException(left);
+            case null, default -> throw new UnexpectedTypeException(constraint);
         };
     }
 

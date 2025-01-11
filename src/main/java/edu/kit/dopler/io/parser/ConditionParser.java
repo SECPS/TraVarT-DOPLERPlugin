@@ -31,7 +31,6 @@ public class ConditionParser {
                     "(?=&&))|((?<=!)|(?=!))|((?<=\\()|(?=\\())|((?<=\\))|(?=\\)))";
 
     private static final String EOF = "EOF";
-
     private static final String NOT = "!";
     private static final String OR = "||";
     private static final String AND = "&&";
@@ -42,22 +41,25 @@ public class ConditionParser {
     private static final String CLOSING_PARENTHESE = ")";
     private static final String CLOSING_CURRLY_PARENTHESE = "}";
     private static final String DECISION_VALUE_DELIMITER = ".";
-
     private static final String TRUE = "true";
     private static final String FALSE = "false";
     private static final Pattern PATTERN = Pattern.compile(REGEX);
 
-    private String[] input = null;
-    private int index = 0;
-    private String symbol = null;
-
-    private boolean isTaken = false;
-    private boolean isEquals = false;
-
     private final Dopler dm;
+
+    private String[] input;
+    private int index;
+    private String symbol;
+    private boolean isTaken;
+    private boolean isEquals;
 
     public ConditionParser(Dopler dm) {
         this.dm = Objects.requireNonNull(dm);
+        input = null;
+        index = 0;
+        symbol = null;
+        isTaken = false;
+        isEquals = false;
     }
 
     public IExpression parse(String str) throws ParserException {
@@ -110,7 +112,7 @@ public class ConditionParser {
                 v = new AND(new LessThan(v, r), new Equals(v, r));
             } else if (first.equals(GREATER)) {
                 // second is operand
-                IExpression value = null;
+                IExpression value;
                 if (RulesParser.isDoubleRangeValue(symbol)) {
                     value = new DoubleLiteralExpression(Double.parseDouble(symbol));
                 } else if (RulesParser.isStringRangeValue(dm, symbol)) {
@@ -122,7 +124,7 @@ public class ConditionParser {
                 v = new GreatherThan(v, value);
             } else if (first.equals(LESS)) {
                 // second is operand
-                IExpression value = null;
+                IExpression value;
                 if (RulesParser.isDoubleRangeValue(symbol)) {
                     value = new DoubleLiteralExpression(Double.parseDouble(symbol));
                 } else if (RulesParser.isStringRangeValue(dm, symbol)) {
@@ -138,7 +140,6 @@ public class ConditionParser {
     }
 
     private IExpression parseUnit() throws ParserException {
-
         nextSymbol();
         IExpression v = null;
 
@@ -174,9 +175,29 @@ public class ConditionParser {
         } else if (RulesParser.isStringRangeValue(dm, symbol)) {
             v = new EnumeratorLiteralExpression(DoplerUtils.getEnumerationliteral(dm, new StringValue(symbol)));
             nextSymbol();
-        } else { // decision
+        } else if ("getValue".equals(symbol)) {
+            //covers 'getValue(decision) = enumValue'
+            nextSymbol();
+            nextSymbol();
             IDecision decision = DoplerUtils.getDecision(dm, symbol);
             nextSymbol();
+            nextSymbol();
+
+            if (symbol.equals(EQUAL)) {
+                nextSymbol();
+                if (TRUE.equals(symbol)) {
+                    v = new Equals(new DecisionValueCallExpression(decision), new BooleanLiteralExpression(true));
+                    nextSymbol();
+                } else {
+                    v = new Equals(new DecisionValueCallExpression(decision), new EnumeratorLiteralExpression(
+                            DoplerUtils.getEnumerationliteral(dm, new StringValue(symbol))));
+                    nextSymbol();
+                }
+            }
+        } else {
+            IDecision decision = DoplerUtils.getDecision(dm, symbol);
+            nextSymbol();
+            //covers 'decision.enumValue'
             if (symbol.equals(DECISION_VALUE_DELIMITER)) {
                 nextSymbol();
                 if (isEquals) {
@@ -213,9 +234,9 @@ public class ConditionParser {
 
     private IExpression getValueLiteral() throws ParserException {
         IExpression v;
-        if (symbol.toLowerCase().equals(TRUE)) {
+        if (symbol.toLowerCase(Locale.ROOT).equals(TRUE)) {
             v = new BooleanLiteralExpression(true);
-        } else if (symbol.toLowerCase().equals(FALSE)) {
+        } else if (symbol.toLowerCase(Locale.ROOT).equals(FALSE)) {
             v = new BooleanLiteralExpression(false);
         } else if (RulesParser.isDoubleRangeValue(symbol)) {
             v = new DoubleLiteralExpression(Double.parseDouble(symbol));
@@ -236,13 +257,5 @@ public class ConditionParser {
             symbol = input[index];
             index = index + 1;
         }
-    }
-
-    private String peek() {
-        if (index == input.length) {
-            return EOF;
-        }
-
-        return input[index];
     }
 }

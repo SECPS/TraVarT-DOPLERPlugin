@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 public class RulesParser {
 
     private static final String NO_ACTION_IN_RULE = "A rule must have at least one action to perform!";
-    private static final Pattern PATTERN = Pattern.compile(";|}");
+    private static final Pattern PATTERN = Pattern.compile(";|}\"?");
 
     private final Dopler dm;
 
@@ -46,8 +46,8 @@ public class RulesParser {
     }
 
     static boolean isStringRangeValue(Dopler dm, String symbol) {
-        for (Object obj : DoplerUtils.getEnumerationDecisions(dm)) {
-            EnumerationDecision enumDecision = (EnumerationDecision) obj;
+        for (IDecision<?> decision : DoplerUtils.getEnumerationDecisions(dm)) {
+            EnumerationDecision enumDecision = (EnumerationDecision) decision;
             // add the value for a enum decision
             for (EnumerationLiteral literal : enumDecision.getEnumeration().getEnumerationLiterals()) {
                 if (literal.getValue().equals(symbol)) {

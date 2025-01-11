@@ -1,6 +1,6 @@
 package edu.kit.dopler.io;
 
-import edu.kit.dopler.exceptions.NotSupportedVariabilityTypeException;
+import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import edu.kit.dopler.exceptions.ParserException;
 import edu.kit.dopler.io.parser.ConditionParser;
 import edu.kit.dopler.model.Dopler;
@@ -14,9 +14,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class ConditionParserTest {
+class ConditionParserTest {
 
-    private final static String DATA = """
+    private static final String DATA = """
             ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
             A;Which Topping?;Enumeration;a | b | c | d;1:3;;true
             B;B?;Boolean;true | false;;;true
@@ -26,7 +26,7 @@ public class ConditionParserTest {
     private ConditionParser conditionParser;
 
     @BeforeEach
-    void setUp() throws NotSupportedVariabilityTypeException, IOException {
+    void setUp() throws IOException, NotSupportedVariabilityTypeException {
         Files.writeString(PATH, DATA);
         Dopler dopler = new DecisionModelReader().read(PATH);
         conditionParser = new ConditionParser(dopler);
@@ -78,7 +78,6 @@ public class ConditionParserTest {
                 "(!((getValue(A) = a) && ((getValue(A) = b) && (getValue(A) = c))) || (getValue(A) = d))");
     }
 
-
     @Test
     void test10() throws ParserException {
         assertParsing("(B)", "(getValue(B) = true)");
@@ -101,7 +100,29 @@ public class ConditionParserTest {
 
     @Test
     void test14() throws ParserException {
-        assertParsing("(!(B && !B && !B) || !!!!B)", "(!((getValue(B) = true) && (!(getValue(B) = true) && !(getValue(B) = true))) || !!!!(getValue(B) = true))");
+        assertParsing("(!(B && !B && !B) || !!!!B)",
+                "(!((getValue(B) = true) && (!(getValue(B) = true) && !(getValue(B) = true))) || !!!!(getValue(B) = " +
+                        "true))");
+    }
+
+    @Test
+    void test15() throws ParserException {
+        assertParsing("getValue(B) = true", "(getValue(B) = true)");
+    }
+
+    @Test
+    void test16() throws ParserException {
+        assertParsing("(getValue(B) = true)", "(getValue(B) = true)");
+    }
+
+    @Test
+    void test17() throws ParserException {
+        assertParsing("!(getValue(B) = true)", "!(getValue(B) = true)");
+    }
+
+    @Test
+    void test18() throws ParserException {
+        assertParsing("getValue(A) = a && getValue(A) = a && getValue(A) = a", "((getValue(A) = a) && ((getValue(A) = a) && (getValue(A) = a)))");
     }
 
     private void assertParsing(String input, String expected) throws ParserException {

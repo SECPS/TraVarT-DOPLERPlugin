@@ -3,19 +3,19 @@
  * Public License, v. 2.0. If a copy of the MPL was not distributed
  * with this file, You can obtain one at
  * https://mozilla.org/MPL/2.0/.
- *
+ * <p>
  * Contributors: 
  *    @author Fabian Eger
  *    @author Kevin Feichtinger
- *
+ * <p>
  * Copyright 2024 Karlsruhe Institute of Technology (KIT)
  * KASTEL - Dependability of Software-intensive Systems
  * All rights reserved
  *******************************************************************************/
 package edu.kit.dopler.io;
 
+import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import edu.kit.dopler.common.DoplerUtils;
-import edu.kit.dopler.exceptions.NotSupportedVariabilityTypeException;
 import edu.kit.dopler.exceptions.ParserException;
 import edu.kit.dopler.io.parser.ConditionParser;
 import edu.kit.dopler.io.parser.RulesParser;
@@ -26,32 +26,55 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
 public class DecisionModelReader {
 
-    public static final String FILE_EXTENSION_CSV = ".csv";
+    private static final String CARDINALITY_NOT_SUPPORTED_ERROR = "Cardinality %s not supported for decision";
+    private static final Pattern SPLIT_PATTERN = Pattern.compile("\"?if ");
 
-    private static final String CARDINALITY_NOT_SUPPORTED_ERROR =
-            "Cardinality %s not supported for decision of type %s";
-    private static final Pattern SPLIT_PATTERN = Pattern.compile("if ");
-
-    public Dopler read(final Path path) throws IOException, NotSupportedVariabilityTypeException {
+    public Dopler read(Path path) throws IOException, NotSupportedVariabilityTypeException {
         Objects.requireNonNull(path);
         Dopler dm = new Dopler();
         dm.setName(path.getFileName().toString());
-        //		dm.setSourceFile(path.toAbsolutePath().toString());
-        CSVFormat dmFormat = CSVUtils.createCSVFormat();
+        CSVFormat dmFormat = CSVUtils.createCSVFormat(true);
 
-        try (Reader in = new FileReader(path.toFile(), StandardCharsets.UTF_8)) {
+        Supplier<Reader> readerSupplier = () -> {
+            try {
+                return new FileReader(path.toFile(), StandardCharsets.UTF_8);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        };
+
+        return createModelWithReader(readerSupplier, dmFormat, dm);
+    }
+
+    public Dopler read(String model, String modelName) throws IOException, NotSupportedVariabilityTypeException {
+        Objects.requireNonNull(model);
+        Dopler dm = new Dopler();
+        dm.setName(modelName);
+        CSVFormat dmFormat = CSVUtils.createCSVFormat(true);
+        Supplier<Reader> readerSupplier = () -> new StringReader(model);
+        return createModelWithReader(readerSupplier, dmFormat, dm);
+    }
+
+    private Dopler createModelWithReader(Supplier<Reader> readerSupplier, CSVFormat dmFormat, Dopler dm)
+            throws IOException, NotSupportedVariabilityTypeException {
+
+        //First read
+        try (Reader in = readerSupplier.get()) {
             Iterable<CSVRecord> records = dmFormat.parse(in);
             for (CSVRecord record : records) {
+
                 String descriptionString = "";
                 String id = record.get(CSVHeader.ID).trim();
                 String typeString = record.get(CSVHeader.TYPE.toString()).trim();
@@ -61,17 +84,13 @@ public class DecisionModelReader {
                     throw new AssertionError();
                 }
 
-                IDecision<?> decision = null;
+                IDecision<?> decision;
                 switch (typeString) {
-                    case "Boolean":
-                        decision = new BooleanDecision(id, questionString, descriptionString,
-                                new BooleanLiteralExpression(true), new HashSet<>());
-                        break;
-                    case "Enumeration":
-                        decision =
-                                deriveEnumerationDecision(dm, record, id, descriptionString, questionString, decision);
-                        break;
-                    case "Double":
+                    case "Boolean" -> decision = new BooleanDecision(id, questionString, descriptionString,
+                            new BooleanLiteralExpression(true), new HashSet<>());
+                    case "Enumeration" ->
+                            decision = deriveEnumerationDecision(dm, record, id, descriptionString, questionString);
+                    case "Double" -> {
                         String rangeString = record.get(CSVHeader.RANGE.toString());
                         Set<IExpression> validityConditions = new HashSet<>();
                         decision = new NumberDecision(id, questionString, descriptionString,
@@ -81,31 +100,27 @@ public class DecisionModelReader {
                             NumberDecision numberDecision = (NumberDecision) decision;
                             numberDecision.setValidityConditions(validityConditions);
                         }
-                        break;
-                    case "String":
-                        rangeString = record.get(CSVHeader.RANGE.toString());
+                    }
+                    case "String" -> {
+                        Set<IExpression> validityConditions;
                         validityConditions = new HashSet<>();
                         decision = new StringDecision(id, questionString, descriptionString,
                                 new BooleanLiteralExpression(true), new HashSet<>(), validityConditions);
-                        break;
-                    default:
-                        throw new NotSupportedVariabilityTypeException(typeString);
+                    }
+                    default -> throw new NotSupportedVariabilityTypeException(typeString);
                 }
                 dm.addDecision(decision);
             }
         }
 
-        try (Reader secondIn = new FileReader(path.toFile(), StandardCharsets.UTF_8)) {
-            Iterable<CSVRecord> secondParse = dmFormat.parse(secondIn);
-            ConditionParser vParser = new ConditionParser(dm);
-            RulesParser rParser = new RulesParser(dm);
+        //Second read
+        try (Reader in = readerSupplier.get()) {
+            Iterable<CSVRecord> secondParse = dmFormat.parse(in);
+            ConditionParser conditionParser = new ConditionParser(dm);
+            RulesParser rulesParser = new RulesParser(dm);
 
             for (CSVRecord record : secondParse) {
                 IDecision<?> decision = DoplerUtils.getDecision(dm, record.get(CSVHeader.ID));
-
-                if (null == decision) {
-                    throw new AssertionError();
-                }
 
                 String csvRules = record.get(CSVHeader.RULES.toString());
                 if (!csvRules.isEmpty()) {
@@ -113,11 +128,13 @@ public class DecisionModelReader {
                     // "if" as part of their names)
                     String[] csvRuleSplit = Arrays.stream(SPLIT_PATTERN.split(csvRules)).map(String::trim)
                             .filter(s -> !s.isEmpty() && !s.isBlank()).toArray(String[]::new);
-                    Set<Rule> rules = rParser.parse(decision, csvRuleSplit);
+                    Set<Rule> rules = rulesParser.parse(decision, csvRuleSplit);
                     rules.forEach(decision::addRule);
                 }
 
-                decision.setVisibilityCondition(vParser.parse(record.get(CSVHeader.VISIBLITY.toString())));
+                String visibilityString = record.get(CSVHeader.VISIBLITY.toString());
+                IExpression visibilityExpression = conditionParser.parse(visibilityString);
+                decision.setVisibilityCondition(visibilityExpression);
             }
         } catch (ParserException e) {
             throw new RuntimeException(e);
@@ -135,17 +152,16 @@ public class DecisionModelReader {
             throw new AssertionError();
         }
 
-        Set<IExpression> validityconditions = new HashSet<>();
-        validityconditions.add(new GreatherThan(new DoubleLiteralExpression(Double.parseDouble(options[0])),
+        Set<IExpression> validityConditions = new HashSet<>();
+        validityConditions.add(new GreatherThan(new DoubleLiteralExpression(Double.parseDouble(options[0])),
                 new DecisionValueCallExpression(decision)));
-        validityconditions.add(new LessThan(new DoubleLiteralExpression(Double.parseDouble(options[1])),
+        validityConditions.add(new LessThan(new DoubleLiteralExpression(Double.parseDouble(options[1])),
                 new DecisionValueCallExpression(decision)));
-        return validityconditions;
+        return validityConditions;
     }
 
     private IDecision<?> deriveEnumerationDecision(Dopler dm, CSVRecord record, String id, String descriptionString,
-                                                   String questionString, IDecision<?> decision)
-            throws NotSupportedVariabilityTypeException {
+                                                   String questionString) throws NotSupportedVariabilityTypeException {
         String rangeString = record.get(CSVHeader.RANGE.toString()).trim();
         String[] options =
                 Arrays.stream(rangeString.split("\\|")).map(String::trim).filter(s -> !s.isEmpty() && !s.isBlank())
@@ -169,8 +185,7 @@ public class DecisionModelReader {
                 Arrays.stream(cardinality.split(":")).map(String::trim).filter(s -> !s.isEmpty() && !s.isBlank())
                         .toArray(String[]::new);
         if (2 != values.length) {
-            throw new NotSupportedVariabilityTypeException(String.format(CARDINALITY_NOT_SUPPORTED_ERROR, cardinality,
-                    decision.getClass().getCanonicalName()));
+            throw new NotSupportedVariabilityTypeException(String.format(CARDINALITY_NOT_SUPPORTED_ERROR, cardinality));
         }
         int min = Integer.parseInt(values[0]);
         int max = Integer.parseInt(values[1]);

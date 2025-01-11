@@ -16,6 +16,7 @@ package edu.kit.dopler.io;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Objects;
@@ -36,7 +37,7 @@ public class DecisionModelWriter {
 	public void write(final Dopler dm, final Path path) throws IOException {
 		Objects.requireNonNull(dm);
 		Objects.requireNonNull(path);
-		CSVFormat dmFormat = CSVUtils.createCSVFormat();
+		CSVFormat dmFormat = CSVUtils.createCSVFormat(true);
 		try (FileWriter out = new FileWriter(path.toFile(), StandardCharsets.UTF_8);
 				CSVPrinter printer = new CSVPrinter(out, dmFormat)) {
 			printer.println();
@@ -51,6 +52,28 @@ public class DecisionModelWriter {
 				printer.printRecord(decision.getDisplayId(), decision.getQuestion(), decision.getDecisionType(),
 						rangeString, cardinalityString, rulesString, decision.getVisibilityCondition());
 			}
+		} catch (Exception e) {
+			throw new IOException(e);
+		}
+	}
+
+	public String write(Dopler dm) throws IOException {
+		CSVFormat dmFormat = CSVUtils.createCSVFormat(true);
+		try (StringWriter out = new StringWriter(1000);
+			 CSVPrinter printer = new CSVPrinter(out, dmFormat)) {
+			printer.println();
+			for (Object obj : dm.getDecisions()) {
+				assert obj instanceof IDecision;
+				IDecision decision = (IDecision) obj;
+
+				String rangeString = createRangeString(decision);
+				String rulesString = createRulesString(decision);
+				String cardinalityString = createCardinalityString(decision);
+
+				printer.printRecord(decision.getDisplayId(), decision.getQuestion(), decision.getDecisionType(),
+						rangeString, cardinalityString, rulesString, decision.getVisibilityCondition());
+			}
+			return out.toString();
 		} catch (Exception e) {
 			throw new IOException(e);
 		}

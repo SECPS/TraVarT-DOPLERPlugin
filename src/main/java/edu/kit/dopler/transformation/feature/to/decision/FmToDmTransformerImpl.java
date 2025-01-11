@@ -33,7 +33,7 @@ public class FmToDmTransformerImpl implements FmToDmTransformer {
         Feature rootFeature = featureModel.getRootFeature();
         if (ONE_WAY == level) {
             //Do not keep root feature
-            featureAndGroupHandler.handleFeature(rootFeature, decisionModel, featureModel, ONE_WAY);
+            featureAndGroupHandler.handleFeature(featureModel, decisionModel, rootFeature, ONE_WAY);
         } else if (ROUNDTRIP == level) {
             //Keep root feature in DM
             Group group = new Group(Group.GroupType.MANDATORY);
@@ -42,7 +42,7 @@ public class FmToDmTransformerImpl implements FmToDmTransformer {
         }
 
         attributeHandler.handleAttributes(decisionModel, featureModel, level);
-        constraintHandler.handleOwnConstraints(featureModel, decisionModel);
+        constraintHandler.handleConstraints(featureModel, decisionModel);
 
         return decisionModel;
     }

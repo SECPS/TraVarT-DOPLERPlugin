@@ -1,6 +1,6 @@
-package edu.kit.dopler.transformation;
+package edu.kit.dopler;
 
-import org.apache.commons.csv.CSVFormat;
+import edu.kit.dopler.transformation.DMCSVHeader;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
@@ -11,17 +11,18 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
-class TestUtils {
+import static edu.kit.dopler.io.CSVUtils.createCSVFormat;
+
+public class TestUtils {
 
     private static final Pattern NEW_LINE_PATTERN = Pattern.compile("(\\\\r)?\\\\n");
     private static final String ENUM_SEPERATOR = " | ";
 
-    static String sortDecisionModel(String model) throws IOException {
+    public static String sortDecisionModel(String model) throws IOException {
         //Sometimes \r is used as line separator
         String sanitisedModel = NEW_LINE_PATTERN.matcher(model).replaceAll(System.lineSeparator());
-        CSVParser parser = createCSVFormat().parse(new StringReader(sanitisedModel));
+        CSVParser parser = createCSVFormat(true).parse(new StringReader(sanitisedModel));
 
         List<CSVRecord> records = parser.getRecords();
         records.sort(Comparator.comparing(o -> o.get(0)));
@@ -53,13 +54,5 @@ class TestUtils {
         lines.addFirst(String.join(";", DMCSVHeader.stringArray()));
 
         return String.join(System.lineSeparator(), lines);
-    }
-
-    private static CSVFormat createCSVFormat() {
-        CSVFormat.Builder builder = CSVFormat.EXCEL.builder();
-        builder.setDelimiter(';');
-        builder.setHeader(DMCSVHeader.stringArray());
-        builder.setSkipHeaderRecord(true);
-        return builder.build();
     }
 }

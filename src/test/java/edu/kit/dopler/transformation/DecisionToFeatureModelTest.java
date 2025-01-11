@@ -4,6 +4,7 @@ import at.jku.cps.travart.core.common.IModelTransformer;
 import at.jku.cps.travart.core.sampler.DefaultCoreModelSampler;
 import de.vill.main.UVLModelFactory;
 import de.vill.model.FeatureModel;
+import edu.kit.dopler.TestUtils;
 import edu.kit.dopler.io.DecisionModelReader;
 import edu.kit.dopler.io.DecisionModelWriter;
 import edu.kit.dopler.model.Dopler;

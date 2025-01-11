@@ -20,7 +20,7 @@ public interface VisibilityHandler {
      * @param decisionModel
      * @param feature
      *
-     * @return
+     * @return Visibility as an {@link IExpression}
      */
     IExpression resolveVisibility(FeatureModel featureModel, Dopler decisionModel, Feature feature,
                                   IModelTransformer.STRATEGY level);
@@ -32,7 +32,7 @@ public interface VisibilityHandler {
      * @param id
      * @param level
      *
-     * @return
+     * @return Visibility as an {@link IExpression}
      */
     IExpression resolveVisibilityForTypeDecisions(Dopler dopler, FeatureModel featureModel, Feature feature, String id,
                                                   IModelTransformer.STRATEGY level);

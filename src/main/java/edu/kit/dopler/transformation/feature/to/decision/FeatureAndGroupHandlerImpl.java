@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 /** Implementation of {@link FeatureAndGroupHandler} */
 public class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
 
-    static final String ENUM_QUESTION = "Which %s?";
+    private static final String ENUM_QUESTION = "Which %s?";
     static final String BOOLEAN_QUESTION = "%s?";
     static final String STRING_QUESTION = "What %s?";
     static final String NUMBER_QUESTION = "How much %s?";
@@ -33,7 +33,7 @@ public class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
 
     /** Checks all groups of the given feature. */
     @Override
-    public void handleFeature(Feature feature, Dopler decisionModel, FeatureModel featureModel,
+    public void handleFeature(FeatureModel featureModel, Dopler decisionModel, Feature feature,
                               IModelTransformer.STRATEGY level) {
 
         //Create decisions for types
@@ -67,7 +67,7 @@ public class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
 
         //Handle features of group
         for (Feature feature : group.getFeatures()) {
-            handleFeature(feature, decisionModel, featureModel, level);
+            handleFeature(featureModel, decisionModel, feature, level);
         }
     }
 

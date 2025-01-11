@@ -8,44 +8,43 @@
 package edu.kit.dopler.plugin;
 
 import at.jku.cps.travart.core.common.*;
-import edu.kit.dopler.io.DecisionModelReader;
+import edu.kit.dopler.model.Dopler;
 import edu.kit.dopler.transformation.Transformer;
 import org.pf4j.Extension;
 
 import java.util.List;
 
 @Extension
-@SuppressWarnings("rawtypes")
-public class DoplerPluginImpl implements IPlugin {
+public class DoplerPluginImpl implements IPlugin<Dopler> {
 
-    public static final String ID = "dopler-decision-plugin";
+    private static final String CSV = ".csv";
+    public static final Format CSV_FORMAT = new Format("csv", CSV, true, true);
+
+    private static final String ID = "dopler-decision-plugin";
 
     @Override
-    public IModelTransformer getTransformer() {
+    public IModelTransformer<Dopler> getTransformer() {
         return new Transformer();
     }
 
     @Override
-    public IDeserializer getDeserializer() {
-        //return new DecisionModelDeserializer();
-        return null;
+    public IDeserializer<Dopler> getDeserializer() {
+        return new DoplerDeserializer();
     }
 
     @Override
-    public IStatistics getStatistics() {
-        return null;
+    public IStatistics<Dopler> getStatistics() {
+        throw new RuntimeException("Not implemented");
     }
 
     @Override
-    public ISerializer getSerializer() {
-        //return new DecisionModelSerializer();
-        return null;
+    public ISerializer<Dopler> getSerializer() {
+        return new DoplerSerializer();
     }
 
     @Override
-    public IPrettyPrinter getPrinter() {
-        // return new DoplerPrettyPrinter(new DecisionModelSerializer());
-        return null;
+    public IPrettyPrinter<Dopler> getPrinter() {
+        return new DoplerPrettyPrinter(getSerializer());
     }
 
     @Override
@@ -69,7 +68,7 @@ public class DoplerPluginImpl implements IPlugin {
     }
 
     @Override
-    public List getSupportedFileExtensions() {
-        return List.of(DecisionModelReader.FILE_EXTENSION_CSV);
+    public List<String> getSupportedFileExtensions() {
+        return List.of(CSV);
     }
 }

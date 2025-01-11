@@ -37,7 +37,7 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
     }
 
     @Override
-    public void handleOwnConstraints(FeatureModel featureModel, Dopler decisionModel) {
+    public void handleConstraints(FeatureModel featureModel, Dopler decisionModel) {
         for (Constraint constraint : getSanitizedConstraints(featureModel)) {
             List<List<Constraint>> dnf = convertConstraintIntoDnf(featureModel, constraint);
             Optional<Rule> rule = createRuleFromDnf(featureModel, decisionModel, dnf);

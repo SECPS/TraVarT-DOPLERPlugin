@@ -1,12 +1,15 @@
 package edu.kit.dopler.transformation.feature.to.decision;
 
-import at.jku.cps.travart.core.common.IModelTransformer;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import de.vill.model.Group;
 import edu.kit.dopler.model.Decision;
 import edu.kit.dopler.model.Dopler;
+import edu.kit.dopler.model.IDecision;
+import edu.kit.dopler.model.Rule;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.ConstraintHandler;
+
+import static at.jku.cps.travart.core.common.IModelTransformer.STRATEGY;
 
 /**
  * This interface is responsible for creating the {@link Decision}s. The rules are only later filled into the model (see
@@ -15,8 +18,25 @@ import edu.kit.dopler.transformation.feature.to.decision.constraint.ConstraintHa
  */
 public interface FeatureAndGroupHandler {
 
-    void handleFeature(Feature feature, Dopler decisionModel, FeatureModel featureModel,
-                       IModelTransformer.STRATEGY level);
+    /**
+     * Goes through the entire tree of the given {@link Feature}, creates {@link Rule}s and adds them to the given
+     * {@link Dopler} model.
+     *
+     * @param featureModel  {@link FeatureModel} that contains the given {@link Feature}
+     * @param decisionModel {@link Dopler} model that will contain the newly created {@link IDecision}s
+     * @param feature       Root {@link Feature} of the tree
+     * @param level         {@link STRATEGY} that will be used
+     */
+    void handleFeature(FeatureModel featureModel, Dopler decisionModel, Feature feature, STRATEGY level);
 
-    void handleGroup(FeatureModel featureModel, Dopler decisionModel, Group group, IModelTransformer.STRATEGY level);
+    /**
+     * Goes through the entire tree of the given {@link Group}, creates {@link Rule}s and adds them to the given
+     * {@link Dopler} model.
+     *
+     * @param featureModel  {@link FeatureModel} that contains the given {@link Group}
+     * @param decisionModel {@link Dopler} model that will contain the newly created {@link IDecision}s
+     * @param group         Root {@link Group} of the tree
+     * @param level         {@link STRATEGY} that will be used
+     */
+    void handleGroup(FeatureModel featureModel, Dopler decisionModel, Group group, STRATEGY level);
 }
