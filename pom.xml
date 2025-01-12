@@ -66,6 +66,25 @@
             <artifactId>guice</artifactId>
             <version>7.0.0</version>
         </dependency>
+
+        <!-- local jar with travart core -->
+        <dependency>
+            <groupId>placeholder</groupId>
+            <artifactId>placeholder2</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/travart-core-2.0.0.jar</systemPath>
+        </dependency>
+
+        <!-- local jar with dopler model -->
+        <dependency>
+            <groupId>placeholder3</groupId>
+            <artifactId>placeholder4</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/dopler_model.jar</systemPath>
+        </dependency>
+
     </dependencies>
 
 
