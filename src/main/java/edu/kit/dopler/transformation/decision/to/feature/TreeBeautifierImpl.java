@@ -95,7 +95,7 @@ public class TreeBeautifierImpl implements TreeBeautifier {
     private void beautifyRecursively(Feature root, Feature feature, IModelTransformer.STRATEGY strategy) {
         if (IModelTransformer.STRATEGY.ONE_WAY == strategy) {
             replaceSingleAlternativeWithMandatoryGroups(feature);
-            simplifyTypeFeatures(root, feature, IModelTransformer.STRATEGY.ONE_WAY);
+            simplifyTypeFeatures(root, feature);
             simplifyName(root, feature);
         }
         groupFeaturesTogether(feature);
@@ -127,7 +127,7 @@ public class TreeBeautifierImpl implements TreeBeautifier {
         }
     }
 
-    private void simplifyTypeFeatures(Feature root, Feature feature, IModelTransformer.STRATEGY strategy) {
+    private void simplifyTypeFeatures(Feature root, Feature feature) {
         List<Group> groups = feature.getChildren();
         for (Group group : new ArrayList<>(groups)) {
 
@@ -152,7 +152,7 @@ public class TreeBeautifierImpl implements TreeBeautifier {
             first.getChildren().addAll(groups);
 
             //Beautify here because the feature is put up in the tree
-            beautifyRecursively(root, first, strategy);
+            beautifyRecursively(root, first, IModelTransformer.STRATEGY.ONE_WAY);
         }
     }
 }

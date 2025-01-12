@@ -3,6 +3,7 @@ package edu.kit.dopler.transformation;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import de.vill.model.constraint.*;
+import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.*;
 import edu.kit.dopler.transformation.util.TransformationModule;
 import org.junit.jupiter.api.Assertions;
@@ -34,49 +35,49 @@ class TreeToDnfConverterTest {
     @Test
     void toDnf1() {
         Constraint given = new NotConstraint(new NotConstraint(new NotConstraint(A)));
-        assertDnfs("!A", given);
+        assertDnf("!A", given);
     }
 
     @Test
     void toDnf2() {
         Constraint given = new NotConstraint(new OrConstraint(A, B));
-        assertDnfs("!A&!B", given);
+        assertDnf("!A&!B", given);
     }
 
     @Test
     void toDnf3() {
         Constraint given = new NotConstraint(new AndConstraint(A, B));
-        assertDnfs("!A|!B", given);
+        assertDnf("!A|!B", given);
     }
 
     @Test
     void toDnf4() {
         Constraint given = new AndConstraint(A, new OrConstraint(B, C));
-        assertDnfs("(A&B)|(A&C)", given);
+        assertDnf("(A&B)|(A&C)", given);
     }
 
     @Test
     void toDnf5() {
         Constraint given = new AndConstraint(new OrConstraint(A, B), C);
-        assertDnfs("A&C | B&C", given);
+        assertDnf("A&C | B&C", given);
     }
 
     @Test
     void toDnf6() {
         Constraint given = new ImplicationConstraint(new ImplicationConstraint(A, B), new ImplicationConstraint(C, D));
-        assertDnfs("!C | D | (!B & A)", given);
+        assertDnf("!C | D | (!B & A)", given);
     }
 
     @Test
     void toDnf7() {
         Constraint given = new NotConstraint(new EquivalenceConstraint(A, B));
-        assertDnfs("(!B&A) | (!A&B)", given);
+        assertDnf("(!B&A) | (!A&B)", given);
     }
 
     @Test
     void toDnf8() {
         Constraint given = new AndConstraint(new EquivalenceConstraint(A, B), new EquivalenceConstraint(B, C));
-        assertDnfs("(A & B & C) | (!A & !B & !C)", given);
+        assertDnf("(A & B & C) | (!A & !B & !C)", given);
     }
 
     @Test
@@ -84,7 +85,7 @@ class TreeToDnfConverterTest {
         Constraint given = new NotConstraint(
                 new EquivalenceConstraint(new ImplicationConstraint(new AndConstraint(A, B), B),
                         new OrConstraint(C, A)));
-        assertDnfs("!A & !C", given);
+        assertDnf("!A & !C", given);
     }
 
     @Test
@@ -95,7 +96,7 @@ class TreeToDnfConverterTest {
                 new NotConstraint(new EquivalenceConstraint(new ImplicationConstraint(D, E), new OrConstraint(O, G))));
         String expected = "(!D & !G & !O) | (!G & !O & E) | (!E & !G & D & O) | (!E & A & D & O) | (!E & A & D & G) " +
                 "| (!B & !E & C & D & O) | (!B & !E & C & D & G)";
-        assertDnfs(expected, given);
+        assertDnf(expected, given);
     }
 
     @Test
@@ -158,7 +159,7 @@ class TreeToDnfConverterTest {
                 constraintToString(replacer.replaceUnwantedConstraints(given)));
     }
 
-    private void assertDnfs(String expected, Constraint given) {
+    private void assertDnf(String expected, Constraint given) {
         Constraint dnf = dnfToTreeConverter.createDnfFromList(treeToDnfConverter.convertToDnf(given));
 
         String realString = constraintToString(dnf);
@@ -166,19 +167,29 @@ class TreeToDnfConverterTest {
         Function<String, String> sanitise =
                 s -> s.replace(" ", "").replace("|", " | ").replace("(", "").replace(")", "");
 
-        String message = String.format("\nGiven:\n%s\n\nConverted to DNF:\n%s\n\nExpected:\n%s\n\n",
-                constraintToString(given).replace("!", "~"), dnfToString(dnf).replace("!", "~"),
+        String message = String.format("""
+
+                        Given:
+                        %s
+
+                        Converted to DNF:
+                        %s
+
+                        Expected:
+                        %s
+
+                        """, constraintToString(given).replace("!", "~"), dnfToString(dnf).replace("!", "~"),
                 expected.replace("!", "~"));
 
         Assertions.assertEquals(sanitise.apply(expected), sanitise.apply(realString), message);
     }
 
-    String dnfToString(Constraint dnf) {
+    private String dnfToString(Constraint dnf) {
         String dnfAsString = constraintToStringDnf(dnf);
         return "(" + dnfAsString.replace(" | ", ") | (") + ")";
     }
 
-    String constraintToStringDnf(Constraint constraint) {
+    private String constraintToStringDnf(Constraint constraint) {
         return switch (constraint) {
             case AndConstraint andConstraint -> String.format("%s & %s", constraintToStringDnf(andConstraint.getLeft()),
                     constraintToStringDnf(andConstraint.getRight()));
@@ -187,11 +198,11 @@ class TreeToDnfConverterTest {
             case NotConstraint notConstraint -> String.format("!%s", constraintToStringDnf(notConstraint.getContent()));
             case LiteralConstraint ignored -> constraint.toString();
             case ExpressionConstraint ignored -> constraint.toString();
-            case null, default -> throw new RuntimeException("Unexpected constraint");
+            case null, default -> throw new UnexpectedTypeException(constraint);
         };
     }
 
-    String constraintToString(Constraint constraint) {
+    private String constraintToString(Constraint constraint) {
         return switch (constraint) {
             case AndConstraint andConstraint -> String.format("(%s & %s)", constraintToString(andConstraint.getLeft()),
                     constraintToString(andConstraint.getRight()));
@@ -206,7 +217,7 @@ class TreeToDnfConverterTest {
             case NotConstraint notConstraint -> String.format("!(%s)", constraintToString(notConstraint.getContent()));
             case LiteralConstraint ignored -> constraint.toString();
             case ExpressionConstraint ignored -> constraint.toString();
-            case null, default -> throw new RuntimeException("Unexpected constraint");
+            case null, default -> throw new UnexpectedTypeException(constraint);
         };
     }
 }

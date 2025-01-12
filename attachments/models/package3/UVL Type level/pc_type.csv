@@ -1,5 +1,0 @@
-ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-RAM;Which RAM size should the pc have?;Enumeration;8GB | 16GB;1:2;;true
-Power Unit Manufacturer;Which manufacturer for the power unit?;String;;;;TRUE
-Power Unit Watt;How many watts should the power unit have?;Integer;;;;TRUE
-Designated GPU;Should the pc have a designated GPU?;Boolean;true | false;;;TRUE

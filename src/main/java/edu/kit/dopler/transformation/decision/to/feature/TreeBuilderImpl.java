@@ -113,7 +113,7 @@ public class TreeBuilderImpl implements TreeBuilder {
             Group child = new Group(MANDATORY);
             child.getFeatures().add(feature);
             Feature parent =
-                    parentFinder.getParentFromVisibility(allFeatures.keySet(), feature, allFeatures.get(feature))
+                    parentFinder.getParentFromVisibility(allFeatures.keySet(), allFeatures.get(feature))
                             .orElse(rootFeature);
             parent.addChildren(child);
         }
@@ -123,7 +123,7 @@ public class TreeBuilderImpl implements TreeBuilder {
                                   IModelTransformer.STRATEGY strategy) {
         for (Feature feature : enumFeatures) {
             Feature parent =
-                    parentFinder.getParentFromVisibility(allFeatures.keySet(), feature, allFeatures.get(feature))
+                    parentFinder.getParentFromVisibility(allFeatures.keySet(), allFeatures.get(feature))
                             .orElse(rootFeature);
 
             switch (strategy) {
@@ -148,7 +148,7 @@ public class TreeBuilderImpl implements TreeBuilder {
             Group optionalGroup = new Group(OPTIONAL);
             optionalGroup.getFeatures().add(feature);
             Feature parent =
-                    parentFinder.getParentFromVisibility(allFeatures.keySet(), feature, allFeatures.get(feature))
+                    parentFinder.getParentFromVisibility(allFeatures.keySet(), allFeatures.get(feature))
                             .orElse(rootFeature);
             parent.addChildren(optionalGroup);
         }

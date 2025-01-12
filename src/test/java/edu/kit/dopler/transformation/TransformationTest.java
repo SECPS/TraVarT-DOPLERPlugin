@@ -60,7 +60,7 @@ abstract class TransformationTest<FromModel, ToModel> {
 
     @ParameterizedTest(name = "{1}")
     @MethodSource("oneWayDataSourceMethod")
-    @Disabled
+    @Disabled /* getAmountOfConfigsOfFromModel methods don't work atm */
     void testNumberOfConfigs(Path pathToBeTransformed, Path pathToBeTransformedIn) throws Exception {
         FromModel modelToBeTransformed = getFromModelFromPath(pathToBeTransformed);
         ToModel transformedModel =

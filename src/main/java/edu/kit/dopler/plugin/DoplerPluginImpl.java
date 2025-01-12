@@ -14,8 +14,11 @@ import org.pf4j.Extension;
 
 import java.util.List;
 
+/**
+ * Implementation of {@link IPlugin} for the {@link Dopler} model.
+ */
 @Extension
-public class DoplerPluginImpl implements IPlugin<Dopler> {
+class DoplerPluginImpl implements IPlugin<Dopler> {
 
     private static final String CSV = ".csv";
     static final Format CSV_FORMAT = new Format("csv", CSV, true, true);

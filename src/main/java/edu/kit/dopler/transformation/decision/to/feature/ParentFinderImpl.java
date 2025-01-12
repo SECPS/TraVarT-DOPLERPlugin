@@ -20,7 +20,7 @@ public class ParentFinderImpl implements ParentFinder {
     }
 
     @Override
-    public Optional<Feature> getParentFromVisibility(Set<Feature> allFeatures, Feature feature,
+    public Optional<Feature> getParentFromVisibility(Set<Feature> allFeatures,
                                                      IExpression visibility) {
 
         //covers 'true'

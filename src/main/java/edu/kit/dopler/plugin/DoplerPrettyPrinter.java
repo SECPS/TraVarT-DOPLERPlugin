@@ -12,7 +12,7 @@ import java.io.StringReader;
 import java.util.List;
 
 /** Implementation of IPrettyPrinter */
-public class DoplerPrettyPrinter implements IPrettyPrinter<Dopler> {
+class DoplerPrettyPrinter implements IPrettyPrinter<Dopler> {
 
     private final ISerializer<Dopler> serializer;
 
