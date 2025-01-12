@@ -1,21 +1,21 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-A;What A?;String;;;;ACheck
-ACheck;A?;Boolean;false | true;;;RootFeature#.RootFeature
-B;How much B?;Double;;;;BCheck
-BCheck;B?;Boolean;false | true;;;RootFeature#.RootFeature
-C;How much C?;Double;;;;CCheck
-CCheck;C?;Boolean;false | true;;;RootFeature#.RootFeature
-D;D?;Boolean;false | true;;;RootFeature#.RootFeature
-E;What E?;String;;;;RootFeature#.RootFeature
-F;How much F?;Double;;;;RootFeature#.RootFeature
-G;How much G?;Double;;;;RootFeature#.RootFeature
-H#;Which H?;Enumeration;H;1:1;;RootFeature#.RootFeature
-I*;What I?;String;;;;RootFeature*.I
-J*;How much J?;Double;;;;RootFeature*.J
-K*;How much K?;Double;;;;RootFeature*.K
-M*;What M?;String;;;;RootFeature**.M
-N*;How much N?;Double;;;;RootFeature**.N
-O*;How much O?;Double;;;;RootFeature**.O
+A;What A?;String;;;;(getValue(ACheck) = true)
+ACheck;A?;Boolean;false | true;;;(getValue(RootFeature#) = RootFeature)
+B;How much B?;Double;;;;(getValue(BCheck) = true)
+BCheck;B?;Boolean;false | true;;;(getValue(RootFeature#) = RootFeature)
+C;How much C?;Double;;;;(getValue(CCheck) = true)
+CCheck;C?;Boolean;false | true;;;(getValue(RootFeature#) = RootFeature)
+D;D?;Boolean;false | true;;;(getValue(RootFeature#) = RootFeature)
+E;What E?;String;;;;(getValue(RootFeature#) = RootFeature)
+F;How much F?;Double;;;;(getValue(RootFeature#) = RootFeature)
+G;How much G?;Double;;;;(getValue(RootFeature#) = RootFeature)
+H#;Which H?;Enumeration;H;1:1;;(getValue(RootFeature#) = RootFeature)
+I*;What I?;String;;;;(getValue(RootFeature*) = I)
+J*;How much J?;Double;;;;(getValue(RootFeature*) = J)
+K*;How much K?;Double;;;;(getValue(RootFeature*) = K)
+M*;What M?;String;;;;(getValue(RootFeature**) = M)
+N*;How much N?;Double;;;;(getValue(RootFeature**) = N)
+O*;How much O?;Double;;;;(getValue(RootFeature**) = O)
 RootFeature#;Which RootFeature?;Enumeration;RootFeature;1:1;;true
-RootFeature*;Which RootFeature*?;Enumeration;I | J | K | L;1:1;;RootFeature#.RootFeature
-RootFeature**;Which RootFeature**?;Enumeration;M | N | O | P;1:4;;RootFeature#.RootFeature
+RootFeature*;Which RootFeature*?;Enumeration;I | J | K | L;1:1;;(getValue(RootFeature#) = RootFeature)
+RootFeature**;Which RootFeature**?;Enumeration;M | N | O | P;1:4;;(getValue(RootFeature#) = RootFeature)

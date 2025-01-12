@@ -1,11 +1,11 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-CPU#;Which CPU?;Enumeration;CPU;1:1;;PC#.PC
-Designated GPU;Designated GPU?;Boolean;false | true;;;PC#.PC
-Manufacturer;What Manufacturer?;String;;;;ManufacturerCheck
-ManufacturerCheck;Manufacturer?;Boolean;false | true;;;Power Unit#.Power Unit
+CPU#;Which CPU?;Enumeration;CPU;1:1;;(getValue(PC#) = PC)
+Designated GPU;Designated GPU?;Boolean;false | true;;;(getValue(PC#) = PC)
+Manufacturer;What Manufacturer?;String;;;;(getValue(ManufacturerCheck) = true)
+ManufacturerCheck;Manufacturer?;Boolean;false | true;;;(getValue(Power Unit#) = Power Unit)
 PC#;Which PC?;Enumeration;PC;1:1;;true
-Power Unit#;Which Power Unit?;Enumeration;Power Unit;1:1;;PC#.PC
-RAM#;Which RAM?;Enumeration;RAM;1:1;;PC#.PC
-RAM*;Which RAM*?;Enumeration;16GB | 8GB;1:2;;RAM#.RAM
-Watt;How much Watt?;Double;;;;WattCheck
-WattCheck;Watt?;Boolean;false | true;;;Power Unit#.Power Unit
+Power Unit#;Which Power Unit?;Enumeration;Power Unit;1:1;;(getValue(PC#) = PC)
+RAM#;Which RAM?;Enumeration;RAM;1:1;;(getValue(PC#) = PC)
+RAM*;Which RAM*?;Enumeration;16GB | 8GB;1:2;;(getValue(RAM#) = RAM)
+Watt;How much Watt?;Double;;;;(getValue(WattCheck) = true)
+WattCheck;Watt?;Boolean;false | true;;;(getValue(Power Unit#) = Power Unit)

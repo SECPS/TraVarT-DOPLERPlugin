@@ -18,7 +18,7 @@ import java.util.List;
 public class DoplerPluginImpl implements IPlugin<Dopler> {
 
     private static final String CSV = ".csv";
-    public static final Format CSV_FORMAT = new Format("csv", CSV, true, true);
+    static final Format CSV_FORMAT = new Format("csv", CSV, true, true);
 
     private static final String ID = "dopler-decision-plugin";
 

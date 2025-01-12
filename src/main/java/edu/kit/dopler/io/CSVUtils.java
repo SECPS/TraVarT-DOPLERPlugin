@@ -21,7 +21,7 @@ public final class CSVUtils {
 	
 	private CSVUtils() { }
 
-	public static final char DELIMITER = ';';
+	private static final char DELIMITER = ';';
 
 	public static CSVFormat createCSVFormat(boolean skipHeader) {
 		Builder builder = CSVFormat.EXCEL.builder();
