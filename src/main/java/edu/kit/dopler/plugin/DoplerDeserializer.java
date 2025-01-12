@@ -9,18 +9,16 @@ import edu.kit.dopler.model.Dopler;
 import java.io.IOException;
 import java.util.List;
 
-import static edu.kit.dopler.plugin.DoplerPluginImpl.CSV_FORMAT;
-
 public class DoplerDeserializer implements IDeserializer<Dopler> {
 
     @Override
-    public Dopler deserialize(String serial, Format format) throws NotSupportedVariabilityTypeException {
-        if (!format.equals(CSV_FORMAT)) {
+    public Dopler deserialize(String s, Format format) throws NotSupportedVariabilityTypeException {
+        if (!format.equals(CsvFormat.getInstance())) {
             throw new NotSupportedVariabilityTypeException("Unsupported format!");
         }
 
         try {
-            return new DecisionModelReader().read(serial, "MODEL_NAME");
+            return new DecisionModelReader().read(s, "MODEL_NAME");
         } catch (IOException | edu.kit.dopler.exceptions.NotSupportedVariabilityTypeException e) {
             throw new NotSupportedVariabilityTypeException(e);
         }
@@ -28,6 +26,6 @@ public class DoplerDeserializer implements IDeserializer<Dopler> {
 
     @Override
     public Iterable<Format> supportedFormats() {
-        return List.of(CSV_FORMAT);
+        return List.of(CsvFormat.getInstance());
     }
 }

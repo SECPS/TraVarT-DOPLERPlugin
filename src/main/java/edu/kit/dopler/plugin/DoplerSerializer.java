@@ -8,8 +8,6 @@ import edu.kit.dopler.model.Dopler;
 
 import java.io.IOException;
 
-import static edu.kit.dopler.plugin.DoplerPluginImpl.CSV_FORMAT;
-
 public class DoplerSerializer implements ISerializer<Dopler> {
 
     @Override
@@ -23,6 +21,6 @@ public class DoplerSerializer implements ISerializer<Dopler> {
 
     @Override
     public Format getFormat() {
-        return CSV_FORMAT;
+        return CsvFormat.getInstance();
     }
 }

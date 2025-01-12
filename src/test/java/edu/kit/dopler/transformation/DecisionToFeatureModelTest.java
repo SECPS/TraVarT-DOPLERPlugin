@@ -8,6 +8,7 @@ import de.vill.model.FeatureModel;
 import edu.kit.dopler.TestUtils;
 import edu.kit.dopler.injection.Injector;
 import edu.kit.dopler.model.Dopler;
+import edu.kit.dopler.plugin.CsvFormat;
 import edu.kit.dopler.plugin.DoplerPluginImpl;
 import edu.kit.dopler.plugin.DoplerSerializer;
 
@@ -15,8 +16,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import static edu.kit.dopler.plugin.DoplerPluginImpl.CSV_FORMAT;
 
 class DecisionToFeatureModelTest extends TransformationTest<Dopler, FeatureModel> {
 
@@ -44,7 +43,7 @@ class DecisionToFeatureModelTest extends TransformationTest<Dopler, FeatureModel
 
     @Override
     protected Dopler getFromModelFromPath(Path path) throws Exception {
-        return plugin.getDeserializer().deserialize(Files.readString(path), CSV_FORMAT);
+        return plugin.getDeserializer().deserialize(Files.readString(path), CsvFormat.getInstance());
     }
 
     @Override

@@ -21,9 +21,6 @@ import java.util.List;
 @Extension
 public class DoplerPluginImpl implements IPlugin<Dopler> {
 
-    private static final String CSV = ".csv";
-    public static final Format CSV_FORMAT = new Format("csv", CSV, true, true);
-
     private static final String ID = "dopler-decision-plugin";
 
     private final Injector injector;
@@ -79,6 +76,6 @@ public class DoplerPluginImpl implements IPlugin<Dopler> {
 
     @Override
     public List<String> getSupportedFileExtensions() {
-        return List.of(CSV);
+        return List.of(CsvFormat.getInstance().extension());
     }
 }

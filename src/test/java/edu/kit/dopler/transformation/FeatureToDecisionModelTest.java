@@ -7,6 +7,7 @@ import de.vill.main.UVLModelFactory;
 import de.vill.model.FeatureModel;
 import edu.kit.dopler.TestUtils;
 import edu.kit.dopler.model.Dopler;
+import edu.kit.dopler.plugin.CsvFormat;
 import edu.kit.dopler.plugin.DoplerPluginImpl;
 
 import java.io.IOException;
@@ -14,7 +15,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static edu.kit.dopler.plugin.DoplerPluginImpl.CSV_FORMAT;
 
 class FeatureToDecisionModelTest extends TransformationTest<FeatureModel, Dopler> {
 
@@ -67,7 +67,7 @@ class FeatureToDecisionModelTest extends TransformationTest<FeatureModel, Dopler
 
     @Override
     protected Dopler getToModelFromString(String model) throws Exception {
-        return plugin.getDeserializer().deserialize(model, CSV_FORMAT);
+        return plugin.getDeserializer().deserialize(model, CsvFormat.getInstance());
     }
 
     @Override
