@@ -48,7 +48,7 @@ class DoplerPluginTest {
         String doplerModelAsString = Files.readString(pathOfModel);
         Dopler dopler = decisionModelReader.read(doplerModelAsString, "Some model name");
         String serialisedModel = serializer.serialize(dopler);
-        Dopler deserializesModel = deserializer.deserialize(serialisedModel, CsvFormat.getInstance());
+        Dopler deserializesModel = deserializer.deserialize(serialisedModel, new CsvFormat());
         String deserilisedModelAsString = printer.toText(deserializesModel);
         Assertions.assertEquals(TestUtils.sortDecisionModel(doplerModelAsString),
                 TestUtils.sortDecisionModel(deserilisedModelAsString));
@@ -63,7 +63,7 @@ class DoplerPluginTest {
                 C;?;Boolean;true | false;;;true
                 D;?;Enumeration;X | Y | Z;1:4;;true""";
 
-        Dopler model = deserializer.deserialize(modelAsString, CsvFormat.getInstance());
+        Dopler model = deserializer.deserialize(modelAsString, new CsvFormat());
 
         String[][] table = printer.toTable(model);
         Arrays.sort(table, Comparator.comparing(row -> row[0]));

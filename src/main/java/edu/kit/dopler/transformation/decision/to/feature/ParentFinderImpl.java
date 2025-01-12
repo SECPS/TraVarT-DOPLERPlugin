@@ -13,6 +13,11 @@ public class ParentFinderImpl implements ParentFinder {
 
     private final FeatureFinder featureFinder;
 
+    /**
+     * Constructor of {@link ParentFinderImpl}
+     *
+     * @param featureFinder {@link FeatureFinder}
+     */
     public ParentFinderImpl(FeatureFinder featureFinder) {
         this.featureFinder = featureFinder;
     }

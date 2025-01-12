@@ -8,6 +8,9 @@ import edu.kit.dopler.model.Dopler;
 
 import java.io.IOException;
 
+/**
+ * Implementation of {@link ISerializer} with the {@link Dopler} model as type variable.
+ */
 public class DoplerSerializer implements ISerializer<Dopler> {
 
     @Override
@@ -21,6 +24,6 @@ public class DoplerSerializer implements ISerializer<Dopler> {
 
     @Override
     public Format getFormat() {
-        return CsvFormat.getInstance();
+        return new CsvFormat();
     }
 }

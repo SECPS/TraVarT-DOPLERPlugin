@@ -20,6 +20,12 @@ public class AttributeHandlerImpl implements AttributeHandler {
     private final ConditionCreator conditionCreator;
     private final DecisionFinder decisionFinder;
 
+    /**
+     * Constructor of {@link AttributeHandlerImpl}.
+     *
+     * @param conditionCreator {@link ConditionCreator}
+     * @param decisionFinder   {@link DecisionFinder}
+     */
     public AttributeHandlerImpl(ConditionCreator conditionCreator, DecisionFinder decisionFinder) {
         this.conditionCreator = conditionCreator;
         this.decisionFinder = decisionFinder;

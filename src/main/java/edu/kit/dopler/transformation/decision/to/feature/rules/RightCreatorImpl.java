@@ -17,6 +17,11 @@ public class RightCreatorImpl implements RightCreator {
 
     private final FeatureFinder featureFinder;
 
+    /**
+     * Constructor of {@link RightCreatorImpl}.
+     *
+     * @param featureFinder {@link FeatureFinder}
+     */
     public RightCreatorImpl(FeatureFinder featureFinder) {
         this.featureFinder = featureFinder;
     }

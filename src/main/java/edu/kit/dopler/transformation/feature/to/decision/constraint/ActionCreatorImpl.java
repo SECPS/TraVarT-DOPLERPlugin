@@ -17,6 +17,11 @@ public class ActionCreatorImpl implements ActionCreator {
 
     private final DecisionFinder decisionFinder;
 
+    /**
+     * Constructor of {@link ActionCreatorImpl}.
+     *
+     * @param decisionFinder {@link DecisionFinder}
+     */
     public ActionCreatorImpl(DecisionFinder decisionFinder) {
         this.decisionFinder = decisionFinder;
     }

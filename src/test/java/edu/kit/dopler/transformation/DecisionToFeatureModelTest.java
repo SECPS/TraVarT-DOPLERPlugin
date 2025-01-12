@@ -44,7 +44,7 @@ class DecisionToFeatureModelTest extends TransformationTest<Dopler, FeatureModel
 
     @Override
     protected Dopler getFromModelFromPath(Path path) throws Exception {
-        return plugin.getDeserializer().deserialize(Files.readString(path), CsvFormat.getInstance());
+        return plugin.getDeserializer().deserialize(Files.readString(path), new CsvFormat());
     }
 
     @Override

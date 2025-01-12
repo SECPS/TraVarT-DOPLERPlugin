@@ -68,7 +68,7 @@ class FeatureToDecisionModelTest extends TransformationTest<FeatureModel, Dopler
 
     @Override
     protected Dopler getToModelFromString(String model) throws Exception {
-        return plugin.getDeserializer().deserialize(model, CsvFormat.getInstance());
+        return plugin.getDeserializer().deserialize(model, new CsvFormat());
     }
 
     @Override

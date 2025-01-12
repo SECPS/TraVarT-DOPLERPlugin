@@ -9,11 +9,14 @@ import edu.kit.dopler.model.Dopler;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Implementation of {@link IDeserializer}  with the {@link Dopler} model as type variable.
+ */
 public class DoplerDeserializer implements IDeserializer<Dopler> {
 
     @Override
     public Dopler deserialize(String s, Format format) throws NotSupportedVariabilityTypeException {
-        if (!format.equals(CsvFormat.getInstance())) {
+        if (!format.equals(new CsvFormat())) {
             throw new NotSupportedVariabilityTypeException("Unsupported format!");
         }
 
@@ -26,6 +29,6 @@ public class DoplerDeserializer implements IDeserializer<Dopler> {
 
     @Override
     public Iterable<Format> supportedFormats() {
-        return List.of(CsvFormat.getInstance());
+        return List.of(new CsvFormat());
     }
 }

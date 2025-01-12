@@ -9,6 +9,11 @@ public class IdHandlerImpl implements IdHandler {
 
     private final DecisionFinder decisionFinder;
 
+    /**
+     * Constructor of {@link IdHandlerImpl}.
+     *
+     * @param decisionFinder {@link DecisionFinder}
+     */
     public IdHandlerImpl(DecisionFinder decisionFinder) {
         this.decisionFinder = decisionFinder;
     }

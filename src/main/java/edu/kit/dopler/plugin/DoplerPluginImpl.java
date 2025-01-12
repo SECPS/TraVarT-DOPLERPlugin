@@ -16,7 +16,7 @@ import org.pf4j.Extension;
 import java.util.List;
 
 /**
- * Implementation of {@link IPlugin} for the {@link Dopler} model.
+ * Implementation of {@link IPlugin}  with the {@link Dopler} model as type variable.
  */
 @Extension
 public class DoplerPluginImpl implements IPlugin<Dopler> {
@@ -25,6 +25,9 @@ public class DoplerPluginImpl implements IPlugin<Dopler> {
 
     private final Injector injector;
 
+    /**
+     * Constructor of {@link DoplerPluginImpl}:
+     */
     public DoplerPluginImpl() {
         injector = new Injector();
     }
@@ -76,6 +79,6 @@ public class DoplerPluginImpl implements IPlugin<Dopler> {
 
     @Override
     public List<String> getSupportedFileExtensions() {
-        return List.of(CsvFormat.getInstance().extension());
+        return List.of(new CsvFormat().extension());
     }
 }

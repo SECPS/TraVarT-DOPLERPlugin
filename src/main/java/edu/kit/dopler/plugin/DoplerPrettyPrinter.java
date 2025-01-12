@@ -16,6 +16,11 @@ public class DoplerPrettyPrinter implements IPrettyPrinter<Dopler> {
 
     private final ISerializer<Dopler> serializer;
 
+    /**
+     * Constructor of {@link DoplerPrettyPrinter}.
+     *
+     * @param serializer {@link ISerializer} with the {@link Dopler} model as type variable
+     */
     public DoplerPrettyPrinter(ISerializer<Dopler> serializer) {
         this.serializer = serializer;
     }

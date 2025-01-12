@@ -14,7 +14,12 @@ public class Transformer implements IModelTransformer<Dopler> {
     private final DmToFmTransformer dmToFmTransformer;
     private final FmToDmTransformer fmToDmTransformer;
 
-    /** Constructor of {@link Transformer} */
+    /**
+     * Constructor of {@link Transformer}.
+     *
+     * @param dmToFmTransformer {@link DmToFmTransformer}
+     * @param fmToDmTransformer {@link FmToDmTransformer}
+     */
     public Transformer(DmToFmTransformer dmToFmTransformer, FmToDmTransformer fmToDmTransformer) {
         this.dmToFmTransformer = dmToFmTransformer;
         this.fmToDmTransformer = fmToDmTransformer;

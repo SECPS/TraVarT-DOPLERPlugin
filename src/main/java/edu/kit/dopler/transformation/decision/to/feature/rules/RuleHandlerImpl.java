@@ -15,6 +15,12 @@ public class RuleHandlerImpl implements RuleHandler {
     private final LeftCreator leftCreator;
     private final RightCreator rightCreator;
 
+    /**
+     * Constructor of {@link RuleHandlerImpl}.
+     *
+     * @param leftCreator  {@link LeftCreator}
+     * @param rightCreator {@link RightCreator}
+     */
     public RuleHandlerImpl(LeftCreator leftCreator, RightCreator rightCreator) {
         this.leftCreator = leftCreator;
         this.rightCreator = rightCreator;

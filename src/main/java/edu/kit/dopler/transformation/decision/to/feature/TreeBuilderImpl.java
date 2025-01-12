@@ -22,6 +22,12 @@ public class TreeBuilderImpl implements TreeBuilder {
     private final ParentFinder parentFinder;
     private final AttributeCreator attributeHandler;
 
+    /**
+     * Constructor of {@link TreeBuilderImpl}
+     *
+     * @param parentFinder     {@link ParentFinderImpl}
+     * @param attributeHandler {@link AttributeCreator}
+     */
     public TreeBuilderImpl(ParentFinder parentFinder, AttributeCreator attributeHandler) {
         this.parentFinder = parentFinder;
         this.attributeHandler = attributeHandler;

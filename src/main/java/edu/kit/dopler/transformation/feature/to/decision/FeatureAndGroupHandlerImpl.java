@@ -22,8 +22,12 @@ public class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
     private final VisibilityHandler visibilityHandler;
     private final IdHandler idHandler;
 
-    /** Constructor of {@link FeatureAndGroupHandlerImpl} */
-
+    /**
+     * Constructor of {@link FeatureAndGroupHandlerImpl}
+     *
+     * @param visibilityHandler {@link VisibilityHandler}
+     * @param idHandler         {@link IdHandler}
+     */
     public FeatureAndGroupHandlerImpl(VisibilityHandler visibilityHandler, IdHandler idHandler) {
         this.visibilityHandler = visibilityHandler;
         this.idHandler = idHandler;
@@ -110,68 +114,43 @@ public class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
     private void createMandatoryDecision(Dopler dopler, FeatureModel featureModel, Feature feature,
                                          IModelTransformer.STRATEGY level) {
         dopler.addDecision(new EnumerationDecision("%s#".formatted(idHandler.resolveId(dopler, feature)),
-                String.format(ENUM_QUESTION, idHandler.resolveId(dopler, feature)),
-                "",
+                String.format(ENUM_QUESTION, idHandler.resolveId(dopler, feature)), "",
                 visibilityHandler.resolveVisibility(featureModel, dopler, feature.getParentFeature(), level),
                 new LinkedHashSet<>(),
-                new Enumeration(Set.of(new EnumerationLiteral(idHandler.resolveId(dopler, feature)))),
-                1,
-                1)
-        );
+                new Enumeration(Set.of(new EnumerationLiteral(idHandler.resolveId(dopler, feature)))), 1, 1));
     }
 
     private void createBooleanDecision(Dopler dopler, FeatureModel featureModel, Feature feature,
                                        IModelTransformer.STRATEGY level) {
         String id = idHandler.resolveId(dopler, feature);
-        dopler.addDecision(new BooleanDecision(
-                id,
-                String.format(BOOLEAN_QUESTION, id),
-                "",
+        dopler.addDecision(new BooleanDecision(id, String.format(BOOLEAN_QUESTION, id), "",
                 visibilityHandler.resolveVisibility(featureModel, dopler, feature.getParentFeature(), level),
-                new LinkedHashSet<>())
-        );
+                new LinkedHashSet<>()));
     }
 
     private void createNumberDecision(Dopler dopler, FeatureModel featureModel, Feature feature,
                                       IModelTransformer.STRATEGY level) {
         String id = idHandler.resolveId(dopler, feature);
-        dopler.addDecision(new NumberDecision(
-                id,
-                String.format(NUMBER_QUESTION, feature.getFeatureName()),
-                "",
-                visibilityHandler.resolveVisibilityForTypeDecisions(dopler, featureModel, feature,
-                        id, level),
-                new LinkedHashSet<>(),
-                new HashSet<>())
-        );
+        dopler.addDecision(new NumberDecision(id, String.format(NUMBER_QUESTION, feature.getFeatureName()), "",
+                visibilityHandler.resolveVisibilityForTypeDecisions(dopler, featureModel, feature, id, level),
+                new LinkedHashSet<>(), new HashSet<>()));
     }
 
     private void createStringDecision(Dopler dopler, FeatureModel featureModel, Feature feature,
                                       IModelTransformer.STRATEGY level) {
         String id = idHandler.resolveId(dopler, feature);
-        dopler.addDecision(new StringDecision(
-                id,
-                String.format(STRING_QUESTION, feature.getFeatureName()),
-                "",
-                visibilityHandler.resolveVisibilityForTypeDecisions(dopler, featureModel, feature,
-                        id, level),
-                new LinkedHashSet<>(),
-                new HashSet<>())
-        );
+        dopler.addDecision(new StringDecision(id, String.format(STRING_QUESTION, feature.getFeatureName()), "",
+                visibilityHandler.resolveVisibilityForTypeDecisions(dopler, featureModel, feature, id, level),
+                new LinkedHashSet<>(), new HashSet<>()));
     }
 
     private void createEnumDecision(Dopler decisionModel, Group group, FeatureModel featureModel, int maxCardinality,
                                     IModelTransformer.STRATEGY level) {
-        decisionModel.addDecision(new EnumerationDecision(
-                idHandler.resolveId(decisionModel, group.getParentFeature()),
-                String.format(ENUM_QUESTION, idHandler.resolveId(decisionModel, group.getParentFeature())),
-                "",
+        decisionModel.addDecision(new EnumerationDecision(idHandler.resolveId(decisionModel, group.getParentFeature()),
+                String.format(ENUM_QUESTION, idHandler.resolveId(decisionModel, group.getParentFeature())), "",
                 visibilityHandler.resolveVisibility(featureModel, decisionModel, group.getParentFeature(), level),
-                new LinkedHashSet<>(),
-                new Enumeration(group.getFeatures().stream().map(Feature::getFeatureName).map(EnumerationLiteral::new)
-                        .collect(Collectors.toCollection(LinkedHashSet::new))),
-                1,
-                maxCardinality)
-        );
+                new LinkedHashSet<>(), new Enumeration(
+                group.getFeatures().stream().map(Feature::getFeatureName).map(EnumerationLiteral::new)
+                        .collect(Collectors.toCollection(LinkedHashSet::new))), 1, maxCardinality));
     }
 }

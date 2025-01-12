@@ -16,6 +16,11 @@ public class TreeBeautifierImpl implements TreeBeautifier {
 
     private final FeatureFinder featureFinder;
 
+    /**
+     * Constructor of {@link TreeBeautifierImpl}.
+     *
+     * @param featureFinder {@link FeatureFinder}
+     */
     public TreeBeautifierImpl(FeatureFinder featureFinder) {
         this.featureFinder = featureFinder;
     }

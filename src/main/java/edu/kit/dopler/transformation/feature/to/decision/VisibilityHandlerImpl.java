@@ -19,6 +19,12 @@ public class VisibilityHandlerImpl implements VisibilityHandler {
     private final FeatureFinder featureFinder;
     private final DecisionFinder decisionFinder;
 
+    /**
+     * Constructor of {@link VisibilityHandlerImpl}.
+     *
+     * @param featureFinder  {@link FeatureFinder}
+     * @param decisionFinder {@link DecisionFinder}
+     */
     public VisibilityHandlerImpl(FeatureFinder featureFinder, DecisionFinder decisionFinder) {
         this.featureFinder = featureFinder;
         this.decisionFinder = decisionFinder;
