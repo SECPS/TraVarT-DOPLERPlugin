@@ -35,6 +35,15 @@ class DoplerPluginTest {
     private final IPrettyPrinter<Dopler> printer = doplerPlugin.getPrinter();
     private final DecisionModelReader decisionModelReader = new DecisionModelReader();
 
+    private static Stream<Arguments> dataSourceMethod() throws IOException {
+        List<Path> paths;
+        try (Stream<Path> filePaths = Files.walk(TEST_DATA_PATH)) {
+            paths = filePaths.toList();
+        }
+
+        return paths.stream().filter(path -> path.toString().endsWith(".csv")).map(Arguments::of);
+    }
+
     @ParameterizedTest(name = "{0}")
     @MethodSource("dataSourceMethod")
     void testSerialising(Path pathOfModel) throws Exception {
@@ -45,15 +54,6 @@ class DoplerPluginTest {
         String deserilisedModelAsString = printer.toText(deserializesModel);
         Assertions.assertEquals(TestUtils.sortDecisionModel(doplerModelAsString),
                 TestUtils.sortDecisionModel(deserilisedModelAsString));
-    }
-
-    private static Stream<Arguments> dataSourceMethod() throws IOException {
-        List<Path> paths;
-        try (Stream<Path> filePaths = Files.walk(TEST_DATA_PATH)) {
-            paths = filePaths.toList();
-        }
-
-        return paths.stream().filter(path -> path.toString().endsWith(".csv")).map(Arguments::of);
     }
 
     @Test
@@ -73,6 +73,6 @@ class DoplerPluginTest {
         Assertions.assertArrayEquals(new String[]{"A", "?", "String", "", "", "", "true"}, table[0]);
         Assertions.assertArrayEquals(new String[]{"B", "?", "Double", "", "", "", "true"}, table[1]);
         Assertions.assertArrayEquals(new String[]{"C", "?", "Boolean", "true | false", "", "", "true"}, table[2]);
-        Assertions.assertArrayEquals(new String[]{"D", "?", "Enumeration", "Z | X | Y", "1:4", "", "true"}, table[3]);
+        Assertions.assertArrayEquals(new String[]{"D", "?", "Enumeration", "X | Y | Z", "1:4", "", "true"}, table[3]);
     }
 }

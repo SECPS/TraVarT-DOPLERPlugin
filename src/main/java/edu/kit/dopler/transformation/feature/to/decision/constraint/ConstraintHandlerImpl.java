@@ -36,6 +36,29 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
         this.dnfAlwaysTrueAndFalseRemover = dnfAlwaysTrueAndFalseRemover;
     }
 
+    /**
+     * If the {@link Constraint}s in the given  {@link FeatureModel} has {@link AndConstraint}s as roots, then split
+     * them up into several {@link Constraint}s. E.g.: {@code (A => B) & (C => D) ~> A => B, C => D}
+     *
+     * @return {@link List} of all constraints in the given {@link FeatureModel} where no root {@link Constraint} is a
+     * {@link AndConstraint}
+     */
+    private static List<Constraint> getSanitizedConstraints(FeatureModel featureModel) {
+        Stack<Constraint> stack = new Stack<>();
+        featureModel.getConstraints().reversed().forEach(stack::push);
+        List<Constraint> sanitisedConstrains = new ArrayList<>();
+        while (!stack.empty()) {
+            Constraint current = stack.pop();
+            if (current instanceof AndConstraint andConstraint) {
+                stack.push(andConstraint.getLeft());
+                stack.push(andConstraint.getRight());
+            } else {
+                sanitisedConstrains.add(current);
+            }
+        }
+        return sanitisedConstrains;
+    }
+
     @Override
     public void handleConstraints(FeatureModel featureModel, Dopler decisionModel) {
         for (Constraint constraint : getSanitizedConstraints(featureModel)) {
@@ -122,29 +145,6 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
             left = ((NotConstraint) ((NotConstraint) left).getContent()).getContent();
         }
         return left;
-    }
-
-    /**
-     * If the {@link Constraint}s in the given  {@link FeatureModel} has {@link AndConstraint}s as roots, then split
-     * them up into several {@link Constraint}s. E.g.: {@code (A => B) & (C => D) ~> A => B, C => D}
-     *
-     * @return {@link List} of all constraints in the given {@link FeatureModel} where no root {@link Constraint} is a
-     * {@link AndConstraint}
-     */
-    private static List<Constraint> getSanitizedConstraints(FeatureModel featureModel) {
-        Stack<Constraint> stack = new Stack<>();
-        featureModel.getConstraints().reversed().forEach(stack::push);
-        List<Constraint> sanitisedConstrains = new ArrayList<>();
-        while (!stack.empty()) {
-            Constraint current = stack.pop();
-            if (current instanceof AndConstraint andConstraint) {
-                stack.push(andConstraint.getLeft());
-                stack.push(andConstraint.getRight());
-            } else {
-                sanitisedConstrains.add(current);
-            }
-        }
-        return sanitisedConstrains;
     }
 
     /** Distribute the generated rule to a decision */

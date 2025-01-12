@@ -10,6 +10,42 @@ import java.util.Optional;
 /** Implementation of {@link LeftCreator}. */
 public class LeftCreatorImpl implements LeftCreator {
 
+    private static Optional<Constraint> handleEquals(Equals equals) {
+        //Todo: There are probably a lot of other cases here.
+
+        //Covers 'getValue(someDecision) = ...'
+        if (equals.getLeftExpression() instanceof DecisionValueCallExpression decisionValueCallExpression) {
+
+            // Covers: 'getValue(someDecision) = true' or 'getValue(someDecision) = false'
+            if (equals.getRightExpression() instanceof BooleanLiteralExpression booleanLiteralExpression) {
+                String decisionId = decisionValueCallExpression.getDecision().getDisplayId();
+                if (booleanLiteralExpression.getLiteral()) {
+                    return Optional.of(new LiteralConstraint(decisionId));
+                } else {
+                    return Optional.of(new NotConstraint(new LiteralConstraint(decisionId)));
+                }
+            }
+
+            // Covers: 'getValue(someDecision) = someEnum'
+            if (equals.getRightExpression() instanceof EnumeratorLiteralExpression enumeratorLiteralExpression) {
+                return Optional.of(new LiteralConstraint(enumeratorLiteralExpression.toString()));
+            }
+        }
+
+        throw new CanNotBeTranslatedException(equals);
+    }
+
+    private static Optional<Constraint> handleBooleanLiteralExpression(
+            BooleanLiteralExpression booleanLiteralExpression) {
+        if (booleanLiteralExpression.getLiteral()) {
+            //Value is TRUE
+            return Optional.empty();
+        } else {
+            //Value is FALSE
+            throw new UnexpectedTypeException(booleanLiteralExpression);
+        }
+    }
+
     @Override
     public Optional<Constraint> handleCondition(IExpression condition) {
         //TODO: A lot of cases a missing here.
@@ -48,41 +84,5 @@ public class LeftCreatorImpl implements LeftCreator {
 
     private Optional<Constraint> handleNot(NOT not) {
         return handleCondition(not.getOperand()).map(NotConstraint::new);
-    }
-
-    private static Optional<Constraint> handleEquals(Equals equals) {
-        //Todo: There are probably a lot of other cases here.
-
-        //Covers 'getValue(someDecision) = ...'
-        if (equals.getLeftExpression() instanceof DecisionValueCallExpression decisionValueCallExpression) {
-
-            // Covers: 'getValue(someDecision) = true' or 'getValue(someDecision) = false'
-            if (equals.getRightExpression() instanceof BooleanLiteralExpression booleanLiteralExpression) {
-                String decisionId = decisionValueCallExpression.getDecision().getDisplayId();
-                if (booleanLiteralExpression.getLiteral()) {
-                    return Optional.of(new LiteralConstraint(decisionId));
-                } else {
-                    return Optional.of(new NotConstraint(new LiteralConstraint(decisionId)));
-                }
-            }
-
-            // Covers: 'getValue(someDecision) = someEnum'
-            if (equals.getRightExpression() instanceof EnumeratorLiteralExpression enumeratorLiteralExpression) {
-                return Optional.of(new LiteralConstraint(enumeratorLiteralExpression.toString()));
-            }
-        }
-
-        throw new CanNotBeTranslatedException(equals);
-    }
-
-    private static Optional<Constraint> handleBooleanLiteralExpression(
-            BooleanLiteralExpression booleanLiteralExpression) {
-        if (booleanLiteralExpression.getLiteral()) {
-            //Value is TRUE
-            return Optional.empty();
-        } else {
-            //Value is FALSE
-            throw new UnexpectedTypeException(booleanLiteralExpression);
-        }
     }
 }

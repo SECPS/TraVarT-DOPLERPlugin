@@ -23,76 +23,6 @@ public class TreeBeautifierImpl implements TreeBeautifier {
         this.featureFinder = featureFinder;
     }
 
-    @Override
-    public Feature beautify(Feature root, IModelTransformer.STRATEGY strategy) {
-        beautifyRecursively(root, root, strategy);
-        return removeStandardRoot(root);
-    }
-
-    private void beautifyRecursively(Feature root, Feature feature, IModelTransformer.STRATEGY strategy) {
-        if (IModelTransformer.STRATEGY.ONE_WAY == strategy) {
-            replaceSingleAlternativeWithMandatoryGroups(feature);
-            simplifyTypeFeatures(root, feature, strategy);
-            simplifyName(root, feature);
-        }
-        groupFeaturesTogether(feature);
-
-        //Recursively beautify children
-        for (Group group : new ArrayList<>(feature.getChildren())) {
-            for (Feature childFeature : new ArrayList<>(group.getFeatures())) {
-                beautifyRecursively(root, childFeature, strategy);
-            }
-        }
-
-        //Sort features in groups
-        feature.getChildren().forEach(group -> group.getFeatures().sort(Comparator.comparing(Feature::getFeatureName)));
-
-        //Sort groups
-        feature.getChildren().sort(Comparator.comparing(child -> child.toString(true, feature.getFeatureName())));
-    }
-
-    /** Remove not needed '*' at the end of the feature name. */
-    private void simplifyName(Feature root, Feature feature) {
-        String id = feature.getFeatureName();
-        while (id.endsWith("*")) {
-            id = id.substring(0, id.length() - 1);
-            if (featureFinder.findFeatureByName(root, id).isEmpty()) {
-                feature.setFeatureName(id);
-            } else {
-                return;
-            }
-        }
-    }
-
-    private void simplifyTypeFeatures(Feature root, Feature feature, IModelTransformer.STRATEGY strategy) {
-        List<Group> groups = feature.getChildren();
-        for (Group group : new ArrayList<>(groups)) {
-
-            //We need a mandatory group with a single child
-            if (MANDATORY != group.GROUPTYPE || 1 != group.getFeatures().size()) {
-                continue;
-            }
-
-            Feature first = group.getFeatures().getFirst();
-            Group parentGroup = feature.getParentGroup();
-
-            //child feature should have a type and the 'feature' should have a parent
-            if (null == first.getFeatureType() || null == parentGroup || MANDATORY == parentGroup.GROUPTYPE) {
-                continue;
-            }
-
-            //Put 'first' at the position of 'feature'. 'feature' is deleted.
-            parentGroup.getFeatures().remove(feature);
-            parentGroup.getFeatures().add(first);
-            first.setParentGroup(parentGroup);
-            groups.remove(group);
-            first.getChildren().addAll(groups);
-
-            //Beautify here because the feature is put up in the tree
-            beautifyRecursively(root, first, strategy);
-        }
-    }
-
     /** Replace alternative groups with one child with mandatory groups */
     private static void replaceSingleAlternativeWithMandatoryGroups(Feature feature) {
         for (Group group : new ArrayList<>(feature.getChildren())) {
@@ -154,5 +84,75 @@ public class TreeBeautifierImpl implements TreeBeautifier {
             feature.setParentGroup(null);
         }
         return feature;
+    }
+
+    @Override
+    public Feature beautify(Feature root, IModelTransformer.STRATEGY strategy) {
+        beautifyRecursively(root, root, strategy);
+        return removeStandardRoot(root);
+    }
+
+    private void beautifyRecursively(Feature root, Feature feature, IModelTransformer.STRATEGY strategy) {
+        if (IModelTransformer.STRATEGY.ONE_WAY == strategy) {
+            replaceSingleAlternativeWithMandatoryGroups(feature);
+            simplifyTypeFeatures(root, feature, IModelTransformer.STRATEGY.ONE_WAY);
+            simplifyName(root, feature);
+        }
+        groupFeaturesTogether(feature);
+
+        //Recursively beautify children
+        for (Group group : new ArrayList<>(feature.getChildren())) {
+            for (Feature childFeature : new ArrayList<>(group.getFeatures())) {
+                beautifyRecursively(root, childFeature, strategy);
+            }
+        }
+
+        //Sort features in groups
+        feature.getChildren().forEach(group -> group.getFeatures().sort(Comparator.comparing(Feature::getFeatureName)));
+
+        //Sort groups
+        feature.getChildren().sort(Comparator.comparing(child -> child.toString(true, feature.getFeatureName())));
+    }
+
+    /** Remove not needed '*' at the end of the feature name. */
+    private void simplifyName(Feature root, Feature feature) {
+        String id = feature.getFeatureName();
+        while (id.endsWith("*")) {
+            id = id.substring(0, id.length() - 1);
+            if (featureFinder.findFeatureByName(root, id).isEmpty()) {
+                feature.setFeatureName(id);
+            } else {
+                return;
+            }
+        }
+    }
+
+    private void simplifyTypeFeatures(Feature root, Feature feature, IModelTransformer.STRATEGY strategy) {
+        List<Group> groups = feature.getChildren();
+        for (Group group : new ArrayList<>(groups)) {
+
+            //We need a mandatory group with a single child
+            if (MANDATORY != group.GROUPTYPE || 1 != group.getFeatures().size()) {
+                continue;
+            }
+
+            Feature first = group.getFeatures().getFirst();
+            Group parentGroup = feature.getParentGroup();
+
+            //child feature should have a type and the 'feature' should have a parent
+            if (null == first.getFeatureType() || null == parentGroup || MANDATORY == parentGroup.GROUPTYPE) {
+                continue;
+            }
+
+            //Put 'first' at the position of 'feature'. 'feature' is deleted.
+            parentGroup.getFeatures().remove(feature);
+            parentGroup.getFeatures().add(first);
+            first.setParentGroup(parentGroup);
+            groups.remove(group);
+            first.getChildren().addAll(groups);
+
+            //Beautify here because the feature is put up in the tree
+            beautifyRecursively(root, first, strategy);
+        }
     }
 }

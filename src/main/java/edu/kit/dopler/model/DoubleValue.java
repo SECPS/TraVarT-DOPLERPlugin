@@ -3,11 +3,11 @@
  * Public License, v. 2.0. If a copy of the MPL was not distributed
  * with this file, You can obtain one at
  * https://mozilla.org/MPL/2.0/.
- *
+ * <p>
  * Contributors: 
- * 	@author Fabian Eger
- * 	@author Kevin Feichtinger
- *
+ *    @author Fabian Eger
+ *    @author Kevin Feichtinger
+ * <p>
  * Copyright 2024 Karlsruhe Institute of Technology (KIT)
  * KASTEL - Dependability of Software-intensive Systems
  * All rights reserved
@@ -18,17 +18,17 @@ import java.util.Objects;
 
 public class DoubleValue extends AbstractValue<Double> {
 
-	public DoubleValue(final double value) {
-		super(Objects.requireNonNull(value));
-	}
+    public DoubleValue(double value) {
+        super(Objects.requireNonNull(value));
+    }
 
-	@Override
-	public Double getSMTValue() {
-		return getValue();
-	}
-	
-	@Override
-	public String toString() {
-		return String.valueOf(getValue());
-	}
+    @Override
+    public Double getSMTValue() {
+        return getValue();
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(getValue());
+    }
 }

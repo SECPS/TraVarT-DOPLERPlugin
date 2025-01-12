@@ -30,6 +30,20 @@ public class TreeBuilderImpl implements TreeBuilder {
         this.attributeHandler = attributeHandler;
     }
 
+    private static void distributeDecisions(List<IDecision<?>> allDecisions, List<BooleanDecision> booleanDecisions,
+                                            List<EnumerationDecision> enumerationDecisions,
+                                            List<IDecision<?>> numberDecisions, List<IDecision<?>> stringDecisions) {
+        for (IDecision<?> decision : allDecisions) {
+            switch (decision) {
+                case BooleanDecision booleanDecision -> booleanDecisions.add(booleanDecision);
+                case EnumerationDecision enumerationDecision -> enumerationDecisions.add(enumerationDecision);
+                case NumberDecision numberDecision -> numberDecisions.add(numberDecision);
+                case StringDecision stringDecision -> stringDecisions.add(stringDecision);
+                case null, default -> throw new UnexpectedTypeException(decision);
+            }
+        }
+    }
+
     @Override
     public Feature buildTree(List<IDecision<?>> allDecisions, List<IAction> allActions,
                              IModelTransformer.STRATEGY strategy) {
@@ -69,20 +83,6 @@ public class TreeBuilderImpl implements TreeBuilder {
         attributeHandler.handleAttributeDecisions(attributeDecisions, rootFeature, allActions);
 
         return rootFeature;
-    }
-
-    private static void distributeDecisions(List<IDecision<?>> allDecisions, List<BooleanDecision> booleanDecisions,
-                                            List<EnumerationDecision> enumerationDecisions,
-                                            List<IDecision<?>> numberDecisions, List<IDecision<?>> stringDecisions) {
-        for (IDecision<?> decision : allDecisions) {
-            switch (decision) {
-                case BooleanDecision booleanDecision -> booleanDecisions.add(booleanDecision);
-                case EnumerationDecision enumerationDecision -> enumerationDecisions.add(enumerationDecision);
-                case NumberDecision numberDecision -> numberDecisions.add(numberDecision);
-                case StringDecision stringDecision -> stringDecisions.add(stringDecision);
-                case null, default -> throw new UnexpectedTypeException(decision);
-            }
-        }
     }
 
     /** Filter all attribute decisions out. */

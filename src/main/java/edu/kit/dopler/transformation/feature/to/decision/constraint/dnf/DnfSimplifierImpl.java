@@ -1,7 +1,7 @@
 package edu.kit.dopler.transformation.feature.to.decision.constraint.dnf;
 
-import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 import de.vill.model.constraint.*;
+import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,6 +10,53 @@ import java.util.Stack;
 
 /** Implementation for {@link DnfSimplifier} */
 public class DnfSimplifierImpl implements DnfSimplifier {
+
+    private static void handleBranchInConjunction(Constraint constraint, List<Constraint> conjunction) {
+        switch (constraint) {
+            case AndConstraint andConstraint -> andConstraint.getConstraintSubParts()
+                    .forEach(child -> handleBranchInConjunction(child, conjunction));
+            case NotConstraint notConstraint -> conjunction.add(notConstraint);
+            case LiteralConstraint literalConstraint -> conjunction.add(literalConstraint);
+            case ExpressionConstraint expressionConstraint -> conjunction.add(expressionConstraint);
+            case null, default -> throw new UnexpectedTypeException(constraint);
+        }
+    }
+
+    private static void handleBranchInConjunction(Constraint constraint, Stack<Constraint> stack,
+                                                  List<Constraint> conjunction) {
+        switch (constraint) {
+            case AndConstraint andConstraint -> stack.push(andConstraint);
+            case LiteralConstraint literalConstraint -> conjunction.add(literalConstraint);
+            case ExpressionConstraint expressionConstraint -> conjunction.add(expressionConstraint);
+            case NotConstraint notConstraint -> conjunction.add(notConstraint);
+            case null, default -> throw new UnexpectedTypeException(constraint);
+        }
+    }
+
+    /** Remove conjunctions that are always false. */
+    private static List<List<Constraint>> removeAlwaysFalseConjunctions(List<List<Constraint>> dnf) {
+        List<List<Constraint>> simplifiedDnf = new ArrayList<>();
+
+        for (List<Constraint> constraints : dnf) {
+            boolean canBeTrue = true;
+            for (Constraint constraint : constraints) {
+                if (constraint instanceof NotConstraint) {
+                    if (constraints.contains(((NotConstraint) constraint).getContent())) {
+                        canBeTrue = false;
+                    }
+                } else {
+                    if (constraints.contains(new NotConstraint(constraint))) {
+                        canBeTrue = false;
+                    }
+                }
+            }
+
+            if (canBeTrue) {
+                simplifiedDnf.add(constraints);
+            }
+        }
+        return simplifiedDnf;
+    }
 
     @Override
     public List<List<Constraint>> simplifyDnf(Constraint constraint) {
@@ -36,17 +83,6 @@ public class DnfSimplifierImpl implements DnfSimplifier {
         }
 
         return dnf;
-    }
-
-    private static void handleBranchInConjunction(Constraint constraint, List<Constraint> conjunction) {
-        switch (constraint) {
-            case AndConstraint andConstraint -> andConstraint.getConstraintSubParts()
-                    .forEach(child -> handleBranchInConjunction(child, conjunction));
-            case NotConstraint notConstraint -> conjunction.add(notConstraint);
-            case LiteralConstraint literalConstraint -> conjunction.add(literalConstraint);
-            case ExpressionConstraint expressionConstraint -> conjunction.add(expressionConstraint);
-            case null, default -> throw new UnexpectedTypeException(constraint);
-        }
     }
 
     private List<List<Constraint>> convertDnfToList(Constraint constraint) {
@@ -93,17 +129,6 @@ public class DnfSimplifierImpl implements DnfSimplifier {
         return conjunction;
     }
 
-    private static void handleBranchInConjunction(Constraint constraint, Stack<Constraint> stack,
-                                                  List<Constraint> conjunction) {
-        switch (constraint) {
-            case AndConstraint andConstraint -> stack.push(andConstraint);
-            case LiteralConstraint literalConstraint -> conjunction.add(literalConstraint);
-            case ExpressionConstraint expressionConstraint -> conjunction.add(expressionConstraint);
-            case NotConstraint notConstraint -> conjunction.add(notConstraint);
-            case null, default -> throw new UnexpectedTypeException(constraint);
-        }
-    }
-
     /** Simplifies the given dnf with three simple rules. */
     private List<List<Constraint>> simplify(List<List<Constraint>> dnf) {
         return removeAlreadyCoveredConjunctions(removeRepeatingLiterals(removeAlwaysFalseConjunctions(dnf)));
@@ -137,31 +162,6 @@ public class DnfSimplifierImpl implements DnfSimplifier {
             }
         }
 
-        return simplifiedDnf;
-    }
-
-    /** Remove conjunctions that are always false. */
-    private static List<List<Constraint>> removeAlwaysFalseConjunctions(List<List<Constraint>> dnf) {
-        List<List<Constraint>> simplifiedDnf = new ArrayList<>();
-
-        for (List<Constraint> constraints : dnf) {
-            boolean canBeTrue = true;
-            for (Constraint constraint : constraints) {
-                if (constraint instanceof NotConstraint) {
-                    if (constraints.contains(((NotConstraint) constraint).getContent())) {
-                        canBeTrue = false;
-                    }
-                } else {
-                    if (constraints.contains(new NotConstraint(constraint))) {
-                        canBeTrue = false;
-                    }
-                }
-            }
-
-            if (canBeTrue) {
-                simplifiedDnf.add(constraints);
-            }
-        }
         return simplifiedDnf;
     }
 }

@@ -21,7 +21,7 @@ class DoplerDeserializer implements IDeserializer<Dopler> {
 
         try {
             return new DecisionModelReader().read(serial, "MODEL_NAME");
-        } catch (IOException e) {
+        } catch (IOException | edu.kit.dopler.exceptions.NotSupportedVariabilityTypeException e) {
             throw new NotSupportedVariabilityTypeException(e);
         }
     }

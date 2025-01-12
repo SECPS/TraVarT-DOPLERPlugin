@@ -15,14 +15,14 @@ public enum DMCSVHeader {
     ID("ID"), QUESTION("Question"), TYPE("Type"), RANGE("Range"), CARDINALITY("Cardinality"), RULES("Constraint/Rule"),
     VISIBLITY("Visible/relevant if");
 
-    private String header;
-
-    public static String[] stringArray() {
-        return Arrays.stream(DMCSVHeader.values()).map(DMCSVHeader::toString).toArray(String[]::new);
-    }
+    private final String header;
 
     DMCSVHeader(String header) {
         this.header = header;
+    }
+
+    public static String[] stringArray() {
+        return Arrays.stream(values()).map(DMCSVHeader::toString).toArray(String[]::new);
     }
 
     @Override

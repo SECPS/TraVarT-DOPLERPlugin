@@ -3,11 +3,11 @@
  * Public License, v. 2.0. If a copy of the MPL was not distributed
  * with this file, You can obtain one at
  * https://mozilla.org/MPL/2.0/.
- *
+ * <p>
  * Contributors: 
  *    @author Fabian Eger
  *    @author Kevin Feichtinger
- *
+ * <p>
  * Copyright 2024 Karlsruhe Institute of Technology (KIT)
  * KASTEL - Dependability of Software-intensive Systems
  * All rights reserved
@@ -25,8 +25,7 @@ public final class DoplerUtils {
     private DoplerUtils() {
     }
 
-    @SuppressWarnings("rawtypes")
-    public static EnumerationLiteral getEnumerationliteral(Dopler dm, IValue enumString) {
+    public static EnumerationLiteral getEnumerationliteral(Dopler dm, IValue<?> enumString) {
         for (Enumeration o : dm.getEnumSet()) {
             for (EnumerationLiteral enumerationLiteral : o.getEnumerationLiterals()) {
                 if (enumerationLiteral.getValue().equals(enumString.getValue())) {
@@ -38,10 +37,8 @@ public final class DoplerUtils {
         throw new RuntimeException("Literal not found: " + enumString);
     }
 
-    @SuppressWarnings("rawtypes")
-    public static IDecision getDecision(Dopler dm, String displayId) {
-        for (Object o : dm.getDecisions()) {
-            IDecision decision = (IDecision) o;
+    public static IDecision<?> getDecision(Dopler dm, String displayId) {
+        for (IDecision<?> decision : dm.getDecisions()) {
             if (decision.getDisplayId().equals(displayId)) {
                 return decision;
             }

@@ -17,6 +17,7 @@ package edu.kit.dopler.model;
 import edu.kit.dopler.io.DecisionModelReader;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Scanner;
 import java.util.Set;
@@ -24,12 +25,11 @@ import java.util.stream.Stream;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException,
-            at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException {
+    public static void main(String[] args) throws Exception {
 
         DecisionModelReader decisionModelReader = new DecisionModelReader();
-        Dopler dopler = decisionModelReader
-                .read(Path.of(System.getProperty("user.dir") + "/modelEval/product_chesspiece.csv"));
+        Dopler dopler =
+                decisionModelReader.read(Path.of(System.getProperty("user.dir") + "/modelEval/product_chesspiece.csv"));
         Set<? super IDecision<?>> decisions = dopler.getDecisions();
 
         dopler.toSMTStream().build().forEach(System.out::println);
@@ -46,7 +46,7 @@ public class Main {
             builder.add("(exit)");
             Stream<String> stream = builder.build();
             Scanner scanner = satSolver(stream);
-            if (scanner == null) {
+            if (null == scanner) {
                 throw new Exception();
             }
             while (scanner.hasNextLine()) {
@@ -74,14 +74,14 @@ public class Main {
         builder.add("(exit)");
         Stream<String> stream = builder.build();
         Scanner scanner = satSolver(stream);
-        if (scanner == null) {
+        if (null == scanner) {
             throw new Exception();
         }
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            if (line.equals("sat")) {
+            if ("sat".equals(line)) {
                 return true;
-            } else if (line.equals("unsat")) {
+            } else if ("unsat".equals(line)) {
                 return false;
             }
         }
@@ -93,7 +93,7 @@ public class Main {
         return amount;
     }
 
-    static int getAmountOfConfigs(Dopler dopler, final String asserts) {
+    static int getAmountOfConfigs(Dopler dopler, String asserts) {
         Stream.Builder<String> builder = dopler.toSMTStream();
         builder.add(asserts);
         int amount = getAmountOfConfigs(dopler, builder);
@@ -117,25 +117,25 @@ public class Main {
 
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                if (line.equals("unsat")) {
+                if ("unsat".equals(line)) {
                     return amount;
-                } else if (line.equals("sat")) {
+                } else if ("sat".equals(line)) {
 
                     asserts += "(assert (not (and";
                     amount++;
-                } else if (line.equals(" ")) {
+                } else if (" ".equals(line)) {
 
                 } else {
                     String[] result = line.split("[\\(\\)]");
 
-                    if (result.length == 3) {
+                    if (3 == result.length) {
 
                         if (!result[2].contains("DECISION")) {
                             asserts += "(= " + result[1] + " (" + result[2] + "))";
                         } else {
                             asserts += "(= " + result[2] + ")";
                         }
-                    } else if (result.length == 4) {
+                    } else if (4 == result.length) {
                         asserts += "(= " + result[1] + " (" + result[2] + "(" + result[3] + ")))";
                     } else {
                         asserts += "(= " + result[1] + ")";
@@ -166,8 +166,8 @@ public class Main {
             OutputStream stdin = process.getOutputStream(); // <- Eh?
             InputStream stdout = process.getInputStream();
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(stdout));
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(stdout, StandardCharsets.UTF_8));
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin, StandardCharsets.UTF_8));
 
             stream.forEach((a) -> {
                 try {
@@ -179,7 +179,7 @@ public class Main {
             });
             writer.flush();
             writer.close();
-            Scanner scanner = new Scanner(stdout);
+            Scanner scanner = new Scanner(stdout, StandardCharsets.UTF_8);
 
             return scanner;
         } catch (IOException e1) {

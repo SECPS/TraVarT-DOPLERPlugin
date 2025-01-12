@@ -3,11 +3,11 @@
  * Public License, v. 2.0. If a copy of the MPL was not distributed
  * with this file, You can obtain one at
  * https://mozilla.org/MPL/2.0/.
- *
+ * <p>
  * Contributors: 
  *    @author Fabian Eger
  *    @author Kevin Feichtinger
- *
+ * <p>
  * Copyright 2024 Karlsruhe Institute of Technology (KIT)
  * KASTEL - Dependability of Software-intensive Systems
  * All rights reserved
@@ -23,12 +23,11 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-@SuppressWarnings("rawtypes")
 public class ConditionParser {
 
-    private static final String REGEX =
+    private static final Pattern PATTERN = Pattern.compile(
             "(?<=\\.)|(?=\\.)|((?<=\\=)|(?=\\=)|(?<=\\<)|(?=\\<)|(?<=\\>)|(?=\\>))|((?<=\\|\\|)|(?=\\|\\|))|((?<=&&)|" +
-                    "(?=&&))|((?<=!)|(?=!))|((?<=\\()|(?=\\())|((?<=\\))|(?=\\)))";
+                    "(?=&&))|((?<=!)|(?=!))|((?<=\\()|(?=\\())|((?<=\\))|(?=\\)))");
 
     private static final String EOF = "EOF";
     private static final String NOT = "!";
@@ -43,7 +42,6 @@ public class ConditionParser {
     private static final String DECISION_VALUE_DELIMITER = ".";
     private static final String TRUE = "true";
     private static final String FALSE = "false";
-    private static final Pattern PATTERN = Pattern.compile(REGEX);
 
     private final Dopler dm;
 
@@ -179,7 +177,7 @@ public class ConditionParser {
             //covers 'getValue(decision) = enumValue'
             nextSymbol();
             nextSymbol();
-            IDecision decision = DoplerUtils.getDecision(dm, symbol);
+            IDecision<?> decision = DoplerUtils.getDecision(dm, symbol);
             nextSymbol();
             nextSymbol();
 
@@ -195,7 +193,7 @@ public class ConditionParser {
                 }
             }
         } else {
-            IDecision decision = DoplerUtils.getDecision(dm, symbol);
+            IDecision<?> decision = DoplerUtils.getDecision(dm, symbol);
             nextSymbol();
             //covers 'decision.enumValue'
             if (symbol.equals(DECISION_VALUE_DELIMITER)) {

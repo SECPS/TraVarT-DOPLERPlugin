@@ -3,11 +3,11 @@
  * Public License, v. 2.0. If a copy of the MPL was not distributed
  * with this file, You can obtain one at
  * https://mozilla.org/MPL/2.0/.
- *
+ * <p>
  * Contributors: 
  *    @author Fabian Eger
  *    @author Kevin Feichtinger
- *
+ * <p>
  * Copyright 2024 Karlsruhe Institute of Technology (KIT)
  * KASTEL - Dependability of Software-intensive Systems
  * All rights reserved
@@ -33,10 +33,10 @@ public class RulesParser {
     private final Dopler dm;
 
     public RulesParser(Dopler decisions) {
-        this.dm = Objects.requireNonNull(decisions);
+        dm = Objects.requireNonNull(decisions);
     }
 
-    static boolean isDoubleRangeValue(final String symbol) {
+    static boolean isDoubleRangeValue(String symbol) {
         try {
             Double.parseDouble(symbol);
         } catch (NumberFormatException e) {

@@ -16,11 +16,10 @@ import java.util.stream.Collectors;
 /** Implementation of {@link FeatureAndGroupHandler} */
 public class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
 
-    private static final String ENUM_QUESTION = "Which %s?";
     static final String BOOLEAN_QUESTION = "%s?";
     static final String STRING_QUESTION = "What %s?";
     static final String NUMBER_QUESTION = "How much %s?";
-
+    private static final String ENUM_QUESTION = "Which %s?";
     private final VisibilityHandler visibilityHandler;
     private final IdHandler idHandler;
 

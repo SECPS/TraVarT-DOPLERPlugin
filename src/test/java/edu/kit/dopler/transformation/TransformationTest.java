@@ -21,8 +21,8 @@ import java.util.stream.Stream;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 abstract class TransformationTest<FromModel, ToModel> {
 
-    private static final long TIMEOUT_TIME = 1L;
     static final Path TEMP_PATH = Paths.get("src", "test", "resources", "oneway", ".temporary.txt");
+    private static final long TIMEOUT_TIME = 1L;
 
     /**
      * Compares the real model from the file with the transformed model.

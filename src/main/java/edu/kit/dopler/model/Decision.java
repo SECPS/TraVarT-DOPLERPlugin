@@ -3,11 +3,11 @@
  * Public License, v. 2.0. If a copy of the MPL was not distributed
  * with this file, You can obtain one at
  * https://mozilla.org/MPL/2.0/.
- *
+ * <p>
  * Contributors: 
- * 	@author Fabian Eger
- * 	@author Kevin Feichtinger
- *
+ *    @author Fabian Eger
+ *    @author Kevin Feichtinger
+ * <p>
  * Copyright 2024 Karlsruhe Institute of Technology (KIT)
  * KASTEL - Dependability of Software-intensive Systems
  * All rights reserved
@@ -22,321 +22,310 @@ import java.util.stream.Stream;
 
 public abstract class Decision<T> implements IDecision<T> {
 
-	public enum DecisionType {
-		BOOLEAN("Boolean"), NUMBER("Double"), STRING("String"), ENUM("Enumeration");
+    private static int uid;
+    private final int id;
+    private final Set<Rule> rules;
+    private String displayId;
+    private String question;
+    private String description;
+    private IExpression visibilityCondition;
+    private boolean taken;
+    private boolean select;
+    private DecisionType decisionType;
+    protected Decision(String displayId, String question, String description, IExpression visibilityCondition,
+                       Set<Rule> rules, DecisionType decisionType) {
+        id = uid;
+        uid++;
+        this.displayId = displayId;
+        this.question = question;
+        this.description = description;
+        this.visibilityCondition = visibilityCondition;
+        taken = false;
+        this.rules = rules;
+        this.decisionType = decisionType;
+    }
 
-		private final String type;
+    @Override
+    public String getDisplayId() {
+        return displayId;
+    }
 
-		DecisionType(final String type) {
-			this.type = type;
-		}
+    @Override
+    public void setDisplayId(String displayId) {
+        this.displayId = displayId;
+    }
 
-		public boolean equalString(final String type) {
-			return this.type.equals(type);
-		}
+    @Override
+    public final boolean isSelected() {
+        return select;
+    }
 
-		@Override
-		public String toString() {
-			return type;
-		}
-	}
+    @Override
+    public final void setSelected(boolean select) {
+        this.select = select;
+        taken = true;
+    }
 
-	private static int uid = 0;
-	private final int id;
-	private String displayId;
-	private String question;
-	private String description;
-	private IExpression visibilityCondition;
-	private final Set<Rule> rules;
-	private boolean taken;
-	private boolean select;
-	private DecisionType decisionType;
+    @Override
+    public String getQuestion() {
+        return question;
+    }
 
-	public Decision(String displayId, String question, String description, IExpression visibilityCondition,
-			Set<Rule> rules, DecisionType decisionType) {
-		this.id = uid++;
-		this.displayId = displayId;
-		this.question = question;
-		this.description = description;
-		this.visibilityCondition = visibilityCondition;
-		this.taken = false;
-		this.rules = rules;
-		this.decisionType = decisionType;
-	}
+    @Override
+    public void setQuestion(String question) {
+        this.question = question;
+    }
 
-	@Override
-	public String getDisplayId() {
-		return displayId;
-	}
+    @Override
+    public String getDescription() {
+        return description;
+    }
 
-	@Override
-	public void setDisplayId(String displayId) {
-		this.displayId = displayId;
-	}
+    @Override
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	@Override
-	public final void setSelected(final boolean select) {
-		this.select = select;
-		setTaken(true);
-	}
+    @Override
+    public Set<Rule> getRules() {
+        return rules;
+    }
 
-	@Override
-	public final boolean isSelected() {
-		return select;
-	}
+    @Override
+    public void addRule(Rule rule) {
+        rules.add(rule);
+    }
 
-	@Override
-	public String getQuestion() {
-		return question;
-	}
+    @Override
+    public void removeRule(Rule rule) {
+        rules.remove(rule);
+    }
 
-	@Override
-	public void setQuestion(String question) {
-		this.question = question;
-	}
+    @Override
+    public void executeRules() throws ActionExecutionException, EvaluationException {
+        for (Rule rule : rules) {
+            rule.executeActions();
+        }
+    }
 
-	@Override
-	public String getDescription() {
-		return description;
-	}
+    @Override
+    public IExpression getVisibilityCondition() {
+        return visibilityCondition;
+    }
 
-	@Override
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    @Override
+    public void setVisibilityCondition(IExpression visibilityCondition) {
+        this.visibilityCondition = visibilityCondition;
+    }
 
-	@Override
-	public Set<Rule> getRules() {
-		return rules;
-	}
+    public boolean isVisible() throws EvaluationException {
+        return visibilityCondition.evaluate();
+    }
 
-	@Override
-	public void addRule(Rule rule) {
-		rules.add(rule);
-	}
+    /**
+     * This methode adds the SMT Encoding of the decision to the builder
+     *
+     * @param builder   the Stream Builder for Building the SMT Encoding recursive
+     * @param decisions all decisions of the DOPLER Model, which are needed for the late mapping of the constants
+     */
+    @Override
+    public void toSMTStream(Stream.Builder<String> builder, Set<? super IDecision<?>> decisions) {
+        // if the visibility condition is only a LiteralExpression (true, false) then
+        // the ite should be left out because (ite true if else) is no valid syntax
+        if (visibilityCondition instanceof LiteralExpression) {
+            try {
+                if (visibilityCondition.evaluate()) {
+                    toSMTStreamDecisionSpecific(builder, decisions);
+                } else {
+                    builder.add("(ite"); // else
+                    builder.add("(= " + toStringConstforSMT() + "_TAKEN_POST " + "true)"); // if condition
+                    toSMTStreamDecisionSpecific(builder, decisions); // if part
+                    // ite DECISION_1_TAKEN_POST toSMTStreamDecisionSpecific(builder, decisions)
+                    // else
+                    builder.add("(and "); // else
+                    mapPreToPostConstants(builder, decisions); // else
+                    setDefaultValueInSMT(builder);
+                    builder.add("(= " + toStringConstforSMT() + "_TAKEN_POST " + "false" + ")"); // else
+                    builder.add(")"); // else
+                    builder.add(")");
+                }
+            } catch (EvaluationException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            builder.add("(ite ");
+            visibilityCondition.toSMTStream(builder, toStringConstforSMT()); // if isVisible condition
+            toSMTStreamDecisionSpecific(builder, decisions); // if part
+            builder.add("(and "); // else
+            mapPreToPostConstants(builder, decisions); // else
+            setDefaultValueInSMT(builder);
+            builder.add("(= " + toStringConstforSMT() + "_TAKEN_POST " + "false" + ")"); // else
+            builder.add(")"); // else
+            //				builder.add("(ite"); //else
+            //				builder.add("(= " + toStringConstforSMT() + "_TAKEN_POST " + "true)"); // if condition
+            //				toSMTStreamDecisionSpecific(builder, decisions); // if part
+            //				// ite DECISION_1_TAKEN_POST  toSMTStreamDecisionSpecific(builder, decisions) else
+            //				builder.add("(and "); // else
+            //				mapPreToPostConstants(builder, decisions); // else
+            //				setDefaultValueInSMT(builder);
+            //				builder.add("(= " + toStringConstforSMT() + "_TAKEN_POST " + "false" + ")"); // else
+            //				builder.add(")"); // else
+            //				builder.add(")");
+            builder.add(")"); // closing the ite of the visibilityDecision
+        }
+    }
 
-	@Override
-	public void removeRule(Rule rule) {
-		rules.remove(rule);
-	}
+    /**
+     * this methode encodes the rules of the decision to the SMT Encoding
+     *
+     * @param builder   the Stream Builder for Building the SMT Encoding recursive
+     * @param decisions all decisions of the DOPLER Model, which are needed for the late mapping of the constants
+     */
+    public void toSMTStreamRules(Stream.Builder<String> builder, Set<? super IDecision<?>> decisions) {
+        // for the smt encoding the decision is considered taken when the rules are
+        // applied
+        // this is why in the following the taken const is mapped to true
+        if (rules.isEmpty()) {
+            builder.add("(and ");
+            builder.add("(= " + toStringConstforSMT() + "_TAKEN_POST" + " " + "true" + ")");
+            mapPreToPostConstants(builder, decisions);
+            builder.add(")"); // closing and
+        } else {
+            builder.add("(and");
+            builder.add("(= " + toStringConstforSMT() + "_TAKEN_POST" + " " + "true" + ")");
+            for (Rule rule : rules) {
 
-	@Override
-	public void executeRules() throws ActionExecutionException, EvaluationException {
-		for (Rule rule : rules) {
-			rule.executeActions();
-		}
-	}
+                // if the condition is only a LiteralExpression (true, false) then the ite
+                // should be left out because (ite true if else) is no valid syntax
+                if (rule.getCondition() instanceof LiteralExpression) {
 
-	@Override
-	public IExpression getVisibilityCondition() {
-		return visibilityCondition;
-	}
+                    try {
+                        if (rule.getCondition().evaluate()) {
+                            toSMTStreamActionsPerRule(builder, rule, decisions);
+                        } else {
+                            mapPreToPostConstants(builder, decisions);
+                        }
+                    } catch (EvaluationException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
 
-	@Override
-	public void setVisibilityCondition(IExpression visibilityCondition) {
-		this.visibilityCondition = visibilityCondition;
-	}
+                    builder.add("(ite ");
+                    rule.getCondition().toSMTStream(builder, toStringConstforSMT()); // if condition
+                    toSMTStreamActionsPerRule(builder, rule, decisions); // if part
+                    mapPreToPostConstants(builder, decisions);// else part
+                    builder.add(")"); // closing the ite
+                }
+            }
+            builder.add(")"); // closing and
+        }
+    }
 
-	public boolean isVisible() throws EvaluationException {
-		return visibilityCondition.evaluate();
-	}
+    /**
+     * Encodes the actions for the rule Therefor the smt encoding is (and action1 action2 ...)
+     */
+    void toSMTStreamActionsPerRule(Stream.Builder<String> builder, Rule rule, Set<? super IDecision<?>> decisions) {
+        builder.add("(and ");
+        for (IAction action : rule.getActions()) {
+            action.toSMTStream(builder, toStringConstforSMT());
+        }
+        mapPreToPostConstants(builder, decisions);
+        builder.add(")"); // closing and
+    }
 
-	/**
-	 * This methode adds the SMT Encoding of the decision to the builder
-	 * 
-	 * @param builder   the Stream Builder for Building the SMT Encoding recursive
-	 * @param decisions all decisions of the DOPLER Model, which are needed for the
-	 *                  late mapping of the constants
-	 */
-	@Override
-	public void toSMTStream(Stream.Builder<String> builder, Set<? super IDecision<?>> decisions) {
-		// if the visibility condition is only a LiteralExpression (true, false) then
-		// the ite should be left out because (ite true if else) is no valid syntax
-		if (getVisibilityCondition() instanceof LiteralExpression) {
-			try {
-				if (getVisibilityCondition().evaluate()) {
-					toSMTStreamDecisionSpecific(builder, decisions);
-				} else {
-					builder.add("(ite"); // else
-					builder.add("(= " + toStringConstforSMT() + "_TAKEN_POST " + "true)"); // if condition
-					toSMTStreamDecisionSpecific(builder, decisions); // if part
-					// ite DECISION_1_TAKEN_POST toSMTStreamDecisionSpecific(builder, decisions)
-					// else
-					builder.add("(and "); // else
-					mapPreToPostConstants(builder, decisions); // else
-					setDefaultValueInSMT(builder);
-					builder.add("(= " + toStringConstforSMT() + "_TAKEN_POST " + "false" + ")"); // else
-					builder.add(")"); // else
-					builder.add(")");
-				}
-			} catch (EvaluationException e) {
-				throw new RuntimeException(e);
-			}
-		} else {
-			builder.add("(ite ");
-			getVisibilityCondition().toSMTStream(builder, toStringConstforSMT()); // if isVisible condition
-			toSMTStreamDecisionSpecific(builder, decisions); // if part
-			builder.add("(and "); // else
-			mapPreToPostConstants(builder, decisions); // else
-			setDefaultValueInSMT(builder);
-			builder.add("(= " + toStringConstforSMT() + "_TAKEN_POST " + "false" + ")"); // else
-			builder.add(")"); // else
-//				builder.add("(ite"); //else
-//				builder.add("(= " + toStringConstforSMT() + "_TAKEN_POST " + "true)"); // if condition
-//				toSMTStreamDecisionSpecific(builder, decisions); // if part
-//				// ite DECISION_1_TAKEN_POST  toSMTStreamDecisionSpecific(builder, decisions) else
-//				builder.add("(and "); // else
-//				mapPreToPostConstants(builder, decisions); // else
-//				setDefaultValueInSMT(builder);
-//				builder.add("(= " + toStringConstforSMT() + "_TAKEN_POST " + "false" + ")"); // else
-//				builder.add(")"); // else
-//				builder.add(")");
-			builder.add(")"); // closing the ite of the visibilityDecision
-		}
-	}
+    /**
+     * this methode is needed because for the number decision the validity condition also need to be added to the
+     * encoding the other decisions leave this methode empty
+     */
+    abstract void toSMTStreamValidityConditions(Stream.Builder<String> builder, Set<? super IDecision<?>> decisions);
 
-	/**
-	 * this methode encodes the rules of the decision to the SMT Encoding
-	 * 
-	 * @param builder   the Stream Builder for Building the SMT Encoding recursive
-	 * @param decisions all decisions of the DOPLER Model, which are needed for the
-	 *                  late mapping of the constants
-	 */
-	public void toSMTStreamRules(Stream.Builder<String> builder, Set<? super IDecision<?>> decisions) {
-		// for the smt encoding the decision is considered taken when the rules are
-		// applied
-		// this is why in the following the taken const is mapped to true
-		if (getRules().isEmpty()) {
-			builder.add("(and ");
-			builder.add("(= " + toStringConstforSMT() + "_TAKEN_POST" + " " + "true" + ")");
-			mapPreToPostConstants(builder, decisions);
-			builder.add(")"); // closing and
-		} else {
-			builder.add("(and");
-			builder.add("(= " + toStringConstforSMT() + "_TAKEN_POST" + " " + "true" + ")");
-			for (Rule rule : getRules()) {
+    void toSMTStreamDecisionSpecific(Stream.Builder<String> builder, Set<? super IDecision<?>> decisions) {
 
-				// if the condition is only a LiteralExpression (true, false) then the ite
-				// should be left out because (ite true if else) is no valid syntax
-				if (rule.getCondition() instanceof LiteralExpression) {
+        if (DecisionType.NUMBER == getDecisionType() || DecisionType.STRING == getDecisionType()) {
 
-					try {
-						if (rule.getCondition().evaluate()) {
-							toSMTStreamActionsPerRule(builder, rule, decisions);
-						} else {
-							mapPreToPostConstants(builder, decisions);
-						}
-					} catch (EvaluationException e) {
-						throw new RuntimeException(e);
-					}
-				} else {
+            toSMTStreamValidityConditions(builder, decisions);
+        } else {
+            toSMTStreamRules(builder, decisions);
+        }
+    }
 
-					builder.add("(ite ");
-					rule.getCondition().toSMTStream(builder, toStringConstforSMT()); // if condition
-					toSMTStreamActionsPerRule(builder, rule, decisions); // if part
-					mapPreToPostConstants(builder, decisions);// else part
-					builder.add(")"); // closing the ite
-				}
-			}
-			builder.add(")"); // closing and
-		}
-	}
+    /**
+     * maps alle the pre constants to the post constants by adding (and (= pre post) (= pre post)....) to the smt
+     * encoding
+     */
+    void mapPreToPostConstants(Stream.Builder<String> builder, Set<? super IDecision<?>> decisions) {
+        builder.add("(and ");
+        for (Object decision : decisions) {
+            IDecision<?> decision1 = (IDecision<?>) decision;
+            if (DecisionType.ENUM == decision1.getDecisionType()) {
+                EnumerationDecision enumerationDecision = (EnumerationDecision) decision1;
+                for (EnumerationLiteral enumerationLiteral : enumerationDecision.getEnumeration()
+                        .getEnumerationLiterals()) {
+                    builder.add("(= ");
+                    builder.add(toStringConstforSMT() + "_" + decision1.toStringConstforSMT() + "_"
+                            + enumerationLiteral.getValue() + "_PRE");
+                    builder.add(toStringConstforSMT() + "_" + decision1.toStringConstforSMT() + "_"
+                            + enumerationLiteral.getValue() + "_POST");
+                    builder.add(")"); // closing =
+                }
+            } else {
+                builder.add("(= ");
+                builder.add(toStringConstforSMT() + "_" + decision1.toStringConstforSMT() + "_PRE");
+                builder.add(toStringConstforSMT() + "_" + decision1.toStringConstforSMT() + "_POST");
+                builder.add(")"); // closing =
+            }
+        }
 
-	/**
-	 *
-	 * Encodes the actions for the rule Therefor the smt encoding is (and action1
-	 * action2 ...)
-	 */
-	void toSMTStreamActionsPerRule(Stream.Builder<String> builder, Rule rule, Set<? super IDecision<?>> decisions) {
-		builder.add("(and ");
-		for (IAction action : rule.getActions()) {
-			action.toSMTStream(builder, toStringConstforSMT());
-		}
-		mapPreToPostConstants(builder, decisions);
-		builder.add(")"); // closing and
-	}
+        builder.add(")"); // closing and
+    }
 
-	/**
-	 *
-	 * this methode is needed because for the number decision the validity condition
-	 * also need to be added to the encoding the other decisions leave this methode
-	 * empty
-	 */
-	abstract void toSMTStreamValidityConditions(Stream.Builder<String> builder, Set<? super IDecision<?>> decisions);
+    @Override
+    public boolean isTaken() {
+        return taken;
+    }
 
-	void toSMTStreamDecisionSpecific(Stream.Builder<String> builder, Set<? super IDecision<?>> decisions) {
+    @Override
+    public void setTaken(boolean taken) {
+        this.taken = taken;
+    }
 
-		if (getDecisionType() == DecisionType.NUMBER || getDecisionType() == DecisionType.STRING) {
+    public String toStringConstforSMT() {
+        return "DECISION_" + id;
+    }
 
-			toSMTStreamValidityConditions(builder, decisions);
+    public DecisionType getDecisionType() {
+        return decisionType;
+    }
 
-		} else {
-			toSMTStreamRules(builder, decisions);
-		}
+    public void setDecisionType(DecisionType decisionType) {
+        this.decisionType = decisionType;
+    }
 
-	}
+    public int getId() {
+        return id;
+    }
 
-	/**
-	 * maps alle the pre constants to the post constants by adding (and (= pre post)
-	 * (= pre post)....) to the smt encoding
-	 *
-	 */
-	void mapPreToPostConstants(Stream.Builder<String> builder, Set<? super IDecision<?>> decisions) {
-		builder.add("(and ");
-		for (Object decision : decisions) {
-			IDecision<?> decision1 = (IDecision<?>) decision;
-			if (decision1.getDecisionType() == DecisionType.ENUM) {
-				EnumerationDecision enumerationDecision = (EnumerationDecision) decision1;
-				for (EnumerationLiteral enumerationLiteral : enumerationDecision.getEnumeration()
-						.getEnumerationLiterals()) {
-					builder.add("(= ");
-					builder.add(toStringConstforSMT() + "_" + decision1.toStringConstforSMT() + "_"
-							+ enumerationLiteral.getValue() + "_PRE");
-					builder.add(toStringConstforSMT() + "_" + decision1.toStringConstforSMT() + "_"
-							+ enumerationLiteral.getValue() + "_POST");
-					builder.add(")"); // closing =
-				}
-			} else {
-				builder.add("(= ");
-				builder.add(toStringConstforSMT() + "_" + decision1.toStringConstforSMT() + "_PRE");
-				builder.add(toStringConstforSMT() + "_" + decision1.toStringConstforSMT() + "_POST");
-				builder.add(")"); // closing =
-			}
+    @Override
+    public String toString() {
+        return displayId;
+    }
 
-		}
+    public enum DecisionType {
+        BOOLEAN("Boolean"), NUMBER("Double"), STRING("String"), ENUM("Enumeration");
 
-		builder.add(")"); // closing and
+        private final String type;
 
-	}
+        DecisionType(String type) {
+            this.type = type;
+        }
 
-	@Override
-	public boolean isTaken() {
-		return taken;
-	}
+        public boolean equalString(String type) {
+            return this.type.equals(type);
+        }
 
-	@Override
-	public void setTaken(boolean taken) {
-		this.taken = taken;
-	}
-
-	public String toStringConstforSMT() {
-		return "DECISION_" + id;
-	}
-
-	public DecisionType getDecisionType() {
-		return decisionType;
-	}
-
-	public void setDecisionType(DecisionType decisionType) {
-		this.decisionType = decisionType;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	@Override
-	public String toString() {
-		return displayId;
-	}
+        @Override
+        public String toString() {
+            return type;
+        }
+    }
 }

@@ -3,150 +3,152 @@
  * Public License, v. 2.0. If a copy of the MPL was not distributed
  * with this file, You can obtain one at
  * https://mozilla.org/MPL/2.0/.
- *
+ * <p>
  * Contributors: 
- * 	@author Fabian Eger
- * 	@author Kevin Feichtinger
- *
+ *    @author Fabian Eger
+ *    @author Kevin Feichtinger
+ * <p>
  * Copyright 2024 Karlsruhe Institute of Technology (KIT)
  * KASTEL - Dependability of Software-intensive Systems
  * All rights reserved
  *******************************************************************************/
 package edu.kit.dopler.io.parser;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Objects;
-import java.util.Queue;
-
 import edu.kit.dopler.common.DoplerUtils;
 import edu.kit.dopler.exceptions.InvalidActionException;
 import edu.kit.dopler.exceptions.ParserException;
 import edu.kit.dopler.model.*;
 
-public class ActionParser {
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Objects;
+import java.util.Queue;
+import java.util.regex.Pattern;
 
-	private static final int NECESSARY_ELEMENTS_FOR_ACTION = 2;
+class ActionParser {
 
-	private static final String REGEX = "(?<=\\.)|(?=\\.)|(?<=\\=)|(?=\\=)|((?<=\\()|(?=\\())|((?<=\\))|(?=\\)))";
+    private static final int NECESSARY_ELEMENTS_FOR_ACTION = 2;
 
-	private static final String EOF = "EOF";
+    private static final Pattern PATTERN =
+            Pattern.compile("(?<=\\.)|(?=\\.)|(?<==)|(?==)|((?<=\\()|(?=\\())|((?<=\\))|(?=\\)))");
 
-	private static final String ASSIGN = "=";
-	private static final String DECISION_VALUE_DELIMITER = ".";
-	private static final String OPEN_PARENTHESE = "(";
-	private static final String CLOSING_PARENTHESE = ")";
+    private static final String EOF = "EOF";
 
-	private static final String TRUE = "true";
-	private static final String FALSE = "false";
+    private static final String ASSIGN = "=";
+    private static final String DECISION_VALUE_DELIMITER = ".";
+    private static final String OPEN_PARENTHESE = "(";
+    private static final String CLOSING_PARENTHESE = ")";
 
-	private String[] input;
-	private int index = 0;
-	private String symbol;
+    private static final String TRUE = "true";
+    private static final String FALSE = "false";
+    private final Dopler dm;
+    private final Queue<Object> actionElements = new LinkedList<>();
+    private String[] input;
+    private int index;
+    private String symbol;
 
-	private final Dopler dm;
-	private final Queue<Object> actionElements = new LinkedList<>();
+    ActionParser(Dopler decisions) {
+        dm = Objects.requireNonNull(decisions);
+        input = null;
+        index = 0;
+        symbol = null;
+    }
 
-	public ActionParser(final Dopler decisions) {
-		dm = Objects.requireNonNull(decisions);
-	}
+    IAction parse(String str) throws ParserException {
+        Objects.requireNonNull(str);
+        index = 0;
+        input = Arrays.stream(PATTERN.split(str)).map(String::trim).filter(s -> !s.isEmpty() && !s.isBlank())
+                .toArray(String[]::new);
+        if (0 < input.length) {
+            return parseAction();
+        }
+        throw new ParserException("No action found in String " + str);
+    }
 
-	public IAction parse(final String str) throws ParserException {
-		Objects.requireNonNull(str);
-		index = 0;
-		input = Arrays.stream(str.split(REGEX)).map(String::trim).filter(s -> !s.isEmpty() && !s.isBlank())
-				.toArray(String[]::new);
-		//System.out.println(Arrays.toString(input));
-		if (input.length > 0) {
-			return parseAction();
-		}
-		throw new ParserException("No action found in String " + str);
-	}
-
-	private IAction parseAction() throws InvalidActionException {
-		IAction action = null;
-		boolean isAssign = false;
-		boolean isAllowFunction = false;
-		boolean isDisAllowFunction = false;
-		nextSymbol();
-		while (!symbol.equals(EOF)) {
-			if (symbol.equals(OPEN_PARENTHESE) || symbol.equals(CLOSING_PARENTHESE)
-					|| symbol.equals(DECISION_VALUE_DELIMITER)) {
-				nextSymbol();
-				continue;
-			}
-			if (symbol.equals(TRUE)) {
-				actionElements.add(new BooleanValue(true));
-			} else if (symbol.equals(FALSE)) {
-				actionElements.add(new BooleanValue(false));
-			} else if (symbol.equals(ASSIGN)) {
-				isAssign = true;
-				Object left = actionElements.remove();
-				if (left instanceof StringValue) {
-					IDecision d = DoplerUtils.getDecision(dm, ((StringValue) left).getValue());
-					actionElements.add(d);
-				} else {
-					actionElements.add(left);
-				}
-
-			} else if (symbol.equals(Allows.FUNCTION_NAME)) {
-				isAllowFunction = true;
-			} else if (symbol.equals(DisAllows.FUNCTION_NAME)) {
-				isDisAllowFunction = true;
-			} else if (symbol.equals("enforce")) {
-				isAssign = true;
-			} else if (RulesParser.isDoubleRangeValue(symbol)) {
-				actionElements.add(new DoubleValue(Double.parseDouble(symbol)));
-			} else if (RulesParser.isStringRangeValue(dm, symbol)) {
-				actionElements.add(new StringValue(symbol));
+    private IAction parseAction() throws InvalidActionException {
+        IAction action = null;
+        boolean isAssign = false;
+        boolean isAllowFunction = false;
+        boolean isDisAllowFunction = false;
+        nextSymbol();
+        while (!symbol.equals(EOF)) {
+            if (symbol.equals(OPEN_PARENTHESE) || symbol.equals(CLOSING_PARENTHESE) ||
+                    symbol.equals(DECISION_VALUE_DELIMITER)) {
+                nextSymbol();
+                continue;
+            }
+            if (symbol.equals(TRUE)) {
+                actionElements.add(new BooleanValue(Boolean.TRUE));
+            } else if (symbol.equals(FALSE)) {
+                actionElements.add(new BooleanValue(Boolean.FALSE));
+            } else if (symbol.equals(ASSIGN)) {
+                isAssign = true;
+                Object left = actionElements.remove();
+                if (left instanceof StringValue) {
+                    IDecision<?> decision = DoplerUtils.getDecision(dm, ((AbstractValue<String>) left).getValue());
+                    actionElements.add(decision);
+                } else {
+                    actionElements.add(left);
+                }
+            } else if (symbol.equals(Allows.FUNCTION_NAME)) {
+                isAllowFunction = true;
+            } else if (symbol.equals(DisAllows.FUNCTION_NAME)) {
+                isDisAllowFunction = true;
+            } else if ("enforce".equals(symbol)) {
+                isAssign = true;
+            } else if (RulesParser.isDoubleRangeValue(symbol)) {
+                actionElements.add(new DoubleValue(Double.parseDouble(symbol)));
+            } else if (RulesParser.isStringRangeValue(dm, symbol)) {
+                actionElements.add(new StringValue(symbol));
             } else if ((symbol.startsWith("'") && symbol.endsWith("'"))) {
                 //Remove ' at the start and end
                 actionElements.add(new StringValue(symbol.substring(1, symbol.length() - 1)));
             } else { // decision
-				IDecision d = DoplerUtils.getDecision(dm, symbol);
-				actionElements.add(d);
-			}
-			if (actionElements.size() == NECESSARY_ELEMENTS_FOR_ACTION) {
+                IDecision<?> decision = DoplerUtils.getDecision(dm, symbol);
+                actionElements.add(decision);
+            }
+            if (NECESSARY_ELEMENTS_FOR_ACTION == actionElements.size()) {
 
-				if (isAssign) {
-					Object left = actionElements.remove();
-					Object right = actionElements.remove();
-					if (!(left instanceof IDecision)) {
-						throw new InvalidActionException("Lefthand operand is not a valid decision.");
-					}
+                if (isAssign) {
+                    Object left = actionElements.remove();
+                    Object right = actionElements.remove();
+                    if (!(left instanceof IDecision)) {
+                        throw new InvalidActionException("Lefthand operand is not a valid decision.");
+                    }
                     action = switch (((IDecision<?>) left).getDecisionType().toString()) {
                         case "Boolean" -> new BooleanEnforce((BooleanDecision) left, (IValue<Boolean>) right);
                         case "Double" -> new NumberEnforce((IDecision<?>) left, (IValue<?>) right);
-                        case "Enumeration" -> new EnumEnforce((IDecision<?>) left, (IValue<?>) new StringValue(DoplerUtils.getEnumerationliteral(dm, (IValue) right).getValue()));
+                        case "Enumeration" -> new EnumEnforce((IDecision<?>) left,
+                                new StringValue(DoplerUtils.getEnumerationliteral(dm, (IValue<?>) right).getValue()));
                         case "String" -> new StringEnforce((IDecision<?>) left, (IValue<?>) right);
                         default -> action;
                     };
+                } else if (isAllowFunction) {
+                    Object left = actionElements.remove();
+                    Object right = actionElements.remove();
 
-				} else if (isAllowFunction) {
-					Object left = actionElements.remove();
-					Object right = actionElements.remove();
+                    if (left instanceof IDecision && right instanceof AbstractValue) {
+                        action = new Allows((IDecision<?>) left, (IValue<?>) right);
+                    }
+                } else if (isDisAllowFunction) {
+                    Object left = actionElements.remove();
+                    Object right = actionElements.remove();
+                    if (left instanceof IDecision && right instanceof AbstractValue) {
+                        action = new DisAllows((IDecision<?>) left, (IValue<?>) right);
+                    }
+                }
+            }
+            nextSymbol();
+        }
+        return action;
+    }
 
-					if (left instanceof IDecision && right instanceof AbstractValue) {
-						action = new Allows((IDecision) left, (AbstractValue) right);
-					}
-				} else if (isDisAllowFunction) {
-					Object left = actionElements.remove();
-					Object right = actionElements.remove();
-					if (left instanceof IDecision && right instanceof AbstractValue) {
-						action = new DisAllows((IDecision) left, (AbstractValue) right);
-					}
-				}
-			}
-			nextSymbol();
-		}
-		return action;
-	}
-
-	private void nextSymbol() {
-		if (index == input.length) {
-			symbol = EOF;
-		} else {
-			symbol = input[index++];
-		}
-	}
+    private void nextSymbol() {
+        if (index == input.length) {
+            symbol = EOF;
+        } else {
+            symbol = input[index];
+            index++;
+        }
+    }
 }

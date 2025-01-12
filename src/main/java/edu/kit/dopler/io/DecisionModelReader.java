@@ -14,8 +14,8 @@
  *******************************************************************************/
 package edu.kit.dopler.io;
 
-import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import edu.kit.dopler.common.DoplerUtils;
+import edu.kit.dopler.exceptions.NotSupportedVariabilityTypeException;
 import edu.kit.dopler.exceptions.ParserException;
 import edu.kit.dopler.io.parser.ConditionParser;
 import edu.kit.dopler.io.parser.RulesParser;

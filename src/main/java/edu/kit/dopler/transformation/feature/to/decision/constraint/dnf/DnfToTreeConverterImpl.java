@@ -10,6 +10,22 @@ import java.util.List;
 /** This class is responsible for converting a DNF in the list-representation into a DNF in the tree-representation. */
 public class DnfToTreeConverterImpl implements DnfToTreeConverter {
 
+    private static Constraint createConjunction(List<Constraint> constraints) {
+
+        //If the conjunction only contains one literal
+        if (1 == constraints.size()) {
+            return constraints.getFirst();
+        }
+
+        //If the conjunction only contains several literal
+        Constraint lastAndConstraint = new AndConstraint(constraints.get(0), constraints.get(1));
+        for (int i = 2; i < constraints.size(); i++) {
+            lastAndConstraint = new AndConstraint(lastAndConstraint, constraints.get(i));
+        }
+
+        return lastAndConstraint;
+    }
+
     @Override
     public Constraint createDnfFromList(List<List<Constraint>> dnf) {
 
@@ -32,21 +48,5 @@ public class DnfToTreeConverterImpl implements DnfToTreeConverter {
             lastOrConstraint = new OrConstraint(lastOrConstraint, createConjunction(dnf.get(i)));
         }
         return lastOrConstraint;
-    }
-
-    private static Constraint createConjunction(List<Constraint> constraints) {
-
-        //If the conjunction only contains one literal
-        if (1 == constraints.size()) {
-            return constraints.getFirst();
-        }
-
-        //If the conjunction only contains several literal
-        Constraint lastAndConstraint = new AndConstraint(constraints.get(0), constraints.get(1));
-        for (int i = 2; i < constraints.size(); i++) {
-            lastAndConstraint = new AndConstraint(lastAndConstraint, constraints.get(i));
-        }
-
-        return lastAndConstraint;
     }
 }
