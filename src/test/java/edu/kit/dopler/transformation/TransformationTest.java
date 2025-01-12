@@ -23,6 +23,11 @@ abstract class TransformationTest<FromModel, ToModel> {
     private static final long TIMEOUT_TIME = 1L;
     private static final Pattern LINE_SEPARATOR = Pattern.compile("\\R");
 
+    private static void assertModel(String expectedModel2, String transformedModel2) {
+        Assertions.assertEquals(LINE_SEPARATOR.matcher(expectedModel2).replaceAll(System.lineSeparator()),
+                LINE_SEPARATOR.matcher(transformedModel2).replaceAll(System.lineSeparator()));
+    }
+
     /**
      * Compares the real model from the file with the transformed model.
      *
@@ -100,11 +105,6 @@ abstract class TransformationTest<FromModel, ToModel> {
         }
 
         return arguments.stream();
-    }
-
-    private static void assertModel(String expectedModel2, String transformedModel2) {
-        Assertions.assertEquals(LINE_SEPARATOR.matcher(expectedModel2).replaceAll(System.lineSeparator()),
-                LINE_SEPARATOR.matcher(transformedModel2).replaceAll(System.lineSeparator()));
     }
 
     protected abstract Path getRoundTripDataPath();

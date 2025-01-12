@@ -4,10 +4,21 @@ import at.jku.cps.travart.core.common.IModelTransformer;
 import de.vill.model.Feature;
 import de.vill.model.FeatureType;
 import de.vill.model.Group;
-import edu.kit.dopler.model.*;
+import edu.kit.dopler.model.BooleanDecision;
+import edu.kit.dopler.model.EnumerationDecision;
+import edu.kit.dopler.model.EnumerationLiteral;
+import edu.kit.dopler.model.IAction;
+import edu.kit.dopler.model.IDecision;
+import edu.kit.dopler.model.IExpression;
+import edu.kit.dopler.model.NumberDecision;
+import edu.kit.dopler.model.StringDecision;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import static de.vill.model.Group.GroupType.ALTERNATIVE;

@@ -62,7 +62,8 @@ class DecisionToFeatureModelTest extends TransformationTest<Dopler, FeatureModel
     protected Dopler transformToModelToFromModel(FeatureModel modelToBeTransformed)
             throws NotSupportedVariabilityTypeException {
         return plugin.getTransformer()
-                .transform(modelToBeTransformed, TreeBeautifier.STANDARD_MODEL_NAME, IModelTransformer.STRATEGY.ONE_WAY);
+                .transform(modelToBeTransformed, TreeBeautifier.STANDARD_MODEL_NAME,
+                        IModelTransformer.STRATEGY.ONE_WAY);
     }
 
     @Override

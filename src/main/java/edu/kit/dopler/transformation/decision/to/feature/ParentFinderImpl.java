@@ -1,7 +1,12 @@
 package edu.kit.dopler.transformation.decision.to.feature;
 
 import de.vill.model.Feature;
-import edu.kit.dopler.model.*;
+import edu.kit.dopler.model.BooleanLiteralExpression;
+import edu.kit.dopler.model.DecisionValueCallExpression;
+import edu.kit.dopler.model.EnumeratorLiteralExpression;
+import edu.kit.dopler.model.Equals;
+import edu.kit.dopler.model.IDecision;
+import edu.kit.dopler.model.IExpression;
 import edu.kit.dopler.transformation.exceptions.CanNotBeTranslatedException;
 import edu.kit.dopler.transformation.util.FeatureFinder;
 

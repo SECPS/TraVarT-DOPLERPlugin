@@ -16,7 +16,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
 class FeatureToDecisionModelTest extends TransformationTest<FeatureModel, Dopler> {
 
     private final IPlugin<Dopler> plugin = new DoplerPluginImpl();
@@ -81,6 +80,7 @@ class FeatureToDecisionModelTest extends TransformationTest<FeatureModel, Dopler
     protected FeatureModel transformToModelToFromModel(Dopler modelToBeTransformed)
             throws NotSupportedVariabilityTypeException {
         return plugin.getTransformer()
-                .transform(modelToBeTransformed, TreeBeautifier.STANDARD_MODEL_NAME, IModelTransformer.STRATEGY.ONE_WAY);
+                .transform(modelToBeTransformed, TreeBeautifier.STANDARD_MODEL_NAME,
+                        IModelTransformer.STRATEGY.ONE_WAY);
     }
 }

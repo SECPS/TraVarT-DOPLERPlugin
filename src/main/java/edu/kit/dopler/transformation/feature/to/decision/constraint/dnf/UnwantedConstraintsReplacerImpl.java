@@ -1,6 +1,12 @@
 package edu.kit.dopler.transformation.feature.to.decision.constraint.dnf;
 
-import de.vill.model.constraint.*;
+import de.vill.model.constraint.AndConstraint;
+import de.vill.model.constraint.Constraint;
+import de.vill.model.constraint.EquivalenceConstraint;
+import de.vill.model.constraint.ImplicationConstraint;
+import de.vill.model.constraint.NotConstraint;
+import de.vill.model.constraint.OrConstraint;
+import de.vill.model.constraint.ParenthesisConstraint;
 
 /**
  * Implementation of {@link UnwantedConstraintsReplacer}. Replaces unwanted constraints like "=>", "<=>", "()" and

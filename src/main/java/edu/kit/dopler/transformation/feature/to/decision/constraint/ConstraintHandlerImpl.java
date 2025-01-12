@@ -5,13 +5,38 @@ import de.vill.model.constraint.AndConstraint;
 import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.ExpressionConstraint;
 import de.vill.model.constraint.NotConstraint;
-import edu.kit.dopler.model.*;
-import edu.kit.dopler.transformation.exceptions.*;
+import edu.kit.dopler.model.BooleanDecision;
+import edu.kit.dopler.model.BooleanEnforce;
+import edu.kit.dopler.model.BooleanLiteralExpression;
+import edu.kit.dopler.model.BooleanValue;
+import edu.kit.dopler.model.Dopler;
+import edu.kit.dopler.model.DoubleValue;
+import edu.kit.dopler.model.IAction;
+import edu.kit.dopler.model.IDecision;
+import edu.kit.dopler.model.IExpression;
+import edu.kit.dopler.model.NumberDecision;
+import edu.kit.dopler.model.NumberEnforce;
+import edu.kit.dopler.model.Rule;
+import edu.kit.dopler.model.StringDecision;
+import edu.kit.dopler.model.StringEnforce;
+import edu.kit.dopler.model.StringValue;
+import edu.kit.dopler.model.ValueRestrictionAction;
+import edu.kit.dopler.transformation.exceptions.CanNotBeTranslatedException;
+import edu.kit.dopler.transformation.exceptions.DecisionNotPresentException;
+import edu.kit.dopler.transformation.exceptions.DnfAlwaysFalseException;
+import edu.kit.dopler.transformation.exceptions.DnfAlwaysTrueException;
+import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.DnfAlwaysTrueAndFalseRemover;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.DnfToTreeConverter;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.TreeToDnfConverter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.Stack;
 
 /**
  * Implementation of {@link ConstraintHandler}.

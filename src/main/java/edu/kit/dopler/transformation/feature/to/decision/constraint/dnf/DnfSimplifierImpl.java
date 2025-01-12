@@ -1,6 +1,11 @@
 package edu.kit.dopler.transformation.feature.to.decision.constraint.dnf;
 
-import de.vill.model.constraint.*;
+import de.vill.model.constraint.AndConstraint;
+import de.vill.model.constraint.Constraint;
+import de.vill.model.constraint.ExpressionConstraint;
+import de.vill.model.constraint.LiteralConstraint;
+import de.vill.model.constraint.NotConstraint;
+import de.vill.model.constraint.OrConstraint;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 
 import java.util.ArrayList;

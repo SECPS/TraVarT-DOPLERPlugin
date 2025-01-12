@@ -5,7 +5,13 @@ import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import de.vill.model.FeatureType;
 import de.vill.model.Group;
-import edu.kit.dopler.model.*;
+import edu.kit.dopler.model.BooleanDecision;
+import edu.kit.dopler.model.Dopler;
+import edu.kit.dopler.model.Enumeration;
+import edu.kit.dopler.model.EnumerationDecision;
+import edu.kit.dopler.model.EnumerationLiteral;
+import edu.kit.dopler.model.NumberDecision;
+import edu.kit.dopler.model.StringDecision;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;

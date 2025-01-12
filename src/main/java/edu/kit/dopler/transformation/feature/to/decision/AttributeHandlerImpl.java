@@ -6,13 +6,34 @@ import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import de.vill.model.Group;
 import de.vill.model.constraint.LiteralConstraint;
-import edu.kit.dopler.model.*;
+import edu.kit.dopler.model.BooleanDecision;
+import edu.kit.dopler.model.BooleanEnforce;
+import edu.kit.dopler.model.BooleanLiteralExpression;
+import edu.kit.dopler.model.BooleanValue;
+import edu.kit.dopler.model.Dopler;
+import edu.kit.dopler.model.DoubleValue;
+import edu.kit.dopler.model.Enforce;
+import edu.kit.dopler.model.IAction;
+import edu.kit.dopler.model.IDecision;
+import edu.kit.dopler.model.IExpression;
+import edu.kit.dopler.model.NumberDecision;
+import edu.kit.dopler.model.NumberEnforce;
+import edu.kit.dopler.model.Rule;
+import edu.kit.dopler.model.StringDecision;
+import edu.kit.dopler.model.StringEnforce;
+import edu.kit.dopler.model.StringValue;
 import edu.kit.dopler.transformation.exceptions.DecisionNotPresentException;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.ConditionCreator;
 import edu.kit.dopler.transformation.util.DecisionFinder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /** Implementation of {@link AttributeHandler} */
 public class AttributeHandlerImpl implements AttributeHandler {

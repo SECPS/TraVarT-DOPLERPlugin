@@ -7,7 +7,12 @@
  */
 package edu.kit.dopler.plugin;
 
-import at.jku.cps.travart.core.common.*;
+import at.jku.cps.travart.core.common.IDeserializer;
+import at.jku.cps.travart.core.common.IModelTransformer;
+import at.jku.cps.travart.core.common.IPlugin;
+import at.jku.cps.travart.core.common.IPrettyPrinter;
+import at.jku.cps.travart.core.common.ISerializer;
+import at.jku.cps.travart.core.common.IStatistics;
 import edu.kit.dopler.injection.Injector;
 import edu.kit.dopler.model.Dopler;
 import edu.kit.dopler.transformation.Transformer;
