@@ -1,5 +1,5 @@
 features
-        Root
+        STANDARD_MODEL_NAME
                 alternative
                         Gen_Plan_Analysis
                         Lot

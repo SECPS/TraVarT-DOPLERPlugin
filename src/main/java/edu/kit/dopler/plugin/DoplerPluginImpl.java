@@ -8,6 +8,7 @@
 package edu.kit.dopler.plugin;
 
 import at.jku.cps.travart.core.common.*;
+import edu.kit.dopler.injection.Injector;
 import edu.kit.dopler.model.Dopler;
 import edu.kit.dopler.transformation.Transformer;
 import org.pf4j.Extension;
@@ -18,21 +19,27 @@ import java.util.List;
  * Implementation of {@link IPlugin} for the {@link Dopler} model.
  */
 @Extension
-class DoplerPluginImpl implements IPlugin<Dopler> {
+public class DoplerPluginImpl implements IPlugin<Dopler> {
 
     private static final String CSV = ".csv";
-    static final Format CSV_FORMAT = new Format("csv", CSV, true, true);
+    public static final Format CSV_FORMAT = new Format("csv", CSV, true, true);
 
     private static final String ID = "dopler-decision-plugin";
 
+    private final Injector injector;
+
+    public DoplerPluginImpl() {
+        injector = new Injector();
+    }
+
     @Override
     public IModelTransformer<Dopler> getTransformer() {
-        return new Transformer();
+        return injector.getInstance(Transformer.class);
     }
 
     @Override
     public IDeserializer<Dopler> getDeserializer() {
-        return new DoplerDeserializer();
+        return injector.getInstance(DoplerDeserializer.class);
     }
 
     @Override
@@ -42,12 +49,12 @@ class DoplerPluginImpl implements IPlugin<Dopler> {
 
     @Override
     public ISerializer<Dopler> getSerializer() {
-        return new DoplerSerializer();
+        return injector.getInstance(DoplerSerializer.class);
     }
 
     @Override
     public IPrettyPrinter<Dopler> getPrinter() {
-        return new DoplerPrettyPrinter(getSerializer());
+        return injector.getInstance(DoplerPrettyPrinter.class);
     }
 
     @Override

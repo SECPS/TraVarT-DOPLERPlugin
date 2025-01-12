@@ -54,7 +54,7 @@ public interface FeatureFinder {
     /**
      * Finds a {@link Feature} with the given name inside a {@link Feature} tree structure.
      *
-     * @param root        Root of tree to search in
+     * @param root        STANDARD_MODEL_NAME of tree to search in
      * @param featureName Name of the {@link Feature} to search for
      *
      * @return Optional that contains the {@link Feature} if one was found

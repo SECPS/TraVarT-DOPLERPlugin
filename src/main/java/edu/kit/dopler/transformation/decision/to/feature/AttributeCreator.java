@@ -19,7 +19,7 @@ public interface AttributeCreator {
      *
      * @param attributeDecisions List of all {@link IDecision}s that represent attributes. The visibility is false and
      *                           the name has a specific pattern
-     * @param rootFeature        Root feature of the {@link FeatureModel}
+     * @param rootFeature        STANDARD_MODEL_NAME feature of the {@link FeatureModel}
      * @param allActions         List of all actions in the {@link Dopler} model. The list will be modified by this
      *                           method. Actions that set the values of attributes will be removed.
      */

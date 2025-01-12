@@ -1,5 +1,5 @@
 features
-        Root
+        STANDARD_MODEL_NAME
                 optional
                         Thermal3D
                         TopFeeding3D

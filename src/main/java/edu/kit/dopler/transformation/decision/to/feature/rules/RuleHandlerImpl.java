@@ -1,6 +1,5 @@
 package edu.kit.dopler.transformation.decision.to.feature.rules;
 
-import com.google.inject.Inject;
 import de.vill.model.FeatureModel;
 import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.ImplicationConstraint;
@@ -16,8 +15,7 @@ public class RuleHandlerImpl implements RuleHandler {
     private final LeftCreator leftCreator;
     private final RightCreator rightCreator;
 
-    @Inject
-    RuleHandlerImpl(LeftCreator leftCreator, RightCreator rightCreator) {
+    public RuleHandlerImpl(LeftCreator leftCreator, RightCreator rightCreator) {
         this.leftCreator = leftCreator;
         this.rightCreator = rightCreator;
     }

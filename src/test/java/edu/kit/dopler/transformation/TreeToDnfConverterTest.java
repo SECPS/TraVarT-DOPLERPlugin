@@ -1,11 +1,11 @@
 package edu.kit.dopler.transformation;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import de.vill.model.constraint.*;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
-import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.*;
-import edu.kit.dopler.transformation.util.TransformationModule;
+import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.DnfToTreeConverter;
+import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.TreeToDnfConverter;
+import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.UnwantedConstraintsReplacer;
+import edu.kit.dopler.injection.Injector;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -26,10 +26,10 @@ class TreeToDnfConverterTest {
     private final DnfToTreeConverter dnfToTreeConverter;
 
     TreeToDnfConverterTest() {
-        Injector injector = Guice.createInjector(new TransformationModule());
-        treeToDnfConverter = injector.getInstance(TreeToDnfConverterImpl.class);
-        replacer = injector.getInstance(UnwantedConstraintsReplacerImpl.class);
-        dnfToTreeConverter = injector.getInstance(DnfToTreeConverterImpl.class);
+        Injector injector = new Injector();
+        treeToDnfConverter = injector.getInstance(TreeToDnfConverter.class);
+        replacer = injector.getInstance(UnwantedConstraintsReplacer.class);
+        dnfToTreeConverter = injector.getInstance(DnfToTreeConverter.class);
     }
 
     @Test

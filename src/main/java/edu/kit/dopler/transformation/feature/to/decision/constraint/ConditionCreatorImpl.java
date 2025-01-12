@@ -1,6 +1,5 @@
 package edu.kit.dopler.transformation.feature.to.decision.constraint;
 
-import com.google.inject.Inject;
 import de.vill.model.FeatureModel;
 import de.vill.model.constraint.*;
 import de.vill.model.expression.Expression;
@@ -19,8 +18,7 @@ public class ConditionCreatorImpl implements ConditionCreator {
     private final DecisionFinder decisionFinder;
     private final FeatureFinder featureFinder;
 
-    @Inject
-    ConditionCreatorImpl(DecisionFinder decisionFinder, FeatureFinder featureFinder) {
+    public ConditionCreatorImpl(DecisionFinder decisionFinder, FeatureFinder featureFinder) {
         this.decisionFinder = decisionFinder;
         this.featureFinder = featureFinder;
     }

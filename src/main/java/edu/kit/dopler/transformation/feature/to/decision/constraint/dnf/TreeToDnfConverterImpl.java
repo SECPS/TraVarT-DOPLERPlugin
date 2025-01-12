@@ -1,6 +1,5 @@
 package edu.kit.dopler.transformation.feature.to.decision.constraint.dnf;
 
-import com.google.inject.Inject;
 import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.ParenthesisConstraint;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.rule.DnfRule;
@@ -16,9 +15,8 @@ public class TreeToDnfConverterImpl implements TreeToDnfConverter {
     private final UnwantedConstraintsReplacer unwantedConstraintsReplacer;
     private final DnfSimplifier dnfSimplifier;
 
-    @Inject
-    TreeToDnfConverterImpl(UnwantedConstraintsReplacer unwantedConstraintsReplacer, DnfSimplifier dnfSimplifier,
-                           List<DnfRule> dnfRules) {
+    public TreeToDnfConverterImpl(UnwantedConstraintsReplacer unwantedConstraintsReplacer, DnfSimplifier dnfSimplifier,
+                                  List<DnfRule> dnfRules) {
         this.dnfRules = List.copyOf(dnfRules);
         this.unwantedConstraintsReplacer = unwantedConstraintsReplacer;
         this.dnfSimplifier = dnfSimplifier;

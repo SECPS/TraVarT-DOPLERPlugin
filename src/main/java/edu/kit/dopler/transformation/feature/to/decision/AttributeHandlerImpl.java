@@ -1,7 +1,6 @@
 package edu.kit.dopler.transformation.feature.to.decision;
 
 import at.jku.cps.travart.core.common.IModelTransformer;
-import com.google.inject.Inject;
 import de.vill.model.Attribute;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
@@ -21,8 +20,7 @@ public class AttributeHandlerImpl implements AttributeHandler {
     private final ConditionCreator conditionCreator;
     private final DecisionFinder decisionFinder;
 
-    @Inject
-    AttributeHandlerImpl(ConditionCreator conditionCreator, DecisionFinder decisionFinder) {
+    public AttributeHandlerImpl(ConditionCreator conditionCreator, DecisionFinder decisionFinder) {
         this.conditionCreator = conditionCreator;
         this.decisionFinder = decisionFinder;
     }

@@ -1,6 +1,5 @@
 package edu.kit.dopler.transformation.feature.to.decision.constraint.dnf;
 
-import com.google.inject.Inject;
 import de.vill.model.FeatureModel;
 import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.LiteralConstraint;
@@ -20,8 +19,7 @@ public class DnfAlwaysTrueAndFalseRemoverImpl implements DnfAlwaysTrueAndFalseRe
 
     private final FeatureFinder featureFinder;
 
-    @Inject
-    DnfAlwaysTrueAndFalseRemoverImpl(FeatureFinder featureFinder) {
+    public DnfAlwaysTrueAndFalseRemoverImpl(FeatureFinder featureFinder) {
         this.featureFinder = featureFinder;
     }
 
@@ -82,8 +80,8 @@ public class DnfAlwaysTrueAndFalseRemoverImpl implements DnfAlwaysTrueAndFalseRe
 
     private Optional<? extends Constraint> getNonMandatoryParent(FeatureModel featureModel, Constraint constraint) {
         return switch (constraint) {
-            case NotConstraint notConstraint when notConstraint.getContent() instanceof LiteralConstraint literalConstraint ->
-                    featureFinder.findFirstNonMandatoryParent(featureModel, literalConstraint);
+            case NotConstraint notConstraint when notConstraint.getContent() instanceof LiteralConstraint inner ->
+                    featureFinder.findFirstNonMandatoryParent(featureModel, inner);
             case LiteralConstraint literalConstraint ->
                     featureFinder.findFirstNonMandatoryParent(featureModel, literalConstraint);
             case null, default -> Optional.ofNullable(constraint);

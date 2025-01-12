@@ -11,7 +11,7 @@ import java.util.List;
 
 import static edu.kit.dopler.plugin.DoplerPluginImpl.CSV_FORMAT;
 
-class DoplerDeserializer implements IDeserializer<Dopler> {
+public class DoplerDeserializer implements IDeserializer<Dopler> {
 
     @Override
     public Dopler deserialize(String serial, Format format) throws NotSupportedVariabilityTypeException {

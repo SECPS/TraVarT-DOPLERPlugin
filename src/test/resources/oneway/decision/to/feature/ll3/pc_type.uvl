@@ -1,5 +1,5 @@
 features
-        Root
+        STANDARD_MODEL_NAME
                 optional
                         "Designated GPU"
                         String "Manufacturer#String"

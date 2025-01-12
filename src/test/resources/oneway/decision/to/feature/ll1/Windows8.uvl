@@ -1,5 +1,5 @@
 features
-        Root
+        STANDARD_MODEL_NAME
                 optional
                         ImproveTheReadabilityOfTheComputer
                                 or

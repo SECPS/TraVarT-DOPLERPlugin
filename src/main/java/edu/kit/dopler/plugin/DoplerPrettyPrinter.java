@@ -12,11 +12,11 @@ import java.io.StringReader;
 import java.util.List;
 
 /** Implementation of IPrettyPrinter */
-class DoplerPrettyPrinter implements IPrettyPrinter<Dopler> {
+public class DoplerPrettyPrinter implements IPrettyPrinter<Dopler> {
 
     private final ISerializer<Dopler> serializer;
 
-    DoplerPrettyPrinter(ISerializer<Dopler> serializer) {
+    public DoplerPrettyPrinter(ISerializer<Dopler> serializer) {
         this.serializer = serializer;
     }
 

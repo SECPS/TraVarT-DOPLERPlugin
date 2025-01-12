@@ -59,14 +59,6 @@
             <version>5.9.1</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.google.inject/guice -->
-        <!-- used for dependency injection -->
-        <dependency>
-            <groupId>com.google.inject</groupId>
-            <artifactId>guice</artifactId>
-            <version>7.0.0</version>
-        </dependency>
-
         <!-- local jar with travart core -->
         <dependency>
             <groupId>placeholder</groupId>

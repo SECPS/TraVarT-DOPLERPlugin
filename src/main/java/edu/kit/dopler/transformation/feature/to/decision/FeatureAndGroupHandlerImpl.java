@@ -1,7 +1,6 @@
 package edu.kit.dopler.transformation.feature.to.decision;
 
 import at.jku.cps.travart.core.common.IModelTransformer;
-import com.google.inject.Inject;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import de.vill.model.FeatureType;
@@ -24,8 +23,8 @@ public class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
     private final IdHandler idHandler;
 
     /** Constructor of {@link FeatureAndGroupHandlerImpl} */
-    @Inject
-    FeatureAndGroupHandlerImpl(VisibilityHandler visibilityHandler, IdHandler idHandler) {
+
+    public FeatureAndGroupHandlerImpl(VisibilityHandler visibilityHandler, IdHandler idHandler) {
         this.visibilityHandler = visibilityHandler;
         this.idHandler = idHandler;
     }

@@ -1,7 +1,6 @@
 package edu.kit.dopler.transformation.feature.to.decision;
 
 import at.jku.cps.travart.core.common.IModelTransformer;
-import com.google.inject.Inject;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import de.vill.model.Group;
@@ -18,9 +17,8 @@ public class FmToDmTransformerImpl implements FmToDmTransformer {
     private final ConstraintHandler constraintHandler;
     private final AttributeHandler attributeHandler;
 
-    @Inject
-    FmToDmTransformerImpl(FeatureAndGroupHandler featureAndGroupHandler, ConstraintHandler constraintHandler,
-                          AttributeHandler attributeHandler) {
+    public FmToDmTransformerImpl(FeatureAndGroupHandler featureAndGroupHandler, ConstraintHandler constraintHandler,
+                                 AttributeHandler attributeHandler) {
         this.featureAndGroupHandler = featureAndGroupHandler;
         this.constraintHandler = constraintHandler;
         this.attributeHandler = attributeHandler;

@@ -1,6 +1,5 @@
 package edu.kit.dopler.transformation.decision.to.feature.rules;
 
-import com.google.inject.Inject;
 import de.vill.model.Feature;
 import de.vill.model.constraint.AndConstraint;
 import de.vill.model.constraint.Constraint;
@@ -18,8 +17,7 @@ public class RightCreatorImpl implements RightCreator {
 
     private final FeatureFinder featureFinder;
 
-    @Inject
-    RightCreatorImpl(FeatureFinder featureFinder) {
+    public RightCreatorImpl(FeatureFinder featureFinder) {
         this.featureFinder = featureFinder;
     }
 

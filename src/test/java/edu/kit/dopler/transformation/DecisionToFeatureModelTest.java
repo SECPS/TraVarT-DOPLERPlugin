@@ -1,20 +1,26 @@
 package edu.kit.dopler.transformation;
 
 import at.jku.cps.travart.core.common.IModelTransformer;
-import at.jku.cps.travart.core.sampler.DefaultCoreModelSampler;
+import at.jku.cps.travart.core.common.IPlugin;
+import at.jku.cps.travart.core.exception.NotSupportedVariabilityTypeException;
 import de.vill.main.UVLModelFactory;
 import de.vill.model.FeatureModel;
 import edu.kit.dopler.TestUtils;
-import edu.kit.dopler.io.DecisionModelReader;
-import edu.kit.dopler.io.DecisionModelWriter;
+import edu.kit.dopler.injection.Injector;
 import edu.kit.dopler.model.Dopler;
+import edu.kit.dopler.plugin.DoplerPluginImpl;
+import edu.kit.dopler.plugin.DoplerSerializer;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static edu.kit.dopler.plugin.DoplerPluginImpl.CSV_FORMAT;
+
 class DecisionToFeatureModelTest extends TransformationTest<Dopler, FeatureModel> {
+
+    private final IPlugin<Dopler> plugin = new DoplerPluginImpl();
 
     @Override
     protected String readToModelAsString(Path path) throws IOException {
@@ -33,13 +39,12 @@ class DecisionToFeatureModelTest extends TransformationTest<Dopler, FeatureModel
 
     @Override
     protected String convertFromModelToString(Dopler toModel) throws Exception {
-        new DecisionModelWriter().write(toModel, TEMP_PATH);
-        return TestUtils.sortDecisionModel(Files.readString(TEMP_PATH));
+        return TestUtils.sortDecisionModel(new Injector().getInstance(DoplerSerializer.class).serialize(toModel));
     }
 
     @Override
     protected Dopler getFromModelFromPath(Path path) throws Exception {
-        return new DecisionModelReader().read(path);
+        return plugin.getDeserializer().deserialize(Files.readString(path), CSV_FORMAT);
     }
 
     @Override
@@ -48,25 +53,16 @@ class DecisionToFeatureModelTest extends TransformationTest<Dopler, FeatureModel
     }
 
     @Override
-    protected FeatureModel transformFromModelToToModel(Dopler modelToBeTransformed,
-                                                       IModelTransformer.STRATEGY strategy) {
-        return new Transformer().transform(modelToBeTransformed, Transformer.STANDARD_MODEL_NAME, strategy);
+    protected FeatureModel transformFromModelToToModel(Dopler modelToBeTransformed, IModelTransformer.STRATEGY strategy)
+            throws NotSupportedVariabilityTypeException {
+        return plugin.getTransformer().transform(modelToBeTransformed, Transformer.STANDARD_MODEL_NAME, strategy);
     }
 
     @Override
-    protected Dopler transformToModelToFromModel(FeatureModel modelToBeTransformed) {
-        return new Transformer().transform(modelToBeTransformed, Transformer.STANDARD_MODEL_NAME,
-                IModelTransformer.STRATEGY.ONE_WAY);
-    }
-
-    @Override
-    protected int getAmountOfConfigsOfToModel(FeatureModel featureModel) throws Exception {
-        return new DefaultCoreModelSampler().sampleValidConfigurations(featureModel).size();
-    }
-
-    @Override
-    protected int getAmountOfConfigsOfFromModel(Dopler dopler) {
-        throw new RuntimeException("Not implemented");
+    protected Dopler transformToModelToFromModel(FeatureModel modelToBeTransformed)
+            throws NotSupportedVariabilityTypeException {
+        return plugin.getTransformer()
+                .transform(modelToBeTransformed, Transformer.STANDARD_MODEL_NAME, IModelTransformer.STRATEGY.ONE_WAY);
     }
 
     @Override

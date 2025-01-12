@@ -1,7 +1,6 @@
 package edu.kit.dopler.transformation.decision.to.feature;
 
 import at.jku.cps.travart.core.common.IModelTransformer;
-import com.google.inject.Inject;
 import de.vill.model.Feature;
 import de.vill.model.Group;
 import edu.kit.dopler.transformation.Transformer;
@@ -18,8 +17,7 @@ public class TreeBeautifierImpl implements TreeBeautifier {
 
     private final FeatureFinder featureFinder;
 
-    @Inject
-    TreeBeautifierImpl(FeatureFinder featureFinder) {
+    public TreeBeautifierImpl(FeatureFinder featureFinder) {
         this.featureFinder = featureFinder;
     }
 

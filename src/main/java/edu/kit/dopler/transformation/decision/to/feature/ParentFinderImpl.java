@@ -1,6 +1,5 @@
 package edu.kit.dopler.transformation.decision.to.feature;
 
-import com.google.inject.Inject;
 import de.vill.model.Feature;
 import edu.kit.dopler.model.*;
 import edu.kit.dopler.transformation.exceptions.CanNotBeTranslatedException;
@@ -14,8 +13,7 @@ public class ParentFinderImpl implements ParentFinder {
 
     private final FeatureFinder featureFinder;
 
-    @Inject
-    ParentFinderImpl(FeatureFinder featureFinder) {
+    public ParentFinderImpl(FeatureFinder featureFinder) {
         this.featureFinder = featureFinder;
     }
 

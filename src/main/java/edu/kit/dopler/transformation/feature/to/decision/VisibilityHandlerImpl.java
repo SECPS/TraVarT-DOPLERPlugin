@@ -1,7 +1,6 @@
 package edu.kit.dopler.transformation.feature.to.decision;
 
 import at.jku.cps.travart.core.common.IModelTransformer;
-import com.google.inject.Inject;
 import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import de.vill.model.Group;
@@ -20,8 +19,7 @@ public class VisibilityHandlerImpl implements VisibilityHandler {
     private final FeatureFinder featureFinder;
     private final DecisionFinder decisionFinder;
 
-    @Inject
-    VisibilityHandlerImpl(FeatureFinder featureFinder, DecisionFinder decisionFinder) {
+    public VisibilityHandlerImpl(FeatureFinder featureFinder, DecisionFinder decisionFinder) {
         this.featureFinder = featureFinder;
         this.decisionFinder = decisionFinder;
     }

@@ -1,6 +1,5 @@
 package edu.kit.dopler.transformation.feature.to.decision;
 
-import com.google.inject.Inject;
 import de.vill.model.Feature;
 import edu.kit.dopler.model.Dopler;
 import edu.kit.dopler.transformation.util.DecisionFinder;
@@ -10,8 +9,7 @@ public class IdHandlerImpl implements IdHandler {
 
     private final DecisionFinder decisionFinder;
 
-    @Inject
-    IdHandlerImpl(DecisionFinder decisionFinder) {
+    public IdHandlerImpl(DecisionFinder decisionFinder) {
         this.decisionFinder = decisionFinder;
     }
 

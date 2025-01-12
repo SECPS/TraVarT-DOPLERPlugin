@@ -2,7 +2,6 @@ package edu.kit.dopler.transformation;
 
 import at.jku.cps.travart.core.common.IModelTransformer;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -12,10 +11,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -23,6 +21,7 @@ abstract class TransformationTest<FromModel, ToModel> {
 
     static final Path TEMP_PATH = Paths.get("src", "test", "resources", "oneway", ".temporary.txt");
     private static final long TIMEOUT_TIME = 1L;
+    private static final Pattern LINE_SEPARATOR = Pattern.compile("\\R");
 
     /**
      * Compares the real model from the file with the transformed model.
@@ -38,7 +37,7 @@ abstract class TransformationTest<FromModel, ToModel> {
         String transformedModel = convertToModelToString(
                 transformFromModelToToModel(modelToTransform, IModelTransformer.STRATEGY.ONE_WAY));
         String expectedModel = readToModelAsString(pathOfExpectedModel);
-        Assertions.assertEquals(expectedModel, transformedModel);
+        assertModel(expectedModel, transformedModel);
     }
 
     @ParameterizedTest(name = "{0}")
@@ -49,28 +48,13 @@ abstract class TransformationTest<FromModel, ToModel> {
         String transformedModel = convertToModelToString(
                 transformFromModelToToModel(modelToTransform, IModelTransformer.STRATEGY.ROUNDTRIP));
         String expectedModel = readToModelAsString(path2);
-        Assertions.assertEquals(expectedModel, transformedModel);
+        assertModel(expectedModel, transformedModel);
 
         // second transformation
         ToModel modelToTransform2 = getToModelFromString(transformedModel);
         String transformedModel2 = convertFromModelToString(transformToModelToFromModel(modelToTransform2));
         String expectedModel2 = readFromModelAsString(path3);
-        Assertions.assertEquals(expectedModel2, transformedModel2);
-    }
-
-    @ParameterizedTest(name = "{1}")
-    @MethodSource("oneWayDataSourceMethod")
-    @Disabled /* getAmountOfConfigsOfFromModel methods don't work atm */
-    void testNumberOfConfigs(Path pathToBeTransformed, Path pathToBeTransformedIn) throws Exception {
-        FromModel modelToBeTransformed = getFromModelFromPath(pathToBeTransformed);
-        ToModel transformedModel =
-                transformFromModelToToModel(modelToBeTransformed, IModelTransformer.STRATEGY.ROUNDTRIP);
-
-        Assertions.assertTimeoutPreemptively(Duration.of(TIMEOUT_TIME, ChronoUnit.MILLIS), () -> {
-            int amountOfConfigsExpected = getAmountOfConfigsOfFromModel(modelToBeTransformed);
-            int amountOfConfigsReal = getAmountOfConfigsOfToModel(transformedModel);
-            Assertions.assertEquals(amountOfConfigsExpected, amountOfConfigsReal);
-        });
+        assertModel(expectedModel2, transformedModel2);
     }
 
     /**
@@ -118,6 +102,11 @@ abstract class TransformationTest<FromModel, ToModel> {
         return arguments.stream();
     }
 
+    private static void assertModel(String expectedModel2, String transformedModel2) {
+        Assertions.assertEquals(LINE_SEPARATOR.matcher(expectedModel2).replaceAll(System.lineSeparator()),
+                LINE_SEPARATOR.matcher(transformedModel2).replaceAll(System.lineSeparator()));
+    }
+
     protected abstract Path getRoundTripDataPath();
 
     protected abstract String getToEnding();
@@ -142,8 +131,4 @@ abstract class TransformationTest<FromModel, ToModel> {
     protected abstract String convertToModelToString(ToModel toModel) throws Exception;
 
     protected abstract String convertFromModelToString(FromModel toModel) throws Exception;
-
-    protected abstract int getAmountOfConfigsOfToModel(ToModel toModel) throws Exception;
-
-    protected abstract int getAmountOfConfigsOfFromModel(FromModel fromModel) throws Exception;
 }

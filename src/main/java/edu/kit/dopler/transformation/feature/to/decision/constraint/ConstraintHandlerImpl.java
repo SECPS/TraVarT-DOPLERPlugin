@@ -1,6 +1,5 @@
 package edu.kit.dopler.transformation.feature.to.decision.constraint;
 
-import com.google.inject.Inject;
 import de.vill.model.FeatureModel;
 import de.vill.model.constraint.AndConstraint;
 import de.vill.model.constraint.Constraint;
@@ -25,10 +24,9 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
     private final ConditionCreator conditionCreator;
     private final DnfAlwaysTrueAndFalseRemover dnfAlwaysTrueAndFalseRemover;
 
-    @Inject
-    ConstraintHandlerImpl(TreeToDnfConverter treeToDnfConverter, DnfToTreeConverter dnfToTreeConverter,
-                          ActionCreator actionCreator, ConditionCreator conditionCreator,
-                          DnfAlwaysTrueAndFalseRemover dnfAlwaysTrueAndFalseRemover) {
+    public ConstraintHandlerImpl(TreeToDnfConverter treeToDnfConverter, DnfToTreeConverter dnfToTreeConverter,
+                                 ActionCreator actionCreator, ConditionCreator conditionCreator,
+                                 DnfAlwaysTrueAndFalseRemover dnfAlwaysTrueAndFalseRemover) {
         this.treeToDnfConverter = treeToDnfConverter;
         this.dnfToTreeConverter = dnfToTreeConverter;
         this.actionCreator = actionCreator;

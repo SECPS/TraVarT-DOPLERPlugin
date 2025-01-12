@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import static edu.kit.dopler.plugin.DoplerPluginImpl.CSV_FORMAT;
 
-class DoplerSerializer implements ISerializer<Dopler> {
+public class DoplerSerializer implements ISerializer<Dopler> {
 
     @Override
     public String serialize(Dopler model) throws NotSupportedVariabilityTypeException {

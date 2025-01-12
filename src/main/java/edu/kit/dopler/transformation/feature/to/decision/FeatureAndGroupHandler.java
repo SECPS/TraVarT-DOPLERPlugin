@@ -35,7 +35,7 @@ public interface FeatureAndGroupHandler {
      *
      * @param featureModel  {@link FeatureModel} that contains the given {@link Group}
      * @param decisionModel {@link Dopler} model that will contain the newly created {@link IDecision}s
-     * @param group         Root {@link Group} of the tree
+     * @param group         STANDARD_MODEL_NAME {@link Group} of the tree
      * @param level         {@link STRATEGY} that will be used
      */
     void handleGroup(FeatureModel featureModel, Dopler decisionModel, Group group, STRATEGY level);

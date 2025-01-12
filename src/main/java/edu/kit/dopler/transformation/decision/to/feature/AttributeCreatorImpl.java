@@ -1,6 +1,5 @@
 package edu.kit.dopler.transformation.decision.to.feature;
 
-import com.google.inject.Inject;
 import de.vill.model.Attribute;
 import de.vill.model.Feature;
 import edu.kit.dopler.model.Enforce;
@@ -19,8 +18,7 @@ public class AttributeCreatorImpl implements AttributeCreator {
 
     private final FeatureFinder featureFinder;
 
-    @Inject
-    AttributeCreatorImpl(FeatureFinder featureFinder) {
+    public AttributeCreatorImpl(FeatureFinder featureFinder) {
         this.featureFinder = featureFinder;
     }
 

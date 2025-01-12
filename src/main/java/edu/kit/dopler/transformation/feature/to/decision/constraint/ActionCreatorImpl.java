@@ -1,6 +1,5 @@
 package edu.kit.dopler.transformation.feature.to.decision.constraint;
 
-import com.google.inject.Inject;
 import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.LiteralConstraint;
 import de.vill.model.constraint.NotConstraint;
@@ -18,8 +17,7 @@ public class ActionCreatorImpl implements ActionCreator {
 
     private final DecisionFinder decisionFinder;
 
-    @Inject
-    ActionCreatorImpl(DecisionFinder decisionFinder) {
+    public ActionCreatorImpl(DecisionFinder decisionFinder) {
         this.decisionFinder = decisionFinder;
     }
 

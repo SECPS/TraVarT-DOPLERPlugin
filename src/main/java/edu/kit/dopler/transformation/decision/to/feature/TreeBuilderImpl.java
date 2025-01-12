@@ -1,7 +1,6 @@
 package edu.kit.dopler.transformation.decision.to.feature;
 
 import at.jku.cps.travart.core.common.IModelTransformer;
-import com.google.inject.Inject;
 import de.vill.model.Feature;
 import de.vill.model.FeatureType;
 import de.vill.model.Group;
@@ -24,8 +23,7 @@ public class TreeBuilderImpl implements TreeBuilder {
     private final ParentFinder parentFinder;
     private final AttributeCreator attributeHandler;
 
-    @Inject
-    TreeBuilderImpl(ParentFinder parentFinder, AttributeCreator attributeHandler) {
+    public TreeBuilderImpl(ParentFinder parentFinder, AttributeCreator attributeHandler) {
         this.parentFinder = parentFinder;
         this.attributeHandler = attributeHandler;
     }
