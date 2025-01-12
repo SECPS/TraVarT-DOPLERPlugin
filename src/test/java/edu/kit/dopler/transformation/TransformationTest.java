@@ -10,7 +10,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -19,8 +18,6 @@ import java.util.stream.Stream;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 abstract class TransformationTest<FromModel, ToModel> {
 
-    static final Path TEMP_PATH = Paths.get("src", "test", "resources", "oneway", ".temporary.txt");
-    private static final long TIMEOUT_TIME = 1L;
     private static final Pattern LINE_SEPARATOR = Pattern.compile("\\R");
 
     private static void assertModel(String expectedModel2, String transformedModel2) {
