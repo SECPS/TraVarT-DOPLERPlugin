@@ -5,7 +5,6 @@ import de.vill.model.Feature;
 import de.vill.model.FeatureType;
 import de.vill.model.Group;
 import edu.kit.dopler.model.*;
-import edu.kit.dopler.transformation.Transformer;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 
 import java.util.*;
@@ -45,7 +44,7 @@ public class TreeBuilderImpl implements TreeBuilder {
     @Override
     public Feature buildTree(List<IDecision<?>> allDecisions, List<IAction> allActions,
                              IModelTransformer.STRATEGY strategy) {
-        Feature rootFeature = new Feature(Transformer.STANDARD_MODEL_NAME);
+        Feature rootFeature = new Feature(TreeBeautifier.STANDARD_MODEL_NAME);
 
         List<IDecision<?>> attributeDecisions = filterAttributeDecisions(allDecisions);
 

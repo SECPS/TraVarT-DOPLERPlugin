@@ -9,6 +9,7 @@ import edu.kit.dopler.TestUtils;
 import edu.kit.dopler.model.Dopler;
 import edu.kit.dopler.plugin.CsvFormat;
 import edu.kit.dopler.plugin.DoplerPluginImpl;
+import edu.kit.dopler.transformation.decision.to.feature.TreeBeautifier;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -73,13 +74,13 @@ class FeatureToDecisionModelTest extends TransformationTest<FeatureModel, Dopler
     @Override
     protected Dopler transformFromModelToToModel(FeatureModel modelToBeTransformed, IModelTransformer.STRATEGY strategy)
             throws NotSupportedVariabilityTypeException {
-        return plugin.getTransformer().transform(modelToBeTransformed, Transformer.STANDARD_MODEL_NAME, strategy);
+        return plugin.getTransformer().transform(modelToBeTransformed, TreeBeautifier.STANDARD_MODEL_NAME, strategy);
     }
 
     @Override
     protected FeatureModel transformToModelToFromModel(Dopler modelToBeTransformed)
             throws NotSupportedVariabilityTypeException {
         return plugin.getTransformer()
-                .transform(modelToBeTransformed, Transformer.STANDARD_MODEL_NAME, IModelTransformer.STRATEGY.ONE_WAY);
+                .transform(modelToBeTransformed, TreeBeautifier.STANDARD_MODEL_NAME, IModelTransformer.STRATEGY.ONE_WAY);
     }
 }

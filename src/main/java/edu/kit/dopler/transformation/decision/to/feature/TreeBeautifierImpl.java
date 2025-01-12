@@ -3,7 +3,6 @@ package edu.kit.dopler.transformation.decision.to.feature;
 import at.jku.cps.travart.core.common.IModelTransformer;
 import de.vill.model.Feature;
 import de.vill.model.Group;
-import edu.kit.dopler.transformation.Transformer;
 import edu.kit.dopler.transformation.util.FeatureFinder;
 
 import java.util.*;
@@ -74,7 +73,7 @@ public class TreeBeautifierImpl implements TreeBeautifier {
     private static Feature removeStandardRoot(Feature rootFeature) {
         Feature feature = rootFeature;
         boolean hasNoParent = null == feature.getParentGroup();
-        boolean hasStandardName = feature.getFeatureName().equals(Transformer.STANDARD_MODEL_NAME);
+        boolean hasStandardName = feature.getFeatureName().equals(TreeBeautifier.STANDARD_MODEL_NAME);
         boolean hasOneChild = 1 == feature.getChildren().size();
         boolean hasOneGrandChild = 1 == feature.getChildren().getFirst().getFeatures().size();
         if (hasNoParent && hasStandardName && hasOneChild && hasOneGrandChild) {

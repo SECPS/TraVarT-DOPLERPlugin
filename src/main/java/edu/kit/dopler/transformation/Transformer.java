@@ -11,11 +11,6 @@ import edu.kit.dopler.transformation.feature.to.decision.FmToDmTransformer;
  */
 public class Transformer implements IModelTransformer<Dopler> {
 
-    /**
-     * This is the standard name for the root feature in the {@link FeatureModel}.
-     */
-    public static final String STANDARD_MODEL_NAME = "STANDARD_MODEL_NAME";
-
     private final DmToFmTransformer dmToFmTransformer;
     private final FmToDmTransformer fmToDmTransformer;
 
