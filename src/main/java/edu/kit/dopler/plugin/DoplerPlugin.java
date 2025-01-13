@@ -24,16 +24,16 @@ import java.util.List;
  * Implementation of {@link IPlugin}  with the {@link Dopler} model as type variable.
  */
 @Extension
-public class DoplerPluginImpl implements IPlugin<Dopler> {
+public class DoplerPlugin implements IPlugin<Dopler> {
 
     private static final String ID = "dopler-decision-plugin";
 
     private final Injector injector;
 
     /**
-     * Constructor of {@link DoplerPluginImpl}:
+     * Constructor of {@link DoplerPlugin}:
      */
-    public DoplerPluginImpl() {
+    public DoplerPlugin() {
         injector = new Injector();
     }
 

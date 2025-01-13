@@ -9,7 +9,7 @@ import edu.kit.dopler.TestUtils;
 import edu.kit.dopler.injection.Injector;
 import edu.kit.dopler.model.Dopler;
 import edu.kit.dopler.plugin.CsvFormat;
-import edu.kit.dopler.plugin.DoplerPluginImpl;
+import edu.kit.dopler.plugin.DoplerPlugin;
 import edu.kit.dopler.plugin.DoplerSerializer;
 import edu.kit.dopler.transformation.decision.to.feature.TreeBeautifier;
 
@@ -20,7 +20,7 @@ import java.nio.file.Paths;
 
 class DecisionToFeatureModelTest extends TransformationTest<Dopler, FeatureModel> {
 
-    private final IPlugin<Dopler> plugin = new DoplerPluginImpl();
+    private final IPlugin<Dopler> plugin = new DoplerPlugin();
 
     @Override
     protected String readToModelAsString(Path path) throws IOException {
