@@ -52,6 +52,7 @@ public class AttributeHandlerImpl implements AttributeHandler {
         this.decisionFinder = decisionFinder;
     }
 
+    @Override
     public void handleAttributes(Dopler decisionModel, FeatureModel featureModel, IModelTransformer.STRATEGY level) {
         //Attributes are only important for the round trip
         if (IModelTransformer.STRATEGY.ROUNDTRIP == level) {
