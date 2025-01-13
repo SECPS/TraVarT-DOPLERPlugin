@@ -28,8 +28,8 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Validate with Maven
-      run: mvn validate
+      run: mvn --batch-mode --update-snapshots validate
     - name: Compile with Maven
-      run: mvn compile
+      run: mvn --batch-mode --update-snapshots compile
     - name: Verify with Maven
-      run: mvn verify
+      run: mvn --batch-mode --update-snapshots verify
