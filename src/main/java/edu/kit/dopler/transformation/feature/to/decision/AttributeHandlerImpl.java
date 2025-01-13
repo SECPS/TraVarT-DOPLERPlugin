@@ -38,6 +38,8 @@ import java.util.Optional;
 /** Implementation of {@link AttributeHandler} */
 public class AttributeHandlerImpl implements AttributeHandler {
 
+    private static final String ATTRIBUTE_DECISION_IDENTIFIER = "%s#%s#Attribute";
+
     private final ConditionCreator conditionCreator;
     private final DecisionFinder decisionFinder;
 
@@ -137,18 +139,18 @@ public class AttributeHandlerImpl implements AttributeHandler {
     private IDecision<?> createAttributeDecision(Feature feature, Attribute<?> attribute) {
         //TODO: add handling of lists, arrays and constraints
         return switch (attribute.getType()) {
-            case "number" ->
-                    new NumberDecision("%s#%s#Attribute".formatted(feature.getFeatureName(), attribute.getName()),
-                            String.format(FeatureAndGroupHandlerImpl.NUMBER_QUESTION, attribute.getName()), "",
-                            new BooleanLiteralExpression(false), new LinkedHashSet<>(), new HashSet<>());
-            case "string" ->
-                    new StringDecision("%s#%s#Attribute".formatted(feature.getFeatureName(), attribute.getName()),
-                            String.format(FeatureAndGroupHandlerImpl.STRING_QUESTION, attribute.getName()), "",
-                            new BooleanLiteralExpression(false), new LinkedHashSet<>(), new HashSet<>());
-            case "boolean" ->
-                    new BooleanDecision("%s#%s#Attribute".formatted(feature.getFeatureName(), attribute.getName()),
-                            String.format(FeatureAndGroupHandlerImpl.BOOLEAN_QUESTION, attribute.getName()), "",
-                            new BooleanLiteralExpression(false), new LinkedHashSet<>());
+            case "number" -> new NumberDecision(
+                    ATTRIBUTE_DECISION_IDENTIFIER.formatted(feature.getFeatureName(), attribute.getName()),
+                    String.format(FeatureAndGroupHandlerImpl.NUMBER_QUESTION, attribute.getName()), "",
+                    new BooleanLiteralExpression(false), new LinkedHashSet<>(), new HashSet<>());
+            case "string" -> new StringDecision(
+                    ATTRIBUTE_DECISION_IDENTIFIER.formatted(feature.getFeatureName(), attribute.getName()),
+                    String.format(FeatureAndGroupHandlerImpl.STRING_QUESTION, attribute.getName()), "",
+                    new BooleanLiteralExpression(false), new LinkedHashSet<>(), new HashSet<>());
+            case "boolean" -> new BooleanDecision(
+                    ATTRIBUTE_DECISION_IDENTIFIER.formatted(feature.getFeatureName(), attribute.getName()),
+                    String.format(FeatureAndGroupHandlerImpl.BOOLEAN_QUESTION, attribute.getName()), "",
+                    new BooleanLiteralExpression(false), new LinkedHashSet<>());
             default -> throw new UnexpectedTypeException(attribute);
         };
     }

@@ -18,6 +18,6 @@ public class FeatureNotPresentException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        return "Decision could not be found. Searched by: " + shouldBeFoundBy;
+        return "Feature could not be found. Searched by: " + shouldBeFoundBy;
     }
 }

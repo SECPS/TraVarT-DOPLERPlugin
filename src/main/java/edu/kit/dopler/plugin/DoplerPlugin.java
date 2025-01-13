@@ -49,7 +49,7 @@ public class DoplerPlugin implements IPlugin<Dopler> {
 
     @Override
     public IStatistics<Dopler> getStatistics() {
-        throw new RuntimeException("Not implemented");
+        throw new UnsupportedOperationException("Not implemented");
     }
 
     @Override

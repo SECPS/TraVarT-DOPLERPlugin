@@ -12,6 +12,7 @@ import edu.kit.dopler.model.EnumerationDecision;
 import edu.kit.dopler.model.EnumerationLiteral;
 import edu.kit.dopler.model.NumberDecision;
 import edu.kit.dopler.model.StringDecision;
+import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -52,7 +53,7 @@ public class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
                 case BOOL -> {
                     //Do nothing because BOOL is standard type
                 }
-                default -> throw new IllegalStateException("Unexpected value: " + feature.getFeatureType());
+                default -> throw new UnexpectedTypeException(feature.getFeatureType());
             }
         }
 
@@ -70,7 +71,7 @@ public class FeatureAndGroupHandlerImpl implements FeatureAndGroupHandler {
             case ALTERNATIVE -> handleAlternativeGroup(group, decisionModel, featureModel, level);
             case MANDATORY -> handleMandatoryGroup(featureModel, group, decisionModel, level);
             case OPTIONAL -> handleOptionalGroup(group, decisionModel, featureModel, level);
-            default -> throw new IllegalStateException("Unexpected value: " + group.GROUPTYPE);
+            default -> throw new UnexpectedTypeException(group.GROUPTYPE);
         }
 
         //Handle features of group

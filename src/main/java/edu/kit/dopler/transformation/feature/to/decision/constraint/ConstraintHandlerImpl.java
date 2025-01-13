@@ -25,6 +25,7 @@ import edu.kit.dopler.transformation.exceptions.CanNotBeTranslatedException;
 import edu.kit.dopler.transformation.exceptions.DecisionNotPresentException;
 import edu.kit.dopler.transformation.exceptions.DnfAlwaysFalseException;
 import edu.kit.dopler.transformation.exceptions.DnfAlwaysTrueException;
+import edu.kit.dopler.transformation.exceptions.ModelInvalidException;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.DnfAlwaysTrueAndFalseRemover;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.DnfToTreeConverter;
@@ -107,8 +108,7 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
             return dnfAlwaysTrueAndFalseRemover.removeAlwaysTruOrFalseConstraints(featureModel, dnf);
         } catch (DnfAlwaysFalseException e) {
             //Constraint is always false. Model is invalid.
-            //TODO: ein Widerspruch sollte hier erstellt werden
-            throw new RuntimeException(e);
+            throw new ModelInvalidException("Model is invalid. One of the constraints is always false.", e);
         } catch (DnfAlwaysTrueException e) {
             //Constraint is always true. No rule should be generated. Return empty DNF.
             return new ArrayList<>();

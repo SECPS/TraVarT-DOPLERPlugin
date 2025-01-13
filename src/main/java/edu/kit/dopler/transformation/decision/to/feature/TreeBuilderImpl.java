@@ -151,7 +151,7 @@ public class TreeBuilderImpl implements TreeBuilder {
                     mandatory.getFeatures().add(feature);
                     parent.addChildren(mandatory);
                 }
-                default -> throw new IllegalStateException("Unexpected value: " + strategy);
+                default -> throw new UnexpectedTypeException(strategy);
             }
         }
     }

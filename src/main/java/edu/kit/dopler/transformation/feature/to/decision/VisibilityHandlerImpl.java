@@ -83,7 +83,7 @@ public class VisibilityHandlerImpl implements VisibilityHandler {
                         .orElseThrow(() -> new DecisionNotPresentException(value));
                 visibility = new StringLiteralExpression(decisionByValue.getDisplayId() + "." + value);
             }
-            case null, default -> throw new IllegalStateException("Unexpected value: " + parentGroup.GROUPTYPE);
+            case null, default -> throw new UnexpectedTypeException(parentGroup.GROUPTYPE);
         }
 
         return visibility;
