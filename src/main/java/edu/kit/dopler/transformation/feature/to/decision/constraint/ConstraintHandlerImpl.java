@@ -24,6 +24,15 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
     private final ConditionCreator conditionCreator;
     private final DnfAlwaysTrueAndFalseRemover dnfAlwaysTrueAndFalseRemover;
 
+    /**
+     * Constructor of {@link ConstraintHandlerImpl}.
+     *
+     * @param treeToDnfConverter           {@link TreeToDnfConverter}
+     * @param dnfToTreeConverter           {@link DnfToTreeConverter}
+     * @param actionCreator                {@link ActionCreator}
+     * @param conditionCreator             {@link ConditionCreator}
+     * @param dnfAlwaysTrueAndFalseRemover {@link DnfAlwaysTrueAndFalseRemover}
+     */
     public ConstraintHandlerImpl(TreeToDnfConverter treeToDnfConverter, DnfToTreeConverter dnfToTreeConverter,
                                  ActionCreator actionCreator, ConditionCreator conditionCreator,
                                  DnfAlwaysTrueAndFalseRemover dnfAlwaysTrueAndFalseRemover) {
@@ -73,8 +82,7 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
             return dnfAlwaysTrueAndFalseRemover.removeAlwaysTruOrFalseConstraints(featureModel, dnf);
         } catch (DnfAlwaysFalseException e) {
             //Constraint is always false. Model is invalid.
-            //TODO: ein Widerspruch sollte hier erstellt werden
-            throw new RuntimeException(e);
+            throw new ModelInvalidException("Model is invalid. One of the constraints is always false.", e);
         } catch (DnfAlwaysTrueException e) {
             //Constraint is always true. No rule should be generated. Return empty DNF.
             return new ArrayList<>();

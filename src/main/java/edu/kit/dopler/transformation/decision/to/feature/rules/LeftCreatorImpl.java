@@ -1,8 +1,22 @@
 package edu.kit.dopler.transformation.decision.to.feature.rules;
 
-import de.vill.model.constraint.*;
+import de.vill.model.constraint.AndConstraint;
+import de.vill.model.constraint.Constraint;
+import de.vill.model.constraint.GreaterEquationConstraint;
+import de.vill.model.constraint.LiteralConstraint;
+import de.vill.model.constraint.NotConstraint;
+import de.vill.model.constraint.OrConstraint;
+import de.vill.model.constraint.ParenthesisConstraint;
 import de.vill.model.expression.Expression;
-import edu.kit.dopler.model.*;
+import edu.kit.dopler.model.AND;
+import edu.kit.dopler.model.BooleanLiteralExpression;
+import edu.kit.dopler.model.DecisionValueCallExpression;
+import edu.kit.dopler.model.EnumeratorLiteralExpression;
+import edu.kit.dopler.model.Equals;
+import edu.kit.dopler.model.GreatherThan;
+import edu.kit.dopler.model.IExpression;
+import edu.kit.dopler.model.NOT;
+import edu.kit.dopler.model.OR;
 import edu.kit.dopler.transformation.exceptions.CanNotBeTranslatedException;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 
@@ -13,6 +27,11 @@ public class LeftCreatorImpl implements LeftCreator {
 
     private final ExpressionHandler expressionHandler;
 
+    /**
+     * Constructor of {@link LeftCreatorImpl}.
+     *
+     * @param expressionHandler {@link ExpressionHandler}
+     */
     public LeftCreatorImpl(ExpressionHandler expressionHandler) {
         this.expressionHandler = expressionHandler;
     }

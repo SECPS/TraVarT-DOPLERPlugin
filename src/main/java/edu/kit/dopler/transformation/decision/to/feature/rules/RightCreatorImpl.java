@@ -5,18 +5,32 @@ import de.vill.model.constraint.AndConstraint;
 import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.LiteralConstraint;
 import de.vill.model.constraint.NotConstraint;
-import edu.kit.dopler.model.*;
+import edu.kit.dopler.model.BooleanEnforce;
+import edu.kit.dopler.model.BooleanValue;
+import edu.kit.dopler.model.DisAllows;
+import edu.kit.dopler.model.EnumEnforce;
+import edu.kit.dopler.model.IAction;
 import edu.kit.dopler.transformation.exceptions.FeatureNotPresentException;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 import edu.kit.dopler.transformation.util.FeatureFinder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 /** Implementation of {@link RightCreator}. */
 public class RightCreatorImpl implements RightCreator {
 
     private final FeatureFinder featureFinder;
 
+    /**
+     * Constructor of {@link RightCreatorImpl}.
+     *
+     * @param featureFinder {@link FeatureFinder}
+     */
     public RightCreatorImpl(FeatureFinder featureFinder) {
         this.featureFinder = featureFinder;
     }

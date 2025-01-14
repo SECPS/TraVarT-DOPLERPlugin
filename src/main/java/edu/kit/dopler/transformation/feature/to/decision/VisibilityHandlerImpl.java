@@ -19,6 +19,12 @@ public class VisibilityHandlerImpl implements VisibilityHandler {
     private final FeatureFinder featureFinder;
     private final DecisionFinder decisionFinder;
 
+    /**
+     * Constructor of {@link VisibilityHandlerImpl}.
+     *
+     * @param featureFinder  {@link FeatureFinder}
+     * @param decisionFinder {@link DecisionFinder}
+     */
     public VisibilityHandlerImpl(FeatureFinder featureFinder, DecisionFinder decisionFinder) {
         this.featureFinder = featureFinder;
         this.decisionFinder = decisionFinder;
@@ -72,7 +78,7 @@ public class VisibilityHandlerImpl implements VisibilityHandler {
                         .orElseThrow(() -> new DecisionNotPresentException(value));
                 visibility = new StringLiteralExpression(decisionByValue.getDisplayId() + "." + value);
             }
-            case null, default -> throw new IllegalStateException("Unexpected value: " + parentGroup.GROUPTYPE);
+            case null, default -> throw new UnexpectedTypeException(parentGroup.GROUPTYPE);
         }
 
         return visibility;

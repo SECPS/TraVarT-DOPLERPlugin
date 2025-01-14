@@ -3,7 +3,15 @@ package edu.kit.dopler.transformation.feature.to.decision.constraint;
 import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.LiteralConstraint;
 import de.vill.model.constraint.NotConstraint;
-import edu.kit.dopler.model.*;
+import edu.kit.dopler.model.BooleanDecision;
+import edu.kit.dopler.model.BooleanEnforce;
+import edu.kit.dopler.model.BooleanValue;
+import edu.kit.dopler.model.DisAllows;
+import edu.kit.dopler.model.Dopler;
+import edu.kit.dopler.model.EnumEnforce;
+import edu.kit.dopler.model.IAction;
+import edu.kit.dopler.model.IDecision;
+import edu.kit.dopler.model.StringValue;
 import edu.kit.dopler.transformation.exceptions.DecisionNotPresentException;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 import edu.kit.dopler.transformation.util.DecisionFinder;
@@ -17,6 +25,11 @@ public class ActionCreatorImpl implements ActionCreator {
 
     private final DecisionFinder decisionFinder;
 
+    /**
+     * Constructor of {@link ActionCreatorImpl}.
+     *
+     * @param decisionFinder {@link DecisionFinder}
+     */
     public ActionCreatorImpl(DecisionFinder decisionFinder) {
         this.decisionFinder = decisionFinder;
     }

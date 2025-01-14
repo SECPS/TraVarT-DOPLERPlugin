@@ -1,11 +1,11 @@
 package edu.kit.dopler.transformation;
 
 import de.vill.model.constraint.*;
+import edu.kit.dopler.injection.Injector;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.DnfToTreeConverter;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.TreeToDnfConverter;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.dnf.UnwantedConstraintsReplacer;
-import edu.kit.dopler.injection.Injector;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

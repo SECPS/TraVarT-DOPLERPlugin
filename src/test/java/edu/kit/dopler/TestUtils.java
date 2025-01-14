@@ -40,9 +40,9 @@ public final class TestUtils {
         records.sort(Comparator.comparing(o -> o.get(0)));
 
         List<String> lines = new ArrayList<>();
-        for (CSVRecord record : records) {
+        for (CSVRecord csvRecord : records) {
             List<String> line = new ArrayList<>();
-            List<String> temp2 = record.stream().toList();
+            List<String> temp2 = csvRecord.stream().toList();
             for (String value : temp2) {
 
                 //Sort enum values

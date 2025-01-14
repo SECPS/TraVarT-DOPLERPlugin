@@ -8,19 +8,19 @@ import de.vill.model.FeatureModel;
 import edu.kit.dopler.TestUtils;
 import edu.kit.dopler.injection.Injector;
 import edu.kit.dopler.model.Dopler;
-import edu.kit.dopler.plugin.DoplerPluginImpl;
+import edu.kit.dopler.plugin.CsvFormat;
+import edu.kit.dopler.plugin.DoplerPlugin;
 import edu.kit.dopler.plugin.DoplerSerializer;
+import edu.kit.dopler.transformation.decision.to.feature.TreeBeautifier;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static edu.kit.dopler.plugin.DoplerPluginImpl.CSV_FORMAT;
-
 class DecisionToFeatureModelTest extends TransformationTest<Dopler, FeatureModel> {
 
-    private final IPlugin<Dopler> plugin = new DoplerPluginImpl();
+    private final IPlugin<Dopler> plugin = new DoplerPlugin();
 
     @Override
     protected String readToModelAsString(Path path) throws IOException {
@@ -44,7 +44,7 @@ class DecisionToFeatureModelTest extends TransformationTest<Dopler, FeatureModel
 
     @Override
     protected Dopler getFromModelFromPath(Path path) throws Exception {
-        return plugin.getDeserializer().deserialize(Files.readString(path), CSV_FORMAT);
+        return plugin.getDeserializer().deserialize(Files.readString(path), new CsvFormat());
     }
 
     @Override
@@ -55,14 +55,15 @@ class DecisionToFeatureModelTest extends TransformationTest<Dopler, FeatureModel
     @Override
     protected FeatureModel transformFromModelToToModel(Dopler modelToBeTransformed, IModelTransformer.STRATEGY strategy)
             throws NotSupportedVariabilityTypeException {
-        return plugin.getTransformer().transform(modelToBeTransformed, Transformer.STANDARD_MODEL_NAME, strategy);
+        return plugin.getTransformer().transform(modelToBeTransformed, TreeBeautifier.STANDARD_MODEL_NAME, strategy);
     }
 
     @Override
     protected Dopler transformToModelToFromModel(FeatureModel modelToBeTransformed)
             throws NotSupportedVariabilityTypeException {
         return plugin.getTransformer()
-                .transform(modelToBeTransformed, Transformer.STANDARD_MODEL_NAME, IModelTransformer.STRATEGY.ONE_WAY);
+                .transform(modelToBeTransformed, TreeBeautifier.STANDARD_MODEL_NAME,
+                        IModelTransformer.STRATEGY.ONE_WAY);
     }
 
     @Override

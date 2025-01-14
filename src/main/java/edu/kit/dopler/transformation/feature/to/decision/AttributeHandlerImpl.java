@@ -6,25 +6,55 @@ import de.vill.model.Feature;
 import de.vill.model.FeatureModel;
 import de.vill.model.Group;
 import de.vill.model.constraint.LiteralConstraint;
-import edu.kit.dopler.model.*;
+import edu.kit.dopler.model.BooleanDecision;
+import edu.kit.dopler.model.BooleanEnforce;
+import edu.kit.dopler.model.BooleanLiteralExpression;
+import edu.kit.dopler.model.BooleanValue;
+import edu.kit.dopler.model.Dopler;
+import edu.kit.dopler.model.DoubleValue;
+import edu.kit.dopler.model.Enforce;
+import edu.kit.dopler.model.IAction;
+import edu.kit.dopler.model.IDecision;
+import edu.kit.dopler.model.IExpression;
+import edu.kit.dopler.model.NumberDecision;
+import edu.kit.dopler.model.NumberEnforce;
+import edu.kit.dopler.model.Rule;
+import edu.kit.dopler.model.StringDecision;
+import edu.kit.dopler.model.StringEnforce;
+import edu.kit.dopler.model.StringValue;
 import edu.kit.dopler.transformation.exceptions.DecisionNotPresentException;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 import edu.kit.dopler.transformation.feature.to.decision.constraint.ConditionCreator;
 import edu.kit.dopler.transformation.util.DecisionFinder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /** Implementation of {@link AttributeHandler} */
 public class AttributeHandlerImpl implements AttributeHandler {
 
+    private static final String ATTRIBUTE_DECISION_IDENTIFIER = "%s#%s#Attribute";
+
     private final ConditionCreator conditionCreator;
     private final DecisionFinder decisionFinder;
 
+    /**
+     * Constructor of {@link AttributeHandlerImpl}.
+     *
+     * @param conditionCreator {@link ConditionCreator}
+     * @param decisionFinder   {@link DecisionFinder}
+     */
     public AttributeHandlerImpl(ConditionCreator conditionCreator, DecisionFinder decisionFinder) {
         this.conditionCreator = conditionCreator;
         this.decisionFinder = decisionFinder;
     }
 
+    @Override
     public void handleAttributes(Dopler decisionModel, FeatureModel featureModel, IModelTransformer.STRATEGY level) {
         //Attributes are only important for the round trip
         if (IModelTransformer.STRATEGY.ROUNDTRIP == level) {
@@ -109,18 +139,18 @@ public class AttributeHandlerImpl implements AttributeHandler {
     private IDecision<?> createAttributeDecision(Feature feature, Attribute<?> attribute) {
         //TODO: add handling of lists, arrays and constraints
         return switch (attribute.getType()) {
-            case "number" ->
-                    new NumberDecision("%s#%s#Attribute".formatted(feature.getFeatureName(), attribute.getName()),
-                            String.format(FeatureAndGroupHandlerImpl.NUMBER_QUESTION, attribute.getName()), "",
-                            new BooleanLiteralExpression(false), new LinkedHashSet<>(), new HashSet<>());
-            case "string" ->
-                    new StringDecision("%s#%s#Attribute".formatted(feature.getFeatureName(), attribute.getName()),
-                            String.format(FeatureAndGroupHandlerImpl.STRING_QUESTION, attribute.getName()), "",
-                            new BooleanLiteralExpression(false), new LinkedHashSet<>(), new HashSet<>());
-            case "boolean" ->
-                    new BooleanDecision("%s#%s#Attribute".formatted(feature.getFeatureName(), attribute.getName()),
-                            String.format(FeatureAndGroupHandlerImpl.BOOLEAN_QUESTION, attribute.getName()), "",
-                            new BooleanLiteralExpression(false), new LinkedHashSet<>());
+            case "number" -> new NumberDecision(
+                    ATTRIBUTE_DECISION_IDENTIFIER.formatted(feature.getFeatureName(), attribute.getName()),
+                    String.format(FeatureAndGroupHandlerImpl.NUMBER_QUESTION, attribute.getName()), "",
+                    new BooleanLiteralExpression(false), new LinkedHashSet<>(), new HashSet<>());
+            case "string" -> new StringDecision(
+                    ATTRIBUTE_DECISION_IDENTIFIER.formatted(feature.getFeatureName(), attribute.getName()),
+                    String.format(FeatureAndGroupHandlerImpl.STRING_QUESTION, attribute.getName()), "",
+                    new BooleanLiteralExpression(false), new LinkedHashSet<>(), new HashSet<>());
+            case "boolean" -> new BooleanDecision(
+                    ATTRIBUTE_DECISION_IDENTIFIER.formatted(feature.getFeatureName(), attribute.getName()),
+                    String.format(FeatureAndGroupHandlerImpl.BOOLEAN_QUESTION, attribute.getName()), "",
+                    new BooleanLiteralExpression(false), new LinkedHashSet<>());
             default -> throw new UnexpectedTypeException(attribute);
         };
     }

@@ -16,6 +16,11 @@ public class DoplerPrettyPrinter implements IPrettyPrinter<Dopler> {
 
     private final ISerializer<Dopler> serializer;
 
+    /**
+     * Constructor of {@link DoplerPrettyPrinter}.
+     *
+     * @param serializer {@link ISerializer} with the {@link Dopler} model as type variable
+     */
     public DoplerPrettyPrinter(ISerializer<Dopler> serializer) {
         this.serializer = serializer;
     }
@@ -43,14 +48,14 @@ public class DoplerPrettyPrinter implements IPrettyPrinter<Dopler> {
         }
 
         for (int i = 0; i < records.size(); i++) {
-            CSVRecord record = records.get(i);
-            modelAsTable[i][0] = record.get(0);
-            modelAsTable[i][1] = record.get(1);
-            modelAsTable[i][2] = record.get(2);
-            modelAsTable[i][3] = record.get(3);
-            modelAsTable[i][4] = record.get(4);
-            modelAsTable[i][5] = record.get(5);
-            modelAsTable[i][6] = record.get(6);
+            CSVRecord csvRecord = records.get(i);
+            modelAsTable[i][0] = csvRecord.get(0);
+            modelAsTable[i][1] = csvRecord.get(1);
+            modelAsTable[i][2] = csvRecord.get(2);
+            modelAsTable[i][3] = csvRecord.get(3);
+            modelAsTable[i][4] = csvRecord.get(4);
+            modelAsTable[i][5] = csvRecord.get(5);
+            modelAsTable[i][6] = csvRecord.get(6);
         }
 
         return modelAsTable;

@@ -17,6 +17,13 @@ public class FmToDmTransformerImpl implements FmToDmTransformer {
     private final ConstraintHandler constraintHandler;
     private final AttributeHandler attributeHandler;
 
+    /**
+     * Constructor of {@link FmToDmTransformer}.
+     *
+     * @param featureAndGroupHandler {@link FeatureAndGroupHandler}
+     * @param constraintHandler      {@link ConstraintHandler}
+     * @param attributeHandler       {@link AttributeHandler}
+     */
     public FmToDmTransformerImpl(FeatureAndGroupHandler featureAndGroupHandler, ConstraintHandler constraintHandler,
                                  AttributeHandler attributeHandler) {
         this.featureAndGroupHandler = featureAndGroupHandler;

@@ -4,11 +4,21 @@ import at.jku.cps.travart.core.common.IModelTransformer;
 import de.vill.model.Feature;
 import de.vill.model.FeatureType;
 import de.vill.model.Group;
-import edu.kit.dopler.model.*;
-import edu.kit.dopler.transformation.Transformer;
+import edu.kit.dopler.model.BooleanDecision;
+import edu.kit.dopler.model.EnumerationDecision;
+import edu.kit.dopler.model.EnumerationLiteral;
+import edu.kit.dopler.model.IAction;
+import edu.kit.dopler.model.IDecision;
+import edu.kit.dopler.model.IExpression;
+import edu.kit.dopler.model.NumberDecision;
+import edu.kit.dopler.model.StringDecision;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import static de.vill.model.Group.GroupType.ALTERNATIVE;
@@ -23,6 +33,12 @@ public class TreeBuilderImpl implements TreeBuilder {
     private final ParentFinder parentFinder;
     private final AttributeCreator attributeHandler;
 
+    /**
+     * Constructor of {@link TreeBuilderImpl}
+     *
+     * @param parentFinder     {@link ParentFinderImpl}
+     * @param attributeHandler {@link AttributeCreator}
+     */
     public TreeBuilderImpl(ParentFinder parentFinder, AttributeCreator attributeHandler) {
         this.parentFinder = parentFinder;
         this.attributeHandler = attributeHandler;
@@ -45,7 +61,7 @@ public class TreeBuilderImpl implements TreeBuilder {
     @Override
     public Feature buildTree(List<IDecision<?>> allDecisions, List<IAction> allActions,
                              IModelTransformer.STRATEGY strategy) {
-        Feature rootFeature = new Feature(Transformer.STANDARD_MODEL_NAME);
+        Feature rootFeature = new Feature(TreeBeautifier.STANDARD_MODEL_NAME);
 
         List<IDecision<?>> attributeDecisions = filterAttributeDecisions(allDecisions);
 
@@ -135,7 +151,7 @@ public class TreeBuilderImpl implements TreeBuilder {
                     mandatory.getFeatures().add(feature);
                     parent.addChildren(mandatory);
                 }
-                default -> throw new IllegalStateException("Unexpected value: " + strategy);
+                default -> throw new UnexpectedTypeException(strategy);
             }
         }
     }

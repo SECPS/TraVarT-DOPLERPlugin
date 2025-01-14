@@ -7,7 +7,12 @@
  */
 package edu.kit.dopler.plugin;
 
-import at.jku.cps.travart.core.common.*;
+import at.jku.cps.travart.core.common.IDeserializer;
+import at.jku.cps.travart.core.common.IModelTransformer;
+import at.jku.cps.travart.core.common.IPlugin;
+import at.jku.cps.travart.core.common.IPrettyPrinter;
+import at.jku.cps.travart.core.common.ISerializer;
+import at.jku.cps.travart.core.common.IStatistics;
 import edu.kit.dopler.injection.Injector;
 import edu.kit.dopler.model.Dopler;
 import edu.kit.dopler.transformation.Transformer;
@@ -16,19 +21,19 @@ import org.pf4j.Extension;
 import java.util.List;
 
 /**
- * Implementation of {@link IPlugin} for the {@link Dopler} model.
+ * Implementation of {@link IPlugin}  with the {@link Dopler} model as type variable.
  */
 @Extension
-public class DoplerPluginImpl implements IPlugin<Dopler> {
-
-    private static final String CSV = ".csv";
-    public static final Format CSV_FORMAT = new Format("csv", CSV, true, true);
+public class DoplerPlugin implements IPlugin<Dopler> {
 
     private static final String ID = "dopler-decision-plugin";
 
     private final Injector injector;
 
-    public DoplerPluginImpl() {
+    /**
+     * Constructor of {@link DoplerPlugin}:
+     */
+    public DoplerPlugin() {
         injector = new Injector();
     }
 
@@ -44,7 +49,7 @@ public class DoplerPluginImpl implements IPlugin<Dopler> {
 
     @Override
     public IStatistics<Dopler> getStatistics() {
-        throw new RuntimeException("Not implemented");
+        throw new UnsupportedOperationException("Not implemented");
     }
 
     @Override
@@ -79,6 +84,6 @@ public class DoplerPluginImpl implements IPlugin<Dopler> {
 
     @Override
     public List<String> getSupportedFileExtensions() {
-        return List.of(CSV);
+        return List.of(new CsvFormat().extension());
     }
 }

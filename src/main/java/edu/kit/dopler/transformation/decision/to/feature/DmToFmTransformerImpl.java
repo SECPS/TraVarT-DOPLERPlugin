@@ -21,6 +21,13 @@ public class DmToFmTransformerImpl implements DmToFmTransformer {
     private final RuleHandler ruleHandler;
     private final TreeBeautifier treeBeautifier;
 
+    /**
+     * Constructor of {@link DmToFmTransformerImpl}.
+     *
+     * @param treeBuilder    {@link TreeBuilder}
+     * @param ruleHandler    {@link RuleHandler}
+     * @param treeBeautifier {@link TreeBeautifier}
+     */
     public DmToFmTransformerImpl(TreeBuilder treeBuilder, RuleHandler ruleHandler, TreeBeautifier treeBeautifier) {
         this.treeBuilder = treeBuilder;
         this.ruleHandler = ruleHandler;

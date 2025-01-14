@@ -23,13 +23,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static edu.kit.dopler.plugin.DoplerPluginImpl.CSV_FORMAT;
-
 class DoplerPluginTest {
 
     private static final Path TEST_DATA_PATH = Paths.get("src", "test", "resources", "plugin");
 
-    private final IPlugin<Dopler> doplerPlugin = new DoplerPluginImpl();
+    private final IPlugin<Dopler> doplerPlugin = new DoplerPlugin();
     private final ISerializer<Dopler> serializer = doplerPlugin.getSerializer();
     private final IDeserializer<Dopler> deserializer = doplerPlugin.getDeserializer();
     private final IPrettyPrinter<Dopler> printer = doplerPlugin.getPrinter();
@@ -50,7 +48,7 @@ class DoplerPluginTest {
         String doplerModelAsString = Files.readString(pathOfModel);
         Dopler dopler = decisionModelReader.read(doplerModelAsString, "Some model name");
         String serialisedModel = serializer.serialize(dopler);
-        Dopler deserializesModel = deserializer.deserialize(serialisedModel, CSV_FORMAT);
+        Dopler deserializesModel = deserializer.deserialize(serialisedModel, new CsvFormat());
         String deserilisedModelAsString = printer.toText(deserializesModel);
         Assertions.assertEquals(TestUtils.sortDecisionModel(doplerModelAsString),
                 TestUtils.sortDecisionModel(deserilisedModelAsString));
@@ -65,7 +63,7 @@ class DoplerPluginTest {
                 C;?;Boolean;true | false;;;true
                 D;?;Enumeration;X | Y | Z;1:4;;true""";
 
-        Dopler model = deserializer.deserialize(modelAsString, CSV_FORMAT);
+        Dopler model = deserializer.deserialize(modelAsString, new CsvFormat());
 
         String[][] table = printer.toTable(model);
         Arrays.sort(table, Comparator.comparing(row -> row[0]));

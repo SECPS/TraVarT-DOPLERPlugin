@@ -18,6 +18,11 @@ public class AttributeCreatorImpl implements AttributeCreator {
 
     private final FeatureFinder featureFinder;
 
+    /**
+     * Constructor of {@link AttributeCreatorImpl}.
+     *
+     * @param featureFinder {@link FeatureFinder}
+     */
     public AttributeCreatorImpl(FeatureFinder featureFinder) {
         this.featureFinder = featureFinder;
     }

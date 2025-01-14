@@ -21,6 +21,12 @@ public class ConditionCreatorImpl implements ConditionCreator {
     private final DecisionFinder decisionFinder;
     private final FeatureFinder featureFinder;
 
+    /**
+     * Constructor of {@link ConditionCreatorImpl}.
+     *
+     * @param decisionFinder {@link DecisionFinder}
+     * @param featureFinder  {@link FeatureFinder}
+     */
     public ConditionCreatorImpl(DecisionFinder decisionFinder, FeatureFinder featureFinder) {
         this.decisionFinder = decisionFinder;
         this.featureFinder = featureFinder;
