@@ -1,5 +1,7 @@
 package edu.kit.dopler.transformation.exceptions;
 
+import java.util.Objects;
+
 /**
  * This exception is thrown when an object has an unexpected type.
  */
@@ -13,6 +15,7 @@ public class UnexpectedTypeException extends RuntimeException {
      * @param object Object that had an unexpected type
      */
     public UnexpectedTypeException(Object object) {
+        Objects.requireNonNull(object);
         this.object = object;
     }
 

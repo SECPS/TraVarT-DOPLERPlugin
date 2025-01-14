@@ -126,8 +126,8 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
         try {
             IExpression condition = conditionCreator.createCondition(decisionModel, featureModel,
                     new NotConstraint(dnfToTreeConverter.createDnfFromList(dnf)));
-            Set<IAction> contradiction = createContradiction(decisionModel);
-            return Optional.of(new Rule(condition, contradiction));
+            List<IAction> contradiction = createContradiction(decisionModel);
+            return Optional.of(new Rule(condition, new LinkedHashSet<>(contradiction)));
         } catch (CanNotBeTranslatedException e) {
             //The dnf to translate contains an expression.
             //Expressions can not be translated.
@@ -147,27 +147,39 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
 
     /** Distribute the generated rule to a decision */
     private void distributeRule(Rule rule) {
-        //Just take decision of first action
-        ((ValueRestrictionAction) rule.getActions().stream().findFirst().orElseThrow()).getDecision().addRule(rule);
+        //Just take decision of first action. If not possible, then take the next
+        List<IAction> sortedActions = new ArrayList<>(rule.getActions());
+        sortedActions.sort(Comparator.comparing(Object::toString));
+        for (IAction action : sortedActions) {
+            ValueRestrictionAction valueRestrictionAction = (ValueRestrictionAction) action;
+            try {
+                valueRestrictionAction.getDecision().addRule(rule);
+                return;
+            } catch (UnsupportedOperationException e) {
+                //Ignore and try with next action
+            }
+        }
     }
 
     /** Creates a set of {@link IAction}s that contradict each other. */
-    private Set<IAction> createContradiction(Dopler decisionModel) {
-        //Use the first decision to create contradiction
-        Optional<IDecision<?>> decision = decisionModel.getDecisions().stream().findFirst();
-        if (decision.isEmpty()) {
+    private List<IAction> createContradiction(Dopler decisionModel) {
+        //Use always the same decision to create contradiction. The decision cannot be an enum decision.
+        Optional<IDecision<?>> decisionOptional = decisionModel.getDecisions().stream()
+                .filter(decision -> Decision.DecisionType.ENUM != decision.getDecisionType())
+                .min(Comparator.comparing(IDecision::getDisplayId));
+        if (decisionOptional.isEmpty()) {
             throw new DecisionNotPresentException("First");
         }
 
-        return switch (decision.get()) {
+        return switch (decisionOptional.get()) {
             case BooleanDecision booleanDecision ->
-                    Set.of(new BooleanEnforce(booleanDecision, new BooleanValue(Boolean.TRUE)),
+                    List.of(new BooleanEnforce(booleanDecision, new BooleanValue(Boolean.TRUE)),
                             new BooleanEnforce(booleanDecision, new BooleanValue(Boolean.FALSE)));
-            case StringDecision stringDecision -> Set.of(new StringEnforce(stringDecision, new StringValue("true")),
-                    new StringEnforce(stringDecision, new StringValue("false")));
-            case NumberDecision numberDecision -> Set.of(new NumberEnforce(numberDecision, new DoubleValue(1.0)),
+            case StringDecision stringDecision -> List.of(new StringEnforce(stringDecision, new StringValue("A")),
+                    new StringEnforce(stringDecision, new StringValue("B")));
+            case NumberDecision numberDecision -> List.of(new NumberEnforce(numberDecision, new DoubleValue(1.0)),
                     new NumberEnforce(numberDecision, new DoubleValue(-1.0)));
-            default -> throw new UnexpectedTypeException(decision.get());
+            default -> throw new UnexpectedTypeException(decisionOptional.get());
         };
     }
 }

@@ -48,7 +48,8 @@ public final class Injector extends AbstractInjector {
         install(AttributeCreator.class, new AttributeCreatorImpl(getInstance(FeatureFinder.class)));
         install(TreeBuilder.class,
                 new TreeBuilderImpl(getInstance(ParentFinder.class), getInstance(AttributeCreator.class)));
-        install(LeftCreator.class, new LeftCreatorImpl());
+        install(ExpressionHandler.class, new ExpressionHandlerImpl());
+        install(LeftCreator.class, new LeftCreatorImpl(getInstance(ExpressionHandler.class)));
         install(RightCreator.class, new RightCreatorImpl(getInstance(FeatureFinder.class)));
         install(RuleHandler.class,
                 new RuleHandlerImpl(getInstance(LeftCreator.class), getInstance(RightCreator.class)));

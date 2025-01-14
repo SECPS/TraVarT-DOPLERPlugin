@@ -1,6 +1,7 @@
 package edu.kit.dopler.transformation.decision.to.feature.rules;
 
 import de.vill.model.constraint.*;
+import de.vill.model.expression.Expression;
 import edu.kit.dopler.model.*;
 import edu.kit.dopler.transformation.exceptions.CanNotBeTranslatedException;
 import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
@@ -9,6 +10,12 @@ import java.util.Optional;
 
 /** Implementation of {@link LeftCreator}. */
 public class LeftCreatorImpl implements LeftCreator {
+
+    private final ExpressionHandler expressionHandler;
+
+    public LeftCreatorImpl(ExpressionHandler expressionHandler) {
+        this.expressionHandler = expressionHandler;
+    }
 
     private static Optional<Constraint> handleEquals(Equals equals) {
         //Todo: There are probably a lot of other cases here.
@@ -56,8 +63,20 @@ public class LeftCreatorImpl implements LeftCreator {
             case Equals equals -> handleEquals(equals);
             case AND and -> handleAnd(and);
             case OR or -> handleOr(or);
+            case GreatherThan greatherThan -> handleGreaterThen(greatherThan);
             case null, default -> throw new UnexpectedTypeException(condition);
         };
+    }
+
+    private Optional<Constraint> handleGreaterThen(GreatherThan greatherThan) {
+        Optional<Expression> left = expressionHandler.handleExpression(greatherThan.getLeftExpression());
+        Optional<Expression> right = expressionHandler.handleExpression(greatherThan.getRightExpression());
+
+        if (right.isPresent() && left.isPresent()) {
+            return Optional.of(new ParenthesisConstraint(new GreaterEquationConstraint(left.get(), right.get())));
+        }
+
+        return Optional.empty();
     }
 
     private Optional<Constraint> handleOr(OR or) {

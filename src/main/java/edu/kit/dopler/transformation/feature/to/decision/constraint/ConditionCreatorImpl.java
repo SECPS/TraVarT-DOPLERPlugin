@@ -3,6 +3,9 @@ package edu.kit.dopler.transformation.feature.to.decision.constraint;
 import de.vill.model.FeatureModel;
 import de.vill.model.constraint.*;
 import de.vill.model.expression.Expression;
+import de.vill.model.expression.LiteralExpression;
+import de.vill.model.expression.NumberExpression;
+import de.vill.model.expression.StringExpression;
 import edu.kit.dopler.model.*;
 import edu.kit.dopler.transformation.exceptions.CanNotBeTranslatedException;
 import edu.kit.dopler.transformation.exceptions.DecisionNotPresentException;
@@ -99,7 +102,12 @@ public class ConditionCreatorImpl implements ConditionCreator {
     }
 
     private IExpression handleExpression(Expression expression) {
-        //Ignore constraints that contains expression;
-        throw new CanNotBeTranslatedException(expression);
+        //Ignore constraints that contains complex expressions;
+        return switch (expression) {
+            case NumberExpression numberExpression -> new DoubleLiteralExpression(numberExpression.getNumber());
+            case StringExpression stringExpression -> new StringLiteralExpression(stringExpression.getString());
+            case LiteralExpression literalExpression -> new StringLiteralExpression(literalExpression.getFeatureName());
+            case null, default -> throw new CanNotBeTranslatedException(expression);
+        };
     }
 }

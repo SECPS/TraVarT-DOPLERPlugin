@@ -14,7 +14,7 @@ constraints
 	A + B == C
 	A < D
 	E > A
-	A + B + C < 10
+	A + B + C < 10  //Cannot be translated
 	A < B => D > E
 	A == 10 | B == 10 | C == 10
 	E < A <=> A > E

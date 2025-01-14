@@ -1,7 +1,0 @@
-ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-Designated GPU;Designated GPU?;Boolean;false | true;;;true
-Manufacturer;What Manufacturer?;String;;;;ManufacturerCheck
-ManufacturerCheck;Manufacturer?;Boolean;false | true;;;true
-RAM;Which RAM?;Enumeration;16GB | 8GB;1:2;;true
-Watt;How much Watt?;Double;;;;WattCheck
-WattCheck;Watt?;Boolean;false | true;;;true

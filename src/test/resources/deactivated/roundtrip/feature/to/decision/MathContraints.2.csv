@@ -1,0 +1,10 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+A#;Which A?;Enumeration;A;1:1;;root#.root
+B#;Which B?;Enumeration;B;1:1;;root#.root
+C;How much C?;Double;;;"if (!(C = D)) {C = 1.0;C = -1.0;}if (!(D > E)) {C = 1.0;C = -1.0;}if (!(E < F)) {C = 1.0;C = -1.0;}if (!(G = Hello World)) {C = 1.0;C = -1.0;}if (!((C = D) || (C > D))) {C = 1.0;C = -1.0;}if (!(C > D)) {C = 1.0;C = -1.0;}if (!((D = E) || (D < E))) {C = 1.0;C = -1.0;}if (!((D = E) || (D < E))) {C = 1.0;C = -1.0;}if (!!(G = Bye world)) {C = 1.0;C = -1.0;}";root#.root
+D;How much D?;Double;;;;root#.root
+E;How much E?;Double;;;;root#.root
+F;How much F?;Double;;;;root#.root
+G;What G?;String;;;;root#.root
+H;What H?;String;;;;root#.root
+root#;Which root?;Enumeration;root;1:1;;true
