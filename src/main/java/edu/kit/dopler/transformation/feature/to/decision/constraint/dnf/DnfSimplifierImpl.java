@@ -61,15 +61,15 @@ public class DnfSimplifierImpl implements DnfSimplifier {
 
     /** Remove conjunctions that are always false. */
     private static void removeAlwaysFalseConjunctions(List<List<Constraint>> dnf) {
-        for (List<Constraint> constraints : new LinkedHashSet<>(dnf)) {
+        for (List<Constraint> constraints : new ArrayList<>(dnf)) {
             boolean isAlwaysFalse = false;
             for (Constraint constraint : constraints) {
                 if (constraint instanceof NotConstraint &&
-                        constraints.contains(((NotConstraint) constraint).getContent())) {
+                        new HashSet<>(constraints).contains(((NotConstraint) constraint).getContent())) {
                     isAlwaysFalse = true;
                 }
 
-                if (constraints.contains(new NotConstraint(constraint))) {
+                if (new HashSet<>(constraints).contains(new NotConstraint(constraint))) {
                     isAlwaysFalse = true;
                 }
             }
