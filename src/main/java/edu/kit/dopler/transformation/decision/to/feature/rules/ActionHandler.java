@@ -9,8 +9,8 @@ import edu.kit.dopler.model.Rule;
 
 import java.util.Set;
 
-/** This interface is responsible to handle the right side of a given {@link Rule}. */
-public interface RightCreator {
+/** This interface is responsible for translating the actions of a given {@link Rule}. */
+public interface ActionHandler {
 
     /**
      * Translates the given {@link IAction}s and creates a single {@link Constraint} with it. This {@link Constraint}

@@ -7,8 +7,8 @@ import edu.kit.dopler.model.Rule;
 
 import java.util.Optional;
 
-/** This interface is responsible to handle the left side of a given {@link Rule}. */
-public interface LeftCreator {
+/** This interface is responsible for translating the condition of a given {@link Rule}. */
+public interface ConditionHandler {
 
     /**
      * Translates the given condition from the left side of a rule and creates a {@link Constraint} with it. This

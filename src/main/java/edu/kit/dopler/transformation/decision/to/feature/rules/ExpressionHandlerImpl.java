@@ -9,6 +9,7 @@ import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 
 import java.util.Optional;
 
+/** Implementation of {@link ExpressionHandler}. */
 public class ExpressionHandlerImpl implements ExpressionHandler {
 
     @Override

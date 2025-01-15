@@ -22,17 +22,17 @@ import edu.kit.dopler.transformation.exceptions.UnexpectedTypeException;
 
 import java.util.Optional;
 
-/** Implementation of {@link LeftCreator}. */
-public class LeftCreatorImpl implements LeftCreator {
+/** Implementation of {@link ConditionHandler}. */
+public class ConditionHandlerImpl implements ConditionHandler {
 
     private final ExpressionHandler expressionHandler;
 
     /**
-     * Constructor of {@link LeftCreatorImpl}.
+     * Constructor of {@link ConditionHandlerImpl}.
      *
      * @param expressionHandler {@link ExpressionHandler}
      */
-    public LeftCreatorImpl(ExpressionHandler expressionHandler) {
+    public ConditionHandlerImpl(ExpressionHandler expressionHandler) {
         this.expressionHandler = expressionHandler;
     }
 

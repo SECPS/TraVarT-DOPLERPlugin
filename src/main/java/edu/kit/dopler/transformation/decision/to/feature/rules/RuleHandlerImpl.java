@@ -12,18 +12,18 @@ import java.util.Optional;
 /** Implementation of {@link RuleHandler}. */
 public class RuleHandlerImpl implements RuleHandler {
 
-    private final LeftCreator leftCreator;
-    private final RightCreator rightCreator;
+    private final ConditionHandler conditionHandler;
+    private final ActionHandler actionHandler;
 
     /**
      * Constructor of {@link RuleHandlerImpl}.
      *
-     * @param leftCreator  {@link LeftCreator}
-     * @param rightCreator {@link RightCreator}
+     * @param conditionHandler  {@link ConditionHandler}
+     * @param actionHandler {@link ActionHandler}
      */
-    public RuleHandlerImpl(LeftCreator leftCreator, RightCreator rightCreator) {
-        this.leftCreator = leftCreator;
-        this.rightCreator = rightCreator;
+    public RuleHandlerImpl(ConditionHandler conditionHandler, ActionHandler actionHandler) {
+        this.conditionHandler = conditionHandler;
+        this.actionHandler = actionHandler;
     }
 
     @Override
@@ -37,8 +37,8 @@ public class RuleHandlerImpl implements RuleHandler {
     }
 
     private void handleRule(FeatureModel featureModel, Rule rule) {
-        Optional<Constraint> left = leftCreator.handleCondition(rule.getCondition());
-        Constraint right = rightCreator.createRight(featureModel.getRootFeature(), rule.getActions());
+        Optional<Constraint> left = conditionHandler.handleCondition(rule.getCondition());
+        Constraint right = actionHandler.createRight(featureModel.getRootFeature(), rule.getActions());
 
         if (left.isPresent()) {
             // constraint: 'left -> right'

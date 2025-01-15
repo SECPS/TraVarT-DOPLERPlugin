@@ -21,17 +21,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-/** Implementation of {@link RightCreator}. */
-public class RightCreatorImpl implements RightCreator {
+/** Implementation of {@link ActionHandler}. */
+public class ActionHandlerImpl implements ActionHandler {
 
     private final FeatureFinder featureFinder;
 
     /**
-     * Constructor of {@link RightCreatorImpl}.
+     * Constructor of {@link ActionHandlerImpl}.
      *
      * @param featureFinder {@link FeatureFinder}
      */
-    public RightCreatorImpl(FeatureFinder featureFinder) {
+    public ActionHandlerImpl(FeatureFinder featureFinder) {
         this.featureFinder = featureFinder;
     }
 

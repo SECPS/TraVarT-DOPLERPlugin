@@ -16,10 +16,10 @@ import edu.kit.dopler.transformation.decision.to.feature.TreeBuilder;
 import edu.kit.dopler.transformation.decision.to.feature.TreeBuilderImpl;
 import edu.kit.dopler.transformation.decision.to.feature.rules.ExpressionHandler;
 import edu.kit.dopler.transformation.decision.to.feature.rules.ExpressionHandlerImpl;
-import edu.kit.dopler.transformation.decision.to.feature.rules.LeftCreator;
-import edu.kit.dopler.transformation.decision.to.feature.rules.LeftCreatorImpl;
-import edu.kit.dopler.transformation.decision.to.feature.rules.RightCreator;
-import edu.kit.dopler.transformation.decision.to.feature.rules.RightCreatorImpl;
+import edu.kit.dopler.transformation.decision.to.feature.rules.ConditionHandler;
+import edu.kit.dopler.transformation.decision.to.feature.rules.ConditionHandlerImpl;
+import edu.kit.dopler.transformation.decision.to.feature.rules.ActionHandler;
+import edu.kit.dopler.transformation.decision.to.feature.rules.ActionHandlerImpl;
 import edu.kit.dopler.transformation.decision.to.feature.rules.RuleHandler;
 import edu.kit.dopler.transformation.decision.to.feature.rules.RuleHandlerImpl;
 import edu.kit.dopler.transformation.feature.to.decision.AttributeHandler;
@@ -92,10 +92,10 @@ public final class Injector extends AbstractInjector {
         install(TreeBuilder.class,
                 new TreeBuilderImpl(getInstance(ParentFinder.class), getInstance(AttributeCreator.class)));
         install(ExpressionHandler.class, new ExpressionHandlerImpl());
-        install(LeftCreator.class, new LeftCreatorImpl(getInstance(ExpressionHandler.class)));
-        install(RightCreator.class, new RightCreatorImpl(getInstance(FeatureFinder.class)));
+        install(ConditionHandler.class, new ConditionHandlerImpl(getInstance(ExpressionHandler.class)));
+        install(ActionHandler.class, new ActionHandlerImpl(getInstance(FeatureFinder.class)));
         install(RuleHandler.class,
-                new RuleHandlerImpl(getInstance(LeftCreator.class), getInstance(RightCreator.class)));
+                new RuleHandlerImpl(getInstance(ConditionHandler.class), getInstance(ActionHandler.class)));
         install(DmToFmTransformer.class,
                 new DmToFmTransformerImpl(getInstance(TreeBuilder.class), getInstance(RuleHandler.class),
                         getInstance(TreeBeautifier.class)));
