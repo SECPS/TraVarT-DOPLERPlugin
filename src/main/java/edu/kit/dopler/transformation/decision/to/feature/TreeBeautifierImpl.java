@@ -5,7 +5,11 @@ import de.vill.model.Feature;
 import de.vill.model.Group;
 import edu.kit.dopler.transformation.util.FeatureFinder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import static de.vill.model.Group.GroupType.ALTERNATIVE;
 import static de.vill.model.Group.GroupType.MANDATORY;
