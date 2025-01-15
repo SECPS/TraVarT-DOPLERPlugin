@@ -183,18 +183,12 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
 
     /** Distribute the generated rule to a decision */
     private void distributeRule(Rule rule) {
-        //Just take decision of first action. If not possible, then take the next
-        List<IAction> sortedActions = new ArrayList<>(rule.getActions());
-        sortedActions.sort(Comparator.comparing(Object::toString));
-        for (IAction action : sortedActions) {
-            ValueRestrictionAction valueRestrictionAction = (ValueRestrictionAction) action;
-            try {
-                valueRestrictionAction.getDecision().addRule(rule);
-                return;
-            } catch (UnsupportedOperationException e) {
-                //Ignore and try with next action
-            }
-        }
+        //Just take decision of first action.
+        //The action must be a ValueRestrictionAction. Only those have decisions.
+        rule.getActions().stream().sorted(Comparator.comparing(Object::toString))
+                .filter(action -> action instanceof ValueRestrictionAction)
+                .map(action -> (ValueRestrictionAction) action).findFirst()
+                .ifPresent(valueRestrictionAction -> valueRestrictionAction.getDecision().addRule(rule));
     }
 
     /** Creates a set of {@link IAction}s that contradict each other. */
