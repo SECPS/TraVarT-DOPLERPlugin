@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.function.Function;
 
-class TreeToDnfConverterTest {
+class DnfTests {
 
     private static final LiteralConstraint A = new LiteralConstraint("A");
     private static final LiteralConstraint B = new LiteralConstraint("B");
@@ -33,7 +33,7 @@ class TreeToDnfConverterTest {
     private final UnwantedConstraintsReplacer replacer;
     private final DnfToTreeConverter dnfToTreeConverter;
 
-    TreeToDnfConverterTest() {
+    DnfTests() {
         Injector injector = new Injector();
         treeToDnfConverter = injector.getInstance(TreeToDnfConverter.class);
         replacer = injector.getInstance(UnwantedConstraintsReplacer.class);
