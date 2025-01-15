@@ -42,22 +42,7 @@ public final class FeatureFinderImpl implements FeatureFinder {
                 value -> new LiteralConstraint(value.getFeatureName()));
     }
 
-    private Optional<Feature> findFeatureWithName(FeatureModel featureModel, String literal) {
-        Stack<Feature> stack = new Stack<>();
-        stack.add(featureModel.getRootFeature());
-
-        while (!stack.empty()) {
-            Feature current = stack.pop();
-            if (current.getFeatureName().equals(literal)) {
-                return Optional.of(current);
-            }
-
-            current.getChildren().stream().flatMap(group -> group.getFeatures().stream()).forEach(stack::push);
-        }
-
-        return Optional.empty();
-    }
-
+    @Override
     public Optional<Feature> findFeatureByName(Collection<Feature> features, String featureName) {
         Stack<Feature> stack = new Stack<>();
         features.forEach(stack::push);
@@ -92,6 +77,22 @@ public final class FeatureFinderImpl implements FeatureFinder {
                     return featureByName;
                 }
             }
+        }
+
+        return Optional.empty();
+    }
+
+    private Optional<Feature> findFeatureWithName(FeatureModel featureModel, String literal) {
+        Stack<Feature> stack = new Stack<>();
+        stack.add(featureModel.getRootFeature());
+
+        while (!stack.empty()) {
+            Feature current = stack.pop();
+            if (current.getFeatureName().equals(literal)) {
+                return Optional.of(current);
+            }
+
+            current.getChildren().stream().flatMap(group -> group.getFeatures().stream()).forEach(stack::push);
         }
 
         return Optional.empty();
