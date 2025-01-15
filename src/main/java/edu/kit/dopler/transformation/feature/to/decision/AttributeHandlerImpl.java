@@ -116,7 +116,6 @@ public class AttributeHandlerImpl implements AttributeHandler {
                 decisionFinder.findDecisionByValue(decisionModel, feature.getFeatureName())
                         .or(() -> decisionFinder.findDecisionById(decisionModel, feature.getFeatureName()));
         if (targetDecision.isEmpty()) {
-            //TODO Exception here will be thrown if a mandatory feature has a attribute
             throw new DecisionNotPresentException(feature.getFeatureName());
         }
         return targetDecision.get();
@@ -137,7 +136,6 @@ public class AttributeHandlerImpl implements AttributeHandler {
 
     /** Creates a new {@link IDecision} fot the given {@link Attribute}. */
     private IDecision<?> createAttributeDecision(Feature feature, Attribute<?> attribute) {
-        //TODO: add handling of lists, arrays and constraints
         return switch (attribute.getType()) {
             case "number" -> new NumberDecision(
                     ATTRIBUTE_DECISION_IDENTIFIER.formatted(feature.getFeatureName(), attribute.getName()),

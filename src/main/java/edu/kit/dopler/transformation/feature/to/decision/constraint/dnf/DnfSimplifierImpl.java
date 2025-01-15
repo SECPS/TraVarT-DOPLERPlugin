@@ -40,8 +40,8 @@ public class DnfSimplifierImpl implements DnfSimplifier {
             dnf = convertDnfToList(constraint);
 
             //Simplify DNF
-            removeAlwaysFalseConjunctions(dnf);
             removeLiteralsThatAppearMultipleTimesInSameConjunction(dnf);
+            removeAlwaysFalseConjunctions(dnf);
             removeAlreadyCoveredConjunctions(dnf);
         }
 
@@ -61,7 +61,7 @@ public class DnfSimplifierImpl implements DnfSimplifier {
 
     /** Remove conjunctions that are always false. */
     private static void removeAlwaysFalseConjunctions(List<List<Constraint>> dnf) {
-        for (List<Constraint> constraints : new ArrayList<>(dnf)) {
+        for (List<Constraint> constraints : new LinkedHashSet<>(dnf)) {
             boolean isAlwaysFalse = false;
             for (Constraint constraint : constraints) {
                 if (constraint instanceof NotConstraint &&

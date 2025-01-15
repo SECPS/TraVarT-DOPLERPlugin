@@ -37,7 +37,7 @@ public class ConditionHandlerImpl implements ConditionHandler {
     }
 
     private static Optional<Constraint> handleEquals(Equals equals) {
-        //Todo: There are probably a lot of other cases here.
+        //TODO: There are probably a lot of other cases here.
 
         //Covers 'getValue(someDecision) = ...'
         if (equals.getLeftExpression() instanceof DecisionValueCallExpression decisionValueCallExpression) {
