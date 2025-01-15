@@ -2,7 +2,6 @@ package edu.kit.dopler.transformation.util;
 
 import edu.kit.dopler.model.Dopler;
 import edu.kit.dopler.model.EnumerationDecision;
-import edu.kit.dopler.model.EnumerationLiteral;
 import edu.kit.dopler.model.IDecision;
 
 import java.util.Optional;
@@ -19,13 +18,11 @@ public class DecisionFinderImpl implements DecisionFinder {
     @Override
     public Optional<IDecision<?>> findDecisionByValue(Dopler decisionModel, String value) {
         for (IDecision<?> decision : decisionModel.getDecisions()) {
-            if (decision instanceof EnumerationDecision enumerationDecision) {
-                //Decision should have the given value in its RangeValue
-                for (EnumerationLiteral literal : enumerationDecision.getEnumeration().getEnumerationLiterals()) {
-                    if (literal.getValue().equals(value)) {
-                        return Optional.of(decision);
-                    }
-                }
+            //Decision should have the given value in its RangeValue
+            if (decision instanceof EnumerationDecision enumerationDecision &&
+                    enumerationDecision.getEnumeration().getEnumerationLiterals().stream()
+                            .anyMatch(literal -> literal.getValue().equals(value))) {
+                return Optional.of(decision);
             }
         }
 
