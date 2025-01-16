@@ -188,7 +188,7 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
         rule.getActions().stream().sorted(Comparator.comparing(Object::toString))
                 .filter(action -> action instanceof ValueRestrictionAction)
                 .map(action -> (ValueRestrictionAction) action).findFirst()
-                .ifPresent(valueRestrictionAction -> valueRestrictionAction.getDecision().addRule(rule));
+                .orElseThrow().getDecision().addRule(rule);
     }
 
     /** Creates a set of {@link IAction}s that contradict each other. */
