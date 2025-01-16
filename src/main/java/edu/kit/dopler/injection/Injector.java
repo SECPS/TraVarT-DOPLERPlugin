@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * SPDX-License-Identifier: MPL-2.0
+ * <p>
+ * This Source Code Form is subject to the terms of the Mozilla
+ * Public License, v. 2.0. If a copy of the MPL was not distributed
+ * with this file, You can obtain one at
+ * https://mozilla.org/MPL/2.0/.
+ * <p>
+ * Contributors:
+ *    @author Yannick Kraml
+ *    @author Kevin Feichtinger
+ * <p>
+ * Copyright 2024 Karlsruhe Institute of Technology (KIT)
+ * KASTEL - Dependability of Software-intensive Systems
+ *******************************************************************************/
 package edu.kit.dopler.injection;
 
 import edu.kit.dopler.plugin.DoplerDeserializer;
@@ -14,12 +29,12 @@ import edu.kit.dopler.transformation.decision.to.feature.TreeBeautifier;
 import edu.kit.dopler.transformation.decision.to.feature.TreeBeautifierImpl;
 import edu.kit.dopler.transformation.decision.to.feature.TreeBuilder;
 import edu.kit.dopler.transformation.decision.to.feature.TreeBuilderImpl;
-import edu.kit.dopler.transformation.decision.to.feature.rules.ExpressionHandler;
-import edu.kit.dopler.transformation.decision.to.feature.rules.ExpressionHandlerImpl;
-import edu.kit.dopler.transformation.decision.to.feature.rules.ConditionHandler;
-import edu.kit.dopler.transformation.decision.to.feature.rules.ConditionHandlerImpl;
 import edu.kit.dopler.transformation.decision.to.feature.rules.ActionHandler;
 import edu.kit.dopler.transformation.decision.to.feature.rules.ActionHandlerImpl;
+import edu.kit.dopler.transformation.decision.to.feature.rules.ConditionHandler;
+import edu.kit.dopler.transformation.decision.to.feature.rules.ConditionHandlerImpl;
+import edu.kit.dopler.transformation.decision.to.feature.rules.ExpressionHandler;
+import edu.kit.dopler.transformation.decision.to.feature.rules.ExpressionHandlerImpl;
 import edu.kit.dopler.transformation.decision.to.feature.rules.RuleHandler;
 import edu.kit.dopler.transformation.decision.to.feature.rules.RuleHandlerImpl;
 import edu.kit.dopler.transformation.feature.to.decision.AttributeHandler;

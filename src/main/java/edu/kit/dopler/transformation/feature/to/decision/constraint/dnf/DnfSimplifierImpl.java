@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * SPDX-License-Identifier: MPL-2.0
+ * <p>
+ * This Source Code Form is subject to the terms of the Mozilla
+ * Public License, v. 2.0. If a copy of the MPL was not distributed
+ * with this file, You can obtain one at
+ * https://mozilla.org/MPL/2.0/.
+ * <p>
+ * Contributors:
+ *    @author Yannick Kraml
+ *    @author Kevin Feichtinger
+ * <p>
+ * Copyright 2024 Karlsruhe Institute of Technology (KIT)
+ * KASTEL - Dependability of Software-intensive Systems
+ *******************************************************************************/
 package edu.kit.dopler.transformation.feature.to.decision.constraint.dnf;
 
 import de.vill.model.constraint.AndConstraint;
@@ -17,36 +32,6 @@ import java.util.Stack;
 
 /** Implementation for {@link DnfSimplifier} */
 public class DnfSimplifierImpl implements DnfSimplifier {
-
-    @Override
-    public List<List<Constraint>> simplifyDnf(Constraint constraint) {
-        List<List<Constraint>> dnf = new ArrayList<>();
-
-        if (constraint instanceof AndConstraint andConstraint) {
-            //Early return of dnf is only an AND
-            List<Constraint> conjunction = new ArrayList<>();
-            dnf.add(conjunction);
-            andConstraint.getConstraintSubParts().forEach(subPart -> handleBranchInConjunction(subPart, conjunction));
-        } else if (constraint instanceof LiteralConstraint || constraint instanceof ExpressionConstraint ||
-                (constraint instanceof NotConstraint notConstraint &&
-                        (notConstraint.getContent() instanceof LiteralConstraint ||
-                                notConstraint.getContent() instanceof ExpressionConstraint))) {
-            //Early return of dnf is only a LITERAL
-            List<Constraint> conjunction = new ArrayList<>();
-            conjunction.add(constraint);
-            dnf.add(conjunction);
-        } else {
-            //Convert dnf to list to better work on it
-            dnf = convertDnfToList(constraint);
-
-            //Simplify DNF
-            removeLiteralsThatAppearMultipleTimesInSameConjunction(dnf);
-            removeAlwaysFalseConjunctions(dnf);
-            removeAlreadyCoveredConjunctions(dnf);
-        }
-
-        return dnf;
-    }
 
     private static void handleBranchInConjunction(Constraint constraint, List<Constraint> conjunction) {
         switch (constraint) {
@@ -78,6 +63,36 @@ public class DnfSimplifierImpl implements DnfSimplifier {
                 dnf.remove(constraints);
             }
         }
+    }
+
+    @Override
+    public List<List<Constraint>> simplifyDnf(Constraint constraint) {
+        List<List<Constraint>> dnf = new ArrayList<>();
+
+        if (constraint instanceof AndConstraint andConstraint) {
+            //Early return of dnf is only an AND
+            List<Constraint> conjunction = new ArrayList<>();
+            dnf.add(conjunction);
+            andConstraint.getConstraintSubParts().forEach(subPart -> handleBranchInConjunction(subPart, conjunction));
+        } else if (constraint instanceof LiteralConstraint || constraint instanceof ExpressionConstraint ||
+                (constraint instanceof NotConstraint notConstraint &&
+                        (notConstraint.getContent() instanceof LiteralConstraint ||
+                                notConstraint.getContent() instanceof ExpressionConstraint))) {
+            //Early return of dnf is only a LITERAL
+            List<Constraint> conjunction = new ArrayList<>();
+            conjunction.add(constraint);
+            dnf.add(conjunction);
+        } else {
+            //Convert dnf to list to better work on it
+            dnf = convertDnfToList(constraint);
+
+            //Simplify DNF
+            removeLiteralsThatAppearMultipleTimesInSameConjunction(dnf);
+            removeAlwaysFalseConjunctions(dnf);
+            removeAlreadyCoveredConjunctions(dnf);
+        }
+
+        return dnf;
     }
 
     private List<List<Constraint>> convertDnfToList(Constraint constraint) {

@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * SPDX-License-Identifier: MPL-2.0
+ * <p>
+ * This Source Code Form is subject to the terms of the Mozilla
+ * Public License, v. 2.0. If a copy of the MPL was not distributed
+ * with this file, You can obtain one at
+ * https://mozilla.org/MPL/2.0/.
+ * <p>
+ * Contributors:
+ *    @author Yannick Kraml
+ *    @author Kevin Feichtinger
+ * <p>
+ * Copyright 2024 Karlsruhe Institute of Technology (KIT)
+ * KASTEL - Dependability of Software-intensive Systems
+ *******************************************************************************/
 package edu.kit.dopler.transformation.decision.to.feature;
 
 import at.jku.cps.travart.core.common.IModelTransformer;
@@ -126,9 +141,8 @@ public class TreeBuilderImpl implements TreeBuilder {
         for (Feature feature : typeFeatures) {
             Group child = new Group(MANDATORY);
             child.getFeatures().add(feature);
-            Feature parent =
-                    parentFinder.getParentFromVisibility(allFeatures.keySet(), allFeatures.get(feature))
-                            .orElse(rootFeature);
+            Feature parent = parentFinder.getParentFromVisibility(allFeatures.keySet(), allFeatures.get(feature))
+                    .orElse(rootFeature);
             parent.addChildren(child);
         }
     }
@@ -136,9 +150,8 @@ public class TreeBuilderImpl implements TreeBuilder {
     private void linkEnumFeatures(Map<Feature, IExpression> allFeatures, Set<Feature> enumFeatures, Feature rootFeature,
                                   IModelTransformer.STRATEGY strategy) {
         for (Feature feature : enumFeatures) {
-            Feature parent =
-                    parentFinder.getParentFromVisibility(allFeatures.keySet(), allFeatures.get(feature))
-                            .orElse(rootFeature);
+            Feature parent = parentFinder.getParentFromVisibility(allFeatures.keySet(), allFeatures.get(feature))
+                    .orElse(rootFeature);
 
             switch (strategy) {
                 case ONE_WAY -> {
@@ -161,9 +174,8 @@ public class TreeBuilderImpl implements TreeBuilder {
         for (Feature feature : booleanFeatures) {
             Group optionalGroup = new Group(OPTIONAL);
             optionalGroup.getFeatures().add(feature);
-            Feature parent =
-                    parentFinder.getParentFromVisibility(allFeatures.keySet(), allFeatures.get(feature))
-                            .orElse(rootFeature);
+            Feature parent = parentFinder.getParentFromVisibility(allFeatures.keySet(), allFeatures.get(feature))
+                    .orElse(rootFeature);
             parent.addChildren(optionalGroup);
         }
     }
