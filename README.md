@@ -27,7 +27,7 @@ The transformation from UVL to Dopler is a two-step process:
 The rules for the transformations are the following:
 
 
-> #### Rule 1.1: Optional Group
+> ### Rule 1.1: Optional Group
 > Be $G$ an optional group.
 > Are $a_1$, $a_2$, ..., $a_n$ children of $G$.
 > Then for every $a_i$ one boolean decision is created.
@@ -57,6 +57,6 @@ The rules for the transformations are the following:
 > The decision looks like this:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  |
->|$a$|Which $a$?|Enumeration|$a_1$ \| $a_2$ \|  ... \| $a_n$|1:$n$|$rules(a)$|$visibility(a)$
+>|$a$|Which $a$?|Enumeration|$a_1$ \| $a_2$ \|  ... \| $a_n$|1:n|$rules(a)$|$visibility(a)$
 
 ### Dopler decision model to UVL feature model
