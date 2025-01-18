@@ -66,9 +66,9 @@ The rules for the transformations are the following:
 > The decisions looks like this:\
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
->|$a_1\#$|Which a1?|Enumeration|$a_1$|1:1|$rules(a_1)$|$visibility(a_1)$
->|$a_2\#$|Which a2?|Enumeration|$a_2$|1:1|$rules(a_2)$|$visibility(a_2)$
+>|$a_1$\#|Which a1?|Enumeration|$a_1$|1:1|$rules(a_1)$|$visibility(a_1)$
+>|$a_2$\#|Which a2?|Enumeration|$a_2$|1:1|$rules(a_2)$|$visibility(a_2)$
 >|...|...|...|...|||...
->|$a_n\#$|Which a3?|Enumeration|$a_n$|1:1|$rules(a_n)$|$visibility(a_n)$
+>|$a_n$\#|Which a3?|Enumeration|$a_n$|1:1|$rules(a_n)$|$visibility(a_n)$
 
 ### Dopler decision model to UVL feature model
