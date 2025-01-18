@@ -11,7 +11,7 @@ The entry point into the code is the class `DoplerPlugin`. From there you get ac
 - The `Transformer` is responsible for transforming an UVL feature model to a Dopler decision model
 - The `Serialiser` is responsible for writing a Dopler decision model into a string
 - The `Deserialiser` is responsible for deserializing a string and creating a Dopler decision model with it
-- The `PrettyPrinter` is responsible for transforming a Dopler decision model into different representations like a table
+- The `PrettyPrinter` is responsible for transforming a Dopler decision model into different representations (e.g. a table)
 
 ## Transformations
 The `Transformer` functionality is divided into two parts:
