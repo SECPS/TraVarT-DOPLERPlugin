@@ -1,6 +1,6 @@
 # DOPLERPlugin
-The DOPLERPlugin is a plugin for the [TraVarT](https://github.com/SECPS/TraVarT) ecosystem.
-It enables the conversion of UVL feature models to Dopler decision models.
+The DOPLERPlugin is a plugin for the [TraVarT](https://github.com/SECPS/TraVarT) ecosystem.\
+It enables the conversion of UVL feature models to Dopler decision models and vice verse.
 
 ## Getting Started
 The project is built with Maven and uses JDK 23.\
