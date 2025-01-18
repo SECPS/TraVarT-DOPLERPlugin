@@ -49,7 +49,7 @@ The rules for the transformations are the following:
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  |
 >|$a$|Which $a$?|Enumeration|$a_1$ \| $a_2$ \|  ... \| $a_n$|1:1|$rules(a)$|$visibility(a)$
 
-> ### Rule 1.2: Or Group
+> ### Rule 1.3: Or Group
 > Be $G$ an alternative group.
 > Be $a$ the parent feature of $G$.
 > Are $a_1$, $a_2$, ..., $a_n$ children of $G$.
