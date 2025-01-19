@@ -18,6 +18,10 @@ The `Transformer` functionality is divided into two parts:
 1. A Dopler to UVL part that converts a Dopler decision model to an UVL feature model
 2. An UVL to Dopler part that converts an UVL feature model to a Dopler decision model
 
+There are also two different strategies for the transformation:
+1. ONEWAY - With this strategy all information is translated from one model to another that makes sense in the target model (e.g. mandatory features in UVL are not translated, because there is no decision to make)
+2. ROUNDTRIP - With this strategy as much information as possible is kept (the target model will contain redundant and superfluous elements)  
+
 In the following sections the two parts, including an outline of the transformation, are described.\
 The Transformations are described in a rule-based approach.
 
@@ -32,7 +36,7 @@ The rules for the transformations are the following:
 > Let $G$ be an optional group.\
 > Let $a_1$, $a_2$, ..., $a_n$ be children of $G$.\
 > Then for every $a_i$ one boolean decision is created.\
-> The decisions looks like this:\
+> The decisions look like this: 
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  |
 >|$a_1$|$a_1$?|Boolean|false \| true||$rules(a_1)$|$visibility(a_1)$
@@ -45,7 +49,7 @@ The rules for the transformations are the following:
 > Let $a$ be the parent feature of $G$.\
 > Let $a_1$, $a_2$, ..., $a_n$ be children of $G$.\
 > Then one enumeration decision is created.\
-> The decision looks like this:\
+> The decision looks like this:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  |
 >|$a$|Which $a$?|Enumeration|$a_1$ \| $a_2$ \|  ... \| $a_n$|1:1|$rules(a)$|$visibility(a)$
@@ -55,7 +59,7 @@ The rules for the transformations are the following:
 > Let $a$ be the parent feature of $G$.\
 > Let $a_1$, $a_2$, ..., $a_n$ be children of $G$.\
 > Then one enumeration decision is created.\
-> The decision looks like this:\
+> The decision looks like this:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  |
 >|$a$|Which $a$?|Enumeration|$a_1$ \| $a_2$ \|  ... \| $a_n$|1:n|$rules(a)$|$visibility(a)$
@@ -64,7 +68,7 @@ The rules for the transformations are the following:
 > Let $G$ be an mandatory group.\
 > Let $a_1$, $a_2$, ..., $a_n$ be children of $G$.\
 > Then for every $a_i$ one enum decision is created.\
-> The decisions looks like this:\
+> The decisions look like this:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
 >|$a_1$\#|Which a1?|Enumeration|$a_1$|1:1|$rules(a_1)$|$visibility(a_1)$
