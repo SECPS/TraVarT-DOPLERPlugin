@@ -28,9 +28,9 @@ The Transformations are described in a rule-based approach.
 ### UVL feature model to Dopler decision model
 The transformation from UVL to Dopler is a two-step process:
 1. Decisions are created from the feature tree
-2. Rules are created from the conditions and then distributed to the Decisions
-The rules for the transformations are the following:
+2. Rules are created from the conditions and then distributed to the Decisions.
 
+The rules for the transformations are the following:
 
 > ### Rule 1.1: Optional Group
 > Let $G$ be an optional group.\
