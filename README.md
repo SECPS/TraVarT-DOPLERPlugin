@@ -76,13 +76,27 @@ The rules for the transformations are the following:
 
 > ### Rule 1.2.1 Attribute Feature in Optional Group
 > Let $G$ be an optional group.\
-> Let $a$ be an attribute feature (e.g string feature) and child of $G$.\
-> Then two decisions is created:
+> Let $a$ be a type feature (e.g string feature) and child of $G$.\
+> Let $type$ be the type of a.\
+> Then two decisions are created. One type decision and one boolean decision:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
+>|a|What a?|$type$|||$rules(a)$|aCheck  
+>|aCheck|a?|Boolean|false \| true|||$visibility(a)$
+
+> ### Rule 1.2.2 Attribute Feature in Alternative Group
+
+> ### Rule 1.2.3 Attribute Feature in Or Group
+
+> ### Rule 1.2.4 Attribute Feature in Mandatory Group
+> Let $G$ be a mandatory group.\
+> Let $a$ be a type feature (e.g string feature) and child of $G$.\
+> Let $type$ be the type of a.\
+> Then one type decision is created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
->|a|What a?|String|||$rules(a)$|aCheck  
->|aCheck|a?|Boolean|false \| true|||$visibility(a_n)$
+>|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
+>|a|What a?|$type$|||$rules(a)$|$visibility(a)$
+
 
 
 ### Dopler decision model to UVL feature model
