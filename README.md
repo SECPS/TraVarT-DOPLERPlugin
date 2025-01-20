@@ -1,6 +1,6 @@
 # DOPLERPlugin
-The DOPLERPlugin is a plugin for the [TraVarT](https://github.com/SECPS/TraVarT) ecosystem.\
-It enables the conversion of UVL feature models to Dopler decision models and vice verse.
+The DOPLERPlugin is a plugin for the [TraVarT](https://github.com/SECPS/TraVarT) ecosystem.
+It enables the conversion of UVL feature models to Dopler decision models.
 
 ## Getting Started
 The project is built with Maven and uses JDK 23.\
@@ -11,7 +11,8 @@ The entry point into the code is the class `DoplerPlugin`. From there you get ac
 - The `Transformer` is responsible for transforming an UVL feature model to a Dopler decision model
 - The `Serialiser` is responsible for writing a Dopler decision model into a string
 - The `Deserialiser` is responsible for deserializing a string and creating a Dopler decision model with it
-- The `PrettyPrinter` is responsible for transforming a Dopler decision model into different representations (e.g. a table)
+- The `PrettyPrinter` is responsible for transforming a Dopler decision model into different representations like a table
+
 
 ## Transformations
 The `Transformer` functionality is divided into two parts:
@@ -19,11 +20,11 @@ The `Transformer` functionality is divided into two parts:
 2. An UVL to Dopler part that converts an UVL feature model to a Dopler decision model
 
 There are also two different strategies for the transformation:
-1. ONEWAY - With this strategy all information is translated from one model to another that makes sense in the target model (e.g. mandatory features in UVL are not translated, because there is no decision to make)
+1. ONEWAY - With this strategy all information is translated from one model to another that makes sense in the target model (e.g. mandatory features in UVL are not translated because there is no decision to make)
 2. ROUNDTRIP - With this strategy as much information as possible is kept (the target model will contain redundant and superfluous elements)  
 
 In the following sections the two parts, including an outline of the transformation, are described.\
-The Transformations are described in a rule-based approach.
+The Transformations use a rule-based approach.
 
 ### UVL feature model to Dopler decision model
 The transformation from UVL to Dopler is a two-step process:
@@ -32,11 +33,11 @@ The transformation from UVL to Dopler is a two-step process:
 
 The rules for the transformations are the following:
 
-> ### Rule 1.1: Optional Group
+
+> ### Rule 1.1.1: Optional Group
 > Let $G$ be an optional group.\
 > Let $a_1$, $a_2$, ..., $a_n$ be children of $G$.\
-> Then for every $a_i$ one boolean decision is created.\
-> The decisions look like this: 
+> Then for every $a_i$ one boolean decision is created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  |
 >|$a_1$|$a_1$?|Boolean|false \| true||$rules(a_1)$|$visibility(a_1)$
@@ -44,36 +45,44 @@ The rules for the transformations are the following:
 >|...|...|...|...|||...
 >|$a_n$|$a_n$?|Boolean|false \| true||$rules(a_n)$|$visibility(a_n)$
 
-> ### Rule 1.2: Alternative Group
+> ### Rule 1.1.2: Alternative Group
 > Let $G$ be an alternative group.\
 > Let $a$ be the parent feature of $G$.\
 > Let $a_1$, $a_2$, ..., $a_n$ be children of $G$.\
-> Then one enumeration decision is created.\
-> The decision looks like this:
+> Then one enumeration decision is created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  |
 >|$a$|Which $a$?|Enumeration|$a_1$ \| $a_2$ \|  ... \| $a_n$|1:1|$rules(a)$|$visibility(a)$
 
-> ### Rule 1.3: Or Group
-> Let $G$ be an alternative group.\
+> ### Rule 1.1.3: Or Group
+> Let $G$ be an or group.\
 > Let $a$ be the parent feature of $G$.\
 > Let $a_1$, $a_2$, ..., $a_n$ be children of $G$.\
-> Then one enumeration decision is created.\
-> The decision looks like this:
+> Then one enumeration decision is created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  |
 >|$a$|Which $a$?|Enumeration|$a_1$ \| $a_2$ \|  ... \| $a_n$|1:n|$rules(a)$|$visibility(a)$
 
-> ### Rule 1.4: Mandatory Group (only roundtrip)
-> Let $G$ be an mandatory group.\
+> ### Rule 1.1.4: Mandatory Group (only roundtrip)
+> Let $G$ be a mandatory group.\
 > Let $a_1$, $a_2$, ..., $a_n$ be children of $G$.\
-> Then for every $a_i$ one enum decision is created.\
-> The decisions look like this:
+> Then for every $a_i$ one enum decision is created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
 >|$a_1$\#|Which a1?|Enumeration|$a_1$|1:1|$rules(a_1)$|$visibility(a_1)$
 >|$a_2$\#|Which a2?|Enumeration|$a_2$|1:1|$rules(a_2)$|$visibility(a_2)$
 >|...|...|...|...|||...
 >|$a_n$\#|Which a3?|Enumeration|$a_n$|1:1|$rules(a_n)$|$visibility(a_n)$
+
+> ### Rule 1.2.1 Attribute Feature in Optional Group
+> Let $G$ be an optional group.\
+> Let $a$ be an attribute feature (e.g string feature) and child of $G$.\
+> Then two decisions is created:
+>|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
+>|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
+>|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
+>|a|What a?|String|||$rules(a)$|aCheck  
+>|aCheck|a?|Boolean|false \| true|||$visibility(a_n)$
+
 
 ### Dopler decision model to UVL feature model
