@@ -61,7 +61,7 @@ The rules for the transformations are the following:
 > Then one enumeration decision is created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  |
->|$a$|Which $a$?|Enumeration|$a_1$ \| $a_2$ \|  ... \| $a_n$ \|$b_1$ \| $b_2$ \|  ... \| $b_n$|1:1|$rules(a)$, $rules(a_i)$, $rules(b_i)$|$visibility(a)$
+>|$a$|Which $a$?|Enumeration|$a_1$ \| $a_2$ \|  ... \| $a_n$ \| $b_1$ \| $b_2$ \|  ... \| $b_n$|1:1|$rules(a)$,<br> $rules(a_i)$,<br> $rules(b_i)$|$visibility(a)$
 >|$b_1*$|What $b_1$?|$type(b_1)$||||$a.b_1$  
 >|$b_2*$|What $b_2$?|$type(b_2)$||||$a.b_2$
 >|...|...|...|...|||...
