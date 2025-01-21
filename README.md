@@ -110,9 +110,9 @@ The rules for the transformations are the following:
 >|$b_m$|What $b_m$?|$type(b_m)$|||$rules(b_m)$|$visibility(b_m)$ 
 
 > ### Rule 1.2.1 Visibility (one way)
-> Let $a$ be a feature.
-> Then $visibility(a)$ resolves to the first non mandatory parent of $a$.
-> If there is no parent, then $visibility(a)$ resolves to $true$.
+> Let $a$ be a feature.\
+> Then $visibility(a)$ resolves to the first non mandatory parent of $a$.\
+> If there is no parent, then $visibility(a)$ resolves to $true$.\
 > E.g.: consider this feature model:
 > ````
 > features  
@@ -131,9 +131,9 @@ The rules for the transformations are the following:
 >|d|d?|Boolean|false \| true|||b
 
 >### Rule 1.2.1 Visibility (roundtrip)
-> Let $a$ be a feature.
-> Then $visibility(a)$ resolves to the parent of $a$.
-> If there is no parent, then $visibility(a)$ resolves to $true$.
+> Let $a$ be a feature.\
+> Then $visibility(a)$ resolves to the parent of $a$.\
+> If there is no parent, then $visibility(a)$ resolves to $true$.\
 > E.g.: consider this feature model:
 > ````
 > features  
