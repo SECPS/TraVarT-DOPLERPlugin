@@ -113,7 +113,7 @@ The rules for the transformations are the following:
 > Let $a$ be a feature.\
 > Then $visibility(a)$ resolves to the first non-mandatory parent of $a$.\
 > If there is no non-mandatory parent, then $visibility(a)$ resolves to $true$.\
-> E.g.: consider this feature model:
+> E.g. consider this feature model:
 > ````
 > features  
 >     a  
@@ -134,7 +134,7 @@ The rules for the transformations are the following:
 > Let $a$ be a feature.\
 > Then $visibility(a)$ resolves to the parent of $a$.\
 > If there is no parent, then $visibility(a)$ resolves to $true$.\
-> E.g.: consider this feature model:
+> E.g. consider this feature model:
 > ````
 > features  
 >     a  
@@ -148,9 +148,9 @@ The rules for the transformations are the following:
 > Then the decision model looks like this:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
->|a#|Which a?|Enumeration|a;1|1||true  
+>|a#|Which a?|Enumeration|a|1 : 1||true  
 >|b|b?|Boolean|false \| true|||a#.a  
->|c#|Which c?|Enumeration|c|1:1||b  
+>|c#|Which c?|Enumeration|c|1 : 1||b  
 >|d|d?|Boolean|false \| true|||c#.c
 
 >### Rule 1.3 Rules
