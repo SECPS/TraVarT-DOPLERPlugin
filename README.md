@@ -78,19 +78,36 @@ The rules for the transformations are the following:
 >|$a$|Which $a$?|Enumeration|$a_1$ \| $a_2$ \|  ... \| $a_n$ \| $b_1$ \| $b_2$ \|  ... \| $b_m$|1 : $n+m$|$rules(a)$,<br> $rules(a_i)$,<br> $rules(b_i)$|$visibility(a)$
 >|$b_1*$|What $b_1$?|$type(b_1)$||||$a.b_1$  
 >|$b_2*$|What $b_2$?|$type(b_2)$||||$a.b_2$
->|...|...|...|...|||...
+>|...|...|...||||...
 >|$b_m*$|What $b_m$?|$type(b_m)$||||$a.b_m$
 
-> ### Rule 1.1.4: Mandatory Group (only roundtrip)
+> ### Rule 1.1.4: Mandatory Group (one way)
 > Let $G$ be a mandatory group.\
 > Let $a_1$, $a_2$, ..., $a_n$ be  boolean features and children of $G$.\
-> Then for every $a_i$ one enum decision is created:
+> Let $b_1$, $b_2$, ..., $b_m$ be non boolean features (e.g. string features) and children of $G$.\
+> Then for every $b_i$ one type decision is created:
+>|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
+>|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
+>|$b_1*$|What $b_1$?|$type(b_1)$|||$rules(b_1)$|$visibility(b_1)$  
+>|$b_2*$|What $b_2$?|$type(b_2)$|||$rules(b_2)$|$visibility(b_2)$  
+>|...|...|...|||...|...
+>|$b_m*$|What $b_m$?|$type(b_m)$|||$rules(b_m)$|$visibility(b_m)$  
+
+> ### Rule 1.1.5: Mandatory Group (roundtrip)
+> Let $G$ be a mandatory group.\
+> Let $a_1$, $a_2$, ..., $a_n$ be  boolean features and children of $G$.\
+> Let $b_1$, $b_2$, ..., $b_m$ be non boolean features (e.g. string features) and children of $G$.\
+> Then for every $a_i$ one enumeration decision and for every $b_i$ one type decision is created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
 >|$a_1$\#|Which a1?|Enumeration|$a_1$|1 : 1|$rules(a_1)$|$visibility(a_1)$
 >|$a_2$\#|Which a2?|Enumeration|$a_2$|1 : 1|$rules(a_2)$|$visibility(a_2)$
->|...|...|...|...|||...
+>|...|...|...|...|...|...|...
 >|$a_n$\#|Which a3?|Enumeration|$a_n$|1 : 1|$rules(a_n)$|$visibility(a_n)$
+>|$b_1*$|What $b_1$?|$type(b_1)$|||$rules(b_1)$|$visibility(b_1)$  
+>|$b_2*$|What $b_2$?|$type(b_2)$|||$rules(b_2)$|$visibility(b_2)$  
+>|...|...|...|||...|...
+>|$b_m*$|What $b_m$?|$type(b_m)$|||$rules(b_m)$|$visibility(b_m)$ 
 
 
 
