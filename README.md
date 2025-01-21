@@ -57,10 +57,15 @@ The rules for the transformations are the following:
 > Let $G$ be an alternative group.\
 > Let $a$ be the parent feature of $G$.\
 > Let $a_1$, $a_2$, ..., $a_n$ be boolean features and children of $G$.\
+> Let $b_1$, $b_2$, ..., $b_n$ be non boolean features (e.g. string features) and children of $G$.\
 > Then one enumeration decision is created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  |
->|$a$|Which $a$?|Enumeration|$a_1$ \| $a_2$ \|  ... \| $a_n$|1:1|$rules(a)$|$visibility(a)$
+>|$a$|Which $a$?|Enumeration|$a_1$ \| $a_2$ \|  ... \| $a_n$ \|$b_1$ \| $b_2$ \|  ... \| $b_n$|1:1|$rules(a), rules(a_i), rules (b_i)$|$visibility(a)$
+>|$b_1*$|What $b_1$?|$type(b_1)$||||$a.b_1$  
+>|$b_2*$|What $b_2$?|$type(b_2)$||||$a.b_2$
+>|...|...|...|...|||...
+>|$b_n*$|What $b_n$?|$type(b_n)$||||$a.b_n$
 
 > ### Rule 1.1.3: Or Group
 > Let $G$ be an or group.\
