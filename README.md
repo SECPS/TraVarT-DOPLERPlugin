@@ -37,7 +37,7 @@ The rules for the transformations are the following:
 > ### Rule 1.1.1: Optional Group
 > Let $G$ be an optional group.\
 > Let $a_1$, $a_2$, ..., $a_n$ be boolean features and children of $G$.\
-> Let $b_1$, $b_2$, ..., $b_n$ be non boolean features (e.g. string features) and children of $G$.\
+> Let $b_1$, $b_2$, ..., $b_m$ be non boolean features (e.g. string features) and children of $G$.\
 > Then for every $a_i$ one boolean decision and for every $b_i$ one boolean and one type decision is created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  |
@@ -50,31 +50,36 @@ The rules for the transformations are the following:
 >|$b_2$|What $b_2$?|$type(b_2)$|||$rules(b_2)$|$b_2Check$ 
 >|$b_2Check$|$b_2$?|Boolean|false \| true|||$visibility(b_2)$
 >|...|...|...|...|||...
->|$b_n$|What $b_n$?|$type(b_n)$|||$rules(b_n)$|$b_nCheck$
->|$b_nCheck$|$b_n$?|Boolean|false \| true|||$visibility(b_n)$
+>|$b_m$|What $b_m$?|$type(b_m)$|||$rules(b_m)$|$b_mCheck$
+>|$b_mCheck$|$b_m$?|Boolean|false \| true|||$visibility(b_m)$
 
 > ### Rule 1.1.2: Alternative Group
 > Let $G$ be an alternative group.\
 > Let $a$ be the parent feature of $G$.\
 > Let $a_1$, $a_2$, ..., $a_n$ be boolean features and children of $G$.\
-> Let $b_1$, $b_2$, ..., $b_n$ be non boolean features (e.g. string features) and children of $G$.\
+> Let $b_1$, $b_2$, ..., $b_m$ be non boolean features (e.g. string features) and children of $G$.\
 > Then one enumeration decision is created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  |
->|$a$|Which $a$?|Enumeration|$a_1$ \| $a_2$ \|  ... \| $a_n$ \| $b_1$ \| $b_2$ \|  ... \| $b_n$|1:1|$rules(a)$,<br> $rules(a_i)$,<br> $rules(b_i)$|$visibility(a)$
+>|$a$|Which $a$?|Enumeration|$a_1$ \| $a_2$ \|  ... \| $a_n$ \| $b_1$ \| $b_2$ \|  ... \| $b_m$|1:1|$rules(a)$,<br> $rules(a_i)$,<br> $rules(b_i)$|$visibility(a)$
 >|$b_1*$|What $b_1$?|$type(b_1)$||||$a.b_1$  
 >|$b_2*$|What $b_2$?|$type(b_2)$||||$a.b_2$
 >|...|...|...|...|||...
->|$b_n*$|What $b_n$?|$type(b_n)$||||$a.b_n$
+>|$b_m*$|What $b_m$?|$type(b_m)$||||$a.b_m$
 
 > ### Rule 1.1.3: Or Group
-> Let $G$ be an or group.\
+> Let $G$ be an alternative group.\
 > Let $a$ be the parent feature of $G$.\
 > Let $a_1$, $a_2$, ..., $a_n$ be boolean features and children of $G$.\
+> Let $b_1$, $b_2$, ..., $b_m$ be non boolean features (e.g. string features) and children of $G$.\
 > Then one enumeration decision is created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  |
->|$a$|Which $a$?|Enumeration|$a_1$ \| $a_2$ \|  ... \| $a_n$|1:n|$rules(a)$|$visibility(a)$
+>|$a$|Which $a$?|Enumeration|$a_1$ \| $a_2$ \|  ... \| $a_n$ \| $b_1$ \| $b_2$ \|  ... \| $b_m$|1:$n+m$|$rules(a)$,<br> $rules(a_i)$,<br> $rules(b_i)$|$visibility(a)$
+>|$b_1*$|What $b_1$?|$type(b_1)$||||$a.b_1$  
+>|$b_2*$|What $b_2$?|$type(b_2)$||||$a.b_2$
+>|...|...|...|...|||...
+>|$b_m*$|What $b_m$?|$type(b_m)$||||$a.b_m$
 
 > ### Rule 1.1.4: Mandatory Group (only roundtrip)
 > Let $G$ be a mandatory group.\
