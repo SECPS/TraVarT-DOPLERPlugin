@@ -36,19 +36,27 @@ The rules for the transformations are the following:
 
 > ### Rule 1.1.1: Optional Group
 > Let $G$ be an optional group.\
-> Let $a_1$, $a_2$, ..., $a_n$ be children of $G$.\
-> Then for every $a_i$ one boolean decision is created:
+> Let $a_1$, $a_2$, ..., $a_n$ be boolean features and children of $G$.\
+> Let $b_1$, $b_2$, ..., $b_n$ be non boolean features (e.g. string features) and children of $G$.\
+> Then for every $a_i$ one boolean decision and for every $b_i$ one boolean and one type decision is created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  |
 >|$a_1$|$a_1$?|Boolean|false \| true||$rules(a_1)$|$visibility(a_1)$
 >|$a_2$|$a_2$?|Boolean|false \| true||$rules(a_2)$|$visibility(a_2)$
 >|...|...|...|...|||...
 >|$a_n$|$a_n$?|Boolean|false \| true||$rules(a_n)$|$visibility(a_n)$
+>|$b_1$|What b1?|$type(b_1)$|||$rules(b_1)$|$b_1$Check  
+>|$b_1$Check|b1?|Boolean|false \| true|||$visibility(b_1)$
+>|$b_2$|What b2?|$type(b_2)$|||$rules(b_2)$|$b_2$Check  
+>|$b_2$Check|b2?|Boolean|false \| true|||$visibility(b_2)$
+>|...|...|...|...|||...
+>|$b_n$|What b3?|$type(b_n)$||||$b_n$Check  
+>|$b_n$Check|b3?|Boolean|false \| true||$rules(b_n)$|$visibility(b_n)$
 
 > ### Rule 1.1.2: Alternative Group
 > Let $G$ be an alternative group.\
 > Let $a$ be the parent feature of $G$.\
-> Let $a_1$, $a_2$, ..., $a_n$ be children of $G$.\
+> Let $a_1$, $a_2$, ..., $a_n$ be boolean features and children of $G$.\
 > Then one enumeration decision is created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  |
@@ -57,7 +65,7 @@ The rules for the transformations are the following:
 > ### Rule 1.1.3: Or Group
 > Let $G$ be an or group.\
 > Let $a$ be the parent feature of $G$.\
-> Let $a_1$, $a_2$, ..., $a_n$ be children of $G$.\
+> Let $a_1$, $a_2$, ..., $a_n$ be boolean features and children of $G$.\
 > Then one enumeration decision is created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  |
@@ -65,7 +73,7 @@ The rules for the transformations are the following:
 
 > ### Rule 1.1.4: Mandatory Group (only roundtrip)
 > Let $G$ be a mandatory group.\
-> Let $a_1$, $a_2$, ..., $a_n$ be children of $G$.\
+> Let $a_1$, $a_2$, ..., $a_n$ be  boolean features and children of $G$.\
 > Then for every $a_i$ one enum decision is created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
@@ -73,29 +81,6 @@ The rules for the transformations are the following:
 >|$a_2$\#|Which a2?|Enumeration|$a_2$|1:1|$rules(a_2)$|$visibility(a_2)$
 >|...|...|...|...|||...
 >|$a_n$\#|Which a3?|Enumeration|$a_n$|1:1|$rules(a_n)$|$visibility(a_n)$
-
-> ### Rule 1.2.1 Attribute Feature in Optional Group
-> Let $G$ be an optional group.\
-> Let $a$ be a type feature (e.g string feature) and child of $G$.\
-> Let $type$ be the type of a.\
-> Then two decisions are created. One type decision and one boolean decision:
->|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
->|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
->|a|What a?|$type$|||$rules(a)$|aCheck  
->|aCheck|a?|Boolean|false \| true|||$visibility(a)$
-
-> ### Rule 1.2.2 Attribute Feature in Alternative Group
-
-> ### Rule 1.2.3 Attribute Feature in Or Group
-
-> ### Rule 1.2.4 Attribute Feature in Mandatory Group
-> Let $G$ be a mandatory group.\
-> Let $a$ be a type feature (e.g string feature) and child of $G$.\
-> Let $type$ be the type of a.\
-> Then one type decision is created:
->|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
->|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
->|a|What a?|$type$|||$rules(a)$|$visibility(a)$
 
 
 
