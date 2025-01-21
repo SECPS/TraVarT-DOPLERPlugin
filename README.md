@@ -88,10 +88,10 @@ The rules for the transformations are the following:
 > Then for every $b_i$ one type decision is created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
->|$b_1*$|What $b_1$?|$type(b_1)$|||$rules(b_1)$|$visibility(b_1)$  
->|$b_2*$|What $b_2$?|$type(b_2)$|||$rules(b_2)$|$visibility(b_2)$  
+>|$b_1$|What $b_1$?|$type(b_1)$|||$rules(b_1)$|$visibility(b_1)$  
+>|$b_2$|What $b_2$?|$type(b_2)$|||$rules(b_2)$|$visibility(b_2)$  
 >|...|...|...|||...|...
->|$b_m*$|What $b_m$?|$type(b_m)$|||$rules(b_m)$|$visibility(b_m)$  
+>|$b_m$|What $b_m$?|$type(b_m)$|||$rules(b_m)$|$visibility(b_m)$  
 
 > ### Rule 1.1.5: Mandatory Group (roundtrip)
 > Let $G$ be a mandatory group.\
@@ -104,10 +104,10 @@ The rules for the transformations are the following:
 >|$a_2$\#|Which a2?|Enumeration|$a_2$|1 : 1|$rules(a_2)$|$visibility(a_2)$
 >|...|...|...|...|...|...|...
 >|$a_n$\#|Which a3?|Enumeration|$a_n$|1 : 1|$rules(a_n)$|$visibility(a_n)$
->|$b_1*$|What $b_1$?|$type(b_1)$|||$rules(b_1)$|$visibility(b_1)$  
->|$b_2*$|What $b_2$?|$type(b_2)$|||$rules(b_2)$|$visibility(b_2)$  
+>|$b_1$|What $b_1$?|$type(b_1)$|||$rules(b_1)$|$visibility(b_1)$  
+>|$b_2$|What $b_2$?|$type(b_2)$|||$rules(b_2)$|$visibility(b_2)$  
 >|...|...|...|||...|...
->|$b_m*$|What $b_m$?|$type(b_m)$|||$rules(b_m)$|$visibility(b_m)$ 
+>|$b_m$|What $b_m$?|$type(b_m)$|||$rules(b_m)$|$visibility(b_m)$ 
 
 
 
