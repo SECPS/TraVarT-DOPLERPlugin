@@ -45,13 +45,13 @@ The rules for the transformations are the following:
 >|$a_2$|$a_2$?|Boolean|false \| true||$rules(a_2)$|$visibility(a_2)$
 >|...|...|...|...|||...
 >|$a_n$|$a_n$?|Boolean|false \| true||$rules(a_n)$|$visibility(a_n)$
->|$b_1$|What b1?|$type(b_1)$|||$rules(b_1)$|$b_1$Check  
->|$b_1$Check|b1?|Boolean|false \| true|||$visibility(b_1)$
->|$b_2$|What b2?|$type(b_2)$|||$rules(b_2)$|$b_2$Check  
->|$b_2$Check|b2?|Boolean|false \| true|||$visibility(b_2)$
+>|$b_1$|What $b_1$?|$type(b_1)$|||$rules(b_1)$|$b_1$Check  
+>|$b_1Check$|$b_1$?|Boolean|false \| true|||$visibility(b_1)$
+>|$b_2$|What $b_2$?|$type(b_2)$|||$rules(b_2)$|$b_2$Check  
+>|$b_2Check$|$b_2$?|Boolean|false \| true|||$visibility(b_2)$
 >|...|...|...|...|||...
->|$b_n$|What b3?|$type(b_n)$||||$b_n$Check  
->|$b_n$Check|b3?|Boolean|false \| true||$rules(b_n)$|$visibility(b_n)$
+>|$b_n$|What $b_n$?|$type(b_n)$||||$b_n$Check  
+>|$b_nCheck$|$b_n$?|Boolean|false \| true||$rules(b_n)$|$visibility(b_n)$
 
 > ### Rule 1.1.2: Alternative Group
 > Let $G$ be an alternative group.\
