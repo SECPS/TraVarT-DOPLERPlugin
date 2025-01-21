@@ -58,10 +58,10 @@ The rules for the transformations are the following:
 > Let $a$ be the parent feature of $G$.\
 > Let $a_1$, $a_2$, ..., $a_n$ be boolean features and children of $G$.\
 > Let $b_1$, $b_2$, ..., $b_m$ be non boolean features (e.g. string features) and children of $G$.\
-> Then one enumeration decision is created:
+> Then one enumeration decision and $m$ type decisions are created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  |
->|$a$|Which $a$?|Enumeration|$a_1$ \| $a_2$ \|  ... \| $a_n$ \| $b_1$ \| $b_2$ \|  ... \| $b_m$|1:1|$rules(a)$,<br> $rules(a_i)$,<br> $rules(b_i)$|$visibility(a)$
+>|$a$|Which $a$?|Enumeration|$a_1$ \| $a_2$ \|  ... \| $a_n$ \| $b_1$ \| $b_2$ \|  ... \| $b_m$|1 : 1|$rules(a)$,<br> $rules(a_i)$,<br> $rules(b_i)$|$visibility(a)$
 >|$b_1*$|What $b_1$?|$type(b_1)$||||$a.b_1$  
 >|$b_2*$|What $b_2$?|$type(b_2)$||||$a.b_2$
 >|...|...|...|...|||...
@@ -72,10 +72,10 @@ The rules for the transformations are the following:
 > Let $a$ be the parent feature of $G$.\
 > Let $a_1$, $a_2$, ..., $a_n$ be boolean features and children of $G$.\
 > Let $b_1$, $b_2$, ..., $b_m$ be non boolean features (e.g. string features) and children of $G$.\
-> Then one enumeration decision is created:
+> Then one enumeration decision and $m$ type decisions are created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  |
->|$a$|Which $a$?|Enumeration|$a_1$ \| $a_2$ \|  ... \| $a_n$ \| $b_1$ \| $b_2$ \|  ... \| $b_m$|1:$n+m$|$rules(a)$,<br> $rules(a_i)$,<br> $rules(b_i)$|$visibility(a)$
+>|$a$|Which $a$?|Enumeration|$a_1$ \| $a_2$ \|  ... \| $a_n$ \| $b_1$ \| $b_2$ \|  ... \| $b_m$|1 : $n+m$|$rules(a)$,<br> $rules(a_i)$,<br> $rules(b_i)$|$visibility(a)$
 >|$b_1*$|What $b_1$?|$type(b_1)$||||$a.b_1$  
 >|$b_2*$|What $b_2$?|$type(b_2)$||||$a.b_2$
 >|...|...|...|...|||...
@@ -87,10 +87,10 @@ The rules for the transformations are the following:
 > Then for every $a_i$ one enum decision is created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
->|$a_1$\#|Which a1?|Enumeration|$a_1$|1:1|$rules(a_1)$|$visibility(a_1)$
->|$a_2$\#|Which a2?|Enumeration|$a_2$|1:1|$rules(a_2)$|$visibility(a_2)$
+>|$a_1$\#|Which a1?|Enumeration|$a_1$|1 : 1|$rules(a_1)$|$visibility(a_1)$
+>|$a_2$\#|Which a2?|Enumeration|$a_2$|1 : 1|$rules(a_2)$|$visibility(a_2)$
 >|...|...|...|...|||...
->|$a_n$\#|Which a3?|Enumeration|$a_n$|1:1|$rules(a_n)$|$visibility(a_n)$
+>|$a_n$\#|Which a3?|Enumeration|$a_n$|1 : 1|$rules(a_n)$|$visibility(a_n)$
 
 
 
