@@ -109,6 +109,51 @@ The rules for the transformations are the following:
 >|...|...|...|||...|...
 >|$b_m$|What $b_m$?|$type(b_m)$|||$rules(b_m)$|$visibility(b_m)$ 
 
+> ### Rule 1.2.1 Visibility (one way)
+> Let $a$ be a feature.
+> Then $visibility(a)$ resolves to the first non mandatory parent of $a$.
+> If there is no parent, then $visibility(a)$ resolves to $true$.
+> E.g.: consider this feature model:
+> ````
+> features  
+>     a  
+>         optional  
+>             b  
+>                 mandatory  
+>                     c  
+>                         optional  
+>                             d
+> ````
+> Then the decision model looks like this:
+>|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
+>|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
+>|b|b?|Boolean|false \| true|||true  
+>|d|d?|Boolean|false \| true|||b
+
+>### Rule 1.2.1 Visibility (roundtrip)
+> Let $a$ be a feature.
+> Then $visibility(a)$ resolves to the parent of $a$.
+> If there is no parent, then $visibility(a)$ resolves to $true$.
+> E.g.: consider this feature model:
+> ````
+> features  
+>     a  
+>         optional  
+>             b  
+>                 mandatory  
+>                     c  
+>                         optional  
+>                             d
+> ````
+> Then the decision model looks like this:
+>|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
+>|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
+>|a#|Which a?|Enumeration|a;1|1||true  
+>|b|b?|Boolean|false \| true|||a#.a  
+>|c#|Which c?|Enumeration|c|1:1||b  
+>|d|d?|Boolean|false \| true|||c#.c
+
+>### Rule 1.3 Rules
 
 
 ### Dopler decision model to UVL feature model
