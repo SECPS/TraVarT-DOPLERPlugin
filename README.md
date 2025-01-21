@@ -111,8 +111,8 @@ The rules for the transformations are the following:
 
 > ### Rule 1.2.1 Visibility (one way)
 > Let $a$ be a feature.\
-> Then $visibility(a)$ resolves to the first non mandatory parent of $a$.\
-> If there is no parent, then $visibility(a)$ resolves to $true$.\
+> Then $visibility(a)$ resolves to the first non-mandatory parent of $a$.\
+> If there is no non-mandatory parent, then $visibility(a)$ resolves to $true$.\
 > E.g.: consider this feature model:
 > ````
 > features  
