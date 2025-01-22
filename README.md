@@ -153,7 +153,9 @@ The rules for the transformations are the following:
 >|c#|Which c?|Enumeration|c|1 : 1||b  
 >|d|d?|Boolean|false \| true|||c#.c
 
->### Rule 1.3 Rules
+> ### Rule 1.3 Rules
+
+> ### Rule 1.4 Attributes
 
 
 ### Dopler decision model to UVL feature model
