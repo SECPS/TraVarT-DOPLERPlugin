@@ -165,7 +165,7 @@ The rules for the transformations are the following:
 > ````
 > if (true) {a = true;}
 > ````
-> The rule will be stored in $rules(a)$
+> The rule will be stored in $rules(a)$.
 
 > ### Rule 1.3.3  Literal Constraint with Alternative and OR Feature
 > Let $C$ be a contraint.\
@@ -173,9 +173,9 @@ The rules for the transformations are the following:
 > ````
 > if (true) {p = a;}
 > ````
-> The rule will be stored in $rules(a)$
+> The rule will be stored in $rules(a)$.
 
-> ### Rule 1.3.3  DNF
+> ### Rule 1.3.3  Complex Contraints
 > Let $C$ be a contraint.\
 > When $C$ is not a literal and has no $∧$ as root, then $C$ is converted into DNF.
 > 
@@ -189,8 +189,49 @@ The rules for the transformations are the following:
 > One implication constraint will be generated from the DNF, where the first $n-1$ conjunctions create the predicate and the last conjunction creates the conclusion.\
 > The implication constraint will have the form:\
 > $¬(\bigvee_{0<i⩽n-1} \bigwedge_{0<j⩽m_i} (\neg) x_{ij})→ (\bigwedge_{0<j⩽m_n} (\neg) x_{nj})$
+> 
+> This implication constraint will then be converted into a rule and stored in $rules(x_{n1})$.
+> 
+> E.g. consider the following feature model:
+> ````
+> features  
+>    root  
+>        alternative  
+>            A  
+>            B  
+>            C  
+>            D  
+>        optional  
+>            E  
+>            F  
+>            G  
+>            H  
+> 
+> constraints  
+>    (A & B & (C|D)) => ((D | C) & (G & H))
+> ````
+> The DNF of the given constraint is $(¬A) ∨ (¬C ∧ ¬D) ∨(D ∧ G ∧ H) ∨ (C ∧ G ∧ H) ∨ (¬B)$.\
+> And the implication constraint is $\neg((¬A) ∨ (¬C ∧ ¬D) ∨(D ∧ G ∧ H) ∨ (C ∧ G ∧ H)) → (¬B)$.\
+> From predicate an action is created. In this case 
+> ````
+> {disAllow(root.B);}
+> ````
+> From the conclusion a condition is created. In this case:
+> ````
+> (!(((!root.A || (!root.C && !root.D)) || ((root.D && G) && H)) || ((root.C && G) && H)))
+> ````
+> The rule is then given to $rules(B)$.
+> 
+> The complete decision model looks like this:
+> |ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
+>|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
+>|E|E?|Boolean|false \| true|||true  
+>|F|F?|Boolean|false \| true|||true  
+>|G|G?|Boolean|false \| true|||true  
+>|H|H?|Boolean|false \| true|||true  
+>|root|Which root?|Enumeration|A \| B \| C \| D|1:1|"if (!(((!root.A \|\| (!root.C && !root.D)) \|\| ((root.D && G) && H)) \|\| ((root.C && G) && H))) {disAllow(root.B);}"|true
 
-
+> ### Rule 1.3.4 Attributes
 
 ### Dopler decision model to UVL feature model
 
