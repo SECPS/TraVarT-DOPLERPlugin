@@ -161,7 +161,7 @@ The rules for the transformations are the following:
 
 > ### Rule 1.3.2  Literal Constraint with Optional Feature
 > Let $C$ be a contraint.\
-> When $C$ is a literal that corresponds to the optional feature $a$, then a single rule is created:
+> When $C$ is a literal that corresponds to an optional feature $a$, then a single rule is created:
 > ````
 > if (true) {a = true;}
 > ````
@@ -169,7 +169,7 @@ The rules for the transformations are the following:
 
 > ### Rule 1.3.3  Literal Constraint with Alternative and OR Feature
 > Let $C$ be a contraint.\
-> When $C$ is a literal that corresponds to the alternative or or feature $a$, and $p$ is the parent feature of $a$, then a single rule is created:
+> When $C$ is a literal that corresponds to an alternative or an or feature $a$, and $p$ is the parent feature of $a$, then a single rule is created:
 > ````
 > if (true) {p = a;}
 > ````
