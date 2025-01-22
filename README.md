@@ -156,8 +156,8 @@ The rules for the transformations are the following:
 
 > ### Rule 1.3.1 And Constraint
 > Let $C$ be a contraint.\
-> When $C$ has an $\&$ as the top element, then split $C$ and create the two constraints $C_1$ and $C_2$.\
-> E.g. consider the constraint $A\&!B$. It will be split up into $A$ and $!B$.
+> When $C$ has an $∧$ as the top element, then split $C$ and create the two constraints $C_1$ and $C_2$.\
+> E.g. consider the constraint $A∧¬B$. It will be split up into $A$ and $¬B$.
 
 > ### Rule 1.3.2  Literal Constraint with Optional Feature
 > Let $C$ be a contraint.\
@@ -177,15 +177,18 @@ The rules for the transformations are the following:
 
 > ### Rule 1.3.3  DNF
 > Let $C$ be a contraint.\
-> When $C$ is not a literal and has no $\&$ as root, then $C$ is converted into DNF.\
-> Let $n$ be the number of conjunctions ($n$ must be atleast $2$, because $C$ is not a literal and has no $\&$ as root).\
+> When $C$ is not a literal and has no $∧$ as root, then $C$ is converted into DNF.
+> 
+> Let $n$ be the number of conjunctions ($n⩾2$, because $C$ is not a literal and has no $∧$ as root).\
 > Let $m_i$ be the number of literals in the $i$-th conjunction.\
-> Let $x_{ij}$ be the $j$-th literal in th $i$-th conjunction.\
-> The DNF then has the form
-> $$\bigvee_{0<i⩽n} \bigwedge_{0<j⩽m_i} (\neg) x_{ij}$$
-> One implication constraint will be generated from the DNF, where the first $n-1$ conjunctions create the predicate and the last conjunction conclusion.\
-> The implication constraint will have the form:
-> $$¬(\bigvee_{0<i⩽n-1} \bigwedge_{0<j⩽m_i} (\neg) x_{ij})→ \bigwedge_{0<j⩽m_n} (\neg) x_{nj}$$
+> Let $x_{ij}$ be the $j$-th literal in th $i$-th conjunction.
+> 
+> Then the DNF has the form:\
+> $\bigvee_{0<i⩽n} \bigwedge_{0<j⩽m_i} (\neg) x_{ij}$
+> 
+> One implication constraint will be generated from the DNF, where the first $n-1$ conjunctions create the predicate and the last conjunction creates the conclusion.\
+> The implication constraint will have the form:\
+> $¬(\bigvee_{0<i⩽n-1} \bigwedge_{0<j⩽m_i} (\neg) x_{ij})→ \bigwedge_{0<j⩽m_n} (\neg) x_{nj}$
 
 
 
