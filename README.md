@@ -188,7 +188,7 @@ The rules for the transformations are the following:
 > 
 > One implication constraint will be generated from the DNF, where the first $n-1$ conjunctions create the predicate and the last conjunction creates the conclusion.\
 > The implication constraint will have the form:\
-> $¬(\bigvee_{0<i⩽n-1} \bigwedge_{0<j⩽m_i} (\neg) x_{ij})→ \bigwedge_{0<j⩽m_n} (\neg) x_{nj}$
+> $¬(\bigvee_{0<i⩽n-1} \bigwedge_{0<j⩽m_i} (\neg) x_{ij})→ (\bigwedge_{0<j⩽m_n} (\neg) x_{nj})$
 
 
 
