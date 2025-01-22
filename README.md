@@ -187,7 +187,8 @@ The rules for the transformations are the following:
 > $\bigvee_{0<i⩽n} \bigwedge_{0<j⩽m_i} (\neg) x_{ij}$
 > 
 > One implication constraint will be generated from the DNF, where the first $n-1$ conjunctions create the predicate and the last conjunction creates the conclusion.\
-> The implication constraint will have the form:\
+> 
+> The implication constraint has the form:\
 > $¬(\bigvee_{0<i⩽n-1} \bigwedge_{0<j⩽m_i} (\neg) x_{ij})→ (\bigwedge_{0<j⩽m_n} (\neg) x_{nj})$
 > 
 > This implication constraint will then be converted into a rule and stored in $rules(x_{n1})$.
@@ -212,7 +213,7 @@ The rules for the transformations are the following:
 > ````
 > The DNF of the given constraint is $(¬A) ∨ (¬C ∧ ¬D) ∨(D ∧ G ∧ H) ∨ (C ∧ G ∧ H) ∨ (¬B)$.\
 > And the implication constraint is $\neg((¬A) ∨ (¬C ∧ ¬D) ∨(D ∧ G ∧ H) ∨ (C ∧ G ∧ H)) → (¬B)$.\
-> From predicate an action is created. In this case 
+> From the predicate an action is created. In this case:
 > ````
 > {disAllow(root.B);}
 > ````
@@ -222,7 +223,7 @@ The rules for the transformations are the following:
 > ````
 > The rule is then given to $rules(B)$.
 > 
-> The complete decision model looks like this:
+> The complete decision model would look like this:
 > |ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
 >|E|E?|Boolean|false \| true|||true  
