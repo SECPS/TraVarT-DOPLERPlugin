@@ -175,7 +175,7 @@ The rules for the transformations are the following:
 > ````
 > The rule will be stored in $rules(a)$.
 
-> ### Rule 1.3.3  Complex Contraints
+> ### Rule 1.3.4 Complex Contraint
 > Let $C$ be a contraint.\
 > When $C$ is not a literal and has no $∧$ as root, then $C$ is converted into DNF.
 > 
@@ -239,13 +239,15 @@ The rules for the transformations are the following:
 > Depending on $type(value(a))$ a string, double or boolean decision is created:
 > |ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 > |  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
-> |a#$name(a)$#Attribute|$name(a)$?|Boolean|false \| true|||false  
-> |a#$name(a)$#Attribute|How much $name(a)$?|Double||||false  
-> |a#$name(a)$#Attribute|What $name(a)$?|String||||false
+> |$a\#name(a)\#Attribute$|$name(a)$?|Boolean|false \| true|||false  
+> |$a\#name(a)\#Attribute$|How much $name(a)$?|Double||||false  
+> |$a\#name(a)\#Attribute$|What $name(a)$?|String||||false
+> 
 >Because the Dopler decision model does not support integer values, integer attributes create double decisions.
 
 > ### Rule 1.4.2 Attribute Rule (roundtrip)
 > Let $f$ be a feature.
+> Let $p$ be the parent of $f$.
 > Let $f$ have an attribute $a$ with the name $name(a)$ and the value $value(a)$.\
 > Then one rule will be created and put into $rules(f)$.\
 > Depending on the parent group of $f$ the created rule looks different.
@@ -257,7 +259,7 @@ The rules for the transformations are the following:
 > 
 > Parent group is or, alternative or mandatory:
 > ````
-> if (parent(a)*.a) {a#name(a)#Attribute = value(a);}
+> if (p.a) {a#name(a)#Attribute = value(a);}
 > ````
 
 ### Dopler decision model to UVL feature model
