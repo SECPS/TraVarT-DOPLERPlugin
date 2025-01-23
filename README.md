@@ -287,7 +287,7 @@ The rules for the transformations are the following:
 > ### Rule 2.1.2 Boolean Decision
 > Let $d$ be a boolean decision.\
 > Then one optional group $g$ is created with one child feature $d$.\
-> The parent of $g$ is $parent(d)$\
+> The parent of $g$ is $parent(d)$.\
 > The subtree would look like this:
 > ````
 > parent(d)
@@ -315,7 +315,7 @@ The rules for the transformations are the following:
 > ### Rule 2.1.4 Double Decision
 > Let $d$ be a double decision.\
 > Then one mandatory group $g$ is created with one child feature $d$ of the type real.\
-> The parent of $g$ is $parent(d)$\
+> The parent of $g$ is $parent(d)$.\
 > The subtree would look like this:
 > ````
 > parent(d)
@@ -326,7 +326,7 @@ The rules for the transformations are the following:
 > ### Rule 2.1.5 String Decision
 > Let $d$ be a string decision.\
 > Then one mandatory group $g$ is created with one child feature $d$ of the type string.\
-> The parent of $g$ is $parent(d)$\
+> The parent of $g$ is $parent(d)$.\
 > The subtree would look like this:
 > ````
 > parent(d)
@@ -343,6 +343,7 @@ The rules for the transformations are the following:
 > |  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
 > |D|D?|Boolean|true \| false|||true
 > F|Which F?|Enumeration|A \| B \| C|1:1||true
+> 
 > is converted into:
 > ````
 >features  
@@ -366,6 +367,7 @@ The rules for the transformations are the following:
 > |  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
 > |D|D?|Boolean|true \| false|||F.A  
 > |F|Which F?|Enumeration|A \| B \| C|1:1||true
+> 
 > is converted into:
 > ````
 > features  
@@ -388,6 +390,7 @@ The rules for the transformations are the following:
 > |  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
 > |D|D?|Boolean|true \| false|||true  
 > |F|Which F?|Enumeration|A \| B \| C|1:1||D
+> 
 > is converted into:
 > ````
 > features  
