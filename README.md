@@ -312,10 +312,10 @@ The rules for the transformations are the following:
 > When $v$ is $true$, then $parent(d)$ resolves to the root of the feature model.
 
 > ### Rule 2.3.1 Combine Optional and Mandatory Groups
-> Let $g_1$, $g_2$, ...$g_n$ be all optional or all mandatory groups.\
-> When $g_1$, $g_2$, ...$g_n$ share the same parent feature, then the groups are all combined into one group $g$.\
+> Let $g_1$, $g_2$, ..., $g_n$ be all optional or all mandatory groups.\
+> When $g_1$, $g_2$, ..., $g_n$ share the same parent feature, then the groups are all combined into one group $g$.\
 > $g$ has all children of $g_1$, $g_2$, ..., $g_n$.\
-> E.g. this model:
+> E.g. the model:
 > ````
 >features  
 >    root
@@ -346,7 +346,7 @@ The rules for the transformations are the following:
 > ### Rule 2.3.2 Replace single Alternative Group with Mandatory Group (one way)
 > Let $g$ be an alternative group.\
 > When $g$ only has one child, then $g$ is replaced with the mandatory group $g'$\
-> E.g. this model:
+> E.g. the model:
 > ````
 >features  
 >    Sandwich  
@@ -364,7 +364,7 @@ The rules for the transformations are the following:
 > ### Rule 2.3.3 Simplify Type Feature (one way)
 > Let $f$ be a feature.\
 > When $f$ has a single child group $g$, $g$ is mandatory and $g$ has a single type feature $t$ then replace $f$ with $t$.\
-> E.g. this model:
+> E.g. the model:
 > ````
 > features  
 >    root
