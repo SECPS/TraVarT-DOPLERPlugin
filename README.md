@@ -313,73 +313,72 @@ The rules for the transformations are the following:
 
 > ### Rule 2.3.1 Combine Optional and Mandatory Groups
 > Let $g_1$, $g_2$, ...$g_n$ be all optional or all mandatory groups.\
-> When $g_1$, $g_2$, ...$g_n$ share the same parent feature, then they groups are all combined into one group $g$.\
-> $g$ has all children of $g_1$, $g_2$, ...$g_n$.
+> When $g_1$, $g_2$, ...$g_n$ share the same parent feature, then the groups are all combined into one group $g$.\
+> $g$ has all children of $g_1$, $g_2$, ..., $g_n$.\
 > E.g. this model:
 > ````
 >features  
->        root
->                mandatory  
->                        X
->                mandatory  
->                        Y 
->                optional  
->                        A  
->                optional  
->                        B  
->                optional  
->                        C
+>    root
+>        mandatory  
+>            X
+>        mandatory  
+>            Y 
+>        optional  
+>            A  
+>        optional  
+>            B  
+>        optional  
+>            C
 > ```` 
 > will be converted into:
 > ````
 >features  
->features  
->        root
->                mandatory  
->                        X
->                        Y 
->                optional  
->                        A  
->                        B  
->                        C
+>    root
+>        mandatory  
+>            X
+>            Y 
+>        optional  
+>            A  
+>            B  
+>            C
 > ````
 
 > ### Rule 2.3.2 Replace single Alternative Group with Mandatory Group (one way)
 > Let $g$ be an alternative group.\
-> When $g$ only has one child, then $g$ is replaced with the mandatory group $g'$
+> When $g$ only has one child, then $g$ is replaced with the mandatory group $g'$\
 > E.g. this model:
 > ````
 >features  
->        Sandwich  
->                alternative  
->                        Bread
+>    Sandwich  
+>        alternative  
+>            Bread
 > ```` 
 > will be converted into:
 > ````
 >features  
->        Sandwich  
->                mandatory
->                        Bread
+>    Sandwich  
+>        mandatory
+>            Bread
 > ````
 
 > ### Rule 2.3.3 Simplify Type Feature (one way)
 > Let $f$ be a feature.\
-> When $f$ has a single child group $g$, $g$ is mandatory and $g$ has a single type feature $t$ then replace $f$ with $t$.
+> When $f$ has a single child group $g$, $g$ is mandatory and $g$ has a single type feature $t$ then replace $f$ with $t$.\
 > E.g. this model:
 > ````
 > features  
->        root
->                optional
->                        Plane
->                                mandatory  
->                                        String Name
+>    root
+>        optional
+>            Plane
+>                mandatory  
+>                    String Name
 > ```` 
 > will be converted into:
 > ````
 > features  
->        root
->                optional
->                        String Name
+>    root
+>        optional
+>            String Name
 > ````
 
 > ### Rule 2.4 Rule
