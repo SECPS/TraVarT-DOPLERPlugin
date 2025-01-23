@@ -500,4 +500,14 @@ The rules for the transformations are the following:
 >             E
 > ````
 
-> ### Rule 2.4 Rule
+> ### Rule 2.4.1 Enumeration Literal
+
+> ### Rule 2.4.2 Non-Enumeration Literal
+
+> ### Rule 2.4.3 Boolean Enforce Action
+
+> ### Rule 2.4.4 Enumeration Enforce Action
+
+> ### Rule 2.4.5 Disallows Action
+
+> ### Rule 2.4.6 Complete Rule
