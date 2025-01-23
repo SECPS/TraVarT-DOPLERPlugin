@@ -85,7 +85,7 @@ The rules for the transformations are the following:
 > ### Rule 1.1.4: Mandatory Group (one way)
 > Let $G$ be a mandatory group.\
 > Let $a_1$, $a_2$, ..., $a_n$ be  boolean features and children of $G$.\
-> Let $b_1$, $b_2$, ..., $b_m$ be non boolean features (e.g. string features) and children of $G$.\
+> Let $b_1$, $b_2$, ..., $b_m$ be non-boolean features (e.g. string features) and children of $G$.\
 > Then for every $b_i$ one type decision is created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
@@ -97,7 +97,7 @@ The rules for the transformations are the following:
 > ### Rule 1.1.5: Mandatory Group (roundtrip)
 > Let $G$ be a mandatory group.\
 > Let $a_1$, $a_2$, ..., $a_n$ be  boolean features and children of $G$.\
-> Let $b_1$, $b_2$, ..., $b_m$ be non boolean features (e.g. string features) and children of $G$.\
+> Let $b_1$, $b_2$, ..., $b_m$ be non-boolean features (e.g. string features) and children of $G$.\
 > Then for every $a_i$ one enumeration decision and for every $b_i$ one type decision is created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
@@ -272,18 +272,44 @@ The rules for the transformations are the following:
 
 > ### Rule 2.1.1 Boolean Decision
 > Let $d$ be a boolean decision.\
-> Then one optional group $g$ with one feature $d$ is created.\
+> Then one optional group $g$ is created with one child feature $d$.\
 > The parent of $g$ is $parent(d)$
 
-> ### Rule 2.1.1 Enumeration Decision
+> ### Rule 2.1.2 Enumeration Decision
 > Let $d$ be an enumeration decision.\
 > Let $a_1$, $a_2$, ..., $a_n$ be the range of $d$.\
 > Let $max$ be the maximal cardinalityof $d$.\
-> When $max=1$, then one alternative group $g$ with $n$ features $a_1$, $a_2$, ..., $a_n$ is created.\
-> When $max≠1$, then one or group $g$ with $n$ features $a_1$, $a_2$, ..., $a_n$ is created.\
+> When $max=1$, then one alternative group $g$ is created with the child features $a_1$, $a_2$, ..., $a_n$.\
+> When $max≠1$, then one or group $g$ is created with the child features $a_1$, $a_2$, ..., $a_n$.\
 > The parent of $g$ is $parent(d)$.
 
-> ### Rule 2.2 Parent
+> ### Rule 2.1.3 Double Decision
+> Let $d$ be a double decision.\
+> Then one mandatory group $g$ is created with one child feature $d$ of the type real.\
+> The parent of $g$ is $parent(d)$
+
+> ### Rule 2.1.3 String Decision
+> Let $d$ be a string decision.\
+> Then one mandatory group $g$ is created with one child feature $d$ of the type string.\
+> The parent of $g$ is $parent(d)$
+
+> ### Rule 2.2.1 Visibility is Value of Enumeration Decision
+> Let $d$ be a decision.\
+> Let $e$ be an enumreation decision.\
+> Let $a$ be part of the range of $e$.\
+> Let $v$ be the visibility of $d$.\
+> When $v$ has the form $e.a$, then $parent(d)$ resolves to $a$.
+
+> ### Rule 2.2.2 Visibility is Non-Enumeration Decision
+> Let $d$ be a decision.\
+> Let $e$ be a non-enumeration decision.\
+> Let $v$ be the visibility of $d$.\
+> When $v$ has the form $e$, then $parent(d)$ resolves to $e$.
+
+> ### Rule 2.2.3 Visibility is $true$
+> Let $d$ be a decision.\
+> Let $v$ be the visibility of $d$.\
+> When $v$ is $true$, then $parent(d)$ resolves to the root of the feature model.
 
 > ### Rule 2.3.1 Combine Optional and Mandatory Groups
 
@@ -292,3 +318,7 @@ The rules for the transformations are the following:
 > ### Rule 2.3.3 Simplify Type Feature
 
 > ### Rule 2.3.3 Simplify Name
+
+> ### Rule 2.3.3 Remove Standard Root
+
+> ### Rule 2.4 Rule
