@@ -270,3 +270,25 @@ The rules for the transformations are the following:
 
 ### Dopler decision model to UVL feature model
 
+> ### Rule 2.1.1 Boolean Decision
+> Let $d$ be a boolean decision.\
+> Then one optional group $g$ with one feature $d$ is created.\
+> The parent of $g$ is $parent(d)$
+
+> ### Rule 2.1.1 Enumeration Decision
+> Let $d$ be an enumeration decision.\
+> Let $a_1$, $a_2$, ..., $a_n$ be the range of $d$.\
+> Let $max$ be the maximal cardinalityof $d$.\
+> When $max=1$, then one alternative group $g$ with $n$ features $a_1$, $a_2$, ..., $a_n$ is created.\
+> When $max≠1$, then one or group $g$ with $n$ features $a_1$, $a_2$, ..., $a_n$ is created.\
+> The parent of $g$ is $parent(d)$.
+
+> ### Rule 2.2 Parent
+
+> ### Rule 2.3.1 Combine Optional and Mandatory Groups
+
+> ### Rule 2.3.2 Replace single Alternative Group with Mandatory Group
+
+> ### Rule 2.3.3 Simplify Type Feature
+
+> ### Rule 2.3.3 Simplify Name
