@@ -25,12 +25,13 @@ There are also two different strategies for the transformation:
 2. ROUNDTRIP - With this strategy as much information as possible is kept (the target model will contain redundant and superfluous elements)  
 
 In the following sections the two parts, including an outline of the transformation, are described.\
-The Transformations use a rule-based approach.
+The transformations are rule-based.
 
 ### UVL feature model to Dopler decision model
-The transformation from UVL to Dopler is a two-step process:
+The transformation from UVL to Dopler is a three-step process:
 1. Decisions are created from the feature tree
-2. Rules are created from the conditions and then distributed to the Decisions.
+2. Rules are created from the conditions and then distributed to the decisions
+3. More decisions and rules are created from attributes (only roundtrip)
 
 The rules for the transformations are the following:
 
@@ -269,6 +270,12 @@ The rules for the transformations are the following:
 > ````
 
 ### Dopler decision model to UVL feature model
+The transformation from Dopler to UVL is a three-step process:
+1. The feature model tree is created from the decisions and their visibility
+2. The feature model tree is beautified
+3. Rules are converted into constraints and added to the feature model
+
+The rules for the transformations are the following:
 
 > ### Rule 2.1.1 Boolean Decision
 > Let $d$ be a boolean decision.\
