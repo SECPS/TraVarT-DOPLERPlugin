@@ -237,7 +237,7 @@ The rules for the transformations are the following:
 >|root|Which root?|Enumeration|A \| B \| C \| D|1:1|"if (!(((!root.A \|\| (!root.C && !root.D)) \|\| ((root.D && G) && H)) \|\| ((root.C && G) && H))) {disAllow(root.B);}"|true
 
 > ### Rule 1.4.1 Attribute Decision (roundtrip)
-> Let $f$ be a feature.
+> Let $f$ be a feature.\
 > Let $f$ have an attribute $a$ with the name $name(a)$, the value $value(a)$ and the type $type(value(a))$.
 > 
 > Depending on $type(value(a))$ a string, double or boolean decision is created:
@@ -250,12 +250,12 @@ The rules for the transformations are the following:
 >Because the Dopler decision model does not support integer values, integer attributes create double decisions.
 
 > ### Rule 1.4.2 Attribute Rule (roundtrip)
-> Let $f$ be a feature.
-> Let $p$ be the parent feature of $f$.
-> Let $g$ be the parent groupof $f$.
+> Let $f$ be a feature.\
+> Let $p$ be the parent feature of $f$.\
+> Let $g$ be the parent groupof $f$.\
 > Let $f$ have an attribute $a$ with the name $name(a)$ and the value $value(a)$.\
 > Then one rule will be created and put into $rules(f)$.\
-> Depending on the parent group of $f$ the created rule looks different.
+> Depending on $g$ the created rule looks different.
 > 
 > $g$ is optional:
 > ````
