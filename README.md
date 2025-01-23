@@ -271,52 +271,134 @@ The rules for the transformations are the following:
 
 ### Dopler decision model to UVL feature model
 The transformation from Dopler to UVL is a three-step process:
-1. The feature model tree is created from the decisions and their visibility
+1. The feature model tree is created from the decisions and their visibilities
 2. The feature model tree is beautified
 3. Rules are converted into constraints and added to the feature model
 
 The rules for the transformations are the following:
+> ### Rule 2.1.1 Insert Standard Root
+> A feature with the name "STANDARD_MODEL_NAME" is always created and used as the root of the feature model.\
+> The minimum feature model is therefore:
+> ````
+> features  
+>     STANDARD_MODEL_NAME
+> ````
 
-> ### Rule 2.1.1 Boolean Decision
+> ### Rule 2.1.2 Boolean Decision
 > Let $d$ be a boolean decision.\
 > Then one optional group $g$ is created with one child feature $d$.\
-> The parent of $g$ is $parent(d)$
+> The parent of $g$ is $parent(d)$\
+> The subtree would look like this:
+> ````
+> parent(d)
+>     optional
+>         d
+> ````
 
-> ### Rule 2.1.2 Enumeration Decision
+> ### Rule 2.1.3 Enumeration Decision
 > Let $d$ be an enumeration decision.\
 > Let $a_1$, $a_2$, ..., $a_n$ be the range of $d$.\
 > Let $max$ be the maximal cardinalityof $d$.\
 > When $max=1$, then one alternative group $g$ is created with the child features $a_1$, $a_2$, ..., $a_n$.\
 > When $max≠1$, then one or group $g$ is created with the child features $a_1$, $a_2$, ..., $a_n$.\
-> The parent of $g$ is $parent(d)$.
+> The parent of $g$ is $parent(d)$.\
+> The subtree would look like this:
+> ````
+> parent(d)
+>     alternative/or
+>         a_1
+>         a_2
+>         ...
+>         a_n
+> ````
 
-> ### Rule 2.1.3 Double Decision
+> ### Rule 2.1.4 Double Decision
 > Let $d$ be a double decision.\
 > Then one mandatory group $g$ is created with one child feature $d$ of the type real.\
-> The parent of $g$ is $parent(d)$
+> The parent of $g$ is $parent(d)$\
+> The subtree would look like this:
+> ````
+> parent(d)
+>     mandatory
+>         Real d
+> ````
 
-> ### Rule 2.1.3 String Decision
+> ### Rule 2.1.5 String Decision
 > Let $d$ be a string decision.\
 > Then one mandatory group $g$ is created with one child feature $d$ of the type string.\
-> The parent of $g$ is $parent(d)$
+> The parent of $g$ is $parent(d)$\
+> The subtree would look like this:
+> ````
+> parent(d)
+>     mandatory
+>         String d
+> ````
 
-> ### Rule 2.2.1 Visibility is Value of Enumeration Decision
+> ### Rule 2.2.1 Visibility is $true$
+> Let $d$ be a decision.\
+> Let $v$ be the visibility of $d$.\
+> When $v$ is $true$, then $parent(d)$ resolves to the root of the feature model.\
+> E.g. the decision model:
+> |ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
+> |  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
+> |D|D?|Boolean|true \| false|||true
+> F|Which F?|Enumeration|A \| B \| C|1:1||true
+> is converted into:
+> ````
+>features  
+>        STANDARD_MODEL_NAME  
+>                alternative  
+>                        A
+>                        B
+>                        C
+>                optional  
+>                        D
+> ````
+
+> ### Rule 2.2.2 Visibility is Value of Enumeration Decision
 > Let $d$ be a decision.\
 > Let $e$ be an enumreation decision.\
 > Let $a$ be part of the range of $e$.\
 > Let $v$ be the visibility of $d$.\
-> When $v$ has the form $e.a$, then $parent(d)$ resolves to $a$.
+> When $v$ has the form $e.a$, then $parent(d)$ resolves to $a$.\
+> E.g. the decision model:
+> |ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
+> |  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
+> |D|D?|Boolean|true \| false|||F.A  
+> |F|Which F?|Enumeration|A \| B \| C|1:1||true
+> is converted into:
+> ````
+> features  
+>     STANDARD_MODEL_NAME  
+>         alternative  
+>             A  
+>                 optional  
+>                     D  
+>             B  
+>             C
+> ````
 
-> ### Rule 2.2.2 Visibility is Non-Enumeration Decision
+> ### Rule 2.2.3 Visibility is Non-Enumeration Decision
 > Let $d$ be a decision.\
 > Let $e$ be a non-enumeration decision.\
 > Let $v$ be the visibility of $d$.\
-> When $v$ has the form $e$, then $parent(d)$ resolves to $e$.
-
-> ### Rule 2.2.3 Visibility is $true$
-> Let $d$ be a decision.\
-> Let $v$ be the visibility of $d$.\
-> When $v$ is $true$, then $parent(d)$ resolves to the root of the feature model.
+> When $v$ has the form $e$, then $parent(d)$ resolves to $e$.\
+> E.g. the decision model:
+> |ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
+> |  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
+> |D|D?|Boolean|true \| false|||true  
+> |F|Which F?|Enumeration|A \| B \| C|1:1||D
+> is converted into:
+> ````
+> features  
+>     STANDARD_MODEL_NAME  
+>         optional  
+>              D  
+>                   alternative  
+>                       A  
+>                       B  
+>                       C
+> ````
 
 > ### Rule 2.3.1 Combine Optional and Mandatory Groups
 > Let $g_1$, $g_2$, ..., $g_n$ be all optional or all mandatory groups.\
@@ -387,5 +469,7 @@ The rules for the transformations are the following:
 >        optional
 >            String Name
 > ````
+
+> ### Rule 2.3.3 Remove Standard Root
 
 > ### Rule 2.4 Rule
