@@ -186,7 +186,7 @@ The rules for the transformations are the following:
 > Then the DNF has the form:\
 > $\bigvee_{0<i⩽n} \bigwedge_{0<j⩽m_i} (\neg) x_{ij}$
 > 
-> One implication constraint will be generated from the DNF, where the first $n-1$ conjunctions create the predicate and the last conjunction creates the conclusion.\
+> One implication constraint will be generated from the DNF, where the first $n-1$ conjunctions create the predicate and the last conjunction creates the conclusion.
 > 
 > The implication constraint has the form:\
 > $¬(\bigvee_{0<i⩽n-1} \bigwedge_{0<j⩽m_i} (\neg) x_{ij})→ (\bigwedge_{0<j⩽m_n} (\neg) x_{nj})$
@@ -232,7 +232,33 @@ The rules for the transformations are the following:
 >|H|H?|Boolean|false \| true|||true  
 >|root|Which root?|Enumeration|A \| B \| C \| D|1:1|"if (!(((!root.A \|\| (!root.C && !root.D)) \|\| ((root.D && G) && H)) \|\| ((root.C && G) && H))) {disAllow(root.B);}"|true
 
-> ### Rule 1.3.4 Attributes
+> ### Rule 1.4.1 Attribute Decision (roundtrip)
+> Let $f$ be a feature.
+> Let $f$ have an attribute $a$ with the name $name(a)$, the value $value(a)$ and the type $type(value(a))$.
+> 
+> Depending on $type(value(a))$ a string, double or boolean decision is created:
+> |ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
+> |  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
+> |a#$name(a)$#Attribute|$name(a)$?|Boolean|false \| true|||false  
+> |a#$name(a)$#Attribute|How much $name(a)$?|Double||||false  
+> |a#$name(a)$#Attribute|What $name(a)$?|String||||false
+>Because the Dopler decision model does not support integer values, integer attributes create double decisions.
+
+> ### Rule 1.4.2 Attribute Rule (roundtrip)
+> Let $f$ be a feature.
+> Let $f$ have an attribute $a$ with the name $name(a)$ and the value $value(a)$.\
+> Then one rule will be created and put into $rules(f)$.\
+> Depending on the parent group of $f$ the created rule looks different.
+> 
+> Parent group is optional:
+> ````
+> if (a) {a#name(a)#Attribute = value(a);}
+> ````
+> 
+> Parent group is or, alternative or mandatory:
+> ````
+> if (parent(a)*.a) {a#name(a)#Attribute = value(a);}
+> ````
 
 ### Dopler decision model to UVL feature model
 
