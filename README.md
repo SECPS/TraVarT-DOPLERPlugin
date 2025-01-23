@@ -471,5 +471,30 @@ The rules for the transformations are the following:
 > ````
 
 > ### Rule 2.3.3 Remove Standard Root
+> The standard root $r$ of the model is removed, when $r$ has one child group $g$, $g$ is mandatory and $g$ has only one child feature.\
+> E.g. the model:
+> ````
+> features  
+>     STANDARD_MODEL_NAME  
+>         mandatory  
+>             A
+>                 or
+>                     B
+>                     C
+>                 optional
+>                     D
+>                     E
+> ```` 
+> will be converted into:
+> ````
+> features  
+>     A
+>         or
+>             B
+>             C
+>         optional
+>             D
+>             E
+> ````
 
 > ### Rule 2.4 Rule
