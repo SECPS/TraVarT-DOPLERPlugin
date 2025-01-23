@@ -251,8 +251,8 @@ The rules for the transformations are the following:
 
 > ### Rule 1.4.2 Attribute Rule (roundtrip)
 > Let $f$ be a feature.\
-> Let $p$ be the parent feature of $f$.\
-> Let $g$ be the parent groupof $f$.\
+> Let $g$ be the parent group of $f$.\
+> Let $p$ be the parent feature of $g$.\
 > Let $f$ have an attribute $a$ with the name $name(a)$ and the value $value(a)$.\
 > Then one rule will be created and put into $rules(f)$.\
 > Depending on $g$ the created rule looks different.
