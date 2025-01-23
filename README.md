@@ -154,7 +154,7 @@ The rules for the transformations are the following:
 >|c#|Which c?|Enumeration|c|1 : 1||b  
 >|d|d?|Boolean|false \| true|||c#.c
 
-> ### Rule 1.3.1 Split And Constraint
+> ### Rule 1.3.1 And Constraint
 > Let $C$ be a contraint.\
 > When $C$ has an $∧$ as the top element, then split $C$ and create the two constraints $C_1$ and $C_2$.\
 > E.g. consider the constraint $A∧¬B$. It will be split up into $A$ and $¬B$.
@@ -177,7 +177,8 @@ The rules for the transformations are the following:
 
 > ### Rule 1.3.4  Literal Constraint of Mandatory Feature
 > Let $C$ be a contraint.\
-> When $C$ is a literal that corresponds to a mandatory feature $a$, and $p$ is the first non-mandtory parent feature of $a$, then $a$ is replaced with $p$.
+> When $C$ is a literal that corresponds to a mandatory feature $a$, and $p$ is the first non-mandtory parent feature of $a$, then $a$ is replaced with $p$.\
+> When there is no non-mandatory parent, then $C$ is replaced with $true$.
 
 > ### Rule 1.3.5 Complex Contraint
 > Let $C$ be a contraint.\
