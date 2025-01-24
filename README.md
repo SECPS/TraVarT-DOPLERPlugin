@@ -171,8 +171,8 @@ The rules for the transformations are the following:
 
 > ### Rule 1.3.1 And Constraint
 > Let $C$ be a contraint.\
-> When $C$ has an $\&$ as the top element, then split $C$ and create the two constraints $C_1$ and $C_2$.\
-> E.g. consider the constraint $A\&!B$. It will be split up into $A$ and $!B$.
+> When $C$ has an $\\&$ as the top element, then split $C$ and create the two constraints $C_1$ and $C_2$.\
+> E.g. consider the constraint $A\\&!B$. It will be split up into $A$ and $!B$.
 
 > ### Rule 1.3.2 Literal Constraint of Optional Feature
 > Let $C$ be a contraint.\
@@ -197,9 +197,9 @@ The rules for the transformations are the following:
 
 > ### Rule 1.3.5 Complex Contraint
 > Let $C$ be a contraint.\
-> When $C$ is not a literal and has no $\&$ as root, then $C$ is converted into DNF.
+> When $C$ is not a literal and has no $\\&$ as root, then $C$ is converted into DNF.
 > 
-> Let $n$ be the number of conjunctions ($n⩾2$, because $C$ is not a literal and has no $\&$ as root).\
+> Let $n$ be the number of conjunctions ($n⩾2$, because $C$ is not a literal and has no $\\&$ as root).\
 > Let $m_i$ be the number of literals in the $i$-th conjunction.\
 > Let $x_{ij}$ be the $j$-th literal in th $i$-th conjunction.
 > 
@@ -231,8 +231,8 @@ The rules for the transformations are the following:
 > constraints  
 >    (A & B & (C|D)) => ((D | C) & (G & H))
 > ````
-> The DNF of the given constraint is $(!A) | (!C \& !D) |(D \& G \& H) | (C \& G \& H) | (!B)$.\
-> And the implication constraint is $\neg((!A) | (!C \& !D) | (D \& G \& H) | (C \& G \& H)) => (!B)$.\
+> The DNF of the given constraint is $(!A) | (!C \\& !D) |(D \\& G \\& H) | (C \\& G \\& H) | (!B)$.\
+> And the implication constraint is $\neg((!A) | (!C \\& !D) | (D \\& G \\& H) | (C \\& G \\& H)) => (!B)$.\
 > From the predicate an action is created. In this case:
 > ````
 > {disAllow(root.B);}
@@ -539,7 +539,7 @@ The rules for the transformations are the following:
 > 4. $C$ is $true$, then return nothing
 > 5. $C$ is $false$, then produce an error
 > 4. $C$ is $!C'$, where $C'$ is another constraint, then return $!transformed(C')$ 
-> 5. $C$ is $C_1\&\&C_2$, where $C_1$ and $C_2$ are constraints, then return $transformed(C_1) \& transformed(C_2)$ 
+> 5. $C$ is $C_1\\&\\&C_2$, where $C_1$ and $C_2$ are constraints, then return $transformed(C_1) \\& transformed(C_2)$ 
 > 6. $C$ is $C_1||C_2$, where $C_1$ and $C_2$ are constraints, then return $transformed(C_1) | transformed(C_2)$ 
 >
 > E.g. the condition:
