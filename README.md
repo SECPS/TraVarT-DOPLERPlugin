@@ -157,8 +157,8 @@ The rules for the transformations are the following:
 
 > ### Rule 1.3.1 And Constraint
 > Let $C$ be a contraint.\
-> When $C$ has an $∧$ as the top element, then split $C$ and create the two constraints $C_1$ and $C_2$.\
-> E.g. consider the constraint $A∧¬B$. It will be split up into $A$ and $¬B$.
+> When $C$ has an $\&$ as the top element, then split $C$ and create the two constraints $C_1$ and $C_2$.\
+> E.g. consider the constraint $A\&!B$. It will be split up into $A$ and $!B$.
 
 > ### Rule 1.3.2 Literal Constraint of Optional Feature
 > Let $C$ be a contraint.\
@@ -183,9 +183,9 @@ The rules for the transformations are the following:
 
 > ### Rule 1.3.5 Complex Contraint
 > Let $C$ be a contraint.\
-> When $C$ is not a literal and has no $∧$ as root, then $C$ is converted into DNF.
+> When $C$ is not a literal and has no $\&$ as root, then $C$ is converted into DNF.
 > 
-> Let $n$ be the number of conjunctions ($n⩾2$, because $C$ is not a literal and has no $∧$ as root).\
+> Let $n$ be the number of conjunctions ($n⩾2$, because $C$ is not a literal and has no $\&$ as root).\
 > Let $m_i$ be the number of literals in the $i$-th conjunction.\
 > Let $x_{ij}$ be the $j$-th literal in th $i$-th conjunction.
 > 
@@ -195,7 +195,7 @@ The rules for the transformations are the following:
 > One implication constraint will be generated from the DNF, where the first $n-1$ conjunctions create the predicate and the last conjunction creates the conclusion.
 > 
 > The implication constraint has the form:\
-> $¬(\bigvee_{0<i⩽n-1} \bigwedge_{0<j⩽m_i} (\neg) x_{ij})→ (\bigwedge_{0<j⩽m_n} (\neg) x_{nj})$
+> $\neg(\bigvee_{0<i⩽n-1} \bigwedge_{0<j⩽m_i} (\neg) x_{ij})→ (\bigwedge_{0<j⩽m_n} (\neg) x_{nj})$
 > 
 > This implication constraint will then be converted into a rule and stored in $rules(x_{n1})$.
 > 
@@ -217,8 +217,8 @@ The rules for the transformations are the following:
 > constraints  
 >    (A & B & (C|D)) => ((D | C) & (G & H))
 > ````
-> The DNF of the given constraint is $(¬A) ∨ (¬C ∧ ¬D) ∨(D ∧ G ∧ H) ∨ (C ∧ G ∧ H) ∨ (¬B)$.\
-> And the implication constraint is $\neg((¬A) ∨ (¬C ∧ ¬D) ∨(D ∧ G ∧ H) ∨ (C ∧ G ∧ H)) → (¬B)$.\
+> The DNF of the given constraint is $(!A) | (!C \& !D) |(D \& G \& H) | (C \& G \& H) | (!B)$.\
+> And the implication constraint is $\neg((!A) | (!C \& !D) | (D \& G \& H) | (C \& G \& H)) => (!B)$.\
 > From the predicate an action is created. In this case:
 > ````
 > {disAllow(root.B);}
@@ -500,14 +500,55 @@ The rules for the transformations are the following:
 >             E
 > ````
 
-> ### Rule 2.4.1 Enumeration Literal
+> ### Rule 2.4.1 Handle Action
+> Let $A$ be an action.\
+> $A$ can have one of three forms:
+> 1. enumeration enforce: $d = a_i$, where $d$ is a enumeration decision with the value $a_i$
+> 2. disllow - $disallow(d.a_i)$, where $d$ is a enumeration decision with the value $a_i$
+> 3. boolean enforce: $d = true$, where $d$ is a boolean decision
+> 4. boolean enforce: $d = false$, where $d$ is a boolean decision
+> 
+> Independent of the concrete from, extactly one constraint will be generated for every actio:
+> 1. $d = a_i$ becomes $a_1$
+> 2. $disallow(d.a_i)$ becomes $!a_i$
+> 3. $d = true$ becomes $e$
+> 4. $d = false$ becomes $!e$
 
-> ### Rule 2.4.2 Non-Enumeration Literal
+> ### Rule 2.4.2 Handle Condition
+> Let $C$ be a condition.\
+> With $C$ will one constraint in the feature model be genereted.\
+> Let $transformed(C)$ be this constraint.\
+> The pattern matching rules for the transformation are the following:
+> 1. $C$ is $getValue(d) = true$, where $d$ is a boolean decision, then return $d$ 
+> 2. $C$ is $getValue(d) = false$, where $d$ is a boolean decision, then return $!d$ 
+> 3. $C$ is $getValue(d) = a_i$, where $d$ is an enumeration decision and $a_i$  one of its values, then return $a_i$ 
+> 4. $C$ is $true$, then return nothing
+> 5. $C$ is $false$, then produce an error
+> 4. $C$ is $!C'$, where $C'$ is another constraint, then return $!transformed(C')$ 
+> 5. $C$ is $C_1\&\&C_2$, where $C_1$ and $C_2$ are constraints, then return $transformed(C_1) \& transformed(C_2)$ 
+> 6. $C$ is $C_1||C_2$, where $C_1$ and $C_2$ are constraints, then return $transformed(C_1) | transformed(C_2)$ 
+>
+> E.g. the condition:
+> ````
+> !getValue(z) = a || (getValue(y) = false && getValue(x)=true)
+> ````
+> is transformed to:
+> ````
+> !a|(y & x)
+> ````
 
-> ### Rule 2.4.3 Boolean Enforce Action
-
-> ### Rule 2.4.4 Enumeration Enforce Action
-
-> ### Rule 2.4.5 Disallows Action
 
 > ### Rule 2.4.6 Complete Rule
+> Let $R$ be an rule in the Dopler decision model.\
+> $R$ has exactly one condition $C$ and the actions $A_1$, $A_2$, ..., $A_n$.\
+> Let $C'$ be the transformed condtion. \
+> Let $A_1'$, $A_2'$, ..., $A_n'$ be the transformed actions.\
+> Then one implication constraint $C'=>A_1 \& A_2' \& ... \& A_n'$ will be created and added to the feature model.
+> E.g. the rule:
+> ````
+> if ((getValue(Human) = SoftwareEngineer)) {disallow(Hobby.Sports);Hobby = Programming;IsSuperCool = true;}
+> ````
+> is transformed to
+> ````
+> SoftwareEngineer=> !Sports & Programming & IsSuperCool
+> ````
