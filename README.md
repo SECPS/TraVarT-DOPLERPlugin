@@ -27,6 +27,20 @@ There are also two different strategies for the transformation:
 In the following sections the two parts, including an outline of the transformation, are described.\
 The transformations are rule-based.
 
+### Not working
+There are quite a few constructs that cannot be transformed from UVL to Dopler and from Dopler to UVL.\
+This is a non-complete list of all these constructs.
+From UVL to Dopler:
+- Constraints over feature attributes with standard arithmetic operations (e.g.: +, -, *, /, =, !=, >, <)
+- Type Numeric-Constraints (e.g.: sum or avg)
+- Numeric operations  (e.g.: floor and ceil)
+- Type String-Constraints (e.g.: len or comparisons of string features)
+
+From Dopler to UVL:
+- Complex visibility constraints
+- Some action types (e.g.: StringEnforce or NumberEnforce)
+- Some condtion types (e.g.: DoubleLiteralExpression or  IsTaken)
+
 ### UVL feature model to Dopler decision model
 The transformation from UVL to Dopler is a three-step process:
 1. Decisions are created from the feature tree
