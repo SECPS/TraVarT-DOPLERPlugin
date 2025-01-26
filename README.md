@@ -8,11 +8,11 @@ The project is built with Maven and uses JDK 23.\
 If you want to use or work on the project, simply clone it with git and import it as a Maven project in the IDE of your choice.
 To check the installation, run `maven verify` in the project root. The installation is working when all tests (\~300) run and pass.
 
-The entry point into the code is the class `DoplerPlugin`. From there, you get access to the `Serialiser`, `Deserialiser`, `Transformer` and `PrettyPrinter`
-- The `Transformer` is responsible for transforming an UVL feature model to a Dopler decision model
-- The `Serialiser` is responsible for writing a Dopler decision model into a string
-- The `Deserialiser` is responsible for deserializing a string and creating a Dopler decision model with it
-- The `PrettyPrinter` is responsible for transforming a Dopler decision model into different representations, like a table
+The entry point into the code is the class `DoplerPlugin`. From there, you get access to the `IModelTransformer`, `ISerializer`, `IDeserializer` and `IPrettyPrinter`.
+- The `IModelTransformer` is responsible for transforming an UVL feature model to a Dopler decision model
+- The `ISerializer` is responsible for converting a Dopler decision model to a string
+- The `IDeserializer` is responsible for deserializing a string and creating a Dopler decision model with it
+- The `IPrettyPrinter` is responsible for transforming a Dopler decision model into different representations  (like a table)
 
 
 ## Transformations
@@ -24,22 +24,23 @@ There are also two different strategies for the transformation:
 1. ONEWAY - With this strategy, all information is translated from one model to another that makes sense in the target model (e.g., mandatory features in UVL are not translated because there is no decision to make)
 2. ROUNDTRIP - With this strategy, as much information as possible is kept (the target model will contain redundant and superfluous elements)  
 
-In the following sections, the two parts, including an outline of the transformation, are described.\
+In the following sections, the two transformation parts are described, including an outline of the transformation.\
 The transformations are rule-based.
 
 ### Not working
 There are quite a few constructs that cannot be transformed from UVL to Dopler and from Dopler to UVL.\
-This is a non-complete list of all these constructs.\
+This is a non-complete list of these constructs.
+
 From UVL to Dopler
-- Constraints over feature attributes with standard arithmetic operations (e.g.: +, -, *, /, =, !=, >, <)
+- Constraints over feature attributes with standard arithmetic operations (e.g.,: +, -, *, /, =, !=, >, <)
 - Type Numeric-Constraints (e.g., sum or avg)
 - Numeric operations  (e.g., floor and ceil)
 - Type String-Constraints (e.g., len or comparisons of string features)
 
 From Dopler to UVL
 - Complex visibility constraints
-- Some action types (e.g.: StringEnforce or NumberEnforce)
-- Some condition types (e.g.: DoubleLiteralExpression or  IsTaken)
+- Some action types (e.g.,: StringEnforce or NumberEnforce)
+- Some condition types (e.g.,: DoubleLiteralExpression or IsTaken)
 
 ### Transformation from UVL feature model to Dopler decision model
 The transformation from UVL to Dopler is a three-step process:
@@ -49,11 +50,10 @@ The transformation from UVL to Dopler is a three-step process:
 
 The rules for the transformations are the following:
 
-
 > ### Rule 1.1.1: Optional Group
 > Let $G$ be an optional group.\
 > Let $a_1$, $a_2$, ..., $a_n$ be boolean features and children of $G$.\
-> Let $b_1$, $b_2$, ..., $b_m$ be non boolean features (e.g. string features) and children of $G$.\
+> Let $b_1$, $b_2$, ..., $b_m$ be non boolean features (e.g., string features) and children of $G$.\
 > Then for every $a_i$ one boolean decision and for every $b_i$ one boolean and one type decision is created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  |
@@ -73,7 +73,7 @@ The rules for the transformations are the following:
 > Let $G$ be an alternative group.\
 > Let $a$ be the parent feature of $G$.\
 > Let $a_1$, $a_2$, ..., $a_n$ be boolean features and children of $G$.\
-> Let $b_1$, $b_2$, ..., $b_m$ be non boolean features (e.g. string features) and children of $G$.\
+> Let $b_1$, $b_2$, ..., $b_m$ be non boolean features (e.g., string features) and children of $G$.\
 > Then one enumeration decision and $m$ type decisions are created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  |
@@ -87,7 +87,7 @@ The rules for the transformations are the following:
 > Let $G$ be an alternative group.\
 > Let $a$ be the parent feature of $G$.\
 > Let $a_1$, $a_2$, ..., $a_n$ be boolean features and children of $G$.\
-> Let $b_1$, $b_2$, ..., $b_m$ be non boolean features (e.g. string features) and children of $G$.\
+> Let $b_1$, $b_2$, ..., $b_m$ be non boolean features (e.g., string features) and children of $G$.\
 > Then one enumeration decision and $m$ type decisions are created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  |
@@ -100,7 +100,7 @@ The rules for the transformations are the following:
 > ### Rule 1.1.4: Mandatory Group (one way)
 > Let $G$ be a mandatory group.\
 > Let $a_1$, $a_2$, ..., $a_n$ be  boolean features and children of $G$.\
-> Let $b_1$, $b_2$, ..., $b_m$ be non-boolean features (e.g. string features) and children of $G$.\
+> Let $b_1$, $b_2$, ..., $b_m$ be non-boolean features (e.g., string features) and children of $G$.\
 > Then for every $b_i$ one type decision is created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
@@ -112,7 +112,7 @@ The rules for the transformations are the following:
 > ### Rule 1.1.5: Mandatory Group (roundtrip)
 > Let $G$ be a mandatory group.\
 > Let $a_1$, $a_2$, ..., $a_n$ be  boolean features and children of $G$.\
-> Let $b_1$, $b_2$, ..., $b_m$ be non-boolean features (e.g. string features) and children of $G$.\
+> Let $b_1$, $b_2$, ..., $b_m$ be non-boolean features (e.g., string features) and children of $G$.\
 > Then for every $a_i$ one enumeration decision and for every $b_i$ one type decision is created:
 >|ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 >|  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
@@ -129,7 +129,7 @@ The rules for the transformations are the following:
 > Let $a$ be a feature.\
 > Then $visibility(a)$ resolves to the first non-mandatory parent of $a$.\
 > If there is no non-mandatory parent, then $visibility(a)$ resolves to $true$.\
-> E.g. consider this feature model:
+> E.g., consider this feature model:
 > ````
 > features  
 >     a  
@@ -150,7 +150,7 @@ The rules for the transformations are the following:
 > Let $a$ be a feature.\
 > Then $visibility(a)$ resolves to the parent of $a$.\
 > If there is no parent, then $visibility(a)$ resolves to $true$.\
-> E.g. consider this feature model:
+> E.g., consider this feature model:
 > ````
 > features  
 >     a  
@@ -172,7 +172,7 @@ The rules for the transformations are the following:
 > ### Rule 1.3.1 And Constraint
 > Let $C$ be a contraint.\
 > When $C$ has an $\\&$ as the top element, then split $C$ and create the two constraints $C_1$ and $C_2$.\
-> E.g. consider the constraint $A\\&!B$. It will be split up into $A$ and $!B$.
+> E.g., consider the constraint $A\\&!B$. It will be split up into $A$ and $!B$.
 
 > ### Rule 1.3.2 Literal Constraint of Optional Feature
 > Let $C$ be a contraint.\
@@ -213,7 +213,7 @@ The rules for the transformations are the following:
 > 
 > This implication constraint will then be converted into a rule and stored in $rules(x_{n1})$.
 > 
-> E.g. consider the following feature model:
+> E.g., consider the following feature model:
 > ````
 > features  
 >    root  
@@ -352,7 +352,7 @@ The rules for the transformations are the following:
 > Let $d$ be a decision.\
 > Let $v$ be the visibility of $d$.\
 > When $v$ is $true$, then $parent(d)$ resolves to the root of the feature model.\
-> E.g. the decision model:
+> E.g., the decision model:
 > |ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 > |  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
 > |D|D?|Boolean|true \| false|||true
@@ -376,7 +376,7 @@ The rules for the transformations are the following:
 > Let $a$ be part of the range of $e$.\
 > Let $v$ be the visibility of $d$.\
 > When $v$ has the form $e.a$, then $parent(d)$ resolves to $a$.\
-> E.g. the decision model:
+> E.g., the decision model:
 > |ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 > |  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
 > |D|D?|Boolean|true \| false|||F.A  
@@ -399,7 +399,7 @@ The rules for the transformations are the following:
 > Let $e$ be a non-enumeration decision.\
 > Let $v$ be the visibility of $d$.\
 > When $v$ has the form $e$, then $parent(d)$ resolves to $e$.\
-> E.g. the decision model:
+> E.g., the decision model:
 > |ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
 > |  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  | 
 > |D|D?|Boolean|true \| false|||true  
@@ -421,7 +421,7 @@ The rules for the transformations are the following:
 > Let $g_1$, $g_2$, ..., $g_n$ be all optional or all mandatory groups.\
 > When $g_1$, $g_2$, ..., $g_n$ share the same parent feature, then the groups are all combined into one group $g$.\
 > $g$ has all children of $g_1$, $g_2$, ..., $g_n$.\
-> E.g. the model:
+> E.g., the model:
 > ````
 >features  
 >    root
@@ -452,7 +452,7 @@ The rules for the transformations are the following:
 > ### Rule 2.3.2 Replace single Alternative Group with Mandatory Group (one way)
 > Let $g$ be an alternative group.\
 > When $g$ only has one child, then $g$ is replaced with the mandatory group $g'$\
-> E.g. the model:
+> E.g., the model:
 > ````
 >features  
 >    Sandwich  
@@ -470,7 +470,7 @@ The rules for the transformations are the following:
 > ### Rule 2.3.3 Simplify Type Feature (one way)
 > Let $f$ be a feature.\
 > When $f$ has a single child group $g$, $g$ is mandatory and $g$ has a single type feature $t$ then replace $f$ with $t$.\
-> E.g. the model:
+> E.g., the model:
 > ````
 > features  
 >    root
@@ -489,7 +489,7 @@ The rules for the transformations are the following:
 
 > ### Rule 2.3.3 Remove Standard Root
 > The standard root $r$ of the model is removed, when $r$ has one child group $g$, $g$ is mandatory and $g$ has only one child feature.\
-> E.g. the model:
+> E.g., the model:
 > ````
 > features  
 >     STANDARD_MODEL_NAME  
@@ -542,7 +542,7 @@ The rules for the transformations are the following:
 > 5. $C$ is $C_1\\&\\&C_2$, where $C_1$ and $C_2$ are constraints, then return $transformed(C_1) \\& transformed(C_2)$ 
 > 6. $C$ is $C_1||C_2$, where $C_1$ and $C_2$ are constraints, then return $transformed(C_1) | transformed(C_2)$ 
 >
-> E.g. the condition:
+> E.g., the condition:
 > ````
 > !getValue(z) = a || (getValue(y) = false && getValue(x)=true)
 > ````
@@ -558,7 +558,7 @@ The rules for the transformations are the following:
 > Let $C'$ be the transformed condtion. \
 > Let $A_1'$, $A_2'$, ..., $A_n'$ be the transformed actions.\
 > Then one implication constraint $C'=>A_1 \\& A_2' \\& ...\\& A_n'$ will be created and added to the feature model.
-> E.g. the rule:
+> E.g., the rule:
 > ````
 > if ((getValue(Human) = SoftwareEngineer)) {disallow(Hobby.Sports);Hobby = Programming;IsSuperCool = true;}
 > ````
