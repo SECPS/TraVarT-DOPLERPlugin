@@ -520,20 +520,20 @@ The rules for the transformations are the following:
 > ### Rule 2.4.1 Handle Action
 > Let $A$ be an action.\
 > $A$ can have one of three forms:
-> 1. enumeration enforce: $d = a_i$, where $d$ is a enumeration decision with the value $a_i$
-> 2. disllow - $disallow(d.a_i)$, where $d$ is a enumeration decision with the value $a_i$
+> 1. enumeration enforce: $d = a_i$, where $d$ is an enumeration decision with the value $a_i$
+> 2. disallow - $disallow(d.a_i)$, where $d$ is an enumeration decision with the value $a_i$
 > 3. boolean enforce: $d = true$, where $d$ is a boolean decision
 > 4. boolean enforce: $d = false$, where $d$ is a boolean decision
 > 
-> Independent of the concrete from, extactly one constraint will be generated for every actio:
+> Independent of the concrete from, exactly one constraint will be generated for every action:
 > 1. $d = a_i$ becomes $a_1$
 > 2. $disallow(d.a_i)$ becomes $!a_i$
-> 3. $d = true$ becomes $e$
-> 4. $d = false$ becomes $!e$
+> 3. $d = true$ becomes $d$
+> 4. $d = false$ becomes $!d$
 
 > ### Rule 2.4.2 Handle Condition
 > Let $C$ be a condition.\
-> With $C$ will one constraint in the feature model be genereted.\
+> Then one constraint will be generated from $C$ in the feature model.
 > Let $transformed(C)$ be this constraint.\
 > The pattern matching rules for the transformation are the following:
 > 1. $C$ is $getValue(d) = true$, where $d$ is a boolean decision, then return $d$ 
@@ -556,11 +556,11 @@ The rules for the transformations are the following:
 
 
 > ### Rule 2.4.6 Complete Rule
-> Let $R$ be an rule in the Dopler decision model.\
+> Let $R$ be a rule in the Dopler decision model.\
 > $R$ has exactly one condition $C$ and the actions $A_1$, $A_2$, ..., $A_n$.\
 > Let $C'$ be the transformed condtion. \
 > Let $A_1'$, $A_2'$, ..., $A_n'$ be the transformed actions.\
-> Then one implication constraint $C'=>A_1 \\& A_2' \\& ...\\& A_n'$ will be created and added to the feature model.
+> Then one implication constraint $C'=>A_1' \\& A_2' \\& ...\\& A_n'$ will be created and added to the feature model.\
 > E.g., the rule:
 > ````
 > if ((getValue(Human) = SoftwareEngineer)) {disallow(Hobby.Sports);Hobby = Programming;IsSuperCool = true;}
