@@ -569,3 +569,23 @@ The rules for the transformations are the following:
 > ````
 > SoftwareEngineer => !Sports & Programming & IsSuperCool
 > ````
+
+> ### Rule 2.5.1 Attributes
+> This rule is the inverse of the rules 1.4.1 and 1.4.2.\
+> Let $D$ be a decision.\
+> When the name of $D$ matches the regex `.+#.+#Attribute` and the visibility is $false$, then the decision is used to create an attribute.\
+> The name of $D$ is split at the `#`. The first region is the name of the feature $f$, that gets the attribute $a$. The second region is the name of the attribute $a$.\
+> According to rule 1.4.2 there should be a rule at the decision with the name of $f$ that contains the value of $a$.\
+> We can just search for this rule and extract the value of $a$.\
+> With the value of $a$ and the name of $a$, we can create the attribute and add it to the target feature $f$.\
+> E.g., the model:
+> |ID|Question|Type|Range|Cardinality|Constraint/Rule|Visible/relevant if  
+> |  --------  |  -------  |  -------  |  -------  |  -------  |  -------  |  -------  |
+> |A|A?|Boolean|false \| true||"if (A) {A#key1#Attribute = 'Hello World!';}"|true
+> |A#key1#Attribute|What key1?|String||||false
+> 
+> will be converted into:
+> ````
+> features
+>     A {key1 'Hello World!'}
+> ````
