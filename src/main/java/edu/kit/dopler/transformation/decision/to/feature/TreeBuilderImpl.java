@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static de.vill.model.Group.GroupType.ALTERNATIVE;
 import static de.vill.model.Group.GroupType.MANDATORY;
@@ -59,20 +60,6 @@ public class TreeBuilderImpl implements TreeBuilder {
         this.attributeHandler = attributeHandler;
     }
 
-    private static void distributeDecisions(List<IDecision<?>> allDecisions, List<BooleanDecision> booleanDecisions,
-                                            List<EnumerationDecision> enumerationDecisions,
-                                            List<IDecision<?>> numberDecisions, List<IDecision<?>> stringDecisions) {
-        for (IDecision<?> decision : allDecisions) {
-            switch (decision) {
-                case BooleanDecision booleanDecision -> booleanDecisions.add(booleanDecision);
-                case EnumerationDecision enumerationDecision -> enumerationDecisions.add(enumerationDecision);
-                case NumberDecision numberDecision -> numberDecisions.add(numberDecision);
-                case StringDecision stringDecision -> stringDecisions.add(stringDecision);
-                case null, default -> throw new UnexpectedTypeException(decision);
-            }
-        }
-    }
-
     @Override
     public Feature buildTree(List<IDecision<?>> allDecisions, List<IAction> allActions,
                              IModelTransformer.STRATEGY strategy) {
@@ -81,17 +68,16 @@ public class TreeBuilderImpl implements TreeBuilder {
         List<IDecision<?>> attributeDecisions = filterAttributeDecisions(allDecisions);
 
         //Group the decisions by their type
-        List<BooleanDecision> booleanDecisions = new ArrayList<>();
-        List<EnumerationDecision> enumerationDecisions = new ArrayList<>();
-        List<IDecision<?>> numberDecisions = new ArrayList<>();
-        List<IDecision<?>> stringDecisions = new ArrayList<>();
-        distributeDecisions(allDecisions, booleanDecisions, enumerationDecisions, numberDecisions, stringDecisions);
+        List<BooleanDecision> booleanDecisions = filterDecisions(allDecisions, BooleanDecision.class);
+        List<EnumerationDecision> enumerationDecisions = filterDecisions(allDecisions, EnumerationDecision.class);
+        List<NumberDecision> numberDecisions = filterDecisions(allDecisions, NumberDecision.class);
+        List<StringDecision> stringDecisions = filterDecisions(allDecisions, StringDecision.class);
 
         //Create features from the decisions
         Map<Feature, IExpression> booleanFeatures = createBooleanFeatures(booleanDecisions);
         Map<Feature, IExpression> enumFeatures = createEnumFeatures(enumerationDecisions);
-        Map<Feature, IExpression> numberFeatures = createTypeFeatures(numberDecisions, FeatureType.REAL);
-        Map<Feature, IExpression> stringFeatures = createTypeFeatures(stringDecisions, FeatureType.STRING);
+        Map<Feature, IExpression> numberFeatures = createNumberFeatures(numberDecisions);
+        Map<Feature, IExpression> stringFeatures = createStringFeatures(stringDecisions);
 
         //The allFeatures map is used for finding features in the link methods
         Map<Feature, IExpression> allFeatures = new LinkedHashMap<>();
@@ -124,6 +110,14 @@ public class TreeBuilderImpl implements TreeBuilder {
             }
         }
         return attributeDecisions;
+    }
+
+    /** Filter all decisions with the given class out. */
+    private <K extends IDecision<?>> List<K> filterDecisions(List<IDecision<?>> allDecisions, Class<K> clazz) {
+        List<K> filteredOut =
+                allDecisions.stream().filter(clazz::isInstance).map(clazz::cast).collect(Collectors.toList());
+        allDecisions.removeAll(filteredOut);
+        return filteredOut;
     }
 
     private void setBottomToTopLinks(Feature rootFeature) {
@@ -212,12 +206,23 @@ public class TreeBuilderImpl implements TreeBuilder {
         return features;
     }
 
-    /** For each given type-decision a single {@link Feature} with the given {@link FeatureType} is created. */
-    private Map<Feature, IExpression> createTypeFeatures(List<IDecision<?>> typeDecisions, FeatureType featureType) {
+    /** For each given number-decision a single real {@link Feature} is created. */
+    private Map<Feature, IExpression> createNumberFeatures(List<NumberDecision> numberDecisions) {
         Map<Feature, IExpression> features = new LinkedHashMap<>();
-        for (IDecision<?> decision : typeDecisions) {
+        for (IDecision<?> decision : numberDecisions) {
             Feature feature = new Feature(decision.getDisplayId());
-            feature.setFeatureType(featureType);
+            feature.setFeatureType(FeatureType.REAL);
+            features.put(feature, decision.getVisibilityCondition());
+        }
+        return features;
+    }
+
+    /** For each given string-decision a single string {@link Feature} is created. */
+    private Map<Feature, IExpression> createStringFeatures(List<StringDecision> stringDecisions) {
+        Map<Feature, IExpression> features = new LinkedHashMap<>();
+        for (IDecision<?> decision : stringDecisions) {
+            Feature feature = new Feature(decision.getDisplayId());
+            feature.setFeatureType(FeatureType.STRING);
             features.put(feature, decision.getVisibilityCondition());
         }
         return features;
