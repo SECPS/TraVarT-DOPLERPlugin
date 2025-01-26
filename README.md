@@ -5,14 +5,14 @@ It enables the conversion of UVL feature models to Dopler decision models.
 
 ## Getting Started
 The project is built with Maven and uses JDK 23.\
-If you want to use or work on the project, simply clone it with git and import it as a maven project in the IDE of your choice.
-To check the installation, run `maven verify` in the project root. The installation is working, when all tests (\~300) run and pass.
+If you want to use or work on the project, simply clone it with git and import it as a Maven project in the IDE of your choice.
+To check the installation, run `maven verify` in the project root. The installation is working when all tests (\~300) run and pass.
 
-The entry point into the code is the class `DoplerPlugin`. From there you get access to the `Serialiser`, `Deserialiser`, `Transformer` and `PrettyPrinter`
+The entry point into the code is the class `DoplerPlugin`. From there, you get access to the `Serialiser`, `Deserialiser`, `Transformer` and `PrettyPrinter`
 - The `Transformer` is responsible for transforming an UVL feature model to a Dopler decision model
 - The `Serialiser` is responsible for writing a Dopler decision model into a string
 - The `Deserialiser` is responsible for deserializing a string and creating a Dopler decision model with it
-- The `PrettyPrinter` is responsible for transforming a Dopler decision model into different representations like a table
+- The `PrettyPrinter` is responsible for transforming a Dopler decision model into different representations, like a table
 
 
 ## Transformations
@@ -21,10 +21,10 @@ The `Transformer` functionality is divided into two parts:
 2. An UVL to Dopler part that converts an UVL feature model to a Dopler decision model
 
 There are also two different strategies for the transformation:
-1. ONEWAY - With this strategy all information is translated from one model to another that makes sense in the target model (e.g. mandatory features in UVL are not translated because there is no decision to make)
-2. ROUNDTRIP - With this strategy as much information as possible is kept (the target model will contain redundant and superfluous elements)  
+1. ONEWAY - With this strategy, all information is translated from one model to another that makes sense in the target model (e.g., mandatory features in UVL are not translated because there is no decision to make)
+2. ROUNDTRIP - With this strategy, as much information as possible is kept (the target model will contain redundant and superfluous elements)  
 
-In the following sections the two parts, including an outline of the transformation, are described.\
+In the following sections, the two parts, including an outline of the transformation, are described.\
 The transformations are rule-based.
 
 ### Not working
@@ -32,14 +32,14 @@ There are quite a few constructs that cannot be transformed from UVL to Dopler a
 This is a non-complete list of all these constructs.\
 From UVL to Dopler
 - Constraints over feature attributes with standard arithmetic operations (e.g.: +, -, *, /, =, !=, >, <)
-- Type Numeric-Constraints (e.g.: sum or avg)
-- Numeric operations  (e.g.: floor and ceil)
-- Type String-Constraints (e.g.: len or comparisons of string features)
+- Type Numeric-Constraints (e.g., sum or avg)
+- Numeric operations  (e.g., floor and ceil)
+- Type String-Constraints (e.g., len or comparisons of string features)
 
 From Dopler to UVL
 - Complex visibility constraints
 - Some action types (e.g.: StringEnforce or NumberEnforce)
-- Some condtion types (e.g.: DoubleLiteralExpression or  IsTaken)
+- Some condition types (e.g.: DoubleLiteralExpression or  IsTaken)
 
 ### Transformation from UVL feature model to Dopler decision model
 The transformation from UVL to Dopler is a three-step process:
@@ -564,5 +564,5 @@ The rules for the transformations are the following:
 > ````
 > is transformed to
 > ````
-> SoftwareEngineer=> !Sports & Programming & IsSuperCool
+> SoftwareEngineer => !Sports & Programming & IsSuperCool
 > ````
