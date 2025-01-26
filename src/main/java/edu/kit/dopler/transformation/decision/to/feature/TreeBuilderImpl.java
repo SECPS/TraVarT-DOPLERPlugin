@@ -20,6 +20,7 @@ import de.vill.model.Feature;
 import de.vill.model.FeatureType;
 import de.vill.model.Group;
 import edu.kit.dopler.model.BooleanDecision;
+import edu.kit.dopler.model.BooleanLiteralExpression;
 import edu.kit.dopler.model.EnumerationDecision;
 import edu.kit.dopler.model.EnumerationLiteral;
 import edu.kit.dopler.model.IAction;
@@ -104,7 +105,9 @@ public class TreeBuilderImpl implements TreeBuilder {
     private List<IDecision<?>> filterAttributeDecisions(List<IDecision<?>> allDecisions) {
         List<IDecision<?>> attributeDecisions = new ArrayList<>();
         for (IDecision<?> decision : new ArrayList<>(allDecisions)) {
-            if (ATTRIBUTE_PATTERN.matcher(decision.getDisplayId()).matches()) {
+            if (ATTRIBUTE_PATTERN.matcher(decision.getDisplayId()).matches() &&
+                    decision.getVisibilityCondition() instanceof BooleanLiteralExpression booleanLiteralExpression &&
+                    !booleanLiteralExpression.getLiteral()) {
                 allDecisions.remove(decision);
                 attributeDecisions.add(decision);
             }
