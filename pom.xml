@@ -9,9 +9,8 @@
 
 
     <properties>
-        <maven.compiler.source>23</maven.compiler.source>
-        <maven.compiler.target>23</maven.compiler.target>
-        <plugin.id>dopler-decision-plugin</plugin.id>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <plugin.class>edu/kit/dopler/plugin/DoplerPlugin.java</plugin.class>
         <plugin.version>2.0</plugin.version>
         <plugin.provider>CPS</plugin.provider>
@@ -51,14 +50,14 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.11.4</version>
+            <version>5.10.2</version>
         </dependency>
 
         <!-- local jar with travart core -->
         <dependency>
-            <groupId>placeholder</groupId>
-            <artifactId>placeholder2</artifactId>
-            <version>1.0</version>
+            <groupId>at.jku.cps</groupId>
+            <artifactId>travart-core</artifactId>
+            <version>2.0.0</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/travart-core-2.0.0.jar</systemPath>
         </dependency>
@@ -69,7 +68,7 @@
             <artifactId>placeholder4</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/dopler_model.jar</systemPath>
+            <systemPath>${project.basedir}/lib/TraVarT-DOPLER-SMT.jar</systemPath>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-jdk14 -->
@@ -146,8 +145,8 @@
                     <annotationProcessors>
                         <annotationProcessor>org.pf4j.processor.ExtensionAnnotationProcessor</annotationProcessor>
                     </annotationProcessors>
-                    <source>23</source>
-                    <target>23</target>
+                    <source>21</source>
+                    <target>21</target>
                 </configuration>
             </plugin>
         </plugins>
