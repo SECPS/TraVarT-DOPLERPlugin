@@ -4,7 +4,7 @@ The DOPLERPlugin is a plugin for the [TraVarT](https://github.com/SECPS/TraVarT)
 It enables the conversion of UVL feature models to Dopler decision models.
 
 ## Getting Started
-The project is built with Maven and uses JDK 23.\
+The project is built with Maven and uses JDK 21.\
 If you want to use or work on the project, simply clone it with git and import it as a Maven project in the IDE of your choice.
 To check the installation, run `maven verify` in the project root. The installation is working when all tests (\~300) run and pass.
 
