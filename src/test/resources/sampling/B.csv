@@ -1,0 +1,3 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+A;What A?;String;;;;(getValue(RootFeature#) = RootFeature)
+RootFeature#;Which RootFeature?;Enumeration;RootFeature;1:1;;true

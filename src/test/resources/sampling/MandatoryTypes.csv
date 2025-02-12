@@ -1,0 +1,11 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+A;What A?;String;;;;(getValue(RootFeature#) = RootFeature)
+AA;What AA?;String;;;;(getValue(A) = true)
+AB;What AB?;String;;;;(getValue(A) = true)
+B;How much B?;Double;;;;(getValue(RootFeature#) = RootFeature)
+BA;How much BA?;Double;;;;(getValue(B) = true)
+BB;How much BB?;Double;;;;(getValue(B) = true)
+C#;Which C?;Enumeration;C;1:1;;(getValue(RootFeature#) = RootFeature)
+CA#;Which CA?;Enumeration;CA;1:1;;(getValue(C#) = C)
+CB#;Which CB?;Enumeration;CB;1:1;;(getValue(C#) = C)
+RootFeature#;Which RootFeature?;Enumeration;RootFeature;1:1;;true

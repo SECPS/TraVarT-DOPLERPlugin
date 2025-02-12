@@ -1,0 +1,21 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+A;A?;Boolean;false | true;;;true
+A*;Which A*?;Enumeration;A5 | A6;1:1;;(getValue(A) = true)
+A**;Which A**?;Enumeration;A7 | A8;1:2;;(getValue(A) = true)
+A1;A1?;Boolean;false | true;;;(getValue(A) = true)
+A2;A2?;Boolean;false | true;;;(getValue(A) = true)
+B;B?;Boolean;false | true;;;true
+C;Which C?;Enumeration;C5 | C6;1:1;;true
+C*;Which C*?;Enumeration;C7 | C8;1:2;;true
+C1;C1?;Boolean;false | true;;;true
+C2;C2?;Boolean;false | true;;;true
+E*;Which E*?;Enumeration;E5 | E6;1:1;;(getValue(RootFeature) = E)
+E**;Which E**?;Enumeration;E7 | E8;1:2;;(getValue(RootFeature) = E)
+E1;E1?;Boolean;false | true;;;(getValue(RootFeature) = E)
+E2;E2?;Boolean;false | true;;;(getValue(RootFeature) = E)
+G*;Which G*?;Enumeration;G5 | G6;1:1;;(getValue(RootFeature*) = G)
+G**;Which G**?;Enumeration;G7 | G8;1:2;;(getValue(RootFeature*) = G)
+G1;G1?;Boolean;false | true;;;(getValue(RootFeature*) = G)
+G2;G2?;Boolean;false | true;;;(getValue(RootFeature*) = G)
+RootFeature;Which RootFeature?;Enumeration;E | F;1:1;;true
+RootFeature*;Which RootFeature*?;Enumeration;G | H;1:2;;true
