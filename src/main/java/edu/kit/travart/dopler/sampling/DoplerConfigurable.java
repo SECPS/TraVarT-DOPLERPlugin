@@ -1,13 +1,21 @@
 package edu.kit.travart.dopler.sampling;
 
 import at.jku.cps.travart.core.common.IConfigurable;
+import edu.kit.dopler.model.Dopler;
 
-public class DoplerConfigurable implements IConfigurable {
+/** Implementation of {@link IConfigurable} for the {@link Dopler} model. */
+class DoplerConfigurable implements IConfigurable {
 
     private final String name;
     private boolean selected;
 
-    public DoplerConfigurable(String name, boolean selected) {
+    /**
+     * Constructor of {@link DoplerConfigurable}.
+     *
+     * @param name     Name of the configurable
+     * @param selected Boolean value that stores if the configurable is selected
+     */
+    DoplerConfigurable(String name, boolean selected) {
         this.name = name;
         this.selected = selected;
     }

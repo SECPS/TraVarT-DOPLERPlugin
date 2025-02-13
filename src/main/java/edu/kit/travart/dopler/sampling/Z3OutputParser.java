@@ -2,42 +2,17 @@ package edu.kit.travart.dopler.sampling;
 
 import at.jku.cps.travart.core.common.IConfigurable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class Z3OutputParser {
+/** This interface is responsible for parsing the output of the z3 sat solver. */
+interface Z3OutputParser {
 
-    /** This regex extracts the name value pairs in the input. */
-    private static final Pattern PATTERN = Pattern.compile("([^()]* ((false)|(true)))");
-
-    /** z3Answer has the form ((name_1 value_1)(name_2 value_2)...(name_n, value_n)) */
-    Map<IConfigurable, Boolean> parseSatAnswer(String z3Answer) {
-        List<String> allPairs = extractPairs(z3Answer);
-        return createMap(allPairs);
-    }
-
-    private static List<String> extractPairs(String z3Answer) {
-        List<String> allMatches = new ArrayList<>();
-        Matcher matcher = PATTERN.matcher(z3Answer);
-        while (matcher.find()) {
-            allMatches.add(matcher.group());
-        }
-        return allMatches;
-    }
-
-    /** A single pair has the form `name value` */
-    private static Map<IConfigurable, Boolean> createMap(List<String> allPairs) {
-        Map<IConfigurable, Boolean> pairs = new HashMap<>();
-        for (String pair : allPairs) {
-            String[] split = pair.split(" ");
-            String name = split[0];
-            boolean value = Boolean.parseBoolean(split[1]);
-            pairs.put(new DoplerConfigurable(name, value), value);
-        }
-        return pairs;
-    }
+    /**
+     * Parse the answer of the z3 sat solver and converts it into a map of {@link IConfigurable}.
+     *
+     * @param z3Answer Answer from the z3 sat solver that should be parsed
+     *
+     * @return Map of {@link IConfigurable}s as keys and {@link Boolean}s as values
+     */
+    Map<IConfigurable, Boolean> parseSatAnswer(String z3Answer);
 }
