@@ -12,6 +12,11 @@ public class InvalidConfigFinderImpl implements InvalidConfigFinder {
 
     private final Z3Runner z3Runner;
 
+    /**
+     * Constructor of {@link InvalidConfigFinderImpl}.
+     *
+     * @param z3Runner {@link Z3Runner}
+     */
     public InvalidConfigFinderImpl(Z3Runner z3Runner) {
         this.z3Runner = z3Runner;
     }

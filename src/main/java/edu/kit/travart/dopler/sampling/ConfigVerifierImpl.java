@@ -12,14 +12,19 @@ public class ConfigVerifierImpl implements ConfigVerifier {
 
     private final Z3Runner z3Runner;
 
+    /**
+     * Constructor of {@link ConfigVerifierImpl}.
+     *
+     * @param z3Runner {@link Z3Runner}
+     */
     public ConfigVerifierImpl(Z3Runner z3Runner) {
         this.z3Runner = z3Runner;
     }
 
     @Override
     public boolean verify(Dopler dopler, Map<IConfigurable, Boolean> map) {
-        Stream.Builder<String> builder = null;
-        //Create the builder here. The builder should contain the dopler model and the config.
+        Stream.Builder<String> builder = dopler.toSMTStream();
+        //TODO: Complete the builder here. The builder should contain the dopler model and the config.
         return isSatisfiable(builder);
     }
 

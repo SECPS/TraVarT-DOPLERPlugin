@@ -16,6 +16,10 @@ public class DoplerSampler implements ISampler<Dopler> {
 
     /**
      * Constructor of {@link DoplerSampler}.
+     *
+     * @param validConfigFinder   {@link ValidConfigFinder}
+     * @param invalidConfigFinder {@link InvalidConfigFinder}
+     * @param configVerifier      {@link ConfigVerifier}
      */
     public DoplerSampler(ValidConfigFinder validConfigFinder, InvalidConfigFinder invalidConfigFinder,
                          ConfigVerifier configVerifier) {

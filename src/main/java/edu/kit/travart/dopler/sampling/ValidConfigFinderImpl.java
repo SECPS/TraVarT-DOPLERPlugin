@@ -21,6 +21,12 @@ public class ValidConfigFinderImpl implements ValidConfigFinder {
     private final Z3Runner z3Runner;
     private final Z3OutputParser z3OutputParser;
 
+    /**
+     * Constructor of {@link ValidConfigFinder}.
+     *
+     * @param z3Runner       {@link Z3Runner}
+     * @param z3OutputParser {@link Z3OutputParser}
+     */
     public ValidConfigFinderImpl(Z3Runner z3Runner, Z3OutputParser z3OutputParser) {
         this.z3Runner = z3Runner;
         this.z3OutputParser = z3OutputParser;
