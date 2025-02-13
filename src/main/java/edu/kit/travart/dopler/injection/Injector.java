@@ -15,6 +15,21 @@
  *******************************************************************************/
 package edu.kit.travart.dopler.injection;
 
+import edu.kit.travart.dopler.plugin.DoplerDeserializer;
+import edu.kit.travart.dopler.plugin.DoplerPrettyPrinter;
+import edu.kit.travart.dopler.plugin.DoplerSerializer;
+import edu.kit.travart.dopler.sampling.ConfigVerifier;
+import edu.kit.travart.dopler.sampling.ConfigVerifierImpl;
+import edu.kit.travart.dopler.sampling.DoplerSampler;
+import edu.kit.travart.dopler.sampling.InvalidConfigFinder;
+import edu.kit.travart.dopler.sampling.InvalidConfigFinderImpl;
+import edu.kit.travart.dopler.sampling.ValidConfigFinder;
+import edu.kit.travart.dopler.sampling.ValidConfigFinderImpl;
+import edu.kit.travart.dopler.sampling.Z3OutputParser;
+import edu.kit.travart.dopler.sampling.Z3OutputParserImpl;
+import edu.kit.travart.dopler.sampling.Z3Runner;
+import edu.kit.travart.dopler.sampling.Z3RunnerImpl;
+import edu.kit.travart.dopler.transformation.Transformer;
 import edu.kit.travart.dopler.transformation.decision.to.feature.AttributeCreator;
 import edu.kit.travart.dopler.transformation.decision.to.feature.AttributeCreatorImpl;
 import edu.kit.travart.dopler.transformation.decision.to.feature.DmToFmTransformer;
@@ -33,9 +48,16 @@ import edu.kit.travart.dopler.transformation.decision.to.feature.rules.Expressio
 import edu.kit.travart.dopler.transformation.decision.to.feature.rules.ExpressionHandlerImpl;
 import edu.kit.travart.dopler.transformation.decision.to.feature.rules.RuleHandler;
 import edu.kit.travart.dopler.transformation.decision.to.feature.rules.RuleHandlerImpl;
+import edu.kit.travart.dopler.transformation.feature.to.decision.AttributeHandler;
+import edu.kit.travart.dopler.transformation.feature.to.decision.AttributeHandlerImpl;
 import edu.kit.travart.dopler.transformation.feature.to.decision.FeatureAndGroupHandler;
+import edu.kit.travart.dopler.transformation.feature.to.decision.FeatureAndGroupHandlerImpl;
+import edu.kit.travart.dopler.transformation.feature.to.decision.FmToDmTransformer;
+import edu.kit.travart.dopler.transformation.feature.to.decision.FmToDmTransformerImpl;
 import edu.kit.travart.dopler.transformation.feature.to.decision.IdHandler;
+import edu.kit.travart.dopler.transformation.feature.to.decision.IdHandlerImpl;
 import edu.kit.travart.dopler.transformation.feature.to.decision.VisibilityHandler;
+import edu.kit.travart.dopler.transformation.feature.to.decision.VisibilityHandlerImpl;
 import edu.kit.travart.dopler.transformation.feature.to.decision.constraint.ActionCreator;
 import edu.kit.travart.dopler.transformation.feature.to.decision.constraint.ActionCreatorImpl;
 import edu.kit.travart.dopler.transformation.feature.to.decision.constraint.ConditionCreator;
@@ -57,17 +79,6 @@ import edu.kit.travart.dopler.transformation.feature.to.decision.constraint.dnf.
 import edu.kit.travart.dopler.transformation.feature.to.decision.constraint.dnf.rule.MorgenAndDnfRule;
 import edu.kit.travart.dopler.transformation.feature.to.decision.constraint.dnf.rule.MorgenOrDnfRule;
 import edu.kit.travart.dopler.transformation.feature.to.decision.constraint.dnf.rule.NotNotDnfRule;
-import edu.kit.travart.dopler.plugin.DoplerDeserializer;
-import edu.kit.travart.dopler.plugin.DoplerPrettyPrinter;
-import edu.kit.travart.dopler.plugin.DoplerSerializer;
-import edu.kit.travart.dopler.transformation.Transformer;
-import edu.kit.travart.dopler.transformation.feature.to.decision.AttributeHandler;
-import edu.kit.travart.dopler.transformation.feature.to.decision.AttributeHandlerImpl;
-import edu.kit.travart.dopler.transformation.feature.to.decision.FeatureAndGroupHandlerImpl;
-import edu.kit.travart.dopler.transformation.feature.to.decision.FmToDmTransformer;
-import edu.kit.travart.dopler.transformation.feature.to.decision.FmToDmTransformerImpl;
-import edu.kit.travart.dopler.transformation.feature.to.decision.IdHandlerImpl;
-import edu.kit.travart.dopler.transformation.feature.to.decision.VisibilityHandlerImpl;
 import edu.kit.travart.dopler.transformation.util.DecisionFinder;
 import edu.kit.travart.dopler.transformation.util.DecisionFinderImpl;
 import edu.kit.travart.dopler.transformation.util.FeatureFinder;
@@ -81,6 +92,25 @@ public final class Injector extends AbstractInjector {
     protected void installInstances() {
         installPlugin();
         installTransformation();
+        installSampling();
+    }
+
+    private void installPlugin() {
+        install(DoplerSerializer.class, new DoplerSerializer());
+        install(DoplerDeserializer.class, new DoplerDeserializer());
+        install(DoplerPrettyPrinter.class, new DoplerPrettyPrinter(getInstance(DoplerSerializer.class)));
+    }
+
+    private void installSampling() {
+        install(Z3Runner.class, new Z3RunnerImpl());
+        install(Z3OutputParser.class, new Z3OutputParserImpl());
+        install(ValidConfigFinder.class,
+                new ValidConfigFinderImpl(getInstance(Z3Runner.class), getInstance(Z3OutputParser.class)));
+        install(InvalidConfigFinder.class, new InvalidConfigFinderImpl(getInstance(Z3Runner.class)));
+        install(ConfigVerifier.class, new ConfigVerifierImpl(getInstance(Z3Runner.class)));
+        install(DoplerSampler.class,
+                new DoplerSampler(getInstance(ValidConfigFinder.class), getInstance(InvalidConfigFinder.class),
+                        getInstance(ConfigVerifier.class)));
     }
 
     private void installTransformation() {
@@ -92,12 +122,6 @@ public final class Injector extends AbstractInjector {
 
         install(Transformer.class,
                 new Transformer(getInstance(DmToFmTransformer.class), getInstance(FmToDmTransformer.class)));
-    }
-
-    private void installPlugin() {
-        install(DoplerSerializer.class, new DoplerSerializer());
-        install(DoplerDeserializer.class, new DoplerDeserializer());
-        install(DoplerPrettyPrinter.class, new DoplerPrettyPrinter(getInstance(DoplerSerializer.class)));
     }
 
     private void installDmToFm() {

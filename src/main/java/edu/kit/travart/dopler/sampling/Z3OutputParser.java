@@ -5,7 +5,7 @@ import at.jku.cps.travart.core.common.IConfigurable;
 import java.util.Map;
 
 /** This interface is responsible for parsing the output of the z3 sat solver. */
-interface Z3OutputParser {
+public interface Z3OutputParser {
 
     /**
      * Parse the answer of the z3 sat solver and converts it into a map of {@link IConfigurable}.

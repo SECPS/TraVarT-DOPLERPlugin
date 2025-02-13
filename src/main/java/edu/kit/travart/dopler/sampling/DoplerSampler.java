@@ -7,19 +7,21 @@ import edu.kit.dopler.model.Dopler;
 import java.util.Map;
 import java.util.Set;
 
-/** Implementation of {@link ISampler} with the {@link Dopler} model. */
+/** Implementation of {@link ISampler} with the {@link Dopler} model as type parameter. */
 public class DoplerSampler implements ISampler<Dopler> {
 
     private final ValidConfigFinder validConfigFinder;
     private final InvalidConfigFinder invalidConfigFinder;
     private final ConfigVerifier configVerifier;
 
-    public DoplerSampler() {
-        Z3RunnerImpl z3Runner = new Z3RunnerImpl();
-        Z3OutputParserImpl z3OutputParser = new Z3OutputParserImpl();
-        validConfigFinder = new ValidConfigFinderImpl(z3Runner, z3OutputParser);
-        invalidConfigFinder = new InvalidConfigFinderImpl(z3Runner);
-        configVerifier = new ConfigVerifierImpl(z3Runner);
+    /**
+     * Constructor of {@link DoplerSampler}.
+     */
+    public DoplerSampler(ValidConfigFinder validConfigFinder, InvalidConfigFinder invalidConfigFinder,
+                         ConfigVerifier configVerifier) {
+        this.validConfigFinder = validConfigFinder;
+        this.invalidConfigFinder = invalidConfigFinder;
+        this.configVerifier = configVerifier;
     }
 
     @Override

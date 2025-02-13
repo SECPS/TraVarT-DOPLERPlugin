@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /** Implementation of {@link Z3OutputParser}. */
-class Z3OutputParserImpl implements Z3OutputParser {
+public class Z3OutputParserImpl implements Z3OutputParser {
 
     /**
      * This regex matches the name value pairs in the input.

@@ -6,7 +6,7 @@ import edu.kit.dopler.model.Dopler;
 import java.util.Map;
 
 /** This interface is responsible for checking if a config of a {@link Dopler} model is valid. */
-interface ConfigVerifier {
+public interface ConfigVerifier {
 
     /**
      * Checks of the given configuration is a valid configuration of the given {@link Dopler} model

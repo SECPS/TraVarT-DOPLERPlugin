@@ -5,18 +5,11 @@ package edu.kit.travart.dopler.sampling;
  */
 class SatException extends RuntimeException {
 
-    /**
-     * Constructor of {@link SatException}.
-     *
-     * @param exception Inner {@link Exception} that caused this {@link SatException}
-     */
     SatException(Exception exception) {
         super(exception);
     }
 
-    /**
-     * Constructor of {@link SatException}.
-     */
-    SatException() {
+    SatException(String message) {
+        super(message);
     }
 }

@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 /** This interface is responsible for finding invalid configurations of a {@link Dopler} model. */
-interface InvalidConfigFinder {
+public interface InvalidConfigFinder {
 
     /**
      * Searches for invalid configurations of the given {@link Dopler} model.

@@ -11,7 +11,7 @@ import java.util.Scanner;
 import java.util.stream.Stream;
 
 /** Implementation of {@link Z3Runner}. */
-class Z3RunnerImpl implements Z3Runner {
+public class Z3RunnerImpl implements Z3Runner {
 
     /** You have to put the z3.exe in the z3 folder. */
     private static final String Z3_EXE = "z3" + File.separator + "z3.exe";

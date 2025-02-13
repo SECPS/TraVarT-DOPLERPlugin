@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.util.stream.Stream;
 
 /** This interface is responsible for running th z3 sat solver. */
-interface Z3Runner {
+public interface Z3Runner {
 
     /**
      * Starts a process of the local Z3 Solver and feeds him of SMT stream.

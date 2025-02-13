@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 /** Implementation of {@link ValidConfigFinder}. */
-class ValidConfigFinderImpl implements ValidConfigFinder {
+public class ValidConfigFinderImpl implements ValidConfigFinder {
 
     /** This pattern matches all parenthesis. */
     private static final Pattern SPLIT_PATTERN = Pattern.compile("[()]");
@@ -21,7 +21,7 @@ class ValidConfigFinderImpl implements ValidConfigFinder {
     private final Z3Runner z3Runner;
     private final Z3OutputParser z3OutputParser;
 
-    ValidConfigFinderImpl(Z3Runner z3Runner, Z3OutputParser z3OutputParser) {
+    public ValidConfigFinderImpl(Z3Runner z3Runner, Z3OutputParser z3OutputParser) {
         this.z3Runner = z3Runner;
         this.z3OutputParser = z3OutputParser;
     }
