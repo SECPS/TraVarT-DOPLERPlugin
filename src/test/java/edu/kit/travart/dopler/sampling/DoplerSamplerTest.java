@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,16 +22,29 @@ class DoplerSamplerTest {
     private final DecisionModelReader decisionModelReader = new DecisionModelReader();
 
     @Test
-    void testNumberOfConfigs() throws Exception {
+    void testNumberOfConfigs1() throws Exception {
         Dopler model = decisionModelReader.read(Path.of("src", "test", "resources", "sampling", "AlwaysTrue.csv"));
-        Set<Map<IConfigurable, Boolean>> configurations = doplerSampler.sampleValidConfigurations(model);
-        Assertions.assertEquals(6, configurations.size());
+        Set<Map<IConfigurable, Boolean>> valid = doplerSampler.sampleValidConfigurations(model);
+        Assertions.assertEquals(6, valid.size());
+        Set<Map<IConfigurable, Boolean>> invalid = doplerSampler.sampleInvalidConfigurations(model);
+        Assertions.assertEquals(122, invalid.size());
     }
 
     @Test
     void testNumberOfConfigs2() throws Exception {
         Dopler model = decisionModelReader.read(Path.of("src", "test", "resources", "sampling", "DissModel.csv"));
-        Set<Map<IConfigurable, Boolean>> configurations = doplerSampler.sampleValidConfigurations(model);
-        Assertions.assertEquals(288, configurations.size());
+        Set<Map<IConfigurable, Boolean>> valid = doplerSampler.sampleValidConfigurations(model);
+        Assertions.assertEquals(288, valid.size());
+        Set<Map<IConfigurable, Boolean>> invalid = doplerSampler.sampleInvalidConfigurations(model, 100);
+        Assertions.assertEquals(100, invalid.size());
+    }
+
+    @Test
+    void testNumberOfConfigs3() throws Exception {
+        Dopler model = decisionModelReader.read(Path.of("src", "test", "resources", "sampling", "Easy.csv"));
+        Set<Map<IConfigurable, Boolean>> valid = doplerSampler.sampleValidConfigurations(model);
+        Assertions.assertEquals(3, valid.size());
+        Set<Map<IConfigurable, Boolean>> invalid = doplerSampler.sampleInvalidConfigurations(model);
+        Assertions.assertEquals(13, invalid.size());
     }
 }

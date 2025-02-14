@@ -1,6 +1,6 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
 A;What A?;String;;;;true
-B;What B?;String;;;;(getValue(A) = true)
-C;What C?;String;;;;(getValue(B) = true)
-D;What D?;String;;;;(getValue(C) = true)
-E;What E?;String;;;;(getValue(D) = true)
+B;What B?;String;;;;A
+C;What C?;String;;;;B
+D;What D?;String;;;;C
+E;What E?;String;;;;D

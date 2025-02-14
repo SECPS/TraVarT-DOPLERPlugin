@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
@@ -34,7 +35,8 @@ public class Z3RunnerImpl implements Z3Runner {
 
     private static void inputData(Stream<String> z3Input, OutputStream out) {
         try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8))) {
-            for (String singleInput : z3Input.toList()) {
+            List<String> list = z3Input.toList();
+            for (String singleInput : list) {
                 writer.write(singleInput);
                 writer.newLine();
             }

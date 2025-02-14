@@ -24,7 +24,16 @@ public class ConfigVerifierImpl implements ConfigVerifier {
     @Override
     public boolean verify(Dopler dopler, Map<IConfigurable, Boolean> map) {
         Stream.Builder<String> builder = dopler.toSMTStream();
-        //TODO: Complete the builder here. The builder should contain the dopler model and the config.
+        dopler.createGetValueOFEndConstants(builder);
+
+        StringBuilder assertion = new StringBuilder();
+        assertion.append("(assert (and");
+        for (Map.Entry<IConfigurable, Boolean> pair : map.entrySet()) {
+            assertion.append("(= %s %b)".formatted(pair.getKey().getName(), pair.getValue()));
+        }
+        assertion.append("))");
+
+        builder.add(assertion.toString());
         return isSatisfiable(builder);
     }
 

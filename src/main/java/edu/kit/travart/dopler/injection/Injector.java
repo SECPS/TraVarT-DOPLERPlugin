@@ -104,9 +104,11 @@ public final class Injector extends AbstractInjector {
     private void installSampling() {
         install(Z3Runner.class, new Z3RunnerImpl());
         install(Z3OutputParser.class, new Z3OutputParserImpl());
+        install(ConfigVerifier.class, new ConfigVerifierImpl(getInstance(Z3Runner.class)));
         install(ValidConfigFinder.class,
                 new ValidConfigFinderImpl(getInstance(Z3Runner.class), getInstance(Z3OutputParser.class)));
-        install(InvalidConfigFinder.class, new InvalidConfigFinderImpl(getInstance(Z3Runner.class)));
+        install(InvalidConfigFinder.class,
+                new InvalidConfigFinderImpl(getInstance(ValidConfigFinder.class), getInstance(ConfigVerifier.class)));
         install(ConfigVerifier.class, new ConfigVerifierImpl(getInstance(Z3Runner.class)));
         install(DoplerSampler.class,
                 new DoplerSampler(getInstance(ValidConfigFinder.class), getInstance(InvalidConfigFinder.class),
