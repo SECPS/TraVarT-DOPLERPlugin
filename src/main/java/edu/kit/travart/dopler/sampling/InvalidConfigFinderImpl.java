@@ -59,7 +59,7 @@ public class InvalidConfigFinderImpl implements InvalidConfigFinder {
         Map<IConfigurable, Boolean> newConfig = new HashMap<>();
         for (int i = 0; i < variables.size(); i++) {
             String name = variables.get(i);
-            boolean value = 0L != (l & (1L << i));
+            boolean value = 0L != (l & (1L << i)); //Check if the i-th bit of l is 0
             newConfig.put(new DoplerConfigurable(name, value), value);
         }
         return newConfig;
