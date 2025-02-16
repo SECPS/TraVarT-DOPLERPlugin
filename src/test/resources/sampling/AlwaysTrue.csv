@@ -1,0 +1,4 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+Cheese;Cheese?;Boolean;false | true;;;true
+Sauce;Sauce?;Boolean;false | true;;;true
+Sauce*;Which Sauce*?;Enumeration;Ketchup | Mustard;1:1;;(getValue(Sauce) = true)

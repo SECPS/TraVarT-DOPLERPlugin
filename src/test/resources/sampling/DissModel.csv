@@ -1,0 +1,10 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+Cooling_L2;Cooling_L2?;Boolean;false | true;;;true
+Cooling_Segment;Cooling_Segment?;Boolean;false | true;;;(getValue(Cooling_L2) = true)
+Gen_Plan_Product;Gen_Plan_Product?;Boolean;false | true;;;(getValue(Gen_Planning2) = Lot)
+Gen_Planning1;Which Gen_Planning1?;Enumeration;Heat | Sequence;1:1;;true
+Gen_Planning2;Which Gen_Planning2?;Enumeration;Gen_Plan_Analysis | Lot | Product;1:1;;true
+Gen_Watchdogs;Gen_Watchdogs?;Boolean;false | true;;;true
+Mat_Tracking;Mat_Tracking?;Boolean;false | true;;;true
+QA_A;QA_A?;Boolean;false | true;;;(getValue(QA_C) = true)
+QA_C;QA_C?;Boolean;false | true;;;true

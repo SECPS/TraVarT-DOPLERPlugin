@@ -1,0 +1,6 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+A;What A?;String;;;;true
+B;What B?;String;;;;A
+C;What C?;String;;;;B
+D;What D?;String;;;;C
+E;What E?;String;;;;D
