@@ -22,7 +22,9 @@ import edu.kit.dopler.model.Dopler;
 import java.util.Map;
 import java.util.Set;
 
-/** Implementation of {@link ISampler} with the {@link Dopler} model as type parameter. */
+/**
+ * Implementation of {@link ISampler} with the {@link Dopler} model as type parameter.
+ */
 public class DoplerSampler implements ISampler<Dopler> {
 
     private final ValidConfigFinder validConfigFinder;
@@ -36,8 +38,7 @@ public class DoplerSampler implements ISampler<Dopler> {
      * @param invalidConfigFinder {@link InvalidConfigFinder}
      * @param configVerifier      {@link ConfigVerifier}
      */
-    public DoplerSampler(ValidConfigFinder validConfigFinder, InvalidConfigFinder invalidConfigFinder,
-                         ConfigVerifier configVerifier) {
+    public DoplerSampler(ValidConfigFinder validConfigFinder, InvalidConfigFinder invalidConfigFinder, ConfigVerifier configVerifier) {
         this.validConfigFinder = validConfigFinder;
         this.invalidConfigFinder = invalidConfigFinder;
         this.configVerifier = configVerifier;
@@ -49,8 +50,8 @@ public class DoplerSampler implements ISampler<Dopler> {
     }
 
     @Override
-    public Set<Map<IConfigurable, Boolean>> sampleValidConfigurations(Dopler dopler, long l) {
-        return validConfigFinder.getValidConfigs(dopler, l);
+    public Set<Map<IConfigurable, Boolean>> sampleValidConfigurations(Dopler dopler, long maxAmountOfValidConfigs) {
+        return validConfigFinder.getValidConfigs(dopler, maxAmountOfValidConfigs);
     }
 
     @Override
@@ -59,8 +60,8 @@ public class DoplerSampler implements ISampler<Dopler> {
     }
 
     @Override
-    public Set<Map<IConfigurable, Boolean>> sampleInvalidConfigurations(Dopler dopler, long l) {
-        return invalidConfigFinder.findInvalidConfigs(dopler, l);
+    public Set<Map<IConfigurable, Boolean>> sampleInvalidConfigurations(Dopler dopler, long maxAmountOfInvalidConfigs) {
+        return invalidConfigFinder.findInvalidConfigs(dopler, maxAmountOfInvalidConfigs);
     }
 
     @Override
