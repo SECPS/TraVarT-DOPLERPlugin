@@ -54,7 +54,7 @@ abstract class TransformationTest<FromModel, ToModel> {
                 transformFromModelToToModel(modelToTransform, IModelTransformer.STRATEGY.ONE_WAY));
 
         //Remove comment in order to override the existing test data
-        Files.writeString(pathOfExpectedModel, transformedModel);
+        //Files.writeString(pathOfExpectedModel, transformedModel);
 
         String expectedModel = readToModelAsString(pathOfExpectedModel);
         assertModel(expectedModel, transformedModel);
@@ -69,7 +69,7 @@ abstract class TransformationTest<FromModel, ToModel> {
                 transformFromModelToToModel(modelToTransform, IModelTransformer.STRATEGY.ROUNDTRIP));
 
         //Remove comment in order to override the existing test data
-        Files.writeString(path2, transformedModel);
+        //Files.writeString(path2, transformedModel);
 
         String expectedModel = readToModelAsString(path2);
         assertModel(expectedModel, transformedModel);
@@ -79,7 +79,7 @@ abstract class TransformationTest<FromModel, ToModel> {
         String transformedModel2 = convertFromModelToString(transformToModelToFromModel(modelToTransform2));
 
         //Remove comment in order to override the existing test data
-        Files.writeString(path3, transformedModel2);
+        //Files.writeString(path3, transformedModel2);
 
         String expectedModel2 = readFromModelAsString(path3);
         assertModel(expectedModel2, transformedModel2);
