@@ -1,5 +1,5 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-CheesyCrust;CheesyCrust?;Boolean;true | false;;;Pizza#.Pizza
+CheesyCrust;CheesyCrust?;Boolean;false | true;;;Pizza#.Pizza
 Dough#;Which Dough#?;Enumeration;Dough;1:1;;Pizza#.Pizza
 Dough*;Which Dough*?;Enumeration;Neapolitan | Sicilian;1:1;;Dough#.Dough
 Pizza#;Which Pizza#?;Enumeration;Pizza;1:1;;true

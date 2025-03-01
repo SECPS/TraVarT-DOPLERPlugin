@@ -1,12 +1,12 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-AJDT;AJDT?;Boolean;true | false;;"if (FeatureIDE*.AspectJ) {AJDT = true;}";true
-CDT;CDT?;Boolean;true | false;;"if (FeatureIDE*.FeatureCpp) {CDT = true;}";true
-CIDE;CIDE?;Boolean;true | false;;;FeatureModeling
-DeltaJEclipsePlugin;DeltaJEclipsePlugin?;Boolean;true | false;;"if (FeatureIDE*.DeltaJ) {DeltaJEclipsePlugin = true;}";true
-ExtendedFM;ExtendedFM?;Boolean;true | false;;;FeatureModeling
-FAMILIAR;FAMILIAR?;Boolean;true | false;;;FeatureModeling
-FeatureIDE;FeatureIDE?;Boolean;true | false;;;FeatureModeling
-FeatureIDE*;Which FeatureIDE*?;Enumeration;AHEAD | FeatureHouse | FeatureCpp | DeltaJ | AspectJ | Munge | Antenna | DeltaMontiArc;1:8;;FeatureIDE
-FeatureModeling;FeatureModeling?;Boolean;true | false;;;true
-JDT;JDT?;Boolean;true | false;;"if (!(((!FeatureIDE*.AHEAD && !FeatureIDE*.Antenna) && !FeatureIDE*.FeatureHouse) && !FeatureIDE*.Munge)) {JDT = true;}";true
-MoSoPoLiTe;MoSoPoLiTe?;Boolean;true | false;;;FeatureModeling
+AJDT;AJDT?;Boolean;false | true;;"if (FeatureIDE*.AspectJ) {AJDT = true;}";true
+CDT;CDT?;Boolean;false | true;;"if (FeatureIDE*.FeatureCpp) {CDT = true;}";true
+CIDE;CIDE?;Boolean;false | true;;;FeatureModeling
+DeltaJEclipsePlugin;DeltaJEclipsePlugin?;Boolean;false | true;;"if (FeatureIDE*.DeltaJ) {DeltaJEclipsePlugin = true;}";true
+ExtendedFM;ExtendedFM?;Boolean;false | true;;;FeatureModeling
+FAMILIAR;FAMILIAR?;Boolean;false | true;;;FeatureModeling
+FeatureIDE;FeatureIDE?;Boolean;false | true;;;FeatureModeling
+FeatureIDE*;Which FeatureIDE*?;Enumeration;AHEAD | Antenna | AspectJ | DeltaJ | DeltaMontiArc | FeatureCpp | FeatureHouse | Munge;1:8;;FeatureIDE
+FeatureModeling;FeatureModeling?;Boolean;false | true;;;true
+JDT;JDT?;Boolean;false | true;;"if (!(((!FeatureIDE*.AHEAD && !FeatureIDE*.Antenna) && !FeatureIDE*.FeatureHouse) && !FeatureIDE*.Munge)) {JDT = true;}";true
+MoSoPoLiTe;MoSoPoLiTe?;Boolean;false | true;;;FeatureModeling

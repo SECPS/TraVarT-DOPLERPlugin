@@ -1,7 +1,7 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-A;A?;Boolean;true | false;;;Root#.Root
-B;B?;Boolean;true | false;;;Root#.Root
-C;C?;Boolean;true | false;;;Root#.Root
+A;A?;Boolean;false | true;;;Root#.Root
+B;B?;Boolean;false | true;;;Root#.Root
+C;C?;Boolean;false | true;;;Root#.Root
 Root#;Which Root#?;Enumeration;Root;1:1;;true
 Root*;Which Root*?;Enumeration;X | Y | Z;1:1;;Root#.Root
 Root**;Which Root**?;Enumeration;G | H | I;1:3;;Root#.Root

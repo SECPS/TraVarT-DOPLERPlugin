@@ -50,9 +50,12 @@ abstract class TransformationTest<FromModel, ToModel> {
     @MethodSource("oneWayDataSourceMethod")
     void testOneWayTransformation(Path pathOfTheBeTransformedModel, Path pathOfExpectedModel) throws Exception {
         FromModel modelToTransform = getFromModelFromPath(pathOfTheBeTransformedModel);
-
         String transformedModel = convertToModelToString(
                 transformFromModelToToModel(modelToTransform, IModelTransformer.STRATEGY.ONE_WAY));
+
+        //Remove comment in order to override the existing test data
+        Files.writeString(pathOfExpectedModel, transformedModel);
+
         String expectedModel = readToModelAsString(pathOfExpectedModel);
         assertModel(expectedModel, transformedModel);
     }
@@ -64,12 +67,20 @@ abstract class TransformationTest<FromModel, ToModel> {
         FromModel modelToTransform = getFromModelFromPath(path1);
         String transformedModel = convertToModelToString(
                 transformFromModelToToModel(modelToTransform, IModelTransformer.STRATEGY.ROUNDTRIP));
+
+        //Remove comment in order to override the existing test data
+        Files.writeString(path2, transformedModel);
+
         String expectedModel = readToModelAsString(path2);
         assertModel(expectedModel, transformedModel);
 
         // second transformation
         ToModel modelToTransform2 = getToModelFromString(transformedModel);
         String transformedModel2 = convertFromModelToString(transformToModelToFromModel(modelToTransform2));
+
+        //Remove comment in order to override the existing test data
+        Files.writeString(path3, transformedModel2);
+
         String expectedModel2 = readFromModelAsString(path3);
         assertModel(expectedModel2, transformedModel2);
     }

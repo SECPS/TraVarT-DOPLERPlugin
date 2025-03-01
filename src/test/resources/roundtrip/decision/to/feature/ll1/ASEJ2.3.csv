@@ -3,6 +3,6 @@ ASEJ1#;Which ASEJ1#?;Enumeration;ASEJ1;1:1;;true
 Modes#;Which Modes#?;Enumeration;Modes;1:1;;ASEJ1#.ASEJ1
 Modes*;Which Modes*?;Enumeration;bottom | horizontal | top | vertical;1:4;;Modes#.Modes
 Strands#;Which Strands#?;Enumeration;Strands;1:1;;ASEJ1#.ASEJ1
-Thermal3D;Thermal3D?;Boolean;true | false;;;ASEJ1#.ASEJ1
-TopFeeding3D;TopFeeding3D?;Boolean;true | false;;;ASEJ1#.ASEJ1
-UI;UI?;Boolean;true | false;;;ASEJ1#.ASEJ1
+Thermal3D;Thermal3D?;Boolean;false | true;;;ASEJ1#.ASEJ1
+TopFeeding3D;TopFeeding3D?;Boolean;false | true;;;ASEJ1#.ASEJ1
+UI;UI?;Boolean;false | true;;;ASEJ1#.ASEJ1
