@@ -18,6 +18,8 @@ package edu.kit.travart.dopler.transformation;
 import at.jku.cps.travart.core.common.IModelTransformer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -48,6 +50,7 @@ abstract class TransformationTest<FromModel, ToModel> {
      */
     @ParameterizedTest(name = "{0}")
     @MethodSource("oneWayDataSourceMethod")
+    @Execution(ExecutionMode.CONCURRENT)
     void testOneWayTransformation(Path pathOfTheBeTransformedModel, Path pathOfExpectedModel) throws Exception {
         FromModel modelToTransform = getFromModelFromPath(pathOfTheBeTransformedModel);
         String transformedModel = convertToModelToString(
@@ -62,6 +65,7 @@ abstract class TransformationTest<FromModel, ToModel> {
 
     @ParameterizedTest(name = "{0}")
     @MethodSource("roundTripDataSourceMethod")
+    @Execution(ExecutionMode.CONCURRENT)
     void testRoundTripTransformation(Path path1, Path path2, Path path3) throws Exception {
         // first transformation
         FromModel modelToTransform = getFromModelFromPath(path1);

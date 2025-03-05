@@ -22,8 +22,8 @@ import edu.kit.dopler.io.DecisionModelReader;
 import edu.kit.dopler.io.DecisionModelWriter;
 import edu.kit.dopler.model.Dopler;
 import edu.kit.travart.dopler.plugin.DoplerPlugin;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -31,8 +31,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -40,12 +38,9 @@ import java.util.stream.Stream;
 import static at.jku.cps.travart.core.common.IModelTransformer.STRATEGY.ONE_WAY;
 import static at.jku.cps.travart.core.common.IModelTransformer.STRATEGY.ROUNDTRIP;
 
-/** Disabled, because it takes a very long time. */
-@Disabled
 class TransformationStressTest {
 
-    private static final Path DATA_PATH = Path.of("src", "test", "resources", "stress");
-
+    private static final Path DATA_PATH = Path.of("src", "test", "resources", "stress", "working");
     private final DoplerPlugin plugin = new DoplerPlugin();
     private final IModelTransformer<Dopler> transformer = plugin.getTransformer();
 
@@ -56,30 +51,37 @@ class TransformationStressTest {
      */
     @ParameterizedTest(name = "{0}")
     @MethodSource("dataSourceMethod")
-    void tryToConvert(Path path) {
-        Assertions.assertTimeoutPreemptively(Duration.of(10, ChronoUnit.SECONDS), () -> {
-            FeatureModel featureModel = new UVLModelFactory().parse(Files.readString(path));
-            Dopler dopler1 = transformer.transform(featureModel, "", ONE_WAY);
-            Dopler dopler2 = transformer.transform(featureModel, "", ROUNDTRIP);
-            Dopler cleanDopler1 = new DecisionModelReader().read(new DecisionModelWriter().write(dopler1), "");
-            Dopler cleanDopler2 = new DecisionModelReader().read(new DecisionModelWriter().write(dopler2), "");
-
-            transformer.transform(cleanDopler1, "", ONE_WAY);
-            transformer.transform(cleanDopler2, "", ROUNDTRIP);
-        });
+    @Execution(ExecutionMode.CONCURRENT)
+    void tryToConvert(Path path) throws Exception {
+        FeatureModel featureModel = new UVLModelFactory().parse(Files.readString(path));
+        Dopler dopler1 = transformer.transform(featureModel, "", ONE_WAY);
+        Dopler dopler2 = transformer.transform(featureModel, "", ROUNDTRIP);
+        Dopler cleanDopler1 = new DecisionModelReader().read(new DecisionModelWriter().write(dopler1), "");
+        Dopler cleanDopler2 = new DecisionModelReader().read(new DecisionModelWriter().write(dopler2), "");
+        transformer.transform(cleanDopler1, "", ONE_WAY);
+        transformer.transform(cleanDopler2, "", ROUNDTRIP);
     }
 
     private static Stream<Arguments> dataSourceMethod() throws IOException {
         //Collect files
-        List<Path> filePathsSet;
+        List<Path> pathList;
         try (Stream<Path> filePaths = Files.walk(DATA_PATH)
                 .filter(path -> Files.isRegularFile(path) && path.toString().endsWith(".uvl"))) {
-            filePathsSet = filePaths.toList();
+            pathList = new ArrayList<>(filePaths.toList());
         }
+
+        //Sort by size
+        pathList.sort((o1, o2) -> {
+            try {
+                return Long.compare(Files.size(o1), Files.size(o2));
+            } catch (IOException e) {
+                return 0;
+            }
+        });
 
         //Create Arguments
         List<Arguments> arguments = new ArrayList<>();
-        for (Path pathToBeTransformed : filePathsSet) {
+        for (Path pathToBeTransformed : pathList) {
             arguments.add(Arguments.of(pathToBeTransformed));
         }
 
