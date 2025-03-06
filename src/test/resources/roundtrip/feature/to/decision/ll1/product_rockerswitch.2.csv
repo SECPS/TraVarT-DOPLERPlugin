@@ -1,35 +1,35 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-Changeover;Changeover?;Boolean;true | false;;;rockerswitch_product#.rockerswitch_product
-Changeover1;Changeover1?;Boolean;true | false;;;Changeover
-Changeover2;Changeover2?;Boolean;true | false;;;Changeover
+Changeover;Changeover?;Boolean;false | true;;;rockerswitch_product#.rockerswitch_product
+Changeover1;Changeover1?;Boolean;false | true;;;Changeover
+Changeover2;Changeover2?;Boolean;false | true;;;Changeover
 Claw#;Which Claw?;Enumeration;Claw;1:1;;rockerswitch_product#.rockerswitch_product
 Claw1_1#;Which Claw1_1?;Enumeration;Claw1_1;1:1;;Claw#.Claw
 Claw1_2#;Which Claw1_2?;Enumeration;Claw1_2;1:1;;Claw#.Claw
-Crossover;Crossover?;Boolean;true | false;;;rockerswitch_product#.rockerswitch_product
-Neutral;Neutral?;Boolean;true | false;;;rockerswitch_product#.rockerswitch_product
-Neutral1_1;Neutral1_1?;Boolean;true | false;;;Neutral
-Neutral1_2;Neutral1_2?;Boolean;true | false;;;Neutral
+Crossover;Crossover?;Boolean;false | true;;;rockerswitch_product#.rockerswitch_product
+Neutral;Neutral?;Boolean;false | true;;;rockerswitch_product#.rockerswitch_product
+Neutral1_1;Neutral1_1?;Boolean;false | true;;;Neutral
+Neutral1_2;Neutral1_2?;Boolean;false | true;;;Neutral
 O_Ring#;Which O_Ring?;Enumeration;O_Ring;1:1;;rockerswitch_product#.rockerswitch_product
 O_Ring1_1#;Which O_Ring1_1?;Enumeration;O_Ring1_1;1:1;;O_Ring#.O_Ring
 O_Ring1_2#;Which O_Ring1_2?;Enumeration;O_Ring1_2;1:1;;O_Ring#.O_Ring
-Off;Off?;Boolean;true | false;;;rockerswitch_product#.rockerswitch_product
-Off1_1;Off1_1?;Boolean;true | false;;;Off
-Off1_2;Off1_2?;Boolean;true | false;;;Off
-Off1_3;Off1_3?;Boolean;true | false;;;Off
-Off1_4;Off1_4?;Boolean;true | false;;;Off
-Pole;Pole?;Boolean;true | false;;"if (Rocker) {Pole = true;}";rockerswitch_product#.rockerswitch_product
-Pole1_1;Pole1_1?;Boolean;true | false;;"if (Rocker1_1) {Pole1_1 = true;}";Pole
-Pole1_2;Pole1_2?;Boolean;true | false;;;Pole
-Pole2_1;Pole2_1?;Boolean;true | false;;"if (Rocker1_2) {Pole2_1 = true;}if (Rocker2_1) {Pole2_1 = true;}";Pole
-Pole2_2;Pole2_2?;Boolean;true | false;;"if (Rocker2_2) {Pole2_2 = true;}";Pole
-Rocker;Rocker?;Boolean;true | false;;"if (Off) {Rocker = true;}";rockerswitch_product#.rockerswitch_product
-Rocker1_1;Rocker1_1?;Boolean;true | false;;"if (Off1_1) {Rocker1_1 = true;}if (Changeover1) {Rocker1_1 = true;}if (Changeover2) {Rocker1_1 = true;}";Rocker
-Rocker1_2;Rocker1_2?;Boolean;true | false;;"if (Off1_2) {Rocker1_2 = true;}if (Changeover2) {Rocker1_2 = true;}";Rocker
-Rocker2_1;Rocker2_1?;Boolean;true | false;;;Rocker
-Rocker2_2;Rocker2_2?;Boolean;true | false;;;Rocker
+Off;Off?;Boolean;false | true;;;rockerswitch_product#.rockerswitch_product
+Off1_1;Off1_1?;Boolean;false | true;;;Off
+Off1_2;Off1_2?;Boolean;false | true;;;Off
+Off1_3;Off1_3?;Boolean;false | true;;;Off
+Off1_4;Off1_4?;Boolean;false | true;;;Off
+Pole;Pole?;Boolean;false | true;;"if (Rocker) {Pole = true;}";rockerswitch_product#.rockerswitch_product
+Pole1_1;Pole1_1?;Boolean;false | true;;"if (Rocker1_1) {Pole1_1 = true;}";Pole
+Pole1_2;Pole1_2?;Boolean;false | true;;;Pole
+Pole2_1;Pole2_1?;Boolean;false | true;;"if (Rocker1_2) {Pole2_1 = true;}if (Rocker2_1) {Pole2_1 = true;}";Pole
+Pole2_2;Pole2_2?;Boolean;false | true;;"if (Rocker2_2) {Pole2_2 = true;}";Pole
+Rocker;Rocker?;Boolean;false | true;;"if (Off) {Rocker = true;}";rockerswitch_product#.rockerswitch_product
+Rocker1_1;Rocker1_1?;Boolean;false | true;;"if (Off1_1) {Rocker1_1 = true;}if (Changeover1) {Rocker1_1 = true;}if (Changeover2) {Rocker1_1 = true;}";Rocker
+Rocker1_2;Rocker1_2?;Boolean;false | true;;"if (Off1_2) {Rocker1_2 = true;}if (Changeover2) {Rocker1_2 = true;}";Rocker
+Rocker2_1;Rocker2_1?;Boolean;false | true;;;Rocker
+Rocker2_2;Rocker2_2?;Boolean;false | true;;;Rocker
 Screw#;Which Screw?;Enumeration;Screw;1:1;;rockerswitch_product#.rockerswitch_product
 Screw1_1#;Which Screw1_1?;Enumeration;Screw1_1;1:1;;Screw#.Screw
 Screw1_2#;Which Screw1_2?;Enumeration;Screw1_2;1:1;;Screw#.Screw
-Series;Series?;Boolean;true | false;;;rockerswitch_product#.rockerswitch_product
+Series;Series?;Boolean;false | true;;;rockerswitch_product#.rockerswitch_product
 Socket#;Which Socket?;Enumeration;Socket;1:1;;rockerswitch_product#.rockerswitch_product
 rockerswitch_product#;Which rockerswitch_product?;Enumeration;rockerswitch_product;1:1;;true

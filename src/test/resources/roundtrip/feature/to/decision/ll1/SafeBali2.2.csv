@@ -13,10 +13,10 @@ codegen#;Which codegen?;Enumeration;codegen;1:1;;Bali#.Bali
 collect#;Which collect?;Enumeration;collect;1:1;;Base#.Base
 composer#;Which composer?;Enumeration;composer;1:1;;Tool*.C
 kernel#;Which kernel?;Enumeration;kernel;1:1;;Base#.Base
-require;require?;Boolean;true | false;;;Base#.Base
-requireBali2jak;requireBali2jak?;Boolean;true | false;;;Tool*.A
-requireBali2jcc;requireBali2jcc?;Boolean;true | false;;;Tool*.B
-requireComposer;requireComposer?;Boolean;true | false;;;Tool*.C
-requireSyntax;requireSyntax?;Boolean;true | false;;;Base#.Base
+require;require?;Boolean;false | true;;;Base#.Base
+requireBali2jak;requireBali2jak?;Boolean;false | true;;;Tool*.A
+requireBali2jcc;requireBali2jcc?;Boolean;false | true;;;Tool*.B
+requireComposer;requireComposer?;Boolean;false | true;;;Tool*.C
+requireSyntax;requireSyntax?;Boolean;false | true;;;Base#.Base
 syntax#;Which syntax?;Enumeration;syntax;1:1;;Base#.Base
 visitor#;Which visitor?;Enumeration;visitor;1:1;;Base#.Base
