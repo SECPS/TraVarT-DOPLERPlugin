@@ -1,0 +1,31 @@
+features
+        "VIRTUAL_ROOT#"
+                alternative
+                        VIRTUAL_ROOT
+                                mandatory
+                                        "VIRTUAL_ROOT*"
+                                                or
+                                                        Categories
+                                                        OnlineShop
+                                                        Payment
+                                                                mandatory
+                                                                        "Payment*"
+                                                                                alternative
+                                                                                        CreditCard
+                                                                                        DebitCard
+                                                        Search
+                                                        Sort
+                                                        UserManagement
+                                                                mandatory
+                                                                        "UserManagement*"
+                                                                                or
+                                                                                        Orders
+                                                                                        Payments
+                                                                                        Security
+                                                                                        Wishlist
+
+constraints
+        !Search => Sort
+        Payments => !Security
+        Search => Security
+        Security => !Payments

@@ -1,0 +1,34 @@
+features
+        shiftfork_product
+                mandatory
+                        Barrel
+                                mandatory
+                                        Barrel1_1
+                                optional
+                                        Barrel1_2
+                        Fork
+                                mandatory
+                                        Fork3
+                                        Fork4
+                                        Fork5
+                        Jack1
+                        Lock
+                                alternative
+                                        Lock1
+                                        Lock2
+                                        Lock3
+                        O_Ring
+                        Pipe
+                                alternative
+                                        Pipe2
+                                        Pipe3
+                                        Pipe8
+                        Ring1
+                        Screw
+
+constraints
+        !(!Lock1 | Pipe2) => Pipe3
+        !(!Pipe2 & !Pipe8) => Barrel1_2
+        Lock2 => Pipe3
+        Lock3 => Pipe8
+        Pipe3 => !Barrel1_2

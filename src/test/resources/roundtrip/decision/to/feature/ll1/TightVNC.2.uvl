@@ -1,0 +1,60 @@
+features
+        "VncViewer#"
+                alternative
+                        VncViewer
+                                mandatory
+                                        "VncViewerMain#"
+                                                alternative
+                                                        VncViewerMain
+                                                                mandatory
+                                                                        "Base#"
+                                                                                alternative
+                                                                                        Base
+                                                                        "Typee#"
+                                                                                alternative
+                                                                                        Typee
+                                                                                                mandatory
+                                                                                                        "Opt#"
+                                                                                                                alternative
+                                                                                                                        Opt
+                                                                                                                                mandatory
+                                                                                                                                        "Opt*"
+                                                                                                                                                or
+                                                                                                                                                        BOpt
+                                                                                                                                                                mandatory
+                                                                                                                                                                        "BOpt*"
+                                                                                                                                                                                or
+                                                                                                                                                                                        AboutButtonFeat
+                                                                                                                                                                                        AltTabButtonFeat
+                                                                                                                                                                                        ClipboardButtonFeat
+                                                                                                                                                                                        CtrlAltDelButtonFeat
+                                                                                                                                                                                        DisconnectButtonFeat
+                                                                                                                                                                                        OptionsButtonFeat
+                                                                                                                                                                                        RecordButtonFeat
+                                                                                                                                                                                        RefreshButtonFeat
+                                                                                                                                                        ClipboardFeat
+                                                                                                                                                        OptionsMenuFeatures
+                                                                                                                                                                mandatory
+                                                                                                                                                                        "OptionsFeat#"
+                                                                                                                                                                                alternative
+                                                                                                                                                                                        OptionsFeat
+                                                                                                                                                                optional
+                                                                                                                                                                        MOpt
+                                                                                                                                                                                mandatory
+                                                                                                                                                                                        "MOpt*"
+                                                                                                                                                                                                or
+                                                                                                                                                                                                        OpCompressionFeat
+                                                                                                                                                                                                        OpCopyRectFeat
+                                                                                                                                                                                                        OpCursorShapeFeat
+                                                                                                                                                                                                        OpEncodingFeat
+                                                                                                                                                                                                        OpJPEGqualityFeat
+                                                                                                                                                                                                        OpMouse23Feat
+                                                                                                                                                                                                        OpRestrictedColorsFeat
+                                                                                                                                                                                                        OpShareFeat
+                                                                                                                                                                                                        OpViewFeat
+                                                                                                                                                        RecordingFeat
+
+constraints
+        ClipboardButtonFeat => ClipboardFeat
+        OptionsButtonFeat => OptionsMenuFeatures
+        RecordButtonFeat => RecordingFeat

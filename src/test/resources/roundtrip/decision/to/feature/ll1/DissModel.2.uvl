@@ -1,0 +1,37 @@
+features
+        "dm_DissModel#"
+                alternative
+                        dm_DissModel
+                                mandatory
+                                        "Gen_Planning1#"
+                                                alternative
+                                                        Gen_Planning1
+                                                                mandatory
+                                                                        "Gen_Planning1*"
+                                                                                alternative
+                                                                                        Heat
+                                                                                        Sequence
+                                        "Gen_Planning2#"
+                                                alternative
+                                                        Gen_Planning2
+                                                                mandatory
+                                                                        "Gen_Planning2*"
+                                                                                alternative
+                                                                                        Gen_Plan_Analysis
+                                                                                        Lot
+                                                                                                optional
+                                                                                                        Gen_Plan_Product
+                                                                                        Product
+                                        "Mat_Lines#"
+                                                alternative
+                                                        Mat_Lines
+                                optional
+                                        Cooling_L2
+                                                optional
+                                                        Cooling_Segment
+                                        Gen_Watchdogs
+                                        Mat_Tracking
+                                        QA_C
+                                                optional
+                                                        QA_A
+

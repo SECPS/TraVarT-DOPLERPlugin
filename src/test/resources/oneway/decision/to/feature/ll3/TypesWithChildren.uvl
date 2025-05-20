@@ -1,0 +1,12 @@
+features
+        STANDARD_MODEL_NAME
+                or
+                        String "A#String"
+                                or
+                                        String "AA#String"
+                                        String "AB#String"
+                        Real "B#Number"
+                                alternative
+                                        String "BA#String"
+                                        String "BB#String"
+

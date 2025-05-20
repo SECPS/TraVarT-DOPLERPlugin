@@ -1,0 +1,35 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+BindingTime#;Which BindingTime#?;Enumeration;BindingTime;1:1;;VariabilityBindingManagement#.VariabilityBindingManagement
+BindingTime*;Which BindingTime*?;Enumeration;CompileTime | Other_2 | Runtime;1:3;;BindingTime#.BindingTime
+Cardinality;Cardinality?;Boolean;false | true;;;CompositionRules#.CompositionRules
+CommunicationSharing;CommunicationSharing?;Boolean;false | true;;;Organizational
+CompositionRules#;Which CompositionRules#?;Enumeration;CompositionRules;1:1;;VariabilityModeling#.VariabilityModeling
+CompositionRules_2#;Which CompositionRules_2#?;Enumeration;CompositionRules_2;1:1;;CompositionRules#.CompositionRules
+CompositionRules_2*;Which CompositionRules_2*?;Enumeration;Constraints | Dependency;1:2;;CompositionRules_2#.CompositionRules_2
+DomainAnalysis;DomainAnalysis?;Boolean;false | true;;"if (true) {DomainAnalysis = true;}";VMToolsRA#.VMToolsRA
+DomainAssets#;Which DomainAssets#?;Enumeration;DomainAssets;1:1;;DomainAnalysis
+Guidance;Guidance?;Boolean;false | true;;;Organizational
+ImpactAnalysis#;Which ImpactAnalysis#?;Enumeration;ImpactAnalysis;1:1;;VariabilityControlEvolution#.VariabilityControlEvolution
+Notation#;Which Notation#?;Enumeration;Notation;1:1;;VariabilityModelManagement#.VariabilityModelManagement
+Notation*;Which Notation*?;Enumeration;DecisionModel | FeatureModel | Orthodonal | Other;1:1;;Notation#.Notation
+NotifyingFeedback;NotifyingFeedback?;Boolean;false | true;;;Organizational
+Organizational;Organizational?;Boolean;false | true;;"if (true) {Organizational = true;}";VMToolsRA#.VMToolsRA
+PlanningManagement;PlanningManagement?;Boolean;false | true;;;Organizational
+RequirementSpecifications;RequirementSpecifications?;Boolean;false | true;;;DomainAnalysis
+Traceability;Traceability?;Boolean;false | true;;;VariabilityModeling#.VariabilityModeling
+TradeOffAnalysis;TradeOffAnalysis?;Boolean;false | true;;;Organizational
+VMToolsRA#;Which VMToolsRA#?;Enumeration;VMToolsRA;1:1;;true
+VariabilityBindingManagement#;Which VariabilityBindingManagement#?;Enumeration;VariabilityBindingManagement;1:1;;VariabilityDecision
+VariabilityControlEvolution#;Which VariabilityControlEvolution#?;Enumeration;VariabilityControlEvolution;1:1;;VariabilityEvolution
+VariabilityDecision;VariabilityDecision?;Boolean;false | true;;"if (!VariabilityDecision) {VariabilityDecision = false;}";VariabilityManagement#.VariabilityManagement
+VariabilityEvolution;VariabilityEvolution?;Boolean;false | true;;;VariabilityManagement#.VariabilityManagement
+VariabilityManagement#;Which VariabilityManagement#?;Enumeration;VariabilityManagement;1:1;;VMToolsRA#.VMToolsRA
+VariabilityMechanism#;Which VariabilityMechanism#?;Enumeration;VariabilityMechanism;1:1;;VariabilityBindingManagement#.VariabilityBindingManagement
+VariabilityModelManagement#;Which VariabilityModelManagement#?;Enumeration;VariabilityModelManagement;1:1;;VariabilityModeling#.VariabilityModeling
+VariabilityModeling#;Which VariabilityModeling#?;Enumeration;VariabilityModeling;1:1;;VariabilityManagement#.VariabilityManagement
+VariabilityValidation;VariabilityValidation?;Boolean;false | true;;;VariabilityManagement#.VariabilityManagement
+VariabilityValidation_2#;Which VariabilityValidation_2#?;Enumeration;VariabilityValidation_2;1:1;;VariabilityValidation
+VariabilityValidation_2*;Which VariabilityValidation_2*?;Enumeration;LogicSolvers | Other_1 | Reasoners;1:3;;VariabilityValidation_2#.VariabilityValidation_2
+Variants#;Which Variants#?;Enumeration;Variants;1:1;;VariabilityModelManagement#.VariabilityModelManagement
+VariationPoint#;Which VariationPoint#?;Enumeration;VariationPoint;1:1;;VariabilityModelManagement#.VariabilityModelManagement
+VerificationReports;VerificationReports?;Boolean;false | true;;;VariabilityValidation

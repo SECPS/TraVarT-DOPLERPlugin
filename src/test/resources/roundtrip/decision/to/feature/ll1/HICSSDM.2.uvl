@@ -1,0 +1,67 @@
+features
+        "HICSSDM#"
+                alternative
+                        HICSSDM
+                                mandatory
+                                        "SV#"
+                                                alternative
+                                                        SV
+                                                                mandatory
+                                                                        "SV*"
+                                                                                alternative
+                                                                                        Particular_Packages
+                                                                                        Solution
+                                optional
+                                        CV
+                                                mandatory
+                                                        "CV*"
+                                                                or
+                                                                        Claims_Management
+                                                                        Customer_Management
+                                                                        Document_Management
+                                        CV_Claims
+                                                mandatory
+                                                        "CV_Claims*"
+                                                                or
+                                                                        journal
+                                                                        task_manager
+                                        CV_Customer
+                                                mandatory
+                                                        "CV_Customer*"
+                                                                or
+                                                                        mail
+                                                                        phone
+                                        CV_Documents
+                                                mandatory
+                                                        "CV_Documents*"
+                                                                or
+                                                                        archive
+                                                                        import_external
+                                                                        read_existing
+                                                                        scan_new
+                                        SV_Particular_Package
+                                                mandatory
+                                                        "SV_Particular_Package*"
+                                                                or
+                                                                        Docs
+                                                                        Else
+                                                                        Label_Printing
+                                                                        Organizer
+                                                                        Standard_Letter
+                                        SV_Solution
+                                                mandatory
+                                                        "SV_Solution*"
+                                                                alternative
+                                                                        BMD
+                                                                        BMDCRM
+
+constraints
+        CV => Particular_Packages
+        CV_Claims => Claims_Management & Particular_Packages
+        CV_Customer => Customer_Management & Particular_Packages
+        CV_Documents => Document_Management & Particular_Packages
+        Claims_Management => CV_Claims
+        Customer_Management => CV_Customer
+        Document_Management => CV_Documents
+        SV_Particular_Package => Particular_Packages
+        SV_Solution => Solution

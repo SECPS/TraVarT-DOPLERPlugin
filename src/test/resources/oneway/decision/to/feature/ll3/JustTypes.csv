@@ -1,0 +1,5 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+A;?;String;;;;true
+B;?;Double;;;;true
+C;?;Boolean;true | false;;;true
+D;?;Enumeration;X | Y | Z;1:4;;true

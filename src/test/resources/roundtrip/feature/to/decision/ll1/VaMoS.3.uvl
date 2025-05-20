@@ -1,0 +1,20 @@
+features
+        dm_VaMoS
+                mandatory
+                        Audio_Formats
+                                or
+                                        MP3
+                                        WAV
+                optional
+                        Camera
+                                mandatory
+                                        Camera_Resolution
+                                                alternative
+                                                        T21MP
+                                                        T31MP
+                                                        T5MP
+                        GSM_Protocol_1900
+                        MP3_Recording
+
+constraints
+        MP3_Recording => MP3

@@ -1,0 +1,29 @@
+features
+        "Mobilephone#"
+                alternative
+                        Mobilephone
+                                mandatory
+                                        "Calls#"
+                                                alternative
+                                                        Calls
+                                        "Screen#"
+                                                alternative
+                                                        Screen
+                                                                mandatory
+                                                                        "Screen*"
+                                                                                alternative
+                                                                                        Basic
+                                                                                        Colour
+                                                                                        HighResolution
+                                optional
+                                        GPS
+                                        Media
+                                                mandatory
+                                                        "Media*"
+                                                                or
+                                                                        Camera
+                                                                        MP3
+
+constraints
+        !HighResolution => !Camera
+        GPS => !Basic

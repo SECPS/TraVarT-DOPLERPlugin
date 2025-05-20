@@ -1,0 +1,129 @@
+features
+        BerkeleyDb
+                mandatory
+                        BerkeleyDB
+                                mandatory
+                                        BASE
+                                        FBtree
+                                                mandatory
+                                                        BTree
+                                                                optional
+                                                                        FEvictor
+                                                                                mandatory
+                                                                                        Evictor
+                                                                                                mandatory
+                                                                                                        featureEvictor
+                                                                                                optional
+                                                                                                        featureCriticalEviction
+                                                                                                        featureEvictorDaemon
+                                                                        featureINCompressor
+                                                                        featureTreeVisitor
+                                                                        featureVerifier
+                                        FPersistency
+                                                mandatory
+                                                        Persistency
+                                                                mandatory
+                                                                        FIOFeature
+                                                                                alternative
+                                                                                        IO
+                                                                                                mandatory
+                                                                                                        featureIO
+                                                                                                optional
+                                                                                                        featureSynchronizedIO
+                                                                                        NIO
+                                                                                                mandatory
+                                                                                                        FNIOType
+                                                                                                                alternative
+                                                                                                                        featureChunkedNIO
+                                                                                                                        featureNIO
+                                                                                                optional
+                                                                                                        featureDirectNIO
+                                                                optional
+                                                                        FPersistencyFeatures
+                                                                                or
+                                                                                        Checkpointer
+                                                                                                optional
+                                                                                                        featureCheckpointerDaemon
+                                                                                                        featureCustomizableCheckpointerBytes
+                                                                                                        featureCustomizableCheckpointerTime
+                                                                                        Cleaner
+                                                                                                optional
+                                                                                                        featureCleanerDaemon
+                                                                                                        featureLookAheadCache
+                                                                                        featureChecksum
+                                                                                        featureEnvironmentLock
+                                                                                        featureFileHandleCache
+                                                                                        featureHandleFullDiscError
+                                optional
+                                        FConcurrency
+                                                or
+                                                        dummyFeatureLocking
+                                                        featureCheckLeaks
+                                                        featureFSync
+                                                        featureLatch
+                                                        featureTransaction
+                                        FDbOperation
+                                                or
+                                                        featureDeleteDb
+                                                        featureTruncateDb
+                                        FLogging
+                                                mandatory
+                                                        Logging
+                                                                mandatory
+                                                                        featureLoggingBase
+                                                                optional
+                                                                        featureLoggingConfig
+                                                                        featureLoggingConsole
+                                                                        featureLoggingDbLog
+                                                                        featureLoggingFile
+                                                                        featureLoggingFine
+                                                                        featureLoggingFiner
+                                                                        featureLoggingFinest
+                                                                        featureLoggingInfo
+                                                                        featureLoggingSevere
+                                        FStatistics
+                                                mandatory
+                                                        Statistics
+                                                                mandatory
+                                                                        FStatisticsFeatures
+                                                                                or
+                                                                                        EnvStats
+                                                                                                mandatory
+                                                                                                        featureStatisticsEnvBase
+                                                                                                optional
+                                                                                                        featureStatisticsEnvCaching
+                                                                                                        featureStatisticsEnvCheckpointer
+                                                                                                        featureStatisticsEnvCleaner
+                                                                                                        featureStatisticsEnvEvictor
+                                                                                                        featureStatisticsEnvFSync
+                                                                                                        featureStatisticsEnvINCompressor
+                                                                                                        featureStatisticsEnvLog
+                                                                                        featureStatisticsDatabase
+                                                                                        featureStatisticsLock
+                                                                                        featureStatisticsPreload
+                                                                                        featureStatisticsSequence
+                                                                                        featureStatisticsTransaction
+                                                                        featureStatisticsBase
+                                        featureMemoryBudget
+
+constraints
+        !(!FLogging & !featureLoggingFinest) => featureTransaction
+        !(!featureStatisticsLock & !featureStatisticsTransaction) => dummyFeatureLocking
+        !(((!FEvictor & !featureEvictorDaemon) & !featureLookAheadCache) & !featureStatisticsEnvCaching) => featureMemoryBudget
+        featureCheckLeaks => featureStatisticsLock
+        featureCriticalEviction => featureINCompressor
+        featureCustomizableCheckpointerBytes => featureCustomizableCheckpointerTime
+        featureDeleteDb => dummyFeatureLocking & FEvictor & featureINCompressor & featureMemoryBudget
+        featureLatch => dummyFeatureLocking & featureCheckLeaks & featureFSync & featureDeleteDb & featureTruncateDb & FEvictor & featureFileHandleCache & featureStatisticsLock & featureINCompressor & featureMemoryBudget & featureTreeVisitor & featureVerifier
+        featureLoggingFine => dummyFeatureLocking & FEvictor & featureINCompressor
+        featureLoggingInfo => featureChecksum & featureMemoryBudget
+        featureLoggingSevere => featureEnvironmentLock
+        featureMemoryBudget => featureLatch & FEvictor
+        featureStatisticsDatabase => featureTreeVisitor
+        featureStatisticsEnvEvictor => FEvictor
+        featureStatisticsEnvFSync => featureFSync
+        featureStatisticsEnvINCompressor => featureINCompressor
+        featureStatisticsTransaction => featureTransaction
+        featureTransaction => dummyFeatureLocking & featureDeleteDb & featureTruncateDb
+        featureTruncateDb => featureDeleteDb
+        featureVerifier => featureINCompressor & featureTreeVisitor

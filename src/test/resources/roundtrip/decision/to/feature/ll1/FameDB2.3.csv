@@ -1,0 +1,16 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+API#;Which API#?;Enumeration;API;1:1;;Storage#.Storage
+API*;Which API*?;Enumeration;delete | get | put;1:3;;API#.API
+BufferMgr#;Which BufferMgr#?;Enumeration;BufferMgr;1:1;;DB#.DB
+BufferMgr*;Which BufferMgr*?;Enumeration;InMemory | Persistent;1:1;;BufferMgr#.BufferMgr
+DB#;Which DB#?;Enumeration;DB;1:1;;true
+DebugLogging;DebugLogging?;Boolean;false | true;;;DB#.DB
+Index#;Which Index#?;Enumeration;Index;1:1;;Storage#.Storage
+Index*;Which Index*?;Enumeration;BTree | Unindexed;1:1;;Index#.Index
+MemAlloc#;Which MemAlloc#?;Enumeration;MemAlloc;1:1;;BufferMgr*.Persistent
+MemAlloc*;Which MemAlloc*?;Enumeration;Dynamic | Static;1:1;;MemAlloc#.MemAlloc
+OS#;Which OS#?;Enumeration;OS;1:1;;DB#.DB
+OS*;Which OS*?;Enumeration;NutOS | Win;1:1;;OS#.OS
+PageRepl#;Which PageRepl#?;Enumeration;PageRepl;1:1;;BufferMgr*.Persistent
+PageRepl*;Which PageRepl*?;Enumeration;LFU | LRU;1:1;;PageRepl#.PageRepl
+Storage#;Which Storage#?;Enumeration;Storage;1:1;;DB#.DB

@@ -1,0 +1,4 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+A;A?;Boolean;false | true;;;true
+B;B?;Boolean;false | true;;;true
+C;C?;Boolean;false | true;;;true

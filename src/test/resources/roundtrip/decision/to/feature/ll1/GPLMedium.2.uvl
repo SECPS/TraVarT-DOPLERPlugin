@@ -1,0 +1,106 @@
+features
+        "GPL#"
+                alternative
+                        GPL
+                                mandatory
+                                        "MainGpl#"
+                                                alternative
+                                                        MainGpl
+                                                                mandatory
+                                                                        "Alg#"
+                                                                                alternative
+                                                                                        Alg
+                                                                                                mandatory
+                                                                                                        "Alg*"
+                                                                                                                or
+                                                                                                                        Connected
+                                                                                                                        Cycle
+                                                                                                                        MSTKruskal
+                                                                                                                        MSTPrim
+                                                                                                                        Number
+                                                                                                                        StrongC
+                                                                                                                                mandatory
+                                                                                                                                        "StronglyConnected#"
+                                                                                                                                                alternative
+                                                                                                                                                        StronglyConnected
+                                                                                                                                        "Transpose#"
+                                                                                                                                                alternative
+                                                                                                                                                        Transpose
+                                                                        "Base#"
+                                                                                alternative
+                                                                                        Base
+                                                                        "Gtp#"
+                                                                                alternative
+                                                                                        Gtp
+                                                                                                mandatory
+                                                                                                        "Gtp*"
+                                                                                                                alternative
+                                                                                                                        Directed
+                                                                                                                        Undirected
+                                                                        "HiddenGtp#"
+                                                                                alternative
+                                                                                        HiddenGtp
+                                                                                                mandatory
+                                                                                                        "HiddenGtp*"
+                                                                                                                alternative
+                                                                                                                        DirectedOnlyVertices
+                                                                                                                        DirectedWithEdges
+                                                                                                                        DirectedWithNeighbors
+                                                                                                                        UndirectedOnlyVertices
+                                                                                                                        UndirectedWithEdges
+                                                                                                                        UndirectedWithNeighbors
+                                                                        "HiddenWgt#"
+                                                                                alternative
+                                                                                        HiddenWgt
+                                                                                                mandatory
+                                                                                                        "WeightOptions#"
+                                                                                                                alternative
+                                                                                                                        WeightOptions
+                                                                                                                                optional
+                                                                                                                                        WeightedOnlyVertices
+                                                                                                                                        WeightedWithEdges
+                                                                                                                                        WeightedWithNeighbors
+                                                                        "Implementation#"
+                                                                                alternative
+                                                                                        Implementation
+                                                                                                mandatory
+                                                                                                        "Implementation*"
+                                                                                                                alternative
+                                                                                                                        OnlyVertices
+                                                                                                                        WithEdges
+                                                                                                                        WithNeighbors
+                                                                        "TestProg#"
+                                                                                alternative
+                                                                                        TestProg
+                                                                        "Wgt#"
+                                                                                alternative
+                                                                                        Wgt
+                                                                                                mandatory
+                                                                                                        "Wgt*"
+                                                                                                                alternative
+                                                                                                                        Unweighted
+                                                                                                                        Weighted
+                                                                optional
+                                                                        Src
+                                                                                mandatory
+                                                                                        "Src*"
+                                                                                                alternative
+                                                                                                        BFS
+                                                                                                        DFS
+
+constraints
+        !(!MSTKruskal & !MSTPrim) => Undirected & Weighted
+        !(DirectedOnlyVertices | !OnlyVertices) => !Directed
+        !(DirectedWithEdges | !WithEdges) => !Directed
+        !(DirectedWithNeighbors | !WithNeighbors) => !Directed
+        !(UndirectedOnlyVertices | !OnlyVertices) => !Undirected
+        !(UndirectedWithEdges | !WithEdges) => !Undirected
+        !(UndirectedWithNeighbors | !WithNeighbors) => !Undirected
+        !(WeightedOnlyVertices | !OnlyVertices) => !Weighted
+        !(WeightedWithEdges | !WithEdges) => !Weighted
+        !(WeightedWithNeighbors | !WithNeighbors) => !Weighted
+        Connected => Undirected & Src
+        Cycle => DFS
+        MSTKruskal => !MSTPrim
+        Number => Src
+        StrongC => Directed & DFS

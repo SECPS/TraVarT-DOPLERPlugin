@@ -1,0 +1,19 @@
+features
+        Server
+                mandatory
+                        FileSystem
+                                or
+                                        APFS
+                                        EXT4
+                                        NTFS
+                        OperatingSystem
+                                alternative
+                                        Debian
+                                        Windows
+                                        macOS
+                optional
+                        Logging
+
+constraints
+        Windows => NTFS
+        macOS => APFS

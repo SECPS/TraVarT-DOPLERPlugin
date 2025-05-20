@@ -1,0 +1,75 @@
+features
+        "GPL#"
+                alternative
+                        GPL
+                                mandatory
+                                        "MainGpl#"
+                                                alternative
+                                                        MainGpl
+                                                                mandatory
+                                                                        "Alg#"
+                                                                                alternative
+                                                                                        Alg
+                                                                                                mandatory
+                                                                                                        "Alg*"
+                                                                                                                or
+                                                                                                                        Connected
+                                                                                                                        Cycle
+                                                                                                                        MSTKruskal
+                                                                                                                        MSTPrim
+                                                                                                                        Number
+                                                                                                                        ShortestPath
+                                                                                                                        StrongConnect
+                                                                                                                                mandatory
+                                                                                                                                        "StronglyConnected#"
+                                                                                                                                                alternative
+                                                                                                                                                        StronglyConnected
+                                                                                                                                        "Transpose#"
+                                                                                                                                                alternative
+                                                                                                                                                        Transpose
+                                                                        "Driver#"
+                                                                                alternative
+                                                                                        Driver
+                                                                                                mandatory
+                                                                                                        "DriverProg#"
+                                                                                                                alternative
+                                                                                                                        DriverProg
+                                                                                                                                mandatory
+                                                                                                                                        "Benchmark#"
+                                                                                                                                                alternative
+                                                                                                                                                        Benchmark
+                                                                                                                                        "Prog#"
+                                                                                                                                                alternative
+                                                                                                                                                        Prog
+                                                                        "Gtp#"
+                                                                                alternative
+                                                                                        Gtp
+                                                                                                mandatory
+                                                                                                        "Gtp*"
+                                                                                                                alternative
+                                                                                                                        Directed
+                                                                                                                        Undirected
+                                                                        "Wgt#"
+                                                                                alternative
+                                                                                        Wgt
+                                                                                                mandatory
+                                                                                                        "Wgt*"
+                                                                                                                alternative
+                                                                                                                        Unweighted
+                                                                                                                        Weighted
+                                                                optional
+                                                                        Src
+                                                                                mandatory
+                                                                                        "Src*"
+                                                                                                alternative
+                                                                                                        BFS
+                                                                                                        DFS
+
+constraints
+        !(!MSTKruskal & !MSTPrim) => Undirected & Weighted
+        Connected => Undirected & Src
+        Cycle => DFS
+        MSTKruskal => !MSTPrim
+        Number => Src
+        ShortestPath => Directed & Weighted
+        StrongConnect => Directed & DFS

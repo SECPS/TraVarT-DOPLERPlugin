@@ -1,0 +1,18 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+Charcoal;Charcoal?;Boolean;true | false;;;true
+Charcoal*;Which Charcoal*?;Enumeration;CharcoalBone | CharcoalActive;1:1;"if (FilterTankXLModule*.CAFilterTankXLModule) {Charcoal* = CharcoalActive;}if (FilterTankSModule*.CAFilterTankSModule) {Charcoal* = CharcoalActive;}if (FilterTankSModule*.CBFilterTankSModule) {Charcoal* = CharcoalBone;}if (FilterTankXLModule*.CBFilterTankXLModule) {Charcoal* = CharcoalBone;}";Charcoal
+FilterTank;Which FilterTank?;Enumeration;FilterTankS | FilterTankXL;1:1;"if (FilterTankModule.FilterTankXLModule) {FilterTank = FilterTankXL;}if (FilterTankXLModule*.CAFilterTankXLModule) {FilterTank = FilterTankXL;}if (FilterTankModule.FilterTankSModule) {FilterTank = FilterTankS;}if (FilterTankSModule*.CAFilterTankSModule) {FilterTank = FilterTankS;}if (FilterTankSModule*.CBFilterTankSModule) {FilterTank = FilterTankS;}if (FilterTankXLModule*.CBFilterTankXLModule) {FilterTank = FilterTankXL;}if (FreshwaterTank*.FreshwaterTankXL) {FilterTank = FilterTankXL;WastewaterTankXL = true;}if (WastewaterTankXL) {FilterTank = FilterTankXL;FreshwaterTank* = FreshwaterTankXL;}";true
+FilterTankModule;Which FilterTankModule?;Enumeration;FilterTankXLModule | FilterTankSModule;1:1;"if (FreshwaterTankModule.FreshwaterTankXLModule) {FilterTankModule = FilterTankXLModule;WastewaterTankXLModule = true;}if (WastewaterTankXLModule) {FilterTankModule = FilterTankXLModule;FreshwaterTankModule = FreshwaterTankXLModule;}";true
+FilterTankSModule*;Which FilterTankSModule*?;Enumeration;CAFilterTankSModule | CBFilterTankSModule;1:1;;FilterTankModule.FilterTankSModule
+FilterTankXLModule*;Which FilterTankXLModule*?;Enumeration;CBFilterTankXLModule | CAFilterTankXLModule;1:1;;FilterTankModule.FilterTankXLModule
+FreshwaterTank;FreshwaterTank?;Boolean;true | false;;;true
+FreshwaterTankModule;Which FreshwaterTankModule?;Enumeration;FreshwaterTankSModule | FreshwaterTankXLModule;1:1;"if (FilterTankModule.FilterTankXLModule) {FreshwaterTankModule = FreshwaterTankXLModule;WastewaterTankXLModule = true;}";true
+FreshwaterTank*;Which FreshwaterTank*?;Enumeration;FreshwaterTankS | FreshwaterTankXL;1:1;"if (FreshwaterTankModule.FreshwaterTankSModule) {FreshwaterTank* = FreshwaterTankS;}if (FilterTank.FilterTankXL) {FreshwaterTank* = FreshwaterTankXL;WastewaterTankXL = true;}";FreshwaterTank
+Mount;Which Mount?;Enumeration;IronFrame | Rack1 | Rack2;1:1;"if (Nanofilter) {disAllow(Mount.IronFrame);}if (FreshwaterTankModule.FreshwaterTankXLModule) {Mount = Rack2;}if (!(!FreshwaterTank*.FreshwaterTankS || Mount.IronFrame)) {Mount = Rack1;}";true
+Nanofilter;Nanofilter?;Boolean;true | false;;;true
+Tube3;Tube3?;Boolean;true | false;;"if (FreshwaterTankModule.FreshwaterTankXLModule) {Tube3 = true;}if (FreshwaterTankModule.FreshwaterTankSModule) {Tube3 = false;}";true
+Valve;Valve?;Boolean;true | false;;;true
+Valve1;Valve1?;Boolean;true | false;;"if (FreshwaterTankModule.FreshwaterTankXLModule) {Valve1 = true;}if (FreshwaterTankModule.FreshwaterTankSModule) {Valve1 = true;}";Valve
+Valve2;Valve2?;Boolean;true | false;;"if (WastewaterTankXLModule) {Valve2 = true;}if (FreshwaterTankModule.FreshwaterTankSModule) {Valve2 = false;}";Valve
+WastewaterTankXL;WastewaterTankXL?;Boolean;true | false;;"if (WastewaterTankXLModule) {WastewaterTankXL = true;}";true
+WastewaterTankXLModule;WastewaterTankXLModule?;Boolean;true | false;;;true

@@ -1,0 +1,34 @@
+features
+        "OnlineShop#"
+                alternative
+                        OnlineShop
+                                mandatory
+                                        "Payment#"
+                                                alternative
+                                                        Payment
+                                                                mandatory
+                                                                        "Payment*"
+                                                                                or
+                                                                                        CreditCard
+                                                                                        DebitCard
+                                        "UserManagement#"
+                                                alternative
+                                                        UserManagement
+                                                                mandatory
+                                                                        "UserManagement*"
+                                                                                or
+                                                                                        Orders
+                                                                                        Payments
+                                                                                        Security
+                                                                                        Wishlist
+                                optional
+                                        Categories
+                                        Search
+                                        Sort
+
+constraints
+        !Search => Sort
+        !Sort => Search
+        Payments => !Security
+        Search => Security
+        Security => !Payments

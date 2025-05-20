@@ -1,0 +1,28 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+Accessibility#;Which Accessibility?;Enumeration;Accessibility;1:1;;true
+Accessibility*;Which Accessibility*?;Enumeration;ConfigureVoiceRecognition | MAkeTheMouseEasyToUse | MakeTheKeyboardEasierToUse | Readability;1:4;;Accessibility#.Accessibility
+ActivateMouseKeys#;Which ActivateMouseKeys?;Enumeration;ActivateMouseKeys;1:1;;MakeTheKeyboardEasierToUse*.ControlTheMouseWithTheKeyboard_
+AdjustTheResolution*;Which AdjustTheResolution*?;Enumeration;Display | Resolution;1:2;;EnlargeTheItemDisplayedOnTheScreen*.AdjustTheResolution
+AeroTheme*;Which AeroTheme*?;Enumeration;Architecture | Characters | Landscape | Nature | Scene | Windows7;1:1;;HighContrast*.AeroTheme
+BasicThemeAndContrast*;Which BasicThemeAndContrast*?;Enumeration;ClassicWindows | HighBlackContrast | HighContrastNumber1 | HighContrastNumber2 | HighWhiteContrast;1:1;;HighContrast*.BasicThemeAndContrast
+ConfigureTheMicrophone*;Which ConfigureTheMicrophone*?;Enumeration;MicrophoneOnHeadphones_ | OfficeMicrophone_ | Other_;1:1;;ConfigureVoiceRecognition*.ConfigureTheMicrophone
+ConfigureVoiceRecognition*;Which ConfigureVoiceRecognition*?;Enumeration;ConfigureTheMicrophone | RunTheLearningModuleOfYourVoice | StartVoiceRecognition | VoiceRecognitionTutorial;1:4;;Accessibility*.ConfigureVoiceRecognition
+Display_;Display_?;Boolean;false | true;;;MagnifyingGlass
+Display_*;Which Display_*?;Enumeration;Anchor | FullScreen | FullScreenPreview | MagnifyingGlass_;1:1;;Display_
+DisplayorFactorWhenZooming*;Which DisplayorFactorWhenZooming*?;Enumeration;LessTwentyFivePerCent | MoreFourHundredPerCent;1:1;;Parameter*.DisplayorFactorWhenZooming
+EasyOnScreenPlayback_1#;Which EasyOnScreenPlayback_1?;Enumeration;EasyOnScreenPlayback_1;1:1;;Readability*.EasyOnScreenPlayback
+EasyOnScreenPlayback_1*;Which EasyOnScreenPlayback_1*?;Enumeration;AverageOneHundredAndTwentyFivePerCent | SmallOneHundredPerCent;1:1;;EasyOnScreenPlayback_1#.EasyOnScreenPlayback_1
+EnlargeTheItemDisplayedOnTheScreen*;Which EnlargeTheItemDisplayedOnTheScreen*?;Enumeration;AdjustTextCleartype | AdjustTheResolution | ColorCalibration | SetCustomTextSize;1:4;;Readability*.EnlargeTheItemDisplayedOnTheScreen
+GenericPlugAndPlayMonitorOnStandardVGAGraphicsCard#;Which GenericPlugAndPlayMonitorOnStandardVGAGraphicsCard?;Enumeration;GenericPlugAndPlayMonitorOnStandardVGAGraphicsCard;1:1;;AdjustTheResolution*.Display
+HearTextAndDescriptionReadAloud*;Which HearTextAndDescriptionReadAloud*?;Enumeration;ActivateTheNarrator | EnableAudioDescription;1:2;;Readability*.HearTextAndDescriptionReadAloud
+HighContrast*;Which HighContrast*?;Enumeration;AeroTheme | BasicThemeAndContrast;1:1;;Readability*.HighContrast
+MagnifyingGlass;MagnifyingGlass?;Boolean;false | true;;;Readability*.EasyOnScreenPlayback
+MagnifyingGlass_1#;Which MagnifyingGlass_1?;Enumeration;MagnifyingGlass_1;1:1;;MagnifyingGlass
+MagnifyingGlass_1*;Which MagnifyingGlass_1*?;Enumeration;ZoomInOneThousandSixHundredPerCent | ZoomOutOneHundredPercent;1:1;;MagnifyingGlass_1#.MagnifyingGlass_1
+MakeEntryEasier*;Which MakeEntryEasier*?;Enumeration;ActivateRetentiveKeys | ActivateTheFilterKeys | ActivateTheToggleButtons;1:3;;MakeTheKeyboardEasierToUse*.MakeEntryEasier
+MakeTheKeyboardEasierToUse*;Which MakeTheKeyboardEasierToUse*?;Enumeration;ControlTheMouseWithTheKeyboard_ | MakeEntryEasier;1:2;;Accessibility*.MakeTheKeyboardEasierToUse
+Parameter;Parameter?;Boolean;false | true;;;MagnifyingGlass
+Parameter*;Which Parameter*?;Enumeration;DisplayorFactorWhenZooming | EnableColorInversion | FollowTheMousePointer | TheMagnifyingGlassMustFollowTheInsertionPointOfTheText | TrackSelectedItemThroughKeyboard;1:5;;Parameter
+Readability*;Which Readability*?;Enumeration;EasyOnScreenPlayback | EnlargeTheItemDisplayedOnTheScreen | HearTextAndDescriptionReadAloud | HighContrast;1:4;;Accessibility*.Readability
+Resolution*;Which Resolution*?;Enumeration;R1024x768 | R1366x768 | R800x600;1:1;;AdjustTheResolution*.Resolution
+StartVoiceRecognition*;Which StartVoiceRecognition*?;Enumeration;MicrophoneOnHeadphones | OfficeMicrophone | Other;1:1;;ConfigureVoiceRecognition*.StartVoiceRecognition

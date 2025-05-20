@@ -1,0 +1,386 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+AImodel;AImodel?;Boolean;false | true;;;Develop#.Develop
+AWS;AWS?;Boolean;false | true;;;Typee*.Public
+AWS_1;AWS_1?;Boolean;false | true;;;Typee*.Hybrid
+AWS_2*;Which AWS_2*?;Enumeration;DynamoDB | RedShift | S3;1:1;;Storage_1*.AWS_2
+AWS_3*;Which AWS_3*?;Enumeration;Datapipeline | EMR | Kinesis;1:1;;Processing*.AWS_3
+AWS_4*;Which AWS_4*?;Enumeration;Machinelearning | Quicksight;1:1;;Intelligence*.AWS_4
+Accessdata#;Which Accessdata?;Enumeration;Accessdata;1:1;;Machinelearning_3
+Acronyms;Acronyms?;Boolean;false | true;;;Methodology*.Spelling
+Adobetarget;Adobetarget?;Boolean;false | true;;;Descriptive*.A_Btesting
+Algorithmdevelopment;Algorithmdevelopment?;Boolean;false | true;;;Develop#.Develop
+Algorithmdevelopment*;Which Algorithmdevelopment*?;Enumeration;Bayesiannetwork | Clustering | Decisiontree_1 | Deeplearning | Dimensionalityreduction | Ensemble | Instancebased | Neuralnetworks_1 | Regression | Regularization | Rulesystem;1:1;;Algorithmdevelopment
+Alteryx;Alteryx?;Boolean;false | true;;;Descriptive*.Frequencytables
+Analysis#;Which Analysis?;Enumeration;Analysis;1:1;;Clean#.Clean
+Analytics#;Which Analytics?;Enumeration;Analytics;1:1;;Processing_3#.Processing_3
+Analyticstechniques#;Which Analyticstechniques?;Enumeration;Analyticstechniques;1:1;;Processing_3#.Processing_3
+Analyticstechniques*;Which Analyticstechniques*?;Enumeration;Analysisoffeelingsandtext | Datavisualization | Learningassociationrules | Splittesting | Temporaryseriesanalysis;1:5;;Analyticstechniques#.Analyticstechniques
+Analyzedata#;Which Analyzedata?;Enumeration;Analyzedata;1:1;;Machinelearning_3
+Annotation;Annotation?;Boolean;false | true;;;Technique*.Stream
+Apachecloudstack;Apachecloudstack?;Boolean;false | true;;;Typee*.Opensource
+Architecture#;Which Architecture?;Enumeration;Architecture;1:1;;Cloud
+Architecture*;Which Architecture*?;Enumeration;Batch | Kappa | Lambda;1:1;;Architecture#.Architecture
+Autoencoder;Autoencoder?;Boolean;false | true;;;Typees*.Nonsupervised
+Automaticfeelinganalysisdetector*;Which Automaticfeelinganalysisdetector*?;Enumeration;Awareness | Category_2 | Emotion | Opinion | Userintention;1:5;;NaturalLanguageProcessing_1*.Automaticfeelinganalysisdetector
+Average;Average?;Boolean;false | true;;;Statisticmethod#.Statisticmethod
+Averageonedependenceestimators;Averageonedependenceestimators?;Boolean;false | true;;;Algorithmdevelopment*.Bayesiannetwork
+Awareness*;Which Awareness*?;Enumeration;Peopleimplication | Socialmovement;1:2;;Automaticfeelinganalysisdetector*.Awareness
+BMC;BMC?;Boolean;false | true;;;Typee*.Convergedpre_integratedsystems
+Back_propagation;Back_propagation?;Boolean;false | true;;;Algorithmdevelopment*.Neuralnetworks_1
+Batch_2_1#;Which Batch_2_1?;Enumeration;Batch_2_1;1:1;;Technique*.Batch_2
+Batch_2_1*;Which Batch_2_1*?;Enumeration;Aggregate | Cleaning | Combining | Filtering_1 | Prepare | Process | Readfile | Replication | Writeoutputfile;1:9;;Batch_2_1#.Batch_2_1
+Batchlayer#;Which Batchlayer?;Enumeration;Batchlayer;1:1;;Architecture*.Lambda
+BigDataSystem#;Which BigDataSystem?;Enumeration;BigDataSystem;1:1;;true
+Biometrics;Biometrics?;Boolean;false | true;;;Origin
+Biometrics*;Which Biometrics*?;Enumeration;Facerecognition | Fingerprint | Genetics;1:1;;Biometrics
+Bolts;Bolts?;Boolean;false | true;;;Technology*.Apachestorm
+Boosting;Boosting?;Boolean;false | true;;;Algorithmdevelopment*.Ensemble
+Boostrappedaggregation;Boostrappedaggregation?;Boolean;false | true;;;Algorithmdevelopment*.Ensemble
+CAtechnologies;CAtechnologies?;Boolean;false | true;;;Typee*.Softwaresolution
+CSC;CSC?;Boolean;false | true;;;Typee*.Convergedpre_integratedsystems
+CSC_1;CSC_1?;Boolean;false | true;;;Typee*.Managedprivatecloud
+Cable#;Which Cable?;Enumeration;Cable;1:1;;Network#.Network
+Canva;Canva?;Boolean;false | true;;;Descriptive*.Decisiontree
+Captured;Captured?;Boolean;false | true;;;Generation_1#.Generation_1
+Cascading;Cascading?;Boolean;false | true;;;MapReduce
+Category#;Which Category?;Enumeration;Category;1:1;;Data#.Data
+Category*;Which Category*?;Enumeration;Nonstructured | Semistructured | Structured;1:1;;Category#.Category
+Cisco;Cisco?;Boolean;false | true;;;Typee*.Softwaresolution
+Cisco_1;Cisco_1?;Boolean;false | true;;;Typee*.Convergedpre_integratedsystems
+Cisco_2;Cisco_2?;Boolean;false | true;;;Typee*.Managedprivatecloud
+Citrix;Citrix?;Boolean;false | true;;;Typee*.Managedprivatecloud
+Classification;Classification?;Boolean;false | true;;;Typees*.Supervised
+Classificationandregressiontree;Classificationandregressiontree?;Boolean;false | true;;;Algorithmdevelopment*.Decisiontree_1
+Clean#;Which Clean?;Enumeration;Clean;1:1;;Preprocessingdata#.Preprocessingdata
+Cloud;Cloud?;Boolean;false | true;;;Storage#.Storage
+Clusteralgorithms;Clusteralgorithms?;Boolean;false | true;;;Statisticmethod#.Statisticmethod
+Clustering_1;Clustering_1?;Boolean;false | true;;;Typees*.Nonsupervised
+Collecting#;Which Collecting?;Enumeration;Collecting;1:1;;Services_2#.Services_2
+Collecting*;Which Collecting*?;Enumeration;Databases | Digitalanalysistools | Onlineformsandsurveys | Trendandsearchtools;1:4;;Collecting#.Collecting
+Columnar*;Which Columnar*?;Enumeration;ApacheCassandra | ApacheHBase;1:1;;NonSQL*.Columnar
+Compiled;Compiled?;Boolean;false | true;;;Generation#.Generation
+ConcepttaggingNER*;Which ConcepttaggingNER*?;Enumeration;Brand | Enrichtext | Indexing | Informationretrieval | Organization | People;1:6;;NaturalLanguageProcessing_1*.ConcepttaggingNER
+Conditionaldecisiontrees;Conditionaldecisiontrees?;Boolean;false | true;;;Algorithmdevelopment*.Decisiontree_1
+Convolutionalneuralnetwork;Convolutionalneuralnetwork?;Boolean;false | true;;;Algorithmdevelopment*.Deeplearning
+Created;Created?;Boolean;false | true;;;Generation#.Generation
+Creatly;Creatly?;Boolean;false | true;;;Descriptive*.Decisiontree
+Cubist;Cubist?;Boolean;false | true;;;Algorithmdevelopment*.Rulesystem
+Data#;Which Data?;Enumeration;Data;1:1;;Infraestructure#.Infraestructure
+Databases_1;Databases_1?;Boolean;false | true;;;Accessdata#.Accessdata
+Datacompression#;Which Datacompression?;Enumeration;Datacompression;1:1;;Preprocessing#.Preprocessing
+Dataexploration;Dataexploration?;Boolean;false | true;;;Analyzedata#.Analyzedata
+Datapreparation#;Which Datapreparation?;Enumeration;Datapreparation;1:1;;Preprocessing#.Preprocessing
+DatasetAPI;DatasetAPI?;Boolean;false | true;;;Technology_3*.Apacheflink
+DatastreamAPI;DatastreamAPI?;Boolean;false | true;;;Technology_3*.Apacheflink
+Datatransfer#;Which Datatransfer?;Enumeration;Datatransfer;1:1;;Preprocessing#.Preprocessing
+Datatransformation#;Which Datatransformation?;Enumeration;Datatransformation;1:1;;Clean#.Clean
+Dedicatedinterconnection#;Which Dedicatedinterconnection?;Enumeration;Dedicatedinterconnection;1:1;;Googlecloud_1
+DeepBoltzmannmachine;DeepBoltzmannmachine?;Boolean;false | true;;;Algorithmdevelopment*.Deeplearning
+Deepbeliefnetworks;Deepbeliefnetworks?;Boolean;false | true;;;Algorithmdevelopment*.Deeplearning
+Dell;Dell?;Boolean;false | true;;;Typee*.Softwaresolution
+Dell_1;Dell_1?;Boolean;false | true;;;Typee*.Convergedpre_integratedsystems
+Dell_2;Dell_2?;Boolean;false | true;;;Typee*.Managedprivatecloud
+Deploy#;Which Deploy?;Enumeration;Deploy;1:1;;Machinelearning_3
+Descriptive*;Which Descriptive*?;Enumeration;A_Btesting | Countssumsandaverages | Decisiontree | Factorialandclusteranalysis | Frequencytables | Variationrates;1:6;;Objective*.Descriptive
+Desktop;Desktop?;Boolean;false | true;;;Deploy#.Deploy
+Develop#;Which Develop?;Enumeration;Develop;1:1;;Machinelearning_3
+Digitalanalysistools*;Which Digitalanalysistools*?;Enumeration;FacebookInsights | Googleanalytics | Hootsuit | TwitterAnalytics;1:1;;Collecting*.Digitalanalysistools
+Directattachstorage;Directattachstorage?;Boolean;false | true;;;Storage#.Storage
+Directconnect#;Which Directconnect?;Enumeration;Directconnect;1:1;;AWS_1
+Dispersionmeasurements*;Which Dispersionmeasurements*?;Enumeration;Datarange | Interquartilesrange | Standarddeviation_1 | Variance;1:4;;Exploratorydataanalysis_1*.Dispersionmeasurements
+Distributed*;Which Distributed*?;Enumeration;Greenplum | Vertica;1:1;;SQL*.Distributed
+Document*;Which Document*?;Enumeration;ApacheCouchDB | MongoDB;1:1;;NonSQL*.Document
+Domainspecificalgorithms;Domainspecificalgorithms?;Boolean;false | true;;;Analyzedata#.Analyzedata
+Drop;Drop?;Boolean;false | true;;;Techniques*.Handlemissingdata
+Duplicates;Duplicates?;Boolean;false | true;;;Techniques*.Removeunwantedobservations
+Duplicatesremoval#;Which Duplicatesremoval?;Enumeration;Duplicatesremoval;1:1;;Clean#.Clean
+EMC;EMC?;Boolean;false | true;;;Typee*.Managedprivatecloud
+Elasticnet;Elasticnet?;Boolean;false | true;;;Algorithmdevelopment*.Regularization
+Embeddedsystems;Embeddedsystems?;Boolean;false | true;;;Deploy#.Deploy
+Emotion*;Which Emotion*?;Enumeration;Desire | Discomfort | Dislike | Fear | Gratitude | Hapiness | Rage | Sadness | Satisfaction | Surprise;1:1;;Automaticfeelinganalysisdetector*.Emotion
+Emotionanalysis;Emotionanalysis?;Boolean;false | true;;;Text#.Text
+Emotionanalysis_1;Emotionanalysis_1?;Boolean;false | true;;;Modality_2*.Digitalimages
+Emotionanalysis_2;Emotionanalysis_2?;Boolean;false | true;;;Modality_2*.Audio
+Enduserapplication#;Which Enduserapplication?;Enumeration;Enduserapplication;1:1;;Platform*.Userinterface
+Enterprisesystems;Enterprisesystems?;Boolean;false | true;;;Deploy#.Deploy
+Evergage;Evergage?;Boolean;false | true;;;Descriptive*.A_Btesting
+Excel;Excel?;Boolean;false | true;;;Descriptive*.Frequencytables
+Expectationmaximization;Expectationmaximization?;Boolean;false | true;;;Algorithmdevelopment*.Clustering
+Experimental;Experimental?;Boolean;false | true;;;Generation#.Generation
+Exploratorydataanalysis_1*;Which Exploratorydataanalysis_1*?;Enumeration;Dispersionmeasurements | Formmeasurements | Locationmeasurements;1:1;;Methodology_2*.Exploratorydataanalysis_1
+Exploredata#;Which Exploredata?;Enumeration;Exploredata;1:1;;Datapreparation#.Datapreparation
+Expressroute#;Which Expressroute?;Enumeration;Expressroute;1:1;;Microsoftazure
+Files;Files?;Boolean;false | true;;;Accessdata#.Accessdata
+Filtering;Filtering?;Boolean;false | true;;;Technique*.Stream
+Flexiblediscriminantanalysis;Flexiblediscriminantanalysis?;Boolean;false | true;;;Algorithmdevelopment*.Dimensionalityreduction
+FlinkML;FlinkML?;Boolean;false | true;;;Technology_3*.Apacheflink
+Flume;Flume?;Boolean;false | true;;;Technology*.Apachestorm
+Formmeasurements*;Which Formmeasurements*?;Enumeration;Assymetry | Kurtosis;1:2;;Exploratorydataanalysis_1*.Formmeasurements
+GaussianNaiveBayes;GaussianNaiveBayes?;Boolean;false | true;;;Algorithmdevelopment*.Bayesiannetwork
+Gelly;Gelly?;Boolean;false | true;;;Technology_3*.Apacheflink
+Generation#;Which Generation?;Enumeration;Generation;1:1;;Category*.Structured
+Generation_1#;Which Generation_1?;Enumeration;Generation_1;1:1;;Category*.Nonstructured
+Googleanalytics_1;Googleanalytics_1?;Boolean;false | true;;;Descriptive*.A_Btesting
+Googlecloud;Googlecloud?;Boolean;false | true;;;Typee*.Public
+Googlecloud_1;Googlecloud_1?;Boolean;false | true;;;Typee*.Hybrid
+Googlecloud_2*;Which Googlecloud_2*?;Enumeration;Bigquery | Bigtable | Datastore;1:1;;Storage_1*.Googlecloud_2
+Googlecloud_3*;Which Googlecloud_3*?;Enumeration;Dataflow | Dataproc | Pub_sub;1:1;;Processing*.Googlecloud_3
+Googlecloud_4*;Which Googlecloud_4*?;Enumeration;Datalab | Machinelearning_2 | NaturallanguageAPI;1:1;;Intelligence*.Googlecloud_4
+Googleforms#;Which Googleforms?;Enumeration;Googleforms;1:1;;Collecting*.Onlineformsandsurveys
+Gradientboostingmachines;Gradientboostingmachines?;Boolean;false | true;;;Algorithmdevelopment*.Ensemble
+Gradientboostingregressiontrees;Gradientboostingregressiontrees?;Boolean;false | true;;;Algorithmdevelopment*.Ensemble
+GraphX;GraphX?;Boolean;false | true;;;Technology_3*.Apachespark
+Graphanalysis;Graphanalysis?;Boolean;false | true;;;Machinelearning_3
+Graphanalysis*;Which Graphanalysis*?;Enumeration;Centralityanalysis | Communityanalysis | Connectivityanalysis | Pathanalysis;1:4;;Graphanalysis
+Graphembedding;Graphembedding?;Boolean;false | true;;;Graphanalysis*.Centralityanalysis
+Graphics*;Which Graphics*?;Enumeration;Area | Barchart | Boxandwhiskerplot | Circularview | Cloudchart | Ganttdiagram | Histogram;1:7;;Typee_3*.Graphics
+Graphs*;Which Graphs*?;Enumeration;AmazonNeptune | MicrosoftHorton | Neo4j;1:1;;NonSQL*.Graphs
+HBase;HBase?;Boolean;false | true;;;HDFS
+HDFS;HDFS?;Boolean;false | true;;;Technology_2*.Hadoop
+Hierarchicalclustering;Hierarchicalclustering?;Boolean;false | true;;;Algorithmdevelopment*.Clustering
+Hive;Hive?;Boolean;false | true;;;MapReduce
+Hopfieldnetwork;Hopfieldnetwork?;Boolean;false | true;;;Algorithmdevelopment*.Neuralnetworks_1
+Humangenerated;Humangenerated?;Boolean;false | true;;;Origin
+Humangenerated*;Which Humangenerated*?;Enumeration;Books | Email_1 | Recordings;1:1;;Humangenerated
+Hybrid_2_1#;Which Hybrid_2_1?;Enumeration;Hybrid_2_1;1:1;;Technique*.Hybrid_2
+Hybrid_2_1*;Which Hybrid_2_1*?;Enumeration;Aggregation | Enrichment | Filtering_2 | Patterndetection | Routing | Splitting | Transformation | Validation;1:8;;Hybrid_2_1#.Hybrid_2_1
+IBM;IBM?;Boolean;false | true;;;Typee*.Softwaresolution
+IBM_1;IBM_1?;Boolean;false | true;;;Typee*.Convergedpre_integratedsystems
+IBMmirantis;IBMmirantis?;Boolean;false | true;;;Typee*.Managedprivatecloud
+In_memory*;Which In_memory*?;Enumeration;Apacheignite | ArangoDB | InfinityDB;1:1;;NonSQL*.In_memory
+Industry#;Which Industry?;Enumeration;Industry;1:1;;Automaticfeelinganalysisdetector*.Category_2
+Industry*;Which Industry*?;Enumeration;Automotive | Banking | Consumption | Health | Telecommunication;1:5;;Industry#.Industry
+Infraestructure#;Which Infraestructure?;Enumeration;Infraestructure;1:1;;BigDataSystem#.BigDataSystem
+Input;Input?;Boolean;false | true;;;Techniques*.Handlemissingdata
+Integrate#;Which Integrate?;Enumeration;Integrate;1:1;;Preprocessingdata#.Preprocessingdata
+Intelligence#;Which Intelligence?;Enumeration;Intelligence;1:1;;Cloud
+Intelligence*;Which Intelligence*?;Enumeration;AWS_4 | Googlecloud_4 | Microsoftazure_3;1:1;;Intelligence#.Intelligence
+Interface#;Which Interface?;Enumeration;Interface;1:1;;Services_2#.Services_2
+Irrelevant;Irrelevant?;Boolean;false | true;;;Techniques*.Removeunwantedobservations
+Kafka;Kafka?;Boolean;false | true;;;Technology*.ApacheSamza
+Kestrel;Kestrel?;Boolean;false | true;;;Technology*.ApacheSamza
+Keyvalue*;Which Keyvalue*?;Enumeration;Bashotechnologiesriak | Redis;1:1;;NonSQL*.Keyvalue
+Learningvectorquantization;Learningvectorquantization?;Boolean;false | true;;;Algorithmdevelopment*.Instancebased
+Leastabsoluteshrinkageandselectionoperator;Leastabsoluteshrinkageandselectionoperator?;Boolean;false | true;;;Algorithmdevelopment*.Regularization
+Leastangleregression;Leastangleregression?;Boolean;false | true;;;Algorithmdevelopment*.Regularization
+Lemmatization;Lemmatization?;Boolean;false | true;;;Methodology*.Spelling
+Levelofcontent#;Which Levelofcontent?;Enumeration;Levelofcontent;1:1;;NaturalLanguageProcessing
+Levelofcontent*;Which Levelofcontent*?;Enumeration;Macrounderstanding | Microunderstanding;1:1;;Levelofcontent#.Levelofcontent
+Lineardiscriminantanalysis;Lineardiscriminantanalysis?;Boolean;false | true;;;Algorithmdevelopment*.Dimensionalityreduction
+Linearregression;Linearregression?;Boolean;false | true;;;Algorithmdevelopment*.Regression
+Locallyweightedlearning;Locallyweightedlearning?;Boolean;false | true;;;Algorithmdevelopment*.Instancebased
+Locationmeasurements*;Which Locationmeasurements*?;Enumeration;Maximum | Meancalculation | Minimum | Mode | Quantile;1:5;;Exploratorydataanalysis_1*.Locationmeasurements
+Logisticregression;Logisticregression?;Boolean;false | true;;;Algorithmdevelopment*.Regression
+Luceneanalyzers_1#;Which Luceneanalyzers_1?;Enumeration;Luceneanalyzers_1;1:1;;Lemmatization
+Lucidchart;Lucidchart?;Boolean;false | true;;;Descriptive*.Decisiontree
+M2M;M2M?;Boolean;false | true;;;Origin
+M2M*;Which M2M*?;Enumeration;Digitalsensors | GPSsignals | RFIDlectures;1:1;;M2M
+M5;M5?;Boolean;false | true;;;Algorithmdevelopment*.Decisiontree_1
+Machinelearning_3;Machinelearning_3?;Boolean;false | true;;;Objective*.Predictive
+Macrounderstanding*;Which Macrounderstanding*?;Enumeration;Categorization | Clustering_2 | Similarity | Summarization | Topicanalysis | Wordcloud;1:6;;Levelofcontent*.Macrounderstanding
+Magnitude#;Which Magnitude?;Enumeration;Magnitude;1:1;;Ontology
+MapReduce;MapReduce?;Boolean;false | true;;;Technology_2*.Hadoop
+Maps*;Which Maps*?;Enumeration;Cartogram | Heat;1:2;;Typee_3*.Maps
+Measureunits;Measureunits?;Boolean;false | true;;;Methodology*.Spelling
+Methodology#;Which Methodology?;Enumeration;Methodology;1:1;;NaturalLanguageProcessing
+Methodology*;Which Methodology*?;Enumeration;ConcepttaggingNER_2 | Exploitation | POStagging | Resourceclassification | Resourceindexing | Resourcesummarization | Spelling;1:7;;Methodology#.Methodology
+Methodology_2#;Which Methodology_2?;Enumeration;Methodology_2;1:1;;Analytics#.Analytics
+Methodology_2*;Which Methodology_2*?;Enumeration;Confirmatorydataanalysis_1 | Exploratorydataanalysis_1;1:1;;Methodology_2#.Methodology_2
+Metriccomputation;Metriccomputation?;Boolean;false | true;;;Technique*.Stream
+Microsoft;Microsoft?;Boolean;false | true;;;Typee*.Softwaresolution
+MicrosoftAzure;MicrosoftAzure?;Boolean;false | true;;;Typee*.Public
+Microsoft_1;Microsoft_1?;Boolean;false | true;;;Typee*.Convergedpre_integratedsystems
+Microsoftazure;Microsoftazure?;Boolean;false | true;;;Typee*.Hybrid
+Microsoftazure_1*;Which Microsoftazure_1*?;Enumeration;DataLakeStore | SQLDW;1:1;;Storage_1*.Microsoftazure_1
+Microsoftazure_2*;Which Microsoftazure_2*?;Enumeration;HDInsight | Streamanalytics;1:1;;Processing*.Microsoftazure_2
+Microsoftazure_3*;Which Microsoftazure_3*?;Enumeration;Cognitiveservices | Machinelearning_1;1:1;;Intelligence*.Microsoftazure_3
+Microunderstanding*;Which Microunderstanding*?;Enumeration;Actions | Entities | Entityrelationships | Extractingfacts | Metadatafields;1:5;;Levelofcontent*.Microunderstanding
+Mislabeledclasses;Mislabeledclasses?;Boolean;false | true;;;Techniques*.Fixstructuralerrors
+Mixturediscriminantanalysis;Mixturediscriminantanalysis?;Boolean;false | true;;;Algorithmdevelopment*.Dimensionalityreduction
+Mlib;Mlib?;Boolean;false | true;;;Technology_3*.Apachespark
+Mobility#;Which Mobility?;Enumeration;Mobility;1:1;;Data#.Data
+Mobility*;Which Mobility*?;Enumeration;Batch_1 | Hybrid_1 | Streaming;1:1;;Mobility#.Mobility
+Modality#;Which Modality?;Enumeration;Modality;1:1;;Category*.Structured
+Modality_2#;Which Modality_2?;Enumeration;Modality_2;1:1;;Category*.Nonstructured
+Modality_2*;Which Modality_2*?;Enumeration;Audio | Digitalimages | Email | PDF | Publications | Spreadsheets | Textprocessingfiles | Video;1:1;;Modality_2#.Modality_2
+Modality_3#;Which Modality_3?;Enumeration;Modality_3;1:1;;Category*.Semistructured
+Modality_3*;Which Modality_3*?;Enumeration;HTML | JSON | XML;1:1;;Modality_3#.Modality_3
+Modelingandsimulation;Modelingandsimulation?;Boolean;false | true;;;Develop#.Develop
+Multidimensionalscaling;Multidimensionalscaling?;Boolean;false | true;;;Algorithmdevelopment*.Dimensionalityreduction
+Multimediaanalysis;Multimediaanalysis?;Boolean;false | true;;;Text#.Text
+Multimediaanalysis_1;Multimediaanalysis_1?;Boolean;false | true;;;Modality_2*.Digitalimages
+Multimediaanalysis_2;Multimediaanalysis_2?;Boolean;false | true;;;Modality_2*.Audio
+Multivariateadaptativeregressionsplines;Multivariateadaptativeregressionsplines?;Boolean;false | true;;;Algorithmdevelopment*.Regression
+NaiveBayes;NaiveBayes?;Boolean;false | true;;;Algorithmdevelopment*.Bayesiannetwork
+Name#;Which Name?;Enumeration;Name;1:1;;Ontology
+NaturalLanguageProcessing;NaturalLanguageProcessing?;Boolean;false | true;;;Objective*.Predictive
+NaturalLanguageProcessing_1#;Which NaturalLanguageProcessing_1?;Enumeration;NaturalLanguageProcessing_1;1:1;;NaturalLanguageProcessing
+NaturalLanguageProcessing_1*;Which NaturalLanguageProcessing_1*?;Enumeration;Ageandgenderdetector | Automaticdocsclassifier | Automaticfeelinganalysisdetector | ConcepttaggingNER | Documentsimilaritydetector | Topicsdetector;1:6;;NaturalLanguageProcessing_1#.NaturalLanguageProcessing_1
+NetApp;NetApp?;Boolean;false | true;;;Typee*.Convergedpre_integratedsystems
+Network#;Which Network?;Enumeration;Network;1:1;;Infraestructure#.Infraestructure
+Networkattachstorage#;Which Networkattachstorage?;Enumeration;Networkattachstorage;1:1;;Storage#.Storage
+Neuralnetworks;Neuralnetworks?;Boolean;false | true;;;Objective*.Predictive
+NonSQL#;Which NonSQL?;Enumeration;NonSQL;1:1;;Storing#.Storing
+NonSQL*;Which NonSQL*?;Enumeration;Columnar | Document | Graphs | In_memory | Keyvalue | XML_1;1:1;;NonSQL#.NonSQL
+Nonnumericaldata#;Which Nonnumericaldata?;Enumeration;Nonnumericaldata;1:1;;Typees_2*.Qualitative
+Nonnumericaldata*;Which Nonnumericaldata*?;Enumeration;Audio_1 | Images | Text_2 | Video_1;1:1;;Nonnumericaldata#.Nonnumericaldata
+Numericaldata#;Which Numericaldata?;Enumeration;Numericaldata;1:1;;Typees_2*.Quantitative
+Objective#;Which Objective?;Enumeration;Objective;1:1;;Techniques_2#.Techniques_2
+Objective*;Which Objective*?;Enumeration;Descriptive | Predictive | Prescriptive;1:3;;Objective#.Objective
+Ocularaccesses;Ocularaccesses?;Boolean;false | true;;;Techniques_3*.Bodyphisiology
+Onerule;Onerule?;Boolean;false | true;;;Algorithmdevelopment*.Rulesystem
+Onpremise;Onpremise?;Boolean;false | true;;;Storage#.Storage
+Ontology;Ontology?;Boolean;false | true;;;Methodology*.ConcepttaggingNER_2
+OpenStack;OpenStack?;Boolean;false | true;;;Typee*.Hybrid
+OpenStackpubliccloudpassport#;Which OpenStackpubliccloudpassport?;Enumeration;OpenStackpubliccloudpassport;1:1;;OpenStack
+Openstack;Openstack?;Boolean;false | true;;;Typee*.Opensource
+Opinion*;Which Opinion*?;Enumeration;Negative | Neutral | Positive;1:1;;Automaticfeelinganalysisdetector*.Opinion
+Optimizely;Optimizely?;Boolean;false | true;;;Descriptive*.A_Btesting
+Oracle;Oracle?;Boolean;false | true;;;Typee*.Softwaresolution
+Oracle_1;Oracle_1?;Boolean;false | true;;;Typee*.Convergedpre_integratedsystems
+Oraclecloud;Oraclecloud?;Boolean;false | true;;;Typee*.Public
+Ordinaryleastsquaresregression;Ordinaryleastsquaresregression?;Boolean;false | true;;;Algorithmdevelopment*.Regression
+Origin;Origin?;Boolean;false | true;;;Data#.Data
+Package#;Which Package?;Enumeration;Package;1:1;;Preprocessingdata#.Preprocessingdata
+Patternlace;Patternlace?;Boolean;false | true;;;Methodology*.Resourceclassification
+Patternrecognition;Patternrecognition?;Boolean;false | true;;;Clustering_1
+Patternstructuring;Patternstructuring?;Boolean;false | true;;;Methodology*.Resourceindexing
+Perceptron;Perceptron?;Boolean;false | true;;;Algorithmdevelopment*.Neuralnetworks_1
+Pig;Pig?;Boolean;false | true;;;MapReduce
+Platform#;Which Platform?;Enumeration;Platform;1:1;;Interface#.Interface
+Platform*;Which Platform*?;Enumeration;Applicationinterface | Userinterface;1:2;;Platform#.Platform
+Predict;Predict?;Boolean;false | true;;;NaturalLanguageProcessing_1*.Automaticdocsclassifier
+Preprocessing#;Which Preprocessing?;Enumeration;Preprocessing;1:1;;Services_2#.Services_2
+Preprocessing_1;Preprocessing_1?;Boolean;false | true;;;Analyzedata#.Analyzedata
+Preprocessingdata#;Which Preprocessingdata?;Enumeration;Preprocessingdata;1:1;;Datapreparation#.Datapreparation
+Prescriptive*;Which Prescriptive*?;Enumeration;Associationrules | Conditionalprobability | Geneticalgorithms | MonteCarlomethod | Regressiontechniques_1;1:5;;Objective*.Prescriptive
+Principalcomponentanalysis;Principalcomponentanalysis?;Boolean;false | true;;;Algorithmdevelopment*.Dimensionalityreduction
+Principalcomponentregression;Principalcomponentregression?;Boolean;false | true;;;Algorithmdevelopment*.Dimensionalityreduction
+Processing#;Which Processing?;Enumeration;Processing;1:1;;Cloud
+Processing*;Which Processing*?;Enumeration;AWS_3 | Googlecloud_3 | Microsoftazure_2;1:1;;Processing#.Processing
+Processing_2#;Which Processing_2?;Enumeration;Processing_2;1:1;;Data#.Data
+Processing_2*;Which Processing_2*?;Enumeration;Analyzed | Processed | Raw;1:1;;Processing_2#.Processing_2
+Processing_3#;Which Processing_3?;Enumeration;Processing_3;1:1;;Services_2#.Services_2
+Projectionpursuit;Projectionpursuit?;Boolean;false | true;;;Algorithmdevelopment*.Dimensionalityreduction
+Provoked;Provoked?;Boolean;false | true;;;Generation#.Generation
+Quadraticdiscriminantanalysis;Quadraticdiscriminantanalysis?;Boolean;false | true;;;Algorithmdevelopment*.Dimensionalityreduction
+Radialbasisfunctionnetwork;Radialbasisfunctionnetwork?;Boolean;false | true;;;Algorithmdevelopment*.Neuralnetworks_1
+Randomforest;Randomforest?;Boolean;false | true;;;Algorithmdevelopment*.Ensemble
+Ranges;Ranges?;Boolean;false | true;;;Statisticmethod#.Statisticmethod
+Realtimelayer#;Which Realtimelayer?;Enumeration;Realtimelayer;1:1;;Architecture*.Kappa
+Redhat;Redhat?;Boolean;false | true;;;Typee*.Softwaresolution
+Regression_1;Regression_1?;Boolean;false | true;;;Typees*.Supervised
+Regressiontechniques;Regressiontechniques?;Boolean;false | true;;;Objective*.Predictive
+Regularizeddiscriminantanalysis;Regularizeddiscriminantanalysis?;Boolean;false | true;;;Algorithmdevelopment*.Dimensionalityreduction
+Repeatedincrementalpruningtoproduceerrorreduction;Repeatedincrementalpruningtoproduceerrorreduction?;Boolean;false | true;;;Algorithmdevelopment*.Rulesystem
+Reportinganddashboarding#;Which Reportinganddashboarding?;Enumeration;Reportinganddashboarding;1:1;;Interface#.Interface
+Representation#;Which Representation?;Enumeration;Representation;1:1;;Services_2#.Services_2
+Richresource;Richresource?;Boolean;false | true;;;Methodology*.Resourcesummarization
+S4;S4?;Boolean;false | true;;;Technology*.Apachestorm
+SAS;SAS?;Boolean;false | true;;;Tools_2
+SPAD;SPAD?;Boolean;false | true;;;Tools_2
+SPSS;SPSS?;Boolean;false | true;;;Tools_2
+SQL;SQL?;Boolean;false | true;;;Storing#.Storing
+SQL*;Which SQL*?;Enumeration;Distributed | IBMDB2 | Informix | MicrosoftAccess | Oracle_2 | SQLServer;1:1;;SQL
+SamzaAPI;SamzaAPI?;Boolean;false | true;;;Technology*.ApacheSamza
+Security;Security?;Boolean;false | true;;;Data#.Data
+Security*;Which Security*?;Enumeration;Trusted | Untrusted;1:1;;Security
+Self_organizingmap;Self_organizingmap?;Boolean;false | true;;;Algorithmdevelopment*.Instancebased
+Semanticanalysis;Semanticanalysis?;Boolean;false | true;;;Text#.Text
+Semanticanalysis_1;Semanticanalysis_1?;Boolean;false | true;;;Modality_2*.Digitalimages
+Semanticanalysis_2;Semanticanalysis_2?;Boolean;false | true;;;Modality_2*.Audio
+Semanticcategory;Semanticcategory?;Boolean;false | true;;;Methodology*.ConcepttaggingNER_2
+Sensors;Sensors?;Boolean;false | true;;;Accessdata#.Accessdata
+Services#;Which Services?;Enumeration;Services;1:1;;Onpremise
+Services*;Which Services*?;Enumeration;Backupandreplication | Certifyingentitites | Cluster | Fileserver | Installation | Migration;1:6;;Services#.Services
+Services_2#;Which Services_2?;Enumeration;Services_2;1:1;;BigDataSystem#.BigDataSystem
+Servinglayer#;Which Servinglayer?;Enumeration;Servinglayer;1:1;;Architecture*.Lambda
+Servinglayer_1#;Which Servinglayer_1?;Enumeration;Servinglayer_1;1:1;;Architecture*.Kappa
+Sintacticcategory;Sintacticcategory?;Boolean;false | true;;;Methodology*.POStagging
+Sources#;Which Sources?;Enumeration;Sources;1:1;;Data#.Data
+Sources*;Which Sources*?;Enumeration;Hardware | Software;1:1;;Sources#.Sources
+Spark;Spark?;Boolean;false | true;;;MapReduce
+SparkSQL;SparkSQL?;Boolean;false | true;;;Technology_3*.Apachespark
+SparkSQLshark;SparkSQLshark?;Boolean;false | true;;;MapReduce
+Sparkcore;Sparkcore?;Boolean;false | true;;;Technology_3*.Apachespark
+Sparkstreaming;Sparkstreaming?;Boolean;false | true;;;Technology_3*.Apachespark
+Speedlayer#;Which Speedlayer?;Enumeration;Speedlayer;1:1;;Architecture*.Lambda
+Spouts;Spouts?;Boolean;false | true;;;Technology*.Apachestorm
+StackedAuto_encoders;StackedAuto_encoders?;Boolean;false | true;;;Algorithmdevelopment*.Deeplearning
+Standarddeviation;Standarddeviation?;Boolean;false | true;;;Statisticmethod#.Statisticmethod
+Statgraphics;Statgraphics?;Boolean;false | true;;;Tools_2
+Statisticmethod#;Which Statisticmethod?;Enumeration;Statisticmethod;1:1;;Clean#.Clean
+Status#;Which Status?;Enumeration;Status;1:1;;Ontology
+Statuscollection;Statuscollection?;Boolean;false | true;;;Technique*.Stream
+Stepwiseregression;Stepwiseregression?;Boolean;false | true;;;Algorithmdevelopment*.Regression
+Storage#;Which Storage?;Enumeration;Storage;1:1;;Infraestructure#.Infraestructure
+Storage_1#;Which Storage_1?;Enumeration;Storage_1;1:1;;Cloud
+Storage_1*;Which Storage_1*?;Enumeration;AWS_2 | Googlecloud_2 | Microsoftazure_1;1:1;;Storage_1#.Storage_1
+Store;Store?;Boolean;false | true;;;Technique*.Stream
+Storing#;Which Storing?;Enumeration;Storing;1:1;;Services_2#.Services_2
+Streams;Streams?;Boolean;false | true;;;Technology*.Apachestorm
+Subgraphisomorphism;Subgraphisomorphism?;Boolean;false | true;;;Graphanalysis*.Centralityanalysis
+Table*;Which Table*?;Enumeration;Highlight | Text_3;1:2;;Typee_3*.Table
+TableAPI;TableAPI?;Boolean;false | true;;;Technology_3*.Apacheflink
+Technique#;Which Technique?;Enumeration;Technique;1:1;;Processing_3#.Processing_3
+Technique*;Which Technique*?;Enumeration;Batch_2 | Hybrid_2 | Stream;1:3;;Technique#.Technique
+Techniques;Techniques?;Boolean;false | true;;;Clean#.Clean
+Techniques*;Which Techniques*?;Enumeration;Deleteallformatting | Fixstructuralerrors | Getridofextraspaces | Handlemissingdata | Removeunwantedobservations | Spellcheck;1:6;;Techniques
+Techniques_2#;Which Techniques_2?;Enumeration;Techniques_2;1:1;;Analytics#.Analytics
+Techniques_3#;Which Techniques_3?;Enumeration;Techniques_3;1:1;;NaturalLanguageProcessing
+Techniques_3*;Which Techniques_3*?;Enumeration;Anchoring | Bodyphisiology | Covertorders | Dissociation | Rapport | Reference | Reframing;1:7;;Techniques_3#.Techniques_3
+Technologies#;Which Technologies?;Enumeration;Technologies;1:1;;Onpremise
+Technologies*;Which Technologies*?;Enumeration;Exchange | MicrosoftActiveDirectory | SAPbusinessone | Sharepoint | Veeam | Windowsserver;1:1;;Technologies#.Technologies
+Technology#;Which Technology?;Enumeration;Technology;1:1;;Technique*.Stream
+Technology*;Which Technology*?;Enumeration;ApacheSamza | Apachestorm;1:1;;Technology#.Technology
+Technology_2#;Which Technology_2?;Enumeration;Technology_2;1:1;;Technique*.Batch_2
+Technology_2*;Which Technology_2*?;Enumeration;Azuredatalakeanalytics | Hadoop;1:1;;Technology_2#.Technology_2
+Technology_3#;Which Technology_3?;Enumeration;Technology_3;1:1;;Technique*.Hybrid_2
+Technology_3*;Which Technology_3*?;Enumeration;Apacheflink | Apachespark;1:1;;Technology_3#.Technology_3
+Temporalseries;Temporalseries?;Boolean;false | true;;;Objective*.Predictive
+Text#;Which Text?;Enumeration;Text;1:1;;Modality#.Modality
+Tokenization;Tokenization?;Boolean;false | true;;;Methodology*.Spelling
+Tokenization*;Which Tokenization*?;Enumeration;Luceneanalyzers | OpenNLPTokenizer | Rosettebaselinguistics;1:1;;Tokenization
+Tokenization_2;Tokenization_2?;Boolean;false | true;;;Technique*.Stream
+Tool#;Which Tool?;Enumeration;Tool;1:1;;Representation#.Representation
+Tool*;Which Tool*?;Enumeration;Datawrapper | Infogram | Piktochart | Plotly | Qlik | Tableau;1:1;;Tool#.Tool
+Tools#;Which Tools?;Enumeration;Tools;1:1;;Clean#.Clean
+Tools*;Which Tools*?;Enumeration;Cloudingo | Datacleaner | Dataladder | Drake | Opendefine | TIBCOclairty | TrifactaWrangle | Winpure;1:8;;Tools#.Tools
+Tools_2;Tools_2?;Boolean;false | true;;;Methodology_2*.Confirmatorydataanalysis_1
+Train;Train?;Boolean;false | true;;;NaturalLanguageProcessing_1*.Automaticdocsclassifier
+Transactiondriven;Transactiondriven?;Boolean;false | true;;;Generation#.Generation
+Transactions;Transactions?;Boolean;false | true;;;Origin
+Transactions*;Which Transactions*?;Enumeration;Healthcareclaims | Taxrecords | Telecommunications;1:1;;Transactions
+Transformationrules;Transformationrules?;Boolean;false | true;;;Methodology*.Exploitation
+Trendandsearchtools*;Which Trendandsearchtools*?;Enumeration;Googletrends | Topsy;1:1;;Collecting*.Trendandsearchtools
+Trident;Trident?;Boolean;false | true;;;Technology*.Apachestorm
+Typee#;Which Typee?;Enumeration;Typee;1:1;;Cloud
+Typee*;Which Typee*?;Enumeration;Convergedpre_integratedsystems | Hybrid | Managedprivatecloud | Opensource | Public | Softwaresolution;1:1;;Typee#.Typee
+Typee_2;Typee_2?;Boolean;false | true;;;Methodology*.Spelling
+Typee_3#;Which Typee_3?;Enumeration;Typee_3;1:1;;Representation#.Representation
+Typee_3*;Which Typee_3*?;Enumeration;Graphics | Infographic | Maps | Table;1:4;;Typee_3#.Typee_3
+Typees#;Which Typees?;Enumeration;Typees;1:1;;Machinelearning_3
+Typees*;Which Typees*?;Enumeration;Byeffort | Nonsupervised | Supervised;1:1;;Typees#.Typees
+Typees_2#;Which Typees_2?;Enumeration;Typees_2;1:1;;Analytics#.Analytics
+Typees_2*;Which Typees_2*?;Enumeration;Qualitative | Quantitative;1:1;;Typees_2#.Typees_2
+Typos;Typos?;Boolean;false | true;;;Techniques*.Fixstructuralerrors
+U_SQL;U_SQL?;Boolean;false | true;;;Technology_2*.Azuredatalakeanalytics
+Unbounce;Unbounce?;Boolean;false | true;;;Descriptive*.A_Btesting
+Usergenerated;Usergenerated?;Boolean;false | true;;;Generation_1#.Generation_1
+Userintention*;Which Userintention*?;Enumeration;Complain | Doubt | Question | Suggest;1:4;;Automaticfeelinganalysisdetector*.Userintention
+VCE;VCE?;Boolean;false | true;;;Typee*.Convergedpre_integratedsystems
+VMWare;VMWare?;Boolean;false | true;;;Typee*.Softwaresolution
+VWO;VWO?;Boolean;false | true;;;Descriptive*.A_Btesting
+Video_1*;Which Video_1*?;Enumeration;Confirmatorydataanalysis | Exploratorydataanalysis;1:1;;Nonnumericaldata*.Video_1
+Visualizationapplication#;Which Visualizationapplication?;Enumeration;Visualizationapplication;1:1;;Platform*.Userinterface
+Webandsocialmedia;Webandsocialmedia?;Boolean;false | true;;;Origin
+Webandsocialmedia*;Which Webandsocialmedia*?;Enumeration;Clicksonlinks | Publications_1 | Text_1 | Webcontent;1:1;;Webandsocialmedia
+Wireless;Wireless?;Boolean;false | true;;;Network#.Network
+Wordform;Wordform?;Boolean;false | true;;;Methodology*.Spelling
+XML_1*;Which XML_1*?;Enumeration;Marklogic | Sedna;1:1;;NonSQL*.XML_1
+YARN;YARN?;Boolean;false | true;;;Technology*.ApacheSamza
+YARN_1;YARN_1?;Boolean;false | true;;;Technology_2*.Hadoop
+Zerorule;Zerorule?;Boolean;false | true;;;Algorithmdevelopment*.Rulesystem
+k_Means;k_Means?;Boolean;false | true;;;Algorithmdevelopment*.Clustering
+k_Medians;k_Medians?;Boolean;false | true;;;Algorithmdevelopment*.Clustering
+k_nearestneighbour;k_nearestneighbour?;Boolean;false | true;;;Algorithmdevelopment*.Instancebased

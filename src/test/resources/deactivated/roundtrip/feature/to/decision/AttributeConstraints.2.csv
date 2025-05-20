@@ -1,0 +1,12 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+A;How much A?;Double;;;"if (!(A = B)) {A = 1.0;A = -1.0;}if (!((A = B) || (A > B))) {A = 1.0;A = -1.0;}if (!((A = B) || (A < B))) {A = 1.0;A = -1.0;}if (!(A < D)) {A = 1.0;A = -1.0;}if (!(E > A)) {A = 1.0;A = -1.0;}if (!(!!(A < B) || (D > E))) {A = 1.0;A = -1.0;}if (!(((C = 10.0) || (A = 10.0)) || (B = 10.0))) {A = 1.0;A = -1.0;}if (!(((A > E) && (E < A)) || (!!(A > E) && !!(E < A)))) {A = 1.0;A = -1.0;}if (!((C = 3.0) || (C = 4.0))) {A = 1.0;A = -1.0;}if (!(B = 2.0)) {A = 1.0;A = -1.0;}if (!(A = 1.0)) {A = 1.0;A = -1.0;}";ACheck
+ACheck;A?;Boolean;false | true;;;root#.root
+B;How much B?;Double;;;;BCheck
+BCheck;B?;Boolean;false | true;;;root#.root
+C;How much C?;Double;;;;CCheck
+CCheck;C?;Boolean;false | true;;;root#.root
+D;How much D?;Double;;;;DCheck
+DCheck;D?;Boolean;false | true;;;root#.root
+E;How much E?;Double;;;;ECheck
+ECheck;E?;Boolean;false | true;;;root#.root
+root#;Which root?;Enumeration;root;1:1;;true

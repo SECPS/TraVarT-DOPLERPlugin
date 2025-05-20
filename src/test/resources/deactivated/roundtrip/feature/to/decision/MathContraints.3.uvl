@@ -1,0 +1,22 @@
+features
+    root
+        mandatory
+            Boolean A
+            Boolean B
+            Integer C
+            Integer D
+            Real E
+            Real F
+            String G
+            String H
+
+constraints
+    C == D
+    D > E
+    E < F
+    G == 'Hello World'
+    C >= D
+    C > D
+    D <= E
+    D <= E
+    G != 'Bye world'

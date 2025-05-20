@@ -1,0 +1,12 @@
+features
+        STANDARD_MODEL_NAME
+                mandatory
+                        String A
+                        Real B
+                optional
+                        C
+                or
+                        X
+                        Y
+                        Z
+

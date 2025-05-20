@@ -1,0 +1,33 @@
+features
+        "Eclipse#"
+                alternative
+                        Eclipse
+                                optional
+                                        AJDT
+                                        CDT
+                                        DeltaJEclipsePlugin
+                                        FeatureModeling
+                                                optional
+                                                        CIDE
+                                                        ExtendedFM
+                                                        FAMILIAR
+                                                        FeatureIDE
+                                                                mandatory
+                                                                        "FeatureIDE*"
+                                                                                or
+                                                                                        AHEAD
+                                                                                        Antenna
+                                                                                        AspectJ
+                                                                                        DeltaJ
+                                                                                        DeltaMontiArc
+                                                                                        FeatureCpp
+                                                                                        FeatureHouse
+                                                                                        Munge
+                                                        MoSoPoLiTe
+                                        JDT
+
+constraints
+        !(((!AHEAD & !Antenna) & !FeatureHouse) & !Munge) => JDT
+        AspectJ => AJDT
+        DeltaJ => DeltaJEclipsePlugin
+        FeatureCpp => CDT

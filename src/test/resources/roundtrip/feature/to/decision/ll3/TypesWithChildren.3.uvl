@@ -1,0 +1,12 @@
+features
+        RootFeature
+                or
+                        String A
+                                or
+                                        String AA
+                                        String AB
+                        Real B
+                                alternative
+                                        String BA
+                                        String BB
+

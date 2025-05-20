@@ -1,0 +1,177 @@
+features
+        "BerkeleyDb#"
+                alternative
+                        BerkeleyDb
+                                mandatory
+                                        "BerkeleyDB#"
+                                                alternative
+                                                        BerkeleyDB
+                                                                mandatory
+                                                                        "BASE#"
+                                                                                alternative
+                                                                                        BASE
+                                                                        "FBtree#"
+                                                                                alternative
+                                                                                        FBtree
+                                                                                                mandatory
+                                                                                                        "BTree#"
+                                                                                                                alternative
+                                                                                                                        BTree
+                                                                                                                                optional
+                                                                                                                                        FEvictor
+                                                                                                                                                mandatory
+                                                                                                                                                        "Evictor#"
+                                                                                                                                                                alternative
+                                                                                                                                                                        Evictor
+                                                                                                                                                                                mandatory
+                                                                                                                                                                                        "featureEvictor#"
+                                                                                                                                                                                                alternative
+                                                                                                                                                                                                        featureEvictor
+                                                                                                                                                                                optional
+                                                                                                                                                                                        featureCriticalEviction
+                                                                                                                                                                                        featureEvictorDaemon
+                                                                                                                                        featureINCompressor
+                                                                                                                                        featureTreeVisitor
+                                                                                                                                        featureVerifier
+                                                                        "FPersistency#"
+                                                                                alternative
+                                                                                        FPersistency
+                                                                                                mandatory
+                                                                                                        "Persistency#"
+                                                                                                                alternative
+                                                                                                                        Persistency
+                                                                                                                                mandatory
+                                                                                                                                        "FIOFeature#"
+                                                                                                                                                alternative
+                                                                                                                                                        FIOFeature
+                                                                                                                                                                mandatory
+                                                                                                                                                                        "FIOFeature*"
+                                                                                                                                                                                alternative
+                                                                                                                                                                                        IO
+                                                                                                                                                                                                mandatory
+                                                                                                                                                                                                        "featureIO#"
+                                                                                                                                                                                                                alternative
+                                                                                                                                                                                                                        featureIO
+                                                                                                                                                                                                optional
+                                                                                                                                                                                                        featureSynchronizedIO
+                                                                                                                                                                                        NIO
+                                                                                                                                                                                                mandatory
+                                                                                                                                                                                                        "FNIOType#"
+                                                                                                                                                                                                                alternative
+                                                                                                                                                                                                                        FNIOType
+                                                                                                                                                                                                                                mandatory
+                                                                                                                                                                                                                                        "FNIOType*"
+                                                                                                                                                                                                                                                alternative
+                                                                                                                                                                                                                                                        featureChunkedNIO
+                                                                                                                                                                                                                                                        featureNIO
+                                                                                                                                                                                                optional
+                                                                                                                                                                                                        featureDirectNIO
+                                                                                                                                optional
+                                                                                                                                        FPersistencyFeatures
+                                                                                                                                                mandatory
+                                                                                                                                                        "FPersistencyFeatures*"
+                                                                                                                                                                or
+                                                                                                                                                                        Checkpointer
+                                                                                                                                                                                optional
+                                                                                                                                                                                        featureCheckpointerDaemon
+                                                                                                                                                                                        featureCustomizableCheckpointerBytes
+                                                                                                                                                                                        featureCustomizableCheckpointerTime
+                                                                                                                                                                        Cleaner
+                                                                                                                                                                                optional
+                                                                                                                                                                                        featureCleanerDaemon
+                                                                                                                                                                                        featureLookAheadCache
+                                                                                                                                                                        featureChecksum
+                                                                                                                                                                        featureEnvironmentLock
+                                                                                                                                                                        featureFileHandleCache
+                                                                                                                                                                        featureHandleFullDiscError
+                                                                optional
+                                                                        FConcurrency
+                                                                                mandatory
+                                                                                        "FConcurrency*"
+                                                                                                or
+                                                                                                        dummyFeatureLocking
+                                                                                                        featureCheckLeaks
+                                                                                                        featureFSync
+                                                                                                        featureLatch
+                                                                                                        featureTransaction
+                                                                        FDbOperation
+                                                                                mandatory
+                                                                                        "FDbOperation*"
+                                                                                                or
+                                                                                                        featureDeleteDb
+                                                                                                        featureTruncateDb
+                                                                        FLogging
+                                                                                mandatory
+                                                                                        "Logging#"
+                                                                                                alternative
+                                                                                                        Logging
+                                                                                                                mandatory
+                                                                                                                        "featureLoggingBase#"
+                                                                                                                                alternative
+                                                                                                                                        featureLoggingBase
+                                                                                                                optional
+                                                                                                                        featureLoggingConfig
+                                                                                                                        featureLoggingConsole
+                                                                                                                        featureLoggingDbLog
+                                                                                                                        featureLoggingFile
+                                                                                                                        featureLoggingFine
+                                                                                                                        featureLoggingFiner
+                                                                                                                        featureLoggingFinest
+                                                                                                                        featureLoggingInfo
+                                                                                                                        featureLoggingSevere
+                                                                        FStatistics
+                                                                                mandatory
+                                                                                        "Statistics#"
+                                                                                                alternative
+                                                                                                        Statistics
+                                                                                                                mandatory
+                                                                                                                        "FStatisticsFeatures#"
+                                                                                                                                alternative
+                                                                                                                                        FStatisticsFeatures
+                                                                                                                                                mandatory
+                                                                                                                                                        "FStatisticsFeatures*"
+                                                                                                                                                                or
+                                                                                                                                                                        EnvStats
+                                                                                                                                                                                mandatory
+                                                                                                                                                                                        "featureStatisticsEnvBase#"
+                                                                                                                                                                                                alternative
+                                                                                                                                                                                                        featureStatisticsEnvBase
+                                                                                                                                                                                optional
+                                                                                                                                                                                        featureStatisticsEnvCaching
+                                                                                                                                                                                        featureStatisticsEnvCheckpointer
+                                                                                                                                                                                        featureStatisticsEnvCleaner
+                                                                                                                                                                                        featureStatisticsEnvEvictor
+                                                                                                                                                                                        featureStatisticsEnvFSync
+                                                                                                                                                                                        featureStatisticsEnvINCompressor
+                                                                                                                                                                                        featureStatisticsEnvLog
+                                                                                                                                                                        featureStatisticsDatabase
+                                                                                                                                                                        featureStatisticsLock
+                                                                                                                                                                        featureStatisticsPreload
+                                                                                                                                                                        featureStatisticsSequence
+                                                                                                                                                                        featureStatisticsTransaction
+                                                                                                                        "featureStatisticsBase#"
+                                                                                                                                alternative
+                                                                                                                                        featureStatisticsBase
+                                                                        featureMemoryBudget
+
+constraints
+        !(!FLogging & !featureLoggingFinest) => featureTransaction
+        !(!featureStatisticsLock & !featureStatisticsTransaction) => dummyFeatureLocking
+        !(((!FEvictor & !featureEvictorDaemon) & !featureLookAheadCache) & !featureStatisticsEnvCaching) => featureMemoryBudget
+        featureCheckLeaks => featureStatisticsLock
+        featureCriticalEviction => featureINCompressor
+        featureCustomizableCheckpointerBytes => featureCustomizableCheckpointerTime
+        featureDeleteDb => dummyFeatureLocking & FEvictor & featureINCompressor & featureMemoryBudget
+        featureLatch => dummyFeatureLocking & featureCheckLeaks & featureFSync & featureDeleteDb & featureTruncateDb & FEvictor & featureFileHandleCache & featureStatisticsLock & featureINCompressor & featureMemoryBudget & featureTreeVisitor & featureVerifier
+        featureLoggingFine => dummyFeatureLocking & FEvictor & featureINCompressor
+        featureLoggingInfo => featureChecksum & featureMemoryBudget
+        featureLoggingSevere => featureEnvironmentLock
+        featureMemoryBudget => featureLatch & FEvictor
+        featureStatisticsDatabase => featureTreeVisitor
+        featureStatisticsEnvEvictor => FEvictor
+        featureStatisticsEnvFSync => featureFSync
+        featureStatisticsEnvINCompressor => featureINCompressor
+        featureStatisticsTransaction => featureTransaction
+        featureTransaction => dummyFeatureLocking & featureDeleteDb & featureTruncateDb
+        featureTruncateDb => featureDeleteDb
+        featureVerifier => featureINCompressor & featureTreeVisitor

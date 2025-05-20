@@ -1,0 +1,15 @@
+features
+        PC
+                mandatory
+                        CPU
+                        "Power Unit"
+                                optional
+                                        String Manufacturer
+                                        Real Watt
+                        RAM
+                                or
+                                        "16GB"
+                                        "8GB"
+                optional
+                        "Designated GPU"
+

@@ -1,0 +1,15 @@
+features
+        GraphLibrary
+                mandatory
+                        Edges
+                                alternative
+                                        Directed
+                                        Undirected
+                optional
+                        Algorithms
+                                or
+                                        Cycle
+                                        Number
+
+constraints
+        Cycle => Directed

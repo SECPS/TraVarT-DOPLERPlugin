@@ -1,0 +1,15 @@
+features
+        Root
+                alternative
+                        X
+                        Y
+                        Z
+                optional
+                        A
+                        B
+                        C
+                or
+                        G
+                        H
+                        I
+

@@ -1,0 +1,10 @@
+features
+        STANDARD_MODEL_NAME
+                optional
+                        "Designated GPU"
+                        String "Manufacturer#String"
+                        Real "Watt#Number"
+                or
+                        "16GB"
+                        "8GB"
+

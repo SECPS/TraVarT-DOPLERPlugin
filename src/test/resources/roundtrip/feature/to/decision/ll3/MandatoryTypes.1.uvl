@@ -1,0 +1,15 @@
+features
+	RootFeature
+		mandatory
+			String A
+				mandatory
+					String AA
+					String AB
+			Integer B
+				mandatory
+					Integer BA
+					Integer BB
+			Boolean C
+				mandatory
+					Boolean CA
+					Boolean CB

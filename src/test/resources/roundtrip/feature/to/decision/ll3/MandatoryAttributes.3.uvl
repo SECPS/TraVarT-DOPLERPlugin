@@ -1,0 +1,7 @@
+features
+        root
+                mandatory
+                        A {key1 true, key2 42.0, key3 'Hello World'}
+                        B {key1 false, key2 71.0, key3 'Welcome World'}
+                        C {key1 true, key2 101.0, key3 'Good bye World'}
+

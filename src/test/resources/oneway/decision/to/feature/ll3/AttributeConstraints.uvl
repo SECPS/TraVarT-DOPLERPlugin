@@ -1,0 +1,9 @@
+features
+        STANDARD_MODEL_NAME
+                optional
+                        Real "A#Number"
+                        Real "B#Number"
+                        Real "C#Number"
+                        Real "D#Number"
+                        Real "E#Number"
+

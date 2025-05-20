@@ -1,0 +1,23 @@
+features
+        "ASEJ1#"
+                alternative
+                        ASEJ1
+                                mandatory
+                                        "Modes#"
+                                                alternative
+                                                        Modes
+                                                                mandatory
+                                                                        "Modes*"
+                                                                                or
+                                                                                        bottom
+                                                                                        horizontal
+                                                                                        top
+                                                                                        vertical
+                                        "Strands#"
+                                                alternative
+                                                        Strands
+                                optional
+                                        Thermal3D
+                                        TopFeeding3D
+                                        UI
+

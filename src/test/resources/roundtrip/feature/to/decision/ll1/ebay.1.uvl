@@ -1,0 +1,62 @@
+namespace ebay
+
+features
+	ebay	
+		mandatory
+			Login
+			Payment	
+				or
+					CreditCard
+					PayPal
+					Cheque
+					PostalOrder
+					Escrow
+			Search	
+				optional
+					Categories
+			Notification
+			Shipment	
+				or
+					Premium
+					Standard
+			Security	
+				alternative
+					High
+					Standard_1
+			Logout
+			Compatibility	
+				or
+					PC
+					Tablets	
+						or
+							Windows
+							Apple
+							Android
+					Phone	
+						or
+							Windows_1
+							Apple_1
+							Android_1
+			Register	
+				alternative
+					Retailer
+					Private
+			Unregister
+			HelpAndSupport
+				or
+					Email
+					FAQ
+					Phone_2
+					Chat
+			Sell
+			Buy
+		optional
+			CommunityForum
+
+constraints
+	Login | !Sell | !Buy
+	Payment | Shipment | !Sell
+	!CreditCard | High
+	!Login | Register
+	Payment | Shipment | !Buy
+	Login | !Notification

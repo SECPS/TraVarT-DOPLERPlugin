@@ -1,0 +1,42 @@
+features
+        VncViewer
+                mandatory
+                        VncViewerMain
+                                mandatory
+                                        Base
+                                        Typee
+                                                mandatory
+                                                        Opt
+                                                                or
+                                                                        BOpt
+                                                                                or
+                                                                                        AboutButtonFeat
+                                                                                        AltTabButtonFeat
+                                                                                        ClipboardButtonFeat
+                                                                                        CtrlAltDelButtonFeat
+                                                                                        DisconnectButtonFeat
+                                                                                        OptionsButtonFeat
+                                                                                        RecordButtonFeat
+                                                                                        RefreshButtonFeat
+                                                                        ClipboardFeat
+                                                                        OptionsMenuFeatures
+                                                                                mandatory
+                                                                                        OptionsFeat
+                                                                                optional
+                                                                                        MOpt
+                                                                                                or
+                                                                                                        OpCompressionFeat
+                                                                                                        OpCopyRectFeat
+                                                                                                        OpCursorShapeFeat
+                                                                                                        OpEncodingFeat
+                                                                                                        OpJPEGqualityFeat
+                                                                                                        OpMouse23Feat
+                                                                                                        OpRestrictedColorsFeat
+                                                                                                        OpShareFeat
+                                                                                                        OpViewFeat
+                                                                        RecordingFeat
+
+constraints
+        ClipboardButtonFeat => ClipboardFeat
+        OptionsButtonFeat => OptionsMenuFeatures
+        RecordButtonFeat => RecordingFeat

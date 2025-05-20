@@ -1,0 +1,34 @@
+features
+        DB
+                mandatory
+                        BufferMgr
+                                alternative
+                                        InMemory
+                                        Persistent
+                                                mandatory
+                                                        MemAlloc
+                                                                alternative
+                                                                        Dynamic
+                                                                        Static
+                                                        PageRepl
+                                                                alternative
+                                                                        LFU
+                                                                        LRU
+                        OS
+                                alternative
+                                        NutOS
+                                        Win
+                        Storage
+                                mandatory
+                                        API
+                                                or
+                                                        delete
+                                                        get
+                                                        put
+                                        Index
+                                                alternative
+                                                        BTree
+                                                        Unindexed
+                optional
+                        DebugLogging
+

@@ -1,0 +1,19 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+A;What A?;String;;;;ACheck
+ACheck;A?;Boolean;false | true;;;true
+B;How much B?;Double;;;;BCheck
+BCheck;B?;Boolean;false | true;;;true
+C;How much C?;Double;;;;CCheck
+CCheck;C?;Boolean;false | true;;;true
+D;D?;Boolean;false | true;;;true
+E;What E?;String;;;;true
+F;How much F?;Double;;;;true
+G;How much G?;Double;;;;true
+I*;What I?;String;;;;RootFeature.I
+J*;How much J?;Double;;;;RootFeature.J
+K*;How much K?;Double;;;;RootFeature.K
+M*;What M?;String;;;;RootFeature*.M
+N*;How much N?;Double;;;;RootFeature*.N
+O*;How much O?;Double;;;;RootFeature*.O
+RootFeature;Which RootFeature?;Enumeration;I | J | K | L;1:1;;true
+RootFeature*;Which RootFeature*?;Enumeration;M | N | O | P;1:4;;true

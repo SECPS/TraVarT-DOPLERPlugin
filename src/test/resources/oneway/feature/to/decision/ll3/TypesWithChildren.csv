@@ -1,0 +1,10 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+A*;What A?;String;;;;RootFeature.A
+A**;Which A**?;Enumeration;AA | AB;1:2;;RootFeature.A
+AA*;What AA?;String;;;;A**.AA
+AB*;What AB?;String;;;;A**.AB
+B*;How much B?;Double;;;;RootFeature.B
+B**;Which B**?;Enumeration;BA | BB;1:1;;RootFeature.B
+BA*;What BA?;String;;;;B**.BA
+BB*;What BB?;String;;;;B**.BB
+RootFeature;Which RootFeature?;Enumeration;A | B;1:2;;true

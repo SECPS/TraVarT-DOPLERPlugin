@@ -1,0 +1,45 @@
+features
+        GPL
+                mandatory
+                        MainGpl
+                                mandatory
+                                        Alg
+                                                or
+                                                        Connected
+                                                        Cycle
+                                                        MSTKruskal
+                                                        MSTPrim
+                                                        Number
+                                                        ShortestPath
+                                                        StrongConnect
+                                                                mandatory
+                                                                        StronglyConnected
+                                                                        Transpose
+                                        Driver
+                                                mandatory
+                                                        DriverProg
+                                                                mandatory
+                                                                        Benchmark
+                                                                        Prog
+                                        Gtp
+                                                alternative
+                                                        Directed
+                                                        Undirected
+                                        Wgt
+                                                alternative
+                                                        Unweighted
+                                                        Weighted
+                                optional
+                                        Src
+                                                alternative
+                                                        BFS
+                                                        DFS
+
+constraints
+        !(!MSTKruskal & !MSTPrim) => Undirected & Weighted
+        Connected => Undirected & Src
+        Cycle => DFS
+        MSTKruskal => !MSTPrim
+        Number => Src
+        ShortestPath => Directed & Weighted
+        StrongConnect => Directed & DFS

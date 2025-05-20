@@ -1,0 +1,64 @@
+features
+        "WikiMatrix#"
+                alternative
+                        WikiMatrix
+                                mandatory
+                                        "License#"
+                                                alternative
+                                                        License
+                                                                mandatory
+                                                                        "License*"
+                                                                                alternative
+                                                                                        Commercial
+                                                                                        GPL
+                                                                                        GPL2
+                                                                                        NoLimit
+                                        "RSS#"
+                                                alternative
+                                                        RSS
+                                optional
+                                        Language
+                                                mandatory
+                                                        "Language*"
+                                                                alternative
+                                                                        Java
+                                                                        PHP
+                                                                        Perl
+                                                                        Python
+                                        LicenseCostFee
+                                                mandatory
+                                                        "LicenseCostFee*"
+                                                                alternative
+                                                                        Community
+                                                                        DifferentLicenses
+                                                                        US
+                                        Storage
+                                                mandatory
+                                                        "Storage*"
+                                                                alternative
+                                                                        Database
+                                                                        FileRCS
+                                                                        Files
+                                        Unicode
+
+constraints
+        !LicenseCostFee => Storage
+        Commercial => US
+        Community => FileRCS
+        Database => !Python
+        DifferentLicenses => !GPL
+        FileRCS => Community
+        FileRCS => Perl
+        GPL => Storage
+        GPL2 => PHP
+        Java => US
+        Language => Unicode
+        LicenseCostFee => !Files
+        NoLimit => !DifferentLicenses
+        Perl => FileRCS
+        Storage => Unicode
+        US => Commercial
+        US => Java
+        Unicode => !NoLimit
+        Unicode => Language
+        Unicode => Storage

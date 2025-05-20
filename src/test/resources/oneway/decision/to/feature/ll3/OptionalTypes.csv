@@ -1,0 +1,16 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+A#String;What A?;String;;;;A#StringCheck
+A#StringCheck;A#String?;Boolean;true | false;;;true
+AA#String;What AA?;String;;;;AA#StringCheck
+AA#StringCheck;AA#String?;Boolean;true | false;;;A#String
+AB#String;What AB?;String;;;;AB#StringCheck
+AB#StringCheck;AB#String?;Boolean;true | false;;;A#String
+B#Number;How much B?;Double;;;;B#NumberCheck
+B#NumberCheck;B#Number?;Boolean;true | false;;;true
+BA#Number;How much BA?;Double;;;;BA#NumberCheck
+BA#NumberCheck;BA#Number?;Boolean;true | false;;;B#Number
+BB#Number;How much BB?;Double;;;;BB#NumberCheck
+BB#NumberCheck;BB#Number?;Boolean;true | false;;;B#Number
+C;C?;Boolean;true | false;;;true
+CA;CA?;Boolean;true | false;;;C
+CB;CB?;Boolean;true | false;;;C

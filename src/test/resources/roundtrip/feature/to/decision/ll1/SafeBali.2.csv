@@ -1,0 +1,22 @@
+ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
+Bali#;Which Bali?;Enumeration;Bali;1:1;;true
+Base#;Which Base?;Enumeration;Base;1:1;;Bali#.Bali
+Tool#;Which Tool?;Enumeration;Tool;1:1;;Bali#.Bali
+Tool*;Which Tool*?;Enumeration;A | B | C | D;1:1;;Tool#.Tool
+bali#;Which bali?;Enumeration;bali;1:1;;Base#.Base
+bali2jak#;Which bali2jak?;Enumeration;bali2jak;1:1;;Tool*.A
+bali2jcc#;Which bali2jcc?;Enumeration;bali2jcc;1:1;;Tool*.B
+bali2layer#;Which bali2layer?;Enumeration;bali2layer;1:1;;Tool*.D
+bali2layerGUI#;Which bali2layerGUI?;Enumeration;bali2layerGUI;1:1;;Tool*.D
+bali2layerOptions#;Which bali2layerOptions?;Enumeration;bali2layerOptions;1:1;;Tool*.D
+codegen#;Which codegen?;Enumeration;codegen;1:1;;Bali#.Bali
+collect#;Which collect?;Enumeration;collect;1:1;;Base#.Base
+composer#;Which composer?;Enumeration;composer;1:1;;Tool*.C
+kernel#;Which kernel?;Enumeration;kernel;1:1;;Base#.Base
+require;require?;Boolean;false | true;;;Base#.Base
+requireBali2jak;requireBali2jak?;Boolean;false | true;;;Tool*.A
+requireBali2jcc;requireBali2jcc?;Boolean;false | true;;;Tool*.B
+requireComposer;requireComposer?;Boolean;false | true;;;Tool*.C
+requireSyntax;requireSyntax?;Boolean;false | true;;;Base#.Base
+syntax#;Which syntax?;Enumeration;syntax;1:1;;Base#.Base
+visitor#;Which visitor?;Enumeration;visitor;1:1;;Base#.Base

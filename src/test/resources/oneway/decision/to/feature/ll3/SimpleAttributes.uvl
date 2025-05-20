@@ -1,0 +1,7 @@
+features
+        STANDARD_MODEL_NAME
+                optional
+                        A
+                        B
+                        C
+

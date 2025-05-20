@@ -1,0 +1,23 @@
+features
+        eshop
+                mandatory
+                        catalogo
+                        pago
+                                or
+                                        tarjetacredito
+                                        transferencias
+                        seguridad
+                                alternative
+                                        alta
+                                        estandar
+                optional
+                        buscador
+                                mandatory
+                                        register
+                                optional
+                                        reportepublico
+
+constraints
+        alta => !reportepublico
+        buscador
+        tarjetacredito => alta

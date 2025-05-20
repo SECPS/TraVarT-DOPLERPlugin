@@ -1,0 +1,16 @@
+features
+        STANDARD_MODEL_NAME
+                optional
+                        String "A#String"
+                                optional
+                                        String "AA#String"
+                                        String "AB#String"
+                        Real "B#Number"
+                                optional
+                                        Real "BA#Number"
+                                        Real "BB#Number"
+                        C
+                                optional
+                                        CA
+                                        CB
+

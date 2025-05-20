@@ -1,0 +1,6 @@
+features
+	root
+		optional
+			A {key1 true, key2 42, key3 'Hello World'}
+			B {key1 false, key2 71, key3 'Welcome World'}
+			C {key1 true, key2 101, key3 'Good bye World'}

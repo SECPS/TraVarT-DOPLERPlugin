@@ -1,0 +1,27 @@
+namespace dm_DissModel
+
+features
+	dm_DissModel
+		mandatory
+			Gen_Planning1
+				alternative
+					Sequence
+					Heat
+			Gen_Planning2
+				alternative
+					Lot
+						optional
+							Gen_Plan_Product
+					Product
+					Gen_Plan_Analysis
+			Mat_Lines
+		optional
+			Gen_Watchdogs
+			Mat_Tracking
+			Cooling_L2
+				optional
+					Cooling_Segment
+			QA_C
+				optional
+					QA_A
+

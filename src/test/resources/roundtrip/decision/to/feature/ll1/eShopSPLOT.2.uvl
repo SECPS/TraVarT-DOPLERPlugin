@@ -1,0 +1,37 @@
+features
+        "eshop#"
+                alternative
+                        eshop
+                                mandatory
+                                        "catalogo#"
+                                                alternative
+                                                        catalogo
+                                        "pago#"
+                                                alternative
+                                                        pago
+                                                                mandatory
+                                                                        "pago*"
+                                                                                or
+                                                                                        tarjetacredito
+                                                                                        transferencias
+                                        "seguridad#"
+                                                alternative
+                                                        seguridad
+                                                                mandatory
+                                                                        "seguridad*"
+                                                                                alternative
+                                                                                        alta
+                                                                                        estandar
+                                optional
+                                        buscador
+                                                mandatory
+                                                        "register#"
+                                                                alternative
+                                                                        register
+                                                optional
+                                                        reportepublico
+
+constraints
+        alta => !reportepublico
+        buscador
+        tarjetacredito => alta

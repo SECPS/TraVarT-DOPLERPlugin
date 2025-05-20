@@ -1,0 +1,15 @@
+features
+        ASEJ1
+                mandatory
+                        Modes
+                                or
+                                        bottom
+                                        horizontal
+                                        top
+                                        vertical
+                        Strands
+                optional
+                        Thermal3D
+                        TopFeeding3D
+                        UI
+

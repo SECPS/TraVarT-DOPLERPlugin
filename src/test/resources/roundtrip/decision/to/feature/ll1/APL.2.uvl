@@ -1,0 +1,59 @@
+features
+        "APL#"
+                alternative
+                        APL
+                                mandatory
+                                        "mainAPL#"
+                                                alternative
+                                                        mainAPL
+                                                                mandatory
+                                                                        "Java#"
+                                                                                alternative
+                                                                                        Java
+                                                                                                mandatory
+                                                                                                        "mainJava#"
+                                                                                                                alternative
+                                                                                                                        mainJava
+                                                                                                                                mandatory
+                                                                                                                                        "bali#"
+                                                                                                                                                alternative
+                                                                                                                                                        bali
+                                                                                                                                        "jak2java#"
+                                                                                                                                                alternative
+                                                                                                                                                        jak2java
+                                                                                                                                optional
+                                                                                                                                        jedi
+                                                                                                                                        reform
+                                                                optional
+                                                                        Gui
+                                                                                mandatory
+                                                                                        "mainGUI#"
+                                                                                                alternative
+                                                                                                        mainGUI
+                                                                                                                optional
+                                                                                                                        guidsl
+                                                                                                                        me
+                                                                                                                        mmatrix
+                                                                                                                        web
+                                                                        Xml
+                                                                                mandatory
+                                                                                        "Xml*"
+                                                                                                alternative
+                                                                                                        xak
+                                                                                                        xc
+                                                                        aj
+                                                                                mandatory
+                                                                                        "jak2aj#"
+                                                                                                alternative
+                                                                                                        jak2aj
+                                                                        bc
+                                                                                mandatory
+                                                                                        "bcjak2java#"
+                                                                                                alternative
+                                                                                                        bcjak2java
+                                                                        cpp
+                                                                        drc
+
+constraints
+        bc => mmatrix
+        me => mmatrix

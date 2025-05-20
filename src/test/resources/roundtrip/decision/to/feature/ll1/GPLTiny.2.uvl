@@ -1,0 +1,23 @@
+features
+        "GraphLibrary#"
+                alternative
+                        GraphLibrary
+                                mandatory
+                                        "Edges#"
+                                                alternative
+                                                        Edges
+                                                                mandatory
+                                                                        "Edges*"
+                                                                                alternative
+                                                                                        Directed
+                                                                                        Undirected
+                                optional
+                                        Algorithms
+                                                mandatory
+                                                        "Algorithms*"
+                                                                or
+                                                                        Cycle
+                                                                        Number
+
+constraints
+        Cycle => Directed

@@ -1,0 +1,8 @@
+features
+        RootFeature
+                mandatory
+                        String A
+                        Real B
+                        Real C
+                        D
+

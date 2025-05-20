@@ -1,0 +1,37 @@
+features
+        Bali
+                mandatory
+                        Base
+                                mandatory
+                                        bali
+                                        collect
+                                        kernel
+                                        syntax
+                                        visitor
+                                optional
+                                        require
+                                        requireSyntax
+                        Tool
+                                alternative
+                                        A
+                                                mandatory
+                                                        bali2jak
+                                                optional
+                                                        requireBali2jak
+                                        B
+                                                mandatory
+                                                        bali2jcc
+                                                optional
+                                                        requireBali2jcc
+                                        C
+                                                mandatory
+                                                        composer
+                                                optional
+                                                        requireComposer
+                                        D
+                                                mandatory
+                                                        bali2layer
+                                                        bali2layerGUI
+                                                        bali2layerOptions
+                        codegen
+

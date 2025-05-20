@@ -1,0 +1,39 @@
+features
+        APL
+                mandatory
+                        mainAPL
+                                mandatory
+                                        Java
+                                                mandatory
+                                                        mainJava
+                                                                mandatory
+                                                                        bali
+                                                                        jak2java
+                                                                optional
+                                                                        jedi
+                                                                        reform
+                                optional
+                                        Gui
+                                                mandatory
+                                                        mainGUI
+                                                                optional
+                                                                        guidsl
+                                                                        me
+                                                                        mmatrix
+                                                                        web
+                                        Xml
+                                                alternative
+                                                        xak
+                                                        xc
+                                        aj
+                                                mandatory
+                                                        jak2aj
+                                        bc
+                                                mandatory
+                                                        bcjak2java
+                                        cpp
+                                        drc
+
+constraints
+        bc => mmatrix
+        me => mmatrix

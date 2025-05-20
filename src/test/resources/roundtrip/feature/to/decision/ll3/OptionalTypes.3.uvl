@@ -1,0 +1,16 @@
+features
+        RootFeature
+                optional
+                        String A
+                                optional
+                                        String AA
+                                        String AB
+                        Real B
+                                optional
+                                        Real BA
+                                        Real BB
+                        C
+                                optional
+                                        CA
+                                        CB
+
