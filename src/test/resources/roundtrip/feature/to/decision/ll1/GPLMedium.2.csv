@@ -11,8 +11,8 @@ HiddenWgt#;Which HiddenWgt?;Enumeration;HiddenWgt;1:1;;MainGpl#.MainGpl
 Implementation#;Which Implementation?;Enumeration;Implementation;1:1;;MainGpl#.MainGpl
 Implementation*;Which Implementation*?;Enumeration;OnlyVertices | WithEdges | WithNeighbors;1:1;;Implementation#.Implementation
 MainGpl#;Which MainGpl?;Enumeration;MainGpl;1:1;;GPL#.GPL
-Src;Src?;Boolean;false | true;;"if (Alg*.Number) {Src = true;}";MainGpl#.MainGpl
-Src*;Which Src*?;Enumeration;BFS | DFS;1:1;"if (Alg*.Cycle) {Src* = DFS;}";Src
+Src;Src?;Boolean;false | true;;"if (Alg*.Number) {Src = true;}if (Alg*.Connected) {Gtp* = Undirected;Src = true;}";MainGpl#.MainGpl
+Src*;Which Src*?;Enumeration;BFS | DFS;1:1;"if (Alg*.StrongC) {Gtp* = Directed;Src* = DFS;}if (Alg*.Cycle) {Src* = DFS;}";Src
 StronglyConnected#;Which StronglyConnected?;Enumeration;StronglyConnected;1:1;;Alg*.StrongC
 TestProg#;Which TestProg?;Enumeration;TestProg;1:1;;MainGpl#.MainGpl
 Transpose#;Which Transpose?;Enumeration;Transpose;1:1;;Alg*.StrongC
@@ -21,4 +21,4 @@ WeightedOnlyVertices;WeightedOnlyVertices?;Boolean;false | true;;;WeightOptions#
 WeightedWithEdges;WeightedWithEdges?;Boolean;false | true;;;WeightOptions#.WeightOptions
 WeightedWithNeighbors;WeightedWithNeighbors?;Boolean;false | true;;;WeightOptions#.WeightOptions
 Wgt#;Which Wgt?;Enumeration;Wgt;1:1;;MainGpl#.MainGpl
-Wgt*;Which Wgt*?;Enumeration;Unweighted | Weighted;1:1;"if (!(WeightedOnlyVertices || !Implementation*.OnlyVertices)) {disAllow(Wgt*.Weighted);}if (!(WeightedWithNeighbors || !Implementation*.WithNeighbors)) {disAllow(Wgt*.Weighted);}if (!(WeightedWithEdges || !Implementation*.WithEdges)) {disAllow(Wgt*.Weighted);}";Wgt#.Wgt
+Wgt*;Which Wgt*?;Enumeration;Unweighted | Weighted;1:1;"if (!(!Alg*.MSTKruskal && !Alg*.MSTPrim)) {Gtp* = Undirected;Wgt* = Weighted;}if (!(WeightedOnlyVertices || !Implementation*.OnlyVertices)) {disAllow(Wgt*.Weighted);}if (!(WeightedWithNeighbors || !Implementation*.WithNeighbors)) {disAllow(Wgt*.Weighted);}if (!(WeightedWithEdges || !Implementation*.WithEdges)) {disAllow(Wgt*.Weighted);}";Wgt#.Wgt

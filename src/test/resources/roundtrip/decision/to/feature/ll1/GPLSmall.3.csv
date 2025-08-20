@@ -9,9 +9,9 @@ Gtp#;Which Gtp#?;Enumeration;Gtp;1:1;;MainGpl#.MainGpl
 Gtp*;Which Gtp*?;Enumeration;Directed | Undirected;1:1;"if (!(!Alg*.MSTKruskal && !Alg*.MSTPrim)) {Gtp* = Undirected;Wgt* = Weighted;}if (Alg*.Connected) {Gtp* = Undirected;Src = true;}if (Alg*.ShortestPath) {Gtp* = Directed;Wgt* = Weighted;}if (Alg*.StrongConnect) {Gtp* = Directed;Src* = DFS;}";Gtp#.Gtp
 MainGpl#;Which MainGpl#?;Enumeration;MainGpl;1:1;;GPL#.GPL
 Prog#;Which Prog#?;Enumeration;Prog;1:1;;DriverProg#.DriverProg
-Src;Src?;Boolean;false | true;;"if (Alg*.Number) {Src = true;}";MainGpl#.MainGpl
-Src*;Which Src*?;Enumeration;BFS | DFS;1:1;"if (Alg*.Cycle) {Src* = DFS;}";Src
+Src;Src?;Boolean;false | true;;"if (Alg*.Connected) {Gtp* = Undirected;Src = true;}if (Alg*.Number) {Src = true;}";MainGpl#.MainGpl
+Src*;Which Src*?;Enumeration;BFS | DFS;1:1;"if (Alg*.Cycle) {Src* = DFS;}if (Alg*.StrongConnect) {Gtp* = Directed;Src* = DFS;}";Src
 StronglyConnected#;Which StronglyConnected#?;Enumeration;StronglyConnected;1:1;;Alg*.StrongConnect
 Transpose#;Which Transpose#?;Enumeration;Transpose;1:1;;Alg*.StrongConnect
 Wgt#;Which Wgt#?;Enumeration;Wgt;1:1;;MainGpl#.MainGpl
-Wgt*;Which Wgt*?;Enumeration;Unweighted | Weighted;1:1;;Wgt#.Wgt
+Wgt*;Which Wgt*?;Enumeration;Unweighted | Weighted;1:1;"if (!(!Alg*.MSTKruskal && !Alg*.MSTPrim)) {Gtp* = Undirected;Wgt* = Weighted;}if (Alg*.ShortestPath) {Gtp* = Directed;Wgt* = Weighted;}";Wgt#.Wgt

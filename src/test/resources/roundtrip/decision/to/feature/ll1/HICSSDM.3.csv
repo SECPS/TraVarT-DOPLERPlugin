@@ -9,7 +9,7 @@ CV_Documents;CV_Documents?;Boolean;false | true;;"if (CV*.Document_Management) {
 CV_Documents*;Which CV_Documents*?;Enumeration;archive | import_external | read_existing | scan_new;1:4;;CV_Documents
 HICSSDM#;Which HICSSDM#?;Enumeration;HICSSDM;1:1;;true
 SV#;Which SV#?;Enumeration;SV;1:1;;HICSSDM#.HICSSDM
-SV*;Which SV*?;Enumeration;Particular_Packages | Solution;1:1;"if (CV) {SV* = Particular_Packages;}if (SV_Particular_Package) {SV* = Particular_Packages;}if (SV_Solution) {SV* = Solution;}";SV#.SV
+SV*;Which SV*?;Enumeration;Particular_Packages | Solution;1:1;"if (CV) {SV* = Particular_Packages;}if (CV_Claims) {CV* = Claims_Management;SV* = Particular_Packages;}if (CV_Customer) {CV* = Customer_Management;SV* = Particular_Packages;}if (CV_Documents) {CV* = Document_Management;SV* = Particular_Packages;}if (SV_Particular_Package) {SV* = Particular_Packages;}if (SV_Solution) {SV* = Solution;}";SV#.SV
 SV_Particular_Package;SV_Particular_Package?;Boolean;false | true;;;HICSSDM#.HICSSDM
 SV_Particular_Package*;Which SV_Particular_Package*?;Enumeration;Docs | Else | Label_Printing | Organizer | Standard_Letter;1:5;;SV_Particular_Package
 SV_Solution;SV_Solution?;Boolean;false | true;;;HICSSDM#.HICSSDM
