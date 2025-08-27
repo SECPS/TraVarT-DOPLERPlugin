@@ -16,7 +16,7 @@ ApplyForLoanOnline#;Which ApplyForLoanOnline#?;Enumeration;ApplyForLoanOnline;1:
 ApplyInterestOnOutstandingAmount#;Which ApplyInterestOnOutstandingAmount#?;Enumeration;ApplyInterestOnOutstandingAmount;1:1;;CreditCards
 ApplyLateFees;ApplyLateFees?;Boolean;false | true;;;CreditCards
 ApplyProcessingFees;ApplyProcessingFees?;Boolean;false | true;;;CreditCards
-AssetVerification;AssetVerification?;Boolean;false | true;;"if (LoanType*.GoldLoan) {AssetVerification = true;}if (LoanType*.HomeLoan) {AssetVerification = true;}if (LoanType*.LoanAgainstFD) {AssetVerification = true;}if (LoanType*.LoanAgainstProperty) {AssetVerification = true;}";Loan
+AssetVerification;AssetVerification?;Boolean;false | true;;;Loan
 AutoATMPinForDebitCard;AutoATMPinForDebitCard?;Boolean;false | true;;;CoreBanking#.CoreBanking
 BankEmployeeLogin#;Which BankEmployeeLogin#?;Enumeration;BankEmployeeLogin;1:1;;CoreBanking#.CoreBanking
 BankingMode#;Which BankingMode#?;Enumeration;BankingMode;1:1;;CoreBanking#.CoreBanking
@@ -87,7 +87,7 @@ LoanRepayment#;Which LoanRepayment#?;Enumeration;LoanRepayment;1:1;;Loan
 LoanRepaymentEMI;LoanRepaymentEMI?;Boolean;false | true;;;LoanRepayment#.LoanRepayment
 LoanRepaymentForecloser;LoanRepaymentForecloser?;Boolean;false | true;;;LoanRepayment#.LoanRepayment
 LoanType#;Which LoanType#?;Enumeration;LoanType;1:1;;Loan
-LoanType*;Which LoanType*?;Enumeration;GoldLoan | HomeLoan | LoanAgainstFD | LoanAgainstProperty | Personal | VehicleLoan;1:1;;LoanType#.LoanType
+LoanType*;Which LoanType*?;Enumeration;GoldLoan | HomeLoan | LoanAgainstFD | LoanAgainstProperty | Personal | VehicleLoan;1:1;"if (LoanType*.GoldLoan) {AssetVerification = true;}if (LoanType*.HomeLoan) {AssetVerification = true;}if (LoanType*.LoanAgainstFD) {AssetVerification = true;}if (LoanType*.LoanAgainstProperty) {AssetVerification = true;}";LoanType#.LoanType
 MapChequeBookToAccount;MapChequeBookToAccount?;Boolean;false | true;;;CoreBanking#.CoreBanking
 MapDebitCardToAccount;MapDebitCardToAccount?;Boolean;false | true;;;CoreBanking#.CoreBanking
 MarkDefaulter#;Which MarkDefaulter#?;Enumeration;MarkDefaulter;1:1;;CreditCards

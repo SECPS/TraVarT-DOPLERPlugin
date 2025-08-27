@@ -1,24 +1,24 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
 Changeover;Changeover?;Boolean;false | true;;;true
-Changeover1;Changeover1?;Boolean;false | true;;;Changeover
-Changeover2;Changeover2?;Boolean;false | true;;;Changeover
+Changeover1;Changeover1?;Boolean;false | true;;"if (Changeover1) {Rocker1_1 = true;}";Changeover
+Changeover2;Changeover2?;Boolean;false | true;;"if (Changeover2) {Rocker1_2 = true;}if (Changeover2) {Rocker1_1 = true;}";Changeover
 Crossover;Crossover?;Boolean;false | true;;;true
 Neutral;Neutral?;Boolean;false | true;;;true
 Neutral1_1;Neutral1_1?;Boolean;false | true;;;Neutral
 Neutral1_2;Neutral1_2?;Boolean;false | true;;;Neutral
-Off;Off?;Boolean;false | true;;;true
-Off1_1;Off1_1?;Boolean;false | true;;;Off
-Off1_2;Off1_2?;Boolean;false | true;;;Off
+Off;Off?;Boolean;false | true;;"if (Off) {Rocker = true;}";true
+Off1_1;Off1_1?;Boolean;false | true;;"if (Off1_1) {Rocker1_1 = true;}";Off
+Off1_2;Off1_2?;Boolean;false | true;;"if (Off1_2) {Rocker1_2 = true;}";Off
 Off1_3;Off1_3?;Boolean;false | true;;;Off
 Off1_4;Off1_4?;Boolean;false | true;;;Off
-Pole;Pole?;Boolean;false | true;;"if (Rocker) {Pole = true;}";true
-Pole1_1;Pole1_1?;Boolean;false | true;;"if (Rocker1_1) {Pole1_1 = true;}";Pole
+Pole;Pole?;Boolean;false | true;;;true
+Pole1_1;Pole1_1?;Boolean;false | true;;;Pole
 Pole1_2;Pole1_2?;Boolean;false | true;;;Pole
-Pole2_1;Pole2_1?;Boolean;false | true;;"if (Rocker1_2) {Pole2_1 = true;}if (Rocker2_1) {Pole2_1 = true;}";Pole
-Pole2_2;Pole2_2?;Boolean;false | true;;"if (Rocker2_2) {Pole2_2 = true;}";Pole
-Rocker;Rocker?;Boolean;false | true;;"if (Off) {Rocker = true;}";true
-Rocker1_1;Rocker1_1?;Boolean;false | true;;"if (Off1_1) {Rocker1_1 = true;}if (Changeover1) {Rocker1_1 = true;}if (Changeover2) {Rocker1_1 = true;}";Rocker
-Rocker1_2;Rocker1_2?;Boolean;false | true;;"if (Off1_2) {Rocker1_2 = true;}if (Changeover2) {Rocker1_2 = true;}";Rocker
-Rocker2_1;Rocker2_1?;Boolean;false | true;;;Rocker
-Rocker2_2;Rocker2_2?;Boolean;false | true;;;Rocker
+Pole2_1;Pole2_1?;Boolean;false | true;;;Pole
+Pole2_2;Pole2_2?;Boolean;false | true;;;Pole
+Rocker;Rocker?;Boolean;false | true;;"if (Rocker) {Pole = true;}";true
+Rocker1_1;Rocker1_1?;Boolean;false | true;;"if (Rocker1_1) {Pole1_1 = true;}";Rocker
+Rocker1_2;Rocker1_2?;Boolean;false | true;;"if (Rocker1_2) {Pole2_1 = true;}";Rocker
+Rocker2_1;Rocker2_1?;Boolean;false | true;;"if (Rocker2_1) {Pole2_1 = true;}";Rocker
+Rocker2_2;Rocker2_2?;Boolean;false | true;;"if (Rocker2_2) {Pole2_2 = true;}";Rocker
 Series;Series?;Boolean;false | true;;;true

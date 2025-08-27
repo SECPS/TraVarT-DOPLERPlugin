@@ -5,7 +5,7 @@ Allow_backorders303;Allow_backorders303?;Boolean;false | true;;;Inventory_tracki
 Appointment_scheduling237;Appointment_scheduling237?;Boolean;false | true;;;sg_Fulfillment211212.Services_fulfillment
 Associated_assets;Associated_assets?;Boolean;false | true;;;true
 Automatic;Automatic?;Boolean;false | true;;;Procurement
-Availability;Availability?;Boolean;false | true;;;true
+Availability;Availability?;Boolean;false | true;;"if (Availability) {Inventory_tracking = true;}";true
 Billing144;Billing144?;Boolean;false | true;;;sg_Type137138.Rule_based_taxation140
 Billing_address27;Billing_address27?;Boolean;false | true;;;Registration
 Browsing92;Browsing92?;Boolean;false | true;;;true
@@ -13,9 +13,9 @@ Campaigns298;Campaigns298?;Boolean;false | true;;;Targeting239
 Carrier_selection130;Carrier_selection130?;Boolean;false | true;;;Shipping_options
 Cart_save_after_session120;Cart_save_after_session120?;Boolean;false | true;;;true
 Cart_summary_page119;Cart_summary_page119?;Boolean;false | true;;;true
-Categories;Categories?;Boolean;false | true;;"if (Category_page) {Categories = true;}";true
+Categories;Categories?;Boolean;false | true;;;true
 Categories84;Categories84?;Boolean;false | true;;;Categories
-Category_page;Category_page?;Boolean;false | true;;;Browsing92
+Category_page;Category_page?;Boolean;false | true;;"if (Category_page) {Categories = true;}";Browsing92
 Complex_product_configuration77;Complex_product_configuration77?;Boolean;false | true;;;Product_variants
 Content_approval324;Content_approval324?;Boolean;false | true;;;true
 Context_sensitive_ads264;Context_sensitive_ads264?;Boolean;false | true;;;sg_Targeting_mechanisms251252.Advertisements253
@@ -29,14 +29,14 @@ Customer_segments276;Customer_segments276?;Boolean;false | true;;;sg_Targeting_m
 Customer_service;Customer_service?;Boolean;false | true;;;true
 Demographics34;Demographics34?;Boolean;false | true;;;Registration
 Detailed_information;Detailed_information?;Boolean;false | true;;;true
-E_mail_wish_list;E_mail_wish_list?;Boolean;false | true;;;Wish_list
+E_mail_wish_list;E_mail_wish_list?;Boolean;false | true;;"if (E_mail_wish_list) {Registration = true;}";Wish_list
 Enable_profile_update_on_checkout_126;Enable_profile_update_on_checkout_126?;Boolean;false | true;;;Quick_checkout
 External_systems_integration313;External_systems_integration313?;Boolean;false | true;;;true
 Fraud_detection171;Fraud_detection171?;Boolean;false | true;;;true
 Gift_options131;Gift_options131?;Boolean;false | true;;;Shipping_options
 Home_page;Home_page?;Boolean;false | true;;;true
 Index_page95;Index_page95?;Boolean;false | true;;;Browsing92
-Inventory_tracking;Inventory_tracking?;Boolean;false | true;;"if (Availability) {Inventory_tracking = true;}";true
+Inventory_tracking;Inventory_tracking?;Boolean;false | true;;;true
 Multi_level85;Multi_level85?;Boolean;false | true;;;Categories84
 Multiple_billing_addresses28;Multiple_billing_addresses28?;Boolean;false | true;;;Billing_address27
 Multiple_catalogs87;Multiple_catalogs87?;Boolean;false | true;;;true
@@ -45,20 +45,20 @@ Multiple_shipments132;Multiple_shipments132?;Boolean;false | true;;;Shipping_opt
 Multiple_shipping_addresses26;Multiple_shipping_addresses26?;Boolean;false | true;;;Shipping_address
 Multiple_wish_lists109;Multiple_wish_lists109?;Boolean;false | true;;;Wish_list
 Payment_gateways172;Payment_gateways172?;Boolean;false | true;;;true
-Permissions;Permissions?;Boolean;false | true;;;Wish_list
+Permissions;Permissions?;Boolean;false | true;;"if (Permissions) {Registration = true;}";Wish_list
 Personal_Information40;Personal_Information40?;Boolean;false | true;;;Registration
 Personalized;Personalized?;Boolean;false | true;;;sg_Display_and_notification291292.E_mails295
 Personalized_views105;Personalized_views105?;Boolean;false | true;;;Custom_views103
-Preferences;Preferences?;Boolean;false | true;;"if (sg_Targeting_criteria240241.Customer_preferences) {Preferences = true;}";Registration
+Preferences;Preferences?;Boolean;false | true;;;Registration
 Procurement;Procurement?;Boolean;false | true;;;true
 Product_variants;Product_variants?;Boolean;false | true;;;true
 Purchase_value_scope269;Purchase_value_scope269?;Boolean;false | true;;;sg_Targeting_mechanisms251252.Discounts
 Quality_of_service_selection129;Quality_of_service_selection129?;Boolean;false | true;;;Shipping_options
 Question_and_feedback_tracking190;Question_and_feedback_tracking190?;Boolean;false | true;;;sg_Customer_service188.Question_and_feedback_forms189
-Quick_checkout;Quick_checkout?;Boolean;false | true;;;sg_Checkout_type122123.Registered_checkout
-Quick_checkout_profile;Quick_checkout_profile?;Boolean;false | true;;"if (Quick_checkout) {Quick_checkout_profile = true;}";Registration
+Quick_checkout;Quick_checkout?;Boolean;false | true;;"if (Quick_checkout) {Quick_checkout_profile = true;}";sg_Checkout_type122123.Registered_checkout
+Quick_checkout_profile;Quick_checkout_profile?;Boolean;false | true;;;Registration
 Rate_factors220;Rate_factors220?;Boolean;false | true;;;sg_shipping216.Custom_shipping_method217
-Registration;Registration?;Boolean;false | true;;"if (sg_Checkout_type122123.Registered_checkout) {Registration = true;}if (E_mail_wish_list) {Registration = true;}if (Permissions) {Registration = true;}";true
+Registration;Registration?;Boolean;false | true;;"if (!Registration) {Wish_list_save_after_session = true;}";true
 Reminders46;Reminders46?;Boolean;false | true;;;Registration
 Reporting_and_analysis;Reporting_and_analysis?;Boolean;false | true;;;true
 Request_order_hardcopy198;Request_order_hardcopy198?;Boolean;false | true;;;sg_Customer_service188.Order_status_review192
@@ -70,30 +70,30 @@ Seasonal_product_views104;Seasonal_product_views104?;Boolean;false | true;;;Cust
 Security_information33;Security_information33?;Boolean;false | true;;;Credit_card_information29
 Shipping_address;Shipping_address?;Boolean;false | true;;;Registration
 Shipping_address277;Shipping_address277?;Boolean;false | true;;;sg_Targeting_mechanisms251252.Discounts
-Shipping_options;Shipping_options?;Boolean;false | true;;;true
-Size;Size?;Boolean;false | true;;"if (sg_Product_type53.Physical_goods) {Size = true;}if (sg_Product_type53.Eletronic_goods) {Size = true;}";true
+Shipping_options;Shipping_options?;Boolean;false | true;;"if (Shipping_options) {sg_Fulfillment211212 = Physical_goods_fulfillment;}";true
+Size;Size?;Boolean;false | true;;;true
 Sorting_filters96;Sorting_filters96?;Boolean;false | true;;;Index_page95
 Targeting239;Targeting239?;Boolean;false | true;;;true
-User_behaviour_tracking;User_behaviour_tracking?;Boolean;false | true;;"if (User_behaviour_tracking_information) {User_behaviour_tracking = true;}";true
-User_behaviour_tracking_information;User_behaviour_tracking_information?;Boolean;false | true;;;Registration
+User_behaviour_tracking;User_behaviour_tracking?;Boolean;false | true;;;true
+User_behaviour_tracking_information;User_behaviour_tracking_information?;Boolean;false | true;;"if (User_behaviour_tracking_information) {User_behaviour_tracking = true;}";Registration
 Warranty_information;Warranty_information?;Boolean;false | true;;;true
-Weight;Weight?;Boolean;false | true;;"if (sg_Product_type53.Physical_goods) {Weight = true;}";true
-Wish_list;Wish_list?;Boolean;false | true;;"if (sg_Targeting_criteria240241.Wish_list_content) {Wish_list = true;}";true
-Wish_list_save_after_session;Wish_list_save_after_session?;Boolean;false | true;;"if (Wish_list) {Wish_list_save_after_session = true;}if (!Registration) {Wish_list_save_after_session = true;}";Wish_list
+Weight;Weight?;Boolean;false | true;;;true
+Wish_list;Wish_list?;Boolean;false | true;;"if (Wish_list) {Wish_list_save_after_session = true;}";true
+Wish_list_save_after_session;Wish_list_save_after_session?;Boolean;false | true;;;Wish_list
 sg_Advertisement_sources258259;Which sg_Advertisement_sources258259?;Enumeration;House_advertisements260 | Paid_advertisements261;1:2;;sg_Targeting_mechanisms251252.Advertisements253
 sg_Advertisement_types254255;Which sg_Advertisement_types254255?;Enumeration;Banner_ads256 | Pop_up_ads257;1:2;;sg_Targeting_mechanisms251252.Advertisements253
 sg_Ammount_specification150151;Which sg_Ammount_specification150151?;Enumeration;Percentage153 | Surcharge152;1:2;;sg_Taxation_options134135.Custom_taxation136
 sg_Associated_assets62;Which sg_Associated_assets62?;Enumeration;Documents63 | Media_files64;1:2;;Associated_assets
 sg_Award270271;Which sg_Award270271?;Enumeration;Fixed_discount273 | Free_item274 | Percentage_discount272;1:3;;sg_Targeting_mechanisms251252.Discounts
 sg_Behaviour_tracked204205;Which sg_Behaviour_tracked204205?;Enumeration;External_referring_pages | Locally_visited_pages | Previous_purchases;1:3;"if (!(sg_Behaviour_tracked204205.External_referring_pages || !sg_Targeting_criteria240241.Previously_visited_pages)) {sg_Behaviour_tracked204205 = Locally_visited_pages;}";User_behaviour_tracking
-sg_Checkout_type122123;Which sg_Checkout_type122123?;Enumeration;Guest_checkout127 | Registered_checkout;1:2;;true
-sg_Content_type910;Which sg_Content_type910?;Enumeration;Special_offers | Welcome_message11;1:2;;sg_Home_page6.Dynamic_content8
+sg_Checkout_type122123;Which sg_Checkout_type122123?;Enumeration;Guest_checkout127 | Registered_checkout;1:2;"if (sg_Checkout_type122123.Registered_checkout) {Registration = true;}if (sg_Checkout_type122123.Registered_checkout) {sg_Registration_enforcement19 = Register_to_buy;}";true
+sg_Content_type910;Which sg_Content_type910?;Enumeration;Special_offers | Welcome_message11;1:2;"if (sg_Content_type910.Special_offers) {sg_Targeting_mechanisms251252 = Discounts;}";sg_Home_page6.Dynamic_content8
 sg_Customer_service188;Which sg_Customer_service188?;Enumeration;Order_status_review192 | Product_returns191 | Question_and_feedback_forms189 | Shipment_status_tracking_199;1:4;;Customer_service
 sg_Demographics3435;Which sg_Demographics3435?;Enumeration;Age36 | Custom_Demographic_field39 | Education38 | Income37;1:4;;Demographics34
 sg_Display_and_notification291292;Which sg_Display_and_notification291292?;Enumeration;Assignment_to_page_types_for_display293 | E_mails295 | Product_flagging294;1:3;;Targeting239
 sg_External_systems_integration313314;Which sg_External_systems_integration313314?;Enumeration;External_distributor_system318 | Fulfillment_system | Inventory_management_system316 | Procurement_system;1:4;;External_systems_integration313
 sg_Filtering_criteria193194;Which sg_Filtering_criteria193194?;Enumeration;Order_date196 | Order_number195 | Order_status197;1:3;;sg_Customer_service188.Order_status_review192
-sg_Fulfillment211212;Which sg_Fulfillment211212?;Enumeration;Eletronic_goods_fulfillment | Physical_goods_fulfillment | Services_fulfillment;1:3;"if (sg_Product_type53.Eletronic_goods) {sg_Fulfillment211212 = Eletronic_goods_fulfillment;}if (sg_Product_type53.Physical_goods) {sg_Fulfillment211212 = Physical_goods_fulfillment;}if (sg_Product_type53.Services) {sg_Fulfillment211212 = Services_fulfillment;}if (Shipping_options) {sg_Fulfillment211212 = Physical_goods_fulfillment;}";true
+sg_Fulfillment211212;Which sg_Fulfillment211212?;Enumeration;Eletronic_goods_fulfillment | Physical_goods_fulfillment | Services_fulfillment;1:3;;true
 sg_Graduation_by278279;Which sg_Graduation_by278279?;Enumeration;Purchase_value280 | Quantity281;1:2;;sg_Targeting_mechanisms251252.Discounts
 sg_Home_page6;Which sg_Home_page6?;Enumeration;Dynamic_content8 | Static_content_7;1:2;;Home_page
 sg_Image6667;Which sg_Image6667?;Enumeration;Different_perspectives72 | Gallery73 | Thumbnail68 | a2D_image69 | a360_degrees_image71 | a3D_image70;1:6;;sg_Media_files6465.Image66
@@ -103,17 +103,17 @@ sg_Payment_gateways172173;Which sg_Payment_gateways172173?;Enumeration;Authorize
 sg_Payment_types160161;Which sg_Payment_types160161?;Enumeration;COD162 | Credit_card163 | Custom_payment_type170 | Debit_card164 | Eletronic_cheque165 | Fax_mail_order166 | Gift_certificate168 | Phone_order169 | Purchase_order167;1:9;;true
 sg_Permissions111;Which sg_Permissions111?;Enumeration;Private_access114 | Public_access112 | Restricted_access113;1:3;;Permissions
 sg_Preferences42;Which sg_Preferences42?;Enumeration;Language45 | List_size44 | Site_layout43;1:3;;Preferences
-sg_Product_type53;Which sg_Product_type53?;Enumeration;Eletronic_goods | Physical_goods | Services;1:3;;true
+sg_Product_type53;Which sg_Product_type53?;Enumeration;Eletronic_goods | Physical_goods | Services;1:3;"if (sg_Product_type53.Eletronic_goods) {sg_Fulfillment211212 = Eletronic_goods_fulfillment;}if (sg_Product_type53.Physical_goods) {sg_Fulfillment211212 = Physical_goods_fulfillment;}if (sg_Product_type53.Services) {sg_Fulfillment211212 = Services_fulfillment;}if (sg_Product_type53.Physical_goods) {Size = true;}if (sg_Product_type53.Eletronic_goods) {Size = true;}if (sg_Product_type53.Physical_goods) {Weight = true;}";true
 sg_Rate_factors220221;Which sg_Rate_factors220221?;Enumeration;Order_total223 | Product_classification225 | Quantity_purchased222 | Weight224;1:4;;Rate_factors220
-sg_Registration_enforcement19;Which sg_Registration_enforcement19?;Enumeration;None22 | Register_to_browse20 | Register_to_buy;1:3;"if (sg_Checkout_type122123.Registered_checkout) {sg_Registration_enforcement19 = Register_to_buy;}";Registration
+sg_Registration_enforcement19;Which sg_Registration_enforcement19?;Enumeration;None22 | Register_to_browse20 | Register_to_buy;1:3;;Registration
 sg_Resolution145146;Which sg_Resolution145146?;Enumeration;City149 | Country147 | Region148;1:3;;Resolution145
 sg_Searching8889;Which sg_Searching8889?;Enumeration;Advanced_search91 | Basic_search90;1:2;;Searching88
 sg_Sell_strategies284285;Which sg_Sell_strategies284285?;Enumeration;Cross_selling289 | Product_kitting286 | Up_selling287;1:3;;sg_Targeting_mechanisms251252.Sell_strategies284
 sg_Shipment_status_tracking_199200;Which sg_Shipment_status_tracking_199200?;Enumeration;Internal_tracking201 | Partner_tracking202;1:2;;sg_Customer_service188.Shipment_status_tracking_199
 sg_Shipping_gateways226227;Which sg_Shipping_gateways226227?;Enumeration;Canada_Post231 | Custom_shipping_gateway232 | FedEX228 | UPS229 | USPS230;1:5;;sg_shipping216.Shipping_gateways226
 sg_Sorting_filters9697;Which sg_Sorting_filters9697?;Enumeration;Custom_filter102 | Manufacturer_name101 | Price98 | Price_Quality_ratio_100 | Quality99;1:5;;Sorting_filters96
-sg_Targeting_criteria240241;Which sg_Targeting_criteria240241?;Enumeration;Custom_target_criteria250 | Customer_preferences | Date_and_time249 | Demographics244 | Personal_information243 | Previously_visited_pages | Shopping_cart_content246 | Wish_list_content | targeting_criteria_previous_purchases;1:9;;Targeting239
-sg_Targeting_mechanisms251252;Which sg_Targeting_mechanisms251252?;Enumeration;Advertisements253 | Discounts | Sell_strategies284;1:3;"if (sg_Content_type910.Special_offers) {sg_Targeting_mechanisms251252 = Discounts;}";Targeting239
+sg_Targeting_criteria240241;Which sg_Targeting_criteria240241?;Enumeration;Custom_target_criteria250 | Customer_preferences | Date_and_time249 | Demographics244 | Personal_information243 | Previously_visited_pages | Shopping_cart_content246 | Wish_list_content | targeting_criteria_previous_purchases;1:9;"if (sg_Targeting_criteria240241.Customer_preferences) {Preferences = true;}if (sg_Targeting_criteria240241.Wish_list_content) {Wish_list = true;}if (!(sg_Behaviour_tracked204205.External_referring_pages || !sg_Targeting_criteria240241.Previously_visited_pages)) {sg_Behaviour_tracked204205 = Locally_visited_pages;}";Targeting239
+sg_Targeting_mechanisms251252;Which sg_Targeting_mechanisms251252?;Enumeration;Advertisements253 | Discounts | Sell_strategies284;1:3;;Targeting239
 sg_Tax_gateways154155;Which sg_Tax_gateways154155?;Enumeration;CertiTAX156 | Custom_tax_gateway158 | CyberSource157;1:3;;sg_Taxation_options134135.Tax_gateways154
 sg_Taxation_options134135;Which sg_Taxation_options134135?;Enumeration;Custom_taxation136 | Tax_gateways154;1:2;;true
 sg_Type137138;Which sg_Type137138?;Enumeration;Fixed_rate_taxation139 | Rule_based_taxation140;1:2;;sg_Taxation_options134135.Custom_taxation136

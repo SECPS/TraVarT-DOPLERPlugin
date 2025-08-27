@@ -3,8 +3,8 @@ buscador;buscador?;Boolean;false | true;;"if (true) {buscador = true;}";eshop#.e
 catalogo#;Which catalogo?;Enumeration;catalogo;1:1;;eshop#.eshop
 eshop#;Which eshop?;Enumeration;eshop;1:1;;true
 pago#;Which pago?;Enumeration;pago;1:1;;eshop#.eshop
-pago*;Which pago*?;Enumeration;tarjetacredito | transferencias;1:2;;pago#.pago
+pago*;Which pago*?;Enumeration;tarjetacredito | transferencias;1:2;"if (pago*.tarjetacredito) {seguridad* = alta;}";pago#.pago
 register#;Which register?;Enumeration;register;1:1;;buscador
-reportepublico;reportepublico?;Boolean;false | true;;"if (seguridad*.alta) {reportepublico = false;}";buscador
+reportepublico;reportepublico?;Boolean;false | true;;;buscador
 seguridad#;Which seguridad?;Enumeration;seguridad;1:1;;eshop#.eshop
-seguridad*;Which seguridad*?;Enumeration;alta | estandar;1:1;"if (pago*.tarjetacredito) {seguridad* = alta;}";seguridad#.seguridad
+seguridad*;Which seguridad*?;Enumeration;alta | estandar;1:1;"if (seguridad*.alta) {reportepublico = false;}";seguridad#.seguridad

@@ -1,6 +1,6 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
 Algorithms;Algorithms?;Boolean;false | true;;;GraphLibrary#.GraphLibrary
-Algorithms*;Which Algorithms*?;Enumeration;Cycle | Number;1:2;;Algorithms
+Algorithms*;Which Algorithms*?;Enumeration;Cycle | Number;1:2;"if (Algorithms*.Cycle) {Edges* = Directed;}";Algorithms
 Edges#;Which Edges#?;Enumeration;Edges;1:1;;GraphLibrary#.GraphLibrary
-Edges*;Which Edges*?;Enumeration;Directed | Undirected;1:1;"if (Algorithms*.Cycle) {Edges* = Directed;}";Edges#.Edges
+Edges*;Which Edges*?;Enumeration;Directed | Undirected;1:1;;Edges#.Edges
 GraphLibrary#;Which GraphLibrary#?;Enumeration;GraphLibrary;1:1;;true

@@ -3,12 +3,12 @@ Gui;Gui?;Boolean;false | true;;;true
 Xml;Xml?;Boolean;false | true;;;true
 Xml*;Which Xml*?;Enumeration;xak | xc;1:1;;Xml
 aj;aj?;Boolean;false | true;;;true
-bc;bc?;Boolean;false | true;;;true
+bc;bc?;Boolean;false | true;;"if (bc) {mmatrix = true;}";true
 cpp;cpp?;Boolean;false | true;;;true
 drc;drc?;Boolean;false | true;;;true
 guidsl;guidsl?;Boolean;false | true;;;Gui
 jedi;jedi?;Boolean;false | true;;;true
-me;me?;Boolean;false | true;;;Gui
-mmatrix;mmatrix?;Boolean;false | true;;"if (bc) {mmatrix = true;}if (me) {mmatrix = true;}";Gui
+me;me?;Boolean;false | true;;"if (me) {mmatrix = true;}";Gui
+mmatrix;mmatrix?;Boolean;false | true;;;Gui
 reform;reform?;Boolean;false | true;;;true
 web;web?;Boolean;false | true;;;Gui

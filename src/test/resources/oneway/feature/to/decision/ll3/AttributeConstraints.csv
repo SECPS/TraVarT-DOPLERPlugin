@@ -1,11 +1,11 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-A;How much A?;Double;;;"if (!(A = B)) {A = 1.0;A = -1.0;}if (!((A = B) || (A > B))) {A = 1.0;A = -1.0;}if (!((A = B) || (A < B))) {A = 1.0;A = -1.0;}if (!(A < D)) {A = 1.0;A = -1.0;}if (!(E > A)) {A = 1.0;A = -1.0;}if (!(!!(A < B) || (D > E))) {A = 1.0;A = -1.0;}if (!(((C = 10.0) || (A = 10.0)) || (B = 10.0))) {A = 1.0;A = -1.0;}if (!(((A > E) && (E < A)) || (!!(A > E) && !!(E < A)))) {A = 1.0;A = -1.0;}if (!((C = 3.0) || (C = 4.0))) {A = 1.0;A = -1.0;}if (!(B = 2.0)) {A = 1.0;A = -1.0;}if (!(A = 1.0)) {A = 1.0;A = -1.0;}";ACheck
+A;How much A?;Double;;;"if (!(A = B)) {A = 1.0;A = -1.0;}if (!((A = B) || (A > B))) {A = 1.0;A = -1.0;}if (!((A = B) || (A < B))) {A = 1.0;A = -1.0;}if (!(A < D)) {A = 1.0;A = -1.0;}if (!(E > A)) {A = 1.0;A = -1.0;}if (!(!!(A < B) || (D > E))) {A = 1.0;A = -1.0;}if (!(((C = 10.0) || (A = 10.0)) || (B = 10.0))) {A = 1.0;A = -1.0;}if (!(((A > E) && (E < A)) || (!!(A > E) && !!(E < A)))) {A = 1.0;A = -1.0;}if (!(A = 1.0)) {A = 1.0;A = -1.0;}";ACheck
 ACheck;A?;Boolean;false | true;;;true
-B;How much B?;Double;;;;BCheck
+B;How much B?;Double;;;"if (!(A = B)) {A = 1.0;A = -1.0;}if (!((A = B) || (A > B))) {A = 1.0;A = -1.0;}if (!((A = B) || (A < B))) {A = 1.0;A = -1.0;}if (!(!!(A < B) || (D > E))) {A = 1.0;A = -1.0;}if (!(((C = 10.0) || (A = 10.0)) || (B = 10.0))) {A = 1.0;A = -1.0;}if (!(B = 2.0)) {A = 1.0;A = -1.0;}";BCheck
 BCheck;B?;Boolean;false | true;;;true
-C;How much C?;Double;;;;CCheck
+C;How much C?;Double;;;"if (!(((C = 10.0) || (A = 10.0)) || (B = 10.0))) {A = 1.0;A = -1.0;}if (!((C = 3.0) || (C = 4.0))) {A = 1.0;A = -1.0;}";CCheck
 CCheck;C?;Boolean;false | true;;;true
-D;How much D?;Double;;;;DCheck
+D;How much D?;Double;;;"if (!(A < D)) {A = 1.0;A = -1.0;}if (!(!!(A < B) || (D > E))) {A = 1.0;A = -1.0;}";DCheck
 DCheck;D?;Boolean;false | true;;;true
-E;How much E?;Double;;;;ECheck
+E;How much E?;Double;;;"if (!(E > A)) {A = 1.0;A = -1.0;}if (!(!!(A < B) || (D > E))) {A = 1.0;A = -1.0;}if (!(((A > E) && (E < A)) || (!!(A > E) && !!(E < A)))) {A = 1.0;A = -1.0;}";ECheck
 ECheck;E?;Boolean;false | true;;;true

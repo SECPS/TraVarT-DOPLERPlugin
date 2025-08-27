@@ -1,16 +1,16 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
 Alg#;Which Alg?;Enumeration;Alg;1:1;;MainGpl#.MainGpl
-Alg*;Which Alg*?;Enumeration;Connected | Cycle | MSTKruskal | MSTPrim | Number | ShortestPath | StrongConnect;1:7;"if (Alg*.MSTKruskal) {disAllow(Alg*.MSTPrim);}";Alg#.Alg
+Alg*;Which Alg*?;Enumeration;Connected | Cycle | MSTKruskal | MSTPrim | Number | ShortestPath | StrongConnect;1:7;"if (Alg*.Number) {Src = true;}if (Alg*.Connected) {Gtp* = Undirected;Src = true;}if (Alg*.StrongConnect) {Gtp* = Directed;Src* = DFS;}if (Alg*.Cycle) {Src* = DFS;}if (!(!Alg*.MSTKruskal && !Alg*.MSTPrim)) {Gtp* = Undirected;Wgt* = Weighted;}if (Alg*.MSTKruskal) {disAllow(Alg*.MSTPrim);}if (Alg*.ShortestPath) {Gtp* = Directed;Wgt* = Weighted;}";Alg#.Alg
 Benchmark#;Which Benchmark?;Enumeration;Benchmark;1:1;;DriverProg#.DriverProg
 Driver#;Which Driver?;Enumeration;Driver;1:1;;MainGpl#.MainGpl
 DriverProg#;Which DriverProg?;Enumeration;DriverProg;1:1;;Driver#.Driver
 GPL#;Which GPL?;Enumeration;GPL;1:1;;true
 Gtp#;Which Gtp?;Enumeration;Gtp;1:1;;MainGpl#.MainGpl
-Gtp*;Which Gtp*?;Enumeration;Directed | Undirected;1:1;"if (Alg*.Connected) {Gtp* = Undirected;Src = true;}if (Alg*.StrongConnect) {Gtp* = Directed;Src* = DFS;}if (!(!Alg*.MSTKruskal && !Alg*.MSTPrim)) {Gtp* = Undirected;Wgt* = Weighted;}if (Alg*.ShortestPath) {Gtp* = Directed;Wgt* = Weighted;}";Gtp#.Gtp
+Gtp*;Which Gtp*?;Enumeration;Directed | Undirected;1:1;;Gtp#.Gtp
 MainGpl#;Which MainGpl?;Enumeration;MainGpl;1:1;;GPL#.GPL
 Prog#;Which Prog?;Enumeration;Prog;1:1;;DriverProg#.DriverProg
-Src;Src?;Boolean;false | true;;"if (Alg*.Number) {Src = true;}";MainGpl#.MainGpl
-Src*;Which Src*?;Enumeration;BFS | DFS;1:1;"if (Alg*.Cycle) {Src* = DFS;}";Src
+Src;Src?;Boolean;false | true;;;MainGpl#.MainGpl
+Src*;Which Src*?;Enumeration;BFS | DFS;1:1;;Src
 StronglyConnected#;Which StronglyConnected?;Enumeration;StronglyConnected;1:1;;Alg*.StrongConnect
 Transpose#;Which Transpose?;Enumeration;Transpose;1:1;;Alg*.StrongConnect
 Wgt#;Which Wgt?;Enumeration;Wgt;1:1;;MainGpl#.MainGpl

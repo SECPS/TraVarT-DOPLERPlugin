@@ -5,7 +5,7 @@ Onlineshop#;Which Onlineshop?;Enumeration;Onlineshop;1:1;;true
 Payment#;Which Payment?;Enumeration;Payment;1:1;;Onlineshop#.Onlineshop
 Payment*;Which Payment*?;Enumeration;CreditCard | DebitCard;1:1;;Payment#.Payment
 ProductSelection#;Which ProductSelection?;Enumeration;ProductSelection;1:1;;Onlineshop#.Onlineshop
-Search;Search?;Boolean;false | true;;"if (!Sort) {Search = true;}";ProductSelection#.ProductSelection
-Sort;Sort?;Boolean;false | true;;;Catalog#.Catalog
+Search;Search?;Boolean;false | true;;"if (Search) {UserManagement* = Security;}";ProductSelection#.ProductSelection
+Sort;Sort?;Boolean;false | true;;"if (!Sort) {Search = true;}";Catalog#.Catalog
 UserManagement;UserManagement?;Boolean;false | true;;;Onlineshop#.Onlineshop
-UserManagement*;Which UserManagement*?;Enumeration;Orders | Payments | Security | Wishlist;1:4;"if (Search) {UserManagement* = Security;}if (UserManagement*.Payments) {disAllow(UserManagement*.Security);}if (UserManagement*.Security) {disAllow(UserManagement*.Payments);}";UserManagement
+UserManagement*;Which UserManagement*?;Enumeration;Orders | Payments | Security | Wishlist;1:4;"if (UserManagement*.Payments) {disAllow(UserManagement*.Security);}if (UserManagement*.Security) {disAllow(UserManagement*.Payments);}";UserManagement

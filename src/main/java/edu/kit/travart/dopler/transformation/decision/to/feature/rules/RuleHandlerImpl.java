@@ -55,12 +55,19 @@ public class RuleHandlerImpl implements RuleHandler {
         Optional<Constraint> left = conditionHandler.handleCondition(rule.getCondition());
         Constraint right = actionHandler.createRight(featureModel.getRootFeature(), rule.getActions());
 
+        Constraint newConstraint;
         if (left.isPresent()) {
             // constraint: 'left -> right'
-            featureModel.getOwnConstraints().add(new ImplicationConstraint(left.get(), right));
+            newConstraint = new ImplicationConstraint(left.get(), right);
         } else {
             // constraint: 'right'
-            featureModel.getOwnConstraints().add(right);
+            newConstraint = right;
+        }
+        // Check if constraint already exists before adding
+        boolean constraintExists = featureModel.getOwnConstraints().stream()
+            .anyMatch(existingConstraint -> existingConstraint.equals(newConstraint));
+        if (!constraintExists) {
+            featureModel.getOwnConstraints().add(newConstraint);
         }
     }
 }

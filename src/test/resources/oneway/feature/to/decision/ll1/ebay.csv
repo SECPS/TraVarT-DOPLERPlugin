@@ -3,9 +3,9 @@ Categories;Categories?;Boolean;false | true;;;true
 CommunityForum;CommunityForum?;Boolean;false | true;;;true
 Compatibility;Which Compatibility?;Enumeration;PC | Phone | Tablets;1:3;;true
 HelpAndSupport;Which HelpAndSupport?;Enumeration;Chat | Email | FAQ | Phone_2;1:4;;true
-Payment;Which Payment?;Enumeration;Cheque | CreditCard | Escrow | PayPal | PostalOrder;1:5;;true
+Payment;Which Payment?;Enumeration;Cheque | CreditCard | Escrow | PayPal | PostalOrder;1:5;"if (Payment.CreditCard) {Security = High;}";true
 Phone*;Which Phone*?;Enumeration;Android_1 | Apple_1 | Windows_1;1:3;;Compatibility.Phone
 Register;Which Register?;Enumeration;Private | Retailer;1:1;;true
-Security;Which Security?;Enumeration;High | Standard_1;1:1;"if (Payment.CreditCard) {Security = High;}";true
+Security;Which Security?;Enumeration;High | Standard_1;1:1;;true
 Shipment;Which Shipment?;Enumeration;Premium | Standard;1:2;;true
 Tablets*;Which Tablets*?;Enumeration;Android | Apple | Windows;1:3;;Compatibility.Tablets

@@ -1,12 +1,12 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
 AluminumBar#;Which AluminumBar#?;Enumeration;AluminumBar;1:1;;chesspieces_new_product#.chesspieces_new_product
 Base#;Which Base#?;Enumeration;Base;1:1;;chesspieces_new_product#.chesspieces_new_product
-Base*;Which Base*?;Enumeration;Base_onestrip | Base_twostrip;1:1;"if (Body*.Body_major) {Base* = Base_twostrip;}if (Body*.Body_minor) {Base* = Base_onestrip;}";Base#.Base
+Base*;Which Base*?;Enumeration;Base_onestrip | Base_twostrip;1:1;;Base#.Base
 Body#;Which Body#?;Enumeration;Body;1:1;;chesspieces_new_product#.chesspieces_new_product
-Body*;Which Body*?;Enumeration;Body_major | Body_minor;1:1;;Body#.Body
+Body*;Which Body*?;Enumeration;Body_major | Body_minor;1:1;"if (Body*.Body_major) {Base* = Base_twostrip;}if (Body*.Body_major) {Rod* = Rod_long;}if (Body*.Body_minor) {Base* = Base_onestrip;}if (Body*.Body_minor) {Rod* = Rod_short;}";Body#.Body
 Body_major*;Which Body_major*?;Enumeration;King_body | Queen_body;1:1;;Body*.Body_major
 Body_minor*;Which Body_minor*?;Enumeration;Bishop_body | Knight_body | Pawn_body | Rook_body;1:1;;Body*.Body_minor
 PLA#;Which PLA#?;Enumeration;PLA;1:1;;chesspieces_new_product#.chesspieces_new_product
 Rod#;Which Rod#?;Enumeration;Rod;1:1;;chesspieces_new_product#.chesspieces_new_product
-Rod*;Which Rod*?;Enumeration;Rod_long | Rod_short;1:1;"if (Body*.Body_major) {Rod* = Rod_long;}if (Body*.Body_minor) {Rod* = Rod_short;}";Rod#.Rod
+Rod*;Which Rod*?;Enumeration;Rod_long | Rod_short;1:1;;Rod#.Rod
 chesspieces_new_product#;Which chesspieces_new_product#?;Enumeration;chesspieces_new_product;1:1;;true

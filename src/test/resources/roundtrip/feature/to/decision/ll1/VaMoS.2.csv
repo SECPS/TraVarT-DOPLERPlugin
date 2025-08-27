@@ -1,9 +1,9 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
 Audio_Formats#;Which Audio_Formats?;Enumeration;Audio_Formats;1:1;;dm_VaMoS#.dm_VaMoS
-Audio_Formats*;Which Audio_Formats*?;Enumeration;MP3 | WAV;1:2;"if (MP3_Recording) {Audio_Formats* = MP3;}";Audio_Formats#.Audio_Formats
+Audio_Formats*;Which Audio_Formats*?;Enumeration;MP3 | WAV;1:2;;Audio_Formats#.Audio_Formats
 Camera;Camera?;Boolean;false | true;;;dm_VaMoS#.dm_VaMoS
 Camera_Resolution#;Which Camera_Resolution?;Enumeration;Camera_Resolution;1:1;;Camera
 Camera_Resolution*;Which Camera_Resolution*?;Enumeration;T21MP | T31MP | T5MP;1:1;;Camera_Resolution#.Camera_Resolution
 GSM_Protocol_1900;GSM_Protocol_1900?;Boolean;false | true;;;dm_VaMoS#.dm_VaMoS
-MP3_Recording;MP3_Recording?;Boolean;false | true;;;dm_VaMoS#.dm_VaMoS
+MP3_Recording;MP3_Recording?;Boolean;false | true;;"if (MP3_Recording) {Audio_Formats* = MP3;}";dm_VaMoS#.dm_VaMoS
 dm_VaMoS#;Which dm_VaMoS?;Enumeration;dm_VaMoS;1:1;;true

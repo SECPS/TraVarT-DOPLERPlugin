@@ -9,7 +9,7 @@ ApplyBalanceTransfer;ApplyBalanceTransfer?;Boolean;false | true;;;CreditCards
 ApplyChargesForCashWithdrawal;ApplyChargesForCashWithdrawal?;Boolean;false | true;;;CreditCards
 ApplyLateFees;ApplyLateFees?;Boolean;false | true;;;CreditCards
 ApplyProcessingFees;ApplyProcessingFees?;Boolean;false | true;;;CreditCards
-AssetVerification;AssetVerification?;Boolean;false | true;;"if (LoanType.LoanAgainstProperty) {AssetVerification = true;}if (LoanType.HomeLoan) {AssetVerification = true;}if (LoanType.LoanAgainstFD) {AssetVerification = true;}if (LoanType.GoldLoan) {AssetVerification = true;}";Loan
+AssetVerification;AssetVerification?;Boolean;false | true;;;Loan
 AutoATMPinForDebitCard;AutoATMPinForDebitCard?;Boolean;false | true;;;true
 BankingMode;Which BankingMode?;Enumeration;ATM | Bank | Online;1:1;;true
 CancelDemandDraft;CancelDemandDraft?;Boolean;false | true;;;true
@@ -58,7 +58,7 @@ LanguageSelection;LanguageSelection?;Boolean;false | true;;;true
 Loan;Loan?;Boolean;false | true;;;true
 LoanRepaymentEMI;LoanRepaymentEMI?;Boolean;false | true;;;Loan
 LoanRepaymentForecloser;LoanRepaymentForecloser?;Boolean;false | true;;;Loan
-LoanType;Which LoanType?;Enumeration;GoldLoan | HomeLoan | LoanAgainstFD | LoanAgainstProperty | Personal | VehicleLoan;1:1;;Loan
+LoanType;Which LoanType?;Enumeration;GoldLoan | HomeLoan | LoanAgainstFD | LoanAgainstProperty | Personal | VehicleLoan;1:1;"if (LoanType.LoanAgainstProperty) {AssetVerification = true;}if (LoanType.HomeLoan) {AssetVerification = true;}if (LoanType.LoanAgainstFD) {AssetVerification = true;}if (LoanType.GoldLoan) {AssetVerification = true;}";Loan
 MapChequeBookToAccount;MapChequeBookToAccount?;Boolean;false | true;;;true
 MapDebitCardToAccount;MapDebitCardToAccount?;Boolean;false | true;;;true
 MobileTopUp;MobileTopUp?;Boolean;false | true;;;true

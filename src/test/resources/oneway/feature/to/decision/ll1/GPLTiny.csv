@@ -1,4 +1,4 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
 Algorithms;Algorithms?;Boolean;false | true;;;true
-Algorithms*;Which Algorithms*?;Enumeration;Cycle | Number;1:2;;Algorithms
-Edges;Which Edges?;Enumeration;Directed | Undirected;1:1;"if (Algorithms*.Cycle) {Edges = Directed;}";true
+Algorithms*;Which Algorithms*?;Enumeration;Cycle | Number;1:2;"if (Algorithms*.Cycle) {Edges = Directed;}";Algorithms
+Edges;Which Edges?;Enumeration;Directed | Undirected;1:1;;true

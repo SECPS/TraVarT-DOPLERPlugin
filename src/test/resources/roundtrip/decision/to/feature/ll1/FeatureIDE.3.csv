@@ -1,13 +1,13 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-AJDT;AJDT?;Boolean;false | true;;"if (FeatureIDE*.AspectJ) {AJDT = true;}";Eclipse#.Eclipse
-CDT;CDT?;Boolean;false | true;;"if (FeatureIDE*.FeatureCpp) {CDT = true;}";Eclipse#.Eclipse
+AJDT;AJDT?;Boolean;false | true;;;Eclipse#.Eclipse
+CDT;CDT?;Boolean;false | true;;;Eclipse#.Eclipse
 CIDE;CIDE?;Boolean;false | true;;;FeatureModeling
-DeltaJEclipsePlugin;DeltaJEclipsePlugin?;Boolean;false | true;;"if (FeatureIDE*.DeltaJ) {DeltaJEclipsePlugin = true;}";Eclipse#.Eclipse
+DeltaJEclipsePlugin;DeltaJEclipsePlugin?;Boolean;false | true;;;Eclipse#.Eclipse
 Eclipse#;Which Eclipse#?;Enumeration;Eclipse;1:1;;true
 ExtendedFM;ExtendedFM?;Boolean;false | true;;;FeatureModeling
 FAMILIAR;FAMILIAR?;Boolean;false | true;;;FeatureModeling
 FeatureIDE;FeatureIDE?;Boolean;false | true;;;FeatureModeling
-FeatureIDE*;Which FeatureIDE*?;Enumeration;AHEAD | Antenna | AspectJ | DeltaJ | DeltaMontiArc | FeatureCpp | FeatureHouse | Munge;1:8;;FeatureIDE
+FeatureIDE*;Which FeatureIDE*?;Enumeration;AHEAD | Antenna | AspectJ | DeltaJ | DeltaMontiArc | FeatureCpp | FeatureHouse | Munge;1:8;"if (!(((!FeatureIDE*.AHEAD && !FeatureIDE*.Antenna) && !FeatureIDE*.FeatureHouse) && !FeatureIDE*.Munge)) {JDT = true;}if (FeatureIDE*.AspectJ) {AJDT = true;}if (FeatureIDE*.DeltaJ) {DeltaJEclipsePlugin = true;}if (FeatureIDE*.FeatureCpp) {CDT = true;}";FeatureIDE
 FeatureModeling;FeatureModeling?;Boolean;false | true;;;Eclipse#.Eclipse
-JDT;JDT?;Boolean;false | true;;"if (!(((!FeatureIDE*.AHEAD && !FeatureIDE*.Antenna) && !FeatureIDE*.FeatureHouse) && !FeatureIDE*.Munge)) {JDT = true;}";Eclipse#.Eclipse
+JDT;JDT?;Boolean;false | true;;;Eclipse#.Eclipse
 MoSoPoLiTe;MoSoPoLiTe?;Boolean;false | true;;;FeatureModeling

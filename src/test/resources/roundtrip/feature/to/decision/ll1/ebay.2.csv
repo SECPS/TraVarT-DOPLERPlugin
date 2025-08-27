@@ -10,13 +10,13 @@ Login#;Which Login?;Enumeration;Login;1:1;;ebay#.ebay
 Logout#;Which Logout?;Enumeration;Logout;1:1;;ebay#.ebay
 Notification#;Which Notification?;Enumeration;Notification;1:1;;ebay#.ebay
 Payment#;Which Payment?;Enumeration;Payment;1:1;;ebay#.ebay
-Payment*;Which Payment*?;Enumeration;Cheque | CreditCard | Escrow | PayPal | PostalOrder;1:5;;Payment#.Payment
+Payment*;Which Payment*?;Enumeration;Cheque | CreditCard | Escrow | PayPal | PostalOrder;1:5;"if (Payment*.CreditCard) {Security* = High;}";Payment#.Payment
 Phone*;Which Phone*?;Enumeration;Android_1 | Apple_1 | Windows_1;1:3;;Compatibility*.Phone
 Register#;Which Register?;Enumeration;Register;1:1;;ebay#.ebay
 Register*;Which Register*?;Enumeration;Private | Retailer;1:1;;Register#.Register
 Search#;Which Search?;Enumeration;Search;1:1;;ebay#.ebay
 Security#;Which Security?;Enumeration;Security;1:1;;ebay#.ebay
-Security*;Which Security*?;Enumeration;High | Standard_1;1:1;"if (Payment*.CreditCard) {Security* = High;}";Security#.Security
+Security*;Which Security*?;Enumeration;High | Standard_1;1:1;;Security#.Security
 Sell#;Which Sell?;Enumeration;Sell;1:1;;ebay#.ebay
 Shipment#;Which Shipment?;Enumeration;Shipment;1:1;;ebay#.ebay
 Shipment*;Which Shipment*?;Enumeration;Premium | Standard;1:2;;Shipment#.Shipment
