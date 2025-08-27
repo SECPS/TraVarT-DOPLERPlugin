@@ -1,9 +1,9 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-Language;Language?;Boolean;false | true;;"if (Unicode) {Language = true;}";true
-Language*;Which Language*?;Enumeration;Java | PHP | Perl | Python;1:1;"if (Storage*.FileRCS) {Language* = Perl;}if (LicenseCostFee*.US) {Language* = Java;}if (License.GPL2) {Language* = PHP;}if (Storage*.Database) {disAllow(Language*.Python);}";Language
-License;Which License?;Enumeration;Commercial | GPL | GPL2 | NoLimit;1:1;"if (LicenseCostFee*.US) {License = Commercial;}if (LicenseCostFee*.DifferentLicenses) {disAllow(License.GPL);}if (Unicode) {disAllow(License.NoLimit);}";true
-LicenseCostFee;LicenseCostFee?;Boolean;false | true;;;true
-LicenseCostFee*;Which LicenseCostFee*?;Enumeration;Community | DifferentLicenses | US;1:1;"if (Storage*.FileRCS) {LicenseCostFee* = Community;}if (License.Commercial) {LicenseCostFee* = US;}if (Language*.Java) {LicenseCostFee* = US;}if (License.NoLimit) {disAllow(LicenseCostFee*.DifferentLicenses);}";LicenseCostFee
-Storage;Storage?;Boolean;false | true;;"if (!LicenseCostFee) {Storage = true;}if (Unicode) {Storage = true;}if (License.GPL) {Storage = true;}";true
-Storage*;Which Storage*?;Enumeration;Database | FileRCS | Files;1:1;"if (LicenseCostFee*.Community) {Storage* = FileRCS;}if (Language*.Perl) {Storage* = FileRCS;}if (LicenseCostFee) {disAllow(Storage*.Files);}";Storage
-Unicode;Unicode?;Boolean;false | true;;"if (Storage) {Unicode = true;}if (Language) {Unicode = true;}";true
+Language;Language?;Boolean;false | true;;"if (Language) {Unicode = true;}";true
+Language*;Which Language*?;Enumeration;Java | PHP | Perl | Python;1:1;"if (Language*.Perl) {Storage* = FileRCS;}if (Language*.Java) {LicenseCostFee* = US;}";Language
+License;Which License?;Enumeration;Commercial | GPL | GPL2 | NoLimit;1:1;"if (License.Commercial) {LicenseCostFee* = US;}if (License.GPL2) {Language* = PHP;}if (License.GPL) {Storage = true;}if (License.NoLimit) {disAllow(LicenseCostFee*.DifferentLicenses);}";true
+LicenseCostFee;LicenseCostFee?;Boolean;false | true;;"if (!LicenseCostFee) {Storage = true;}if (LicenseCostFee) {disAllow(Storage*.Files);}";true
+LicenseCostFee*;Which LicenseCostFee*?;Enumeration;Community | DifferentLicenses | US;1:1;"if (LicenseCostFee*.Community) {Storage* = FileRCS;}if (LicenseCostFee*.US) {License = Commercial;}if (LicenseCostFee*.US) {Language* = Java;}if (LicenseCostFee*.DifferentLicenses) {disAllow(License.GPL);}";LicenseCostFee
+Storage;Storage?;Boolean;false | true;;"if (Storage) {Unicode = true;}";true
+Storage*;Which Storage*?;Enumeration;Database | FileRCS | Files;1:1;"if (Storage*.FileRCS) {LicenseCostFee* = Community;}if (Storage*.FileRCS) {Language* = Perl;}if (Storage*.Database) {disAllow(Language*.Python);}";Storage
+Unicode;Unicode?;Boolean;false | true;;"if (Unicode) {Storage = true;}if (Unicode) {Language = true;}if (Unicode) {disAllow(License.NoLimit);}";true

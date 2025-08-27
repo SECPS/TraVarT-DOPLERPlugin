@@ -1,17 +1,17 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
 Barrel#;Which Barrel?;Enumeration;Barrel;1:1;;shiftfork_product#.shiftfork_product
 Barrel1_1#;Which Barrel1_1?;Enumeration;Barrel1_1;1:1;;Barrel#.Barrel
-Barrel1_2;Barrel1_2?;Boolean;false | true;;"if (!(!Pipe*.Pipe2 && !Pipe*.Pipe8)) {Barrel1_2 = true;}if (Pipe*.Pipe3) {Barrel1_2 = false;}";Barrel#.Barrel
+Barrel1_2;Barrel1_2?;Boolean;false | true;;;Barrel#.Barrel
 Fork#;Which Fork?;Enumeration;Fork;1:1;;shiftfork_product#.shiftfork_product
 Fork3#;Which Fork3?;Enumeration;Fork3;1:1;;Fork#.Fork
 Fork4#;Which Fork4?;Enumeration;Fork4;1:1;;Fork#.Fork
 Fork5#;Which Fork5?;Enumeration;Fork5;1:1;;Fork#.Fork
 Jack1#;Which Jack1?;Enumeration;Jack1;1:1;;shiftfork_product#.shiftfork_product
 Lock#;Which Lock?;Enumeration;Lock;1:1;;shiftfork_product#.shiftfork_product
-Lock*;Which Lock*?;Enumeration;Lock1 | Lock2 | Lock3;1:1;;Lock#.Lock
+Lock*;Which Lock*?;Enumeration;Lock1 | Lock2 | Lock3;1:1;"if (!(!Lock*.Lock1 || Pipe*.Pipe2)) {Pipe* = Pipe3;}if (Lock*.Lock2) {Pipe* = Pipe3;}if (Lock*.Lock3) {Pipe* = Pipe8;}";Lock#.Lock
 O_Ring#;Which O_Ring?;Enumeration;O_Ring;1:1;;shiftfork_product#.shiftfork_product
 Pipe#;Which Pipe?;Enumeration;Pipe;1:1;;shiftfork_product#.shiftfork_product
-Pipe*;Which Pipe*?;Enumeration;Pipe2 | Pipe3 | Pipe8;1:1;"if (!(!Lock*.Lock1 || Pipe*.Pipe2)) {Pipe* = Pipe3;}if (Lock*.Lock2) {Pipe* = Pipe3;}if (Lock*.Lock3) {Pipe* = Pipe8;}";Pipe#.Pipe
+Pipe*;Which Pipe*?;Enumeration;Pipe2 | Pipe3 | Pipe8;1:1;"if (!(!Lock*.Lock1 || Pipe*.Pipe2)) {Pipe* = Pipe3;}if (!(!Pipe*.Pipe2 && !Pipe*.Pipe8)) {Barrel1_2 = true;}if (Pipe*.Pipe3) {Barrel1_2 = false;}";Pipe#.Pipe
 Ring1#;Which Ring1?;Enumeration;Ring1;1:1;;shiftfork_product#.shiftfork_product
 Screw#;Which Screw?;Enumeration;Screw;1:1;;shiftfork_product#.shiftfork_product
 shiftfork_product#;Which shiftfork_product?;Enumeration;shiftfork_product;1:1;;true

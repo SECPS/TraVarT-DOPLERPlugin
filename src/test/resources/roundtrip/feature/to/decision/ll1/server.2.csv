@@ -1,7 +1,7 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
 FileSystem#;Which FileSystem?;Enumeration;FileSystem;1:1;;Server#.Server
-FileSystem*;Which FileSystem*?;Enumeration;APFS | EXT4 | NTFS;1:3;"if (OperatingSystem*.Windows) {FileSystem* = NTFS;}if (OperatingSystem*.macOS) {FileSystem* = APFS;}";FileSystem#.FileSystem
+FileSystem*;Which FileSystem*?;Enumeration;APFS | EXT4 | NTFS;1:3;;FileSystem#.FileSystem
 Logging;Logging?;Boolean;false | true;;;Server#.Server
 OperatingSystem#;Which OperatingSystem?;Enumeration;OperatingSystem;1:1;;Server#.Server
-OperatingSystem*;Which OperatingSystem*?;Enumeration;Debian | Windows | macOS;1:1;;OperatingSystem#.OperatingSystem
+OperatingSystem*;Which OperatingSystem*?;Enumeration;Debian | Windows | macOS;1:1;"if (OperatingSystem*.Windows) {FileSystem* = NTFS;}if (OperatingSystem*.macOS) {FileSystem* = APFS;}";OperatingSystem#.OperatingSystem
 Server#;Which Server?;Enumeration;Server;1:1;;true

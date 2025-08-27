@@ -1,7 +1,7 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
 Categories;Categories?;Boolean;false | true;;;true
 Payment;Which Payment?;Enumeration;CreditCard | DebitCard;1:1;;true
-Search;Search?;Boolean;false | true;;"if (!Sort) {Search = true;}";true
-Sort;Sort?;Boolean;false | true;;;true
+Search;Search?;Boolean;false | true;;"if (Search) {UserManagement* = Security;}";true
+Sort;Sort?;Boolean;false | true;;"if (!Sort) {Search = true;}";true
 UserManagement;UserManagement?;Boolean;false | true;;;true
-UserManagement*;Which UserManagement*?;Enumeration;Orders | Payments | Security | Wishlist;1:4;"if (Search) {UserManagement* = Security;}if (UserManagement*.Security) {disAllow(UserManagement*.Payments);}if (UserManagement*.Payments) {disAllow(UserManagement*.Security);}";UserManagement
+UserManagement*;Which UserManagement*?;Enumeration;Orders | Payments | Security | Wishlist;1:4;"if (UserManagement*.Security) {disAllow(UserManagement*.Payments);}if (UserManagement*.Payments) {disAllow(UserManagement*.Security);}";UserManagement

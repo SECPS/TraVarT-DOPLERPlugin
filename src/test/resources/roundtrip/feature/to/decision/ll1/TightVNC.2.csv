@@ -1,10 +1,10 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-BOpt*;Which BOpt*?;Enumeration;AboutButtonFeat | AltTabButtonFeat | ClipboardButtonFeat | CtrlAltDelButtonFeat | DisconnectButtonFeat | OptionsButtonFeat | RecordButtonFeat | RefreshButtonFeat;1:8;;Opt*.BOpt
+BOpt*;Which BOpt*?;Enumeration;AboutButtonFeat | AltTabButtonFeat | ClipboardButtonFeat | CtrlAltDelButtonFeat | DisconnectButtonFeat | OptionsButtonFeat | RecordButtonFeat | RefreshButtonFeat;1:8;"if (BOpt*.RecordButtonFeat) {Opt* = RecordingFeat;}if (BOpt*.OptionsButtonFeat) {Opt* = OptionsMenuFeatures;}if (BOpt*.ClipboardButtonFeat) {Opt* = ClipboardFeat;}";Opt*.BOpt
 Base#;Which Base?;Enumeration;Base;1:1;;VncViewerMain#.VncViewerMain
 MOpt;MOpt?;Boolean;false | true;;;Opt*.OptionsMenuFeatures
 MOpt*;Which MOpt*?;Enumeration;OpCompressionFeat | OpCopyRectFeat | OpCursorShapeFeat | OpEncodingFeat | OpJPEGqualityFeat | OpMouse23Feat | OpRestrictedColorsFeat | OpShareFeat | OpViewFeat;1:9;;MOpt
 Opt#;Which Opt?;Enumeration;Opt;1:1;;Typee#.Typee
-Opt*;Which Opt*?;Enumeration;BOpt | ClipboardFeat | OptionsMenuFeatures | RecordingFeat;1:4;"if (BOpt*.RecordButtonFeat) {Opt* = RecordingFeat;}if (BOpt*.OptionsButtonFeat) {Opt* = OptionsMenuFeatures;}if (BOpt*.ClipboardButtonFeat) {Opt* = ClipboardFeat;}";Opt#.Opt
+Opt*;Which Opt*?;Enumeration;BOpt | ClipboardFeat | OptionsMenuFeatures | RecordingFeat;1:4;;Opt#.Opt
 OptionsFeat#;Which OptionsFeat?;Enumeration;OptionsFeat;1:1;;Opt*.OptionsMenuFeatures
 Typee#;Which Typee?;Enumeration;Typee;1:1;;VncViewerMain#.VncViewerMain
 VncViewer#;Which VncViewer?;Enumeration;VncViewer;1:1;;true

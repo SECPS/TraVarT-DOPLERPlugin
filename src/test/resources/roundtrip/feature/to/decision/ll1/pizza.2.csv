@@ -1,9 +1,9 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-CheesyCrust;CheesyCrust?;Boolean;false | true;;;Pizza#.Pizza
+CheesyCrust;CheesyCrust?;Boolean;false | true;;"if (CheesyCrust) {Size* = Big;}";Pizza#.Pizza
 Dough#;Which Dough?;Enumeration;Dough;1:1;;Pizza#.Pizza
 Dough*;Which Dough*?;Enumeration;Neapolitan | Sicilian;1:1;;Dough#.Dough
 Pizza#;Which Pizza?;Enumeration;Pizza;1:1;;true
 Size#;Which Size?;Enumeration;Size;1:1;;Pizza#.Pizza
-Size*;Which Size*?;Enumeration;Big | Normal;1:1;"if (CheesyCrust) {Size* = Big;}";Size#.Size
+Size*;Which Size*?;Enumeration;Big | Normal;1:1;;Size#.Size
 Topping#;Which Topping?;Enumeration;Topping;1:1;;Pizza#.Pizza
 Topping*;Which Topping*?;Enumeration;Ham | Mozzarella | Salami;1:3;;Topping#.Topping

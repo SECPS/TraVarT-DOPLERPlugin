@@ -6,7 +6,7 @@ Xml;Xml?;Boolean;false | true;;;mainAPL#.mainAPL
 Xml*;Which Xml*?;Enumeration;xak | xc;1:1;;Xml
 aj;aj?;Boolean;false | true;;;mainAPL#.mainAPL
 bali#;Which bali?;Enumeration;bali;1:1;;mainJava#.mainJava
-bc;bc?;Boolean;false | true;;;mainAPL#.mainAPL
+bc;bc?;Boolean;false | true;;"if (bc) {mmatrix = true;}";mainAPL#.mainAPL
 bcjak2java#;Which bcjak2java?;Enumeration;bcjak2java;1:1;;bc
 cpp;cpp?;Boolean;false | true;;;mainAPL#.mainAPL
 drc;drc?;Boolean;false | true;;;mainAPL#.mainAPL
@@ -17,7 +17,7 @@ jedi;jedi?;Boolean;false | true;;;mainJava#.mainJava
 mainAPL#;Which mainAPL?;Enumeration;mainAPL;1:1;;APL#.APL
 mainGUI#;Which mainGUI?;Enumeration;mainGUI;1:1;;Gui
 mainJava#;Which mainJava?;Enumeration;mainJava;1:1;;Java#.Java
-me;me?;Boolean;false | true;;;mainGUI#.mainGUI
-mmatrix;mmatrix?;Boolean;false | true;;"if (bc) {mmatrix = true;}if (me) {mmatrix = true;}";mainGUI#.mainGUI
+me;me?;Boolean;false | true;;"if (me) {mmatrix = true;}";mainGUI#.mainGUI
+mmatrix;mmatrix?;Boolean;false | true;;;mainGUI#.mainGUI
 reform;reform?;Boolean;false | true;;;mainJava#.mainJava
 web;web?;Boolean;false | true;;;mainGUI#.mainGUI

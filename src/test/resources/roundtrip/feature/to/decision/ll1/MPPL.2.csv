@@ -1,6 +1,6 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-Calculator;Calculator?;Boolean;false | true;;"if (CurrencyExchange) {Calculator = true;}";VIRTUAL_ROOT*.UtilityFeatures
-CurrencyExchange;CurrencyExchange?;Boolean;false | true;;;VIRTUAL_ROOT*.UtilityFeatures
+Calculator;Calculator?;Boolean;false | true;;;VIRTUAL_ROOT*.UtilityFeatures
+CurrencyExchange;CurrencyExchange?;Boolean;false | true;;"if (CurrencyExchange) {Calculator = true;}";VIRTUAL_ROOT*.UtilityFeatures
 Messaging*;Which Messaging*?;Enumeration;MMS | SMS;1:2;;VIRTUAL_ROOT*.Messaging
 OS*;Which OS*?;Enumeration;Symbian | WinCE;1:1;;VIRTUAL_ROOT*.OS
 VIRTUAL_ROOT#;Which VIRTUAL_ROOT?;Enumeration;VIRTUAL_ROOT;1:1;;true

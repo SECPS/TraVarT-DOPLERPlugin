@@ -43,6 +43,7 @@ import edu.kit.dopler.model.StringDecision;
 import edu.kit.dopler.model.StringEnforce;
 import edu.kit.dopler.model.StringLiteralExpression;
 import edu.kit.dopler.model.StringValue;
+import edu.kit.dopler.model.ValueRestrictionAction;
 import edu.kit.travart.dopler.transformation.feature.to.decision.constraint.dnf.DnfAlwaysTrueAndFalseRemover;
 import edu.kit.travart.dopler.transformation.feature.to.decision.constraint.dnf.DnfToTreeConverter;
 import edu.kit.travart.dopler.transformation.feature.to.decision.constraint.dnf.TreeToDnfConverter;
@@ -209,10 +210,18 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
     private void distributeRule(Rule rule, Dopler decisionModel) {
         // Add rule to the decisions of the condition
         DecisionFinder decisionFinder = new DecisionFinderImpl();
-        Set<String> decisionIds = getDecisionIds(rule.getCondition());
-        for(String decisionId : decisionIds) {
-            Optional<IDecision<?>> decisionOptional = decisionFinder.findDecisionById(decisionModel, decisionId);
-            decisionOptional.ifPresent(decision -> decision.addRule(rule));
+        // To keep rules like if(true) {decision=true}, they are need to restore to fm 
+        if (rule.getCondition() instanceof BooleanLiteralExpression) {
+            rule.getActions().stream()
+                .sorted(Comparator.comparing(Object::toString))
+                .filter(action -> action instanceof ValueRestrictionAction)
+                .map(action -> (ValueRestrictionAction) action).forEach(action -> action.getDecision().addRule(rule));
+        } else {
+            Set<String> decisionIds = getDecisionIds(rule.getCondition());
+            for(String decisionId : decisionIds) {
+                Optional<IDecision<?>> decisionOptional = decisionFinder.findDecisionById(decisionModel, decisionId);
+                decisionOptional.ifPresent(decision -> decision.addRule(rule));
+            }
         }
     }
 
