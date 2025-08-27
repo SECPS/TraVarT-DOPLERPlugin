@@ -1,5 +1,5 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
 Payment*;Which Payment*?;Enumeration;CreditCard | DebitCard;1:1;;VIRTUAL_ROOT*.Payment
-UserManagement*;Which UserManagement*?;Enumeration;Orders | Payments | Security | Wishlist;1:4;"if (UserManagement*.Payments) {disAllow(UserManagement*.Security);}if (VIRTUAL_ROOT*.Search) {UserManagement* = Security;}if (UserManagement*.Security) {disAllow(UserManagement*.Payments);}";VIRTUAL_ROOT*.UserManagement
+UserManagement*;Which UserManagement*?;Enumeration;Orders | Payments | Security | Wishlist;1:4;"if (UserManagement*.Payments) {disAllow(UserManagement*.Security);}if (UserManagement*.Security) {disAllow(UserManagement*.Payments);}";VIRTUAL_ROOT*.UserManagement
 VIRTUAL_ROOT#;Which VIRTUAL_ROOT#?;Enumeration;VIRTUAL_ROOT;1:1;;true
-VIRTUAL_ROOT*;Which VIRTUAL_ROOT*?;Enumeration;Categories | OnlineShop | Payment | Search | Sort | UserManagement;1:6;"if (!VIRTUAL_ROOT*.Search) {VIRTUAL_ROOT* = Sort;}";VIRTUAL_ROOT#.VIRTUAL_ROOT
+VIRTUAL_ROOT*;Which VIRTUAL_ROOT*?;Enumeration;Categories | OnlineShop | Payment | Search | Sort | UserManagement;1:6;"if (!VIRTUAL_ROOT*.Search) {VIRTUAL_ROOT* = Sort;}if (VIRTUAL_ROOT*.Search) {UserManagement* = Security;}";VIRTUAL_ROOT#.VIRTUAL_ROOT

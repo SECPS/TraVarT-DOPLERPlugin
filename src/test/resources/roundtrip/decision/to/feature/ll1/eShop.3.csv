@@ -3,7 +3,7 @@ Categories;Categories?;Boolean;false | true;;;OnlineShop#.OnlineShop
 OnlineShop#;Which OnlineShop#?;Enumeration;OnlineShop;1:1;;true
 Payment#;Which Payment#?;Enumeration;Payment;1:1;;OnlineShop#.OnlineShop
 Payment*;Which Payment*?;Enumeration;CreditCard | DebitCard;1:2;;Payment#.Payment
-Search;Search?;Boolean;false | true;;"if (!Sort) {Search = true;}";OnlineShop#.OnlineShop
-Sort;Sort?;Boolean;false | true;;"if (!Search) {Sort = true;}";OnlineShop#.OnlineShop
+Search;Search?;Boolean;false | true;;"if (!Search) {Sort = true;}if (Search) {UserManagement* = Security;}";OnlineShop#.OnlineShop
+Sort;Sort?;Boolean;false | true;;"if (!Sort) {Search = true;}";OnlineShop#.OnlineShop
 UserManagement#;Which UserManagement#?;Enumeration;UserManagement;1:1;;OnlineShop#.OnlineShop
-UserManagement*;Which UserManagement*?;Enumeration;Orders | Payments | Security | Wishlist;1:4;"if (UserManagement*.Payments) {disAllow(UserManagement*.Security);}if (Search) {UserManagement* = Security;}if (UserManagement*.Security) {disAllow(UserManagement*.Payments);}";UserManagement#.UserManagement
+UserManagement*;Which UserManagement*?;Enumeration;Orders | Payments | Security | Wishlist;1:4;"if (UserManagement*.Payments) {disAllow(UserManagement*.Security);}if (UserManagement*.Security) {disAllow(UserManagement*.Payments);}";UserManagement#.UserManagement
