@@ -1,24 +1,24 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
 Alg#;Which Alg#?;Enumeration;Alg;1:1;;MainGpl#.MainGpl
-Alg*;Which Alg*?;Enumeration;Connected | Cycle | MSTKruskal | MSTPrim | Number | StrongC;1:6;"if (Alg*.MSTKruskal) {disAllow(Alg*.MSTPrim);}";Alg#.Alg
+Alg*;Which Alg*?;Enumeration;Connected | Cycle | MSTKruskal | MSTPrim | Number | StrongC;1:6;"if (!(!Alg*.MSTKruskal && !Alg*.MSTPrim)) {Gtp* = Undirected;Wgt* = Weighted;}if (Alg*.Connected) {Gtp* = Undirected;Src = true;}if (Alg*.Cycle) {Src* = DFS;}if (Alg*.MSTKruskal) {disAllow(Alg*.MSTPrim);}if (Alg*.Number) {Src = true;}if (Alg*.StrongC) {Gtp* = Directed;Src* = DFS;}";Alg#.Alg
 Base#;Which Base#?;Enumeration;Base;1:1;;MainGpl#.MainGpl
 GPL#;Which GPL#?;Enumeration;GPL;1:1;;true
 Gtp#;Which Gtp#?;Enumeration;Gtp;1:1;;MainGpl#.MainGpl
-Gtp*;Which Gtp*?;Enumeration;Directed | Undirected;1:1;"if (!(!Alg*.MSTKruskal && !Alg*.MSTPrim)) {Gtp* = Undirected;Wgt* = Weighted;}if (Alg*.Connected) {Gtp* = Undirected;Src = true;}if (Alg*.StrongC) {Gtp* = Directed;Src* = DFS;}";Gtp#.Gtp
+Gtp*;Which Gtp*?;Enumeration;Directed | Undirected;1:1;"if (!(!Gtp*.Directed || HiddenGtp*.DirectedOnlyVertices)) {disAllow(Implementation*.OnlyVertices);}if (!(!Gtp*.Directed || HiddenGtp*.DirectedWithEdges)) {disAllow(Implementation*.WithEdges);}if (!(!Gtp*.Directed || HiddenGtp*.DirectedWithNeighbors)) {disAllow(Implementation*.WithNeighbors);}if (!(!Gtp*.Undirected || HiddenGtp*.UndirectedOnlyVertices)) {disAllow(Implementation*.OnlyVertices);}if (!(!Gtp*.Undirected || HiddenGtp*.UndirectedWithEdges)) {disAllow(Implementation*.WithEdges);}if (!(!Gtp*.Undirected || HiddenGtp*.UndirectedWithNeighbors)) {disAllow(Implementation*.WithNeighbors);}";Gtp#.Gtp
 HiddenGtp#;Which HiddenGtp#?;Enumeration;HiddenGtp;1:1;;MainGpl#.MainGpl
-HiddenGtp*;Which HiddenGtp*?;Enumeration;DirectedOnlyVertices | DirectedWithEdges | DirectedWithNeighbors | UndirectedOnlyVertices | UndirectedWithEdges | UndirectedWithNeighbors;1:1;;HiddenGtp#.HiddenGtp
+HiddenGtp*;Which HiddenGtp*?;Enumeration;DirectedOnlyVertices | DirectedWithEdges | DirectedWithNeighbors | UndirectedOnlyVertices | UndirectedWithEdges | UndirectedWithNeighbors;1:1;"if (!(!Gtp*.Directed || HiddenGtp*.DirectedOnlyVertices)) {disAllow(Implementation*.OnlyVertices);}if (!(!Gtp*.Directed || HiddenGtp*.DirectedWithEdges)) {disAllow(Implementation*.WithEdges);}if (!(!Gtp*.Directed || HiddenGtp*.DirectedWithNeighbors)) {disAllow(Implementation*.WithNeighbors);}if (!(!Gtp*.Undirected || HiddenGtp*.UndirectedOnlyVertices)) {disAllow(Implementation*.OnlyVertices);}if (!(!Gtp*.Undirected || HiddenGtp*.UndirectedWithEdges)) {disAllow(Implementation*.WithEdges);}if (!(!Gtp*.Undirected || HiddenGtp*.UndirectedWithNeighbors)) {disAllow(Implementation*.WithNeighbors);}";HiddenGtp#.HiddenGtp
 HiddenWgt#;Which HiddenWgt#?;Enumeration;HiddenWgt;1:1;;MainGpl#.MainGpl
 Implementation#;Which Implementation#?;Enumeration;Implementation;1:1;;MainGpl#.MainGpl
-Implementation*;Which Implementation*?;Enumeration;OnlyVertices | WithEdges | WithNeighbors;1:1;"if (!(!Gtp*.Directed || HiddenGtp*.DirectedOnlyVertices)) {disAllow(Implementation*.OnlyVertices);}if (!(!Gtp*.Directed || HiddenGtp*.DirectedWithEdges)) {disAllow(Implementation*.WithEdges);}if (!(!Gtp*.Directed || HiddenGtp*.DirectedWithNeighbors)) {disAllow(Implementation*.WithNeighbors);}if (!(!Gtp*.Undirected || HiddenGtp*.UndirectedOnlyVertices)) {disAllow(Implementation*.OnlyVertices);}if (!(!Gtp*.Undirected || HiddenGtp*.UndirectedWithEdges)) {disAllow(Implementation*.WithEdges);}if (!(!Gtp*.Undirected || HiddenGtp*.UndirectedWithNeighbors)) {disAllow(Implementation*.WithNeighbors);}if (!(!Wgt*.Weighted || WeightedOnlyVertices)) {disAllow(Implementation*.OnlyVertices);}if (!(!Wgt*.Weighted || WeightedWithEdges)) {disAllow(Implementation*.WithEdges);}if (!(!Wgt*.Weighted || WeightedWithNeighbors)) {disAllow(Implementation*.WithNeighbors);}";Implementation#.Implementation
+Implementation*;Which Implementation*?;Enumeration;OnlyVertices | WithEdges | WithNeighbors;1:1;;Implementation#.Implementation
 MainGpl#;Which MainGpl#?;Enumeration;MainGpl;1:1;;GPL#.GPL
-Src;Src?;Boolean;false | true;;"if (Alg*.Number) {Src = true;}";MainGpl#.MainGpl
-Src*;Which Src*?;Enumeration;BFS | DFS;1:1;"if (Alg*.Cycle) {Src* = DFS;}";Src
+Src;Src?;Boolean;false | true;;;MainGpl#.MainGpl
+Src*;Which Src*?;Enumeration;BFS | DFS;1:1;;Src
 StronglyConnected#;Which StronglyConnected#?;Enumeration;StronglyConnected;1:1;;Alg*.StrongC
 TestProg#;Which TestProg#?;Enumeration;TestProg;1:1;;MainGpl#.MainGpl
 Transpose#;Which Transpose#?;Enumeration;Transpose;1:1;;Alg*.StrongC
 WeightOptions#;Which WeightOptions#?;Enumeration;WeightOptions;1:1;;HiddenWgt#.HiddenWgt
-WeightedOnlyVertices;WeightedOnlyVertices?;Boolean;false | true;;;WeightOptions#.WeightOptions
-WeightedWithEdges;WeightedWithEdges?;Boolean;false | true;;;WeightOptions#.WeightOptions
-WeightedWithNeighbors;WeightedWithNeighbors?;Boolean;false | true;;;WeightOptions#.WeightOptions
+WeightedOnlyVertices;WeightedOnlyVertices?;Boolean;false | true;;"if (!(!Wgt*.Weighted || WeightedOnlyVertices)) {disAllow(Implementation*.OnlyVertices);}";WeightOptions#.WeightOptions
+WeightedWithEdges;WeightedWithEdges?;Boolean;false | true;;"if (!(!Wgt*.Weighted || WeightedWithEdges)) {disAllow(Implementation*.WithEdges);}";WeightOptions#.WeightOptions
+WeightedWithNeighbors;WeightedWithNeighbors?;Boolean;false | true;;"if (!(!Wgt*.Weighted || WeightedWithNeighbors)) {disAllow(Implementation*.WithNeighbors);}";WeightOptions#.WeightOptions
 Wgt#;Which Wgt#?;Enumeration;Wgt;1:1;;MainGpl#.MainGpl
-Wgt*;Which Wgt*?;Enumeration;Unweighted | Weighted;1:1;;Wgt#.Wgt
+Wgt*;Which Wgt*?;Enumeration;Unweighted | Weighted;1:1;"if (!(!Wgt*.Weighted || WeightedOnlyVertices)) {disAllow(Implementation*.OnlyVertices);}if (!(!Wgt*.Weighted || WeightedWithEdges)) {disAllow(Implementation*.WithEdges);}if (!(!Wgt*.Weighted || WeightedWithNeighbors)) {disAllow(Implementation*.WithNeighbors);}";Wgt#.Wgt

@@ -8,19 +8,19 @@ CW_guidance;CW_guidance?;Boolean;false | true;;;VIRTUAL_ROOT.CW
 CW_guidance*;Which CW_guidance*?;Enumeration;After_first_selection | Always;1:1;;CW_guidance
 CW_requirementsView;CW_requirementsView?;Boolean;false | true;;;VIRTUAL_ROOT.CW
 CW_resolution;CW_resolution?;Boolean;false | true;;;VIRTUAL_ROOT.CW
-CW_resolution*;Which CW_resolution*?;Enumeration;p1024x768 | p1280x1024 | p1400x1050 | p1600x1200 | p1900x1080 | p800x600;1:1;;CW_resolution
-CW_resolution_height_1024;CW_resolution_height_1024?;Boolean;false | true;;"if (CW_resolution*.p1280x1024) {CW_resolution_height_1024 = true;}";VIRTUAL_ROOT.CW_resolution_height
-CW_resolution_height_1050;CW_resolution_height_1050?;Boolean;false | true;;"if (CW_resolution*.p1400x1050) {CW_resolution_height_1050 = true;}";VIRTUAL_ROOT.CW_resolution_height
-CW_resolution_height_1080;CW_resolution_height_1080?;Boolean;false | true;;"if (CW_resolution*.p1900x1080) {CW_resolution_height_1080 = true;}";VIRTUAL_ROOT.CW_resolution_height
-CW_resolution_height_1200;CW_resolution_height_1200?;Boolean;false | true;;"if (CW_resolution*.p1600x1200) {CW_resolution_height_1200 = true;}";VIRTUAL_ROOT.CW_resolution_height
-CW_resolution_height_600;CW_resolution_height_600?;Boolean;false | true;;"if (CW_resolution*.p800x600) {CW_resolution_height_600 = true;}";VIRTUAL_ROOT.CW_resolution_height
-CW_resolution_height_768;CW_resolution_height_768?;Boolean;false | true;;"if (CW_resolution*.p1024x768) {CW_resolution_height_768 = true;}";VIRTUAL_ROOT.CW_resolution_height
-CW_resolution_width_1024;CW_resolution_width_1024?;Boolean;false | true;;"if (CW_resolution*.p1024x768) {CW_resolution_width_1024 = true;}";VIRTUAL_ROOT.CW_resolution_width
-CW_resolution_width_1280;CW_resolution_width_1280?;Boolean;false | true;;"if (CW_resolution*.p1280x1024) {CW_resolution_width_1280 = true;}";VIRTUAL_ROOT.CW_resolution_width
-CW_resolution_width_1400;CW_resolution_width_1400?;Boolean;false | true;;"if (CW_resolution*.p1400x1050) {CW_resolution_width_1400 = true;}";VIRTUAL_ROOT.CW_resolution_width
-CW_resolution_width_1600;CW_resolution_width_1600?;Boolean;false | true;;"if (CW_resolution*.p1600x1200) {CW_resolution_width_1600 = true;}";VIRTUAL_ROOT.CW_resolution_width
-CW_resolution_width_1900;CW_resolution_width_1900?;Boolean;false | true;;"if (CW_resolution*.p1900x1080) {CW_resolution_width_1900 = true;}";VIRTUAL_ROOT.CW_resolution_width
-CW_resolution_width_800;CW_resolution_width_800?;Boolean;false | true;;"if (CW_resolution*.p800x600) {CW_resolution_width_800 = true;}";VIRTUAL_ROOT.CW_resolution_width
+CW_resolution*;Which CW_resolution*?;Enumeration;p1024x768 | p1280x1024 | p1400x1050 | p1600x1200 | p1900x1080 | p800x600;1:1;"if (CW_resolution*.p1900x1080) {CW_resolution_height_1080 = true;}if (CW_resolution*.p1400x1050) {CW_resolution_width_1400 = true;}if (CW_resolution*.p1900x1080) {CW_resolution_width_1900 = true;}if (CW_resolution*.p1280x1024) {CW_resolution_height_1024 = true;}if (CW_resolution*.p800x600) {CW_resolution_width_800 = true;}if (CW_resolution*.p1280x1024) {CW_resolution_width_1280 = true;}if (CW_resolution*.p1600x1200) {CW_resolution_width_1600 = true;}if (CW_resolution*.p1024x768) {CW_resolution_height_768 = true;}if (CW_resolution*.p800x600) {CW_resolution_height_600 = true;}if (CW_resolution*.p1024x768) {CW_resolution_width_1024 = true;}if (CW_resolution*.p1400x1050) {CW_resolution_height_1050 = true;}if (CW_resolution*.p1600x1200) {CW_resolution_height_1200 = true;}";CW_resolution
+CW_resolution_height_1024;CW_resolution_height_1024?;Boolean;false | true;;;VIRTUAL_ROOT.CW_resolution_height
+CW_resolution_height_1050;CW_resolution_height_1050?;Boolean;false | true;;;VIRTUAL_ROOT.CW_resolution_height
+CW_resolution_height_1080;CW_resolution_height_1080?;Boolean;false | true;;;VIRTUAL_ROOT.CW_resolution_height
+CW_resolution_height_1200;CW_resolution_height_1200?;Boolean;false | true;;;VIRTUAL_ROOT.CW_resolution_height
+CW_resolution_height_600;CW_resolution_height_600?;Boolean;false | true;;;VIRTUAL_ROOT.CW_resolution_height
+CW_resolution_height_768;CW_resolution_height_768?;Boolean;false | true;;;VIRTUAL_ROOT.CW_resolution_height
+CW_resolution_width_1024;CW_resolution_width_1024?;Boolean;false | true;;;VIRTUAL_ROOT.CW_resolution_width
+CW_resolution_width_1280;CW_resolution_width_1280?;Boolean;false | true;;;VIRTUAL_ROOT.CW_resolution_width
+CW_resolution_width_1400;CW_resolution_width_1400?;Boolean;false | true;;;VIRTUAL_ROOT.CW_resolution_width
+CW_resolution_width_1600;CW_resolution_width_1600?;Boolean;false | true;;;VIRTUAL_ROOT.CW_resolution_width
+CW_resolution_width_1900;CW_resolution_width_1900?;Boolean;false | true;;;VIRTUAL_ROOT.CW_resolution_width
+CW_resolution_width_800;CW_resolution_width_800?;Boolean;false | true;;;VIRTUAL_ROOT.CW_resolution_width
 CW_sharepoint;CW_sharepoint?;Boolean;false | true;;;VIRTUAL_ROOT.CW
 CW_views;CW_views?;Boolean;false | true;;;VIRTUAL_ROOT.CW
 CW_views*;Which CW_views*?;Enumeration;Graph_based | Table_based | Tree_based;1:3;;CW_views

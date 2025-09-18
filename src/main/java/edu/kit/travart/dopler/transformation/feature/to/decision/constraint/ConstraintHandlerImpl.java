@@ -20,6 +20,7 @@ import de.vill.model.constraint.AndConstraint;
 import de.vill.model.constraint.Constraint;
 import de.vill.model.constraint.ExpressionConstraint;
 import de.vill.model.constraint.NotConstraint;
+import edu.kit.dopler.model.AND;
 import edu.kit.dopler.model.BooleanDecision;
 import edu.kit.dopler.model.BooleanEnforce;
 import edu.kit.dopler.model.BooleanLiteralExpression;
@@ -27,19 +28,27 @@ import edu.kit.dopler.model.BooleanValue;
 import edu.kit.dopler.model.Decision;
 import edu.kit.dopler.model.Dopler;
 import edu.kit.dopler.model.DoubleValue;
+import edu.kit.dopler.model.Equals;
+import edu.kit.dopler.model.GreatherThan;
 import edu.kit.dopler.model.IAction;
 import edu.kit.dopler.model.IDecision;
 import edu.kit.dopler.model.IExpression;
+import edu.kit.dopler.model.LessThan;
+import edu.kit.dopler.model.NOT;
 import edu.kit.dopler.model.NumberDecision;
 import edu.kit.dopler.model.NumberEnforce;
+import edu.kit.dopler.model.OR;
 import edu.kit.dopler.model.Rule;
 import edu.kit.dopler.model.StringDecision;
 import edu.kit.dopler.model.StringEnforce;
+import edu.kit.dopler.model.StringLiteralExpression;
 import edu.kit.dopler.model.StringValue;
 import edu.kit.dopler.model.ValueRestrictionAction;
 import edu.kit.travart.dopler.transformation.feature.to.decision.constraint.dnf.DnfAlwaysTrueAndFalseRemover;
 import edu.kit.travart.dopler.transformation.feature.to.decision.constraint.dnf.DnfToTreeConverter;
 import edu.kit.travart.dopler.transformation.feature.to.decision.constraint.dnf.TreeToDnfConverter;
+import edu.kit.travart.dopler.transformation.util.DecisionFinder;
+import edu.kit.travart.dopler.transformation.util.DecisionFinderImpl;
 import edu.kit.travart.dopler.transformation.exceptions.CanNotBeTranslatedException;
 import edu.kit.travart.dopler.transformation.exceptions.DecisionNotPresentException;
 import edu.kit.travart.dopler.transformation.exceptions.DnfAlwaysFalseException;
@@ -55,6 +64,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of {@link ConstraintHandler}.
@@ -114,7 +124,7 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
         for (Constraint constraint : getSanitizedConstraints(featureModel)) {
             List<List<Constraint>> dnf = convertConstraintIntoDnf(featureModel, constraint);
             Optional<Rule> rule = createRuleFromDnf(featureModel, decisionModel, dnf);
-            rule.ifPresent(this::distributeRule);
+            rule.ifPresent(otherRule -> distributeRule(otherRule, decisionModel));
         }
     }
 
@@ -197,13 +207,59 @@ public class ConstraintHandlerImpl implements ConstraintHandler {
     }
 
     /** Distribute the generated rule to a decision */
-    private void distributeRule(Rule rule) {
-        //Just take decision of first action.
-        //The action must be a ValueRestrictionAction. Only those have decisions.
-        rule.getActions().stream().sorted(Comparator.comparing(Object::toString))
+    private void distributeRule(Rule rule, Dopler decisionModel) {
+        // Add rule to the decisions of the condition
+        DecisionFinder decisionFinder = new DecisionFinderImpl();
+        // To keep rules like if(true) {decision=true}, they are need to restore to fm 
+        if (rule.getCondition() instanceof BooleanLiteralExpression) {
+            rule.getActions().stream()
+                .sorted(Comparator.comparing(Object::toString))
                 .filter(action -> action instanceof ValueRestrictionAction)
-                .map(action -> (ValueRestrictionAction) action).findFirst().orElseThrow().getDecision().addRule(rule);
+                .map(action -> (ValueRestrictionAction) action).forEach(action -> action.getDecision().addRule(rule));
+        } else {
+            Set<String> decisionIds = getDecisionIds(rule.getCondition());
+            for(String decisionId : decisionIds) {
+                Optional<IDecision<?>> decisionOptional = decisionFinder.findDecisionById(decisionModel, decisionId);
+                decisionOptional.ifPresent(decision -> decision.addRule(rule));
+            }
+        }
     }
+
+private Set<String> getDecisionIds(IExpression condition) {
+    Set<String> decisionIds = new LinkedHashSet<>();
+    // Recursive lookUp for decisionIds
+    if (condition instanceof StringLiteralExpression stringLiteralExpression) {
+        decisionIds.add(stringLiteralExpression.getLiteral());
+    } else if (condition instanceof Equals equalsExpression) {
+        decisionIds.addAll(getDecisionIds(equalsExpression.getLeftExpression()));
+        decisionIds.addAll(getDecisionIds(equalsExpression.getRightExpression()));
+    } else if (condition instanceof NOT notExpression) {
+        decisionIds.addAll(getDecisionIds(notExpression.getOperand()));
+    } else if (condition instanceof AND andExpression) {
+        decisionIds.addAll(getDecisionIds(andExpression.getLeftExpression()));
+        decisionIds.addAll(getDecisionIds(andExpression.getRightExpression()));
+    } else if (condition instanceof OR orExpression) {
+        decisionIds.addAll(getDecisionIds(orExpression.getLeftExpression()));
+        decisionIds.addAll(getDecisionIds(orExpression.getRightExpression()));
+    } else if (condition instanceof GreatherThan greaterThanExpression) {
+        decisionIds.addAll(getDecisionIds(greaterThanExpression.getLeftExpression()));
+        decisionIds.addAll(getDecisionIds(greaterThanExpression.getRightExpression()));
+    } else if (condition instanceof LessThan lessThanExpression) {
+        decisionIds.addAll(getDecisionIds(lessThanExpression.getLeftExpression()));
+        decisionIds.addAll(getDecisionIds(lessThanExpression.getRightExpression()));
+    }
+    // Other Expression types are ignored (e.g. Boolean, Double) and these do not contain decision IDs.
+
+    // Strip part after last dot to get the correct ID
+    decisionIds =  decisionIds.stream()
+        .map(id -> {
+            int lastIndex = id.lastIndexOf('.');
+            return (lastIndex != -1) ? id.substring(0, lastIndex) : id;
+        })
+        .collect(Collectors.toSet());
+
+    return decisionIds;
+}
 
     /** Creates a set of {@link IAction}s that contradict each other. */
     private List<IAction> createContradiction(Dopler decisionModel) {

@@ -1,4 +1,4 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
 Payment*;Which Payment*?;Enumeration;CreditCard | DebitCard;1:1;;VIRTUAL_ROOT.Payment
-UserManagement*;Which UserManagement*?;Enumeration;Orders | Payments | Security | Wishlist;1:4;"if (VIRTUAL_ROOT.Search) {UserManagement* = Security;}if (UserManagement*.Security) {disAllow(UserManagement*.Payments);}if (UserManagement*.Payments) {disAllow(UserManagement*.Security);}";VIRTUAL_ROOT.UserManagement
-VIRTUAL_ROOT;Which VIRTUAL_ROOT?;Enumeration;Categories | OnlineShop | Payment | Search | Sort | UserManagement;1:6;"if (!VIRTUAL_ROOT.Search) {VIRTUAL_ROOT = Sort;}";true
+UserManagement*;Which UserManagement*?;Enumeration;Orders | Payments | Security | Wishlist;1:4;"if (UserManagement*.Security) {disAllow(UserManagement*.Payments);}if (UserManagement*.Payments) {disAllow(UserManagement*.Security);}";VIRTUAL_ROOT.UserManagement
+VIRTUAL_ROOT;Which VIRTUAL_ROOT?;Enumeration;Categories | OnlineShop | Payment | Search | Sort | UserManagement;1:6;"if (VIRTUAL_ROOT.Search) {UserManagement* = Security;}if (!VIRTUAL_ROOT.Search) {VIRTUAL_ROOT = Sort;}";true

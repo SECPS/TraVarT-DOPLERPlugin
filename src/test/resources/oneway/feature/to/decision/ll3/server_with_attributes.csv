@@ -1,4 +1,4 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-FileSystem;Which FileSystem?;Enumeration;APFS | EXT4 | NTFS;1:3;"if (OperatingSystem.Windows) {FileSystem = NTFS;}if (OperatingSystem.macOS) {FileSystem = APFS;}";true
+FileSystem;Which FileSystem?;Enumeration;APFS | EXT4 | NTFS;1:3;;true
 Logging;Logging?;Boolean;false | true;;;true
-OperatingSystem;Which OperatingSystem?;Enumeration;Debian | Windows | macOS;1:1;;true
+OperatingSystem;Which OperatingSystem?;Enumeration;Debian | Windows | macOS;1:1;"if (OperatingSystem.Windows) {FileSystem = NTFS;}if (OperatingSystem.macOS) {FileSystem = APFS;}";true

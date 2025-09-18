@@ -1,8 +1,8 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
 Calls#;Which Calls#?;Enumeration;Calls;1:1;;Mobilephone#.Mobilephone
-GPS;GPS?;Boolean;false | true;;;Mobilephone#.Mobilephone
+GPS;GPS?;Boolean;false | true;;"if (GPS) {disAllow(Screen*.Basic);}";Mobilephone#.Mobilephone
 Media;Media?;Boolean;false | true;;;Mobilephone#.Mobilephone
-Media*;Which Media*?;Enumeration;Camera | MP3;1:2;"if (!Screen*.HighResolution) {disAllow(Media*.Camera);}";Media
+Media*;Which Media*?;Enumeration;Camera | MP3;1:2;;Media
 Mobilephone#;Which Mobilephone#?;Enumeration;Mobilephone;1:1;;true
 Screen#;Which Screen#?;Enumeration;Screen;1:1;;Mobilephone#.Mobilephone
-Screen*;Which Screen*?;Enumeration;Basic | Colour | HighResolution;1:1;"if (GPS) {disAllow(Screen*.Basic);}";Screen#.Screen
+Screen*;Which Screen*?;Enumeration;Basic | Colour | HighResolution;1:1;"if (!Screen*.HighResolution) {disAllow(Media*.Camera);}";Screen#.Screen

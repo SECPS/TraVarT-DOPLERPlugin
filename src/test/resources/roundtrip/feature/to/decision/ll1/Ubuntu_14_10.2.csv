@@ -1,15 +1,15 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-AcceptanceDelay;AcceptanceDelay?;Boolean;false | true;;"if (AcceptanceDelay2) {AcceptanceDelay = true;}if (SlowKeys) {AcceptanceDelay = true;}if (BounceKeys) {AcceptanceDelay = true;}";Accessibility#.Accessibility
+AcceptanceDelay;AcceptanceDelay?;Boolean;false | true;;"if (!((SlowKeys || AcceptanceDelay2) || !AcceptanceDelay)) {BounceKeys = true;}";Accessibility#.Accessibility
 AcceptanceDelay1#;Which AcceptanceDelay1?;Enumeration;AcceptanceDelay1;1:1;;BounceKeys
-AcceptanceDelay1*;Which AcceptanceDelay1*?;Enumeration;Long3 | Short1;1:1;"if (!((((AcceptanceDelay3*.Short5 || Delay2*.Short4) || Delay1*.Short3) || AcceptanceDelay2*.Short2) || !Short)) {AcceptanceDelay1* = Short1;}";AcceptanceDelay1#.AcceptanceDelay1
-AcceptanceDelay2;AcceptanceDelay2?;Boolean;false | true;;;SimulatedSecondaryCLick
-AcceptanceDelay2*;Which AcceptanceDelay2*?;Enumeration;Long4 | Short2;1:1;;AcceptanceDelay2
+AcceptanceDelay1*;Which AcceptanceDelay1*?;Enumeration;Long3 | Short1;1:1;"if (AcceptanceDelay1*.Short1) {Short = true;}if (!((((Delay1*.Long5 || AcceptanceDelay2*.Long4) || AcceptanceDelay1*.Long3) || AcceptanceDelay3*.Long2) || !Long)) {Delay2* = Long1;}if (AcceptanceDelay1*.Long3) {Long = true;}";AcceptanceDelay1#.AcceptanceDelay1
+AcceptanceDelay2;AcceptanceDelay2?;Boolean;false | true;;"if (AcceptanceDelay2) {AcceptanceDelay = true;}if (!((SlowKeys || AcceptanceDelay2) || !AcceptanceDelay)) {BounceKeys = true;}";SimulatedSecondaryCLick
+AcceptanceDelay2*;Which AcceptanceDelay2*?;Enumeration;Long4 | Short2;1:1;"if (AcceptanceDelay2*.Short2) {Short = true;}if (!((((AcceptanceDelay3*.Short5 || Delay2*.Short4) || Delay1*.Short3) || AcceptanceDelay2*.Short2) || !Short)) {AcceptanceDelay1* = Short1;}if (!((((Delay1*.Long5 || AcceptanceDelay2*.Long4) || AcceptanceDelay1*.Long3) || AcceptanceDelay3*.Long2) || !Long)) {Delay2* = Long1;}if (AcceptanceDelay2*.Long4) {Long = true;}";AcceptanceDelay2
 AcceptanceDelay3#;Which AcceptanceDelay3?;Enumeration;AcceptanceDelay3;1:1;;SlowKeys
-AcceptanceDelay3*;Which AcceptanceDelay3*?;Enumeration;Long2 | Short5;1:1;;AcceptanceDelay3#.AcceptanceDelay3
+AcceptanceDelay3*;Which AcceptanceDelay3*?;Enumeration;Long2 | Short5;1:1;"if (!((((AcceptanceDelay3*.Short5 || Delay2*.Short4) || Delay1*.Short3) || AcceptanceDelay2*.Short2) || !Short)) {AcceptanceDelay1* = Short1;}if (AcceptanceDelay3*.Long2) {Long = true;}if (!((((Delay1*.Long5 || AcceptanceDelay2*.Long4) || AcceptanceDelay1*.Long3) || AcceptanceDelay3*.Long2) || !Long)) {Delay2* = Long1;}if (AcceptanceDelay3*.Short5) {Short = true;}";AcceptanceDelay3#.AcceptanceDelay3
 Accessibility#;Which Accessibility?;Enumeration;Accessibility;1:1;;true
 AddShowDesktopIconToTheLauncher;AddShowDesktopIconToTheLauncher?;Boolean;false | true;;;Behaviour#.Behaviour
-AllowDifferentLayoutsForIndividualWindows;AllowDifferentLayoutsForIndividualWindows?;Boolean;false | true;;"if (AllowDifferentLayoutsForIndividualWindows1) {AllowDifferentLayoutsForIndividualWindows = true;}if (LayoutSettings*.AllowDifferentLayoutsForIndividualWindows2) {AllowDifferentLayoutsForIndividualWindows = true;}";Accessibility#.Accessibility
-AllowDifferentLayoutsForIndividualWindows1;AllowDifferentLayoutsForIndividualWindows1?;Boolean;false | true;;"if (!(LayoutSettings*.AllowDifferentLayoutsForIndividualWindows2 || !AllowDifferentLayoutsForIndividualWindows)) {AllowDifferentLayoutsForIndividualWindows1 = true;}";TextEntry
+AllowDifferentLayoutsForIndividualWindows;AllowDifferentLayoutsForIndividualWindows?;Boolean;false | true;;"if (!(LayoutSettings*.AllowDifferentLayoutsForIndividualWindows2 || !AllowDifferentLayoutsForIndividualWindows)) {AllowDifferentLayoutsForIndividualWindows1 = true;}";Accessibility#.Accessibility
+AllowDifferentLayoutsForIndividualWindows1;AllowDifferentLayoutsForIndividualWindows1?;Boolean;false | true;;"if (AllowDifferentLayoutsForIndividualWindows1) {AllowDifferentLayoutsForIndividualWindows = true;}";TextEntry
 AllowDifferentLayoutsForIndividualWindows1*;Which AllowDifferentLayoutsForIndividualWindows1*?;Enumeration;NewWindowsUseTheCurrentSource | NewWindowsUseTheDefaultSource;1:1;;AllowDifferentLayoutsForIndividualWindows1
 AllowDifferentLayoutsForIndividualWindows2*;Which AllowDifferentLayoutsForIndividualWindows2*?;Enumeration;NewWindowsUseTheDefaultLayout | NewWindowsUseThePreviousWindowsLayout;1:1;;LayoutSettings*.AllowDifferentLayoutsForIndividualWindows2
 Alt_F4#;Which Alt_F4?;Enumeration;Alt_F4;1:1;;Windows*.CloseWindow
@@ -17,7 +17,7 @@ Alt_F7#;Which Alt_F7?;Enumeration;Alt_F7;1:1;;Windows*.MoveWindow
 Alt_F8#;Which Alt_F8?;Enumeration;Alt_F8;1:1;;Windows*.ResizeWindow
 Alt_Print#;Which Alt_Print?;Enumeration;Alt_Print;1:1;;Screenshots*.TakeAScreenshotOfAWindow
 Alt_Space#;Which Alt_Space?;Enumeration;Alt_Space;1:1;;Windows*.ActivateTheWindowMenu
-Alt_Super_plus;Alt_Super_plus?;Boolean;false | true;;"if (UniversalAccess2*.TurnZoomOnOrOff) {Alt_Super_plus = true;}if (UniversalAccess2*.TurnScreenReaderOnOrOff) {Alt_Super_plus = true;}";Accessibility#.Accessibility
+Alt_Super_plus;Alt_Super_plus?;Boolean;false | true;;"if (!(UniversalAccess2*.TurnScreenReaderOnOrOff || !Alt_Super_plus)) {UniversalAccess2* = TurnZoomOnOrOff;}";Accessibility#.Accessibility
 Alt_Super_plus1#;Which Alt_Super_plus1?;Enumeration;Alt_Super_plus1;1:1;;UniversalAccess2*.TurnZoomOnOrOff
 Alt_Super_plus2#;Which Alt_Super_plus2?;Enumeration;Alt_Super_plus2;1:1;;UniversalAccess2*.TurnScreenReaderOnOrOff
 Alt_Super_plusEqual#;Which Alt_Super_plusEqual?;Enumeration;Alt_Super_plusEqual;1:1;;UniversalAccess2*.ZoomIn
@@ -33,15 +33,15 @@ BeepWhenAKeysIs;BeepWhenAKeysIs?;Boolean;false | true;;;SlowKeys
 BeepWhenAKeysIs*;Which BeepWhenAKeysIs*?;Enumeration;Accepted | Pressed | Rejected;1:3;;BeepWhenAKeysIs
 BeepWhenAModifierKeysIsPressed;BeepWhenAModifierKeysIsPressed?;Boolean;false | true;;;StickyKeys
 Behaviour#;Which Behaviour?;Enumeration;Behaviour;1:1;;Appearance
-BounceKeys;BounceKeys?;Boolean;false | true;;"if (!((SlowKeys || AcceptanceDelay2) || !AcceptanceDelay)) {BounceKeys = true;}";Typing3
+BounceKeys;BounceKeys?;Boolean;false | true;;"if (BounceKeys) {AcceptanceDelay = true;}";Typing3
 Brightness#;Which Brightness?;Enumeration;Brightness;1:1;;BrightnessAndLock
 BrightnessAndLock;BrightnessAndLock?;Boolean;false | true;;;Accessibility#.Accessibility
-BuiltInDisplay;BuiltInDisplay?;Boolean;false | true;;"if (LauncherPlacement*.BuiltInDisplay1) {BuiltInDisplay = true;}if (ScaleAllWindowContentToMatch*.BuiltInDisplay2) {BuiltInDisplay = true;}";Accessibility#.Accessibility
+BuiltInDisplay;BuiltInDisplay?;Boolean;false | true;;"if (!(ScaleAllWindowContentToMatch*.BuiltInDisplay2 || !BuiltInDisplay)) {LauncherPlacement* = BuiltInDisplay1;}";Accessibility#.Accessibility
 Ctr_Alt_Delete#;Which Ctr_Alt_Delete?;Enumeration;Ctr_Alt_Delete;1:1;;System*.LogOut
 Ctrl_Alt_0#;Which Ctrl_Alt_0?;Enumeration;Ctrl_Alt_0;1:1;;Windows*.MinimizeWindow
 Ctrl_Alt_L#;Which Ctrl_Alt_L?;Enumeration;Ctrl_Alt_L;1:1;;System*.LockScreen
 Ctrl_Alt_Print#;Which Ctrl_Alt_Print?;Enumeration;Ctrl_Alt_Print;1:1;;Screenshots*.CopyAScreenshotOfAwindowToClipboard
-Ctrl_Alt_S;Ctrl_Alt_S?;Boolean;false | true;;"if (Windows*.ToggleShadedState) {Ctrl_Alt_S = true;}if (Windows*.ToggleMaximisationState) {Ctrl_Alt_S = true;}";Accessibility#.Accessibility
+Ctrl_Alt_S;Ctrl_Alt_S?;Boolean;false | true;;"if (!(Windows*.ToggleShadedState || !Ctrl_Alt_S)) {Windows* = ToggleMaximisationState;}";Accessibility#.Accessibility
 Ctrl_Alt_S1#;Which Ctrl_Alt_S1?;Enumeration;Ctrl_Alt_S1;1:1;;Windows*.ToggleMaximisationState
 Ctrl_Alt_S2#;Which Ctrl_Alt_S2?;Enumeration;Ctrl_Alt_S2;1:1;;Windows*.ToggleShadedState
 Ctrl_Alt_T#;Which Ctrl_Alt_T?;Enumeration;Ctrl_Alt_T;1:1;;Launchers*.LauncherTerminal
@@ -50,15 +50,15 @@ Ctrl_Super_Down#;Which Ctrl_Super_Down?;Enumeration;Ctrl_Super_Down;1:1;;Windows
 Ctrl_Super_Up#;Which Ctrl_Super_Up?;Enumeration;Ctrl_Super_Up;1:1;;Windows*.MaximiseWindow
 CursorBlinksInTextFields;CursorBlinksInTextFields?;Boolean;false | true;;;Typing1_1*.CursorBlinking
 CustomShortcuts;CustomShortcuts?;Boolean;false | true;;;Shortcuts
-Delay;Delay?;Boolean;false | true;;"if (Delay1) {Delay = true;}if (Typing1_1*.RepeatKeys) {Delay = true;}";Accessibility#.Accessibility
-Delay1;Delay1?;Boolean;false | true;;"if (!(Typing1_1*.RepeatKeys || !Delay)) {Delay1 = true;}";HoverClick
-Delay1*;Which Delay1*?;Enumeration;Long5 | Short3;1:1;;Delay1
+Delay;Delay?;Boolean;false | true;;"if (!(Typing1_1*.RepeatKeys || !Delay)) {Delay1 = true;}";Accessibility#.Accessibility
+Delay1;Delay1?;Boolean;false | true;;"if (Delay1) {Delay = true;}";HoverClick
+Delay1*;Which Delay1*?;Enumeration;Long5 | Short3;1:1;"if (Delay1*.Long5) {Long = true;}if (!((((AcceptanceDelay3*.Short5 || Delay2*.Short4) || Delay1*.Short3) || AcceptanceDelay2*.Short2) || !Short)) {AcceptanceDelay1* = Short1;}if (Delay1*.Short3) {Short = true;}if (!((((Delay1*.Long5 || AcceptanceDelay2*.Long4) || AcceptanceDelay1*.Long3) || AcceptanceDelay3*.Long2) || !Long)) {Delay2* = Long1;}";Delay1
 Delay2#;Which Delay2?;Enumeration;Delay2;1:1;;Typing1_1*.RepeatKeys
-Delay2*;Which Delay2*?;Enumeration;Long1 | Short4;1:1;"if (!((((Delay1*.Long5 || AcceptanceDelay2*.Long4) || AcceptanceDelay1*.Long3) || AcceptanceDelay3*.Long2) || !Long)) {Delay2* = Long1;}";Delay2#.Delay2
+Delay2*;Which Delay2*?;Enumeration;Long1 | Short4;1:1;"if (Delay2*.Short4) {Short = true;}if (!((((AcceptanceDelay3*.Short5 || Delay2*.Short4) || Delay1*.Short3) || AcceptanceDelay2*.Short2) || !Short)) {AcceptanceDelay1* = Short1;}if (Delay2*.Long1) {Long = true;}";Delay2#.Delay2
 DimSceenToSaveLeft;DimSceenToSaveLeft?;Boolean;false | true;;;Brightness#.Brightness
 DisableIfTwoKeysArePressedTogether;DisableIfTwoKeysArePressedTogether?;Boolean;false | true;;;StickyKeys
 DisableWhileTyping;DisableWhileTyping?;Boolean;false | true;;;Touchpad
-Disabled;Disabled?;Boolean;false | true;;"if (UniversalAccess2*.DecreaseTextSize) {Disabled = true;}if (Windows*.LowerWindowBelowOtherWindows) {Disabled = true;}if (Typing2*.ComposeKey) {Disabled = true;}if (Navigation) {Disabled = true;}if (UniversalAccess2*.TurnOnScreenKeyboardOnOrOff) {Disabled = true;}if (Windows*.ToggleFullscreenMode) {Disabled = true;}if (Typing2*.AlternativeCharactersKey) {Disabled = true;}if (Windows*.RaiseWindowAboveOtherWindows) {Disabled = true;}if (UniversalAccess2*.IncreaseTextSize) {Disabled = true;}if (UniversalAccess2*.HighContrastOnOrOff) {Disabled = true;}";Accessibility#.Accessibility
+Disabled;Disabled?;Boolean;false | true;;"if (!(((((((((Windows*.LowerWindowBelowOtherWindows || Windows*.RaiseWindowAboveOtherWindows) || Windows*.ToggleFullscreenMode) || UniversalAccess2*.HighContrastOnOrOff) || UniversalAccess2*.DecreaseTextSize) || UniversalAccess2*.IncreaseTextSize) || UniversalAccess2*.TurnOnScreenKeyboardOnOrOff) || Typing2*.AlternativeCharactersKey) || Typing2*.ComposeKey) || !Disabled)) {Navigation = true;}";Accessibility#.Accessibility
 Disabled1#;Which Disabled1?;Enumeration;Disabled1;1:1;;MoveWindowToWorkspace#.MoveWindowToWorkspace
 Disabled10#;Which Disabled10?;Enumeration;Disabled10;1:1;;Windows*.LowerWindowBelowOtherWindows
 Disabled2#;Which Disabled2?;Enumeration;Disabled2;1:1;;Typing2*.ComposeKey
@@ -71,31 +71,31 @@ Disabled8#;Which Disabled8?;Enumeration;Disabled8;1:1;;Windows*.ToggleFullscreen
 Disabled9#;Which Disabled9?;Enumeration;Disabled9;1:1;;Windows*.RaiseWindowAboveOtherWindows
 Displays;Displays?;Boolean;false | true;;;Accessibility#.Accessibility
 DoubleClick#;Which DoubleClick?;Enumeration;DoubleClick;1:1;;General#.General
-DoubleClick*;Which DoubleClick*?;Enumeration;Fast3 | Slow3;1:1;;DoubleClick#.DoubleClick
+DoubleClick*;Which DoubleClick*?;Enumeration;Fast3 | Slow3;1:1;"if (!((DoubleClick*.Fast3 || Speed2*.Fast2) || !Fast)) {Speed1* = Fast1;}if (!((DoubleClick*.Slow3 || Speed2*.Slow2) || !Slow)) {Speed1* = Slow1;}if (DoubleClick*.Fast3) {Fast = true;}if (DoubleClick*.Slow3) {Slow = true;}";DoubleClick#.DoubleClick
 EnableByKeyboard;EnableByKeyboard?;Boolean;false | true;;;Typing3
 EnableWorkspaces;EnableWorkspaces?;Boolean;false | true;;;Behaviour#.Behaviour
-Fast;Fast?;Boolean;false | true;;"if (Speed2*.Fast2) {Fast = true;}if (DoubleClick*.Fast3) {Fast = true;}if (Speed1*.Fast1) {Fast = true;}";Accessibility#.Accessibility
+Fast;Fast?;Boolean;false | true;;"if (!((DoubleClick*.Fast3 || Speed2*.Fast2) || !Fast)) {Speed1* = Fast1;}";Accessibility#.Accessibility
 General#;Which General?;Enumeration;General;1:1;;MouseSettings
 Hearing;Hearing?;Boolean;false | true;;;UniversalAccess1
 HighContrast;HighContrast?;Boolean;false | true;;;Accessibility#.Accessibility
 HighContrast2;HighContrast2?;Boolean;false | true;;;Seeing
 HoverClick;HoverClick?;Boolean;false | true;;;PointingAndClicking
 KeyPressesRepeatWhenKeyIsHeldDown;KeyPressesRepeatWhenKeyIsHeldDown?;Boolean;false | true;;;Typing1_1*.RepeatKeys
-KeyboardSetting;KeyboardSetting?;Boolean;false | true;;"if (!((Typing3 || Typing2) || !Typing)) {KeyboardSetting = true;}";TextEntry
+KeyboardSetting;KeyboardSetting?;Boolean;false | true;;"if (KeyboardSetting) {Typing = true;}";TextEntry
 LargeText;LargeText?;Boolean;false | true;;;Seeing
 LauncherIconSize#;Which LauncherIconSize?;Enumeration;LauncherIconSize;1:1;;Look#.Look
 LauncherIconSize*;Which LauncherIconSize*?;Enumeration;x_32 | x_48 | x_64;1:1;;LauncherIconSize#.LauncherIconSize
 LauncherPlacement#;Which LauncherPlacement?;Enumeration;LauncherPlacement;1:1;;Displays
-LauncherPlacement*;Which LauncherPlacement*?;Enumeration;AllDisplays | BuiltInDisplay1;1:1;"if (!(ScaleAllWindowContentToMatch*.BuiltInDisplay2 || !BuiltInDisplay)) {LauncherPlacement* = BuiltInDisplay1;}";LauncherPlacement#.LauncherPlacement
+LauncherPlacement*;Which LauncherPlacement*?;Enumeration;AllDisplays | BuiltInDisplay1;1:1;"if (LauncherPlacement*.BuiltInDisplay1) {BuiltInDisplay = true;}";LauncherPlacement#.LauncherPlacement
 Launchers;Launchers?;Boolean;false | true;;;Shortcuts
 Launchers*;Which Launchers*?;Enumeration;KeyToShowTheHUD | LauncherTerminal;1:1;;Launchers
 LayoutSettings;LayoutSettings?;Boolean;false | true;;;Typing1#.Typing1
-LayoutSettings*;Which LayoutSettings*?;Enumeration;AllowDifferentLayoutsForIndividualWindows2 | UseTheSameLayoutForAllWindows;1:1;;LayoutSettings
-Left;Left?;Boolean;false | true;;"if (RevealLocation*.Left1) {Left = true;}if (PrimaryButton*.Left2) {Left = true;}";Accessibility#.Accessibility
+LayoutSettings*;Which LayoutSettings*?;Enumeration;AllowDifferentLayoutsForIndividualWindows2 | UseTheSameLayoutForAllWindows;1:1;"if (LayoutSettings*.AllowDifferentLayoutsForIndividualWindows2) {AllowDifferentLayoutsForIndividualWindows = true;}if (!(LayoutSettings*.AllowDifferentLayoutsForIndividualWindows2 || !AllowDifferentLayoutsForIndividualWindows)) {AllowDifferentLayoutsForIndividualWindows1 = true;}";LayoutSettings
+Left;Left?;Boolean;false | true;;"if (!(PrimaryButton*.Left2 || !Left)) {RevealLocation* = Left1;}";Accessibility#.Accessibility
 Lock1;Lock1?;Boolean;false | true;;;BrightnessAndLock
 LockScreenAfter#;Which LockScreenAfter?;Enumeration;LockScreenAfter;1:1;;Lock1
 LockScreenAfter*;Which LockScreenAfter*?;Enumeration;ScreenTurnsOff | x_10Minutes_ | x_1Hour_ | x_1Minute_ | x_2Minutes_ | x_30Minutes_ | x_30Seconds | x_5Minutes_;1:1;;LockScreenAfter#.LockScreenAfter
-Long;Long?;Boolean;false | true;;"if (Delay1*.Long5) {Long = true;}if (AcceptanceDelay3*.Long2) {Long = true;}if (Delay2*.Long1) {Long = true;}if (AcceptanceDelay2*.Long4) {Long = true;}if (AcceptanceDelay1*.Long3) {Long = true;}";Accessibility#.Accessibility
+Long;Long?;Boolean;false | true;;"if (!((((Delay1*.Long5 || AcceptanceDelay2*.Long4) || AcceptanceDelay1*.Long3) || AcceptanceDelay3*.Long2) || !Long)) {Delay2* = Long1;}";Accessibility#.Accessibility
 Look#;Which Look?;Enumeration;Look;1:1;;Appearance
 MotionThreshold;MotionThreshold?;Boolean;false | true;;;HoverClick
 MotionThreshold*;Which MotionThreshold*?;Enumeration;Large | Small;1:1;;MotionThreshold
@@ -103,24 +103,24 @@ MouseKeys;MouseKeys?;Boolean;false | true;;;PointingAndClicking
 MouseSettings;MouseSettings?;Boolean;false | true;;;PointingAndClicking
 MoveWindowToWorkspace#;Which MoveWindowToWorkspace?;Enumeration;MoveWindowToWorkspace;1:1;;Navigation
 NaturalScrolling;NaturalScrolling?;Boolean;false | true;;;Touchpad
-Navigation;Navigation?;Boolean;false | true;;"if (!(((((((((Windows*.LowerWindowBelowOtherWindows || Windows*.RaiseWindowAboveOtherWindows) || Windows*.ToggleFullscreenMode) || UniversalAccess2*.HighContrastOnOrOff) || UniversalAccess2*.DecreaseTextSize) || UniversalAccess2*.IncreaseTextSize) || UniversalAccess2*.TurnOnScreenKeyboardOnOrOff) || Typing2*.AlternativeCharactersKey) || Typing2*.ComposeKey) || !Disabled)) {Navigation = true;}";Shortcuts
-New_Accelerator;New_Accelerator?;Boolean;false | true;;"if (SwitchToPreviousSourceUsing*.New_Accelerator1) {New_Accelerator = true;}if (SwitchToNextSourceUsing*.New_Accelerator2) {New_Accelerator = true;}";Accessibility#.Accessibility
+Navigation;Navigation?;Boolean;false | true;;"if (Navigation) {Disabled = true;}";Shortcuts
+New_Accelerator;New_Accelerator?;Boolean;false | true;;"if (!(SwitchToNextSourceUsing*.New_Accelerator2 || !New_Accelerator)) {SwitchToPreviousSourceUsing* = New_Accelerator1;}";Accessibility#.Accessibility
 OnScreenKeyboard;OnScreenKeyboard?;Boolean;false | true;;;Typing3
 PointerSpeed#;Which PointerSpeed?;Enumeration;PointerSpeed;1:1;;Touchpad
 PointingAndClicking;PointingAndClicking?;Boolean;false | true;;;UniversalAccess1
 PrimaryButton#;Which PrimaryButton?;Enumeration;PrimaryButton;1:1;;General#.General
-PrimaryButton*;Which PrimaryButton*?;Enumeration;Left2 | Right;1:1;;PrimaryButton#.PrimaryButton
+PrimaryButton*;Which PrimaryButton*?;Enumeration;Left2 | Right;1:1;"if (PrimaryButton*.Left2) {Left = true;}if (!(PrimaryButton*.Left2 || !Left)) {RevealLocation* = Left1;}";PrimaryButton#.PrimaryButton
 Print#;Which Print?;Enumeration;Print;1:1;;Screenshots*.TakeAScreenshot
 RequireMyPasswordWhenWakingFromSuspend;RequireMyPasswordWhenWakingFromSuspend?;Boolean;false | true;;;BrightnessAndLock
 Resolution#;Which Resolution?;Enumeration;Resolution;1:1;;Displays
 Resolution*;Which Resolution*?;Enumeration;Clockwise | Counterclockwise | Normal | x_180Degres;1:1;;Resolution#.Resolution
 RevealLocation#;Which RevealLocation?;Enumeration;RevealLocation;1:1;;Behaviour#.Behaviour
-RevealLocation*;Which RevealLocation*?;Enumeration;Left1 | TopLeftCorner;1:1;"if (!(PrimaryButton*.Left2 || !Left)) {RevealLocation* = Left1;}";RevealLocation#.RevealLocation
+RevealLocation*;Which RevealLocation*?;Enumeration;Left1 | TopLeftCorner;1:1;"if (RevealLocation*.Left1) {Left = true;}";RevealLocation#.RevealLocation
 RevealSensitivity#;Which RevealSensitivity?;Enumeration;RevealSensitivity;1:1;;Behaviour#.Behaviour
 RevealSensitivity*;Which RevealSensitivity*?;Enumeration;High | Low;1:1;;RevealSensitivity#.RevealSensitivity
 Rotation#;Which Rotation?;Enumeration;Rotation;1:1;;Displays
 ScaleAllWindowContentToMatch#;Which ScaleAllWindowContentToMatch?;Enumeration;ScaleAllWindowContentToMatch;1:1;;Displays
-ScaleAllWindowContentToMatch*;Which ScaleAllWindowContentToMatch*?;Enumeration;BuiltInDisplay2 | DisplayWithLargestControls | DisplayWithSmallestControls;1:1;;ScaleAllWindowContentToMatch#.ScaleAllWindowContentToMatch
+ScaleAllWindowContentToMatch*;Which ScaleAllWindowContentToMatch*?;Enumeration;BuiltInDisplay2 | DisplayWithLargestControls | DisplayWithSmallestControls;1:1;"if (ScaleAllWindowContentToMatch*.BuiltInDisplay2) {BuiltInDisplay = true;}if (!(ScaleAllWindowContentToMatch*.BuiltInDisplay2 || !BuiltInDisplay)) {LauncherPlacement* = BuiltInDisplay1;}";ScaleAllWindowContentToMatch#.ScaleAllWindowContentToMatch
 ScaleForMenuAndTitleBars#;Which ScaleForMenuAndTitleBars?;Enumeration;ScaleForMenuAndTitleBars;1:1;;Displays
 ScreenReader;ScreenReader?;Boolean;false | true;;;Seeing
 Screenshots;Screenshots?;Boolean;false | true;;;Shortcuts
@@ -128,31 +128,31 @@ Screenshots*;Which Screenshots*?;Enumeration;CopyAScreenhotOfAnAreaToClipboard |
 Seeing;Seeing?;Boolean;false | true;;;UniversalAccess1
 Shift_Ctrl_Print#;Which Shift_Ctrl_Print?;Enumeration;Shift_Ctrl_Print;1:1;;Screenshots*.CopyAScreenhotOfAnAreaToClipboard
 Shift_Print#;Which Shift_Print?;Enumeration;Shift_Print;1:1;;Screenshots*.TakeAScreenshotOfAnArea
-Shift_Super_Space;Shift_Super_Space?;Boolean;false | true;;"if (SwitchToPreviousSourceUsing*.Shift_Super_Space1) {Shift_Super_Space = true;}if (Typing2*.SwitchToPreviousSource) {Shift_Super_Space = true;}";Accessibility#.Accessibility
+Shift_Super_Space;Shift_Super_Space?;Boolean;false | true;;"if (!(Typing2*.SwitchToPreviousSource || !Shift_Super_Space)) {SwitchToPreviousSourceUsing* = Shift_Super_Space1;}";Accessibility#.Accessibility
 Shift_Super_Space2#;Which Shift_Super_Space2?;Enumeration;Shift_Super_Space2;1:1;;Typing2*.SwitchToPreviousSource
-Short;Short?;Boolean;false | true;;"if (AcceptanceDelay2*.Short2) {Short = true;}if (Delay2*.Short4) {Short = true;}if (AcceptanceDelay1*.Short1) {Short = true;}if (Delay1*.Short3) {Short = true;}if (AcceptanceDelay3*.Short5) {Short = true;}";Accessibility#.Accessibility
+Short;Short?;Boolean;false | true;;"if (!((((AcceptanceDelay3*.Short5 || Delay2*.Short4) || Delay1*.Short3) || AcceptanceDelay2*.Short2) || !Short)) {AcceptanceDelay1* = Short1;}";Accessibility#.Accessibility
 Shortcuts;Shortcuts?;Boolean;false | true;;;KeyboardSetting
 ShowInputCandidates#;Which ShowInputCandidates?;Enumeration;ShowInputCandidates;1:1;;TextEntry
 ShowInputCandidates*;Which ShowInputCandidates*?;Enumeration;Horizontally | Vertically;1:1;;ShowInputCandidates#.ShowInputCandidates
 ShowTheMenusForAWindow#;Which ShowTheMenusForAWindow?;Enumeration;ShowTheMenusForAWindow;1:1;;Behaviour#.Behaviour
 ShowTheMenusForAWindow*;Which ShowTheMenusForAWindow*?;Enumeration;InTheMenuBar | InTheWindowsTitleBar;1:1;;ShowTheMenusForAWindow#.ShowTheMenusForAWindow
 SimulatedSecondaryCLick;SimulatedSecondaryCLick?;Boolean;false | true;;;PointingAndClicking
-Slow;Slow?;Boolean;false | true;;"if (Speed2*.Slow2) {Slow = true;}if (DoubleClick*.Slow3) {Slow = true;}if (Speed1*.Slow1) {Slow = true;}";Accessibility#.Accessibility
-SlowKeys;SlowKeys?;Boolean;false | true;;;Typing3
+Slow;Slow?;Boolean;false | true;;"if (!((DoubleClick*.Slow3 || Speed2*.Slow2) || !Slow)) {Speed1* = Slow1;}";Accessibility#.Accessibility
+SlowKeys;SlowKeys?;Boolean;false | true;;"if (SlowKeys) {AcceptanceDelay = true;}if (!((SlowKeys || AcceptanceDelay2) || !AcceptanceDelay)) {BounceKeys = true;}";Typing3
 SoundAndMedia;SoundAndMedia?;Boolean;false | true;;;Shortcuts
-Speed;Speed?;Boolean;false | true;;"if (Typing1_1*.RepeatKeys) {Speed = true;}if (Speed2) {Speed = true;}";Accessibility#.Accessibility
+Speed;Speed?;Boolean;false | true;;"if (!(Speed2 || !Speed)) {Typing1_1* = RepeatKeys;}";Accessibility#.Accessibility
 Speed1#;Which Speed1?;Enumeration;Speed1;1:1;;Typing1_1*.RepeatKeys
-Speed1*;Which Speed1*?;Enumeration;Fast1 | Slow1;1:1;"if (!((DoubleClick*.Fast3 || Speed2*.Fast2) || !Fast)) {Speed1* = Fast1;}if (!((DoubleClick*.Slow3 || Speed2*.Slow2) || !Slow)) {Speed1* = Slow1;}";Speed1#.Speed1
-Speed2;Speed2?;Boolean;false | true;;;Typing1_1*.CursorBlinking
-Speed2*;Which Speed2*?;Enumeration;Fast2 | Slow2;1:1;;Speed2
+Speed1*;Which Speed1*?;Enumeration;Fast1 | Slow1;1:1;"if (Speed1*.Slow1) {Slow = true;}if (Speed1*.Fast1) {Fast = true;}";Speed1#.Speed1
+Speed2;Speed2?;Boolean;false | true;;"if (Speed2) {Speed = true;}if (!(Speed2 || !Speed)) {Typing1_1* = RepeatKeys;}";Typing1_1*.CursorBlinking
+Speed2*;Which Speed2*?;Enumeration;Fast2 | Slow2;1:1;"if (!((DoubleClick*.Fast3 || Speed2*.Fast2) || !Fast)) {Speed1* = Fast1;}if (!((DoubleClick*.Slow3 || Speed2*.Slow2) || !Slow)) {Speed1* = Slow1;}if (Speed2*.Slow2) {Slow = true;}if (Speed2*.Fast2) {Fast = true;}";Speed2
 StickyEdges;StickyEdges?;Boolean;false | true;;;Displays
 StickyKeys;StickyKeys?;Boolean;false | true;;;Typing3
-Super_Space;Super_Space?;Boolean;false | true;;"if (Typing2*.SwitchToNextSource) {Super_Space = true;}if (SwitchToNextSourceUsing*.Super_Space1) {Super_Space = true;}";Accessibility#.Accessibility
+Super_Space;Super_Space?;Boolean;false | true;;"if (!(Typing2*.SwitchToNextSource || !Super_Space)) {SwitchToNextSourceUsing* = Super_Space1;}";Accessibility#.Accessibility
 Super_Space2#;Which Super_Space2?;Enumeration;Super_Space2;1:1;;Typing2*.SwitchToNextSource
 SwitchToNextSourceUsing#;Which SwitchToNextSourceUsing?;Enumeration;SwitchToNextSourceUsing;1:1;;TextEntry
-SwitchToNextSourceUsing*;Which SwitchToNextSourceUsing*?;Enumeration;New_Accelerator2 | Super_Space1;1:1;"if (!(Typing2*.SwitchToNextSource || !Super_Space)) {SwitchToNextSourceUsing* = Super_Space1;}";SwitchToNextSourceUsing#.SwitchToNextSourceUsing
+SwitchToNextSourceUsing*;Which SwitchToNextSourceUsing*?;Enumeration;New_Accelerator2 | Super_Space1;1:1;"if (SwitchToNextSourceUsing*.Super_Space1) {Super_Space = true;}if (!(SwitchToNextSourceUsing*.New_Accelerator2 || !New_Accelerator)) {SwitchToPreviousSourceUsing* = New_Accelerator1;}if (SwitchToNextSourceUsing*.New_Accelerator2) {New_Accelerator = true;}";SwitchToNextSourceUsing#.SwitchToNextSourceUsing
 SwitchToPreviousSourceUsing#;Which SwitchToPreviousSourceUsing?;Enumeration;SwitchToPreviousSourceUsing;1:1;;TextEntry
-SwitchToPreviousSourceUsing*;Which SwitchToPreviousSourceUsing*?;Enumeration;New_Accelerator1 | Shift_Super_Space1;1:1;"if (!(Typing2*.SwitchToPreviousSource || !Shift_Super_Space)) {SwitchToPreviousSourceUsing* = Shift_Super_Space1;}if (!(SwitchToNextSourceUsing*.New_Accelerator2 || !New_Accelerator)) {SwitchToPreviousSourceUsing* = New_Accelerator1;}";SwitchToPreviousSourceUsing#.SwitchToPreviousSourceUsing
+SwitchToPreviousSourceUsing*;Which SwitchToPreviousSourceUsing*?;Enumeration;New_Accelerator1 | Shift_Super_Space1;1:1;"if (SwitchToPreviousSourceUsing*.Shift_Super_Space1) {Shift_Super_Space = true;}if (SwitchToPreviousSourceUsing*.New_Accelerator1) {New_Accelerator = true;}";SwitchToPreviousSourceUsing#.SwitchToPreviousSourceUsing
 System;System?;Boolean;false | true;;;Shortcuts
 System*;Which System*?;Enumeration;LockScreen | LogOut;1:1;;System
 TapTopClick;TapTopClick?;Boolean;false | true;;;Touchpad
@@ -165,19 +165,19 @@ Touchpad;Touchpad?;Boolean;false | true;;;MouseSettings
 TurnScreenOffWhenInactiveFor#;Which TurnScreenOffWhenInactiveFor?;Enumeration;TurnScreenOffWhenInactiveFor;1:1;;Brightness#.Brightness
 TurnScreenOffWhenInactiveFor*;Which TurnScreenOffWhenInactiveFor*?;Enumeration;Never | x_10Minutes | x_1Hour | x_1Minute | x_2Minutes | x_30Minutes | x_3Minutes;1:1;;TurnScreenOffWhenInactiveFor#.TurnScreenOffWhenInactiveFor
 TwoFingerScroll;TwoFingerScroll?;Boolean;false | true;;;Touchpad
-Typing;Typing?;Boolean;false | true;;"if (KeyboardSetting) {Typing = true;}if (Typing3) {Typing = true;}if (Typing2) {Typing = true;}";Accessibility#.Accessibility
+Typing;Typing?;Boolean;false | true;;"if (!((Typing3 || Typing2) || !Typing)) {KeyboardSetting = true;}";Accessibility#.Accessibility
 Typing1#;Which Typing1?;Enumeration;Typing1;1:1;;KeyboardSetting
 Typing1_1#;Which Typing1_1?;Enumeration;Typing1_1;1:1;;Typing1#.Typing1
-Typing1_1*;Which Typing1_1*?;Enumeration;CursorBlinking | RepeatKeys;1:1;"if (!(Speed2 || !Speed)) {Typing1_1* = RepeatKeys;}";Typing1_1#.Typing1_1
-Typing2;Typing2?;Boolean;false | true;;;Shortcuts
-Typing2*;Which Typing2*?;Enumeration;AlternativeCharactersKey | ComposeKey | SwitchToNextSource | SwitchToPreviousSource;1:1;;Typing2
-Typing3;Typing3?;Boolean;false | true;;;UniversalAccess1
-UniversalAccess;UniversalAccess?;Boolean;false | true;;"if (UniversalAccess2) {UniversalAccess = true;}if (UniversalAccess1) {UniversalAccess = true;}";Accessibility#.Accessibility
-UniversalAccess1;UniversalAccess1?;Boolean;false | true;;"if (!(UniversalAccess2 || !UniversalAccess)) {UniversalAccess1 = true;}";Accessibility#.Accessibility
-UniversalAccess2;UniversalAccess2?;Boolean;false | true;;;Shortcuts
-UniversalAccess2*;Which UniversalAccess2*?;Enumeration;DecreaseTextSize | HighContrastOnOrOff | IncreaseTextSize | TurnOnScreenKeyboardOnOrOff | TurnScreenReaderOnOrOff | TurnZoomOnOrOff | ZoomIn | ZoomOut;1:1;"if (!(UniversalAccess2*.TurnScreenReaderOnOrOff || !Alt_Super_plus)) {UniversalAccess2* = TurnZoomOnOrOff;}";UniversalAccess2
+Typing1_1*;Which Typing1_1*?;Enumeration;CursorBlinking | RepeatKeys;1:1;"if (!(Typing1_1*.RepeatKeys || !Delay)) {Delay1 = true;}if (Typing1_1*.RepeatKeys) {Speed = true;}if (Typing1_1*.RepeatKeys) {Delay = true;}";Typing1_1#.Typing1_1
+Typing2;Typing2?;Boolean;false | true;;"if (Typing2) {Typing = true;}if (!((Typing3 || Typing2) || !Typing)) {KeyboardSetting = true;}";Shortcuts
+Typing2*;Which Typing2*?;Enumeration;AlternativeCharactersKey | ComposeKey | SwitchToNextSource | SwitchToPreviousSource;1:1;"if (!(Typing2*.SwitchToPreviousSource || !Shift_Super_Space)) {SwitchToPreviousSourceUsing* = Shift_Super_Space1;}if (Typing2*.SwitchToNextSource) {Super_Space = true;}if (Typing2*.ComposeKey) {Disabled = true;}if (!(Typing2*.SwitchToNextSource || !Super_Space)) {SwitchToNextSourceUsing* = Super_Space1;}if (Typing2*.AlternativeCharactersKey) {Disabled = true;}if (!(((((((((Windows*.LowerWindowBelowOtherWindows || Windows*.RaiseWindowAboveOtherWindows) || Windows*.ToggleFullscreenMode) || UniversalAccess2*.HighContrastOnOrOff) || UniversalAccess2*.DecreaseTextSize) || UniversalAccess2*.IncreaseTextSize) || UniversalAccess2*.TurnOnScreenKeyboardOnOrOff) || Typing2*.AlternativeCharactersKey) || Typing2*.ComposeKey) || !Disabled)) {Navigation = true;}if (Typing2*.SwitchToPreviousSource) {Shift_Super_Space = true;}";Typing2
+Typing3;Typing3?;Boolean;false | true;;"if (Typing3) {Typing = true;}if (!((Typing3 || Typing2) || !Typing)) {KeyboardSetting = true;}";UniversalAccess1
+UniversalAccess;UniversalAccess?;Boolean;false | true;;"if (!(UniversalAccess2 || !UniversalAccess)) {UniversalAccess1 = true;}";Accessibility#.Accessibility
+UniversalAccess1;UniversalAccess1?;Boolean;false | true;;"if (UniversalAccess1) {UniversalAccess = true;}";Accessibility#.Accessibility
+UniversalAccess2;UniversalAccess2?;Boolean;false | true;;"if (UniversalAccess2) {UniversalAccess = true;}if (!(UniversalAccess2 || !UniversalAccess)) {UniversalAccess1 = true;}";Shortcuts
+UniversalAccess2*;Which UniversalAccess2*?;Enumeration;DecreaseTextSize | HighContrastOnOrOff | IncreaseTextSize | TurnOnScreenKeyboardOnOrOff | TurnScreenReaderOnOrOff | TurnZoomOnOrOff | ZoomIn | ZoomOut;1:1;"if (UniversalAccess2*.DecreaseTextSize) {Disabled = true;}if (UniversalAccess2*.TurnOnScreenKeyboardOnOrOff) {Disabled = true;}if (UniversalAccess2*.TurnZoomOnOrOff) {Alt_Super_plus = true;}if (!(UniversalAccess2*.TurnScreenReaderOnOrOff || !Alt_Super_plus)) {UniversalAccess2* = TurnZoomOnOrOff;}if (UniversalAccess2*.TurnScreenReaderOnOrOff) {Alt_Super_plus = true;}if (!(((((((((Windows*.LowerWindowBelowOtherWindows || Windows*.RaiseWindowAboveOtherWindows) || Windows*.ToggleFullscreenMode) || UniversalAccess2*.HighContrastOnOrOff) || UniversalAccess2*.DecreaseTextSize) || UniversalAccess2*.IncreaseTextSize) || UniversalAccess2*.TurnOnScreenKeyboardOnOrOff) || Typing2*.AlternativeCharactersKey) || Typing2*.ComposeKey) || !Disabled)) {Navigation = true;}if (UniversalAccess2*.IncreaseTextSize) {Disabled = true;}if (UniversalAccess2*.HighContrastOnOrOff) {Disabled = true;}";UniversalAccess2
 UsingCustomFont;UsingCustomFont?;Boolean;false | true;;;TextEntry
 VisualAlerts;VisualAlerts?;Boolean;false | true;;;Hearing
 VisualAlerts*;Which VisualAlerts*?;Enumeration;FlashTheEntireScreen | FlashTheWindowTitle;1:1;;VisualAlerts
 Windows;Windows?;Boolean;false | true;;;Shortcuts
-Windows*;Which Windows*?;Enumeration;ActivateTheWindowMenu | CloseWindow | LowerWindowBelowOtherWindows | MaximiseWindow | MinimizeWindow | MoveWindow | RaiseWindowAboveOtherWindows | ResizeWindow | RestoreWindow | ToggleFullscreenMode | ToggleMaximisationState | ToggleShadedState;1:1;"if (!(Windows*.ToggleShadedState || !Ctrl_Alt_S)) {Windows* = ToggleMaximisationState;}";Windows
+Windows*;Which Windows*?;Enumeration;ActivateTheWindowMenu | CloseWindow | LowerWindowBelowOtherWindows | MaximiseWindow | MinimizeWindow | MoveWindow | RaiseWindowAboveOtherWindows | ResizeWindow | RestoreWindow | ToggleFullscreenMode | ToggleMaximisationState | ToggleShadedState;1:1;"if (Windows*.ToggleShadedState) {Ctrl_Alt_S = true;}if (Windows*.LowerWindowBelowOtherWindows) {Disabled = true;}if (Windows*.ToggleMaximisationState) {Ctrl_Alt_S = true;}if (Windows*.ToggleFullscreenMode) {Disabled = true;}if (!(((((((((Windows*.LowerWindowBelowOtherWindows || Windows*.RaiseWindowAboveOtherWindows) || Windows*.ToggleFullscreenMode) || UniversalAccess2*.HighContrastOnOrOff) || UniversalAccess2*.DecreaseTextSize) || UniversalAccess2*.IncreaseTextSize) || UniversalAccess2*.TurnOnScreenKeyboardOnOrOff) || Typing2*.AlternativeCharactersKey) || Typing2*.ComposeKey) || !Disabled)) {Navigation = true;}if (Windows*.RaiseWindowAboveOtherWindows) {Disabled = true;}if (!(Windows*.ToggleShadedState || !Ctrl_Alt_S)) {Windows* = ToggleMaximisationState;}";Windows

@@ -1,5 +1,5 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
-GPS;GPS?;Boolean;false | true;;;true
+GPS;GPS?;Boolean;false | true;;"if (GPS) {disAllow(Screen.Basic);}";true
 Media;Media?;Boolean;false | true;;;true
-Media*;Which Media*?;Enumeration;Camera | MP3;1:2;"if (!Screen.HighResolution) {disAllow(Media*.Camera);}";Media
-Screen;Which Screen?;Enumeration;Basic | Colour | HighResolution;1:1;"if (GPS) {disAllow(Screen.Basic);}";true
+Media*;Which Media*?;Enumeration;Camera | MP3;1:2;;Media
+Screen;Which Screen?;Enumeration;Basic | Colour | HighResolution;1:1;"if (!Screen.HighResolution) {disAllow(Media*.Camera);}";true

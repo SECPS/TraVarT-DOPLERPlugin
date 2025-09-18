@@ -1,42 +1,42 @@
 ID;Question;Type;Range;Cardinality;Constraint/Rule;Visible/relevant if
 FConcurrency;FConcurrency?;Boolean;false | true;;;true
-FConcurrency*;Which FConcurrency*?;Enumeration;dummyFeatureLocking | featureCheckLeaks | featureFSync | featureLatch | featureTransaction;1:5;"if (FDbOperation*.featureDeleteDb) {FConcurrency* = dummyFeatureLocking;FEvictor = true;featureINCompressor = true;featureMemoryBudget = true;}if (FConcurrency*.featureLatch) {FConcurrency* = dummyFeatureLocking;FConcurrency* = featureCheckLeaks;FDbOperation* = featureDeleteDb;FEvictor = true;FPersistencyFeatures* = featureFileHandleCache;FConcurrency* = featureFSync;featureINCompressor = true;featureMemoryBudget = true;FStatisticsFeatures = featureStatisticsLock;featureTreeVisitor = true;FDbOperation* = featureTruncateDb;featureVerifier = true;}if (featureLoggingFine) {FConcurrency* = dummyFeatureLocking;FEvictor = true;featureINCompressor = true;}if (!(!FLogging && !featureLoggingFinest)) {FConcurrency* = featureTransaction;}if (featureMemoryBudget) {FEvictor = true;FConcurrency* = featureLatch;}if (!(!FStatisticsFeatures.featureStatisticsLock && !FStatisticsFeatures.featureStatisticsTransaction)) {FConcurrency* = dummyFeatureLocking;}if (featureStatisticsEnvFSync) {FConcurrency* = featureFSync;}if (FStatisticsFeatures.featureStatisticsTransaction) {FConcurrency* = featureTransaction;}if (FConcurrency*.featureTransaction) {FConcurrency* = dummyFeatureLocking;FDbOperation* = featureDeleteDb;FDbOperation* = featureTruncateDb;}";FConcurrency
+FConcurrency*;Which FConcurrency*?;Enumeration;dummyFeatureLocking | featureCheckLeaks | featureFSync | featureLatch | featureTransaction;1:5;"if (FConcurrency*.featureCheckLeaks) {FStatisticsFeatures = featureStatisticsLock;}if (FConcurrency*.featureLatch) {FConcurrency* = dummyFeatureLocking;FConcurrency* = featureCheckLeaks;FDbOperation* = featureDeleteDb;FEvictor = true;FPersistencyFeatures* = featureFileHandleCache;FConcurrency* = featureFSync;featureINCompressor = true;featureMemoryBudget = true;FStatisticsFeatures = featureStatisticsLock;featureTreeVisitor = true;FDbOperation* = featureTruncateDb;featureVerifier = true;}if (FConcurrency*.featureTransaction) {FConcurrency* = dummyFeatureLocking;FDbOperation* = featureDeleteDb;FDbOperation* = featureTruncateDb;}";FConcurrency
 FDbOperation;FDbOperation?;Boolean;false | true;;;true
-FDbOperation*;Which FDbOperation*?;Enumeration;featureDeleteDb | featureTruncateDb;1:2;"if (FDbOperation*.featureTruncateDb) {FDbOperation* = featureDeleteDb;}";FDbOperation
-FEvictor;FEvictor?;Boolean;false | true;;"if (featureStatisticsEnvEvictor) {FEvictor = true;}";true
+FDbOperation*;Which FDbOperation*?;Enumeration;featureDeleteDb | featureTruncateDb;1:2;"if (FDbOperation*.featureDeleteDb) {FConcurrency* = dummyFeatureLocking;FEvictor = true;featureINCompressor = true;featureMemoryBudget = true;}if (FDbOperation*.featureTruncateDb) {FDbOperation* = featureDeleteDb;}";FDbOperation
+FEvictor;FEvictor?;Boolean;false | true;;"if (!(((!FEvictor && !featureEvictorDaemon) && !featureLookAheadCache) && !featureStatisticsEnvCaching)) {featureMemoryBudget = true;}";true
 FIOFeature;Which FIOFeature?;Enumeration;IO | NIO;1:1;;true
-FLogging;FLogging?;Boolean;false | true;;;true
+FLogging;FLogging?;Boolean;false | true;;"if (!(!FLogging && !featureLoggingFinest)) {FConcurrency* = featureTransaction;}";true
 FNIOType;Which FNIOType?;Enumeration;featureChunkedNIO | featureNIO;1:1;;FIOFeature.NIO
 FPersistencyFeatures;FPersistencyFeatures?;Boolean;false | true;;;true
-FPersistencyFeatures*;Which FPersistencyFeatures*?;Enumeration;Checkpointer | Cleaner | featureChecksum | featureEnvironmentLock | featureFileHandleCache | featureHandleFullDiscError;1:6;"if (featureLoggingSevere) {FPersistencyFeatures* = featureEnvironmentLock;}if (featureLoggingInfo) {FPersistencyFeatures* = featureChecksum;featureMemoryBudget = true;}";FPersistencyFeatures
+FPersistencyFeatures*;Which FPersistencyFeatures*?;Enumeration;Checkpointer | Cleaner | featureChecksum | featureEnvironmentLock | featureFileHandleCache | featureHandleFullDiscError;1:6;;FPersistencyFeatures
 FStatistics;FStatistics?;Boolean;false | true;;;true
-FStatisticsFeatures;Which FStatisticsFeatures?;Enumeration;EnvStats | featureStatisticsDatabase | featureStatisticsLock | featureStatisticsPreload | featureStatisticsSequence | featureStatisticsTransaction;1:6;"if (FConcurrency*.featureCheckLeaks) {FStatisticsFeatures = featureStatisticsLock;}";FStatistics
+FStatisticsFeatures;Which FStatisticsFeatures?;Enumeration;EnvStats | featureStatisticsDatabase | featureStatisticsLock | featureStatisticsPreload | featureStatisticsSequence | featureStatisticsTransaction;1:6;"if (!(!FStatisticsFeatures.featureStatisticsLock && !FStatisticsFeatures.featureStatisticsTransaction)) {FConcurrency* = dummyFeatureLocking;}if (FStatisticsFeatures.featureStatisticsTransaction) {FConcurrency* = featureTransaction;}if (FStatisticsFeatures.featureStatisticsDatabase) {featureTreeVisitor = true;}";FStatistics
 featureCheckpointerDaemon;featureCheckpointerDaemon?;Boolean;false | true;;;FPersistencyFeatures*.Checkpointer
 featureCleanerDaemon;featureCleanerDaemon?;Boolean;false | true;;;FPersistencyFeatures*.Cleaner
-featureCriticalEviction;featureCriticalEviction?;Boolean;false | true;;;FEvictor
-featureCustomizableCheckpointerBytes;featureCustomizableCheckpointerBytes?;Boolean;false | true;;;FPersistencyFeatures*.Checkpointer
-featureCustomizableCheckpointerTime;featureCustomizableCheckpointerTime?;Boolean;false | true;;"if (featureCustomizableCheckpointerBytes) {featureCustomizableCheckpointerTime = true;}";FPersistencyFeatures*.Checkpointer
+featureCriticalEviction;featureCriticalEviction?;Boolean;false | true;;"if (featureCriticalEviction) {featureINCompressor = true;}";FEvictor
+featureCustomizableCheckpointerBytes;featureCustomizableCheckpointerBytes?;Boolean;false | true;;"if (featureCustomizableCheckpointerBytes) {featureCustomizableCheckpointerTime = true;}";FPersistencyFeatures*.Checkpointer
+featureCustomizableCheckpointerTime;featureCustomizableCheckpointerTime?;Boolean;false | true;;;FPersistencyFeatures*.Checkpointer
 featureDirectNIO;featureDirectNIO?;Boolean;false | true;;;FIOFeature.NIO
-featureEvictorDaemon;featureEvictorDaemon?;Boolean;false | true;;;FEvictor
-featureINCompressor;featureINCompressor?;Boolean;false | true;;"if (featureCriticalEviction) {featureINCompressor = true;}if (featureStatisticsEnvINCompressor) {featureINCompressor = true;}if (featureVerifier) {featureINCompressor = true;featureTreeVisitor = true;}";true
+featureEvictorDaemon;featureEvictorDaemon?;Boolean;false | true;;"if (!(((!FEvictor && !featureEvictorDaemon) && !featureLookAheadCache) && !featureStatisticsEnvCaching)) {featureMemoryBudget = true;}";FEvictor
+featureINCompressor;featureINCompressor?;Boolean;false | true;;;true
 featureLoggingConfig;featureLoggingConfig?;Boolean;false | true;;;FLogging
 featureLoggingConsole;featureLoggingConsole?;Boolean;false | true;;;FLogging
 featureLoggingDbLog;featureLoggingDbLog?;Boolean;false | true;;;FLogging
 featureLoggingFile;featureLoggingFile?;Boolean;false | true;;;FLogging
-featureLoggingFine;featureLoggingFine?;Boolean;false | true;;;FLogging
+featureLoggingFine;featureLoggingFine?;Boolean;false | true;;"if (featureLoggingFine) {FConcurrency* = dummyFeatureLocking;FEvictor = true;featureINCompressor = true;}";FLogging
 featureLoggingFiner;featureLoggingFiner?;Boolean;false | true;;;FLogging
-featureLoggingFinest;featureLoggingFinest?;Boolean;false | true;;;FLogging
-featureLoggingInfo;featureLoggingInfo?;Boolean;false | true;;;FLogging
-featureLoggingSevere;featureLoggingSevere?;Boolean;false | true;;;FLogging
-featureLookAheadCache;featureLookAheadCache?;Boolean;false | true;;;FPersistencyFeatures*.Cleaner
-featureMemoryBudget;featureMemoryBudget?;Boolean;false | true;;"if (!(((!FEvictor && !featureEvictorDaemon) && !featureLookAheadCache) && !featureStatisticsEnvCaching)) {featureMemoryBudget = true;}";true
-featureStatisticsEnvCaching;featureStatisticsEnvCaching?;Boolean;false | true;;;FStatisticsFeatures.EnvStats
+featureLoggingFinest;featureLoggingFinest?;Boolean;false | true;;"if (!(!FLogging && !featureLoggingFinest)) {FConcurrency* = featureTransaction;}";FLogging
+featureLoggingInfo;featureLoggingInfo?;Boolean;false | true;;"if (featureLoggingInfo) {FPersistencyFeatures* = featureChecksum;featureMemoryBudget = true;}";FLogging
+featureLoggingSevere;featureLoggingSevere?;Boolean;false | true;;"if (featureLoggingSevere) {FPersistencyFeatures* = featureEnvironmentLock;}";FLogging
+featureLookAheadCache;featureLookAheadCache?;Boolean;false | true;;"if (!(((!FEvictor && !featureEvictorDaemon) && !featureLookAheadCache) && !featureStatisticsEnvCaching)) {featureMemoryBudget = true;}";FPersistencyFeatures*.Cleaner
+featureMemoryBudget;featureMemoryBudget?;Boolean;false | true;;"if (featureMemoryBudget) {FEvictor = true;FConcurrency* = featureLatch;}";true
+featureStatisticsEnvCaching;featureStatisticsEnvCaching?;Boolean;false | true;;"if (!(((!FEvictor && !featureEvictorDaemon) && !featureLookAheadCache) && !featureStatisticsEnvCaching)) {featureMemoryBudget = true;}";FStatisticsFeatures.EnvStats
 featureStatisticsEnvCheckpointer;featureStatisticsEnvCheckpointer?;Boolean;false | true;;;FStatisticsFeatures.EnvStats
 featureStatisticsEnvCleaner;featureStatisticsEnvCleaner?;Boolean;false | true;;;FStatisticsFeatures.EnvStats
-featureStatisticsEnvEvictor;featureStatisticsEnvEvictor?;Boolean;false | true;;;FStatisticsFeatures.EnvStats
-featureStatisticsEnvFSync;featureStatisticsEnvFSync?;Boolean;false | true;;;FStatisticsFeatures.EnvStats
-featureStatisticsEnvINCompressor;featureStatisticsEnvINCompressor?;Boolean;false | true;;;FStatisticsFeatures.EnvStats
+featureStatisticsEnvEvictor;featureStatisticsEnvEvictor?;Boolean;false | true;;"if (featureStatisticsEnvEvictor) {FEvictor = true;}";FStatisticsFeatures.EnvStats
+featureStatisticsEnvFSync;featureStatisticsEnvFSync?;Boolean;false | true;;"if (featureStatisticsEnvFSync) {FConcurrency* = featureFSync;}";FStatisticsFeatures.EnvStats
+featureStatisticsEnvINCompressor;featureStatisticsEnvINCompressor?;Boolean;false | true;;"if (featureStatisticsEnvINCompressor) {featureINCompressor = true;}";FStatisticsFeatures.EnvStats
 featureStatisticsEnvLog;featureStatisticsEnvLog?;Boolean;false | true;;;FStatisticsFeatures.EnvStats
 featureSynchronizedIO;featureSynchronizedIO?;Boolean;false | true;;;FIOFeature.IO
-featureTreeVisitor;featureTreeVisitor?;Boolean;false | true;;"if (FStatisticsFeatures.featureStatisticsDatabase) {featureTreeVisitor = true;}";true
-featureVerifier;featureVerifier?;Boolean;false | true;;;true
+featureTreeVisitor;featureTreeVisitor?;Boolean;false | true;;;true
+featureVerifier;featureVerifier?;Boolean;false | true;;"if (featureVerifier) {featureINCompressor = true;featureTreeVisitor = true;}";true
